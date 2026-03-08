@@ -4,7 +4,7 @@ import Pkg; Pkg.activate(joinpath(@__DIR__, "..")); Pkg.instantiate()
 
 using DataFrames, CSV, LinearAlgebra, Statistics
 using JLD2, FileIO, Random, ProgressMeter
-using Plots, StatsPlots, Colors, Images
+using Plots, StatsPlots
 using Distributions, StatsBase
 
 Random.seed!(1234)
@@ -29,11 +29,19 @@ function _save_figure(fig, filename::String)
     @info "Saved: $(filename)"
 end
 
-function _grid_to_image(grid::Array{Int64,2})::Array{RGB{Float64},2}
-    color_map = Dict(0 => colorant"lightgreen", 1 => colorant"gray95", 2 => colorant"red")
-    img = Array{RGB{Float64},2}(undef, size(grid)...)
-    for r in axes(grid,1), c in axes(grid,2)
-        img[r,c] = color_map[grid[r,c]]
-    end
-    return img
+const _PALETTE = :wong
+const _BUY_COLOR, _HOLD_COLOR, _SELL_COLOR = if _PALETTE == :wong
+    ("#0072B2", "#DDDDDD", "#D55E00")
+elseif _PALETTE == :finance
+    ("#27AE60", "#BDC3C7", "#C0392B")
+else
+    ("#0072B2", "#DDDDDD", "#D55E00")
+end
+_grid_cgrad() = cgrad([_BUY_COLOR, _HOLD_COLOR, _SELL_COLOR], [0.0, 0.5, 1.0])
+
+function _grid_panel(grid::Array{Int64,2}, title::String = "")
+    heatmap(grid;
+        c = _grid_cgrad(), clims = (0, 2),
+        axis = false, colorbar = false,
+        yflip = true, title = title, titlefont = 8)
 end

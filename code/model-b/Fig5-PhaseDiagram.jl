@@ -35,7 +35,7 @@ fl = string.(f_values)
 pA = heatmap(fl, kl, crash_mat;
     xlabel = "Minority fraction  f", ylabel = "Band width  k",
     title = "A  Crash frequency", titlefont = 9,
-    color = :RdYlBu_r, clims = (0, 1))
+    color = cgrad(:RdYlBu, rev = true), clims = (0, 1))
 
 pB = heatmap(fl, kl, std_mat;
     xlabel = "Minority fraction  f", ylabel = "Band width  k",

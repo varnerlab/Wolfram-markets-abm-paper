@@ -11,7 +11,11 @@ Typical price = (High + Low + Close) / 3.
 Expects DataFrame columns :High, :Low, :Close.
 """
 function compute_typical_price(df::DataFrame)::Vector{Float64}
-    return (df[!, :High] .+ df[!, :Low] .+ df[!, :Close]) ./ 3.0
+    # Accept both capitalised (:High) and lowercase (:high) column names
+    H = hasproperty(df, :High)  ? df[!, :High]  : df[!, :high]
+    L = hasproperty(df, :Low)   ? df[!, :Low]   : df[!, :low]
+    C = hasproperty(df, :Close) ? df[!, :Close] : df[!, :close]
+    return (H .+ L .+ C) ./ 3.0
 end
 
 """
@@ -118,7 +122,7 @@ Sell agents exceeds `threshold`, and return the duration (in steps) of
 each such window. Used for power-law / SOC analysis.
 """
 function compute_crash_sizes(
-    frames::Dict{Int64, Array{Int64,2}},
+    frames::Dict{Int64, Array{Int64,2}};
     threshold::Float64 = 0.5,
 )::Vector{Int64}
     steps     = sort(collect(keys(frames)))

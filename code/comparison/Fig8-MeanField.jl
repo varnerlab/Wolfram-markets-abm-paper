@@ -108,17 +108,18 @@ frames_CA = dB["frames"]
 sizes_CA  = compute_crash_sizes(frames_CA; threshold = 0.40)
 
 steps_mf  = 1:length(mf.sell_fracs)
-sizes_MF  = Int64[]
-in_crash  = false; dur = 0
-for sf in mf.sell_fracs
-    if sf >= 0.40
-        in_crash = true; dur += 1
-    else
-        in_crash && push!(sizes_MF, dur)
-        in_crash = false; dur = 0
+sizes_MF = let sizes = Int64[], in_crash = false, dur = 0
+    for sf in mf.sell_fracs
+        if sf >= 0.40
+            in_crash = true; dur += 1
+        else
+            in_crash && push!(sizes, dur)
+            in_crash = false; dur = 0
+        end
     end
+    in_crash && push!(sizes, dur)
+    sizes
 end
-in_crash && push!(sizes_MF, dur)
 
 # ---------------------------------------------------------------------------
 # Panel A — CA price series

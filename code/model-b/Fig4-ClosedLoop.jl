@@ -26,12 +26,9 @@ t_crash     = steps[crash_idx]
 t_before    = steps[max(1, crash_idx - T ÷ 6)]
 t_after     = steps[min(T, crash_idx + T ÷ 6)]
 
-snap_before = plot(_grid_to_image(frames[t_before]); axis = false,
-    title = "Before crash  (t=$(t_before))", titlefont = 8)
-snap_crash  = plot(_grid_to_image(frames[t_crash]);  axis = false,
-    title = "Crash peak  (t=$(t_crash))",   titlefont = 8)
-snap_after  = plot(_grid_to_image(frames[t_after]);  axis = false,
-    title = "After crash  (t=$(t_after))",  titlefont = 8)
+snap_before = _grid_panel(frames[t_before], "Before crash  (t=$(t_before))")
+snap_crash  = _grid_panel(frames[t_crash],  "Crash peak  (t=$(t_crash))")
+snap_after  = _grid_panel(frames[t_after],  "After crash  (t=$(t_after))")
 
 # ---------------------------------------------------------------------------
 # Time series panels
