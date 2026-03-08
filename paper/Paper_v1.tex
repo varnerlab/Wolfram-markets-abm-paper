@@ -1,0 +1,87 @@
+\documentclass{article}
+
+% Pass numbered, compressed citations to natbib
+\PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2026
+
+\usepackage[preprint]{neurips_2026}
+% Options:
+%  \usepackage[main]{neurips_2026}          % Main Track (double-blind)
+%  \usepackage[preprint]{neurips_2026}      % arXiv / preprint
+%  \usepackage[main, final]{neurips_2026}   % Camera-ready
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[colorlinks=true,linkcolor={blue!70!black},citecolor={blue!70!black},urlcolor={blue!70!black},hypertexnames=false]{hyperref}
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{graphicx}       % includegraphics
+\usepackage{subcaption}     % subfigures with (a), (b) labels
+\usepackage{amsmath,amssymb,amsthm} % math
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\setcounter{topnumber}{1}        % at most 1 float at the top of each page
+\setcounter{bottomnumber}{1}     % at most 1 float at the bottom of each page
+\renewcommand{\topfraction}{0.5} % a top float may occupy at most 50% of the page
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Agent-Based Models of Financial Markets: A Wolfram Perspective\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+
+\author{%
+  Jeffrey D. Varner \\
+  R.F. Smith School of Chemical and Biomolecular Engineering\\
+  Cornell University, Ithaca, NY 14850 \\
+  \texttt{jdv27@cornell.edu} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+TODO: Write abstract here. The abstract should be 100--150 words and summarize the motivation,
+key methods, and main findings of the paper.
+\end{abstract}
+
+\section{Introduction}
+\input{sections/introduction.tex}
+
+\section{Related Work}
+\input{sections/relatedwork.tex}
+
+\section{Background}
+\input{sections/background.tex}
+
+\section{Methods}
+\input{sections/method.tex}
+
+\section{Results and Discussion}
+\input{sections/results.tex}
+
+\section{Conclusion}
+\input{sections/conclusion.tex}
+
+\section*{Acknowledgments}
+TODO: Acknowledgments here.
+
+\bibliographystyle{unsrtnat}
+\bibliography{References_v1}
+
+\newpage
+\appendix
+\input{sections/appendix.tex}
+
+\end{document}
