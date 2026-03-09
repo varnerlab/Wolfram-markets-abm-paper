@@ -125,6 +125,7 @@ function simulate(
     model::MyModelASimulation,
     price_data::Vector{Float64};
     initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
+    snapshot_steps::Union{Nothing, Vector{Int64}} = nothing,
     verbose::Bool = true,
 )::MySimulationResult
 
@@ -135,6 +136,11 @@ function simulate(
     k           = edge_model.k
     edge_coords = edge_model.coordinates
     T           = length(price_data)
+
+    # Default snapshots: 8 log-spaced steps up to T
+    snaps = isnothing(snapshot_steps) ?
+        Set{Int64}(unique(round.(Int, exp.(range(log(1), log(T), length=8))))) :
+        Set{Int64}(snapshot_steps)
 
     # Pre-compute EMA and volatility over the full price series
     μ  = compute_ema(price_data; α = α)
@@ -161,8 +167,12 @@ function simulate(
         net_imbal[t] = compute_net_imbalance(grid, edge_coords)
 
         # --- CA update ---
-        grid      = _ca_step(grid, world, agents, rule_major)
-        frames[t] = copy(grid)
+        grid = _ca_step(grid, world, agents, rule_major)
+
+        # Only store frames at requested snapshot steps
+        if t in snaps
+            frames[t] = copy(grid)
+        end
 
         verbose && next!(prog)
     end
@@ -198,6 +208,7 @@ function simulate(
     model::MyModelBSimulation;
     initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
     steps::Int64 = 1000,
+    snapshot_steps::Union{Nothing, Vector{Int64}} = nothing,
     verbose::Bool = true,
 )::MySimulationResult
 
@@ -227,6 +238,10 @@ function simulate(
     μ_t = P0
     σ_t = 0.0
 
+    snaps = isnothing(snapshot_steps) ?
+        Set{Int64}(unique(round.(Int, exp.(range(log(1), log(steps), length=8))))) :
+        Set{Int64}(snapshot_steps)
+
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
@@ -249,8 +264,10 @@ function simulate(
         prices[t + 1] = compute_price_update(P_t, φ, λ)
 
         # --- CA update ---
-        grid      = _ca_step(grid, world, agents, rule_major)
-        frames[t] = copy(grid)
+        grid = _ca_step(grid, world, agents, rule_major)
+        if t in snaps
+            frames[t] = copy(grid)
+        end
 
         verbose && next!(prog)
     end

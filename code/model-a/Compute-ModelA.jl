@@ -1,9 +1,14 @@
 # Compute-ModelA.jl
 # Runs Model A (open, QQQ-driven) simulations and saves results to data/.
 #
+# Rules (screened via Compute-RuleScreen-v3.jl with 25% boundary edge agents):
+#   Homogeneous : Rule 16014 — herding, buy=0.681, stable buy-dominant normal market
+#   Crash pair  : Rule 16014 (major, 80%) + Rule 2465 (minor, 20%)
+#   Pass2 rank: crash_size=0.738, phi_mean=+0.461 (buy-dominant with real crash dips)
+#
 # Produces:
-#   data/ModelA-Homogeneous.jld2   — Rule 6158, f = 0
-#   data/ModelA-Crash.jld2         — Rule 19280 + 19286, f = 0.20
+#   data/ModelA-Homogeneous.jld2   — Rule 16014, f = 0
+#   data/ModelA-Crash.jld2         — Rule 16014 + 2465, f = 0.20
 #   data/ModelA-PhaseSweep.jld2    — crash statistics vs minority fraction f
 
 include(joinpath(@__DIR__, "Include.jl"))
@@ -14,25 +19,43 @@ include(joinpath(@__DIR__, "Include.jl"))
 df     = load_price_data(joinpath(_PATH_TO_DATA, "QQQ-OHLC-1-min-aggregate-2024.csv"))
 prices = compute_typical_price(df)
 
-nrows  = 256
-ncols  = 256
+const NROWS   = 256
+const NCOLS   = 256
+const F_EDGE  = 0.25   # fraction of boundary cells used as edge agents
+
+# Build boundary edge agent coordinates (25% of boundary, fixed seed)
+let
+    boundary = Tuple{Int64,Int64}[]
+    for c in 1:NCOLS
+        push!(boundary, (1, c))
+        push!(boundary, (NROWS, c))
+    end
+    for r in 2:NROWS-1
+        push!(boundary, (r, 1))
+        push!(boundary, (r, NCOLS))
+    end
+    rng    = Random.MersenneTwister(1234)
+    n_edge = round(Int, F_EDGE * length(boundary))
+    global edge_coords = Set{Tuple{Int64,Int64}}(boundary[randperm(rng, length(boundary))[1:n_edge]])
+end
+
+@info "Edge agents: $(length(edge_coords)) of $(4*(NROWS+NCOLS-2)) boundary cells ($(round(Int,100*F_EDGE))%)"
 
 edge_model = build(MyBandEdgeAgentModel, (
-    α               = 1/60,
-    k               = 1.0,
-    number_of_rows  = nrows,
-    number_of_cols  = ncols,
+    α           = 1/60,
+    k           = 1.0,
+    coordinates = edge_coords,
 ))
 
 # ---------------------------------------------------------------------------
-# 1. Homogeneous — Rule 6158, f = 0
+# 1. Homogeneous — Rule 16014, f = 0
 # ---------------------------------------------------------------------------
-@info "Running Model A — homogeneous (Rule 6158) ..."
+@info "Running Model A — homogeneous (Rule 16014) ..."
 
 modelA_hom = build(MyModelASimulation, (
-    number_of_rows    = nrows,
-    number_of_cols    = ncols,
-    rule_major_index  = 6158,
+    number_of_rows    = NROWS,
+    number_of_cols    = NCOLS,
+    rule_major_index  = 16014,
     minority_fraction = 0.0,
     edge_agent_model  = edge_model,
 ))
@@ -48,15 +71,15 @@ save(joinpath(_PATH_TO_DATA, "ModelA-Homogeneous.jld2"), Dict(
 @info "Saved: ModelA-Homogeneous.jld2"
 
 # ---------------------------------------------------------------------------
-# 2. Crash model — Rule 19280 (major) + 19286 (minor), f = 0.20
+# 2. Crash model — Rule 16014 (major) + 2465 (minor), f = 0.20
 # ---------------------------------------------------------------------------
-@info "Running Model A — crash (Rule 19280/19286, f = 0.20) ..."
+@info "Running Model A — crash (Rule 16014/2465, f = 0.20) ..."
 
 modelA_crash = build(MyModelASimulation, (
-    number_of_rows    = nrows,
-    number_of_cols    = ncols,
-    rule_major_index  = 19280,
-    rule_minor_index  = 19286,
+    number_of_rows    = NROWS,
+    number_of_cols    = NCOLS,
+    rule_major_index  = 16014,
+    rule_minor_index  = 2465,
     minority_fraction = 0.20,
     edge_agent_model  = edge_model,
 ))
@@ -73,39 +96,114 @@ save(joinpath(_PATH_TO_DATA, "ModelA-Crash.jld2"), Dict(
 
 # ---------------------------------------------------------------------------
 # 3. Phase sweep — crash statistics vs minority fraction f
-#    For each f, run Rule 19280/19286 and record:
-#      mean_sell_fraction   — average fraction of Sell agents
-#      max_sell_fraction    — peak Sell fraction (crash severity proxy)
-#      crash_frequency      — fraction of steps where Sell fraction > 0.5
+#    Uses a lean inline loop at 128×128 to track sell_frac at EVERY step.
+#    (The simulate() function only stores 8 snapshots, which gives crash_freq=0
+#     always — here we compute statistics from the full time series instead.)
 # ---------------------------------------------------------------------------
 @info "Running Model A — phase sweep over minority fraction f ..."
 
-f_values = 0.0:0.05:0.50
+const NROWS_SWEEP = 128
+const NCOLS_SWEEP = 128
 
+# Build edge coords for sweep grid
+let
+    boundary = Tuple{Int64,Int64}[]
+    for c in 1:NCOLS_SWEEP
+        push!(boundary, (1, c))
+        push!(boundary, (NROWS_SWEEP, c))
+    end
+    for r in 2:NROWS_SWEEP-1
+        push!(boundary, (r, 1))
+        push!(boundary, (r, NCOLS_SWEEP))
+    end
+    rng    = Random.MersenneTwister(1234)
+    n_edge = round(Int, F_EDGE * length(boundary))
+    global edge_coords_sweep = Set{Tuple{Int64,Int64}}(boundary[randperm(rng, length(boundary))[1:n_edge]])
+end
+
+# Pre-compute EMA band signal for the full price series
+α_sweep = 1/60
+k_sweep = 1.0
+μ_sw  = compute_ema(prices; α=α_sweep)
+σv_sw = compute_ema_volatility(prices, μ_sw; α=α_sweep)
+T_sw  = length(prices)
+
+function _run_sweep(major_idx::Int, minor_idx::Int, f::Float64,
+                    edge_coords::Set{Tuple{Int64,Int64}},
+                    nrows::Int, ncols::Int,
+                    prices::Vector{Float64},
+                    mu::Vector{Float64}, sigma::Vector{Float64},
+                    k::Float64)
+    rm_maj = build(MyTwoDimensionalTotalisticWolframRuleModel,
+                   (index=major_idx, colors=3, radius=4))
+    Q_maj = rm_maj.neighborhoodstatesmap
+    D_maj = rm_maj.rule
+
+    Q_min = Q_maj
+    D_min = D_maj
+    if f > 0.0
+        rm_min = build(MyTwoDimensionalTotalisticWolframRuleModel,
+                       (index=minor_idx, colors=3, radius=4))
+        Q_min = rm_min.neighborhoodstatesmap
+        D_min = rm_min.rule
+    end
+
+    N = nrows * ncols
+    is_min = falses(nrows, ncols)
+    if f > 0.0
+        rng = Random.MersenneTwister(5678)
+        for pos in randperm(rng, N)[1:round(Int, f * N)]
+            is_min[(pos-1)÷ncols+1, (pos-1)%ncols+1] = true
+        end
+    end
+
+    Random.seed!(1234)
+    grid = fill(1, nrows, ncols)   # start all-Hold
+    nxt  = copy(grid)
+
+    T = length(prices)
+    sell_fracs = Vector{Float64}(undef, T)
+
+    for t in 1:T
+        # edge agent state
+        es = compute_band_state(prices[t], mu[t], sigma[t], k)
+        for (r, c) in edge_coords
+            grid[r, c] = es
+        end
+
+        # CA update
+        copyto!(nxt, grid)
+        @inbounds for r in 2:nrows-1, c in 2:ncols-1
+            Q = is_min[r,c] ? Q_min : Q_maj
+            D = is_min[r,c] ? D_min : D_maj
+            μv = 0.25 * (grid[r,c-1] + grid[r,c+1] + grid[r-1,c] + grid[r+1,c])
+            nxt[r,c] = D[Q[round(μv; digits=2)]]
+        end
+        grid, nxt = nxt, grid
+
+        sell_fracs[t] = count(==(2), grid) / N
+    end
+
+    return (
+        mean_sell_fraction = mean(sell_fracs),
+        max_sell_fraction  = maximum(sell_fracs),
+        crash_frequency    = mean(sell_fracs .> 0.5),
+    )
+end
+
+f_values = 0.0:0.05:0.50
 sweep_results = Dict{Float64, Dict{String, Float64}}()
 
 for f in f_values
     @info "  f = $(f)"
-    model_f = build(MyModelASimulation, (
-        number_of_rows    = nrows,
-        number_of_cols    = ncols,
-        rule_major_index  = 19280,
-        rule_minor_index  = 19286,
-        minority_fraction = f,
-        edge_agent_model  = edge_model,
-    ))
-
-    result_f = simulate(model_f, prices; verbose = false)
-    N        = nrows * ncols
-
-    sell_fracs = [count(==(2), result_f.frames[t]) / N
-                  for t in sort(collect(keys(result_f.frames)))]
-
+    r = _run_sweep(16014, 2465, f, edge_coords_sweep,
+                   NROWS_SWEEP, NCOLS_SWEEP, prices, μ_sw, σv_sw, k_sweep)
     sweep_results[f] = Dict(
-        "mean_sell_fraction"  => mean(sell_fracs),
-        "max_sell_fraction"   => maximum(sell_fracs),
-        "crash_frequency"     => mean(sell_fracs .> 0.5),
+        "mean_sell_fraction" => r.mean_sell_fraction,
+        "max_sell_fraction"  => r.max_sell_fraction,
+        "crash_frequency"    => r.crash_frequency,
     )
+    @info "    mean_sell=$(round(r.mean_sell_fraction,digits=3))  max_sell=$(round(r.max_sell_fraction,digits=3))  crash_freq=$(round(r.crash_frequency,digits=4))"
 end
 
 save(joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep.jld2"), Dict(
