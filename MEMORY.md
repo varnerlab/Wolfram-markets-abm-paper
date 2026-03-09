@@ -13,44 +13,51 @@ Agent-based model of financial markets using 2D Wolfram cellular automaton (CA) 
 - `code/src/Simulate.jl` — Model A + B simulation loops
 - `code/data/` — JLD2 simulation outputs, CSVs
 
-## Current Rule Status (as of 2026-03-09) — see rules.md for full notes
+## Current Rules — Original Course Pair (as of 2026-03-09)
 
-### Rule Screening
-- Screen: `Compute-RuleScreen-v3.jl` — 25% boundary edge agents, QQQ-coupled
-- Pass1 CSV: `RuleScreen-v3-Pass1.csv` — 2187 herding + 2187 contrarian rules at 64×64
-- Pass2 CSV: `RuleScreen-v3-Pass2.csv` — 2500 pairs (top-50 herding × top-50 contrarian) at 128×128
+Decision: went with **option 2** — original course rules 19280 + 19286.
 
-### Current Compute-ModelA.jl (as of session end)
-- Major rule: **16014** (herding, Pass1: buy=0.681, sell=0.260, has_all=true)
-- Minor rule: **2465** (contrarian, Pass2 rank with 16014: crash_size=0.738, phi_mean=+0.461)
+### Current Compute-ModelA.jl
+- Major rule: **19280** — stable majority/herding rule
+- Minor rule: **19286** — contrarian/destabilizer (interprets all-buy as sell signal)
 - Edge agents: 25% of boundary cells, fixed seed 1234, α=1/60, k=1.0
+- Grid: 256×256 (homogeneous + crash), 128×128 (phase sweep)
 
-### Phase Sweep Results (Rule 16014 + 2465, 128×128, full QQQ series)
+### Phase Sweep Results (Rule 19280 + 19286, 128×128, full QQQ series)
+
+**Coarse sweep:**
 | f    | mean_sell | max_sell | crash_freq |
 |------|-----------|----------|------------|
-| 0.00 | 0.205     | 0.969    | 0.0014     |
-| 0.05 | 0.159     | 0.921    | 0.0002     |
-| 0.10 | 0.168     | 0.873    | 0.0001     |
-| 0.15 | 0.192     | 0.824    | 0.0001     |
-| 0.20 | 0.239     | 0.775    | 0.0        |
-| 0.30 | 0.352     | 0.679    | 0.0        |
-| 0.40 | 0.357     | 0.581    | 0.0        |
-| 0.50 | 0.331     | 0.484    | 0.0        |
+| 0.00 | 0.250     | 0.274    | 0.0        |
+| 0.05 | 0.254     | 0.277    | 0.0        |
+| 0.10 | 0.258     | 0.283    | 0.0        |
+| 0.15 | 0.506     | 0.932    | 0.404      |
+| 0.20 | 0.891     | 0.933    | 0.958      |
+| 0.25 | 0.904     | 0.924    | 0.987      |
+| 0.30+ | ~0.91    | ~0.93    | ~0.99      |
 
-### KEY FINDING: Contrarian pre-filter bug
-- All contrarian rules in screen have `digit[8]=0` (buy when all neighbors sell)
-- This makes every screened contrarian a CRASH DAMPER, not crash amplifier
-- Rule 2465 stabilizes cascades — crash_freq DECREASES as f increases
-- Homogeneous model (f=0) has the MOST crashes (rare but extreme: max_sell=0.969)
+**Fine sweep (f = 0.08–0.22, step 0.01):**
+| f    | mean_sell | max_sell | crash_freq |
+|------|-----------|----------|------------|
+| 0.12 | 0.261     | 0.289    | 0.0        |
+| 0.13 | 0.265     | 0.297    | 0.0        |
+| 0.14 | 0.266     | 0.302    | 0.0        |
+| 0.15 | 0.506     | 0.932    | 0.404      |
+| 0.16 | 0.764     | 0.938    | 0.862      |
+| 0.17 | 0.815     | 0.935    | 0.850      |
+| 0.20 | 0.891     | 0.933    | 0.958      |
 
-## Three Paths Forward (decision pending — user moving to new machine)
-1. **Re-screen with `digit[8]=2` contrarians** — find minority rules that amplify sell cascades (new Compute-RuleScreen-v4.jl, ~1-2 hours)
-2. **Use original course rules (19280 + 19286)** — purpose-built for crash; test directly at 256×256 without full screen (fastest)
-3. **Reframe as "diversity dampens crashes"** — f=0 crashes, heterogeneity stabilizes; valid science, no new computation needed
+### KEY FINDING: Sharp first-order phase transition
+- **Critical fraction f_c ≈ 0.145** — discontinuous jump from stable to crash-dominated
+- No intermediate "intermittent crashes" regime — system snaps from ~26% sell to ~50% sell
+- Above f_c, saturation is fast (96% crashed by f=0.20)
+- Homogeneous model (f=0): stable, φ ≈ +0.23, std 0.009, no crashes
+- Crash model (f=0.20, 256×256): sell-dominated, φ ≈ −0.89, permanently crashed
+- Most interesting dynamics at f=0.15 (intermittent crash cascades)
 
-## Phase Sweep Fix (done)
-- Old sweep sampled only 8 log-spaced frames → crash_freq always 0.0
-- New sweep in `Compute-ModelA.jl` uses inline lean loop at 128×128, tracks sell_frac at EVERY step
+### Previous Rule Screen (archived — superseded by course rules)
+- Screened rules 16014/2465 had contrarian pre-filter bug (digit[8]=0 = crash damper)
+- Screen files still in `code/data/`: RuleScreen-v3-Pass1.csv, RuleScreen-v3-Pass2.csv
 
 ## User Preferences
 - Julia for simulation code

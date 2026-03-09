@@ -1,9 +1,45 @@
 % Introduction
-% Suggested structure (4--5 paragraphs):
-%   1. Problem statement: What question are you asking?
-%   2. Landscape: What existing approaches exist?
-%   3. Contribution: What is your novel solution?
-%   4. Key results: Why should we care?
-%   5. Paper roadmap: What sections follow?
 
-TODO: Write introduction here.
+Financial markets exhibit abrupt, large-amplitude crashes that emerge without proportionate
+exogenous shocks~\cite{sornette2017why}. The statistical signatures of these events---heavy-tailed
+return distributions, volatility clustering, and transient negative autocorrelation---are
+remarkably consistent across instruments and time scales~\cite{cont2001empirical,mandelbrot1963variation}.
+A central question in quantitative finance is whether such crashes arise endogenously from the
+collective dynamics of interacting agents, and if so, what minimal microscopic mechanism is
+sufficient to reproduce the observed phenomenology~\cite{battiston2016complexity}.
+
+Agent-based models (ABMs) offer a bottom-up approach to this question. Early work by
+Lux and Marchesi~\cite{lux1999scaling} and Bak et al.~\cite{bak1997price} demonstrated that
+heterogeneous populations of chartists and fundamentalists can generate fat tails and clustered
+volatility. Subsequent models have explored the role of herding~\cite{harras2012noise},
+minority-game dynamics~\cite{chowdhury2000statistical}, and network
+topology~\cite{iori2002minority} in crash formation. However, most ABMs employ either
+fully connected (mean-field) interaction graphs or ad hoc behavioral rules, making it
+difficult to disentangle the contributions of local spatial contagion from global coordination.
+
+In this paper we adopt a different strategy: we model agent interactions on a two-dimensional
+grid governed by Wolfram totalistic cellular automaton (CA) rules~\cite{wolfram2002new}.
+Each agent occupies one cell of the grid and can be in one of three states---Buy, Hold, or
+Sell---updated deterministically from the states of its four cardinal neighbors. The CA
+framework offers two advantages. First, it enforces strictly \emph{local} information
+propagation: sell cascades must spread from neighbor to neighbor, producing spatially
+resolved wavefronts that are absent in mean-field models. Second, the full space of
+three-state totalistic rules is finite and enumerable ($3^9 = 19{,}683$ rules), enabling
+a systematic taxonomy of agent behaviors.
+
+We study two coupled models. In \textbf{Model~A} (open), boundary agents observe real
+QQQ ETF minute-bar data via a Bollinger Band filter, injecting exogenous market sentiment
+into the grid interior; this validates the CA against empirical stylized facts.
+In \textbf{Model~B} (closed), the boundary agents respond to an endogenous price formed
+from the grid's own net order imbalance, creating a reflexive feedback loop. The key
+finding is a sharp first-order phase transition in crash frequency as a function of the
+minority (contrarian) agent fraction~$f$: below a critical threshold
+$f_c \approx 0.145$ the market is stable, while above $f_c$ the system abruptly
+locks into a sell-dominated regime. The transition is discontinuous and occurs over
+$\Delta f < 0.01$, consistent with a tipping-point mechanism
+rather than a gradual crossover~\cite{scheffer2009early}.
+
+The remainder of this paper is organized as follows. Section~2 reviews related work on
+ABMs and lattice models in finance. Section~3 introduces the CA rule framework and
+edge-agent decision model. Section~4 describes the simulation procedure for Models~A
+and~B. Section~5 presents the phase diagram and grid dynamics, and Section~6 concludes.

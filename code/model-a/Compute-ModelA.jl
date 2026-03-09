@@ -1,14 +1,15 @@
 # Compute-ModelA.jl
 # Runs Model A (open, QQQ-driven) simulations and saves results to data/.
 #
-# Rules (screened via Compute-RuleScreen-v3.jl with 25% boundary edge agents):
-#   Homogeneous : Rule 16014 — herding, buy=0.681, stable buy-dominant normal market
-#   Crash pair  : Rule 16014 (major, 80%) + Rule 2465 (minor, 20%)
-#   Pass2 rank: crash_size=0.738, phi_mean=+0.461 (buy-dominant with real crash dips)
+# Rules (original course rules — purpose-built for crash dynamics):
+#   Homogeneous : Rule 19280 — stable majority/herding rule
+#   Crash pair  : Rule 19280 (major, 80%) + Rule 19286 (minor, 20%)
+#   Rule 19286 is a contrarian/destabilizer: interprets all-buy as sell signal,
+#   triggering local sell cascades that can propagate into flash crashes.
 #
 # Produces:
-#   data/ModelA-Homogeneous.jld2   — Rule 16014, f = 0
-#   data/ModelA-Crash.jld2         — Rule 16014 + 2465, f = 0.20
+#   data/ModelA-Homogeneous.jld2   — Rule 19280, f = 0
+#   data/ModelA-Crash.jld2         — Rule 19280 + 19286, f = 0.20
 #   data/ModelA-PhaseSweep.jld2    — crash statistics vs minority fraction f
 
 include(joinpath(@__DIR__, "Include.jl"))
@@ -48,14 +49,14 @@ edge_model = build(MyBandEdgeAgentModel, (
 ))
 
 # ---------------------------------------------------------------------------
-# 1. Homogeneous — Rule 16014, f = 0
+# 1. Homogeneous — Rule 19280, f = 0
 # ---------------------------------------------------------------------------
-@info "Running Model A — homogeneous (Rule 16014) ..."
+@info "Running Model A — homogeneous (Rule 19280) ..."
 
 modelA_hom = build(MyModelASimulation, (
     number_of_rows    = NROWS,
     number_of_cols    = NCOLS,
-    rule_major_index  = 16014,
+    rule_major_index  = 19280,
     minority_fraction = 0.0,
     edge_agent_model  = edge_model,
 ))
@@ -71,15 +72,15 @@ save(joinpath(_PATH_TO_DATA, "ModelA-Homogeneous.jld2"), Dict(
 @info "Saved: ModelA-Homogeneous.jld2"
 
 # ---------------------------------------------------------------------------
-# 2. Crash model — Rule 16014 (major) + 2465 (minor), f = 0.20
+# 2. Crash model — Rule 19280 (major) + 19286 (minor), f = 0.20
 # ---------------------------------------------------------------------------
-@info "Running Model A — crash (Rule 16014/2465, f = 0.20) ..."
+@info "Running Model A — crash (Rule 19280/19286, f = 0.20) ..."
 
 modelA_crash = build(MyModelASimulation, (
     number_of_rows    = NROWS,
     number_of_cols    = NCOLS,
-    rule_major_index  = 16014,
-    rule_minor_index  = 2465,
+    rule_major_index  = 19280,
+    rule_minor_index  = 19286,
     minority_fraction = 0.20,
     edge_agent_model  = edge_model,
 ))
@@ -196,7 +197,7 @@ sweep_results = Dict{Float64, Dict{String, Float64}}()
 
 for f in f_values
     @info "  f = $(f)"
-    r = _run_sweep(16014, 2465, f, edge_coords_sweep,
+    r = _run_sweep(19280, 19286, f, edge_coords_sweep,
                    NROWS_SWEEP, NCOLS_SWEEP, prices, μ_sw, σv_sw, k_sweep)
     sweep_results[f] = Dict(
         "mean_sell_fraction" => r.mean_sell_fraction,

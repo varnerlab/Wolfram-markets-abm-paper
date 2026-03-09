@@ -1,8 +1,229 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{36}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Cont(2001)]{cont2001empirical}
+Rama Cont.
+\newblock Empirical properties of asset returns: stylized facts and statistical
+  issues.
+\newblock \emph{Quantitative Finance}, 1\penalty0 (2):\penalty0 223--236, 2001.
+
+\bibitem[Mandelbrot(1963)]{mandelbrot1963variation}
+Benoit Mandelbrot.
+\newblock The variation of certain speculative prices.
+\newblock \emph{The Journal of Business}, 36\penalty0 (4):\penalty0 394--419,
+  1963.
+
+\bibitem[Sornette(2017)]{sornette2017why}
+Didier Sornette.
+\newblock \emph{Why Stock Markets Crash: Critical Events in Complex Financial
+  Systems}.
+\newblock Princeton University Press, 2017.
+
+\bibitem[Battiston et~al.(2016)Battiston, Farmer, Flache, Garlaschelli,
+  Haldane, Heesterbeek, Hommes, Jaeger, May, and
+  Scheffer]{battiston2016complexity}
+Stefano Battiston, J~Doyne Farmer, Andreas Flache, Diego Garlaschelli, Andrew~G
+  Haldane, Hans Heesterbeek, Cars Hommes, Carlo Jaeger, Robert May, and Marten
+  Scheffer.
+\newblock Complexity theory and financial regulation.
+\newblock \emph{Science}, 351\penalty0 (6275):\penalty0 818--819, 2016.
+
+\bibitem[Lux and Marchesi(1999)]{lux1999scaling}
+Thomas Lux and Michele Marchesi.
+\newblock Scaling and criticality in a stochastic multi-agent model of a
+  financial market.
+\newblock \emph{Nature}, 397:\penalty0 498--500, 1999.
+
+\bibitem[Bak et~al.(1997)Bak, Paczuski, and Shubik]{bak1997price}
+Per Bak, Maya Paczuski, and Martin Shubik.
+\newblock Price variations in a stock market with many agents.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  246:\penalty0 430--453, 1997.
+
+\bibitem[Cont and Bouchaud(2000)]{cont2000herd}
+Rama Cont and Jean-Philippe Bouchaud.
+\newblock Herd behavior and aggregate fluctuations in financial markets.
+\newblock \emph{Macroeconomic Dynamics}, 4\penalty0 (2):\penalty0 170--196,
+  2000.
+
+\bibitem[Challet and Zhang(1997)]{challet1997minority}
+D.~Challet and Y.-C. Zhang.
+\newblock Emergence of cooperation and organization in an evolutionary game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  246:\penalty0 407--418, 1997.
+
+\bibitem[Farmer and Joshi(2002)]{farmer2002price}
+J.~Doyne Farmer and Shareen Joshi.
+\newblock The price dynamics of common trading strategies.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 49\penalty0
+  (2):\penalty0 149--171, 2002.
+
+\bibitem[Hommes(2006)]{hommes2006heterogeneous}
+Cars~H Hommes.
+\newblock Heterogeneous agent models in economics and finance.
+\newblock \emph{Handbook of Computational Economics}, 2:\penalty0 1109--1186,
+  2006.
+
+\bibitem[Bornholdt(2001)]{bornholdt2001ising}
+Stefan Bornholdt.
+\newblock Expectation bubbles in a spin model of markets: intermittency from
+  frustration across scales.
+\newblock \emph{International Journal of Modern Physics C}, 12\penalty0
+  (5):\penalty0 667--674, 2001.
+
+\bibitem[Krawiecki et~al.(2002)Krawiecki, Ho{\l}yst, and
+  Helbing]{krawiecki2002volatility}
+A.~Krawiecki, J.~A. Ho{\l}yst, and D.~Helbing.
+\newblock Volatility clustering and scaling for financial time series due to
+  attractor bubbling.
+\newblock \emph{Physical Review Letters}, 89:\penalty0 158701, 2002.
+
+\bibitem[Sznajd-Weron and Weron(2002)]{sznajd2002simple}
+Katarzyna Sznajd-Weron and Rafal Weron.
+\newblock A simple model of price formation.
+\newblock \emph{International Journal of Modern Physics C}, 13\penalty0
+  (1):\penalty0 115--123, 2002.
+
+\bibitem[Kaizoji(2000)]{kaizoji2002speculative}
+Taisei Kaizoji.
+\newblock Speculative bubbles and crashes in stock markets: an
+  interacting-agent model of speculative activity.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  287:\penalty0 493--506, 2000.
+
+\bibitem[Wei et~al.(2003)Wei, Wang, and Yang]{wei2003cellular}
+Yu-Cheng Wei, Shao-Hua Wang, and Fang-Mei Yang.
+\newblock A cellular automaton model for the securities market.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  325:\penalty0 285--290, 2003.
+
+\bibitem[Qiu et~al.(2007)Qiu, Kandhai, and Sloot]{qiu2007cellular}
+Guoping Qiu, Drona Kandhai, and Peter M.~A. Sloot.
+\newblock A cellular automata model for the abnormal fluctuations in stock
+  markets.
+\newblock \emph{Advances in Complex Systems}, 10:\penalty0 241--255, 2007.
+
+\bibitem[Yang et~al.(2019)Yang, Chen, and Huang]{yang2019financial}
+Guang Yang, Yun Chen, and Ji-Ping Huang.
+\newblock Financial market simulation based on cellular automaton.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  521:\penalty0 586--594, 2019.
+
+\bibitem[Wolfram(2002)]{wolfram2002new}
+Stephen Wolfram.
+\newblock \emph{A New Kind of Science}.
+\newblock Wolfram Media, 2002.
+
+\bibitem[Scheffer et~al.(2009)Scheffer, Bascompte, Brock, Brovkin, Carpenter,
+  Dakos, Held, Van~Nes, Rietkerk, and Sugihara]{scheffer2009early}
+Marten Scheffer, Jordi Bascompte, William~A Brock, Victor Brovkin, Stephen~R
+  Carpenter, Vasilis Dakos, Hermann Held, Egbert~H Van~Nes, Max Rietkerk, and
+  George Sugihara.
+\newblock Early-warning signals for critical transitions.
+\newblock \emph{Nature}, 461:\penalty0 53--59, 2009.
+
+\bibitem[Fama(1970)]{fama1970efficient}
+Eugene~F. Fama.
+\newblock Efficient capital markets: a review of theory and empirical work.
+\newblock \emph{The Journal of Finance}, 25\penalty0 (2):\penalty0 383--417,
+  1970.
+
+\bibitem[Schwert(1989)]{schwert1989volatility}
+G.~William Schwert.
+\newblock Why does stock market volatility change over time?
+\newblock \emph{The Journal of Finance}, 44\penalty0 (5):\penalty0 1115--1153,
+  1989.
+
+\bibitem[Bouchaud and Potters(2001)]{bouchaud2002apparent}
+Jean-Philippe Bouchaud and Marc Potters.
+\newblock An apparent stylized fact about the dynamics of financial markets.
+\newblock \emph{Quantitative Finance}, 1:\penalty0 105--112, 2001.
+
+\bibitem[LeBaron(2000)]{lebaron2000agent}
+Blake LeBaron.
+\newblock Agent-based computational finance: suggested readings and early
+  research.
+\newblock \emph{Journal of Economic Dynamics and Control}, 24:\penalty0
+  679--702, 2000.
+
+\bibitem[Chen et~al.(2015)Chen, Tan, and Zheng]{chen2015herding}
+J.~J. Chen, L.~Tan, and B.~Zheng.
+\newblock Agent-based model with multi-level herding for complex financial
+  systems.
+\newblock \emph{Scientific Reports}, 5:\penalty0 8399, 2015.
+
+\bibitem[Harras and Sornette(2012)]{harras2012noise}
+Georges Harras and Didier Sornette.
+\newblock How to grow a bubble: a model of myopic adapting agents.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 80:\penalty0
+  137--152, 2012.
+
+\bibitem[LeBaron(2006)]{lebaron2006agent}
+Blake LeBaron.
+\newblock Agent-based computational finance.
+\newblock In \emph{Handbook of Computational Economics}, volume~2, pages
+  1187--1233. Elsevier, 2006.
+
+\bibitem[Arthur(2021)]{arthur2021complexity}
+W.~Brian Arthur.
+\newblock Foundations of complexity economics.
+\newblock \emph{Nature Reviews Physics}, 3:\penalty0 136--145, 2021.
+
+\bibitem[Farmer(2025)]{farmer2025quantitative}
+J.~Doyne Farmer.
+\newblock Quantitative agent-based models: a promising alternative for
+  macroeconomics.
+\newblock \emph{Oxford Review of Economic Policy}, 41\penalty0 (2):\penalty0
+  571--590, 2025.
+
+\bibitem[Stauffer(2000)]{stauffer2000generalization}
+Dietrich Stauffer.
+\newblock Generalization of a two-dimensional {Ising}-like model to arbitrary
+  dimension.
+\newblock \emph{Computing in Science \& Engineering}, 2\penalty0 (3):\penalty0
+  69--72, 2000.
+
+\bibitem[Chowdhury and Stauffer(1999)]{chowdhury2000statistical}
+Debashish Chowdhury and Dietrich Stauffer.
+\newblock A generalized spin model of financial markets.
+\newblock \emph{The European Physical Journal B}, 8:\penalty0 477--482, 1999.
+
+\bibitem[Bak et~al.(1987)Bak, Tang, and Wiesenfeld]{bak1987selforganized}
+Per Bak, Chao Tang, and Kurt Wiesenfeld.
+\newblock Self-organized criticality: an explanation of $1/f$ noise.
+\newblock \emph{Physical Review Letters}, 59:\penalty0 381--384, 1987.
+
+\bibitem[Bak and Paczuski(1995)]{bak1996complexity}
+Per Bak and Maya Paczuski.
+\newblock Complexity, contingency, and criticality.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 92:\penalty0
+  6689--6696, 1995.
+
+\bibitem[Gabaix et~al.(2003)Gabaix, Gopikrishnan, Plerou, and
+  Stanley]{gabaix2003theory}
+Xavier Gabaix, Parameswaran Gopikrishnan, Vasiliki Plerou, and H~Eugene
+  Stanley.
+\newblock A theory of power-law distributions in financial market fluctuations.
+\newblock \emph{Nature}, 423:\penalty0 267--270, 2003.
+
+\bibitem[Farmer et~al.(2005)Farmer, Patelli, and Zovko]{farmer2005predictive}
+J~Doyne Farmer, Paolo Patelli, and Ilija~I Zovko.
+\newblock The predictive power of zero intelligence in financial markets.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 102\penalty0
+  (6):\penalty0 2254--2259, 2005.
+
+\bibitem[Wolfram(1984)]{wolfram1984universality}
+Stephen Wolfram.
+\newblock Universality and complexity in cellular automata.
+\newblock \emph{Physica D: Nonlinear Phenomena}, 10:\penalty0 1--35, 1984.
+
+\bibitem[Packard and Wolfram(1985)]{packard1985two}
+Norman~H. Packard and Stephen Wolfram.
+\newblock Two-dimensional cellular automata.
+\newblock \emph{Journal of Statistical Physics}, 38:\penalty0 901--946, 1985.
 
 \end{thebibliography}

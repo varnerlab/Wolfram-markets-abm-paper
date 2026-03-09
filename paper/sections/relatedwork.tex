@@ -1,4 +1,43 @@
 % Related Work
-% Organize by topic areas and compare your approach to existing literature.
 
-TODO: Write related work here.
+\paragraph{Agent-based models in finance.}
+The modern ABM literature in finance traces to the Santa Fe Artificial Stock
+Market~\cite{lebaron2000agent} and the Lux--Marchesi model~\cite{lux1999scaling}, which
+showed that populations of heterogeneous traders---chartists who follow trends and
+fundamentalists who trade toward fair value---can endogenously produce fat-tailed returns
+and clustered volatility. Hommes~\cite{hommes2006heterogeneous} surveys extensions
+incorporating adaptive expectations and evolutionary strategy selection. A common
+limitation is that agents interact globally (mean-field coupling), so the spatial
+structure of contagion is absent.
+
+\paragraph{Lattice and spin models.}
+Ising-type models map agent states (buy/sell) onto spins and impose nearest-neighbor
+coupling on a lattice~\cite{stauffer2000generalization,chowdhury2000statistical}.
+These models naturally capture local herding and can exhibit phase transitions between
+ordered (bubble/crash) and disordered (efficient) regimes. Kaizoji~\cite{kaizoji2002speculative}
+extends the Ising framework to three states (buy/hold/sell) to model speculative
+activity. Our approach generalizes the Ising lattice in two ways: (i)~we use
+Wolfram totalistic CA rules, which provide a richer and fully enumerable space of
+local update functions, and (ii)~we couple the lattice to an external or endogenous
+price signal via boundary agents.
+
+\paragraph{Crash mechanisms and critical transitions.}
+Sornette~\cite{sornette2017why} argues that large crashes are the culmination of
+cooperative herding behavior and can be modeled as critical points. Gabaix et
+al.~\cite{gabaix2003theory} derive power-law tails from the size distribution of
+large institutional trades. Scheffer et al.~\cite{scheffer2009early} propose generic
+early-warning signals---rising autocorrelation and variance---for systems approaching
+a tipping point. Our phase diagram (Section~5) exhibits a discontinuous transition
+at a critical minority fraction~$f_c$, consistent with a first-order tipping point
+rather than the continuous (second-order) transitions typical of Ising models at
+criticality.
+
+\paragraph{Cellular automata in complex systems.}
+Wolfram~\cite{wolfram2002new} classifies one-dimensional CA into four behavioral
+classes (fixed points, periodic, chaotic, complex). Two-dimensional totalistic rules
+on a Von~Neumann neighborhood have been studied for pattern formation and
+self-organization, but their application to financial markets remains largely
+unexplored. Farmer et al.~\cite{farmer2005predictive} demonstrate that even
+zero-intelligence agents can reproduce aspects of market microstructure when placed
+in a realistic order-book mechanism, motivating our use of simple deterministic rules
+as a minimal model of trader behavior.

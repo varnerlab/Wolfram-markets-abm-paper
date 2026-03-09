@@ -2,21 +2,142 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{cont2001empirical,mandelbrot1963variation,sornette2017why}
+\citation{battiston2016complexity}
+\citation{lux1999scaling,bak1997price}
+\citation{cont2000herd}
+\citation{challet1997minority}
+\citation{farmer2002price,hommes2006heterogeneous}
+\citation{bornholdt2001ising,krawiecki2002volatility}
+\citation{sznajd2002simple}
+\citation{kaizoji2002speculative}
+\citation{wei2003cellular,qiu2007cellular,yang2019financial}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.2}\protected@file@percent }
+\citation{wolfram2002new}
+\citation{scheffer2009early}
+\citation{scheffer2009early,battiston2016complexity}
+\citation{mandelbrot1963variation}
+\citation{fama1970efficient}
+\citation{schwert1989volatility}
+\citation{bouchaud2002apparent}
+\citation{cont2001empirical}
+\citation{lebaron2000agent}
+\citation{lux1999scaling}
+\citation{cont2000herd}
+\citation{challet1997minority}
+\citation{farmer2002price}
+\citation{chen2015herding}
+\citation{harras2012noise}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.4}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{Related Work}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Agent-Based Models and Stylized Facts}{2}{subsection.5}\protected@file@percent }
+\citation{hommes2006heterogeneous}
+\citation{lebaron2006agent}
+\citation{arthur2021complexity}
+\citation{farmer2025quantitative}
+\citation{battiston2016complexity}
+\citation{stauffer2000generalization,chowdhury2000statistical}
+\citation{bornholdt2001ising}
+\citation{sznajd2002simple}
+\citation{krawiecki2002volatility}
+\citation{kaizoji2002speculative}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Model architecture. A:~Agent grid ($N_r \times N_c$) with three states (Buy, Hold, Sell). Green boundary cells are edge agents; dashed-border interior cells follow the minority rule~(19286); solid interior cells follow the majority rule~(19280). The highlighted cell and its Von~Neumann neighbors are expanded in~B. B:~CA update: the four neighbor states are summed to produce~$c_{r,c}$, which indexes into the rule table to determine the next state~$s'_{r,c}$. In this example $c_{r,c}=5$, so both rules output Sell; the two rules differ only at $c \in \{0,1\}$. C:~Model~A (open): exogenous QQQ prices (black trace) fluctuate within a Bollinger Band (gray region). Band breakouts set the edge-agent state, which is injected into the grid boundary. D:~Model~B (closed): the grid's net order imbalance~$\varphi _\tau $ feeds back (orange arrow) to update an endogenous price, closing a reflexive loop.}}{3}{figure.caption.3}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:schematic}{{1}{3}{Model architecture. A:~Agent grid ($N_r \times N_c$) with three states (Buy, Hold, Sell). Green boundary cells are edge agents; dashed-border interior cells follow the minority rule~(19286); solid interior cells follow the majority rule~(19280). The highlighted cell and its Von~Neumann neighbors are expanded in~B. B:~CA update: the four neighbor states are summed to produce~$c_{r,c}$, which indexes into the rule table to determine the next state~$s'_{r,c}$. In this example $c_{r,c}=5$, so both rules output Sell; the two rules differ only at $c \in \{0,1\}$. C:~Model~A (open): exogenous QQQ prices (black trace) fluctuate within a Bollinger Band (gray region). Band breakouts set the edge-agent state, which is injected into the grid boundary. D:~Model~B (closed): the grid's net order imbalance~$\varphi _\tau $ feeds back (orange arrow) to update an endogenous price, closing a reflexive loop}{figure.caption.3}{}}
+\citation{sornette2017why}
+\citation{bak1987selforganized}
+\citation{bak1996complexity}
+\citation{gabaix2003theory}
+\citation{scheffer2009early}
+\citation{battiston2016complexity}
+\citation{farmer2005predictive}
+\citation{wolfram1984universality}
+\citation{wolfram2002new}
+\citation{packard1985two}
+\citation{wei2003cellular}
+\citation{qiu2007cellular}
+\citation{yang2019financial}
+\citation{scheffer2009early}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Lattice Models, Spin Models, and Phase Transitions}{4}{subsection.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Cellular Automata in Complex Systems and Finance}{4}{subsection.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Background}{5}{section.8}\protected@file@percent }
+\newlabel{sec:background}{{3}{5}{Background}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Three-State Totalistic Cellular Automata}{5}{subsection.9}\protected@file@percent }
+\newlabel{sec:ca-rules}{{3.1}{5}{Three-State Totalistic Cellular Automata}{subsection.9}{}}
+\newlabel{eq:neighborhood-sum}{{1}{5}{Three-State Totalistic Cellular Automata}{equation.10}{}}
+\newlabel{eq:rule-index}{{2}{5}{Three-State Totalistic Cellular Automata}{equation.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Edge Agent Decision Model}{5}{subsection.12}\protected@file@percent }
+\newlabel{sec:edge-agents}{{3.2}{5}{Edge Agent Decision Model}{subsection.12}{}}
+\newlabel{eq:ema}{{3}{5}{Edge Agent Decision Model}{equation.13}{}}
+\newlabel{eq:ema-vol}{{4}{5}{Edge Agent Decision Model}{equation.14}{}}
+\newlabel{eq:edge-state}{{5}{5}{Edge Agent Decision Model}{equation.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Wolfram totalistic CA rule taxonomy. Base-3 encoding reads right-to-left: digit $a_i$ gives the next state when the neighbourhood sum index equals $i$.}}{6}{table.caption.17}\protected@file@percent }
+\newlabel{tab:rule-taxonomy}{{1}{6}{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads right-to-left: digit $a_i$ gives the next state when the neighbourhood sum index equals $i$}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Rule Taxonomy}{6}{subsection.16}\protected@file@percent }
+\newlabel{sec:rule-taxonomy}{{3.3}{6}{Rule Taxonomy}{subsection.16}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methods}{6}{section.18}\protected@file@percent }
+\newlabel{sec:methods}{{4}{6}{Methods}{section.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Model~A: Open (Boundary-Driven) Simulation}{6}{subsection.19}\protected@file@percent }
+\newlabel{sec:model-a}{{4.1}{6}{Model~A: Open (Boundary-Driven) Simulation}{subsection.19}{}}
+\@writefile{toc}{\contentsline {paragraph}{Simulation parameters.}{6}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Model~B: Closed (Endogenous Price) Simulation}{6}{subsection.21}\protected@file@percent }
+\newlabel{sec:model-b}{{4.2}{6}{Model~B: Closed (Endogenous Price) Simulation}{subsection.21}{}}
+\newlabel{eq:imbalance}{{6}{6}{Model~B: Closed (Endogenous Price) Simulation}{equation.22}{}}
+\newlabel{eq:price-update}{{7}{6}{Model~B: Closed (Endogenous Price) Simulation}{equation.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Phase Sweep Protocol}{7}{subsection.24}\protected@file@percent }
+\newlabel{sec:phase-sweep}{{4.3}{7}{Phase Sweep Protocol}{subsection.24}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results and Discussion}{7}{section.25}\protected@file@percent }
+\newlabel{sec:results}{{5}{7}{Results and Discussion}{section.25}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Grid Dynamics: Stable vs.\ Crash Regimes}{7}{subsection.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Phase Diagram}{7}{subsection.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{7}{section.30}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{7}{Conclusion}{section.30}{}}
+\citation{scheffer2009early}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Spatiotemporal dynamics of the $256 \times 256$ agent grid under Model~A (Rules~19280/19286, QQQ 2024 data). Columns share logarithmically spaced time points; rows vary the minority fraction~$f$. Blue = Buy, gray = Hold, orange = Sell. At $f = 0.15$ (middle row, $t = 8{,}236$), a sell cascade nucleates from a localized seed and propagates as a coherent wavefront before engulfing the grid.}}{8}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:fig2}{{2}{8}{Spatiotemporal dynamics of the $256 \times 256$ agent grid under Model~A (Rules~19280/19286, QQQ 2024 data). Columns share logarithmically spaced time points; rows vary the minority fraction~$f$. Blue = Buy, gray = Hold, orange = Sell. At $f = 0.15$ (middle row, $t = 8{,}236$), a sell cascade nucleates from a localized seed and propagates as a coherent wavefront before engulfing the grid}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Phase diagram for Model~A (Rules~19280/19286, $128 \times 128$ grid). \textbf  {A:}~Mean sell fraction vs.\ minority fraction~$f$. \textbf  {B:}~Peak sell fraction. \textbf  {C:}~Crash frequency (fraction of time steps with sell fraction $> 0.50$). Dashed vertical line marks $f_c \approx 0.145$. The transition is discontinuous, consistent with a first-order phase transition.}}{8}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:fig3}{{3}{8}{Phase diagram for Model~A (Rules~19280/19286, $128 \times 128$ grid). \textbf {A:}~Mean sell fraction vs.\ minority fraction~$f$. \textbf {B:}~Peak sell fraction. \textbf {C:}~Crash frequency (fraction of time steps with sell fraction $> 0.50$). Dashed vertical line marks $f_c \approx 0.145$. The transition is discontinuous, consistent with a first-order phase transition}{figure.caption.29}{}}
+\citation{sornette2017why,bak1987selforganized,gabaix2003theory}
 \bibstyle{unsrtnat}
 \bibdata{References_v1}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{1}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3}Background}{1}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Methods}{1}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results and Discussion}{1}{section.6}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Wolfram totalistic CA rule taxonomy. Base-3 encoding reads right-to-left: digit $a_i$ gives the next state when the neighbourhood sum index equals $i$.}}{1}{table.caption.7}\protected@file@percent }
-\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{tab:rule-taxonomy}{{1}{1}{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads right-to-left: digit $a_i$ gives the next state when the neighbourhood sum index equals $i$}{table.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{1}{section.10}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Stylized facts: QQQ (real data), Model~A (open), and Model~B (closed loop). AC(1)~ret = lag-1 autocorrelation of log returns; AC(1)~|ret| = lag-1 autocorrelation of absolute returns (volatility clustering); Tail~$\alpha $ = Hill tail index (upper 10\%).}}{2}{table.caption.8}\protected@file@percent }
-\newlabel{tab:stylized-facts}{{2}{2}{Stylized facts: QQQ (real data), Model~A (open), and Model~B (closed loop). AC(1)~ret = lag-1 autocorrelation of log returns; AC(1)~|ret| = lag-1 autocorrelation of absolute returns (volatility clustering); Tail~$\alpha $ = Hill tail index (upper 10\%)}{table.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Material}{3}{appendix.13}\protected@file@percent }
-\newlabel{app:supplement}{{A}{3}{Supplementary Material}{appendix.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Model~A results. \textbf  {Top:} Spatiotemporal dynamics of the 256$\times $256 agent grid at eight time steps. \textbf  {Bottom:} Agent state fractions (Buy, Hold, Sell) versus time on a log scale.}}{4}{figure.caption.9}\protected@file@percent }
-\newlabel{fig:fig2}{{1}{4}{Model~A results. \textbf {Top:} Spatiotemporal dynamics of the 256$\times $256 agent grid at eight time steps. \textbf {Bottom:} Agent state fractions (Buy, Hold, Sell) versus time on a log scale}{figure.caption.9}{}}
-\gdef \@abspage@last{4}
+\bibcite{cont2001empirical}{{1}{2001}{{Cont}}{{}}}
+\bibcite{mandelbrot1963variation}{{2}{1963}{{Mandelbrot}}{{}}}
+\bibcite{sornette2017why}{{3}{2017}{{Sornette}}{{}}}
+\bibcite{battiston2016complexity}{{4}{2016}{{Battiston et~al.}}{{Battiston, Farmer, Flache, Garlaschelli, Haldane, Heesterbeek, Hommes, Jaeger, May, and Scheffer}}}
+\bibcite{lux1999scaling}{{5}{1999}{{Lux and Marchesi}}{{}}}
+\bibcite{bak1997price}{{6}{1997}{{Bak et~al.}}{{Bak, Paczuski, and Shubik}}}
+\bibcite{cont2000herd}{{7}{2000}{{Cont and Bouchaud}}{{}}}
+\bibcite{challet1997minority}{{8}{1997}{{Challet and Zhang}}{{}}}
+\bibcite{farmer2002price}{{9}{2002}{{Farmer and Joshi}}{{}}}
+\bibcite{hommes2006heterogeneous}{{10}{2006}{{Hommes}}{{}}}
+\bibcite{bornholdt2001ising}{{11}{2001}{{Bornholdt}}{{}}}
+\bibcite{krawiecki2002volatility}{{12}{2002}{{Krawiecki et~al.}}{{Krawiecki, Ho{\l }yst, and Helbing}}}
+\bibcite{sznajd2002simple}{{13}{2002}{{Sznajd-Weron and Weron}}{{}}}
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{9}{section*.31}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Future directions.}{9}{section*.32}\protected@file@percent }
+\bibcite{kaizoji2002speculative}{{14}{2000}{{Kaizoji}}{{}}}
+\bibcite{wei2003cellular}{{15}{2003}{{Wei et~al.}}{{Wei, Wang, and Yang}}}
+\bibcite{qiu2007cellular}{{16}{2007}{{Qiu et~al.}}{{Qiu, Kandhai, and Sloot}}}
+\bibcite{yang2019financial}{{17}{2019}{{Yang et~al.}}{{Yang, Chen, and Huang}}}
+\bibcite{wolfram2002new}{{18}{2002}{{Wolfram}}{{}}}
+\bibcite{scheffer2009early}{{19}{2009}{{Scheffer et~al.}}{{Scheffer, Bascompte, Brock, Brovkin, Carpenter, Dakos, Held, Van~Nes, Rietkerk, and Sugihara}}}
+\bibcite{fama1970efficient}{{20}{1970}{{Fama}}{{}}}
+\bibcite{schwert1989volatility}{{21}{1989}{{Schwert}}{{}}}
+\bibcite{bouchaud2002apparent}{{22}{2001}{{Bouchaud and Potters}}{{}}}
+\bibcite{lebaron2000agent}{{23}{2000}{{LeBaron}}{{}}}
+\bibcite{chen2015herding}{{24}{2015}{{Chen et~al.}}{{Chen, Tan, and Zheng}}}
+\bibcite{harras2012noise}{{25}{2012}{{Harras and Sornette}}{{}}}
+\bibcite{lebaron2006agent}{{26}{2006}{{LeBaron}}{{}}}
+\bibcite{arthur2021complexity}{{27}{2021}{{Arthur}}{{}}}
+\bibcite{farmer2025quantitative}{{28}{2025}{{Farmer}}{{}}}
+\bibcite{stauffer2000generalization}{{29}{2000}{{Stauffer}}{{}}}
+\bibcite{chowdhury2000statistical}{{30}{1999}{{Chowdhury and Stauffer}}{{}}}
+\bibcite{bak1987selforganized}{{31}{1987}{{Bak et~al.}}{{Bak, Tang, and Wiesenfeld}}}
+\bibcite{bak1996complexity}{{32}{1995}{{Bak and Paczuski}}{{}}}
+\bibcite{gabaix2003theory}{{33}{2003}{{Gabaix et~al.}}{{Gabaix, Gopikrishnan, Plerou, and Stanley}}}
+\bibcite{farmer2005predictive}{{34}{2005}{{Farmer et~al.}}{{Farmer, Patelli, and Zovko}}}
+\bibcite{wolfram1984universality}{{35}{1984}{{Wolfram}}{{}}}
+\bibcite{packard1985two}{{36}{1985}{{Packard and Wolfram}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Material}{12}{appendix.35}\protected@file@percent }
+\newlabel{app:supplement}{{A}{12}{Supplementary Material}{appendix.35}{}}
+\gdef \@abspage@last{12}

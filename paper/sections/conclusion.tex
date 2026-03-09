@@ -1,4 +1,33 @@
 % Conclusion
-% Summarize findings, discuss limitations, and outline future directions.
 
-TODO: Write conclusion here.
+We have presented a minimal agent-based model of financial markets in which traders
+on a two-dimensional grid follow deterministic Wolfram totalistic cellular automaton
+rules. Two rules---a majority rule (19280) and a contrarian rule (19286)---suffice
+to produce a sharp phase transition from market stability to crash dominance as the
+minority agent fraction~$f$ crosses a critical threshold $f_c \approx 0.145$.
+
+Three features distinguish this model from prior ABMs. First, the CA enforces
+strictly local information propagation, producing spatially resolved sell cascades
+that nucleate and spread as coherent wavefronts (Figure~\ref{fig:fig2}). This
+mechanism is absent in mean-field models and highlights the role of spatial topology
+in crash formation. Second, the transition is discontinuous (first-order), occurring
+over $\Delta f < 0.01$, which suggests a tipping-point mechanism consistent with
+early-warning-signal theory~\cite{scheffer2009early}. Third, the full rule space is
+finite and enumerable ($3^9 = 19{,}683$ rules), enabling systematic screening of
+agent behaviors---a luxury unavailable in models with continuous behavioral parameters.
+
+\paragraph{Limitations.}
+The present study uses a single price series (QQQ 2024) for Model~A validation.
+The CA rules are deterministic and do not incorporate stochastic noise, learning,
+or adaptive strategy switching. The economic interpretation of individual rules
+(e.g., why a specific digit in the base-3 encoding corresponds to contrarian behavior)
+remains heuristic rather than derived from utility maximization.
+
+\paragraph{Future directions.}
+Model~B (closed-loop endogenous price) remains to be fully characterized; its
+four-dimensional parameter space $(k, w, \lambda, f)$ admits an analytical stability
+analysis via mean-field linearization that may yield a closed-form expression for
+the phase boundary. A key open question is whether Model~B self-organizes to
+criticality (SOC) without fine-tuning of~$f$, which would connect this framework
+to the broader literature on critical phenomena in financial
+markets~\cite{sornette2017why,gabaix2003theory}.
