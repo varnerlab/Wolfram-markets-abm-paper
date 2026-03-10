@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  9 MAR 2026 17:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  9 MAR 2026 21:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1016,69 +1016,75 @@ Underfull \vbox (badness 2452) has occurred while \output is active []
 [5]
 
 [6]
-<figs/Fig2-Combined.pdf, id=249, 1003.75pt x 762.85pt>
+<figs/Fig2-Combined.pdf, id=253, 1003.75pt x 762.85pt>
 File: figs/Fig2-Combined.pdf Graphic file (type pdf)
 <use figs/Fig2-Combined.pdf>
-Package pdftex.def Info: figs/Fig2-Combined.pdf  used on input line 895.
+Package pdftex.def Info: figs/Fig2-Combined.pdf  used on input line 896.
 (pdftex.def)             Requested size: 377.60951pt x 286.98763pt.
-<figs/Fig3-PhaseDiagram.pdf, id=252, 963.6pt x 321.2pt>
+<figs/Fig3-PhaseDiagram.pdf, id=256, 963.6pt x 321.2pt>
 File: figs/Fig3-PhaseDiagram.pdf Graphic file (type pdf)
 <use figs/Fig3-PhaseDiagram.pdf>
-Package pdftex.def Info: figs/Fig3-PhaseDiagram.pdf  used on input line 933.
+Package pdftex.def Info: figs/Fig3-PhaseDiagram.pdf  used on input line 934.
 (pdftex.def)             Requested size: 377.60951pt x 125.87033pt.
+
+Underfull \vbox (badness 3679) has occurred while \output is active []
+
 
 
 [7]
 
-[8 <./figs/Fig2-Combined.pdf> <./figs/Fig3-PhaseDiagram.pdf>] (./Paper_v1.bbl
+[8 <./figs/Fig2-Combined.pdf> <./figs/Fig3-PhaseDiagram.pdf>]
 
-[9]
+[9] (./Paper_v1.bbl
 
-[10])
+[10]
 
-[11]
+[11])
 
-[12] (./Paper_v1.aux)
+[12]
+
+[13] (./Paper_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 8F58A579C633E65B264E2D07B9173A06;3411.
+(rerunfilecheck)             Checksum: 6A3D563407A9AF95FD27879415740EFC;3567.
  ) 
 Here is how much of TeX's memory you used:
- 28386 strings out of 473190
- 523646 string characters out of 5715801
- 1080892 words of memory out of 5000000
- 50820 multiletter control sequences out of 15000+600000
- 616675 words of font info for 260 fonts, out of 8000000 for 9000
+ 28415 strings out of 473190
+ 523991 string characters out of 5715801
+ 1081118 words of memory out of 5000000
+ 50832 multiletter control sequences out of 15000+600000
+ 617954 words of font info for 267 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,13n,87p,1056b,1206s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
-usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texli
-ve/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
-2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/202
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/te
-xmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-
-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dist/fo
-nts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/typ
-e1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/tim
-es/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a
-.pfb>
-Output written on Paper_v1.pdf (12 pages, 538244 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
+al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
+live/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
+e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
+025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+25/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/tex
+mf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2025/texmf
+-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-d
+ist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dist/fon
+ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
+1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
+s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
+pfb>
+Output written on Paper_v1.pdf (13 pages, 557037 bytes).
 PDF statistics:
- 427 PDF objects out of 1000 (max. 8388607)
- 341 compressed objects within 4 object streams
- 84 named destinations out of 1000 (max. 500000)
- 58023 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 457 PDF objects out of 1000 (max. 8388607)
+ 368 compressed objects within 4 object streams
+ 92 named destinations out of 1000 (max. 500000)
+ 59567 words of extra memory for PDF output out of 61914 (max. 10000000)
 

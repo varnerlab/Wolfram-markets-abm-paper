@@ -788,12 +788,13 @@ Rule & Base-3 encoding & Interpretation & Role \\
 Table~\ref{tab:rule-taxonomy} lists the three rules used in this study. Rule~19280 is a
 majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
 promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
-from 19280 in a single respect---its response to extreme sell neighborhoods
-($c \in \{7,8\}$). When all four neighbors are selling, a Rule~19280 agent \emph{buys}
-(damping the cascade), whereas a Rule~19286 agent \emph{sells} (amplifying it). This
-single-digit difference in the base-3 encoding is the minimal perturbation that converts a
-stabilizing agent into a destabilizing one, and it is this minimal difference that drives
-the phase transition studied below.
+from 19280 at a single neighbourhood sum---$c = 1$, the case in which exactly one neighbour
+holds a non-zero (Hold or Sell) state. A Rule~19280 agent responds to this weak signal by
+\emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
+\emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
+in the base-3 encoding is the minimal perturbation that converts a stabilizing agent into a
+destabilizing one, and it is this minimal difference that drives the phase transition
+studied below.
 
 
 % ============================================================================
@@ -941,6 +942,76 @@ rule.
 \end{figure}
 
 
+\subsection{Mean-Field Analysis}
+\label{sec:mean-field}
+
+To isolate the role of spatial correlations in the phase transition, we derived a
+mean-field self-consistency map for the mixed 19280/19286 population. The mean-field
+approximation replaces the lattice with a well-mixed population in which each agent's
+four neighbours are drawn independently from the global state distribution
+$(p_0, p_1, p_2)$, where $p_s$ denotes the fraction of agents in state~$s$
+($p_0 + p_1 + p_2 = 1$). Because each neighbour contributes independently to the
+neighbourhood sum $c = s_N + s_S + s_E + s_W$, the probability $\pi_k = \Pr(c = k)$
+follows from the multinomial convolution of four i.i.d.\ draws from
+$\{0,1,2\}$ with weights $(p_0, p_1, p_2)$:
+\begin{equation}
+  \pi_k = \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
+  \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
+  \qquad k = 0,1,\ldots,8.
+  \label{eq:pi-dist}
+\end{equation}
+The verified rule tables (Section~\ref{sec:rule-taxonomy}) assign next states as
+follows: $c \in \{2,3\} \to \text{Buy}$; $c \in \{4,5\} \to \text{Hold}$;
+$c \in \{0,6,7,8\} \to \text{Sell}$ (both rules agree at these values); and $c = 1$,
+where the two rules diverge---Rule~19280 outputs Buy while Rule~19286 outputs Sell.
+In a population with minority fraction~$f$, the mean-field map is therefore:
+\begin{align}
+  p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
+  p_1' &= \pi_4 + \pi_5, \label{eq:mf-p1} \\
+  p_2' &= \pi_0 + f\,\pi_1 + \pi_6 + \pi_7 + \pi_8, \label{eq:mf-p2}
+\end{align}
+where primes denote the next-step fractions and $\pi_k$ depends on the current
+$(p_0, p_2)$ through Eq.~\eqref{eq:pi-dist}.
+
+We iterated Eqs.~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence
+($\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$) from multiple initial
+conditions and swept $f$ from $0$ to $1$. Two findings emerged.
+
+\paragraph{Bistability.}
+For every value of~$f$ the map admitted two stable fixed points: (i)~a
+\emph{buy-dominated} equilibrium with $p_0^* \approx 0.63$,
+$p_1^* \approx 0.18$, $p_2^* \approx 0.19$ at $f = 0$, shifting smoothly to
+$p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$; and
+(ii)~the \emph{all-Sell absorbing state} $p_2^* = 1$, reached whenever the
+initial sell fraction exceeded a basin-of-attraction boundary. The Jacobian at the
+buy-dominated fixed point had complex eigenvalues with modulus $|\lambda| \approx 0.95$
+(a stable spiral), confirming local stability. At no value of~$f$ did the buy-dominated
+branch disappear or cross the sell-majority threshold $p_2 > 0.50$.
+
+\paragraph{Absence of a mean-field transition.}
+The mean-field map predicted no phase transition: the buy-dominated fixed point
+persisted---and remained linearly stable---for all $f \in [0,1]$. The sell fraction
+increased by only ${\sim}0.04$ across the entire range of~$f$, a smooth, monotone
+drift with no discontinuity. This stands in stark contrast to the lattice simulation,
+where a sharp first-order transition occurred at $f_c \approx 0.145$
+(Figure~\ref{fig:fig3}).
+
+The discrepancy identifies the lattice transition as a \emph{nucleation phenomenon}
+that is invisible to mean-field theory. On the lattice, spatial correlations allow
+localized sell clusters to form; once a cluster exceeds a critical size, the
+majority/herding rule (19280) amplifies it rather than damping it, because the
+\emph{local} majority has tipped from buy to sell even though the \emph{global}
+majority has not. The mean-field approximation, by replacing local neighbourhoods with
+the global average, eliminates precisely this mechanism. The result is consistent with
+the physics of first-order phase transitions in spatial systems: the mean-field free
+energy has two minima (buy-dominated and sell-dominated) separated by a barrier, and
+the lattice provides the spatial fluctuations---nucleation of sell clusters near
+minority-rule agents---that allow the system to cross the barrier at $f_c$. Below
+$f_c$, sell clusters nucleate but are too small and too infrequent to survive; above
+$f_c$, a single cluster can grow without bound, engulfing the grid through wavefront
+propagation (Figure~\ref{fig:fig2}, middle row).
+
+
 % ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
@@ -957,9 +1028,11 @@ into a sell-dominated regime (Figure~\ref{fig:fig3}).
 Three features distinguished this framework from prior ABMs and lattice models. First,
 the CA enforced strictly local information propagation, which produced spatially resolved
 sell cascades that nucleated from localized seeds and spread as coherent wavefronts
-(Figure~\ref{fig:fig2}). This mechanism---a crash with a spatial history, arriving at
-different parts of the grid at different times---was absent in mean-field models and
-highlighted the role of spatial topology in crash formation. Second, the transition was
+(Figure~\ref{fig:fig2}). A mean-field self-consistency analysis
+(Section~\ref{sec:mean-field}) confirmed that the transition was invisible to
+well-mixed theory---the mean-field map admitted a stable buy-dominated fixed point for
+\emph{all} values of~$f$---which identifies the crash as a nucleation phenomenon driven
+entirely by spatial correlations. Second, the transition was
 discontinuous, occurring over $\Delta f < 0.01$, which places it squarely within the
 tipping-point framework of Scheffer et al.~\cite{scheffer2009early} and suggests that
 early-warning signals (rising autocorrelation and variance) may be detectable in the
@@ -978,14 +1051,17 @@ corresponds to contrarian behavior) remains heuristic rather than derived from u
 maximization or observed trader behavior.
 
 \paragraph{Future directions.}
-Model~B (closed-loop endogenous price) remains to be fully characterized. Its
-four-dimensional parameter space $(k, w, \lambda, f)$ admits an analytical stability
-analysis via mean-field linearization that may yield a closed-form expression for the
-phase boundary. A key open question is whether Model~B self-organizes to criticality
-without fine-tuning of~$f$---i.e., whether the reflexive feedback loop drives the system
-toward its own tipping point, a phenomenon that would connect this framework to the broader
-literature on self-organized criticality in financial
-markets~\cite{sornette2017why,bak1987selforganized,gabaix2003theory}.
+Model~B (closed-loop endogenous price) remains to be fully characterized; its
+four-dimensional parameter space $(k, w, \lambda, f)$ may admit a stability analysis
+that yields a closed-form expression for the phase boundary. A key open question is
+whether Model~B self-organizes to criticality without fine-tuning of~$f$---i.e., whether
+the reflexive feedback loop drives the system toward its own tipping point, a phenomenon
+that would connect this framework to the broader literature on self-organized criticality
+in financial markets~\cite{sornette2017why,bak1987selforganized,gabaix2003theory}. On
+the theoretical side, a pair approximation or cluster mean-field treatment may capture
+the nucleation mechanism that the single-site mean-field
+(Section~\ref{sec:mean-field}) misses, potentially yielding an analytical estimate
+of~$f_c$.
 
 
 % ============================================================================
