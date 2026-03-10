@@ -942,18 +942,58 @@ rule.
 \end{figure}
 
 
+\subsection{Potts Energy Mapping}
+\label{sec:potts}
+
+The majority/herding rule (19280) admits a natural interpretation as zero-temperature
+dynamics of a three-state Potts model. We defined the Potts alignment energy per
+nearest-neighbour bond as
+\begin{equation}
+  e \;=\; -\frac{1}{2N_{\mathrm{bonds}}}
+       \sum_{\langle i,j\rangle} \delta(\sigma_i,\,\sigma_j),
+  \label{eq:potts-energy}
+\end{equation}
+where the sum runs over all distinct nearest-neighbour pairs on the lattice and
+$\delta$ is the Kronecker delta. In a perfectly aligned (single-state) configuration
+$e = -1$; in a maximally disordered configuration $e \approx -1/3$.
+For Rule~19280, the output at neighbourhood sum $c \in \{2,3\}$ is Buy, at
+$c \in \{4,5\}$ is Hold, and at $c \in \{6,7,8\}$ is Sell---precisely the states that
+maximise local alignment with the majority. The one exception is
+$c = 0$ (all neighbours Buy), which outputs Sell rather than Buy. This anomaly means
+that the all-Buy configuration is \emph{unstable}: every interior cell flips to Sell
+in a single time step, and the all-Sell absorbing state ($c = 8 \to \text{Sell}$)
+is the unique ground state at $e = -1$. The ``buy-dominated'' phase observed in
+simulations is therefore not a static equilibrium but a \emph{dynamic mixed-state
+attractor} with fractions $p_0 \approx 0.49$, $p_1 \approx 0.24$,
+$p_2 \approx 0.26$ and $e \approx -0.37$---a metastable state separated from the
+all-Sell ground state by a barrier that the deterministic majority dynamics alone
+cannot cross.
+
+The contrarian rule (19286), which differs only at $c = 1$ by outputting Sell instead
+of Buy, acts as quenched disorder in this Potts framework: a fraction~$f$ of sites
+follow a rule that locally \emph{opposes} alignment, creating sell-biased defects in
+the majority-rule background.
+
+We measured the Potts energy and the single-site Shannon entropy
+$S_1 = -\sum_s \rho_s \ln \rho_s$ across the phase sweep on a $128 \times 128$
+lattice with periodic boundaries. Below $f_c$ the mixed attractor persisted at
+$e \approx -0.37$ and $S_1 \approx 1.06$ (near the maximum $\ln 3 \approx 1.10$);
+above $f_c$ the system collapsed to the all-Sell absorbing state at
+$e \approx -0.93$ and $S_1 \approx 0.18$---a discontinuous drop characteristic of a
+first-order transition.
+
 \subsection{Mean-Field Analysis}
 \label{sec:mean-field}
 
-To isolate the role of spatial correlations in the phase transition, we derived a
-mean-field self-consistency map for the mixed 19280/19286 population. The mean-field
-approximation replaces the lattice with a well-mixed population in which each agent's
-four neighbours are drawn independently from the global state distribution
-$(p_0, p_1, p_2)$, where $p_s$ denotes the fraction of agents in state~$s$
-($p_0 + p_1 + p_2 = 1$). Because each neighbour contributes independently to the
-neighbourhood sum $c = s_N + s_S + s_E + s_W$, the probability $\pi_k = \Pr(c = k)$
-follows from the multinomial convolution of four i.i.d.\ draws from
-$\{0,1,2\}$ with weights $(p_0, p_1, p_2)$:
+To isolate the role of spatial correlations, we derived a mean-field self-consistency
+map for the mixed 19280/19286 population. The mean-field approximation replaces the
+lattice with a well-mixed population in which each agent's four neighbours are drawn
+independently from the global state distribution $(p_0, p_1, p_2)$, where $p_s$
+denotes the fraction of agents in state~$s$ ($p_0 + p_1 + p_2 = 1$). Because each
+neighbour contributes independently to the neighbourhood sum
+$c = s_N + s_S + s_E + s_W$, the probability $\pi_k = \Pr(c = k)$ follows from
+the multinomial convolution of four i.i.d.\ draws from $\{0,1,2\}$ with weights
+$(p_0, p_1, p_2)$:
 \begin{equation}
   \pi_k = \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
   \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
@@ -975,41 +1015,131 @@ $(p_0, p_2)$ through Eq.~\eqref{eq:pi-dist}.
 
 We iterated Eqs.~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence
 ($\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$) from multiple initial
-conditions and swept $f$ from $0$ to $1$. Two findings emerged.
+conditions and swept $f$ from $0$ to $1$. For every value of~$f$ the map admitted
+two stable fixed points: (i)~a \emph{buy-dominated} equilibrium with
+$p_0^* \approx 0.63$, $p_1^* \approx 0.18$, $p_2^* \approx 0.19$ at $f = 0$,
+shifting smoothly to $p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$; and
+(ii)~the all-Sell absorbing state $p_2^* = 1$. The Jacobian at the buy-dominated
+fixed point had complex eigenvalues with modulus $|\lambda| \approx 0.95$ (a stable
+spiral), confirming local stability. At no value of~$f$ did the buy-dominated branch
+disappear or cross the sell-majority threshold $p_2 > 0.50$. The mean-field map
+predicted no phase transition whatsoever: the sell fraction increased by only
+${\sim}0.04$ across the entire range of~$f$, a smooth monotone drift with no
+discontinuity.
 
-\paragraph{Bistability.}
-For every value of~$f$ the map admitted two stable fixed points: (i)~a
-\emph{buy-dominated} equilibrium with $p_0^* \approx 0.63$,
-$p_1^* \approx 0.18$, $p_2^* \approx 0.19$ at $f = 0$, shifting smoothly to
-$p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$; and
-(ii)~the \emph{all-Sell absorbing state} $p_2^* = 1$, reached whenever the
-initial sell fraction exceeded a basin-of-attraction boundary. The Jacobian at the
-buy-dominated fixed point had complex eigenvalues with modulus $|\lambda| \approx 0.95$
-(a stable spiral), confirming local stability. At no value of~$f$ did the buy-dominated
-branch disappear or cross the sell-majority threshold $p_2 > 0.50$.
+\subsection{Pair Approximation}
+\label{sec:pair-approx}
 
-\paragraph{Absence of a mean-field transition.}
-The mean-field map predicted no phase transition: the buy-dominated fixed point
-persisted---and remained linearly stable---for all $f \in [0,1]$. The sell fraction
-increased by only ${\sim}0.04$ across the entire range of~$f$, a smooth, monotone
-drift with no discontinuity. This stands in stark contrast to the lattice simulation,
-where a sharp first-order transition occurred at $f_c \approx 0.145$
-(Figure~\ref{fig:fig3}).
+We extended the mean-field analysis to the pair approximation, which tracks
+nearest-neighbour pair densities $\rho_{ab} = \Pr(\sigma_i = a,\, \sigma_j = b)$
+for adjacent sites $i, j$ rather than single-site marginals alone. In the pair
+approximation closure~\cite{gutowitz1987local}, the three neighbours of a focal site
+\emph{other} than its paired partner are drawn independently from the conditional
+distribution $q(s \mid a) = \rho_{as} / \rho_a$, where
+$\rho_a = \sum_b \rho_{ab}$ is the marginal density of state~$a$. For a synchronous
+update, the new pair density is
+\begin{equation}
+  \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\;
+    T_b(a, a')\; T_{b'}(a', a),
+  \label{eq:pair-update}
+\end{equation}
+where $T_b(a, a')$ is the probability that a site in state~$a$ with paired neighbour
+in state~$a'$ transitions to state~$b$; it is computed from the effective rule table
+and the trinomial distribution of the remaining three neighbours' sum
+(see Supplementary Material for the full derivation).
 
-The discrepancy identifies the lattice transition as a \emph{nucleation phenomenon}
-that is invisible to mean-field theory. On the lattice, spatial correlations allow
-localized sell clusters to form; once a cluster exceeds a critical size, the
-majority/herding rule (19280) amplifies it rather than damping it, because the
-\emph{local} majority has tipped from buy to sell even though the \emph{global}
-majority has not. The mean-field approximation, by replacing local neighbourhoods with
-the global average, eliminates precisely this mechanism. The result is consistent with
-the physics of first-order phase transitions in spatial systems: the mean-field free
-energy has two minima (buy-dominated and sell-dominated) separated by a barrier, and
-the lattice provides the spatial fluctuations---nucleation of sell clusters near
-minority-rule agents---that allow the system to cross the barrier at $f_c$. Below
-$f_c$, sell clusters nucleate but are too small and too infrequent to survive; above
-$f_c$, a single cluster can grow without bound, engulfing the grid through wavefront
-propagation (Figure~\ref{fig:fig2}, middle row).
+The pair approximation also predicted no phase transition. We computed the $6 \times 6$
+Jacobian of the pair map~\eqref{eq:pair-update} evaluated at the uncorrelated
+(mean-field) fixed point $\rho_{ab}^* = \rho_a^* \rho_b^*$ and found that its spectral
+radius was strictly less than unity for all $f \in [0, 1]$---ranging from
+$|\lambda_{\max}| \approx 0.95$ at $f = 0$ to $|\lambda_{\max}| \approx 0.71$ at
+$f = 0.5$. A systematic search over correlated initial conditions (same-state
+correlation $\varepsilon$ ranging from $0.1$ to $0.5$, both buy- and sell-biased)
+confirmed that every trajectory converged to one of only two fixed points: the
+uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
+state. Spatial mutual information $I = 2S_1 - S_2$ decayed to zero in all cases.
+
+The failure of the pair approximation is significant: it establishes that the phase
+transition cannot be understood as a growing instability at \emph{any} finite
+correlation order. Both mean-field (zero-range correlations) and pair approximation
+(nearest-neighbour correlations) see the same picture---two stable fixed points
+separated by a barrier that never vanishes. The lattice transition must therefore
+proceed by a qualitatively different mechanism: barrier crossing via a rare,
+large-scale fluctuation.
+
+\subsection{Nucleation Theory}
+\label{sec:nucleation}
+
+The successive failure of mean-field and pair approximation identifies the lattice
+transition as a \emph{nucleation} phenomenon---the stochastic escape from a metastable
+dynamic attractor over a free-energy barrier. We characterised this mechanism through
+three measurements.
+
+\paragraph{Metastable lifetime.}
+We initialised $64 \times 64$ lattices from random states, equilibrated for 200~steps
+to the mixed attractor, then recorded the time $\tau$ at which the sell fraction first
+exceeded~$0.90$ (collapse to the absorbing state). For each value of~$f$ we ran 20
+independent realisations with distinct random seeds for both initial conditions and
+minority-agent placement. Below $f \approx 0.14$ the mixed state survived in all
+realisations for $10^5$~steps; above $f \approx 0.155$ all realisations collapsed,
+with the mean lifetime decreasing from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$
+to $\bar{\tau} \approx 86$ at $f = 0.30$.
+
+\paragraph{Kramers escape scaling.}
+The lifetime data were well described by the Kramers escape form
+\begin{equation}
+  \ln \bar{\tau} \;=\; a + \frac{B}{f - f_0},
+  \label{eq:kramers}
+\end{equation}
+with best-fit parameters $a = 2.78$, $B = 0.389$, and $f_0 = 0.101$
+($R^2 = 0.991$; $n = 12$ data points with all seeds collapsed). The divergence at
+$f_0 \approx 0.10$ implies that the nucleation barrier becomes infinite below this
+threshold: the mixed attractor is \emph{absolutely stable} for $f < f_0$, and no
+amount of waiting will produce a collapse. The observed transition
+$f_c \approx 0.15$--$0.16$ is not a sharp thermodynamic threshold but an
+observation-time-dependent crossover---the value of~$f$ at which the nucleation time
+first falls below the simulation horizon $T$.
+
+Equation~\eqref{eq:kramers} predicts the effective $f_c$ at any desired time scale:
+for example, $f_c(T = 10{,}000) \approx 0.162$ and $f_c(T = 1{,}000) \approx 0.195$,
+consistent with the steepening of the phase boundary observed in the
+simulations.
+
+\paragraph{Mechanism: disorder-driven nucleation.}
+We measured the spatial influence of an isolated contrarian agent embedded in an
+otherwise all-majority lattice. The sell density at the contrarian's own site was
+elevated ($\rho_2 \approx 0.42$ vs.\ the background $\rho_2 \approx 0.26$), but this
+excess decayed to zero within one to two lattice spacings. Individual contrarians
+therefore act as point-like sell seeds with negligible spatial range; the transition
+requires the \emph{collective} effect of many such seeds. Sell cluster analysis
+confirmed this: below $f_c$ the largest sell cluster in the mixed attractor contained
+${\sim}30$--$60$~cells; at $f = 0.145$ transient clusters of ${\sim}400$~cells
+appeared; and at $f = 0.16$ macroscopic clusters exceeding $1{,}800$~cells formed and
+triggered system-wide collapse.
+
+The nucleation mechanism is thus disorder-driven: the quenched random placement of
+contrarian agents at density~$f$ creates local density fluctuations; at $f > f_0$,
+rare regions with an anomalously high local contrarian density seed sell clusters that
+exceed the critical size; the majority/herding rule then amplifies these seeds into
+coherent wavefronts that engulf the lattice. The system-size dependence of $f_c$ was
+weak ($f_c \approx 0.17$ at $L = 32$, $f_c \approx 0.16$ at $L = 128$), consistent
+with a critical nucleus that is small relative to the lattice dimensions at all tested
+sizes.
+
+\paragraph{Summary.}
+The theoretical hierarchy---mean-field $\to$ pair approximation $\to$ nucleation
+theory---progressively narrows the mechanism responsible for the phase transition.
+Mean-field theory, by erasing all spatial structure, misses the transition entirely.
+The pair approximation, which restores nearest-neighbour correlations, fares no
+better: the uncorrelated fixed point remains linearly stable at all~$f$, and the
+spatial mutual information vanishes. Only the nucleation framework, which accounts for
+rare large-scale fluctuations seeded by quenched contrarian disorder, correctly
+predicts both the existence of the transition and the Kramers-like divergence of the
+metastable lifetime. The Potts energy mapping provides the natural order parameter: the
+energy discontinuity $\Delta e \approx 0.56$ at $f_c$, from the mixed attractor
+($e \approx -0.37$) to the all-Sell ground state ($e \approx -0.93$), confirms the
+first-order character of the transition and quantifies the barrier that the system must
+overcome.
 
 
 % ============================================================================
@@ -1020,48 +1150,75 @@ propagation (Figure~\ref{fig:fig2}, middle row).
 We presented a minimal agent-based model of financial markets in which traders on a
 two-dimensional grid follow deterministic Wolfram totalistic cellular automaton rules.
 The model required only two ingredients---a majority/herding rule (19280) and a
-contrarian/destabilizer rule (19286)---and a single control parameter, the minority agent
-fraction~$f$. We observed a sharp first-order phase transition at $f_c \approx 0.145$:
-below this threshold the market remained stable; above it, the system abruptly locked
-into a sell-dominated regime (Figure~\ref{fig:fig3}).
+contrarian/destabilizer rule (19286)---and a single control parameter, the minority
+agent fraction~$f$. We observed a sharp first-order phase transition at
+$f_c \approx 0.15$: below this threshold the market persisted in a metastable
+mixed-state attractor; above it, the system collapsed to an all-Sell absorbing state
+with a discontinuous drop in the Potts energy ($\Delta e \approx 0.56$) and the
+site entropy ($\Delta S_1 \approx 0.88$).
 
-Three features distinguished this framework from prior ABMs and lattice models. First,
-the CA enforced strictly local information propagation, which produced spatially resolved
-sell cascades that nucleated from localized seeds and spread as coherent wavefronts
-(Figure~\ref{fig:fig2}). A mean-field self-consistency analysis
-(Section~\ref{sec:mean-field}) confirmed that the transition was invisible to
-well-mixed theory---the mean-field map admitted a stable buy-dominated fixed point for
-\emph{all} values of~$f$---which identifies the crash as a nucleation phenomenon driven
-entirely by spatial correlations. Second, the transition was
-discontinuous, occurring over $\Delta f < 0.01$, which places it squarely within the
-tipping-point framework of Scheffer et al.~\cite{scheffer2009early} and suggests that
-early-warning signals (rising autocorrelation and variance) may be detectable in the
-pre-transition regime. Third, the full rule space is finite and enumerable
-($3^9 = 19{,}683$ rules), enabling systematic screening of agent behaviors---a property
-unavailable in models with continuous behavioral parameters.
+The principal theoretical contribution of this work is the identification and
+characterisation of the transition mechanism through a hierarchy of successively
+refined approximations. The mean-field self-consistency map
+(Section~\ref{sec:mean-field}) predicted no transition: the buy-dominated fixed point
+remained linearly stable for all $f \in [0,1]$. The pair approximation
+(Section~\ref{sec:pair-approx}), which incorporates nearest-neighbour correlations
+via a synchronous pair-density map, likewise found no instability---the spectral
+radius of the Jacobian at the uncorrelated fixed point was strictly below unity for
+all~$f$, and the spatial mutual information decayed to zero from every tested initial
+condition. The failure of \emph{both} approximations establishes by elimination that
+the transition is a \emph{nucleation} phenomenon: the system crosses the barrier
+between the metastable mixed attractor and the all-Sell ground state via a rare,
+large-scale fluctuation that no finite-order correlation expansion can capture.
+
+The nucleation theory (Section~\ref{sec:nucleation}) quantified this mechanism
+directly. The metastable lifetime followed the Kramers escape scaling
+$\ln \bar{\tau} = a + B/(f - f_0)$ with $R^2 = 0.991$, identifying a critical
+disorder threshold $f_0 \approx 0.10$ below which the nucleation barrier is infinite
+and the mixed state is absolutely stable. The observed $f_c \approx 0.15$ is not a
+sharp thermodynamic phase boundary but an observation-time-dependent crossover. The
+mechanism is disorder-driven: each contrarian agent creates a point-like sell excess
+(influence radius ${\sim}1$~lattice spacing), and nucleation occurs when random
+clustering of contrarians produces a local density sufficient to seed a sell domain
+that exceeds the critical size; the majority rule then amplifies this seed into a
+coherent wavefront.
+
+Three additional features distinguished this framework. First, the Potts energy
+mapping (Section~\ref{sec:potts}) connects the CA dynamics to zero-temperature
+three-state Potts model physics, with the contrarian fraction~$f$ playing the role
+of quenched disorder strength, grounding the model in established statistical
+mechanics. Second, the transition was discontinuous, placing it within the
+tipping-point framework of Scheffer et al.~\cite{scheffer2009early}; the Kramers
+scaling of the metastable lifetime suggests that early-warning signals (rising
+variance and autocorrelation of the sell fraction) may be detectable in the
+pre-nucleation regime. Third, the full rule space is finite and enumerable
+($3^9 = 19{,}683$ rules), enabling systematic screening of agent
+behaviours---a property unavailable in models with continuous behavioural parameters.
 
 \paragraph{Limitations.}
 The present study uses a single price series (QQQ, 2024 calendar year) for Model~A
 validation; robustness across instruments and market regimes remains to be established.
 The CA rules are deterministic and do not incorporate stochastic noise, learning, or
 adaptive strategy switching---features that are present in real markets and that would
-enrich the model at the cost of breaking the enumerability of the rule space. The economic
-interpretation of individual rules (e.g., why a specific digit in the base-3 encoding
-corresponds to contrarian behavior) remains heuristic rather than derived from utility
-maximization or observed trader behavior.
+enrich the model at the cost of breaking the enumerability of the rule space. The
+nucleation theory treats the contrarian disorder as annealed (averaging over rule
+types) rather than quenched (fixed spatial assignment); a quenched large-deviation
+calculation would sharpen the prediction of~$f_0$ and connect the critical nucleus
+size to the combinatorics of contrarian clustering.
 
 \paragraph{Future directions.}
-Model~B (closed-loop endogenous price) remains to be fully characterized; its
+Model~B (closed-loop endogenous price) remains to be fully characterised; its
 four-dimensional parameter space $(k, w, \lambda, f)$ may admit a stability analysis
 that yields a closed-form expression for the phase boundary. A key open question is
-whether Model~B self-organizes to criticality without fine-tuning of~$f$---i.e., whether
-the reflexive feedback loop drives the system toward its own tipping point, a phenomenon
-that would connect this framework to the broader literature on self-organized criticality
-in financial markets~\cite{sornette2017why,bak1987selforganized,gabaix2003theory}. On
-the theoretical side, a pair approximation or cluster mean-field treatment may capture
-the nucleation mechanism that the single-site mean-field
-(Section~\ref{sec:mean-field}) misses, potentially yielding an analytical estimate
-of~$f_c$.
+whether Model~B self-organises to criticality without fine-tuning of~$f$---i.e.,
+whether the reflexive feedback loop drives the system toward its own tipping point,
+a phenomenon that would connect this framework to the broader literature on
+self-organised criticality in financial
+markets~\cite{sornette2017why,bak1987selforganized,gabaix2003theory}. On the
+theoretical side, a quenched-disorder nucleation calculation---using
+large-deviation statistics of the local contrarian density to predict the critical
+nucleus size and the barrier height $\Delta G^*(f)$ from first principles---would
+close the gap between the phenomenological Kramers fit and a fully predictive theory.
 
 
 % ============================================================================

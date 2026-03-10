@@ -1,4 +1,4 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -225,5 +225,11 @@ Stephen Wolfram.
 Norman~H. Packard and Stephen Wolfram.
 \newblock Two-dimensional cellular automata.
 \newblock \emph{Journal of Statistical Physics}, 38:\penalty0 901--946, 1985.
+
+\bibitem[Gutowitz et~al.(1987)Gutowitz, Victor, and Knight]{gutowitz1987local}
+Howard~A. Gutowitz, Jonathan~D. Victor, and Bruce~W. Knight.
+\newblock Local structure theory for cellular automata.
+\newblock \emph{Physica D: Nonlinear Phenomena}, 28\penalty0 (1--2):\penalty0
+  18--48, 1987.
 
 \end{thebibliography}
