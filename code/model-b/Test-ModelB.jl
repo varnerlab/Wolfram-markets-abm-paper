@@ -185,3 +185,123 @@ end
     @test isnothing(world0) && isnothing(agents0)
     @test rule0.index == config.rule_major_index
 end
+
+# ---------------------------------------------------------------------------
+# Closed-loop simulate (Simulate.jl) — model-B-plan.md §6 properties
+# ---------------------------------------------------------------------------
+
+@testset "1. positive interior imbalance raises the price" begin
+    config = _test_config(initial_condition = :custom, steps = 1)
+    grid   = _uniform_interior_grid(16, 16, 0)            # all-Buy interior
+    result = simulate(config; initial_grid = grid, verbose = false)
+    @test result.net_imbalance[1] == 1.0
+    @test result.prices[2] > result.prices[1]
+    @test result.log_returns[1] ≈ config.λ * 1.0
+end
+
+@testset "2. negative interior imbalance lowers the price" begin
+    config = _test_config(initial_condition = :custom, steps = 1)
+    grid   = _uniform_interior_grid(16, 16, 2)            # all-Sell interior
+    result = simulate(config; initial_grid = grid, verbose = false)
+    @test result.net_imbalance[1] == -1.0
+    @test result.prices[2] < result.prices[1]
+end
+
+@testset "3. edge cells respond to the newly generated price" begin
+    # All-Buy interior with λ = 1: P₁ = 100·e ≈ 271.8 blows through the band
+    # (μ₁ ≈ 102.9, σ₁ ≈ 2.8, upper ≈ 105.7) → edge state Sell at t = 1.
+    # Under the OLD (wrong) ordering the edge would see P₀ = μ₀ = 100 → Hold.
+    config = _test_config(initial_condition = :custom, steps = 1, λ = 1.0)
+    grid   = _uniform_interior_grid(16, 16, 0)
+    result = simulate(config; initial_grid = grid, verbose = false)
+    @test result.edge_states[1] == 2
+    @test result.prices[2] > result.band_upper[2]
+end
+
+@testset "4. edge/boundary cells are excluded from price formation" begin
+    # Boundary all Sell, interior all Hold → φ = 0 and the price cannot move.
+    config = _test_config(initial_condition = :custom, steps = 1)
+    grid = fill(1, 16, 16)
+    grid[1, :] .= 2; grid[16, :] .= 2; grid[:, 1] .= 2; grid[:, 16] .= 2
+    result = simulate(config; initial_grid = grid, verbose = false)
+    @test result.net_imbalance[1] == 0.0
+    @test result.prices[2] == result.prices[1]
+end
+
+@testset "5. passive boundary cells remain Hold" begin
+    config = _test_config()                               # balanced perturbation
+    result = simulate(config; verbose = false)
+    active = Set(result.edge_coordinates)
+    final  = result.frames[config.steps]
+    nrows, ncols = size(final)
+    passive_ok = true
+    for r in 1:nrows, c in 1:ncols
+        (r == 1 || r == nrows || c == 1 || c == ncols) || continue
+        (r, c) in active && continue
+        passive_ok &= (final[r, c] == 1)
+    end
+    @test passive_ok
+end
+
+@testset "6. all-Hold null control is stationary" begin
+    config = _test_config(initial_condition = :all_hold)
+    result = simulate(config; verbose = false)
+    @test all(result.prices .== config.P0)
+    @test all(result.net_imbalance .== 0.0)
+    @test all(result.log_returns .== 0.0)
+    @test all(result.edge_states .== 1)
+    @test all(result.hold_fraction .== 1.0)
+    @test result.frames[config.steps] == fill(1, 16, 16)
+end
+
+@testset "7. balanced perturbation activates spatial dynamics" begin
+    config = _test_config()
+    result = simulate(config; verbose = false)
+    @test result.frames[config.steps] != result.frames[0]
+    @test any(result.net_imbalance .!= 0.0)
+    @test any(result.log_returns .!= 0.0)
+end
+
+@testset "8. same seed gives identical output" begin
+    r1 = simulate(_test_config(); verbose = false)
+    r2 = simulate(_test_config(); verbose = false)
+    @test r1.prices == r2.prices
+    @test r1.log_returns == r2.log_returns
+    @test r1.net_imbalance == r2.net_imbalance
+    @test r1.buy_fraction == r2.buy_fraction
+    @test r1.hold_fraction == r2.hold_fraction
+    @test r1.sell_fraction == r2.sell_fraction
+    @test r1.edge_states == r2.edge_states
+    @test r1.ema_price == r2.ema_price
+    @test r1.ema_volatility == r2.ema_volatility
+    @test r1.edge_coordinates == r2.edge_coordinates
+    @test sort(collect(keys(r1.frames))) == sort(collect(keys(r2.frames)))
+    @test all(r1.frames[t] == r2.frames[t] for t in keys(r1.frames))
+
+    r3 = simulate(_test_config(seed = 8); verbose = false)
+    @test r3.edge_coordinates != r1.edge_coordinates || r3.prices != r1.prices
+end
+
+@testset "9. trajectory series cover every simulation step" begin
+    config = _test_config()
+    T      = config.steps
+    result = simulate(config; verbose = false)
+    @test length(result.prices)         == T + 1
+    @test length(result.ema_price)      == T + 1
+    @test length(result.ema_volatility) == T + 1
+    @test length(result.band_lower)     == T + 1
+    @test length(result.band_upper)     == T + 1
+    @test length(result.buy_fraction)   == T + 1
+    @test length(result.hold_fraction)  == T + 1
+    @test length(result.sell_fraction)  == T + 1
+    @test length(result.log_returns)    == T
+    @test length(result.net_imbalance)  == T
+    @test length(result.edge_states)    == T
+    @test haskey(result.frames, 0) && haskey(result.frames, T)
+    # the price series reconstructs exactly from the recorded log returns
+    @test all(isapprox.(diff(log.(result.prices)), result.log_returns; atol = 1e-12))
+    # crash statistics run on the full trajectory
+    stats = compute_crash_statistics(result.sell_fraction)
+    @test 0.0 ≤ stats.frequency ≤ 1.0
+    @test stats.n_crashes == length(stats.durations)
+end

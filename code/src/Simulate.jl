@@ -192,92 +192,128 @@ end
 # ---------------------------------------------------------------------------
 
 """
-    simulate(model::MyModelBSimulation; initial_grid, steps, verbose)
-        → MySimulationResult
+    simulate(config::MyModelBConfiguration; initial_grid, snapshot_steps, verbose)
+        → MyModelBSimulationResult
 
 Run the closed-loop (Model B) simulation.
 
-The price Pₜ is generated endogenously:
+Step t (t = 1..steps) transforms X_{t-1} → X_t in this exact order
+(model-B-plan.md §1):
 
-    φₜ   = (N_buy,t - N_sell,t) / N          net order imbalance (interior only)
-    Pₜ₊₁ = Pₜ · exp(λ · φₜ)                  exponential price impact
-    eₜ₊₁ = BollingerBand(Pₜ₊₁, μₜ₊₁, σₜ₊₁, k)  edge state for next step
+    φ_{t-1} = interior imbalance of X_{t-1}       (strictly interior cells)
+    P_t     = P_{t-1} · exp(λ · φ_{t-1})          (log return = λ·φ_{t-1})
+    μ_t     = μ_{t-1} + α·(P_t − μ_{t-1})         (EMA sees the NEW price)
+    σ_t     = σ_{t-1} + α·(|P_t − μ_t| − σ_{t-1})
+    e_t     = BandState(P_t, μ_t, σ_t, k)         → active edge cells
+    X_t     = CA step on interior of X_{t-1}      (edge neighbors see e_t)
+
+All randomness comes from Xoshiro(config.seed), consumed in fixed order:
+(1) edge-cell sampling, (2) initial-grid perturbation, (3) minority rule
+assignment. Same config ⇒ identical output.
 
 Arguments
-- model        : configured MyModelBSimulation
-- initial_grid : optional starting grid (default: all-Hold)
-- steps        : number of time steps (default 1000)
-- verbose      : show a ProgressMeter bar (default true)
+- config        : MyModelBConfiguration (single source of truth)
+- initial_grid  : required iff config.initial_condition == :custom
+- snapshot_steps: steps at which to store full grid frames (default: 8
+                  log-spaced); t = 0 and t = steps are always stored
+- verbose       : show a ProgressMeter bar (default true)
 
-Returns MySimulationResult. prices has length steps+1 (includes P0).
+Returns MyModelBSimulationResult; see its docstring for the series-length
+conventions (state-like: steps+1; transition-like: steps).
 """
 function simulate(
-    model::MyModelBSimulation;
+    config::MyModelBConfiguration;
     initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
-    steps::Int64 = 1000,
     snapshot_steps::Union{Nothing, Vector{Int64}} = nothing,
     verbose::Bool = true,
-)::MySimulationResult
+)::MyModelBSimulationResult
 
-    nrows       = model.number_of_rows
-    ncols       = model.number_of_cols
-    edge_model  = model.edge_agent_model
-    price_model = model.price_model
-    α           = edge_model.α
-    k           = edge_model.k
-    edge_coords = edge_model.coordinates
-    λ           = price_model.λ
-    P0          = price_model.P0
+    nrows = config.number_of_rows
+    ncols = config.number_of_cols
+    steps = config.steps
+    α     = config.α
+    k     = config.k
+    λ     = config.λ
+    P0    = config.P0
 
-    # Initialize grid and CA machinery
-    grid                        = isnothing(initial_grid) ? fill(1, nrows, ncols) : copy(initial_grid)
-    world, agents, rule_major   = _build_ca_components(model)
+    # Seeded RNG — draw order below is part of the reproducibility contract
+    rng = Xoshiro(config.seed)
+
+    # (1) active edge cells, (2) initial grid, (3) minority rule assignment
+    edge_coordinates = build_edge_coordinates(nrows, ncols, config.edge_fraction, rng)
+    edge_set         = Set{Tuple{Int64,Int64}}(edge_coordinates)
+    grid             = build_initial_grid(config, rng; custom_grid = initial_grid)
+    world, agents, rule_major = _build_ca_components(config; rng = rng)
 
     # Output containers
-    frames      = Dict{Int64, Array{Int64,2}}()
-    prices      = Vector{Float64}(undef, steps + 1)
-    edge_states = Vector{Int64}(undef, steps)
-    net_imbal   = Vector{Float64}(undef, steps)
+    prices         = Vector{Float64}(undef, steps + 1)
+    log_returns    = Vector{Float64}(undef, steps)
+    net_imbalance  = Vector{Float64}(undef, steps)
+    buy_fraction   = Vector{Float64}(undef, steps + 1)
+    hold_fraction  = Vector{Float64}(undef, steps + 1)
+    sell_fraction  = Vector{Float64}(undef, steps + 1)
+    edge_states    = Vector{Int64}(undef, steps)
+    ema_price      = Vector{Float64}(undef, steps + 1)
+    ema_volatility = Vector{Float64}(undef, steps + 1)
+    band_lower     = Vector{Float64}(undef, steps + 1)
+    band_upper     = Vector{Float64}(undef, steps + 1)
 
-    prices[1] = P0
+    # t = 0 state
+    prices[1]         = P0
+    ema_price[1]      = P0
+    ema_volatility[1] = 0.0
+    band_lower[1]     = P0
+    band_upper[1]     = P0
+    buy_fraction[1], hold_fraction[1], sell_fraction[1] = compute_interior_fractions(grid)
 
-    # Online EMA state (updated each step from endogenous price)
-    μ_t = P0
-    σ_t = 0.0
-
+    # Sparse frames: always t = 0 and t = steps, plus log-spaced (or supplied) steps
     snaps = isnothing(snapshot_steps) ?
-        Set{Int64}(unique(round.(Int, exp.(range(log(1), log(steps), length=8))))) :
+        Set{Int64}(unique(round.(Int, exp.(range(log(1), log(steps), length = 8))))) :
         Set{Int64}(snapshot_steps)
+    push!(snaps, steps)
+    frames    = Dict{Int64, Array{Int64,2}}()
+    frames[0] = copy(grid)
 
+    μ = P0
+    σ = 0.0
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
-        P_t = prices[t]
+        # --- interior grid acts first: net order imbalance ---
+        φ                = compute_interior_imbalance(grid)
+        net_imbalance[t] = φ
 
-        # --- update EMA and volatility from current price ---
-        μ_t = μ_t + α * (P_t - μ_t)
-        σ_t = σ_t + α * (abs(P_t - μ_t) - σ_t)
+        # --- imbalance generates the next price ---
+        P              = prices[t] * exp(λ * φ)
+        prices[t + 1]  = P
+        log_returns[t] = λ * φ
 
-        # --- edge agent decision ---
-        estate         = compute_band_state(P_t, μ_t, σ_t, k)
-        edge_states[t] = estate
-        _set_edge_states!(grid, edge_coords, estate)
+        # --- online EMA / volatility observe the NEW price ---
+        μ = μ + α * (P - μ)
+        σ = σ + α * (abs(P - μ) - σ)
+        ema_price[t + 1]      = μ
+        ema_volatility[t + 1] = σ
+        band_lower[t + 1]     = μ - k * σ
+        band_upper[t + 1]     = μ + k * σ
 
-        # --- net order imbalance (interior agents only) ---
-        φ             = compute_net_imbalance(grid, edge_coords)
-        net_imbal[t]  = φ
+        # --- edge cells observe the newly generated price ---
+        e              = compute_band_state(P, μ, σ, k)
+        edge_states[t] = e
+        _set_edge_states!(grid, edge_set, e)
 
-        # --- price update ---
-        prices[t + 1] = compute_price_update(P_t, φ, λ)
-
-        # --- CA update ---
+        # --- CA updates the interior grid ---
         grid = _ca_step(grid, world, agents, rule_major)
-        if t in snaps
-            frames[t] = copy(grid)
-        end
+        buy_fraction[t + 1], hold_fraction[t + 1], sell_fraction[t + 1] =
+            compute_interior_fractions(grid)
 
+        t in snaps && (frames[t] = copy(grid))
         verbose && next!(prog)
     end
 
-    return MySimulationResult(frames, prices, net_imbal, edge_states)
+    return MyModelBSimulationResult(
+        frames, prices, log_returns, net_imbalance,
+        buy_fraction, hold_fraction, sell_fraction,
+        edge_states, ema_price, ema_volatility, band_lower, band_upper,
+        edge_coordinates, config,
+    )
 end
