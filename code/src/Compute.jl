@@ -147,3 +147,74 @@ function compute_crash_sizes(
     in_crash && push!(sizes, duration)   # close any open crash window
     return sizes
 end
+
+# ---------------------------------------------------------------------------
+# Model B trajectory helpers (strictly interior; boundary excluded)
+# ---------------------------------------------------------------------------
+
+"""
+    compute_interior_imbalance(grid) → Float64
+
+Net order imbalance over strictly interior cells (rows 2:end-1, cols 2:end-1):
+
+    φ = (N_buy − N_sell) / N_interior
+
+The entire boundary — active edge cells and passive Hold cells — is excluded,
+matching φ = D/N_interior in the paper's supply–demand form (spec §1).
+"""
+function compute_interior_imbalance(grid::Array{Int64,2})::Float64
+    nrows, ncols = size(grid)
+    N_buy = 0; N_sell = 0
+    for r in 2:nrows-1, c in 2:ncols-1
+        s = grid[r, c]
+        N_buy  += (s == 0)
+        N_sell += (s == 2)
+    end
+    N_int = (nrows - 2) * (ncols - 2)
+    return N_int > 0 ? (N_buy - N_sell) / N_int : 0.0
+end
+
+"""
+    compute_interior_fractions(grid) → (buy, hold, sell)
+
+Population fractions over strictly interior cells (same region as
+compute_interior_imbalance).
+"""
+function compute_interior_fractions(grid::Array{Int64,2})::Tuple{Float64,Float64,Float64}
+    nrows, ncols = size(grid)
+    n = zeros(Int64, 3)
+    for r in 2:nrows-1, c in 2:ncols-1
+        n[grid[r, c] + 1] += 1
+    end
+    N_int = (nrows - 2) * (ncols - 2)
+    return N_int > 0 ? (n[1] / N_int, n[2] / N_int, n[3] / N_int) : (0.0, 0.0, 0.0)
+end
+
+"""
+    compute_crash_statistics(sell_fraction; threshold = 0.5)
+        → (frequency, n_crashes, durations)
+
+Crash statistics from the FULL per-step sell-fraction trajectory (never from
+sparse snapshots): `frequency` is the fraction of entries ≥ threshold; a crash
+episode is a maximal contiguous run of entries ≥ threshold; `durations` lists
+episode lengths in steps (an episode still open at the end is counted).
+"""
+function compute_crash_statistics(
+    sell_fraction::Vector{Float64};
+    threshold::Float64 = 0.5,
+)::NamedTuple{(:frequency, :n_crashes, :durations), Tuple{Float64, Int64, Vector{Int64}}}
+    durations = Int64[]
+    duration  = 0
+    for s in sell_fraction
+        if s ≥ threshold
+            duration += 1
+        elseif duration > 0
+            push!(durations, duration)
+            duration = 0
+        end
+    end
+    duration > 0 && push!(durations, duration)
+    frequency = isempty(sell_fraction) ? 0.0 :
+        count(≥(threshold), sell_fraction) / length(sell_fraction)
+    return (frequency = frequency, n_crashes = length(durations), durations = durations)
+end
