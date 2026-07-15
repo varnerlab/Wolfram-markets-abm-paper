@@ -207,3 +207,64 @@ function build(modeltype::Type{MyModelBSimulation}, data::NamedTuple)::MyModelBS
     model.price_model       = data.price_model
     return model
 end
+
+# ---------------------------------------------------------------------------
+# Model B configuration (closed-loop rebuild; spec 2026-07-15)
+# ---------------------------------------------------------------------------
+
+"""
+    build(MyModelBConfiguration, data::NamedTuple) → MyModelBConfiguration
+
+Required keys: number_of_rows, number_of_cols.
+Optional keys (defaults): number_of_colors (3), radius (4), steps (200),
+seed (42), initial_condition (:balanced_perturbation),
+initial_buy_fraction (0.05), initial_sell_fraction (0.05),
+edge_fraction (0.25), α (1/60), k (1.0), λ (0.01), P0 (100.0),
+minority_fraction (0.20), rule_major_index (19280), rule_minor_index (19286).
+
+Validates: steps > 0; grid at least 3×3 (interior must be non-empty); all
+fractions in [0, 1]; initial_buy_fraction + initial_sell_fraction ≤ 1;
+known initial_condition; P0 > 0. Throws ArgumentError on violation.
+"""
+function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyModelBConfiguration
+    model = modeltype()
+    model.number_of_rows        = data.number_of_rows
+    model.number_of_cols        = data.number_of_cols
+    model.number_of_colors      = get(data, :number_of_colors, 3)
+    model.radius                = get(data, :radius, 4)
+    model.steps                 = get(data, :steps, 200)
+    model.seed                  = get(data, :seed, 42)
+    model.initial_condition     = get(data, :initial_condition, :balanced_perturbation)
+    model.initial_buy_fraction  = get(data, :initial_buy_fraction, 0.05)
+    model.initial_sell_fraction = get(data, :initial_sell_fraction, 0.05)
+    model.edge_fraction         = get(data, :edge_fraction, 0.25)
+    model.α                     = get(data, :α, 1 / 60)
+    model.k                     = get(data, :k, 1.0)
+    model.λ                     = get(data, :λ, 0.01)
+    model.P0                    = get(data, :P0, 100.0)
+    model.minority_fraction     = get(data, :minority_fraction, 0.20)
+    model.rule_major_index      = get(data, :rule_major_index, 19280)
+    model.rule_minor_index      = get(data, :rule_minor_index, 19286)
+
+    model.steps > 0 ||
+        throw(ArgumentError("steps must be positive (got $(model.steps))"))
+    (model.number_of_rows ≥ 3 && model.number_of_cols ≥ 3) ||
+        throw(ArgumentError("grid must be at least 3×3 to have interior cells"))
+    for (name, value) in (
+        (:initial_buy_fraction,  model.initial_buy_fraction),
+        (:initial_sell_fraction, model.initial_sell_fraction),
+        (:edge_fraction,         model.edge_fraction),
+        (:minority_fraction,     model.minority_fraction),
+    )
+        (0.0 ≤ value ≤ 1.0) ||
+            throw(ArgumentError("$(name) must be in [0, 1] (got $(value))"))
+    end
+    (model.initial_buy_fraction + model.initial_sell_fraction ≤ 1.0) ||
+        throw(ArgumentError("initial_buy_fraction + initial_sell_fraction must be ≤ 1"))
+    model.initial_condition in (:all_hold, :balanced_perturbation, :custom) ||
+        throw(ArgumentError("unknown initial_condition $(model.initial_condition); " *
+                            "use :all_hold, :balanced_perturbation, or :custom"))
+    model.P0 > 0.0 ||
+        throw(ArgumentError("P0 must be positive (got $(model.P0))"))
+    return model
+end

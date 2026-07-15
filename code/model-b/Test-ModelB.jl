@@ -63,3 +63,49 @@ end
     @test tail.n_crashes == 1
     @test tail.durations == [2]
 end
+
+# ---------------------------------------------------------------------------
+# Configuration (Types.jl / Factory.jl)
+# ---------------------------------------------------------------------------
+
+"""Small, fast config for integration tests; override any field via kwargs."""
+function _test_config(; kwargs...)
+    defaults = (
+        number_of_rows = 16, number_of_cols = 16,
+        steps = 50, seed = 7,
+    )
+    return build(MyModelBConfiguration, merge(defaults, (; kwargs...)))
+end
+
+@testset "configuration builder: defaults and validation" begin
+    config = build(MyModelBConfiguration, (number_of_rows = 32, number_of_cols = 32))
+    @test config.number_of_colors == 3
+    @test config.radius == 4
+    @test config.steps == 200
+    @test config.seed == 42
+    @test config.initial_condition == :balanced_perturbation
+    @test config.initial_buy_fraction  == 0.05
+    @test config.initial_sell_fraction == 0.05
+    @test config.edge_fraction == 0.25
+    @test config.α ≈ 1 / 60
+    @test config.k == 1.0
+    @test config.λ == 0.01
+    @test config.P0 == 100.0
+    @test config.minority_fraction == 0.20
+    @test config.rule_major_index == 19280
+    @test config.rule_minor_index == 19286
+
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, steps = 0))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 2, number_of_cols = 32))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, edge_fraction = 1.5))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32,
+         initial_buy_fraction = 0.6, initial_sell_fraction = 0.6))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, initial_condition = :bogus))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, P0 = -1.0))
+end
