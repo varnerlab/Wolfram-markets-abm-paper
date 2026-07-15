@@ -49,6 +49,17 @@ that generated P_t), `edge_states` (e_t). Initial EMA state: `μ₀ = P₀`,
 `σ₀ = 0` (so the t=0 band has zero width and the first out-of-band price
 triggers an edge response).
 
+**Price-formation interpretation (agreed 2026-07-15).** The update
+`P_t = P_{t-1}·exp(λ·φ_{t-1})` is read in supply–demand form: each agent
+submits a signed unit order (Buy → o_i = +1, Sell → o_i = −1, Hold → 0), the
+net order flow is `D = Σ_i o_i = N_buy − N_sell`, and the log-price impact is
+`D/Λ` with market depth `Λ = N_interior/λ` (Kyle/Farmer-style impact, depth
+scaling with the number of participants, Δt ≡ one CA step). Algebraically
+identical to λ·φ, so the code keeps the single parameter λ and the
+grid-size-invariant φ normalization. Follow-up (out of scope here): present
+the equation in this form in the paper's Model B section, with the depth
+interpretation and citation (e.g., Kyle 1985).
+
 **Deliberate change from current code:** the imbalance denominator is
 `N_interior = (nrows−2)·(ncols−2)` — strictly interior cells, whole boundary
 excluded (both active edge cells and passive boundary cells). The current
