@@ -160,4 +160,9 @@ end
     @test_throws ArgumentError build_initial_grid(cfg_custom, Xoshiro(1); custom_grid = bad)
     ok = _uniform_interior_grid(16, 16, 0)
     @test build_initial_grid(cfg_custom, Xoshiro(1); custom_grid = ok) == ok
+
+    # rounding overflow guard: valid config whose rounded counts exceed N_interior
+    tiny = build(MyModelBConfiguration, (number_of_rows = 5, number_of_cols = 3,
+        initial_buy_fraction = 0.5, initial_sell_fraction = 0.5))
+    @test_throws ArgumentError build_initial_grid(tiny, Xoshiro(1))
 end

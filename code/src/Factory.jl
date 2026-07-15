@@ -334,6 +334,9 @@ function build_initial_grid(
     N_int    = length(interior)
     n_buy    = round(Int, config.initial_buy_fraction  * N_int)
     n_sell   = round(Int, config.initial_sell_fraction * N_int)
+    (n_buy + n_sell ≤ N_int) ||
+        throw(ArgumentError("initial Buy+Sell cells ($(n_buy)+$(n_sell)) exceed the " *
+                            "$(N_int) interior cells; reduce the initial fractions"))
     perm     = randperm(rng, N_int)
     for i in 1:n_buy
         r, c = interior[perm[i]]
