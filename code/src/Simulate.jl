@@ -5,7 +5,7 @@
 # ---------------------------------------------------------------------------
 
 """
-    _build_ca_components(sim_model) → (world, agents, rule_major)
+    _build_ca_components(sim_model; rng) → (world, agents, rule_major)
 
 Build the CA machinery needed for a simulation run.
 
@@ -14,9 +14,16 @@ Build the CA machinery needed for a simulation run.
 
 - Heterogeneous case: builds MyTwoDimensionalFixedBoundaryGridWorld, assigns
   rule_major to (1 - f) of agents and rule_minor to the remaining f, placed
-  uniformly at random.
+  uniformly at random using `rng`.
+
+`rng` defaults to the global RNG, so Model A call sites (which pass no rng)
+are bit-for-bit unchanged. Model B passes its seeded Xoshiro so minority
+placement is reproducible from config.seed alone.
 """
-function _build_ca_components(sim_model::AbstractSimulationModel)
+function _build_ca_components(
+    sim_model::AbstractSimulationModel;
+    rng::AbstractRNG = Random.default_rng(),
+)
     nrows   = sim_model.number_of_rows
     ncols   = sim_model.number_of_cols
     ncolors = sim_model.number_of_colors
@@ -51,7 +58,7 @@ function _build_ca_components(sim_model::AbstractSimulationModel)
     n_minor = round(Int, f * N)
     visited = Set{Int64}()
     while length(visited) < n_minor
-        j = rand(1:N)
+        j = rand(rng, 1:N)
         if j ∉ visited
             agents[j].rule = rule_minor
             push!(visited, j)

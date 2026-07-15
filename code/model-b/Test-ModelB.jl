@@ -166,3 +166,22 @@ end
         initial_buy_fraction = 0.5, initial_sell_fraction = 0.5))
     @test_throws ArgumentError build_initial_grid(tiny, Xoshiro(1))
 end
+
+# ---------------------------------------------------------------------------
+# CA machinery: seeded minority assignment (Simulate.jl)
+# ---------------------------------------------------------------------------
+
+@testset "CA components: seeded minority assignment" begin
+    config = _test_config(minority_fraction = 0.20)
+    _, agents1, _ = _build_ca_components(config; rng = Xoshiro(3))
+    _, agents2, _ = _build_ca_components(config; rng = Xoshiro(3))
+    minors(agents) = Set(i for (i, a) in enumerate(agents)
+                         if a.rule.index == config.rule_minor_index)
+    @test minors(agents1) == minors(agents2)                       # seeded → identical
+    @test length(minors(agents1)) == round(Int, 0.20 * 16 * 16)    # 51 of 256
+
+    # default-rng path (Model A) still works and is homogeneous when f = 0
+    world0, agents0, rule0 = _build_ca_components(_test_config(minority_fraction = 0.0))
+    @test isnothing(world0) && isnothing(agents0)
+    @test rule0.index == config.rule_major_index
+end
