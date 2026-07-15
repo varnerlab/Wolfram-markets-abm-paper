@@ -268,3 +268,80 @@ function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyMode
         throw(ArgumentError("P0 must be positive (got $(model.P0))"))
     return model
 end
+
+"""
+    build_edge_coordinates(nrows, ncols, edge_fraction, rng)
+        → Vector{Tuple{Int64,Int64}}
+
+Enumerate the boundary cells of an nrows×ncols grid in deterministic order and
+sample round(edge_fraction · n_boundary) of them without replacement using
+rng. Returns the ACTIVE edge coordinates, sorted for reproducible storage.
+Non-sampled boundary cells are passive and remain Hold (the CA solvers never
+write boundary cells).
+"""
+function build_edge_coordinates(
+    nrows::Int64, ncols::Int64, edge_fraction::Float64, rng::AbstractRNG,
+)::Vector{Tuple{Int64,Int64}}
+    boundary = Tuple{Int64,Int64}[]
+    for c in 1:ncols
+        push!(boundary, (1, c))
+        push!(boundary, (nrows, c))
+    end
+    for r in 2:nrows-1
+        push!(boundary, (r, 1))
+        push!(boundary, (r, ncols))
+    end
+    n_edge = round(Int, edge_fraction * length(boundary))
+    return sort(boundary[randperm(rng, length(boundary))[1:n_edge]])
+end
+
+"""
+    build_initial_grid(config, rng; custom_grid = nothing) → Array{Int64,2}
+
+Build the initial grid per config.initial_condition:
+
+- :all_hold              → every cell Hold (state 1); stationary null control
+- :balanced_perturbation → all-Hold, then exactly
+  round(initial_buy_fraction · N_interior) Buy cells and exactly
+  round(initial_sell_fraction · N_interior) Sell cells placed on distinct
+  interior positions sampled without replacement (equal fractions ⇒ equal
+  counts ⇒ zero initial imbalance); the boundary stays Hold
+- :custom                → validated copy of custom_grid (size must match;
+  entries must be 0, 1, or 2)
+"""
+function build_initial_grid(
+    config::MyModelBConfiguration, rng::AbstractRNG;
+    custom_grid::Union{Nothing, Array{Int64,2}} = nothing,
+)::Array{Int64,2}
+    nrows = config.number_of_rows
+    ncols = config.number_of_cols
+
+    if config.initial_condition == :custom
+        isnothing(custom_grid) &&
+            throw(ArgumentError(":custom initial_condition requires an initial_grid"))
+        size(custom_grid) == (nrows, ncols) ||
+            throw(ArgumentError("initial_grid size $(size(custom_grid)) ≠ ($(nrows), $(ncols))"))
+        all(s -> s in (0, 1, 2), custom_grid) ||
+            throw(ArgumentError("initial_grid entries must be 0 (Buy), 1 (Hold), or 2 (Sell)"))
+        return copy(custom_grid)
+    end
+
+    grid = fill(1, nrows, ncols)
+    config.initial_condition == :all_hold && return grid
+
+    # :balanced_perturbation — interior cells only, exact counts
+    interior = vec([(r, c) for r in 2:nrows-1, c in 2:ncols-1])
+    N_int    = length(interior)
+    n_buy    = round(Int, config.initial_buy_fraction  * N_int)
+    n_sell   = round(Int, config.initial_sell_fraction * N_int)
+    perm     = randperm(rng, N_int)
+    for i in 1:n_buy
+        r, c = interior[perm[i]]
+        grid[r, c] = 0
+    end
+    for i in (n_buy + 1):(n_buy + n_sell)
+        r, c = interior[perm[i]]
+        grid[r, c] = 2
+    end
+    return grid
+end

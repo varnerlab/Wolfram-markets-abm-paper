@@ -109,3 +109,55 @@ end
     @test_throws ArgumentError build(MyModelBConfiguration,
         (number_of_rows = 32, number_of_cols = 32, P0 = -1.0))
 end
+
+# ---------------------------------------------------------------------------
+# Initialization and boundary helpers (Factory.jl)
+# ---------------------------------------------------------------------------
+
+@testset "edge coordinates: seeded boundary sample" begin
+    nrows, ncols = 16, 16
+    n_boundary = 2 * ncols + 2 * (nrows - 2)              # 60 for 16×16
+    coords = build_edge_coordinates(nrows, ncols, 0.25, Xoshiro(11))
+    @test length(coords) == round(Int, 0.25 * n_boundary) # 15
+    @test length(unique(coords)) == length(coords)         # no repeats
+    @test all(r == 1 || r == nrows || c == 1 || c == ncols for (r, c) in coords)
+    @test issorted(coords)
+
+    # same seed → same sample; different seed → different sample
+    @test coords == build_edge_coordinates(nrows, ncols, 0.25, Xoshiro(11))
+    @test coords != build_edge_coordinates(nrows, ncols, 0.25, Xoshiro(12))
+
+    # edge_fraction = 0 → no active edges; = 1 → every boundary cell
+    @test isempty(build_edge_coordinates(nrows, ncols, 0.0, Xoshiro(11)))
+    @test length(build_edge_coordinates(nrows, ncols, 1.0, Xoshiro(11))) == n_boundary
+end
+
+@testset "initial grid modes" begin
+    config = _test_config()
+    nrows, ncols = config.number_of_rows, config.number_of_cols
+    N_int = (nrows - 2) * (ncols - 2)                     # 196 for 16×16
+
+    # :all_hold — every cell Hold
+    all_hold = build_initial_grid(_test_config(initial_condition = :all_hold), Xoshiro(1))
+    @test all(all_hold .== 1)
+
+    # :balanced_perturbation — exact equal counts, interior only, boundary Hold
+    grid = build_initial_grid(config, Xoshiro(1))
+    @test count(==(0), grid) == round(Int, 0.05 * N_int)
+    @test count(==(2), grid) == round(Int, 0.05 * N_int)
+    @test count(==(0), grid) == count(==(2), grid)
+    @test compute_interior_imbalance(grid) == 0.0
+    @test all(grid[1, :] .== 1) && all(grid[end, :] .== 1)
+    @test all(grid[:, 1] .== 1) && all(grid[:, end] .== 1)
+    @test grid == build_initial_grid(config, Xoshiro(1))   # reproducible
+
+    # :custom — validated pass-through
+    cfg_custom = _test_config(initial_condition = :custom)
+    @test_throws ArgumentError build_initial_grid(cfg_custom, Xoshiro(1))
+    @test_throws ArgumentError build_initial_grid(cfg_custom, Xoshiro(1);
+        custom_grid = fill(1, 4, 4))
+    bad = fill(1, 16, 16); bad[3, 3] = 7
+    @test_throws ArgumentError build_initial_grid(cfg_custom, Xoshiro(1); custom_grid = bad)
+    ok = _uniform_interior_grid(16, 16, 0)
+    @test build_initial_grid(cfg_custom, Xoshiro(1); custom_grid = ok) == ok
+end
