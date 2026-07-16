@@ -191,6 +191,41 @@ function compute_interior_fractions(grid::Array{Int64,2})::Tuple{Float64,Float64
 end
 
 """
+    compute_desired_order(state) → Int64
+
+Map a cell state to its desired unit order: Buy(0) → +1, Sell(2) → −1,
+Hold(1) → 0. Flow semantics (spec 2026-07-16 decision 2): a cell submits
+this order EVERY step it remains in the state.
+"""
+function compute_desired_order(state::Int64)::Int64
+    return state == 0 ? 1 : (state == 2 ? -1 : 0)
+end
+
+"""
+    compute_book_totals(books, edge_coordinates) → (cash, shares)
+
+Aggregate cash and share holdings over the trading population: strictly
+interior cells plus the active edge cells. Passive boundary cells are
+excluded (they never trade). Used for the per-step accounting identity.
+"""
+function compute_book_totals(
+    books::MyAgentBooks,
+    edge_coordinates::Vector{Tuple{Int64,Int64}},
+)::Tuple{Float64,Int64}
+    nrows, ncols = size(books.cash)
+    cash = 0.0; shares = 0
+    for r in 2:nrows-1, c in 2:ncols-1
+        cash   += books.cash[r, c]
+        shares += books.shares[r, c]
+    end
+    for (r, c) in edge_coordinates
+        cash   += books.cash[r, c]
+        shares += books.shares[r, c]
+    end
+    return (cash, shares)
+end
+
+"""
     compute_crash_statistics(sell_fraction; threshold = 0.5)
         → (frequency, n_crashes, durations)
 

@@ -123,6 +123,24 @@ end
         (number_of_rows = 32, number_of_cols = 32, edge_band_spread = -0.1))
 end
 
+@testset "desired orders and book totals" begin
+    @test compute_desired_order(0) == 1     # Buy
+    @test compute_desired_order(1) == 0     # Hold
+    @test compute_desired_order(2) == -1    # Sell
+
+    config = _test_config()                  # 16×16: N_int = 196
+    books  = build_agent_books(config)
+    edges  = [(1, 2), (16, 5)]
+    cash, shares = compute_book_totals(books, edges)
+    @test cash   ≈ (196 + 2) * config.initial_cash
+    @test shares == (196 + 2) * config.initial_shares
+
+    # passive boundary entries do not contribute
+    books.cash[1, 1] = 1.0e9
+    cash2, _ = compute_book_totals(books, edges)
+    @test cash2 ≈ cash
+end
+
 # ---------------------------------------------------------------------------
 # Initialization and boundary helpers (Factory.jl)
 # ---------------------------------------------------------------------------
