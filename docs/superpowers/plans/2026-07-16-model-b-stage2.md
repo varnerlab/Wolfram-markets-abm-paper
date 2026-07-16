@@ -696,6 +696,8 @@ git add code/data/ModelB-Stage2-PhaseA.csv code/data/ModelB-Stage2-Summary.csv \
 git commit -m "Run Model B Stage 2: Phase A ensemble and 10,800-run factorial sweep"
 ```
 
+**Recorded deviation (final review, 2026-07-16):** `ModelB-Stage2-PhaseA.csv` contains the 20 per-seed rows only; the spec's "+ mean/std/CV row" is not in the CSV — the gate CVs (0.22 / 0.27) live in the driver console log and the task-4 report. Accepted as-is for Stage 2; add the summary row if Phase A is rerun.
+
 ---
 
 ## Spec coverage map (self-review)

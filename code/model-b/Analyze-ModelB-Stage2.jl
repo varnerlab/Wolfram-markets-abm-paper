@@ -1,9 +1,9 @@
 # Analyze-ModelB-Stage2.jl — Stage 2 analysis (spec 2026-07-16 stage2)
 #
 # Reads ONLY the summary table (+ exemplar JLD2s); never re-simulates.
-# The 5-D response surface is viewed through three projections:
+# The 6-knob response surface is viewed through three projections:
 #   1. marginal effects (metric vs one knob, averaged over everything else)
-#   2. pairwise heatmap contact sheet (all 10 knob pairs)
+#   2. pairwise heatmap contact sheet (all 15 knob pairs)
 #   3. λ×f regime map faceted by disposition, plus per-regime exemplars
 # plus a variance-decomposition table ranking knobs and pairs.
 
@@ -41,7 +41,7 @@ savefig(fig1, joinpath(_PATH_TO_FIGS, "ModelB-Stage2-Marginals.pdf"))
 @info "Saved: ModelB-Stage2-Marginals.pdf"
 
 # ---------------------------------------------------------------------------
-# 2. Pairwise contact sheet for the headline metric (all 10 knob pairs)
+# 2. Pairwise contact sheet for the headline metric (all 15 knob pairs)
 # ---------------------------------------------------------------------------
 function _pair_heatmap(df, metric, a, b)
     la = sort(unique(df[!, a]))
@@ -108,6 +108,8 @@ function _variance_rows(df, metric, knobs)
     v0   = df[!, metric]
     keep = .!isnan.(v0)
     d    = df[keep, :]
+    count(keep) < nrow(df) &&
+        @warn "variance decomposition: NaN filter dropped rows — grid unbalanced, pair terms approximate" metric dropped = nrow(df) - count(keep)
     v    = d[!, metric]
     μ    = mean(v)
     ss_total = sum((v .- μ) .^ 2)

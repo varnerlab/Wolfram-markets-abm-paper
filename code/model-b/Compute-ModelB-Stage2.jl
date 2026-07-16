@@ -141,6 +141,13 @@ function _scaled(v::AbstractVector)
     return (v .- median(v)) ./ s
 end
 
+# Remove exemplars from previous runs (e.g. smoke) so the analysis script
+# never renders a stale file as a production figure.
+for stale in filter(f -> startswith(f, "ModelB-Stage2-Exemplar-") && endswith(f, ".jld2"),
+                    readdir(_PATH_TO_DATA))
+    rm(joinpath(_PATH_TO_DATA, stale))
+end
+
 for regime in sort(unique(df.regime))
     sub  = df[df.regime .== regime, :]
     dist = abs.(_scaled(sub.crash_frequency)) .+ abs.(_scaled(sub.return_std))

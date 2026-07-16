@@ -30,3 +30,4 @@ JuliaLocalPreferences.toml
 # Simulation data — too large for git
 code/data/*.jld2
 code/data/*.csv
+!code/data/ModelB-Stage2-*.csv
