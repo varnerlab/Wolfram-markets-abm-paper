@@ -546,3 +546,59 @@ end
     @test result.edge_sell_count[1] == n_edge
     @test result.executed_sells[2] ≥ n_edge
 end
+
+# ---------------------------------------------------------------------------
+# Stage 2 run metrics and regime classification (spec 2026-07-16 stage2)
+# ---------------------------------------------------------------------------
+
+@testset "16. drawdown and sign-crossing arithmetic" begin
+    @test compute_max_drawdown([100.0, 110.0, 99.0, 121.0, 110.0]) ≈ 0.1
+    @test compute_max_drawdown([100.0, 101.0, 102.0]) == 0.0
+    @test compute_max_drawdown([100.0]) == 0.0
+    # zeros never count; sign must actually flip between nonzero values
+    @test compute_sign_crossings([0.1, -0.2, 0.0, -0.1, 0.3]) == 2
+    @test compute_sign_crossings([0.0, 0.0]) == 0
+    @test compute_sign_crossings([1.0, 1.0, -1.0, 1.0]) == 2
+    @test compute_sign_crossings(Float64[]) == 0
+end
+
+@testset "17. run metrics on simulated runs" begin
+    # degenerate conventions on the all-Hold null control
+    null = simulate(_test_config(initial_condition = :all_hold); verbose = false)
+    m0 = compute_run_metrics(null)
+    @test m0.return_std == 0.0
+    @test isnan(m0.return_kurtosis) && isnan(m0.volclust_ac1)
+    @test m0.n_crashes == 0 && m0.crash_frequency == 0.0
+    @test m0.crash_mean_duration == 0.0 && m0.crash_max_duration == 0
+    @test m0.max_drawdown == 0.0
+    @test m0.phi_zero_crossings == 0
+    @test m0.edge_switches == 0
+    @test m0.suppressed_buy_fraction == 0.0 && m0.suppressed_sell_fraction == 0.0
+    @test m0.final_total_cash == null.total_cash[1]
+    @test m0.final_total_shares == null.total_shares[1]
+
+    # finite fields on a live run
+    live = simulate(_test_config(); verbose = false)
+    m1 = compute_run_metrics(live)
+    @test m1.return_std > 0.0
+    @test !isnan(m1.return_kurtosis) && !isnan(m1.volclust_ac1)
+    @test m1.price_min ≤ m1.price_max
+    @test 0.0 ≤ m1.suppressed_buy_fraction ≤ 1.0
+    @test 0.0 ≤ m1.suppressed_sell_fraction ≤ 1.0
+    @test m1.edge_switches == live.edge_switches
+end
+
+@testset "18. regime classifier decision order" begin
+    base = (return_std = 1.0e-3, crash_frequency = 0.0, phi_zero_crossings = 0,
+            price_min = 100.0, price_max = 101.0)
+    @test classify_regime(merge(base, (return_std = 0.0,)), 100.0) == :inert
+    # crash-prone outranks oscillatory even when both criteria hold
+    @test classify_regime(merge(base, (crash_frequency = 0.05,
+        phi_zero_crossings = 100)), 100.0) == :crash_prone
+    @test classify_regime(merge(base, (phi_zero_crossings = 25,)), 100.0) == :oscillatory
+    @test classify_regime(base, 100.0) == :plateau            # 1% range < 10%
+    @test classify_regime(merge(base, (price_max = 150.0,)), 100.0) == :drift
+    # thresholds are inclusive (≥) for crash frequency and crossings
+    @test classify_regime(merge(base, (crash_frequency = 0.01,)), 100.0) == :crash_prone
+    @test classify_regime(merge(base, (phi_zero_crossings = 20,)), 100.0) == :oscillatory
+end

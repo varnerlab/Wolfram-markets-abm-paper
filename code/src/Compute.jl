@@ -253,3 +253,96 @@ function compute_crash_statistics(
         count(≥(threshold), sell_fraction) / length(sell_fraction)
     return (frequency = frequency, n_crashes = length(durations), durations = durations)
 end
+
+"""
+    compute_max_drawdown(prices) → Float64
+
+Largest peak-to-trough fractional decline: max over t of 1 − P_t / max_{s≤t} P_s.
+Zero for a monotone non-decreasing series.
+"""
+function compute_max_drawdown(prices::Vector{Float64})::Float64
+    isempty(prices) && return 0.0
+    peak = prices[1]
+    dd   = 0.0
+    for p in prices
+        peak = max(peak, p)
+        dd   = max(dd, 1.0 - p / peak)
+    end
+    return dd
+end
+
+"""
+    compute_sign_crossings(x) → Int64
+
+Count of sign flips in a series. Zeros are skipped entirely: a crossing is
+counted only when a nonzero value has the opposite sign of the previous
+nonzero value (spec 2026-07-16 stage2 metrics).
+"""
+function compute_sign_crossings(x::Vector{Float64})::Int64
+    last = 0
+    n    = 0
+    for v in x
+        s = v > 0.0 ? 1 : (v < 0.0 ? -1 : 0)
+        s == 0 && continue
+        (last != 0 && s != last) && (n += 1)
+        last = s
+    end
+    return n
+end
+
+"""
+    compute_run_metrics(result) → NamedTuple
+
+Reduce a full Model B run to the Stage 2 scalar summary row (spec 2026-07-16
+stage2). Degenerate runs (return_std == 0) report NaN for kurtosis and
+volatility clustering; the classifier maps them to :inert.
+"""
+function compute_run_metrics(result::MyModelBSimulationResult)::NamedTuple
+    r  = result.log_returns
+    σr = std(r)
+    degenerate = (σr == 0.0)
+    crash = compute_crash_statistics(result.sell_fraction)
+    d     = crash.durations
+    supp_b = sum(result.suppressed_buys)
+    supp_s = sum(result.suppressed_sells)
+    exec_b = sum(result.executed_buys)
+    exec_s = sum(result.executed_sells)
+    return (
+        return_std               = σr,
+        return_kurtosis          = degenerate ? NaN : kurtosis(r),
+        volclust_ac1             = degenerate ? NaN : autocor(abs.(r), [1])[1],
+        crash_frequency          = crash.frequency,
+        n_crashes                = crash.n_crashes,
+        crash_mean_duration      = isempty(d) ? 0.0 : mean(d),
+        crash_max_duration       = isempty(d) ? 0 : maximum(d),
+        max_drawdown             = compute_max_drawdown(result.prices),
+        price_min                = minimum(result.prices),
+        price_max                = maximum(result.prices),
+        phi_zero_crossings       = compute_sign_crossings(result.net_imbalance),
+        edge_switches            = result.edge_switches,
+        suppressed_buy_fraction  = supp_b / max(1, exec_b + supp_b),
+        suppressed_sell_fraction = supp_s / max(1, exec_s + supp_s),
+        final_total_cash         = result.total_cash[end],
+        final_total_shares       = result.total_shares[end],
+    )
+end
+
+# Regime-classification thresholds (spec 2026-07-16 stage2): classification
+# conveniences, not physics claims; revisit after the Phase A ensemble.
+const _REGIME_CRASH_FREQ = 0.01   # ≥ 1% of steps in crash → :crash_prone
+const _REGIME_OSC_XINGS  = 20     # ≥ this many φ sign flips → :oscillatory
+const _REGIME_RANGE_FRAC = 0.10   # price range below this × P0 → :plateau
+
+"""
+    classify_regime(m, P0) → Symbol
+
+Map a metrics NamedTuple to a discrete regime, in strict decision order:
+:inert (no returns at all) → :crash_prone → :oscillatory → :plateau → :drift.
+"""
+function classify_regime(m::NamedTuple, P0::Float64)::Symbol
+    m.return_std == 0.0                          && return :inert
+    m.crash_frequency ≥ _REGIME_CRASH_FREQ       && return :crash_prone
+    m.phi_zero_crossings ≥ _REGIME_OSC_XINGS     && return :oscillatory
+    (m.price_max - m.price_min) / P0 < _REGIME_RANGE_FRAC && return :plateau
+    return :drift
+end
