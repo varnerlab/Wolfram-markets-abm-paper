@@ -1,5 +1,11 @@
 # Table2-StylizedFacts.jl
 # Writes paper/sections/Table2-StylizedFacts.tex  (auto-included by the paper)
+#
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 
 include(joinpath(@__DIR__, "Include.jl"))
 

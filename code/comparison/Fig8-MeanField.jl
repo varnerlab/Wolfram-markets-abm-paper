@@ -4,6 +4,11 @@
 #
 # Produces: figs/Fig8-MeanField.pdf  →  paper/figs/Fig8-MeanField.pdf
 #
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 # Layout (2×2):
 #   Panel A  CA price series
 #   Panel B  Mean-field price series

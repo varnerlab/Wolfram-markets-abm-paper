@@ -2,6 +2,12 @@
 # Loads: data/ModelA-Homogeneous.jld2, data/ModelB-ClosedLoop.jld2,
 #        data/QQQ-OHLC-1-min-aggregate-2024.csv
 # Produces: figs/Fig6-ReturnDistributions.pdf  →  paper/figs/
+#
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 
 include(joinpath(@__DIR__, "Include.jl"))
 

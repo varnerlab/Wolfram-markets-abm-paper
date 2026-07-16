@@ -3,6 +3,11 @@
 # Loads: data/ModelB-ClosedLoop.jld2
 # Produces: figs/Fig7-SOC.pdf  →  paper/figs/Fig7-SOC.pdf
 #
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 # Layout (1×2):
 #   Panel A  log-log crash size histogram + power-law fit
 #   Panel B  crash size vs rank (Zipf plot)

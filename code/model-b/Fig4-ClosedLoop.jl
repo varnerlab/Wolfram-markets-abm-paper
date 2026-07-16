@@ -2,6 +2,11 @@
 # Loads: data/ModelB-ClosedLoop.jld2
 # Produces: figs/Fig4-ClosedLoop.pdf  →  paper/figs/Fig4-ClosedLoop.pdf
 #
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 # Layout (2×3):
 #   Row 1  grid snapshots at three moments: before / during / after crash
 #   Row 2  endogenous price series  |  net order imbalance  |  sell fraction

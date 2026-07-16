@@ -2,6 +2,11 @@
 # Loads: data/ModelB-PhaseSweep.jld2
 # Produces: figs/Fig5-PhaseDiagram.pdf  →  paper/figs/Fig5-PhaseDiagram.pdf
 #
+#
+# STALE (2026-07-16): reads pre-rebuild Model B data (deleted producer).
+# Regenerate at Stage 2 from the rebuilt closed-loop model; see
+# docs/superpowers/specs/2026-07-15-model-b-rebuild-design.md §6.
+#
 # Layout (1×3):
 #   Panel A  crash frequency heatmap on (k, f) grid
 #   Panel B  return std deviation heatmap on (k, f) grid
