@@ -220,7 +220,8 @@ Optional keys (defaults): number_of_colors (3), radius (4), steps (200),
 seed (42), initial_condition (:balanced_perturbation),
 initial_buy_fraction (0.05), initial_sell_fraction (0.05),
 edge_fraction (0.25), α (1/60), k (1.0), λ (0.01), P0 (100.0),
-minority_fraction (0.20), rule_major_index (19280), rule_minor_index (19286).
+minority_fraction (0.20), rule_major_index (19280), rule_minor_index (19286),
+initial_cash (1000.0), initial_shares (10), cost_basis_rule (true), edge_band_spread (0.5).
 
 Validates: steps > 0; grid at least 3×3 (interior must be non-empty); all
 fractions in [0, 1]; initial_buy_fraction + initial_sell_fraction ≤ 1;
@@ -245,6 +246,10 @@ function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyMode
     model.minority_fraction     = get(data, :minority_fraction, 0.20)
     model.rule_major_index      = get(data, :rule_major_index, 19280)
     model.rule_minor_index      = get(data, :rule_minor_index, 19286)
+    model.initial_cash          = get(data, :initial_cash, 1000.0)
+    model.initial_shares        = get(data, :initial_shares, 10)
+    model.cost_basis_rule       = get(data, :cost_basis_rule, true)
+    model.edge_band_spread      = get(data, :edge_band_spread, 0.5)
 
     model.steps > 0 ||
         throw(ArgumentError("steps must be positive (got $(model.steps))"))
@@ -266,6 +271,12 @@ function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyMode
                             "use :all_hold, :balanced_perturbation, or :custom"))
     model.P0 > 0.0 ||
         throw(ArgumentError("P0 must be positive (got $(model.P0))"))
+    model.initial_cash ≥ 0.0 ||
+        throw(ArgumentError("initial_cash must be ≥ 0 (got $(model.initial_cash))"))
+    model.initial_shares ≥ 0 ||
+        throw(ArgumentError("initial_shares must be ≥ 0 (got $(model.initial_shares))"))
+    (0.0 ≤ model.edge_band_spread < 1.0) ||
+        throw(ArgumentError("edge_band_spread must be in [0, 1) (got $(model.edge_band_spread))"))
     return model
 end
 

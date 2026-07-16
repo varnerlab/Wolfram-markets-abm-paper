@@ -201,6 +201,10 @@ mutable struct MyModelBConfiguration <: AbstractSimulationModel
     minority_fraction::Float64       # fraction of agents using rule_minor
     rule_major_index::Int64
     rule_minor_index::Int64
+    initial_cash::Float64            # starting cash per trading cell (spec 2026-07-16)
+    initial_shares::Int64            # starting share inventory per trading cell
+    cost_basis_rule::Bool            # sell only above average acquisition cost (disposition effect)
+    edge_band_spread::Float64        # δ: k_i ~ U(k(1−δ), k(1+δ)); 0 ⇒ homogeneous bands
     MyModelBConfiguration() = new()
 end
 

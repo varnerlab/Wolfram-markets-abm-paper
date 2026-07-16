@@ -94,6 +94,11 @@ end
     @test config.minority_fraction == 0.20
     @test config.rule_major_index == 19280
     @test config.rule_minor_index == 19286
+    # budget-constraint fields (spec 2026-07-16 §3)
+    @test config.initial_cash == 1000.0
+    @test config.initial_shares == 10
+    @test config.cost_basis_rule == true
+    @test config.edge_band_spread == 0.5
 
     @test_throws ArgumentError build(MyModelBConfiguration,
         (number_of_rows = 32, number_of_cols = 32, steps = 0))
@@ -108,6 +113,14 @@ end
         (number_of_rows = 32, number_of_cols = 32, initial_condition = :bogus))
     @test_throws ArgumentError build(MyModelBConfiguration,
         (number_of_rows = 32, number_of_cols = 32, P0 = -1.0))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, initial_cash = -1.0))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, initial_shares = -1))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, edge_band_spread = 1.0))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, edge_band_spread = -0.1))
 end
 
 # ---------------------------------------------------------------------------
