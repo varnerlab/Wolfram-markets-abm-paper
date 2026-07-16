@@ -454,9 +454,9 @@ git commit -m "Add Model B Stage 2 ensemble and factorial sweep driver"
 # Analyze-ModelB-Stage2.jl — Stage 2 analysis (spec 2026-07-16 stage2)
 #
 # Reads ONLY the summary table (+ exemplar JLD2s); never re-simulates.
-# The 5-D response surface is viewed through three projections:
+# The 6-knob response surface is viewed through three projections:
 #   1. marginal effects (metric vs one knob, averaged over everything else)
-#   2. pairwise heatmap contact sheet (all 10 knob pairs)
+#   2. pairwise heatmap contact sheet (all 15 knob pairs)
 #   3. λ×f regime map faceted by disposition, plus per-regime exemplars
 # plus a variance-decomposition table ranking knobs and pairs.
 
@@ -494,7 +494,7 @@ savefig(fig1, joinpath(_PATH_TO_FIGS, "ModelB-Stage2-Marginals.pdf"))
 @info "Saved: ModelB-Stage2-Marginals.pdf"
 
 # ---------------------------------------------------------------------------
-# 2. Pairwise contact sheet for the headline metric (all 10 knob pairs)
+# 2. Pairwise contact sheet for the headline metric (all 15 knob pairs)
 # ---------------------------------------------------------------------------
 function _pair_heatmap(df, metric, a, b)
     la = sort(unique(df[!, a]))
@@ -508,7 +508,11 @@ end
 
 pairs = [(KNOBS[i], KNOBS[j]) for i in 1:length(KNOBS) for j in i+1:length(KNOBS)]
 sheets = [_pair_heatmap(df, PAIR_METRIC, a, b) for (a, b) in pairs]
-fig2 = plot(sheets...; layout = (5, 2), size = (1000, 1800),
+# 6 knobs → C(6,2) = 15 pairs; grid sized from the actual pair count
+_pair_ncols = 3
+_pair_nrows = cld(length(pairs), _pair_ncols)
+fig2 = plot(sheets...; layout = (_pair_nrows, _pair_ncols),
+            size = (500 * _pair_ncols, 360 * _pair_nrows),
             left_margin = 5Plots.mm, bottom_margin = 5Plots.mm)
 savefig(fig2, joinpath(_PATH_TO_FIGS, "ModelB-Stage2-PairSheet.pdf"))
 @info "Saved: ModelB-Stage2-PairSheet.pdf"

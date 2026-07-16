@@ -32,9 +32,9 @@ cores; the sweep is embarrassingly parallel.
    factorial marginals average over the whole grid (better statistics than
    axis sweeps) and capture interactions. Rejected: axes+2D-grid (weaker
    statistics, misses interactions); baseline+f-only (defers the new knobs).
-3. **Visualization strategy** (the 5-D surface is never viewed raw):
+3. **Visualization strategy** (the 6-knob surface is never viewed raw):
    marginal-effect panels (metric vs one knob, mean ± CI over everything
-   else), pairwise heatmap contact sheet (all 10 pairs, averaged over the
+   else), pairwise heatmap contact sheet (all 15 pairs, averaged over the
    rest), a categorical regime map for λ×f faceted by disposition on/off,
    variance decomposition ranking knobs/pairs, and one six-panel exemplar
    trajectory per discovered regime.
@@ -131,7 +131,7 @@ otherwise `:drift`. (P0 is passed alongside metrics or included in them via
 | `code/src/Compute.jl` | add `compute_run_metrics`, `classify_regime` + the three regime constants (pure, unit-tested) |
 | `code/model-b/Test-ModelB.jl` | new testsets: metrics on hand-built degenerate/synthetic series (all-Hold null → inert; constructed sell_fraction → crash metrics; drawdown/zero-crossing arithmetic on known vectors); classifier decision order incl. tie precedence |
 | `code/model-b/Compute-ModelB-Stage2.jl` | driver: Phase A (ensemble + gate + price-overlay figure), gate check, Phase B threaded sweep, summary table to `code/data/ModelB-Stage2-Summary.jld2` + `.csv`, exemplar selection + re-runs saved to `code/data/ModelB-Stage2-Exemplar-<regime>.jld2` |
-| `code/model-b/Analyze-ModelB-Stage2.jl` | reads summary table only: marginal panels, 10-pair contact sheet, λ×f regime map faceted by disposition, variance-decomposition table (printed + CSV), six-panel exemplar figures (reusing the Stage 1 panel layout) |
+| `code/model-b/Analyze-ModelB-Stage2.jl` | reads summary table only: marginal panels, 15-pair contact sheet, λ×f regime map faceted by disposition, variance-decomposition table (printed + CSV), six-panel exemplar figures (reusing the Stage 1 panel layout) |
 
 Figure outputs (all `code/figs/`, none copied to `paper/figs` — drafts):
 `ModelB-Stage2-PhaseA-Prices.pdf` (driver), and from the analysis script
