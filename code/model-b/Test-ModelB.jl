@@ -323,37 +323,44 @@ end
     config = _test_config(initial_condition = :custom, steps = 1)
     grid   = _uniform_interior_grid(16, 16, 0)            # all-Buy interior
     result = simulate(config; initial_grid = grid, verbose = false)
-    @test result.net_imbalance[1] == 1.0
+    n_edge = length(result.edge_coordinates)
+    @test result.net_imbalance[1] ≈ 196 / (196 + n_edge)
+    @test result.executed_buys[1] == 196                  # cash 1000 ≥ P0 = 100
     @test result.prices[2] > result.prices[1]
-    @test result.log_returns[1] ≈ config.λ * 1.0
+    @test result.log_returns[1] ≈ config.λ * result.net_imbalance[1]
 end
 
 @testset "2. negative interior imbalance lowers the price" begin
-    config = _test_config(initial_condition = :custom, steps = 1)
+    config = _test_config(initial_condition = :custom, steps = 1,
+                          cost_basis_rule = false)
     grid   = _uniform_interior_grid(16, 16, 2)            # all-Sell interior
     result = simulate(config; initial_grid = grid, verbose = false)
-    @test result.net_imbalance[1] == -1.0
+    n_edge = length(result.edge_coordinates)
+    @test result.net_imbalance[1] ≈ -196 / (196 + n_edge)
     @test result.prices[2] < result.prices[1]
 end
 
 @testset "3. edge cells respond to the newly generated price" begin
-    # All-Buy interior with λ = 1: P₁ = 100·e ≈ 271.8 blows through the band
-    # (μ₁ ≈ 102.9, σ₁ ≈ 2.8, upper ≈ 105.7) → edge state Sell at t = 1.
-    # Under the OLD (wrong) ordering the edge would see P₀ = μ₀ = 100 → Hold.
+    # All-Buy interior with λ = 1: P₁ ≈ 253 blows through every agent's band
+    # (upper ≤ μ₁ + 1.5·σ₁ ≈ 106) → every edge agent decides Sell at t = 1.
+    # Under the OLD (wrong) ordering the edges would see P₀ = μ₀ = 100 → Hold.
     config = _test_config(initial_condition = :custom, steps = 1, λ = 1.0)
     grid   = _uniform_interior_grid(16, 16, 0)
     result = simulate(config; initial_grid = grid, verbose = false)
-    @test result.edge_states[1] == 2
+    @test result.edge_sell_count[1] == length(result.edge_coordinates)
     @test result.prices[2] > result.band_upper[2]
 end
 
-@testset "4. edge/boundary cells are excluded from price formation" begin
-    # Boundary all Sell, interior all Hold → φ = 0 and the price cannot move.
+@testset "4. boundary grid states never enter price formation" begin
+    # Boundary painted all-Sell, interior all-Hold: passive boundary cells
+    # never trade, and active edge ORDERS come from the band state e_{i,0} =
+    # Hold, not from the grid → φ_exec = 0 and the price cannot move.
     config = _test_config(initial_condition = :custom, steps = 1)
     grid = fill(1, 16, 16)
     grid[1, :] .= 2; grid[16, :] .= 2; grid[:, 1] .= 2; grid[:, 16] .= 2
     result = simulate(config; initial_grid = grid, verbose = false)
     @test result.net_imbalance[1] == 0.0
+    @test result.executed_sells[1] == 0
     @test result.prices[2] == result.prices[1]
 end
 
@@ -375,11 +382,17 @@ end
 @testset "6. all-Hold null control is stationary" begin
     config = _test_config(initial_condition = :all_hold)
     result = simulate(config; verbose = false)
+    n_edge = length(result.edge_coordinates)
     @test all(result.prices .== config.P0)
     @test all(result.net_imbalance .== 0.0)
     @test all(result.log_returns .== 0.0)
-    @test all(result.edge_states .== 1)
+    @test all(result.edge_hold_count .== n_edge)
+    @test result.edge_switches == 0
     @test all(result.hold_fraction .== 1.0)
+    @test all(result.executed_buys .== 0) && all(result.executed_sells .== 0)
+    @test all(result.suppressed_buys .== 0) && all(result.suppressed_sells .== 0)
+    @test all(result.total_cash .== result.total_cash[1])   # nobody ever trades
+    @test all(result.total_shares .== result.total_shares[1])
     @test result.frames[config.steps] == fill(1, 16, 16)
 end
 
@@ -400,10 +413,23 @@ end
     @test r1.buy_fraction == r2.buy_fraction
     @test r1.hold_fraction == r2.hold_fraction
     @test r1.sell_fraction == r2.sell_fraction
-    @test r1.edge_states == r2.edge_states
+    @test r1.edge_buy_count == r2.edge_buy_count
+    @test r1.edge_hold_count == r2.edge_hold_count
+    @test r1.edge_sell_count == r2.edge_sell_count
+    @test r1.edge_switches == r2.edge_switches
     @test r1.ema_price == r2.ema_price
     @test r1.ema_volatility == r2.ema_volatility
+    @test r1.executed_buys == r2.executed_buys
+    @test r1.executed_sells == r2.executed_sells
+    @test r1.suppressed_buys == r2.suppressed_buys
+    @test r1.suppressed_sells == r2.suppressed_sells
+    @test r1.total_cash == r2.total_cash
+    @test r1.total_shares == r2.total_shares
     @test r1.edge_coordinates == r2.edge_coordinates
+    @test r1.edge_k == r2.edge_k
+    @test r1.final_books.cash == r2.final_books.cash
+    @test r1.final_books.shares == r2.final_books.shares
+    @test r1.final_books.avg_cost == r2.final_books.avg_cost
     @test sort(collect(keys(r1.frames))) == sort(collect(keys(r2.frames)))
     @test all(r1.frames[t] == r2.frames[t] for t in keys(r1.frames))
 
@@ -423,14 +449,100 @@ end
     @test length(result.buy_fraction)   == T + 1
     @test length(result.hold_fraction)  == T + 1
     @test length(result.sell_fraction)  == T + 1
+    @test length(result.total_cash)     == T + 1
+    @test length(result.total_shares)   == T + 1
     @test length(result.log_returns)    == T
     @test length(result.net_imbalance)  == T
-    @test length(result.edge_states)    == T
+    @test length(result.edge_buy_count)  == T
+    @test length(result.edge_hold_count) == T
+    @test length(result.edge_sell_count) == T
+    @test length(result.executed_buys)    == T
+    @test length(result.executed_sells)   == T
+    @test length(result.suppressed_buys)  == T
+    @test length(result.suppressed_sells) == T
+    @test length(result.edge_k) == length(result.edge_coordinates)
     @test haskey(result.frames, 0) && haskey(result.frames, T)
     # the price series reconstructs exactly from the recorded log returns
     @test all(isapprox.(diff(log.(result.prices)), result.log_returns; atol = 1e-12))
+    # every step's edge counts partition the edge population
+    n_edge = length(result.edge_coordinates)
+    @test all(result.edge_buy_count .+ result.edge_hold_count .+
+              result.edge_sell_count .== n_edge)
     # crash statistics run on the full trajectory
     stats = compute_crash_statistics(result.sell_fraction)
     @test 0.0 ≤ stats.frequency ≤ 1.0
     @test stats.n_crashes == length(stats.durations)
+end
+
+# ---------------------------------------------------------------------------
+# Budget constraints and heterogeneous bands (spec 2026-07-16 §5)
+# ---------------------------------------------------------------------------
+
+@testset "10. per-step accounting identity" begin
+    result = simulate(_test_config(); verbose = false)
+    net = result.executed_buys .- result.executed_sells
+    # cash change = −(net executed volume)·fill price; fill price is the
+    # standing quote prices[t], i.e. the price BEFORE the step-t update
+    @test all(isapprox.(diff(result.total_cash),
+                        -net .* result.prices[1:end-1]; atol = 1e-6))
+    @test diff(result.total_shares) == net
+end
+
+@testset "11. infinite endowments recover unconstrained flow" begin
+    config = _test_config(initial_cash = 1.0e12, initial_shares = 10^9,
+                          cost_basis_rule = false)
+    result = simulate(config; verbose = false)
+    @test all(result.suppressed_buys .== 0)     # φ_exec ≡ φ_desired
+    @test all(result.suppressed_sells .== 0)
+    @test any(result.net_imbalance .!= 0.0)     # and the market is active
+end
+
+@testset "12. disposition rule suppresses at-cost sells" begin
+    # All-Sell interior at P = P0 = avg_cost: with the rule on, every sell is
+    # blocked (strict P > basis) → φ_exec = 0 and the price cannot fall.
+    config = _test_config(initial_condition = :custom, steps = 1)  # rule on by default
+    grid   = _uniform_interior_grid(16, 16, 2)
+    result = simulate(config; initial_grid = grid, verbose = false)
+    @test result.suppressed_sells[1] == 196
+    @test result.executed_sells[1] == 0
+    @test result.net_imbalance[1] == 0.0
+    @test result.prices[2] == result.prices[1]
+end
+
+@testset "13. homogeneous-band limit (spread = 0)" begin
+    config = _test_config(edge_band_spread = 0.0)
+    result = simulate(config; verbose = false)
+    n_edge = length(result.edge_coordinates)
+    @test result.edge_k == fill(config.k, n_edge)
+    # unanimity at every step: exactly one state holds the whole population
+    @test all(max.(result.edge_buy_count, result.edge_hold_count,
+                   result.edge_sell_count) .== n_edge)
+end
+
+@testset "14. band heterogeneity breaks the edge lockstep" begin
+    # δ = 0.9 → k_i ∈ [0.1, 1.9]: as σ equilibrates, the price sits between
+    # the tightest and widest bands at some step, splitting the population.
+    # Seeded and deterministic once green; if a future parameter change
+    # breaks the mixed-state assertion, retune steps/λ/seed — the property
+    # under test is the plumbing (per-agent k_i in the loop), not this seed.
+    config = _test_config(edge_band_spread = 0.9, steps = 100, λ = 0.05)
+    result = simulate(config; verbose = false)
+    n_edge = length(result.edge_coordinates)
+    @test minimum(result.edge_k) < config.k < maximum(result.edge_k)
+    @test any(max.(result.edge_buy_count, result.edge_hold_count,
+                   result.edge_sell_count) .< n_edge)
+end
+
+@testset "15. edge agents are full market participants" begin
+    # t = 1: edges are Hold, so φ = 196/(196 + n_edge) — the denominator
+    # proves edges are counted in N_traders. t = 2: every edge decided Sell
+    # at t = 1 (λ = 1 blows the bands) and holds shares with basis 100 far
+    # below the fill price ≈ 253 → all n_edge edge sells reach the market.
+    config = _test_config(initial_condition = :custom, steps = 2, λ = 1.0)
+    grid   = _uniform_interior_grid(16, 16, 0)
+    result = simulate(config; initial_grid = grid, verbose = false)
+    n_edge = length(result.edge_coordinates)
+    @test result.net_imbalance[1] ≈ 196 / (196 + n_edge)
+    @test result.edge_sell_count[1] == n_edge
+    @test result.executed_sells[2] ≥ n_edge
 end

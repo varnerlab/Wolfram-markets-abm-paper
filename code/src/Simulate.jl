@@ -286,21 +286,26 @@ end
     simulate(config::MyModelBConfiguration; initial_grid, snapshot_steps, verbose)
         → MyModelBSimulationResult
 
-Run the closed-loop (Model B) simulation.
+Run the closed-loop (Model B) simulation with per-agent budget constraints
+(spec 2026-07-16).
 
-Step t (t = 1..steps) transforms X_{t-1} → X_t in this exact order
-(model-B-plan.md §1):
+Step t (t = 1..steps) transforms X_{t-1} → X_t in this exact order:
 
-    φ_{t-1} = interior imbalance of X_{t-1}       (strictly interior cells)
+    o_i     = desired orders (interior grid states; e_{i,t-1} for edges)
+    x_i     = execution filter + settlement at the standing quote P_{t-1}:
+              buy iff cash ≥ P; sell iff shares ≥ 1 and
+              (¬cost_basis_rule or P > avg_cost)
+    φ_{t-1} = (executed buys − executed sells) / N_traders
     P_t     = P_{t-1} · exp(λ · φ_{t-1})          (log return = λ·φ_{t-1})
     μ_t     = μ_{t-1} + α·(P_t − μ_{t-1})         (EMA sees the NEW price)
     σ_t     = σ_{t-1} + α·(|P_t − μ_t| − σ_{t-1})
-    e_t     = BandState(P_t, μ_t, σ_t, k)         → active edge cells
-    X_t     = CA step on interior of X_{t-1}      (edge neighbors see e_t)
+    e_{i,t} = BandState(P_t, μ_t, σ_t, k_i)       → active edge cell i
+    X_t     = CA step on interior of X_{t-1}      (edge neighbors see e_{i,t})
 
-All randomness comes from Xoshiro(config.seed), consumed in fixed order:
-(1) edge-cell sampling, (2) initial-grid perturbation, (3) minority rule
-assignment. Same config ⇒ identical output.
+N_traders = N_interior + N_active_edge, fixed for the run. All randomness
+comes from Xoshiro(config.seed), consumed in fixed order: (1) edge-cell
+sampling, (2) edge band half-widths, (3) initial-grid perturbation,
+(4) minority rule assignment. Same config ⇒ identical output.
 
 Arguments
 - config        : MyModelBConfiguration (single source of truth)
@@ -330,24 +335,37 @@ function simulate(
     # Seeded RNG — draw order below is part of the reproducibility contract
     rng = Xoshiro(config.seed)
 
-    # (1) active edge cells, (2) initial grid, (3) minority rule assignment
+    # (1) edge sampling, (2) band half-widths, (3) initial grid, (4) minority rules
     edge_coordinates = build_edge_coordinates(nrows, ncols, config.edge_fraction, rng)
-    edge_set         = Set{Tuple{Int64,Int64}}(edge_coordinates)
+    edge_k           = build_edge_bands(k, config.edge_band_spread,
+                                        length(edge_coordinates), rng)
     grid             = build_initial_grid(config, rng; custom_grid = initial_grid)
     world, agents, rule_major = _build_ca_components(config; rng = rng)
 
+    books     = build_agent_books(config)
+    n_edge    = length(edge_coordinates)
+    N_traders = (nrows - 2) * (ncols - 2) + n_edge
+
     # Output containers
-    prices         = Vector{Float64}(undef, steps + 1)
-    log_returns    = Vector{Float64}(undef, steps)
-    net_imbalance  = Vector{Float64}(undef, steps)
-    buy_fraction   = Vector{Float64}(undef, steps + 1)
-    hold_fraction  = Vector{Float64}(undef, steps + 1)
-    sell_fraction  = Vector{Float64}(undef, steps + 1)
-    edge_states    = Vector{Int64}(undef, steps)
-    ema_price      = Vector{Float64}(undef, steps + 1)
-    ema_volatility = Vector{Float64}(undef, steps + 1)
-    band_lower     = Vector{Float64}(undef, steps + 1)
-    band_upper     = Vector{Float64}(undef, steps + 1)
+    prices           = Vector{Float64}(undef, steps + 1)
+    log_returns      = Vector{Float64}(undef, steps)
+    net_imbalance    = Vector{Float64}(undef, steps)
+    buy_fraction     = Vector{Float64}(undef, steps + 1)
+    hold_fraction    = Vector{Float64}(undef, steps + 1)
+    sell_fraction    = Vector{Float64}(undef, steps + 1)
+    edge_buy_count   = Vector{Int64}(undef, steps)
+    edge_hold_count  = Vector{Int64}(undef, steps)
+    edge_sell_count  = Vector{Int64}(undef, steps)
+    ema_price        = Vector{Float64}(undef, steps + 1)
+    ema_volatility   = Vector{Float64}(undef, steps + 1)
+    band_lower       = Vector{Float64}(undef, steps + 1)
+    band_upper       = Vector{Float64}(undef, steps + 1)
+    executed_buys    = Vector{Int64}(undef, steps)
+    executed_sells   = Vector{Int64}(undef, steps)
+    suppressed_buys  = Vector{Int64}(undef, steps)
+    suppressed_sells = Vector{Int64}(undef, steps)
+    total_cash       = Vector{Float64}(undef, steps + 1)
+    total_shares     = Vector{Int64}(undef, steps + 1)
 
     # t = 0 state
     prices[1]         = P0
@@ -356,6 +374,11 @@ function simulate(
     band_lower[1]     = P0
     band_upper[1]     = P0
     buy_fraction[1], hold_fraction[1], sell_fraction[1] = compute_interior_fractions(grid)
+    total_cash[1], total_shares[1] = compute_book_totals(books, edge_coordinates)
+
+    # Per-agent edge states e_{i,t}; baseline e_{i,0} = Hold
+    edge_now      = fill(1, n_edge)
+    edge_switches = 0
 
     # Sparse frames: always t = 0 and t = steps, plus log-spaced (or supplied) steps
     snaps = isnothing(snapshot_steps) ?
@@ -370,27 +393,42 @@ function simulate(
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
-        # --- interior grid acts first: net order imbalance ---
-        φ                = compute_interior_imbalance(grid)
-        net_imbalance[t] = φ
+        # --- desired orders are filtered through the books and settled
+        #     at the standing quote P_{t-1} ---
+        counts = execute_orders!(books, grid, edge_coordinates, edge_now, prices[t];
+                                 cost_basis_rule = config.cost_basis_rule)
+        executed_buys[t]    = counts.executed_buys
+        executed_sells[t]   = counts.executed_sells
+        suppressed_buys[t]  = counts.suppressed_buys
+        suppressed_sells[t] = counts.suppressed_sells
+        total_cash[t + 1], total_shares[t + 1] =
+            compute_book_totals(books, edge_coordinates)
 
-        # --- imbalance generates the next price ---
-        P              = prices[t] * exp(λ * φ)
-        prices[t + 1]  = P
-        log_returns[t] = λ * φ
+        # --- the EXECUTED imbalance generates the next price ---
+        φ                = (counts.executed_buys - counts.executed_sells) / N_traders
+        net_imbalance[t] = φ
+        P                = prices[t] * exp(λ * φ)
+        prices[t + 1]    = P
+        log_returns[t]   = λ * φ
 
         # --- online EMA / volatility observe the NEW price ---
         μ = μ + α * (P - μ)
         σ = σ + α * (abs(P - μ) - σ)
         ema_price[t + 1]      = μ
         ema_volatility[t + 1] = σ
-        band_lower[t + 1]     = μ - k * σ
+        band_lower[t + 1]     = μ - k * σ      # nominal-k band, for plotting
         band_upper[t + 1]     = μ + k * σ
 
-        # --- edge cells observe the newly generated price ---
-        e              = compute_band_state(P, μ, σ, k)
-        edge_states[t] = e
-        _set_edge_states!(grid, edge_set, e)
+        # --- per-agent edge band decisions observe the newly generated price ---
+        for i in 1:n_edge
+            e = compute_band_state(P, μ, σ, edge_k[i])
+            edge_switches += (e != edge_now[i])
+            edge_now[i]    = e
+        end
+        edge_buy_count[t]  = count(==(0), edge_now)
+        edge_hold_count[t] = count(==(1), edge_now)
+        edge_sell_count[t] = count(==(2), edge_now)
+        _set_edge_states!(grid, edge_coordinates, edge_now)
 
         # --- CA updates the interior grid ---
         grid = _ca_step(grid, world, agents, rule_major)
@@ -404,7 +442,10 @@ function simulate(
     return MyModelBSimulationResult(
         frames, prices, log_returns, net_imbalance,
         buy_fraction, hold_fraction, sell_fraction,
-        edge_states, ema_price, ema_volatility, band_lower, band_upper,
-        edge_coordinates, config,
+        edge_buy_count, edge_hold_count, edge_sell_count, edge_switches,
+        ema_price, ema_volatility, band_lower, band_upper,
+        executed_buys, executed_sells, suppressed_buys, suppressed_sells,
+        total_cash, total_shares, books,
+        edge_coordinates, edge_k, config,
     )
 end

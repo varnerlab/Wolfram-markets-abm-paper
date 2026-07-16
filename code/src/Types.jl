@@ -229,13 +229,18 @@ Immutable container for a Model B run: sparse grid snapshots plus the COMPLETE
 aggregate trajectory, so all statistics are computed from every step.
 
 State-like series (length steps+1, index 1 = t=0): prices, ema_price,
-ema_volatility, band_lower, band_upper, buy_fraction, hold_fraction,
-sell_fraction. Transition-like series (length steps, index t = step t):
-log_returns (= λ·φ_{t-1}), net_imbalance (φ_{t-1}, the value that generated
-P_t), edge_states (e_t).
+ema_volatility, band_lower, band_upper (nominal-k band, for plotting),
+buy_fraction, hold_fraction, sell_fraction, total_cash, total_shares.
+Transition-like series (length steps, index t = step t): log_returns
+(= λ·φ_{t-1}), net_imbalance (EXECUTED imbalance φ_{t-1}, the value that
+generated P_t), edge_buy_count/edge_hold_count/edge_sell_count (counts of
+e_{i,t} over active edge agents), executed_buys, executed_sells,
+suppressed_buys, suppressed_sells.
 
-frames always contains t=0 and t=steps. edge_coordinates lists the active
-edge cells (sorted) so every run is reproducible from the result alone.
+edge_switches = Σ_i Σ_t [e_{i,t} ≠ e_{i,t-1}], baseline e_{i,0} = Hold.
+final_books holds the trading-cell balance sheets at t = steps. edge_k[i]
+is the band half-width of the agent at edge_coordinates[i] (same order).
+frames always contains t=0 and t=steps.
 """
 struct MyModelBSimulationResult
     frames::Dict{Int64, Array{Int64,2}}
@@ -245,11 +250,22 @@ struct MyModelBSimulationResult
     buy_fraction::Vector{Float64}
     hold_fraction::Vector{Float64}
     sell_fraction::Vector{Float64}
-    edge_states::Vector{Int64}
+    edge_buy_count::Vector{Int64}
+    edge_hold_count::Vector{Int64}
+    edge_sell_count::Vector{Int64}
+    edge_switches::Int64
     ema_price::Vector{Float64}
     ema_volatility::Vector{Float64}
     band_lower::Vector{Float64}
     band_upper::Vector{Float64}
+    executed_buys::Vector{Int64}
+    executed_sells::Vector{Int64}
+    suppressed_buys::Vector{Int64}
+    suppressed_sells::Vector{Int64}
+    total_cash::Vector{Float64}
+    total_shares::Vector{Int64}
+    final_books::MyAgentBooks
     edge_coordinates::Vector{Tuple{Int64,Int64}}
+    edge_k::Vector{Float64}
     config::MyModelBConfiguration
 end
