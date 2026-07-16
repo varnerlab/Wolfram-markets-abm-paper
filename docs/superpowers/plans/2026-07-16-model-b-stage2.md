@@ -405,6 +405,11 @@ for regime in sort(unique(df.regime))
         "total_shares"     => res.total_shares,
         "edge_coordinates" => res.edge_coordinates,
         "edge_k"           => res.edge_k,
+        "books_cash"       => res.final_books.cash,
+        "books_shares"     => res.final_books.shares,
+        "books_avg_cost"   => res.final_books.avg_cost,
+        "config"           => Dict(String(f) => getfield(config, f)
+                                   for f in fieldnames(typeof(config))),
         "params"           => Dict(String(n) => row[n] for n in
                                    (:run_id, :lambda, :k, :f, :spread,
                                     :disposition, :cash, :seed)),
