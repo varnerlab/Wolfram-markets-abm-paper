@@ -141,6 +141,77 @@ end
     @test cash2 ≈ cash
 end
 
+@testset "execution engine: filter and settlement" begin
+    config = _test_config()
+    P0     = config.P0                                     # 100.0
+    no_edges = Tuple{Int64,Int64}[]
+    no_states = Int64[]
+
+    # --- broke buyer: order suppressed, state and books untouched ---
+    books = build_agent_books(config)
+    books.cash .= 50.0                                     # below P0
+    grid = _uniform_interior_grid(16, 16, 0)               # all-Buy interior
+    snapshot = copy(grid)
+    counts = execute_orders!(books, grid, no_edges, no_states, P0)
+    @test counts.suppressed_buys == 196
+    @test counts.executed_buys == 0
+    @test grid == snapshot                                 # sentiment never overwritten
+    @test all(books.shares .== config.initial_shares)
+
+    # --- shareless seller: order suppressed ---
+    books = build_agent_books(config)
+    books.shares .= 0
+    grid = _uniform_interior_grid(16, 16, 2)               # all-Sell interior
+    counts = execute_orders!(books, grid, no_edges, no_states, P0)
+    @test counts.suppressed_sells == 196
+    @test counts.executed_sells == 0
+
+    # --- disposition rule: strict P > avg_cost ---
+    books = build_agent_books(config)                      # avg_cost = 100 everywhere
+    grid  = _uniform_interior_grid(16, 16, 2)
+    counts = execute_orders!(books, grid, no_edges, no_states, 100.0;
+                             cost_basis_rule = true)
+    @test counts.suppressed_sells == 196                   # P == basis blocks
+    counts = execute_orders!(books, grid, no_edges, no_states, 100.0;
+                             cost_basis_rule = false)
+    @test counts.executed_sells == 196                     # toggle off permits
+    books = build_agent_books(config)
+    counts = execute_orders!(books, grid, no_edges, no_states, 100.01;
+                             cost_basis_rule = true)
+    @test counts.executed_sells == 196                     # P > basis permits
+
+    # --- settlement math and running average cost ---
+    books = build_agent_books(config)
+    books.shares[2, 2] = 0; books.avg_cost[2, 2] = 0.0; books.cash[2, 2] = 1000.0
+    onebuy = fill(1, 16, 16); onebuy[2, 2] = 0             # single Buy cell
+    execute_orders!(books, onebuy, no_edges, no_states, 120.0)
+    @test books.cash[2, 2] ≈ 880.0
+    @test books.shares[2, 2] == 1
+    @test books.avg_cost[2, 2] ≈ 120.0
+    execute_orders!(books, onebuy, no_edges, no_states, 60.0)
+    @test books.shares[2, 2] == 2
+    @test books.avg_cost[2, 2] ≈ 90.0                      # (120 + 60) / 2
+    onesell = fill(1, 16, 16); onesell[2, 2] = 2
+    execute_orders!(books, onesell, no_edges, no_states, 100.0)
+    @test books.shares[2, 2] == 1
+    @test books.cash[2, 2] ≈ 880.0 - 60.0 + 100.0
+    @test books.avg_cost[2, 2] ≈ 90.0                      # sells never change basis
+
+    # --- edge orders come from edge_states and count in the totals ---
+    books = build_agent_books(config)                      # shares = 10, basis = 100
+    grid  = fill(1, 16, 16)                                # nobody in the interior trades
+    edges = build_edge_coordinates(16, 16, 0.25, Xoshiro(11))
+    counts = execute_orders!(books, grid, edges, fill(2, length(edges)), 150.0)
+    @test counts.executed_sells == length(edges)           # 15 edge sells filled
+    @test all(books.shares[r, c] == config.initial_shares - 1 for (r, c) in edges)
+
+    # --- per-agent edge state writes ---
+    grid = fill(1, 16, 16)
+    states = [i % 3 for i in 1:length(edges)]              # mixed 0/1/2 pattern
+    _set_edge_states!(grid, edges, states)
+    @test all(grid[edges[i]...] == states[i] for i in eachindex(edges))
+end
+
 # ---------------------------------------------------------------------------
 # Initialization and boundary helpers (Factory.jl)
 # ---------------------------------------------------------------------------

@@ -108,6 +108,97 @@ function _set_edge_states!(
     end
 end
 
+"""
+    _set_edge_states!(grid, edge_coordinates, states)
+
+Per-agent variant: write states[i] into edge_coordinates[i] in-place.
+(The scalar Set method above is Model A's homogeneous edge write.)
+"""
+function _set_edge_states!(
+    grid::Array{Int64,2},
+    edge_coordinates::Vector{Tuple{Int64,Int64}},
+    states::Vector{Int64},
+)
+    for (i, (r, c)) in enumerate(edge_coordinates)
+        grid[r, c] = states[i]
+    end
+end
+
+"""
+    _try_execute!(books, r, c, order, P, cost_basis_rule) → Bool
+
+Attempt a ±1 order for the cell at (r, c) at price P; settle the books and
+return true iff filled (spec 2026-07-16 §1–2). A buy fills iff cash ≥ P; a
+sell fills iff shares ≥ 1 and, when cost_basis_rule is set, P > avg_cost
+(strict — the disposition effect). Buys update the running average cost;
+sells leave it unchanged.
+"""
+function _try_execute!(
+    books::MyAgentBooks, r::Int64, c::Int64,
+    order::Int64, P::Float64, cost_basis_rule::Bool,
+)::Bool
+    if order == 1
+        books.cash[r, c] ≥ P || return false
+        s_old = books.shares[r, c]
+        books.avg_cost[r, c] = (books.avg_cost[r, c] * s_old + P) / (s_old + 1)
+        books.shares[r, c]   = s_old + 1
+        books.cash[r, c]    -= P
+        return true
+    elseif order == -1
+        books.shares[r, c] ≥ 1 || return false
+        (!cost_basis_rule || P > books.avg_cost[r, c]) || return false
+        books.shares[r, c] -= 1
+        books.cash[r, c]   += P
+        return true
+    end
+    return false
+end
+
+"""
+    execute_orders!(books, grid, edge_coordinates, edge_states, P;
+                    cost_basis_rule) → NamedTuple
+
+Execution layer (spec 2026-07-16 decision 3): filter every trading cell's
+desired order through its books at the standing quote P, settling fills
+immediately. Interior orders come from grid states; edge agent i's order
+comes from edge_states[i] (its band decision e_{i,t-1}), never from the
+grid. Hold cells submit nothing and are not counted as suppressed. The grid
+is never modified — the constraint binds orders, not sentiment. Fill order
+is irrelevant: each cell trades at most one share against its own books at
+one fixed price.
+"""
+function execute_orders!(
+    books::MyAgentBooks,
+    grid::Array{Int64,2},
+    edge_coordinates::Vector{Tuple{Int64,Int64}},
+    edge_states::Vector{Int64},
+    P::Float64;
+    cost_basis_rule::Bool = true,
+)::NamedTuple{(:executed_buys, :executed_sells, :suppressed_buys, :suppressed_sells), NTuple{4,Int64}}
+    nrows, ncols = size(grid)
+    exec_b = 0; exec_s = 0; supp_b = 0; supp_s = 0
+    for r in 2:nrows-1, c in 2:ncols-1
+        order = compute_desired_order(grid[r, c])
+        order == 0 && continue
+        if _try_execute!(books, r, c, order, P, cost_basis_rule)
+            order == 1 ? (exec_b += 1) : (exec_s += 1)
+        else
+            order == 1 ? (supp_b += 1) : (supp_s += 1)
+        end
+    end
+    for (i, (r, c)) in enumerate(edge_coordinates)
+        order = compute_desired_order(edge_states[i])
+        order == 0 && continue
+        if _try_execute!(books, r, c, order, P, cost_basis_rule)
+            order == 1 ? (exec_b += 1) : (exec_s += 1)
+        else
+            order == 1 ? (supp_b += 1) : (supp_s += 1)
+        end
+    end
+    return (executed_buys = exec_b, executed_sells = exec_s,
+            suppressed_buys = supp_b, suppressed_sells = supp_s)
+end
+
 # ---------------------------------------------------------------------------
 # Model A — open simulation (real price data → edge agents)
 # ---------------------------------------------------------------------------
