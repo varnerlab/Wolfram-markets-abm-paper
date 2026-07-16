@@ -180,6 +180,33 @@ end
     @test_throws ArgumentError build_initial_grid(tiny, Xoshiro(1))
 end
 
+@testset "agent books: initial endowments" begin
+    config = _test_config()
+    books  = build_agent_books(config)
+    @test size(books.cash) == (16, 16)
+    @test size(books.shares) == (16, 16)
+    @test size(books.avg_cost) == (16, 16)
+    @test all(books.cash .== config.initial_cash)
+    @test all(books.shares .== config.initial_shares)
+    @test all(books.avg_cost .== config.P0)
+end
+
+@testset "edge bands: seeded per-agent half-widths" begin
+    k1 = build_edge_bands(1.0, 0.5, 15, Xoshiro(11))
+    @test length(k1) == 15
+    @test all(0.5 .≤ k1 .≤ 1.5)
+    @test k1 == build_edge_bands(1.0, 0.5, 15, Xoshiro(11))   # seeded → identical
+    @test k1 != build_edge_bands(1.0, 0.5, 15, Xoshiro(12))
+
+    # δ = 0 recovers the homogeneous model exactly
+    @test build_edge_bands(1.0, 0.0, 15, Xoshiro(11)) == fill(1.0, 15)
+
+    # δ = 0 must still consume the same number of rng draws (order contract)
+    rng_a = Xoshiro(11); build_edge_bands(1.0, 0.0, 15, rng_a)
+    rng_b = Xoshiro(11); build_edge_bands(1.0, 0.9, 15, rng_b)
+    @test rand(rng_a) == rand(rng_b)
+end
+
 # ---------------------------------------------------------------------------
 # CA machinery: seeded minority assignment (Simulate.jl)
 # ---------------------------------------------------------------------------

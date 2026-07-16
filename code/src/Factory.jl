@@ -359,3 +359,34 @@ function build_initial_grid(
     end
     return grid
 end
+
+"""
+    build_agent_books(config) → MyAgentBooks
+
+Grid-shaped balance sheets: every cell starts with config.initial_cash,
+config.initial_shares, and an average cost basis of config.P0 (the endowed
+shares are treated as acquired at the initial price).
+"""
+function build_agent_books(config::MyModelBConfiguration)::MyAgentBooks
+    nrows, ncols = config.number_of_rows, config.number_of_cols
+    return MyAgentBooks(
+        fill(config.initial_cash, nrows, ncols),
+        fill(config.initial_shares, nrows, ncols),
+        fill(config.P0, nrows, ncols),
+    )
+end
+
+"""
+    build_edge_bands(k, spread, n_edge, rng) → Vector{Float64}
+
+Per-agent band half-widths k_i ~ Uniform(k·(1−spread), k·(1+spread)), drawn
+once at build time (spec 2026-07-16 decision 8). spread = 0 returns exactly
+fill(k, n_edge) but still consumes n_edge draws, so the seeded draw ORDER is
+identical for every spread value.
+"""
+function build_edge_bands(
+    k::Float64, spread::Float64, n_edge::Int64, rng::AbstractRNG,
+)::Vector{Float64}
+    u = rand(rng, n_edge)
+    return k .* (1.0 .- spread .+ 2.0 .* spread .* u)
+end

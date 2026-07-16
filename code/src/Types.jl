@@ -209,6 +209,20 @@ mutable struct MyModelBConfiguration <: AbstractSimulationModel
 end
 
 """
+    MyAgentBooks
+
+Per-cell balance sheets for Model B trading cells (interior + active edge).
+Matrices are grid-shaped; passive boundary cells keep their initial entries
+and never trade. avg_cost is average-cost accounting: updated on buys,
+unchanged by sells, and consulted only when shares ≥ 1.
+"""
+struct MyAgentBooks
+    cash::Matrix{Float64}
+    shares::Matrix{Int64}
+    avg_cost::Matrix{Float64}
+end
+
+"""
     MyModelBSimulationResult
 
 Immutable container for a Model B run: sparse grid snapshots plus the COMPLETE
