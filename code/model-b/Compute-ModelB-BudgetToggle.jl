@@ -14,20 +14,27 @@
 #   up to t_on (asserted below) and any post-toggle divergence is causally
 #   attributable to the budget change alone.
 #
-# Two directions, mirroring the probe's freeze/collapse configs (cash 500 vs
-# 5000, factor 10 = their ratio):
-#   injection  — tight base (cash  500), cash x10  at onset. If budgets arrest
-#                the front, the front should ACCELERATE vs control.
-#   withdrawal — loose base (cash 5000), cash x0.1 at onset. The front should
-#                DECELERATE vs control.
+# Three arms, built on the probe's freeze/collapse configs (cash 500 vs 5000):
+#   injection        — tight base (cash  500), cash x10   at onset. If budgets
+#                      gate the front, it should ACCELERATE vs control.
+#   withdrawal_mild  — loose base (cash 5000), cash x0.1  at onset. First run
+#                      (2026-07-17) showed this dose barely binds: suppressed
+#                      buys rose only 7% (x0.1 of 5000 still funds buys).
+#   withdrawal_harsh — loose base (cash 5000), cash x0.01 at onset → cash ≈ 50,
+#                      below the ~100 price: buys zero out immediately. The
+#                      properly-dosed mirror; the front should DECELERATE.
 #
 # Note the causal chain being tested: the execution layer binds ORDERS, not
 # sentiment — cash gates buys, so the grid feels budgets only through
-# executed imbalance -> price -> edge bands -> boundary. The toggle probes
-# exactly that chain.
+# executed imbalance -> price -> edge bands -> boundary ring. The toggle
+# probes exactly that chain, and the EDGE TRACE watches it directly: per-arm
+# edge-ring Buy/Sell fractions, onset-aligned. The mechanism predicts the
+# control's (tight/crashing) edge ring flips to Buy as the price falls below
+# band, while a cash-supported price keeps the ring selling.
 #
 # Writes: code/data/ModelB-Nucleation-BudgetToggle.csv (one row per direction x seed)
 #         code/figs/ModelB-Nucleation-BudgetToggle.pdf
+#         code/figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf
 #
 # Launch: julia -t 8 code/model-b/Compute-ModelB-BudgetToggle.jl
 # Smoke:  TOGGLE_SMOKE=1 julia code/model-b/Compute-ModelB-BudgetToggle.jl
@@ -50,8 +57,9 @@ const ONSET_FRAC = 0.05                   # largest cluster ≥ 5% of grid = fro
 const N_CELLS    = GRIDN * GRIDN
 
 const DIRECTIONS = [
-    (name = "injection",  base_cash =  500.0, factor = 10.0),
-    (name = "withdrawal", base_cash = 5000.0, factor =  0.1),
+    (name = "injection",        base_cash =  500.0, factor = 10.0),
+    (name = "withdrawal_mild",  base_cash = 5000.0, factor =  0.1),
+    (name = "withdrawal_harsh", base_cash = 5000.0, factor =  0.01),
 ]
 
 function _toggle_config(; cash, seed)
@@ -115,8 +123,12 @@ function _run_pair(dir::NamedTuple, seed::Int)
                        onset = t_on, v_ctrl = NaN, v_toggle = NaN, dv = NaN,
                        front_ctrl_W = NaN, front_toggle_W = NaN,
                        price_ctrl_W = NaN, price_toggle_W = NaN,
-                       suppb_ctrl_W = NaN, suppb_toggle_W = NaN),
-                maxcl_c = maxcl_c, maxcl_t = Float64[], t_on = t_on)
+                       suppb_ctrl_W = NaN, suppb_toggle_W = NaN,
+                       edgebuy_ctrl_W = NaN, edgebuy_toggle_W = NaN,
+                       edgesell_ctrl_W = NaN, edgesell_toggle_W = NaN),
+                maxcl_c = maxcl_c, maxcl_t = Float64[], t_on = t_on,
+                eb_c = Float64[], es_c = Float64[],
+                eb_t = Float64[], es_t = Float64[])
     end
 
     hook = (t, books) -> (t == t_on && (books.cash .*= dir.factor); nothing)
@@ -131,6 +143,13 @@ function _run_pair(dir::NamedTuple, seed::Int)
     @assert ctrl.prices[1:t_on] == tog.prices[1:t_on] "pre-toggle price divergence (dir=$(dir.name) seed=$seed)"
     @assert ctrl.frames[t_on - 1] == tog.frames[t_on - 1] "pre-toggle frame divergence (dir=$(dir.name) seed=$seed)"
 
+    # Edge-ring trace: the only conduit from books/price to interior sentiment
+    n_edge = length(ctrl.edge_coordinates)
+    eb_c   = ctrl.edge_buy_count  ./ n_edge
+    es_c   = ctrl.edge_sell_count ./ n_edge
+    eb_t   = tog.edge_buy_count   ./ n_edge
+    es_t   = tog.edge_sell_count  ./ n_edge
+
     v_c = (maxcl_c[t_on + W] - maxcl_c[t_on]) / W
     v_t = (maxcl_t[t_on + W] - maxcl_t[t_on]) / W
     row = (direction = dir.name, base_cash = dir.base_cash, factor = dir.factor,
@@ -141,8 +160,13 @@ function _run_pair(dir::NamedTuple, seed::Int)
            price_ctrl_W   = ctrl.prices[t_on + W + 1],
            price_toggle_W = tog.prices[t_on + W + 1],
            suppb_ctrl_W   = mean(@view ctrl.suppressed_buys[t_on:(t_on + W)]),
-           suppb_toggle_W = mean(@view tog.suppressed_buys[t_on:(t_on + W)]))
-    return (row = row, maxcl_c = maxcl_c, maxcl_t = maxcl_t, t_on = t_on)
+           suppb_toggle_W = mean(@view tog.suppressed_buys[t_on:(t_on + W)]),
+           edgebuy_ctrl_W    = mean(@view eb_c[t_on:(t_on + W)]),
+           edgebuy_toggle_W  = mean(@view eb_t[t_on:(t_on + W)]),
+           edgesell_ctrl_W   = mean(@view es_c[t_on:(t_on + W)]),
+           edgesell_toggle_W = mean(@view es_t[t_on:(t_on + W)]))
+    return (row = row, maxcl_c = maxcl_c, maxcl_t = maxcl_t, t_on = t_on,
+            eb_c = eb_c, es_c = es_c, eb_t = eb_t, es_t = es_t)
 end
 
 # ---------------------------------------------------------------------------
@@ -186,7 +210,9 @@ end
 # ---------------------------------------------------------------------------
 # Figure: row per direction — onset-aligned paired trajectories + paired dv
 # ---------------------------------------------------------------------------
-const _TOG_COLOR = Dict("injection" => _BUY_COLOR, "withdrawal" => _SELL_COLOR)
+const _TOG_COLOR = Dict("injection"        => _BUY_COLOR,
+                        "withdrawal_mild"  => _SELL_COLOR,
+                        "withdrawal_harsh" => "#8E1B00")
 const PRE = SMOKE ? 40 : 200
 
 panels = Plots.Plot[]
@@ -220,11 +246,58 @@ for dir in DIRECTIONS
     push!(panels, q)
 end
 
-fig = plot(panels...; layout = (length(DIRECTIONS), 2), size = (1250, 720),
+fig = plot(panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
            left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
            plot_title = "Budget-toggle intervention (paired, onset-aligned; W=$(W))",
            plot_titlefontsize = 11)
 savefig(fig, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BudgetToggle.pdf"))
 @info "Saved: ModelB-Nucleation-BudgetToggle.pdf"
+
+# ---------------------------------------------------------------------------
+# Edge-trace mechanism figure: onset-aligned MEAN edge-ring Buy and Sell
+# fractions, control vs toggled, per direction. This is the conduit figure:
+# budgets can only reach interior sentiment through these ring states.
+# ---------------------------------------------------------------------------
+
+"""Mean of series aligned at per-seed onsets over offsets xs, NaN-padded."""
+function _aligned_mean(series_list::Vector{Vector{Float64}},
+                       tons::Vector{Int}, xs::AbstractRange)
+    out = Float64[]
+    for x in xs
+        vals = Float64[]
+        for (s, t_on) in zip(series_list, tons)
+            t = t_on + x
+            1 <= t <= length(s) && push!(vals, s[t])
+        end
+        push!(out, isempty(vals) ? NaN : mean(vals))
+    end
+    return out
+end
+
+edge_panels = Plots.Plot[]
+for dir in DIRECTIONS
+    idx = [i for i in eachindex(items)
+           if items[i].dir.name == dir.name && results[i].row.included]
+    tons = Int[results[i].t_on for i in idx]
+    xs   = (-PRE):W
+    for (fld_c, fld_t, lbl) in ((:eb_c, :eb_t, "edge ring: Buy fraction"),
+                                (:es_c, :es_t, "edge ring: Sell fraction"))
+        mc = _aligned_mean(Vector{Float64}[getfield(results[i], fld_c) for i in idx], tons, xs)
+        mt = _aligned_mean(Vector{Float64}[getfield(results[i], fld_t) for i in idx], tons, xs)
+        p  = plot(title = "$(dir.name): cash x$(dir.factor)", titlefont = 10,
+                  xlabel = "steps since onset", ylabel = lbl, ylims = (0, 1),
+                  guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
+        plot!(p, xs, mc, color = "#888888", lw = 1.8, label = "control")
+        plot!(p, xs, mt, color = _TOG_COLOR[dir.name], lw = 1.8, label = "toggled")
+        vline!(p, [0], color = :black, ls = :dash, lw = 0.8, label = "")
+        push!(edge_panels, p)
+    end
+end
+fig_edge = plot(edge_panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
+                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
+                plot_title = "Edge-ring trace: the price -> boundary conduit (mean over seeds)",
+                plot_titlefontsize = 11)
+savefig(fig_edge, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"))
+@info "Saved: ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"
 
 @info "Compute-ModelB-BudgetToggle.jl complete."
