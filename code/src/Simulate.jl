@@ -312,6 +312,11 @@ Arguments
 - initial_grid  : required iff config.initial_condition == :custom
 - snapshot_steps: steps at which to store full grid frames (default: 8
                   log-spaced); t = 0 and t = steps are always stored
+- intervention  : optional (t, books) -> nothing hook called at the TOP of
+                  step t, before orders execute at P_{t-1}. May mutate the
+                  books in place (e.g. a mid-run liquidity injection). Must
+                  be deterministic in (t, books) — no RNG — or the
+                  same-config ⇒ identical-output contract breaks.
 - verbose       : show a ProgressMeter bar (default true)
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
@@ -321,6 +326,7 @@ function simulate(
     config::MyModelBConfiguration;
     initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
     snapshot_steps::Union{Nothing, Vector{Int64}} = nothing,
+    intervention::Union{Nothing, Function} = nothing,
     verbose::Bool = true,
 )::MyModelBSimulationResult
 
@@ -393,6 +399,9 @@ function simulate(
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
+        # --- optional intervention mutates the books before this step trades ---
+        isnothing(intervention) || intervention(t, books)
+
         # --- desired orders are filtered through the books and settled
         #     at the standing quote P_{t-1} ---
         counts = execute_orders!(books, grid, edge_coordinates, edge_now, prices[t];
