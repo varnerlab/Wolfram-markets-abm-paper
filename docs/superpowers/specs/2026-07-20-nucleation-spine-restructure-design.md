@@ -272,3 +272,56 @@ for Phase 2), Stage 2 factorial detail, A1 censoring/survival detail.
 - [ ] All five prose obligations verified present in the built PDF.
 - [ ] style-check / review-section / audit-magic-numbers pass on rewritten
       sections.
+
+---
+
+# Amendments (Phase 1 execution, 2026-07-20)
+
+1. **CSV naming:** campaign outputs renamed to the `ModelB-Nucleation-EscapeTime*`
+   prefix (pre-execution) to match the `.gitignore` carve-out and the naming of
+   every other nucleation-line CSV; the driver is
+   `Compute-ModelB-Nucleation-EscapeTime.jl` accordingly.
+2. **Pilot f-grid:** swapped 0.21 → 0.20 so the pilot hits the canonical f = 0.20
+   config line and doubles as the A2 slice (plan decision, recorded pre-pilot).
+3. **Refinement grid (Task 6 checkpoint):** the onset cliff sat between 0.15
+   (rate 0.10) and 0.18 (rate 0.80–0.85) at ALL THREE cash levels, so the rule
+   gave {0.156, 0.162, 0.168, 0.174} × cash {500, 1000, 5000} at 40 seeds. A
+   **second pass** added f = 0.177 × 3 cash after the first pass left cash 500
+   with only 4 defined medians (0.174 onset rate 0.45); appended at the end of
+   REFINE so first-pass CSV row order is preserved as a prefix.
+4. **Runtime:** the first production attempt segfaulted inside the threaded
+   sweep (Julia 1.12.6, 8 threads, heavy dense-frame allocation); production
+   runs use `-t 6 --gcthreads=1`. Results are thread-count-independent
+   (per-run seeded RNG; results indexed by work item), verified by the
+   byte-identity rerun.
+5. **Barrier figure:** fit curves are drawn down to a display ceiling
+   TAU_MAX = 3e4 (not f0 + 0.008 as the plan's illustrative code had), so the
+   medians occupy the panel instead of being crushed by the divergence.
+
+## Outcomes vs the confirmation criteria
+
+- **A1 criterion 1 — MET.** The Kramers form lnτ = A + B/(f − f0) fits every
+  cash level: r² = 0.978 / 0.990 / 0.980 (cash 500/1000/5000, on 5/6/6
+  KM-median points), comparable to Model A's 0.991.
+  Fits (A, B, f0): (3.379, 0.2467, 0.1121), (3.797, 0.1431, 0.1345),
+  (4.105, 0.0984, 0.1430). Model A reference: (2.78, 0.389, 0.101).
+- **A1 criterion 2 — NOT MET (robust null).** Bootstrap CIs overlap between
+  tight and loose cash on both f0 ((0, 0.153) vs (0.077, 0.157)) and B
+  ((0.070, 1.135) vs (0.050, 0.415)): **no detectable barrier shift with
+  budgets.** The onset cliff sits at the same f at every cash level.
+- **A2 criterion — MET.** Velocity vs ABSOLUTE suppression at f = 0.20:
+  Spearman ρ = −0.372, permutation p = 0.0003 (n = 97, 3 excluded).
+- **Exploratory observations (uncorrected; prose must label them so):**
+  onset RATE near the cliff is monotone in cash (f = 0.174: 0.45/0.62/0.70;
+  f = 0.177 KM medians 1598/1427/1208 tight→loose) — a growth-gating
+  signature upstream of the 5%-cluster onset trigger; median suppression
+  varies little across doses (517–595 orders/step) and median velocity is
+  U-shaped in cash, so the supported A2 claim is the pooled negative
+  velocity–suppression relationship, NOT a monotone-in-cash dose ladder.
+
+**Framing consequence for Phase 2 (§7.3):** neither spec fallback occurred.
+The result is a third, cleaner outcome — *the barrier survives budgets
+unmoved*: nucleation (birth + escape) is budget-independent, and budget
+effects act downstream, gating front GROWTH (A2, budget toggle, boundary
+ring). §7.3 becomes "budgets do not move the barrier"; §7.4 carries the
+arrest mechanism. This strengthens the bulk-creates / boundary-gates spine.
