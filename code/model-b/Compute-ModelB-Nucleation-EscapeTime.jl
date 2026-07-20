@@ -71,6 +71,12 @@ const REFINE = SMOKE ? NamedTuple{(:f, :cash),Tuple{Float64,Float64}}[] : [
     (f = 0.168, cash = 1000.0), (f = 0.174, cash = 1000.0),
     (f = 0.156, cash = 5000.0), (f = 0.162, cash = 5000.0),
     (f = 0.168, cash = 5000.0), (f = 0.174, cash = 5000.0),
+    # Second refinement pass (2026-07-20): the first pass left cash 500 with
+    # only 4 defined-median points (0.174 onset rate 0.45 < 0.5; plan aim is
+    # ≥ 5), so add the midpoint of the remaining [0.174, 0.180] gap for all
+    # three cash levels. Appended at the END so first-pass row order in the
+    # CSV is preserved as a prefix.
+    (f = 0.177, cash = 500.0), (f = 0.177, cash = 1000.0), (f = 0.177, cash = 5000.0),
 ]
 
 function _escape_config(; f, cash, seed)
