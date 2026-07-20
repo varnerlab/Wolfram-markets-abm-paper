@@ -4,7 +4,7 @@
 
 **Goal:** Run the two confirmatory analyses from the nucleation-spine spec (Phase 1): the Model B escape-time/barrier law (A1) and front-velocity vs absolute suppression (A2), producing committed CSVs, fit results, and two standalone figures.
 
-**Architecture:** One instrumented simulation campaign (a threaded sweep over (f, cash, seed) work items) feeds both analyses. Pure statistics live in `EscapeTime-Lib.jl` (TDD), the campaign driver in `Compute-ModelB-EscapeTime.jl` (smoke-testable, deterministic, byte-reproducible), and figures in two standalone `Figs-*.jl` scripts that read only committed CSVs — the exact structure of the boundary-vs-bulk analysis.
+**Architecture:** One instrumented simulation campaign (a threaded sweep over (f, cash, seed) work items) feeds both analyses. Pure statistics live in `EscapeTime-Lib.jl` (TDD), the campaign driver in `Compute-ModelB-Nucleation-EscapeTime.jl` (smoke-testable, deterministic, byte-reproducible), and figures in two standalone `Figs-*.jl` scripts that read only committed CSVs — the exact structure of the boundary-vs-bulk analysis.
 
 **Tech Stack:** Julia (packages already loaded by `code/model-b/Include.jl`: DataFrames, CSV, Statistics, StatsBase, Distributions, Random, Plots). No new dependencies. No changes to `code/src/`.
 
@@ -26,10 +26,10 @@
 - Modify: `code/model-b/Include.jl` (one line — stale `paper/figs` path → `paper-arxiv/figs`)
 - Create: `code/model-b/EscapeTime-Lib.jl` (pure functions: clustering, onset, censored median, velocity, Kramers profile fit, bootstrap, Spearman permutation test)
 - Create: `code/model-b/Test-EscapeTime.jl` (unit tests for the lib)
-- Create: `code/model-b/Compute-ModelB-EscapeTime.jl` (campaign driver + fits + stats; smoke mode `ESCAPE_SMOKE=1`)
+- Create: `code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl` (campaign driver + fits + stats; smoke mode `ESCAPE_SMOKE=1`)
 - Create: `code/model-b/Figs-ModelB-BarrierLaw.jl` (A1 figure, reads CSVs only)
 - Create: `code/model-b/Figs-ModelB-VelocitySuppression.jl` (A2 figure, reads CSVs only)
-- Data (committed after production run): `code/data/ModelB-EscapeTime.csv`, `code/data/ModelB-EscapeTime-Fits.csv`, `code/data/ModelB-EscapeTime-Trajectories.csv`
+- Data (committed after production run): `code/data/ModelB-Nucleation-EscapeTime.csv`, `code/data/ModelB-Nucleation-EscapeTime-Fits.csv`, `code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv`
 - Figures: `code/figs/ModelB-Nucleation-BarrierLaw.pdf`, `code/figs/ModelB-Nucleation-VelocitySuppression.pdf`
 
 **One deliberate deviation from the spec:** the spec's example pilot grid was {0.12, 0.15, 0.18, 0.21, 0.25, 0.30}; this plan uses **{0.12, 0.15, 0.18, 0.20, 0.25, 0.30}** — swapping 0.21 for 0.20 so the pilot hits the canonical f = 0.20 used by every prior nucleation config (probe, seed sweep, toggle, boundary-vs-bulk) and so the A2 slice needs no extra f. Task 10 records this as a spec amendment.
@@ -163,7 +163,7 @@ Create `code/model-b/EscapeTime-Lib.jl`:
 # EscapeTime-Lib.jl — pure helpers for the escape-time / barrier-law (A1)
 # and velocity-vs-suppression (A2) analyses (spec: docs/superpowers/specs/
 # 2026-07-20-nucleation-spine-restructure-design.md, Part 1). Included by
-# Compute-ModelB-EscapeTime.jl, both Figs-ModelB-*.jl scripts, and
+# Compute-ModelB-Nucleation-EscapeTime.jl, both Figs-ModelB-*.jl scripts, and
 # Test-EscapeTime.jl; depends only on packages already loaded by
 # model-b/Include.jl.
 
@@ -494,21 +494,21 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 ### Task 5: Campaign driver with smoke mode
 
 **Files:**
-- Create: `code/model-b/Compute-ModelB-EscapeTime.jl`
+- Create: `code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl`
 
 **Interfaces:**
 - Consumes: `build`, `MyModelBConfiguration`, `simulate` (from `code/src/` via Include.jl); every lib function from Tasks 2–4
 - Produces (CSV contracts consumed by Tasks 8–9):
-  - `code/data/ModelB-EscapeTime.csv` — columns: `stage::String` ("pilot" | "a2x" | "refine"), `f::Float64`, `cash::Float64`, `seed::Int`, `t_on::Int` (0 = never), `censored::Bool`, `v_front::Float64` (NaN if excluded from A2 window), `suppb_w::Float64` (NaN likewise), `price_end::Float64`, `maxcl_end::Float64` (fraction)
-  - `code/data/ModelB-EscapeTime-Fits.csv` — one row per A1 cash level: `cash, n_points, A, B, f0, r2, A_lo, A_hi, B_lo, B_hi, f0_lo, f0_hi, n_boot` (NaN row + n_boot = 0 when < 4 defined medians)
-  - `code/data/ModelB-EscapeTime-Trajectories.csv` — f = 0.20 runs only: `f, cash, seed, gridn`, then `t1..tSTEPS` largest-cluster cell counts (integers)
+  - `code/data/ModelB-Nucleation-EscapeTime.csv` — columns: `stage::String` ("pilot" | "a2x" | "refine"), `f::Float64`, `cash::Float64`, `seed::Int`, `t_on::Int` (0 = never), `censored::Bool`, `v_front::Float64` (NaN if excluded from A2 window), `suppb_w::Float64` (NaN likewise), `price_end::Float64`, `maxcl_end::Float64` (fraction)
+  - `code/data/ModelB-Nucleation-EscapeTime-Fits.csv` — one row per A1 cash level: `cash, n_points, A, B, f0, r2, A_lo, A_hi, B_lo, B_hi, f0_lo, f0_hi, n_boot` (NaN row + n_boot = 0 when < 4 defined medians)
+  - `code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv` — f = 0.20 runs only: `f, cash, seed, gridn`, then `t1..tSTEPS` largest-cluster cell counts (integers)
 
 - [ ] **Step 1: Write the driver**
 
-Create `code/model-b/Compute-ModelB-EscapeTime.jl`:
+Create `code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl`:
 
 ```julia
-# Compute-ModelB-EscapeTime.jl — the shared instrumented campaign for the two
+# Compute-ModelB-Nucleation-EscapeTime.jl — the shared instrumented campaign for the two
 # confirmatory analyses of the nucleation-spine spec (Part 1):
 #
 #   A1 (escape-time / barrier law): does Model A's Kramers form
@@ -526,12 +526,12 @@ Create `code/model-b/Compute-ModelB-EscapeTime.jl`:
 # grid. (Boundary-vs-bulk used interior-only labeling for birth attribution;
 # here fronts and onsets must line up with the toggle's intervention results.)
 #
-# Writes: code/data/ModelB-EscapeTime.csv                (one row per run)
-#         code/data/ModelB-EscapeTime-Fits.csv           (A1 fits + boot CIs)
-#         code/data/ModelB-EscapeTime-Trajectories.csv   (f = 0.20 runs, wide)
+# Writes: code/data/ModelB-Nucleation-EscapeTime.csv                (one row per run)
+#         code/data/ModelB-Nucleation-EscapeTime-Fits.csv           (A1 fits + boot CIs)
+#         code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv   (f = 0.20 runs, wide)
 #
-# Launch: julia -t 8 code/model-b/Compute-ModelB-EscapeTime.jl
-# Smoke:  ESCAPE_SMOKE=1 julia code/model-b/Compute-ModelB-EscapeTime.jl
+# Launch: julia -t 8 code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl
+# Smoke:  ESCAPE_SMOKE=1 julia code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl
 #         (tiny grid/horizon — exercises the full path, outputs are smoke)
 #
 # Threading contract (house rule): results land in preallocated vectors
@@ -624,8 +624,8 @@ df = DataFrame()
 for r in results
     push!(df, r.row)
 end
-CSV.write(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime.csv"), df)
-@info "Saved: ModelB-EscapeTime.csv" rows = nrow(df)
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), df)
+@info "Saved: ModelB-Nucleation-EscapeTime.csv" rows = nrow(df)
 
 # Trajectories (f = 0.20 only) — Phase 2 exemplar insurance, wide integer counts
 tidx = [i for i in eachindex(items) if !isempty(results[i].traj)]
@@ -633,8 +633,8 @@ meta = DataFrame(f = [items[i].f for i in tidx], cash = [items[i].cash for i in 
                  seed = [items[i].seed for i in tidx], gridn = fill(GRIDN, length(tidx)))
 tmat = reduce(vcat, [permutedims(results[i].traj) for i in tidx])
 tdf  = hcat(meta, DataFrame(tmat, ["t$(t)" for t in 1:STEPS]))
-CSV.write(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime-Trajectories.csv"), tdf)
-@info "Saved: ModelB-EscapeTime-Trajectories.csv" rows = nrow(tdf)
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime-Trajectories.csv"), tdf)
+@info "Saved: ModelB-Nucleation-EscapeTime-Trajectories.csv" rows = nrow(tdf)
 
 # ---------------------------------------------------------------------------
 # A1: censored medians, onset rates, Kramers fits + bootstrap CIs (main thread)
@@ -665,8 +665,8 @@ for cash in CASH_A1
     end
 end
 fits_df = DataFrame(fitrows)
-CSV.write(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime-Fits.csv"), fits_df)
-@info "Saved: ModelB-EscapeTime-Fits.csv"
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime-Fits.csv"), fits_df)
+@info "Saved: ModelB-Nucleation-EscapeTime-Fits.csv"
 
 # Confirmation criterion 2: tight-vs-loose CI separation on f0 and B
 let t = fits_df[fits_df.cash .== minimum(CASH_A1), :],
@@ -694,12 +694,12 @@ else
     @warn "A2 underpowered — too few included runs at f = 0.20" n = nrow(a2) excluded = nex
 end
 
-@info "Compute-ModelB-EscapeTime.jl complete."
+@info "Compute-ModelB-Nucleation-EscapeTime.jl complete."
 ```
 
 - [ ] **Step 2: Smoke-run the full path**
 
-Run: `ESCAPE_SMOKE=1 julia code/model-b/Compute-ModelB-EscapeTime.jl`
+Run: `ESCAPE_SMOKE=1 julia code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl`
 Expected: completes without error in ~1–3 min; `@info` lines show n_runs = 8 (2 f × 2 cash × 2 seeds); all three CSVs written to `code/data/`; both fit rows warn `SKIPPED — fewer than 4 defined medians` (only 2 pilot f-values in smoke — expected); trajectories CSV has 4 rows × 304 columns; A2 line either reports or warns underpowered (n ≤ 4 in smoke — both acceptable).
 
 - [ ] **Step 3: Revert smoke CSVs, commit the script only**
@@ -710,11 +710,11 @@ Smoke CSVs must not be committed (they overwrite the production paths):
 git checkout -- code/data/ 2>/dev/null; git status --porcelain code/data/
 ```
 
-Expected: untracked `ModelB-EscapeTime*.csv` files remain (they are new; delete them):
+Expected: untracked `ModelB-Nucleation-EscapeTime*.csv` files remain (they are new; delete them):
 
 ```bash
-rm -f code/data/ModelB-EscapeTime.csv code/data/ModelB-EscapeTime-Fits.csv code/data/ModelB-EscapeTime-Trajectories.csv
-git add code/model-b/Compute-ModelB-EscapeTime.jl
+rm -f code/data/ModelB-Nucleation-EscapeTime.csv code/data/ModelB-Nucleation-EscapeTime-Fits.csv code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv
+git add code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl
 git commit -m "Add escape-time campaign driver (A1 barrier law + A2 velocity slice, smoke-tested)
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
@@ -728,7 +728,7 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 This task runs the production pilot (REFINE still empty), then a human-judgment step chooses the refinement f-values. **Do not skip the review; do not auto-pick values without printing the pilot table.**
 
 **Files:**
-- Modify: `code/model-b/Compute-ModelB-EscapeTime.jl` (fill `REFINE` + add a decision-record comment)
+- Modify: `code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl` (fill `REFINE` + add a decision-record comment)
 
 **Interfaces:**
 - Consumes: the Task 5 script
@@ -736,7 +736,7 @@ This task runs the production pilot (REFINE still empty), then a human-judgment 
 
 - [ ] **Step 1: Run the pilot**
 
-Run: `julia -t 8 code/model-b/Compute-ModelB-EscapeTime.jl 2>&1 | tee /tmp/escape-pilot.log`
+Run: `julia -t 8 code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl 2>&1 | tee /tmp/escape-pilot.log`
 Expected: 400 runs (6 f × 3 cash × 20 seeds pilot + 2 × 20 a2x); wall time very roughly 20–60 min at 8 threads. The `A1 onset summary` lines print onset_rate and median_ton per f per cash.
 
 - [ ] **Step 2: Choose refinement values by the recorded rule**
@@ -775,7 +775,7 @@ const REFINE = [
 - [ ] **Step 4: Commit the decision (pilot CSVs stay uncommitted — superseded by Task 7's full run, whose pilot rows are bit-identical because the sweep is deterministic)**
 
 ```bash
-git add code/model-b/Compute-ModelB-EscapeTime.jl
+git add code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl
 git commit -m "Record pilot-driven refinement grid for the escape-time campaign
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
@@ -787,7 +787,7 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 ### Task 7: Production run, commit data, byte-identity check
 
 **Files:**
-- Create (data): `code/data/ModelB-EscapeTime.csv`, `code/data/ModelB-EscapeTime-Fits.csv`, `code/data/ModelB-EscapeTime-Trajectories.csv`
+- Create (data): `code/data/ModelB-Nucleation-EscapeTime.csv`, `code/data/ModelB-Nucleation-EscapeTime-Fits.csv`, `code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv`
 
 **Interfaces:**
 - Consumes: Task 6's script with populated REFINE
@@ -795,7 +795,7 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 
 - [ ] **Step 1: Run the full campaign**
 
-Run: `julia -t 8 code/model-b/Compute-ModelB-EscapeTime.jl 2>&1 | tee /tmp/escape-full.log`
+Run: `julia -t 8 code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl 2>&1 | tee /tmp/escape-full.log`
 Expected: ~880 runs (400 pilot/a2x + 12 refine points × 40 seeds); wall time roughly 1–2× the pilot. `A1 Kramers fit` lines print per cash level with r2 and CIs; `A1 criterion 2` line prints sep_f0/sep_B; `A2 velocity vs suppression` prints rho, perm_p, criterion_met.
 
 - [ ] **Step 2: Sanity-check the outcomes against the spec's criteria**
@@ -805,7 +805,7 @@ From `/tmp/escape-full.log`, record in the task notes: per-cash (A, B, f0, r2, C
 - [ ] **Step 3: Commit the data**
 
 ```bash
-git add code/data/ModelB-EscapeTime.csv code/data/ModelB-EscapeTime-Fits.csv code/data/ModelB-EscapeTime-Trajectories.csv
+git add code/data/ModelB-Nucleation-EscapeTime.csv code/data/ModelB-Nucleation-EscapeTime-Fits.csv code/data/ModelB-Nucleation-EscapeTime-Trajectories.csv
 git commit -m "Run escape-time campaign: barrier-law sweep + velocity dose-response data
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
@@ -814,7 +814,7 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 
 - [ ] **Step 4: Byte-identity rerun**
 
-Run: `julia -t 8 code/model-b/Compute-ModelB-EscapeTime.jl && git status --porcelain code/data/`
+Run: `julia -t 8 code/model-b/Compute-ModelB-Nucleation-EscapeTime.jl && git status --porcelain code/data/`
 Expected: empty output from git status (all three CSVs byte-identical on rerun). If not empty, STOP — the sweep has a nondeterminism bug (threading order leaking into results, or an RNG touched inside the loop); find it before proceeding (`git diff code/data/` shows which columns move).
 
 ---
@@ -825,7 +825,7 @@ Expected: empty output from git status (all three CSVs byte-identical on rerun).
 - Create: `code/model-b/Figs-ModelB-BarrierLaw.jl`
 
 **Interfaces:**
-- Consumes: `ModelB-EscapeTime.csv`, `ModelB-EscapeTime-Fits.csv`; lib functions `censored_median` (recomputing medians from raw rows keeps one source of truth)
+- Consumes: `ModelB-Nucleation-EscapeTime.csv`, `ModelB-Nucleation-EscapeTime-Fits.csv`; lib functions `censored_median` (recomputing medians from raw rows keeps one source of truth)
 - Produces: `code/figs/ModelB-Nucleation-BarrierLaw.pdf`
 
 - [ ] **Step 1: Write the figure script**
@@ -835,8 +835,8 @@ Create `code/model-b/Figs-ModelB-BarrierLaw.jl`:
 ```julia
 # Figs-ModelB-BarrierLaw.jl — the A1 headline figure, drawn ENTIRELY from the
 # committed CSVs (no simulation):
-#   code/data/ModelB-EscapeTime.csv
-#   code/data/ModelB-EscapeTime-Fits.csv
+#   code/data/ModelB-Nucleation-EscapeTime.csv
+#   code/data/ModelB-Nucleation-EscapeTime-Fits.csv
 # Standalone-rerunnable from the repo root:
 #   julia code/model-b/Figs-ModelB-BarrierLaw.jl
 #
@@ -849,8 +849,8 @@ isdefined(Main, :_PATH_TO_DATA)   || include(joinpath(@__DIR__, "Include.jl"))
 isdefined(Main, :censored_median) || include(joinpath(@__DIR__, "EscapeTime-Lib.jl"))
 
 let
-    df   = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime.csv"), DataFrame)
-    fits = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime-Fits.csv"), DataFrame)
+    df   = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), DataFrame)
+    fits = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime-Fits.csv"), DataFrame)
 
     a1     = df[df.stage .!= "a2x", :]
     cashes = sort(unique(a1.cash))
@@ -951,7 +951,7 @@ Claude-Session: https://claude.ai/code/session_01CL5rGoKjgPYiw4BG9pdcAx"
 - Create: `code/model-b/Figs-ModelB-VelocitySuppression.jl`
 
 **Interfaces:**
-- Consumes: `ModelB-EscapeTime.csv`; lib function `spearman_perm_p` (recomputed from CSV rows — deterministic, same rng)
+- Consumes: `ModelB-Nucleation-EscapeTime.csv`; lib function `spearman_perm_p` (recomputed from CSV rows — deterministic, same rng)
 - Produces: `code/figs/ModelB-Nucleation-VelocitySuppression.pdf`
 
 - [ ] **Step 1: Write the figure script**
@@ -960,7 +960,7 @@ Create `code/model-b/Figs-ModelB-VelocitySuppression.jl`:
 
 ```julia
 # Figs-ModelB-VelocitySuppression.jl — the A2 dose-response figure, drawn
-# ENTIRELY from code/data/ModelB-EscapeTime.csv (no simulation).
+# ENTIRELY from code/data/ModelB-Nucleation-EscapeTime.csv (no simulation).
 # Standalone-rerunnable from the repo root:
 #   julia code/model-b/Figs-ModelB-VelocitySuppression.jl
 #
@@ -975,7 +975,7 @@ isdefined(Main, :_PATH_TO_DATA)    || include(joinpath(@__DIR__, "Include.jl"))
 isdefined(Main, :spearman_perm_p)  || include(joinpath(@__DIR__, "EscapeTime-Lib.jl"))
 
 let
-    df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-EscapeTime.csv"), DataFrame)
+    df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), DataFrame)
     a2 = df[(df.f .== 0.20) .& .!isnan.(df.v_front), :]
     n_excluded = count((df.f .== 0.20) .& isnan.(df.v_front))
 
