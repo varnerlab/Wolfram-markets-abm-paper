@@ -50,10 +50,28 @@ const CASH_A2_EXTRA = SMOKE ? Float64[] : [250.0, 2000.0]
 const SEEDS_PILOT   = SMOKE ? (1:2) : (1:20)
 const SEEDS_REFINE  = 1:40
 
-# Refinement f-values near each cash level's divergence — EMPTY until the
-# pilot review (plan Task 6) fills it by the recorded rule. Full production
-# reruns pilot + refine + a2x in one deterministic pass.
-const REFINE = NamedTuple{(:f, :cash),Tuple{Float64,Float64}}[]
+# Refinement f-values near each cash level's divergence, chosen at the plan's
+# Task 6 checkpoint from the pilot (2026-07-20). Pilot onset table (n = 20
+# seeds per point; rate = fraction with onset by STEPS, med = KM median t_on):
+#
+#   f:            0.12  0.15  0.18  0.20  0.25  0.30
+#   cash  500  →  0.00  0.10  0.85  1.00  1.00  1.00   med(0.18) =  891
+#   cash 1000  →  0.00  0.10  0.80  1.00  1.00  1.00   med(0.18) = 1078
+#   cash 5000  →  0.00  0.10  0.80  0.95  1.00  1.00   med(0.18) =  663
+#
+# The cliff sits between f_a = 0.15 and f_b = 0.18 at EVERY cash level, so
+# the plan's rule (4 interior points of range(f_a, f_b; length = 6)[2:5],
+# i.e. {0.156, 0.162, 0.168, 0.174}) applies identically to all three, at 40
+# seeds each. Full production reruns pilot + refine + a2x in one
+# deterministic pass.
+const REFINE = SMOKE ? NamedTuple{(:f, :cash),Tuple{Float64,Float64}}[] : [
+    (f = 0.156, cash = 500.0),  (f = 0.162, cash = 500.0),
+    (f = 0.168, cash = 500.0),  (f = 0.174, cash = 500.0),
+    (f = 0.156, cash = 1000.0), (f = 0.162, cash = 1000.0),
+    (f = 0.168, cash = 1000.0), (f = 0.174, cash = 1000.0),
+    (f = 0.156, cash = 5000.0), (f = 0.162, cash = 5000.0),
+    (f = 0.168, cash = 5000.0), (f = 0.174, cash = 5000.0),
+]
 
 function _escape_config(; f, cash, seed)
     return build(MyModelBConfiguration, (
