@@ -149,3 +149,22 @@ function bootstrap_kramers(fs_by_run::Vector{Float64}, tons::Vector{Int};
     end
     return (A = As, B = Bs, f0 = F0s)
 end
+
+"""
+    spearman_perm_p(x, y; ndraws = 10_000, rng = Xoshiro(7)) → (rho, p)
+
+Spearman ρ of (x, y) with a two-sided permutation p-value (y shuffled),
++1 Monte-Carlo corrected: p = (1 + #{|ρ_perm| ≥ |ρ_obs|}) / (ndraws + 1).
+The 1e-12 tolerance absorbs rank-tie floating-point noise.
+"""
+function spearman_perm_p(x::Vector{Float64}, y::Vector{Float64};
+                         ndraws::Int = 10_000, rng = Xoshiro(7))
+    rho  = corspearman(x, y)
+    yp   = copy(y)
+    hits = 0
+    for _ in 1:ndraws
+        shuffle!(rng, yp)
+        hits += abs(corspearman(x, yp)) >= abs(rho) - 1e-12
+    end
+    return (rho = rho, p = (1 + hits) / (ndraws + 1))
+end

@@ -79,3 +79,20 @@ end
     bs4 = bootstrap_kramers(fs4, t4; ndraws = 100, rng = Xoshiro(7))
     @test 0 < length(bs4.f0) <= 100
 end
+
+@testset "spearman_perm_p" begin
+    x  = collect(1.0:40.0)
+    sp = spearman_perm_p(x, -2.0 .* x .+ 100.0)
+    @test sp.rho ≈ -1.0
+    @test sp.p == 1 / 10_001                     # +1 MC correction, zero hits
+
+    sp2 = spearman_perm_p(x, 1.0 .* x)
+    @test sp2.rho ≈ 1.0 && sp2.p == 1 / 10_001
+
+    yr  = shuffle(Xoshiro(3), x)                 # independent → large p
+    sp3 = spearman_perm_p(x, yr; ndraws = 2000, rng = Xoshiro(7))
+    @test sp3.p > 0.05
+
+    @test spearman_perm_p(x, yr; ndraws = 500, rng = Xoshiro(7)) ==
+          spearman_perm_p(x, yr; ndraws = 500, rng = Xoshiro(7))
+end
