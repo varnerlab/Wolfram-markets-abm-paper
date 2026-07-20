@@ -89,3 +89,63 @@ function window_velocity(maxcl::Vector{Int}, n_cells::Int, t_on::Int;
     x  = collect(ts) .- mean(ts)
     return sum(x .* (y .- mean(y))) / sum(abs2, x)
 end
+
+"""
+    kramers_profile_fit(fs, lntaus; f0_grid) → (A, B, f0, r2)
+
+Least-squares fit of lnτ = A + B/(f − f0) by profiling f0: for each
+admissible f0 (< min(fs)) the remaining problem is linear in (A, B) and
+solved in closed form; the f0 minimizing SSE wins. Requires ≥ 4 points
+(3 parameters). Deterministic and dependency-free (no LsqFit).
+"""
+function kramers_profile_fit(fs::Vector{Float64}, lntaus::Vector{Float64};
+        f0_grid::AbstractVector{Float64} = 0.0:1e-4:(minimum(fs) - 5e-3))
+    @assert length(fs) == length(lntaus) && length(fs) >= 4 "need ≥ 4 (f, lnτ) points"
+    best = (A = NaN, B = NaN, f0 = NaN, r2 = -Inf)
+    best_sse = Inf
+    sst = sum(abs2, lntaus .- mean(lntaus))
+    for f0 in f0_grid
+        f0 < minimum(fs) || continue
+        x  = 1.0 ./ (fs .- f0)
+        mx = mean(x); my = mean(lntaus)
+        sxx = sum(abs2, x .- mx)
+        sxx > 0 || continue
+        B = sum((x .- mx) .* (lntaus .- my)) / sxx
+        A = my - B * mx
+        sse = sum(abs2, lntaus .- A .- B .* x)
+        if sse < best_sse
+            best_sse = sse
+            best = (A = A, B = B, f0 = f0, r2 = 1 - sse / sst)
+        end
+    end
+    return best
+end
+
+"""
+    bootstrap_kramers(fs_by_run, tons; ndraws, rng) → (A, B, f0) vectors
+
+Seed bootstrap for ONE cash level: `fs_by_run[i]` and `tons[i]` describe run
+i (t_on = 0 ⇒ censored). Each draw resamples runs with replacement WITHIN
+each f, recomputes censored medians, and refits; draws where < 4 f-points
+retain a defined median are skipped (so the returned vectors may be shorter
+than ndraws — callers report the count).
+"""
+function bootstrap_kramers(fs_by_run::Vector{Float64}, tons::Vector{Int};
+                           ndraws::Int = 2000, rng = Xoshiro(7))
+    fvals = sort(unique(fs_by_run))
+    idx   = Dict(f => findall(==(f), fs_by_run) for f in fvals)
+    As = Float64[]; Bs = Float64[]; F0s = Float64[]
+    for _ in 1:ndraws
+        pf = Float64[]; pm = Float64[]
+        for f in fvals
+            ids  = idx[f]
+            draw = [tons[ids[rand(rng, 1:length(ids))]] for _ in ids]
+            m = censored_median(draw)
+            isnan(m) || (push!(pf, f); push!(pm, log(m)))
+        end
+        length(pf) >= 4 || continue
+        fit = kramers_profile_fit(pf, pm)
+        push!(As, fit.A); push!(Bs, fit.B); push!(F0s, fit.f0)
+    end
+    return (A = As, B = Bs, f0 = F0s)
+end

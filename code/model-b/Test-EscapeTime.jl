@@ -44,3 +44,38 @@ end
     @test window_velocity(maxcl, 100, 100; lo = 50, hi = 400) ≈ 0.02
     @test window_velocity(fill(50, 1000), 100, 100; lo = 50, hi = 400) ≈ 0.0 atol = 1e-12
 end
+
+@testset "kramers_profile_fit" begin
+    fs  = [0.12, 0.15, 0.18, 0.20, 0.25, 0.30]
+    lnt = 2.0 .+ 0.4 ./ (fs .- 0.10)
+    fit = kramers_profile_fit(fs, lnt)
+    @test isapprox(fit.f0, 0.10; atol = 2e-4)
+    @test isapprox(fit.B, 0.4; rtol = 0.02)
+    @test isapprox(fit.A, 2.0; atol = 0.05)
+    @test fit.r2 > 0.9999
+    @test_throws AssertionError kramers_profile_fit([0.2, 0.3, 0.4], [1.0, 2.0, 3.0])
+end
+
+@testset "bootstrap_kramers" begin
+    rng0 = Xoshiro(11)
+    fs_run = Float64[]; tons = Int[]
+    for f in [0.12, 0.15, 0.18, 0.20, 0.25, 0.30], _ in 1:20
+        push!(fs_run, f)
+        push!(tons, round(Int, exp(2.0 + 0.4 / (f - 0.10)) * (0.9 + 0.2 * rand(rng0))))
+    end
+    bs = bootstrap_kramers(fs_run, tons; ndraws = 200, rng = Xoshiro(7))
+    @test length(bs.f0) == 200                    # no censoring → every draw fits
+    @test 0.05 < median(bs.f0) < 0.13             # recovers the divergence region
+    bs2 = bootstrap_kramers(fs_run, tons; ndraws = 200, rng = Xoshiro(7))
+    @test bs2.f0 == bs.f0                         # deterministic given the rng
+
+    # knife-edge censoring: f = 0.12 has 3/6 censored, so resampled draws can
+    # lose that point (< 4 remain) and must be skipped, not crash
+    fs4 = repeat([0.12, 0.15, 0.20, 0.30], inner = 6)
+    t4  = Int[]
+    for f in [0.12, 0.15, 0.20, 0.30], i in 1:6
+        push!(t4, (f == 0.12 && i <= 3) ? 0 : 100 + i)
+    end
+    bs4 = bootstrap_kramers(fs4, t4; ndraws = 100, rng = Xoshiro(7))
+    @test 0 < length(bs4.f0) <= 100
+end
