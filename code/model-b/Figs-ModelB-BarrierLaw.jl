@@ -25,11 +25,16 @@ let
 
     # Model A reference: ln τ = 2.78 + 0.389/(f − 0.101), R² = 0.991 (Sec 5.6)
     A_REF, B_REF, F0_REF = 2.78, 0.389, 0.101
+    # Display ceiling for curve drawing only (~15x the 2000-step horizon) — not
+    # an analysis quantity; keeps the diverging Kramers curves from stretching
+    # the log axis across 15 decades and crushing the data medians.
+    TAU_MAX = 3.0e4
 
     p_tau = plot(title = "median onset time", titlefont = 10, xlabel = "f",
                  ylabel = "median t_on (steps)", yscale = :log10,
-                 guidefont = 8, tickfont = 7, legend = :topright, legendfontsize = 6)
-    fref = range(F0_REF + 0.012, maximum(a1.f); length = 400)
+                 guidefont = 8, tickfont = 7, legend = :topright, legendfontsize = 6,
+                 ylims = (50, TAU_MAX))
+    fref = range(F0_REF + B_REF / (log(TAU_MAX) - A_REF), maximum(a1.f); length = 400)
     plot!(p_tau, fref, exp.(A_REF .+ B_REF ./ (fref .- F0_REF)),
           color = :black, ls = :dash, lw = 1.5, label = "Model A fit")
 
@@ -51,7 +56,8 @@ let
               marker = :circle, markersize = 3, markerstrokewidth = 0, label = lbl)
         fr = fits[fits.cash .== cash, :]
         if nrow(fr) == 1 && !isnan(fr.f0[1])
-            fc = range(fr.f0[1] + 0.008, maximum(fvals[ok]); length = 400)
+            fstart = fr.f0[1] + fr.B[1] / (log(TAU_MAX) - fr.A[1])
+            fc = range(min(fstart, maximum(fvals[ok]) - 1e-4), maximum(fvals[ok]); length = 400)
             plot!(p_tau, fc, exp.(fr.A[1] .+ fr.B[1] ./ (fc .- fr.f0[1])),
                   color = cash_color[cash], lw = 1.6, label = "")
         end
