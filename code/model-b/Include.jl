@@ -12,7 +12,7 @@ Random.seed!(1234)
 const _PATH_TO_SRC        = joinpath(@__DIR__, "..", "src")
 const _PATH_TO_DATA       = joinpath(@__DIR__, "..", "data")
 const _PATH_TO_FIGS       = joinpath(@__DIR__, "..", "figs")
-const _PATH_TO_PAPER_FIGS = joinpath(@__DIR__, "..", "..", "paper", "figs")
+const _PATH_TO_PAPER_FIGS = joinpath(@__DIR__, "..", "..", "paper-arxiv", "figs")
 
 include(joinpath(_PATH_TO_SRC, "Types.jl"))
 include(joinpath(_PATH_TO_SRC, "Factory.jl"))

@@ -9,7 +9,7 @@
 
 include(joinpath(@__DIR__, "Include.jl"))
 
-const _OUT = joinpath(@__DIR__, "..", "..", "paper", "sections", "Table2-StylizedFacts.tex")
+const _OUT = joinpath(@__DIR__, "..", "..", "paper-arxiv", "sections", "Table2-StylizedFacts.tex")
 
 # ---------------------------------------------------------------------------
 # Load

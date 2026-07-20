@@ -3,7 +3,7 @@
 
 include(joinpath(@__DIR__, "Include.jl"))
 
-const _OUT = joinpath(@__DIR__, "..", "..", "paper", "sections", "Table1-RuleTaxonomy.tex")
+const _OUT = joinpath(@__DIR__, "..", "..", "paper-arxiv", "sections", "Table1-RuleTaxonomy.tex")
 
 rules = [
     (6158,  "022110002", "Imitation / herding",  "Homogeneous model; stable wave patterns"),
