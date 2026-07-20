@@ -36,3 +36,31 @@ end
     @test patch_side(1)  == 3
     @test patch_side(40) == 5
 end
+
+@testset "label_interior_sell_clusters" begin
+    g = fill(1, 8, 8)
+    g[2, 2] = 2; g[2, 3] = 2; g[3, 2] = 2      # blob A (row-major first)
+    g[6, 6] = 2; g[7, 6] = 2                   # blob B
+    g[5, 2] = 2                                # singleton C
+    g[1, 4] = 2; g[8, 8] = 2; g[4, 1] = 2      # boundary sells — excluded
+    labels, sizes = label_interior_sell_clusters(g)
+    @test sizes == [3, 1, 2]                   # row-major discovery: A, C, B
+    @test labels[2, 2] == labels[2, 3] == labels[3, 2] == 1
+    @test labels[5, 2] == 2
+    @test labels[6, 6] == labels[7, 6] == 3
+    @test labels[1, 4] == 0 && labels[8, 8] == 0 && labels[4, 1] == 0
+    @test Set(cluster_cells(labels, 1)) ==
+          Set([CartesianIndex(2, 2), CartesianIndex(2, 3), CartesianIndex(3, 2)])
+
+    empty_labels, empty_sizes = label_interior_sell_clusters(fill(1, 8, 8))
+    @test isempty(empty_sizes) && all(==(0), empty_labels)
+end
+
+@testset "label_sequence" begin
+    g1 = fill(1, 6, 6); g1[3, 3] = 2
+    g2 = fill(1, 6, 6); g2[3, 3] = 2; g2[3, 4] = 2
+    frames = Dict{Int64,Matrix{Int64}}(0 => fill(1, 6, 6), 1 => g1, 2 => g2)
+    labels, sizes = label_sequence(frames, 2)
+    @test length(labels) == 2
+    @test sizes[1] == [1] && sizes[2] == [2]
+end
