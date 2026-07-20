@@ -129,3 +129,43 @@ end
     fwd_g = trace_forward(labels_g, sizes_g, seed, 3)
     @test fwd_g.max_size == 4 && fwd_g.last_alive == 3
 end
+
+@testset "patch geometry" begin
+    @test clamp_patch_center(2, 40, 3, 64, 64) == (3, 40)   # pushed inward
+    @test clamp_patch_center(32, 32, 5, 64, 64) == (32, 32)
+    @test clamp_patch_center(63, 2, 5, 64, 64) == (61, 4)   # rows 59..63 stay interior
+
+    ring = [(1, 10), (1, 40), (30, 64)]
+    @test edge_patch_center(ring, 3, 64, 64) == (3, 40)     # nearest to (1,32) → (1,40)
+    @test edge_patch_center([(20, 1)], 3, 64, 64) == (20, 3)
+    @test edge_patch_center([(1, 1)], 3, 64, 64) == (3, 3)  # corner ring cell
+
+    pc = patch_cells_square((3, 40), 3)
+    @test length(pc) == 9
+    @test CartesianIndex(2, 39) in pc && CartesianIndex(4, 41) in pc
+
+    g = fill(1, 64, 64)
+    stamp_patch!(g, (3, 40), 3)
+    @test count(==(2), g) == 9 && g[3, 40] == 2 && g[2, 39] == 2
+end
+
+@testset "attach_step" begin
+    g = fill(1, 8, 8)
+    g[2, 2] = 2; g[3, 2] = 2                  # cluster hugging the top-left interior
+    labels, sizes = label_interior_sell_clusters(g)
+    chain  = [(1, Int16(1))]
+    frames = Dict{Int64,Matrix{Int64}}(1 => copy(g))
+
+    # active ring cell (1,2) currently Sell → attach at t=1
+    frames[1][1, 2] = 2
+    @test attach_step(frames, [labels], chain, Set([(1, 2)])) == 1
+    # same cell active but Hold → no attachment
+    frames[1][1, 2] = 1
+    @test ismissing(attach_step(frames, [labels], chain, Set([(1, 2)])))
+    # Sell boundary neighbour that is NOT an active ring cell → no attachment
+    frames[1][1, 2] = 2
+    @test ismissing(attach_step(frames, [labels], chain, Set([(1, 7)])))
+    # side-boundary adjacency: (2,1) active + Sell, adjacent to (2,2)
+    frames[1][1, 2] = 1; frames[1][2, 1] = 2
+    @test attach_step(frames, [labels], chain, Set([(2, 1)])) == 1
+end

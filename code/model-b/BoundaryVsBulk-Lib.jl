@@ -167,3 +167,74 @@ function trace_forward(labels::Vector{Matrix{Int16}}, sizes::Vector{Vector{Int}}
     end
     return (max_size = max_size, last_alive = chain[end][1], chain = chain)
 end
+
+"""Clamp an s×s patch center into the interior (rows/cols 2..N−1)."""
+function clamp_patch_center(r::Int, c::Int, s::Int, nr::Int, nc::Int)::Tuple{Int,Int}
+    h = (s - 1) ÷ 2
+    return (clamp(r, 2 + h, nr - 1 - h), clamp(c, 2 + h, nc - 1 - h))
+end
+
+"""
+    edge_patch_center(edge_coordinates, s, nr, nc) → (r, c)
+
+Patch center for the `edge` arm: the interior cell adjacent (inward) to the
+active ring cell nearest to top-center (1, nc÷2), clamped so the patch fits;
+its outermost cells then sit at d = 1. Placement is relative to the RING, not
+the frame, because ring cells cover only ~25% of the boundary and the
+hypothesis is attachment to a driven cell (spec §2). Euclidean distance;
+ties → first in the (sorted) edge_coordinates order.
+"""
+function edge_patch_center(edge_coordinates::Vector{Tuple{Int64,Int64}},
+                           s::Int, nr::Int, nc::Int)::Tuple{Int,Int}
+    tr, tc = 1.0, nc / 2
+    best   = edge_coordinates[1]
+    bestd  = Inf
+    for (r, c) in edge_coordinates
+        d = (r - tr)^2 + (c - tc)^2
+        d < bestd && (best = (r, c); bestd = d)
+    end
+    rb, cb = best
+    ri = rb == 1 ? 2 : rb == nr ? nr - 1 : Int(rb)
+    ci = cb == 1 ? 2 : cb == nc ? nc - 1 : Int(cb)
+    return clamp_patch_center(ri, ci, s, nr, nc)
+end
+
+"""Cells of the s×s square centered at `center`."""
+function patch_cells_square(center::Tuple{Int,Int}, s::Int)::Vector{CartesianIndex{2}}
+    h = (s - 1) ÷ 2
+    return [CartesianIndex(r, c) for r in (center[1]-h):(center[1]+h)
+                                 for c in (center[2]-h):(center[2]+h)]
+end
+
+"""Stamp an all-Sell s×s patch (overwrites background, spec §2)."""
+function stamp_patch!(grid::Matrix{Int64}, center::Tuple{Int,Int}, s::Int)
+    for cell in patch_cells_square(center, s)
+        grid[cell] = 2
+    end
+    return grid
+end
+
+"""
+    attach_step(frames, labels, chain, edge_set) → Int | missing
+
+First lineage step at which any lineage cell is 4-adjacent to an ACTIVE ring
+cell whose current state is Sell (spec §1). Frames store edge states as
+written at each step (the CA never writes boundary cells).
+"""
+function attach_step(frames::Dict{Int64,Matrix{Int64}}, labels::Vector{Matrix{Int16}},
+                     chain::Vector{Tuple{Int,Int16}},
+                     edge_set::Set{Tuple{Int64,Int64}})::Union{Int,Missing}
+    for (t, lab) in chain
+        frame  = frames[t]
+        nr, nc = size(frame)
+        for cell in cluster_cells(labels[t], lab)
+            r, c = Tuple(cell)
+            for (dr, dc) in ((-1, 0), (1, 0), (0, -1), (0, 1))
+                rn, cn = r + dr, c + dc
+                (rn == 1 || rn == nr || cn == 1 || cn == nc) || continue
+                ((rn, cn) in edge_set && frame[rn, cn] == 2) && return t
+            end
+        end
+    end
+    return missing
+end
