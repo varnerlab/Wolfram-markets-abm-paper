@@ -144,3 +144,156 @@ end
 const _INCLUDED = birth_df[birth_df.included, :]
 const S_PATCH   = nrow(_INCLUDED) == 0 ? 3 : patch_side(median(_INCLUDED.birth_size))
 @info "Arm 2 patch calibration" s_patch = S_PATCH n_included = nrow(_INCLUDED)
+
+# ---------------------------------------------------------------------------
+# Arm 2: paired patch seeding — control / edge / mid / center on a shared
+# :custom background. All four arms pass :custom, so RNG consumption inside
+# simulate is identical across arms (same ring, same bands, same minority
+# placement); arms differ ONLY in the stamped cells. The stamped patch
+# overwrites the few background cells under it — identical background
+# otherwise, negligible and location-dependent by construction.
+# ---------------------------------------------------------------------------
+const ARMS = ["control", "edge", "mid", "center"]
+
+"""Arm 2: run the four paired arms for one (config, seed)."""
+function _run_seeding(cfg::NamedTuple, seed::Int)
+    base_cfg = _bvb_config(f = cfg.f, cash = cfg.cash, seed = seed)
+    # Replicates simulate's draw (1) exactly: fresh Xoshiro(seed), edge sampling first
+    ring = build_edge_coordinates(GRIDN, GRIDN, base_cfg.edge_fraction, Xoshiro(seed))
+    # Shared background from a dedicated stream (spec §2)
+    bg = build_initial_grid(base_cfg, Xoshiro(10_000 + seed))
+    centers = Dict(
+        "edge"   => edge_patch_center(ring, S_PATCH, GRIDN, GRIDN),
+        "mid"    => clamp_patch_center(GRIDN ÷ 4 + 1, GRIDN ÷ 2, S_PATCH, GRIDN, GRIDN),
+        "center" => clamp_patch_center(GRIDN ÷ 2, GRIDN ÷ 2, S_PATCH, GRIDN, GRIDN))
+
+    rows      = NamedTuple[]
+    trajs     = Dict{String,Vector{Float64}}()   # per-arm largest-cluster fraction
+    ref_edges = nothing
+    ref_k     = nothing
+    n_warn    = 0
+    for arm in ARMS
+        grid = copy(bg)
+        arm != "control" && stamp_patch!(grid, centers[arm], S_PATCH)
+        res = simulate(_bvb_config(f = cfg.f, cash = cfg.cash, seed = seed,
+                                   initial_condition = :custom);
+                       initial_grid = grid, snapshot_steps = collect(1:STEPS),
+                       verbose = false)
+        if isnothing(ref_edges)
+            ref_edges = res.edge_coordinates
+            ref_k     = res.edge_k
+            @assert ref_edges == ring "pre-computed ring mismatch (cfg=$(cfg.name) seed=$seed)"
+        else
+            @assert res.edge_coordinates == ref_edges "arm ring divergence (cfg=$(cfg.name) seed=$seed arm=$arm)"
+            @assert res.edge_k == ref_k "arm band divergence (cfg=$(cfg.name) seed=$seed arm=$arm)"
+        end
+
+        labels, sizes = label_sequence(res.frames, STEPS)
+        t_on, maxcl   = _onset(sizes)
+        trajs[arm]    = maxcl ./ N_CELLS
+        pc = arm == "control" ? CartesianIndex{2}[] :
+                                patch_cells_square(centers[arm], S_PATCH)
+
+        dominant = false
+        if !isnothing(t_on) && arm != "control"
+            chain    = trace_backward(labels, sizes, t_on, argmax(sizes[t_on]))
+            bt, blab = chain[1]
+            if bt == 1
+                bset     = Set(cluster_cells(labels[bt], blab))
+                dominant = any(in(bset), pc)
+            end
+        end
+        fwd = arm == "control" ? (max_size = 0, last_alive = 0, chain = Tuple{Int,Int16}[]) :
+                                 trace_forward(labels, sizes, pc, STEPS)
+        alive_at_onset = !isnothing(t_on) && fwd.last_alive >= t_on
+        # Forward/backward disagreement is REPORTED, not asserted (spec §3):
+        # the tracers follow max-overlap in opposite directions and can
+        # legitimately route through different branches.
+        (arm != "control" && dominant && !alive_at_onset) && (n_warn += 1)
+
+        push!(rows, (config = cfg.name, f = cfg.f, cash = cfg.cash, seed = seed,
+                     arm = arm, patch_size = arm == "control" ? 0 : S_PATCH,
+                     patch_row = arm == "control" ? 0 : centers[arm][1],
+                     patch_col = arm == "control" ? 0 : centers[arm][2],
+                     included = !isnothing(t_on),
+                     t_on = isnothing(t_on) ? 0 : t_on,
+                     front_final = maxcl[STEPS] / N_CELLS,
+                     dominant_from_patch = dominant,
+                     patch_lineage_max = fwd.max_size,
+                     patch_alive_at_onset = alive_at_onset))
+    end
+    return (rows = rows, n_warn = n_warn, trajs = trajs)
+end
+
+# ---------------------------------------------------------------------------
+# Arm 2 sweep: one work item per (config, seed); each runs its 4 arms serially
+# so the pairing assertions live inside the item
+# ---------------------------------------------------------------------------
+seed_items = [(cfg = cfg, seed = seed) for cfg in CONFIGS for seed in SEEDS]
+@info "Arm 2: paired patch seeding" n_items = length(seed_items) arms = length(ARMS) s_patch = S_PATCH
+
+seed_results = Vector{Union{Nothing,NamedTuple}}(nothing, length(seed_items))
+Threads.@threads :dynamic for i in eachindex(seed_items)
+    seed_results[i] = _run_seeding(seed_items[i].cfg, seed_items[i].seed)
+end
+@assert all(!isnothing, seed_results)
+
+total_warn = sum(r.n_warn for r in seed_results)
+total_warn > 0 && @warn "forward/backward lineage disagreement" n = total_warn
+
+trajs_map = Dict{Tuple{String,Int},Dict{String,Vector{Float64}}}()
+for (item, r) in zip(seed_items, seed_results)
+    trajs_map[(item.cfg.name, item.seed)] = r.trajs
+end
+
+seed_df = DataFrame()
+for r in seed_results, row in r.rows
+    push!(seed_df, row)
+end
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedingIntervention.csv"), seed_df)
+@info "Saved: ModelB-Nucleation-SeedingIntervention.csv"
+
+# ---------------------------------------------------------------------------
+# Arm 2 statistics: paired onset advance (sign-flip permutation, as the
+# budget toggle) and dominance rates; McNemar-style edge-vs-center contrast
+# ---------------------------------------------------------------------------
+function _signflip_p(dv::Vector{Float64}; n_draws::Int = 20_000)
+    isempty(dv) && return NaN
+    rng  = Xoshiro(7)
+    dobs = abs(mean(dv))
+    hits = 0
+    for _ in 1:n_draws
+        hits += abs(mean(dv .* rand(rng, (-1.0, 1.0), length(dv)))) >= dobs
+    end
+    return hits / n_draws
+end
+
+"""t_on lookup: config × seed × arm → t_on (missing if that run had no onset)."""
+function _ton(df, name, seed, arm)
+    sub = df[(df.config .== name) .& (df.seed .== seed) .& (df.arm .== arm), :]
+    return sub.included[1] ? sub.t_on[1] : missing
+end
+
+for cfg in CONFIGS
+    for arm in ARMS[2:end]
+        dts   = Float64[]
+        for seed in SEEDS
+            tc = _ton(seed_df, cfg.name, seed, "control")
+            ta = _ton(seed_df, cfg.name, seed, arm)
+            (ismissing(tc) || ismissing(ta)) && continue
+            push!(dts, float(tc - ta))          # >0 ⇒ patch advanced onset
+        end
+        dom = seed_df[(seed_df.config .== cfg.name) .& (seed_df.arm .== arm), :dominant_from_patch]
+        @info "Arm 2 summary: $(cfg.name)/$(arm)" n_pairs = length(dts) median_onset_advance = isempty(dts) ? NaN : median(dts) sign_pos = count(>(0), dts) signflip_p = _signflip_p(dts) dominance = "$(count(dom))/$(length(dom))"
+    end
+    # McNemar-style paired edge-vs-center dominance contrast
+    b = 0; c = 0
+    for seed in SEEDS
+        de = seed_df[(seed_df.config .== cfg.name) .& (seed_df.seed .== seed) .& (seed_df.arm .== "edge"),   :dominant_from_patch][1]
+        dc = seed_df[(seed_df.config .== cfg.name) .& (seed_df.seed .== seed) .& (seed_df.arm .== "center"), :dominant_from_patch][1]
+        de && !dc && (b += 1)
+        !de && dc && (c += 1)
+    end
+    p_mcn = b + c == 0 ? NaN : binom_two_sided_p(b + c, b, 0.5)
+    @info "Arm 2 edge-vs-center dominance: $(cfg.name)" edge_only = b center_only = c mcnemar_p = p_mcn
+end
