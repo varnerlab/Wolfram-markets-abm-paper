@@ -84,3 +84,86 @@ end
 function cluster_cells(labels::Matrix{Int16}, lab::Integer)::Vector{CartesianIndex{2}}
     return findall(==(Int16(lab)), labels)
 end
+
+"""
+    max_overlap_label(labelmat, sizes, cells) → Int16
+
+Label at `labelmat` with maximal overlap against `cells`; 0 if none. Ties
+broken by larger overlap count, then larger cluster size, then smaller label
+(= earlier row-major first cell), per spec §1.
+"""
+function max_overlap_label(labelmat::Matrix{Int16}, sizes::Vector{Int},
+                           cells::Vector{CartesianIndex{2}})::Int16
+    counts = Dict{Int16,Int}()
+    for cell in cells
+        l = labelmat[cell]
+        l == 0 && continue
+        counts[l] = get(counts, l, 0) + 1
+    end
+    isempty(counts) && return Int16(0)
+    best = Int16(0); bestcount = -1
+    for l in sort!(collect(keys(counts)))          # ascending label order
+        cnt = counts[l]
+        if cnt > bestcount || (cnt == bestcount && sizes[l] > sizes[best])
+            best = l; bestcount = cnt
+        end
+    end
+    return best
+end
+
+"""
+    trace_backward(labels, sizes, t0, lab0) → chain
+
+Backward max-overlap lineage of cluster `lab0` at step `t0` down to birth.
+Returns (step, label) pairs ascending from birth to t0; skipped flicker steps
+(gap-1 tolerance, spec §1) simply do not appear in the chain.
+"""
+function trace_backward(labels::Vector{Matrix{Int16}}, sizes::Vector{Vector{Int}},
+                        t0::Int, lab0::Integer)::Vector{Tuple{Int,Int16}}
+    chain = [(t0, Int16(lab0))]
+    t, lab = t0, Int16(lab0)
+    while t > 1
+        cells = cluster_cells(labels[t], lab)
+        prev  = t - 1
+        p     = max_overlap_label(labels[prev], sizes[prev], cells)
+        if p == 0 && t - 2 >= 1
+            prev = t - 2
+            p    = max_overlap_label(labels[prev], sizes[prev], cells)
+        end
+        p == 0 && break
+        pushfirst!(chain, (prev, p))
+        t, lab = prev, p
+    end
+    return chain
+end
+
+"""
+    trace_forward(labels, sizes, seed_cells, t_end)
+        → (max_size, last_alive, chain)
+
+Forward max-overlap lineage seeded by `seed_cells` (t = 0 patch coordinates)
+starting at t = 1, gap-1 tolerant, stopping at extinction or t_end.
+"""
+function trace_forward(labels::Vector{Matrix{Int16}}, sizes::Vector{Vector{Int}},
+                       seed_cells::Vector{CartesianIndex{2}}, t_end::Int)
+    chain = Tuple{Int,Int16}[]
+    lab   = max_overlap_label(labels[1], sizes[1], seed_cells)
+    lab == 0 && return (max_size = 0, last_alive = 0, chain = chain)
+    push!(chain, (1, lab))
+    max_size = sizes[1][lab]
+    t = 1
+    while t < t_end
+        cells = cluster_cells(labels[t], chain[end][2])
+        nxt   = t + 1
+        s     = max_overlap_label(labels[nxt], sizes[nxt], cells)
+        if s == 0 && t + 2 <= t_end
+            nxt = t + 2
+            s   = max_overlap_label(labels[nxt], sizes[nxt], cells)
+        end
+        s == 0 && break
+        push!(chain, (nxt, s))
+        max_size = max(max_size, sizes[nxt][s])
+        t = nxt
+    end
+    return (max_size = max_size, last_alive = chain[end][1], chain = chain)
+end
