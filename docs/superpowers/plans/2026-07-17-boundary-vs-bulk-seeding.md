@@ -1196,3 +1196,25 @@ From the run log, report to the user: per-config and pooled `frac_d_le_2` vs the
 - **Spec coverage:** shared config/onset/labeling → Task 5 constants and `_onset`; backward lineage + gap-1 + tie-breaks → Task 3; null PMF + binomial headline → Tasks 1, 5; attachment → Tasks 4, 5; patch calibration + placements + shared background + pairing assertions → Tasks 5–6; forward trace + dominance + paired stats (sign-flip, McNemar) → Tasks 3, 6; figures → Task 7; smoke mode + threading contract → Tasks 5–7; production run + reporting → Task 8. Censored-run handling (`included = false`, dropped from Δt_on pairs, kept in dominance denominators) → Tasks 5–6.
 - **Known judgment call:** the lib/test file split refines the spec's "one self-contained script" so the tracers are unit-testable without running sweeps; the compute entry point remains a single script (documented in the header of the plan and the script).
 - **Type consistency check:** `label_sequence` returns `(Vector{Matrix{Int16}}, Vector{Vector{Int}})` and every tracer call site passes them positionally; `edge_coordinates` is `Vector{Tuple{Int64,Int64}}` everywhere (matches `build_edge_coordinates` and `res.edge_coordinates`); arms are `String`s in both the sweep and the figures.
+
+---
+
+## Post-merge amendment (2026-07-20)
+
+The final whole-branch review flagged that Figure 2's exemplar panel was not
+reproducible from committed data (`trajs_map` existed only in-process). Fix,
+applied on branch `bvb-loose-ends` after the production data was merged:
+
+- The arm-2 sweep now also writes
+  `code/data/ModelB-Nucleation-SeedingTrajectories.csv` (wide; one row per
+  config × seed × arm; `t1..tSTEPS` hold integer largest-cluster counts, so
+  fraction = count / gridn² exactly).
+- Task 7's figure code moved from the compute script into the standalone
+  `code/model-b/Figs-ModelB-BoundaryVsBulk.jl`, which reads only the three
+  CSVs (no simulation) and is included by the compute script at the end of a
+  sweep — pipeline behavior unchanged, figures regenerable in isolation.
+- `_signflip_p` adopted the +1 Monte-Carlo correction ((hits+1)/(n_draws+1)).
+
+The production rerun reproduced both original CSVs byte-identically
+(determinism audit passed); logged statistics unchanged to 3 significant
+figures (freeze/mid sign-flip p: 0.02375 → 0.0238).
