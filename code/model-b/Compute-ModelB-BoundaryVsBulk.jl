@@ -2,6 +2,9 @@
 # from: the price-driven edge ring (boundary-seeded) or the interior minority
 # mixture (bulk-seeded)?
 # Spec: docs/superpowers/specs/2026-07-17-boundary-vs-bulk-seeding-design.md
+# Helpers live in BoundaryVsBulk-Lib.jl (unit-tested by Test-BoundaryVsBulk.jl)
+# so the algorithms are testable without running sweeps — a deliberate
+# refinement of the spec's one-script layout; this remains the sole entry point.
 #
 # Arm 1 (observational, 40 runs): backward max-overlap lineage from the onset
 #   cluster to its birth site; birth distance-to-boundary vs the analytic
@@ -87,7 +90,7 @@ function _run_birth(cfg::NamedTuple, seed::Int)
     base = (config = cfg.name, f = cfg.f, cash = cfg.cash, seed = seed)
     isnothing(t_on) && return merge(base, (included = false,), _EXCLUDED_BIRTH)
 
-    chain     = trace_backward(labels, sizes, t_on, argmax(sizes[t_on]))
+    chain     = trace_backward(labels, sizes, t_on, argmax(sizes[t_on]))  # argmax → first (lowest-label) maximizer on ties; deterministic
     bt, blab  = chain[1]
     bcells    = cluster_cells(labels[bt], blab)
     bdist     = minimum(chebyshev_boundary_distance(Tuple(cell)..., GRIDN, GRIDN)
@@ -194,9 +197,12 @@ function _run_seeding(cfg::NamedTuple, seed::Int)
         pc = arm == "control" ? CartesianIndex{2}[] :
                                 patch_cells_square(centers[arm], S_PATCH)
 
+        # Dominance requires the backward chain to reach exactly t = 1; gap-1
+        # tolerance cannot bridge a blink AT t = 1 (t-2 = 0), so this is a
+        # conservative (under-)count. The forward trace below corroborates it.
         dominant = false
         if !isnothing(t_on) && arm != "control"
-            chain    = trace_backward(labels, sizes, t_on, argmax(sizes[t_on]))
+            chain    = trace_backward(labels, sizes, t_on, argmax(sizes[t_on]))  # argmax → first (lowest-label) maximizer on ties; deterministic
             bt, blab = chain[1]
             if bt == 1
                 bset     = Set(cluster_cells(labels[bt], blab))
@@ -257,6 +263,10 @@ CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedingIntervention.csv"), 
 # Arm 2 statistics: paired onset advance (sign-flip permutation, as the
 # budget toggle) and dominance rates; McNemar-style edge-vs-center contrast
 # ---------------------------------------------------------------------------
+# NOTE: the per-(config, arm) sign-flip tests form a 6-test family with NO
+# multiplicity correction (matches the budget-toggle sibling). A nominal
+# p = 0.02 does not survive Bonferroni (0.05/6 ≈ 0.0083); treat these as
+# exploratory and correct (or flag as uncorrected) in any paper claim.
 function _signflip_p(dv::Vector{Float64}; n_draws::Int = 20_000)
     isempty(dv) && return NaN
     rng  = Xoshiro(7)
@@ -413,5 +423,7 @@ fig2 = plot(fig2_panels...; layout = (3, 2), size = (1150, 1250),
             plot_titlefontsize = 11)
 savefig(fig2, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-Seeding.pdf"))
 @info "Saved: ModelB-Nucleation-Seeding.pdf"
+
+@info "Arm 2 multiplicity note" n_paired_tests = 6 bonferroni_alpha = round(0.05 / 6, sigdigits = 2)
 
 @info "Compute-ModelB-BoundaryVsBulk.jl complete."
