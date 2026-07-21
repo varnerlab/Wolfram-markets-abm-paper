@@ -133,7 +133,7 @@ git commit -m "Promote CSV-standalone nucleation figures into paper-arxiv/figs v
 
 ### Task 2: Regenerate the compute-drawn figures (SeedSweep, BudgetToggle, EdgeTrace) into paper-arxiv/figs
 
-`ModelB-Nucleation-SeedSweep.pdf` is drawn inside `Compute-ModelB-NucleationSeeds.jl` (60 runs × 1,000 steps) and `ModelB-Nucleation-BudgetToggle{,-EdgeTrace}.pdf` inside `Compute-ModelB-BudgetToggle.jl` (3 arms × 20 seeds, paired 2,000-step runs) — their per-step series are not persisted, so regeneration means re-running the deterministic campaigns. Both have byte-identical-rerun precedent. **CSV byte-identity is the regression test: if `git diff` shows CSV changes, STOP — do not commit — and report; something in the environment changed.**
+`ModelB-Nucleation-SeedSweep.pdf` is drawn inside `Compute-ModelB-NucleationSeeds.jl` (60 runs × 1,000 steps) and `ModelB-Nucleation-BudgetToggle{,-EdgeTrace}.pdf` inside `Compute-ModelB-BudgetToggle.jl` (3 arms × 20 seeds, paired 1,500-step runs) — their per-step series are not persisted, so regeneration means re-running the deterministic campaigns. Both have byte-identical-rerun precedent. **CSV byte-identity is the regression test: if `git diff` shows CSV changes, STOP — do not commit — and report; something in the environment changed.**
 
 **Files:**
 - Modify: `code/model-b/Compute-ModelB-NucleationSeeds.jl` (its `savefig(...)` call for `ModelB-Nucleation-SeedSweep.pdf` → `_save_figure`)
@@ -328,7 +328,7 @@ git commit -m "Add references for disposition effect, liquidity interventions, a
 \label{sec:mb-protocols}
 ```
 Content requirements (flowing prose, no lists):
-  - Shared configuration for all nucleation campaigns: $64 \times 64$ grid, $\lambda = 0.02$, $k = 1$, band spread $\delta = 0.5$, disposition off, $P_0 = 100$, deterministic seeds; horizon 1,000 steps for the seed sweep and 2,000 steps elsewhere.
+  - Shared configuration for all nucleation campaigns: $64 \times 64$ grid, $\lambda = 0.02$, $k = 1$, band spread $\delta = 0.5$, disposition off, $P_0 = 100$, deterministic seeds; horizon 1,000 steps for the seed sweep, 1,500 for the budget-toggle and boundary-vs-bulk campaigns, and 2,000 for the escape-time campaign (verified against the scripts' `STEPS` constants).
   - Cluster and onset definitions, stated ONCE here: sell clusters are labeled by breadth-first search over 4-connected Sell cells on the full grid; onset $t_{\mathrm{on}}$ is the first step at which the largest sell cluster reaches 5\% of the grid. The boundary-vs-bulk birth analysis alone uses interior-only labeling (so ring-attached and bulk clusters can be distinguished); every other campaign uses the full-grid definition, so velocities and onsets compose across analyses.
   - Seed sweep: three configurations — stable ($f=0.10$, cash 1000), freeze ($f=0.20$, cash 500), collapse ($f=0.20$, cash 5000) — at 20 seeds each.
   - Budget toggle: per-seed paired counterfactuals; at $t_{\mathrm{on}}$ every cell's cash is scaled by $\times 10$ (injection), $\times 0.1$, or $\times 0.01$ (withdrawal doses); pre-toggle histories are asserted bit-identical; outcomes are measured in an onset-aligned window of $W = 400$ steps; front velocity is the OLS slope of front extent over the window.
