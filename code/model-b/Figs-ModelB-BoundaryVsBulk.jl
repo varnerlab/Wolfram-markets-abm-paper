@@ -8,8 +8,7 @@
 #   julia code/model-b/Figs-ModelB-BoundaryVsBulk.jl
 # (regenerates both PDFs from whatever CSVs are on disk — production or smoke).
 #
-# Writes: code/figs/ModelB-Nucleation-BirthSites.pdf
-#         code/figs/ModelB-Nucleation-Seeding.pdf
+# Writes: code/figs/ + paper-arxiv/figs/
 #
 # The body is a `let` block (locals only, no consts) so including it after
 # the compute sweep cannot collide with the sweep's global constants.
@@ -108,7 +107,7 @@ let
                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
                 plot_title = "Where the dominant sell nucleus is born (interior-only clusters)",
                 plot_titlefontsize = 11)
-    savefig(fig1, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BirthSites.pdf"))
+    _save_figure(fig1, "ModelB-Nucleation-BirthSites.pdf")
     @info "Saved: ModelB-Nucleation-BirthSites.pdf"
 
     # -----------------------------------------------------------------------
@@ -164,6 +163,6 @@ let
                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
                 plot_title = "Patch seeding at a distance gradient (paired; s=$(s_patch))",
                 plot_titlefontsize = 11)
-    savefig(fig2, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-Seeding.pdf"))
+    _save_figure(fig2, "ModelB-Nucleation-Seeding.pdf")
     @info "Saved: ModelB-Nucleation-Seeding.pdf"
 end

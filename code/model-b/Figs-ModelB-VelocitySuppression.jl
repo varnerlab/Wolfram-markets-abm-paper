@@ -3,7 +3,7 @@
 # Standalone-rerunnable from the repo root:
 #   julia code/model-b/Figs-ModelB-VelocitySuppression.jl
 #
-# Writes: code/figs/ModelB-Nucleation-VelocitySuppression.pdf
+# Writes: code/figs/ + paper-arxiv/figs/
 #
 # Suppression is ABSOLUTE (suppressed buy orders/step, unnormalized) — the
 # per-panel-scaling flaw this analysis exists to fix. Spearman ρ and the
@@ -54,6 +54,6 @@ let
                left_margin = 6Plots.mm, bottom_margin = 5Plots.mm,
                plot_title = "Front velocity vs absolute budget suppression (f = 0.20, window [t_on+50, t_on+400])",
                plot_titlefontsize = 11)
-    savefig(fig, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-VelocitySuppression.pdf"))
+    _save_figure(fig, "ModelB-Nucleation-VelocitySuppression.pdf")
     @info "Saved: ModelB-Nucleation-VelocitySuppression.pdf"
 end

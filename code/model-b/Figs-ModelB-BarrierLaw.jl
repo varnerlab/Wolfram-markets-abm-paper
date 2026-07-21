@@ -5,7 +5,7 @@
 # Standalone-rerunnable from the repo root:
 #   julia code/model-b/Figs-ModelB-BarrierLaw.jl
 #
-# Writes: code/figs/ModelB-Nucleation-BarrierLaw.pdf
+# Writes: code/figs/ + paper-arxiv/figs/
 #
 # Body is a `let` block (locals only) so it can be included after a sweep
 # without global-constant collisions.
@@ -94,6 +94,6 @@ let
                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
                plot_title = "Escape-time barrier law under budgets (dashed: Model A reference)",
                plot_titlefontsize = 11)
-    savefig(fig, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BarrierLaw.pdf"))
+    _save_figure(fig, "ModelB-Nucleation-BarrierLaw.pdf")
     @info "Saved: ModelB-Nucleation-BarrierLaw.pdf"
 end
