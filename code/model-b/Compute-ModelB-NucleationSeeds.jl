@@ -183,7 +183,7 @@ fig = plot(traj_panels..., dist_panels...;
            left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
            plot_title = "Nucleation probe across $(length(SEEDS)) seeds",
            plot_titlefontsize = 11)
-savefig(fig, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-SeedSweep.pdf"))
+_save_figure(fig, "ModelB-Nucleation-SeedSweep.pdf")
 @info "Saved: ModelB-Nucleation-SeedSweep.pdf"
 
 @info "Compute-ModelB-NucleationSeeds.jl complete."

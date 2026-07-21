@@ -250,7 +250,7 @@ fig = plot(panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
            left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
            plot_title = "Budget-toggle intervention (paired, onset-aligned; W=$(W))",
            plot_titlefontsize = 11)
-savefig(fig, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BudgetToggle.pdf"))
+_save_figure(fig, "ModelB-Nucleation-BudgetToggle.pdf")
 @info "Saved: ModelB-Nucleation-BudgetToggle.pdf"
 
 # ---------------------------------------------------------------------------
@@ -297,7 +297,7 @@ fig_edge = plot(edge_panels...; layout = (length(DIRECTIONS), 2), size = (1250, 
                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
                 plot_title = "Edge-ring trace: the price -> boundary conduit (mean over seeds)",
                 plot_titlefontsize = 11)
-savefig(fig_edge, joinpath(_PATH_TO_FIGS, "ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"))
+_save_figure(fig_edge, "ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf")
 @info "Saved: ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"
 
 @info "Compute-ModelB-BudgetToggle.jl complete."
