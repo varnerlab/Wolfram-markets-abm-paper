@@ -1253,6 +1253,78 @@ overcome.
 
 
 % ============================================================================
+\section{Results II: Model~B, the Barrier under Budget Constraints}
+\label{sec:results-b}
+% ============================================================================
+
+Results~I established Model~A as a clean nucleation baseline---a deterministic market
+that lingers in a mixed attractor until quenched contrarian disorder seeds a sell cluster
+large enough to grow into a lattice-spanning crash---and the theory developed alongside it
+quantified the barrier that guards that transition; Results~II asks what finite budgets do
+to this picture. Model~B retains the same two rules and the same disorder but couples them
+to an endogenous price and a cash constraint that can throttle the very orders the rules
+call for, and we interrogate the resulting \emph{arrested} nucleus in five steps: whether
+the crash transition survives budgets at all (Section~\ref{sec:mb-transition}), whether the
+nucleus that drives it remains a spatial object rather than a mean-field instability,
+whether budgets move the nucleation barrier or merely gate the growth that follows it, where
+in the market the budget constraint actually bites, and what the asymmetry we uncover there
+implies for liquidity intervention.
+
+\subsection{The Transition Survives Budgets}
+\label{sec:mb-transition}
+The first question---whether budgets destroy the transition or merely dress it---we settled
+with the large Model~B factorial sweep described in Section~\ref{sec:mb-protocols}, a
+$10{,}800$-run crossing of the minority fraction, the price impact, the cash endowment, the
+disposition switch, and the two order-band parameters. The crash transition survived the
+imposition of budgets intact: the sell-dominated regime appeared abruptly between
+$f = 0.15$ and $f = 0.20$ at every price impact~$\lambda$ we tested, reproducing the
+threshold that Model~A had located without any price feedback; and a variance decomposition
+attributed $94$--$98\%$ of the outcome variance to the swept knobs and at most $5.4\%$ to the
+disorder seed---so the fate of a Model~B run was fixed overwhelmingly by its budget regime,
+not by the particular random placement of its contrarians.
+
+What budgets changed was not whether the market crashed but how it crashed, and to see this
+we classified every run by its late-time behavior into one of five candidate
+regimes---inert, crash-prone, oscillatory, plateau, and drift, defined in
+Appendix~\ref{app:stage2}---of which only two were ever realized: an oscillatory regime in
+$6{,}589$ runs ($61\%$) and a crash-prone regime in the remaining $4{,}211$ ($39\%$). We
+stress that ``crash-prone'' is a behavioral label rather than a statement about prices: a run
+earned it whenever the Sell fraction stood at or above $0.5$ on at least $1\%$ of its
+steps---a sustained majority-sell episode on the grid---and such an episode need not, and
+usually did not, coincide with a large price drawdown.
+
+That decoupling of grid state from price surfaced the first genuinely new phenomenon of
+Model~B, the liquidity \emph{freeze}. The typical crash-prone run was not a collapse but a
+sell-saturated stasis: its interior locked near a Sell fraction of $0.88$ while budget
+exhaustion starved the order flow that would have moved the quote, so that the median maximum
+drawdown across crash-prone runs was only about $5\%$ and fully half of them never traded
+below the initial price at all (median price minimum $100.00$). True price collapses lived in
+the tail of this distribution---$897$ of the $4{,}211$ crash-prone runs drove the price below
+$90$, and the most violent of them, concentrated at $f = 0.2$, $\lambda = 0.05$, cash
+$5{,}000$, and disposition off, first inflated $2.5$--$2.7\times$ bubbles and then crashed
+them by $40$--$69\%$, with the disposition effect roughly doubling the return volatility
+wherever it was switched on (a ratio of $2.40\times$). Figure~\ref{fig:mb-exemplars} places
+one such tail trajectory beside a representative oscillatory run precisely because the
+collapse makes the mechanism legible; the exemplar is the exception, though, and the reader
+should hold the freeze---not the bubble---as the modal crash-prone outcome.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig-ModelB-Exemplars.pdf}
+  \caption{Model~B regime exemplars: price, interior state fractions, and
+  suppressed orders for a crash-prone run (left, run 9652) and an
+  oscillatory run (right, run 5916). The crash-prone exemplar is the
+  dramatic tail of its regime---a bubble-and-collapse trajectory
+  ($100 \to 266 \to 83$)---shown because it makes the mechanism visible;
+  the \emph{typical} crash-prone run is a liquidity freeze in which the
+  grid locks near a Sell fraction of $0.88$ while the price barely moves.
+  ``Crash-prone'' throughout denotes majority-sell lock-in (Sell fraction
+  $\ge 0.5$ on at least 1\% of steps), not a price discontinuity.}
+  \label{fig:mb-exemplars}
+\end{figure}
+
+
+% ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 % ============================================================================
