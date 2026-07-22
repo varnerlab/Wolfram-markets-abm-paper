@@ -1393,8 +1393,9 @@ that happened to survive and grow---rather than a structure templated by the bou
 one place the edge did assert itself was \emph{after} birth: pre-onset attachment of the
 growing cluster to the active-edge ring occurred only in the collapse configuration ($6$ of
 $19$ runs) and never in the freeze ($0$ of $20$), a first hint that the boundary governs how a
-nucleus grows rather than where it is born---a distinction we sharpen below, when we ask where
-in the market the budget constraint actually bites.
+nucleus grows rather than where it is born---a distinction we sharpen in
+Section~\ref{sec:mb-gating}, when we ask where in the market the budget constraint actually
+bites.
 
 \begin{figure}[tb]
   \centering
@@ -1505,6 +1506,100 @@ itself a growth milestone---$t_{\mathrm{on}}$ marks the step at which the larges
 cluster first reaches $5\%$ of the grid---a faster-growing front reaches the trigger
 sooner, and a monotone-in-cash onset rate is precisely the signature one expects if budgets
 gate growth rather than birth. It is that gating we now set out to demonstrate directly.
+
+\subsection{Growth Is Gated at the Boundary}
+\label{sec:mb-gating}
+If budgets act on growth rather than birth, two predictions follow---one negative, one
+positive---and the campaigns of Section~\ref{sec:mb-protocols} let us test both. The negative
+prediction is that handing the interior a ready-made nucleus should buy nothing, because the
+interior was never short of nuclei; the interventional arm of the boundary-versus-bulk
+campaign therefore stamped a $3 \times 3$ sell patch onto the grid at boundary-adjacent
+(edge), mid, and center placements in both the freeze and the collapse configurations, each
+stamped run paired against an unstamped control, and the patch failed absolutely as a
+founder: in all six cells of the configuration-by-placement design the dominance rate was
+$0/20$---the domain standing largest at onset never once descended from the stamped
+patch---the patch's forward lineages grew only to $9$--$15$ cells before dying out, never
+alive at the moment of onset, and no placement advanced the onset itself. The interior,
+evidently, does not lack seeds; the single-cell fluctuations of Section~\ref{sec:mb-spatial}
+supply them constantly and at no cost---what is scarce above threshold is not a nucleus but
+the \emph{growth} that would make one matter.
+
+Figure~\ref{fig:mb-seeding} lays out the paired onsets, the dominance rates, and exemplar
+growth trajectories, and it also contains the one nominal placement effect, which ran, if
+anywhere, in the wrong direction for seeding: the freeze-configuration mid-grid patch
+\emph{delayed} onset (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$)---an
+observation we hold as exploratory, since it is uncorrected across a six-test family, fails
+the Bonferroni threshold of $0.0083$, and rests on a sign-flip test of the mean---and we
+accordingly report it as a lead, not a result. Even taken at face value, though, it points
+the same way as the null it accompanies: a stamped patch could, at best, perturb the interior
+into nucleating \emph{later}; nothing we planted made the market crash sooner.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-Seeding.pdf}
+  \caption{Stamped-patch seeding outcomes across placements and configurations. (Top row)
+  Onset step per seed under each arm---an unstamped control and a $3 \times 3$ sell patch
+  stamped at edge, mid, and center placements---for the freeze (left) and collapse (right)
+  configurations, with gray lines pairing the same seed across arms; the pairings cross in
+  both directions and no placement advances onset. The apparent delay under the freeze mid
+  placement (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$) is
+  exploratory---uncorrected across the six-test family and short of the Bonferroni
+  threshold of $0.0083$---a lead, not a result. (Middle row) Dominance rate per placement:
+  the fraction of runs in which the cluster standing largest at onset descends from the
+  stamped patch is $0/20$ in every one of the six configuration-by-placement cells.
+  (Bottom row) Largest-cluster growth trajectories for a single exemplar seed under each
+  arm: which arm reaches domain scale first differs between the two configurations rather
+  than tracking the stamped placement, and the domain that grows is in every run one founded
+  away from the patch.}
+  \label{fig:mb-seeding}
+\end{figure}
+
+The positive prediction is a dose-response: if suppressed buy orders are the brake on the
+front, the front should slow in proportion to how hard the brake is pressed, whatever the
+nominal cash endowment that produced the pressing. Across the five budget doses at
+$f = 0.20$ (cash $250$--$5{,}000$; $n = 97$ runs included, with $3$ excluded by the window
+rule of Section~\ref{sec:mb-protocols}), the front velocity fell as the \emph{absolute}
+suppression rate rose---pooled Spearman $\rho = -0.372$, permutation $p = 0.0003$---and the
+relationship was not a between-dose confound, for it held within every dose separately, with
+$\rho$ between $-0.38$ and $-0.52$, and it survived the removal of any single dose entirely
+(leave-one-dose-out $p \le 0.0014$). We state the shape of this result as carefully as its
+strength (Figure~\ref{fig:mb-velsupp}). The median suppression load varied remarkably little
+across the ladder ($517$--$595$ orders per step), and the median velocity was U-shaped in
+cash---highest at the tightest dose, lowest in the middle of the ladder, rising again at the
+loosest---so the claim the data support is the pooled, and within-dose, negative
+velocity--suppression relationship, not a monotone-in-cash dose ladder: initial cash was a
+weak proxy for the suppression a given front actually experienced, and it was the realized
+suppression, wherever it landed, that tracked the slowing of the front.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-VelocitySuppression.pdf}
+  \caption{Front velocity against absolute budget suppression at $f = 0.20$. (Left) For the
+  $97$ runs included across the five cash doses ($250$--$5{,}000$; $3$ runs excluded by the
+  window rule), the front velocity---the OLS slope of the front extent over the
+  onset-aligned window $[t_{\mathrm{on}}+50,\,t_{\mathrm{on}}+400]$---is plotted against
+  the mean absolute number of suppressed buy orders per step over the same window, colored
+  by dose with the per-cash medians marked as diamonds; velocity falls as suppression
+  rises, Spearman $\rho = -0.372$, permutation $p = 0.0003$. (Right) The same velocities
+  arranged by initial cash on a logarithmic axis, with a bar at each per-dose median: the
+  medians are U-shaped in cash---highest at cash $250$, lowest near $1{,}000$--$2{,}000$,
+  rising again at $5{,}000$---while the per-dose median suppression spans only $517$--$595$
+  orders per step, so the supported claim is the pooled and within-dose
+  velocity--suppression relationship, not a monotone ordering by dose.}
+  \label{fig:mb-velsupp}
+\end{figure}
+
+Assembled, the last three subsections close a pincer on where budgets act. Birth is bulk and
+free: the winning nucleus is an interior single-cell fluctuation, supplied constantly at
+every cash level alike (Section~\ref{sec:mb-spatial}), and a nine-cell head start planted
+anywhere in the interior never founded the winning domain. Escape is budget-blind so far as
+the data resolve it: the Kramers law survived at every cash level, and its barrier
+parameters could not be told apart between the tightest and the loosest budget
+(Section~\ref{sec:mb-barrier}). What budgets throttle is the growth of the domain the
+nucleus founds---not whether a nucleus is born, not how long it waits, but how fast it grows
+once committed---and the throttle is the suppression of buy orders at the moving front. One
+question remains: where in the market that throttle physically sits---through what conduit a
+change in cash reaches the front---and it is that conduit we identify causally next.
 
 % ============================================================================
 \section{Conclusion}
