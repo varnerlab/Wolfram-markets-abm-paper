@@ -1599,7 +1599,120 @@ parameters could not be told apart between the tightest and the loosest budget
 nucleus founds---not whether a nucleus is born, not how long it waits, but how fast it grows
 once committed---and the throttle is the suppression of buy orders at the moving front. One
 question remains: where in the market that throttle physically sits---through what conduit a
-change in cash reaches the front---and it is that conduit we identify causally next.
+change in cash reaches the front---and it is that conduit we identify causally in
+Section~\ref{sec:mb-intervention}.
+
+\subsection{The Intervention Asymmetry}
+\label{sec:mb-intervention}
+The gating evidence of Section~\ref{sec:mb-gating} still compared runs whose budgets
+differed from the first step; the budget toggle of Section~\ref{sec:mb-protocols} sharpened
+that comparison into a true intervention: for each seed we ran paired counterfactuals---one
+control, one in which every cell's cash was scaled by a common factor exactly at
+$t_{\mathrm{on}}$, the pre-toggle histories asserted bit-identical---and we read the
+consequences in the onset-aligned window of $W = 400$ steps, so that whatever divergence a
+pair developed dated strictly from the liquidity shock. The injection arm delivered the
+causal answer, and in the direction the gating picture predicts: scaling cash $\times 10$
+at onset in the tight freeze configuration (cash $500$) \emph{accelerated} the front in
+$14$ of $19$ seeds (sign test $p = 0.064$; we report the count and the $p$-value as they
+stand)---the median front velocity rose from $1.39$ to $3.55 \times 10^{-4}$ grid fractions
+per step, the median front extent at $t_{\mathrm{on}}+400$ from $0.112$ to $0.192$, and the
+suppressed buy orders fell by $29\%$ (Figure~\ref{fig:mb-toggle}; the window rule of
+Section~\ref{sec:mb-protocols} admitted $19$ of the $20$ seeds in every arm). Handing the
+market ten times its cash at the moment of crash onset made the sentiment crash spread
+\emph{faster}; it is the paired design, not the seed count, that licenses the causal
+reading, and it is the mechanism traced below that explains it.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BudgetToggle.pdf}
+  \caption{Budget-toggle intervention: paired, onset-aligned counterfactuals at $f = 0.20$
+  with a $W = 400$ post-toggle window (Section~\ref{sec:mb-protocols}). (Left column)
+  Largest sell cluster as a fraction of the grid against steps since onset, for the three
+  arms---injection (cash $\times 10$ at onset, on the tight cash-$500$ base) and the mild
+  ($\times 0.1$) and harsh ($\times 0.01$) withdrawals, both on the loose cash-$5{,}000$
+  base---with each toggled trajectory (color) drawn over its control (gray) for the $19$
+  included seed pairs per arm; the dashed line marks the toggle at $t_{\mathrm{on}}$, and
+  the pre-toggle trajectories coincide by construction. (Right column) Paired front
+  velocities over the window, one line per seed pair, control against toggled: injection
+  accelerates the front in $14$ of $19$ pairs (sign test $p = 0.064$), while withdrawal is
+  null at both doses (sign-flip permutation $p = 0.65$ mild, $p = 0.29$ harsh).}
+  \label{fig:mb-toggle}
+\end{figure}
+
+An acceleration under injection is exactly backwards for the naive mechanism, and that is
+what makes it diagnostic. Injected cash cannot feed the front directly---the front is a
+\emph{sell} wave, sells need shares rather than cash, and the interior CA never sees the
+books at all, since budgets suppress order flow and never sentiment
+(Section~\ref{sec:model-b})---so the only conduit by which a cash shock can reach interior
+sentiment is the loop's own: executed flow moves the price, the price crosses the edge
+bands, and the band crossings set the state of the active-edge ring whose sentiment the
+boundary feeds into the grid. The edge trace of Figure~\ref{fig:mb-edgetrace} caught that
+conduit in the act. At the toggle, injection flipped the ring \emph{instantly}, from the
+control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and ${\sim}1.0$ Sell: the injected cash
+let the buy orders the books had been suppressing execute at last, the supported
+price---$113$ against the control's $93$ at $t_{\mathrm{on}}+400$---broke above the upper
+bands, and the entire ring, contrarian in the value trader's sense of buying below its band
+and selling above it, dumped at once, the flipped state decaying back over the following
+$100$--$200$ steps as the EMA bands caught up with the new price level. Under tight budgets
+the boundary buys into the falling price and brakes the front; under injection it sold into
+the supported price and fed the front instead. The boundary switched from brake to
+accelerant---a sign reversal, not a modulation.
+
+Withdrawal, which by symmetry ought to have braked the crash, did nothing of the
+kind---at either dose, and the two doses matter because together they rule out mere
+under-dosing. The mild cut ($\times 0.1$, applied in the loose collapse configuration,
+cash $5{,}000$) left the front statistically untouched (sign-flip permutation $p = 0.65$)
+and barely disturbed the suppression load, suppressed buys moving $+7\%$; the harsh cut
+($\times 0.01$) \emph{binds}---it dropped every cell to ${\sim}50$ in cash, below the
+standing price, so buys died outright and the suppressed-buy load jumped from $524$ to
+$680$ orders per step---and yet the median front velocity moved only from $2.23$ to
+$2.38 \times 10^{-4}$ grid fractions per step ($11$ of $19$ seeds in the predicted
+direction; sign-flip permutation $p = 0.29$), while the price barely registered the cut at
+all, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$. The trace explains
+the null (Figure~\ref{fig:mb-edgetrace}): in the loose configuration the control ring
+already sat near $0.46$ Buy after onset---a brake the crash itself had engaged, the sell
+wave having pressed the price beneath nearly half the ring's bands---and the cash cut
+could only strengthen it transiently, lifting the ring's Buy fraction to
+${\sim}0.72$--$0.74$ before it relaxed back to the control level within ${\sim}200$
+steps: the same sign, a modest margin, and a decay.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf}
+  \caption{Edge-ring trace of the price-to-boundary conduit around the toggle. Each panel
+  draws an edge-ring state fraction, averaged over the $19$ included seed pairs and aligned
+  at the per-seed onset, for the toggled arm (color) against its control (gray), with the
+  dashed line marking the toggle at $t_{\mathrm{on}}$: the ring's Buy fraction occupies the
+  left column and its Sell fraction the right, one row per arm (injection $\times 10$; mild
+  withdrawal $\times 0.1$; harsh withdrawal $\times 0.01$), and the pre-toggle traces
+  coincide by construction. (Top row) Injection flips the ring at the toggle---from
+  ${\sim}0.5$ Buy and $0$ Sell in the control to $0$ Buy and ${\sim}1.0$ Sell---and the
+  flipped state decays back over the following $100$--$200$ steps as the EMA bands catch up
+  with the supported price. (Middle and bottom rows) Withdrawal transiently deepens an
+  already-engaged brake: the control ring sits near $0.46$ Buy after onset, either cut
+  lifts the Buy fraction to ${\sim}0.72$--$0.74$ before it relaxes back to the control
+  level by ${\sim}200$ steps, and the Sell fraction---which in this loose configuration
+  declines from ${\sim}0.37$ well before onset to zero just after---remains
+  indistinguishable between control and toggled throughout.}
+  \label{fig:mb-edgetrace}
+\end{figure}
+
+Why the asymmetry? Two features of the model's economy combine to produce it. The first is
+a matter of sign and ceiling: only injection can \emph{reverse} the boundary's state,
+because propping the price above the upper bands flips the ring from buying to selling,
+whereas withdrawal can move the ring only \emph{further} in the direction it already
+points, and only transiently---an engaged brake pressed harder, not a new force. The
+second is that crashes \emph{self-finance} their own stabilizers: every cell the front
+recruits turns seller and liquidates up to its $10$-share endowment at prices near
+$P \approx 100$--$120$, banking on the order of $1{,}000$ in fresh cash per recruit, so
+the sell wave continuously mints the liquidity its dip-buyers spend, and a cut to the cash
+\emph{stock} at one instant cannot staunch the cash \emph{flow} the crash generates for
+itself. Together they yield the phenomenology we take from Model~B as its headline applied
+result---a \emph{liquidity-intervention asymmetry}, in which injections prop the price,
+flip the contrarian boundary to selling, and accelerate the sentiment crash, while
+withdrawals are near-inert. What this asymmetry means for the design of liquidity
+interventions, and for the intuition that support operations are stabilizing, we take up
+in the Discussion.
 
 % ============================================================================
 \section{Conclusion}
