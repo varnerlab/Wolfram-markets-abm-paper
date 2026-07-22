@@ -1416,6 +1416,96 @@ in the market the budget constraint actually bites.
   \label{fig:mb-birthsites}
 \end{figure}
 
+\subsection{Budgets Do Not Move the Barrier}
+\label{sec:mb-barrier}
+A nucleus that is spatial and bulk-born poses the natural next question: does the budget
+constraint change how hard such a nucleus is to \emph{create}? Two clean answers suggested
+themselves in advance---finite cash might destroy the Kramers scaling altogether, arresting
+nucleation so thoroughly that no waiting-time divergence survives, or it might preserve the
+scaling while shifting the barrier, sliding the pseudo-critical point upward as budgets
+tighten---and the escape-time campaign of Section~\ref{sec:mb-protocols} was built to tell
+them apart, sweeping the minority fraction across the onset cliff at three cash levels and
+fitting the barrier law $\ln\tilde\tau = A + B/(f - f_0)$, the same form that
+Equation~\eqref{eq:kramers} established for Model~A, to the Kaplan--Meier median onset
+times at each cash level separately. Neither answer materialized. The escape law survived
+at every cash level we probed---the fits achieved $R^2 = 0.978$, $0.990$, and $0.980$ for
+cash $500$, $1{,}000$, and $5{,}000$, on $5$, $6$, and $6$ median points respectively,
+comparable to the $0.991$ of the Model~A fit---so nucleation under budgets remained what it
+had been without them, a stochastic escape over a barrier; and yet the barrier itself, so
+far as the data could resolve it, did not move.
+
+Table~\ref{tab:kramers-fits} collects the fitted parameters with their $95\%$ bootstrap
+confidence intervals, and Figure~\ref{fig:mb-barrier} draws the fitted divergences over the
+medians; together they support the second half of that claim in its precise form---there
+was \emph{no detectable barrier shift}. Between the tightest and the loosest budget the
+bootstrap intervals overlap on both parameters that encode the barrier: on the
+pseudo-critical point $f_0$, cash $500$ gave $(0.000,\,0.153)$ against $(0.077,\,0.157)$ at
+cash $5{,}000$; on the barrier coefficient $B$, cash $500$ gave $(0.070,\,1.135)$ against
+$(0.050,\,0.415)$; and the onset cliff itself sat between $f = 0.15$ and $f = 0.18$ at
+every cash level. We state the accompanying power caveat just as plainly, because an
+overlap of intervals is a bound and not a demonstration of equality: the $B$ point
+estimates differ by $2.5\times$ across the cash ladder, and the cash-$500$ lower bound of
+$0.000$ on $f_0$ is the physical boundary of the fit domain rather than a data
+quantile---the data bound the barrier shift, they do not exclude a small one.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BarrierLaw.pdf}
+  \caption{Escape-time barrier law under budgets. (Top left) Kaplan--Meier median onset
+  times (points) against the minority fraction $f$ at cash $500$, $1{,}000$, and $5{,}000$,
+  each with its fitted divergence $\ln\tilde\tau = A + B/(f - f_0)$ (solid curves) and the
+  Model~A fit of Equation~\eqref{eq:kramers} dashed for reference; the fitted curves are
+  drawn only up to a display ceiling so that the medians are not crushed by the divergence
+  near $f_0$. (Top right) Fraction of seeds that nucleated within the $2{,}000$-step
+  horizon: the onset cliff sits between $f = 0.15$ and $f = 0.18$ at every cash level.
+  (Bottom row) Fitted pseudo-critical point $f_0$ (left) and barrier coefficient $B$
+  (right) per cash level, with $95\%$ bootstrap confidence intervals; the dashed lines mark
+  the Model~A values $f_0 = 0.101$ and $B = 0.389$. The intervals overlap between tight and
+  loose cash on both parameters: no detectable barrier shift. Censoring at the horizon and
+  its handling in the medians are detailed in Appendix~\ref{app:censoring}.}
+  \label{fig:mb-barrier}
+\end{figure}
+
+\begin{table}[tb]
+\centering
+\caption{Kramers escape-law fits $\ln\tilde\tau = A + B/(f - f_0)$ to
+Kaplan--Meier median onset times, per cash level, with the Model~A fit for
+reference. Brackets are 95\% bootstrap CIs (2{,}000 resamples of seeds
+within each~$f$). The cash-500 $f_0$ lower bound of $0.000$ is the physical
+boundary of the fit domain, not a data quantile. CIs overlap between tight
+(500) and loose (5000) cash on both $B$ and $f_0$: no detectable barrier
+shift.}
+\label{tab:kramers-fits}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Configuration & $n_f$ & $A$ & $B$ & $f_0$ & $R^2$ \\
+\midrule
+Model~A (reference)  & 12 & 2.78 & 0.389 & 0.101 & 0.991 \\
+Model~B, cash 500    & 5  & 3.38 & 0.247~[0.070, 1.135] & 0.112~[0.000, 0.153] & 0.978 \\
+Model~B, cash 1000   & 6  & 3.80 & 0.143~[0.071, 0.691] & 0.135~[0.048, 0.152] & 0.990 \\
+Model~B, cash 5000   & 6  & 4.10 & 0.098~[0.050, 0.415] & 0.143~[0.077, 0.157] & 0.980 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The consequence reorganizes the spine of Results~II. Nucleation---the birth of the winning
+cluster established in Section~\ref{sec:mb-spatial} and the escape statistics fitted
+here---showed no detectable budget dependence: the founding sites were bulk-dominated and
+consistent with uniform placement in the tight-cash and loose-cash configurations alike,
+and the barrier parameters at cash $500$ could not be told apart from those at cash
+$5{,}000$. Whatever budgets do to the crash, then, they must do \emph{downstream} of the
+nucleation event, on the growth of the domain the nucleus founds. One exploratory
+observation, which we report uncorrected for multiple comparisons and weigh accordingly,
+already points the same way: near the cliff the onset rate was monotone in cash---at
+$f = 0.174$ the fraction of seeds nucleating within the horizon rose from $0.45$ to $0.62$
+to $0.70$ from tight to loose cash, and at $f = 0.177$ the Kaplan--Meier medians fell in
+the same order, $1{,}598$, $1{,}427$, and $1{,}208$ steps. Because the onset trigger is
+itself a growth milestone---$t_{\mathrm{on}}$ marks the step at which the largest sell
+cluster first reaches $5\%$ of the grid---a faster-growing front reaches the trigger
+sooner, and a monotone-in-cash onset rate is precisely the signature one expects if budgets
+gate growth rather than birth. It is that gating we now set out to demonstrate directly.
+
 % ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
