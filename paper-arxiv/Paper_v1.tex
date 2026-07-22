@@ -932,8 +932,12 @@ for each seed we run paired counterfactuals in which, exactly at $t_{\mathrm{on}
 cell's cash is scaled by $\times 10$ (an injection) or by $\times 0.1$ or $\times 0.01$ (two
 withdrawal doses), with the pre-toggle histories asserted bit-identical between the members
 of a pair so that any divergence dates strictly from the shock; we then measure outcomes in an
-onset-aligned window of $W = 400$ steps and take the front velocity to be the ordinary
-least-squares slope of the front extent over that window. The boundary-versus-bulk campaign
+onset-aligned window of $W = 400$ steps and take the front velocity to be the endpoint
+difference quotient---the change in largest-cluster fraction between onset and
+onset$+W$, divided by $W$---rather than a fitted slope; a pair is excluded from every
+arm when the control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
+leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$). The
+boundary-versus-bulk campaign
 asks where the winning cluster is born: we track the founding cell of the onset cluster and
 compare its location against the analytic null for spatially uniform births, under which the
 fraction of births falling within distance~$2$ of the boundary is~$0.125$, and we complement
@@ -1635,7 +1639,7 @@ reading, and it is the mechanism traced below that explains it.
   the pre-toggle trajectories coincide by construction. (Right column) Paired front
   velocities over the window, one line per seed pair, control against toggled: injection
   accelerates the front in $14$ of $19$ pairs (sign test $p = 0.064$), while withdrawal is
-  null at both doses (sign-flip permutation $p = 0.65$ mild, $p = 0.29$ harsh).}
+  null at both doses (sign-flip permutation $p = 0.67$ mild, $p = 0.29$ harsh).}
   \label{fig:mb-toggle}
 \end{figure}
 
@@ -1654,14 +1658,14 @@ price---$113$ against the control's $93$ at $t_{\mathrm{on}}+400$---broke above 
 bands, and the entire ring, contrarian in the value trader's sense of buying below its band
 and selling above it, dumped at once, the flipped state decaying back over the following
 $100$--$200$ steps as the EMA bands caught up with the new price level. Under tight budgets
-the boundary buys into the falling price and brakes the front; under injection it sold into
+the boundary bought into the falling price and braked the front; under injection it sold into
 the supported price and fed the front instead. The boundary switched from brake to
 accelerant---a sign reversal, not a modulation.
 
 Withdrawal, which by symmetry ought to have braked the crash, did nothing of the
 kind---at either dose, and the two doses matter because together they rule out mere
 under-dosing. The mild cut ($\times 0.1$, applied in the loose collapse configuration,
-cash $5{,}000$) left the front statistically untouched (sign-flip permutation $p = 0.65$)
+cash $5{,}000$) left the front statistically untouched (sign-flip permutation $p = 0.67$)
 and barely disturbed the suppression load, suppressed buys moving $+7\%$; the harsh cut
 ($\times 0.01$) \emph{binds}---it dropped every cell to ${\sim}50$ in cash, below the
 standing price, so buys died outright and the suppressed-buy load jumped from $524$ to
@@ -1690,8 +1694,8 @@ steps: the same sign, a modest margin, and a decay.
   flipped state decays back over the following $100$--$200$ steps as the EMA bands catch up
   with the supported price. (Middle and bottom rows) Withdrawal transiently deepens an
   already-engaged brake: the control ring sits near $0.46$ Buy after onset, either cut
-  lifts the Buy fraction to ${\sim}0.72$--$0.74$ before it relaxes back to the control
-  level by ${\sim}200$ steps, and the Sell fraction---which in this loose configuration
+  lifts the Buy fraction to ${\sim}0.72$--$0.74$ before the transient excess dissipates
+  by ${\sim}200$ steps, and the Sell fraction---which in this loose configuration
   declines from ${\sim}0.37$ well before onset to zero just after---remains
   indistinguishable between control and toggled throughout.}
   \label{fig:mb-edgetrace}
