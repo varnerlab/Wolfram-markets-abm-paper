@@ -1056,6 +1056,23 @@ rule.
 \end{figure}
 
 
+% ============================================================================
+\section{Theory: The Nucleation Barrier}
+\label{sec:theory}
+% ============================================================================
+
+Results~I established \emph{what} happens: above a sharp threshold in the contrarian
+fraction, the market abandons its mixed attractor through a discontinuous transition
+that propagates as spatially coherent fronts rather than as an instantaneous global
+failure. This section establishes \emph{why}. We proceed through a hierarchy of
+approximations that progressively eliminates every non-spatial explanation---mean-field
+theory fails, the pair approximation fails, and nucleation theory succeeds---and the
+hierarchy terminates in a quantitative escape law,
+$\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ ($R^2 = 0.991$), that assigns the
+transition both a barrier and a divergence threshold. That law is the quantitative
+claim Model~B must answer in Results~II: if budget constraints change the physics of
+the transition, they must move this barrier.
+
 \subsection{Potts Energy Mapping}
 \label{sec:potts}
 
@@ -1200,7 +1217,10 @@ with the mean lifetime decreasing from $\bar{\tau} \approx 24{,}000$ at $f = 0.1
 to $\bar{\tau} \approx 86$ at $f = 0.30$.
 
 \paragraph{Kramers escape scaling.}
-The lifetime data were well described by the Kramers escape form
+The lifetime data were well described by the escape form of
+Kramers~\cite{kramers1940brownian}, the classical framework for thermally activated
+barrier crossing reviewed by H\"{a}nggi, Talkner, and
+Borkovec~\cite{hanggi1990reaction}:
 \begin{equation}
   \ln \bar{\tau} \;=\; a + \frac{B}{f - f_0},
   \label{eq:kramers}
@@ -1254,6 +1274,16 @@ energy discontinuity $\Delta e \approx 0.56$ at $f_c$, from the mixed attractor
 ($e \approx -0.37$) to the all-Sell ground state ($e \approx -0.93$), confirms the
 first-order character of the transition and quantifies the barrier that the system must
 overcome.
+
+This barrier picture does more than explain Model~A; it makes three falsifiable
+predictions for the budget-constrained model that follows. If nucleation survives the
+introduction of finite budgets, escape times should still diverge as
+$A + B/(f - f_0)$, the functional signature of barrier crossing; if budgets act on
+nucleation itself, the effect must appear as a shift in the fitted pair
+$(B, f_0)$---a taller barrier or a displaced divergence threshold; and if budgets act
+elsewhere in the dynamics, the law should hold with the \emph{same} barrier while
+growth-sensitive observables move instead. Results~II
+(Section~\ref{sec:results-b}) tests exactly these predictions.
 
 
 % ============================================================================
