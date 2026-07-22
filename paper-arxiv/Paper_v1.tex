@@ -978,9 +978,17 @@ across $10$ seeds of $2{,}000$ steps, comprise $10{,}800$ runs; the full design 
 variance decomposition are deferred to Appendix~\ref{app:stage2}.
 
 % ============================================================================
-\section{Results and Discussion}
+\section{Results I: Model~A, the Clean Nucleation Baseline}
 \label{sec:results}
 % ============================================================================
+
+Model~A is the unconstrained baseline of the nucleation argument: agents trade without
+budgets, prices arrive from outside the market, and nothing in the dynamics can throttle
+an order once a rule calls for it, so a sell nucleus that manages to form runs unopposed
+to completion. We establish that clean phenomenon in two steps---the spatiotemporal
+anatomy of a single crash, then the phase diagram that locates its threshold---before
+Section~\ref{sec:theory} quantifies the barrier that guards it and Model~B
+(Section~\ref{sec:results-b}) constrains the growth that follows it.
 
 \subsection{Grid Dynamics: Stable vs.\ Crash Regimes}
 We simulated the $256 \times 256$ agent grid under Model~A for three values of the
@@ -1000,7 +1008,9 @@ The orange region grew concentrically until it engulfed the grid by $t = 23{,}79
 which suggests a contagion mechanism qualitatively different from the instantaneous
 global crashes produced by mean-field models: the crash had a \emph{spatial history},
 starting at one location, spreading through a physical medium, and arriving at different
-parts of the grid at different times (Figure~\ref{fig:fig2}, middle row). At $f = 0.20$
+parts of the grid at different times (Figure~\ref{fig:fig2}, middle row). This
+sequence---a localized seed, a coherent front, a spatial history---is
+nucleation-and-growth in the classical sense. At $f = 0.20$
 (bottom row), the cascade occurred earlier and more rapidly; the grid was already
 predominantly sell-dominated by $t = 2{,}851$, consistent with a system deep in the
 supercritical regime.
@@ -1040,16 +1050,19 @@ majority-rule agents could no longer absorb; instead, the herding mechanism
 \emph{amplified} the cascade, because the local majority had tipped from buy to sell. The
 result was a coordination failure---a flash crash triggered by the interaction between two
 deterministic rules, without any stochastic component, learning, or adaptive strategy
-switching. The crash was an emergent property of the rule mixture, not of any individual
-rule.
+switching. In the language that Section~\ref{sec:theory} makes precise, the stability
+below $f_c$ was in fact \emph{metastability}: sell clusters still nucleated, but each
+died before reaching the critical size at which the herding mechanism turns from damper
+to amplifier. The crash was an emergent property of the rule mixture, not of any
+individual rule.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/Fig3-PhaseDiagram.pdf}
   \caption{Phase diagram for Model~A (Rules~19280/19286, $128 \times 128$ grid).
-  \textbf{A:}~Mean sell fraction vs.\ minority fraction~$f$.
-  \textbf{B:}~Peak sell fraction.
-  \textbf{C:}~Crash frequency (fraction of time steps with sell fraction $> 0.50$).
+  A:~Mean sell fraction vs.\ minority fraction~$f$.
+  B:~Peak sell fraction.
+  C:~Crash frequency (fraction of time steps with sell fraction $> 0.50$).
   Dashed vertical line marks $f_c \approx 0.145$. The transition is discontinuous,
   consistent with a first-order phase transition.}
   \label{fig:fig3}
