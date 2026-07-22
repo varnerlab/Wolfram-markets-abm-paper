@@ -1329,16 +1329,16 @@ The survival of the transition told us that budgets do not abolish the crash, bu
 open whether the object that drives it is the same spatial nucleus we anatomized in Model~A
 or merely a mean-field instability in which the entire grid tips at once; to decide this we
 turned to the seed sweep of Section~\ref{sec:mb-protocols}, running each of the stable,
-freeze, and collapse configurations across $20$ disorder seeds and tracking, step by step,
-the largest sell cluster as a fraction of all Sell cells on the grid. The three
-configurations separated cleanly and without exception. In the stable regime the ratio of
-the largest cluster to the total sell population held flat at a median of $0.022$ (IQR
-$0.018$--$0.027$) across every seed---the Sell cells present were scattered into roughly
-$500$ dispersed fragments, the largest of which never exceeded about $0.5\%$ of the grid, and
-all $20$ seeds stayed flat---whereas the freeze and collapse regimes gathered their Sell
-cells into a single dominant domain, reaching median largest-cluster fractions of $0.26$ and
-$0.44$ respectively with zero overlap against the stable band. That gap was the signature we
-sought: below threshold the sell population remained a gas of uncorrelated fluctuations,
+freeze, and collapse configurations across $20$ disorder seeds, tracking, step by step, the
+largest sell cluster as a fraction of the grid, and summarizing each run by the ratio of the
+largest cluster to the total sell population at its peak. The three configurations separated
+cleanly and without exception. In the stable regime the at-peak ratio sat at a median of
+$0.022$ (IQR $0.018$--$0.027$) across every seed---the Sell cells present were scattered into
+roughly $500$ dispersed fragments, the largest of which never exceeded about $0.5\%$ of the
+grid, and all $20$ trajectories stayed flat---whereas the freeze and collapse regimes
+gathered their Sell cells into a single dominant domain, reaching median at-peak ratios of
+$0.26$ and $0.44$ respectively with zero overlap against the stable band. That gap was the
+signature we sought: below threshold the sell population remained a gas of uncorrelated fluctuations,
 while above it one domain nucleated and grew to swallow a macroscopic share of the sell
 mass---the crash was a spatial nucleation event in Model~B exactly as it had been in
 Model~A, not a synchronous mean-field flip.
@@ -1347,9 +1347,9 @@ The per-seed trajectories made the stochastic character of that nucleation visib
 each above-threshold configuration the largest-cluster curves were not scattered noise but a
 fan of time-shifted sigmoids---each run climbed from the fluctuation floor to its saturated
 domain along the same S-shaped path, but the moment at which it began to climb varied widely
-from seed to seed---so that the broad interquartile bands we plot register less a spread of
-outcomes than a spread of nucleation \emph{waiting times}. We read this dispersion as the
-Kramers picture surfacing already in Model~B: the wait to nucleate is an escape time whose
+from seed to seed---so that the broad interquartile boxes of the summary panels register
+less a spread of outcomes than a spread of nucleation \emph{waiting times}. We read this
+dispersion as the Kramers picture surfacing already in Model~B: the wait to nucleate is an escape time whose
 realization depends on the particular sequence of contrarian fluctuations a seed happens to
 draw, and it was precisely this seed-to-seed jitter in \emph{when} rather than \emph{whether}
 a run crossed over that motivated the onset-aligned analyses---front velocities, budget
@@ -1359,20 +1359,23 @@ occupy the remainder of Results~II.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-SeedSweep.pdf}
-  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed. For each of the
-  three budget configurations---stable ($f = 0.10$, cash $1{,}000$), freeze ($f = 0.20$,
-  cash $500$), and collapse ($f = 0.20$, cash $5{,}000$)---the largest sell cluster,
-  expressed as a fraction of all Sell cells on the grid, is drawn for every one of $20$
-  disorder seeds. The stable configuration holds flat at a median ratio of $0.022$---dispersed
-  fluctuations with no dominant domain---while the freeze and collapse configurations
-  concentrate into a single growing domain at median ratios of $0.26$ and $0.44$; the three
-  bands show zero overlap, the signature of a spatial nucleus above threshold and its absence
-  below. The time-shifted-sigmoid fan within each above-threshold configuration reflects
-  stochastic nucleation waiting times rather than a spread of eventual outcomes.}
+  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed. (Top row) For
+  each of the three budget configurations---stable ($f = 0.10$, cash $1{,}000$), freeze
+  ($f = 0.20$, cash $500$), and collapse ($f = 0.20$, cash $5{,}000$)---the largest sell
+  cluster, expressed as a fraction of the grid, is drawn step by step for every one of $20$
+  disorder seeds. (Bottom left) Per-seed ratio of the largest cluster to the total sell
+  population at its peak: the stable configuration sits at a median ratio of
+  $0.022$---dispersed fluctuations with no dominant domain---while the freeze and collapse
+  configurations concentrate into a single growing domain at median ratios of $0.26$ and
+  $0.44$; the stable band shows zero overlap against either above-threshold configuration,
+  the signature of a spatial nucleus above threshold and its absence below. (Bottom right)
+  Final largest-cluster fraction of the grid at the end of the run. The time-shifted-sigmoid
+  fan within each above-threshold configuration reflects stochastic nucleation waiting times
+  rather than a spread of eventual outcomes.}
   \label{fig:mb-seedsweep}
 \end{figure}
 
-Having established that a nucleus exists, we asked where on the grid it is born---and in
+Having established that a nucleus exists, we asked where on the grid it was born---and in
 particular whether the active-edge ring that injects the budget-constrained orders is also
 the cradle of the winning cluster. The boundary-versus-bulk campaign of
 Section~\ref{sec:mb-protocols} tracked the founding cell of the onset cluster across $40$
@@ -1396,18 +1399,22 @@ in the market the budget constraint actually bites.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BirthSites.pdf}
-  \caption{Birth locations of the onset cluster. (Left) map of the founding cell of the
-  largest sell cluster at crash onset across the boundary-versus-bulk runs, labeled on the
-  interior alone so that a bulk birth can be told apart from attachment to the active-edge
-  ring. (Right) histogram of the founding cell's distance from the nearest boundary against
-  the uniform-null expectation. Births were bulk-dominated and consistent with a uniform
-  distribution: the pooled fraction founded within distance~$2$ of the boundary was $0.077$,
-  below rather than above the $0.125$ uniform null and statistically indistinguishable from
-  it (binomial $p = 0.47$), with a median founding distance of $12$ cells into the deep bulk.
-  The winning nucleus is born in the bulk, not templated by the boundary.}
+  \caption{Birth locations of the onset cluster. (Top left) map of the founding cell of the
+  largest sell cluster at crash onset across the $39$ boundary-versus-bulk runs that
+  nucleated, labeled on the interior alone so that a bulk birth can be told apart from
+  attachment to the active-edge ring. (Top right and bottom left) histograms of the founding
+  cell's distance from the nearest boundary, for the $20$ freeze and $19$ collapse runs
+  separately, each against the uniform-null expectation. Births were bulk-dominated and
+  consistent with a uniform distribution: the pooled fraction founded within distance~$2$ of
+  the boundary was $0.077$, below rather than above the $0.125$ uniform null and
+  statistically indistinguishable from it (binomial $p = 0.47$), with a median founding
+  distance of $12$ cells into the deep bulk. (Bottom right) timing of ring attachment
+  relative to birth and onset for the runs whose growing cluster reached the active-edge
+  ring before onset---$6$ of $19$ collapse runs and $0$ of $20$ freeze runs---the edge
+  asserting itself only after birth. The winning nucleus is born in the bulk, not templated
+  by the boundary.}
   \label{fig:mb-birthsites}
 \end{figure}
-
 
 % ============================================================================
 \section{Conclusion}
