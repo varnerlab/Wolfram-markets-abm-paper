@@ -1791,6 +1791,99 @@ interventions, and for the intuition that support operations are stabilizing, we
 in the Discussion.
 
 % ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+The intervention asymmetry of Section~\ref{sec:mb-intervention} is the result we most
+want to hold against the crisis literature, because it inverts the intuition that
+support operations are stabilizing: in the model, liquidity support did not merely fail
+to arrest the sentiment crash---it recruited the market's own stabilizers into
+accelerating it. The injected cash let the suppressed buys execute, the supported price
+broke above the contrarian bands, and the boundary ring that had been buying into the
+falling price turned to selling into the supported one---the front accelerated in $14$
+of $19$ paired seeds (sign test $p = 0.064$, reported as it stands; it is the paired
+design that licenses the causal reading)---while withdrawal was null at both
+doses, even the harsh cut that demonstrably bound the books, because a crash
+\emph{self-finances} its own dip-buyers: every cell the front recruits turns seller and
+mints the cash the next dip-buyer spends, so a one-time cut to the cash stock cannot
+staunch the flow the crash generates for itself. The acceleration has an empirical
+shadow in the Flash Crash record of Kirilenko et al.~\cite{kirilenko2017flash}, in
+which the high-frequency intermediaries who might have absorbed a large sell order
+instead amplified it; and the underlying entanglement---funding conditions and market
+stability reinforcing one another rather than damping---is the liquidity spiral that
+Brunnermeier and Pedersen~\cite{brunnermeier2009market} formalize, though our loop runs
+the spiral with the sign reversed, support feeding the crash rather than funding shocks
+feeding illiquidity. The kinship with the collective moral hazard of Farhi and
+Tirole~\cite{farhi2012collective} is the more instructive for being partial: in their
+account support destabilizes \emph{prospectively}, the anticipation of a bailout
+inducing the correlated risk-taking that later makes the bailout necessary, whereas in
+our model support destabilizes \emph{contemporaneously}, through no expectational
+channel at all---the agents anticipate nothing---but through the mechanical conduit of
+price to band to boundary state. We attach the caveat in the same breath as the claim:
+that conduit runs through a stylized contrarian band rule on a lattice boundary,
+calibrated to nothing, so the analogy we assert is structural---liquidity support can
+strengthen the very feedback it is deployed to break---and nothing more.
+
+The staging of the crash---birth, escape, growth---also locates where an intervention
+can expect leverage. Nucleation showed no detectable budget dependence: the winning
+nucleus was born in the bulk, consistent with uniform placement at tight and loose cash
+alike (Section~\ref{sec:mb-spatial}), and the fitted barrier parameters could not be
+told apart across a tenfold cash ladder (Section~\ref{sec:mb-barrier}); growth, by
+contrast, was gated---throttled by suppressed buy orders at the moving front and
+reached causally through the price-to-boundary conduit (Sections~\ref{sec:mb-gating}
+and~\ref{sec:mb-intervention}). If that division of labor generalizes, the lesson is
+one of stage selection. An intervention on aggregate liquidity addresses the wrong
+stage: it cannot touch birth, because interior fluctuations supply nuclei constantly
+and at no cost, and what it reaches instead is growth, through a conduit whose sign the
+intervener does not control. An intervention that acts directly on order flow at the
+growing interface addresses the stage the model identifies as controllable---the
+category to which circuit-breaker-style arrest belongs, with the caution of
+Subrahmanyam~\cite{subrahmanyam1994circuit} attached, that anticipation of the halt can
+accelerate the very trading it is meant to stop and raise volatility rather than curb
+it, so that targeting the right stage does not by itself guarantee the right sign. We
+offer this as a model-generated hypothesis about the leverage points of a spreading
+crash---birth is cheap and everywhere, growth is gated and local---and emphatically not
+as policy advice: the economy in which it holds is a lattice of one-share orders filled
+against an infinite market maker, and the hypothesis earns no more authority than that
+economy can lend it.
+
+The limitations of the study bound how far these readings travel. Model~A's empirical
+validation rests on a single price series---the QQQ ETF over the 2024 calendar
+year---so robustness across instruments and market regimes remains to be established;
+the Model~B nucleation campaigns all ran on a single $64 \times 64$ grid trading a
+single asset against an infinite-inventory market maker, and while the weak system-size
+dependence of the Model~A transition makes grid-size robustness plausible, the budget
+results have not been rechecked at other scales and the model is silent on cross-asset
+contagion. The agents themselves are deterministic---the CA rules incorporate no
+stochastic noise, no learning, and no adaptive strategy switching, features of real
+markets whose inclusion would enrich the dynamics at the cost of breaking the
+enumerability of the rule space. On the theory side, the analytical hierarchy of
+Section~\ref{sec:theory} treats the contrarian disorder as annealed, averaging over
+rule types in the mean-field and pair maps, whereas the simulations fix each
+contrarian's placement for the duration of a run---quenched disorder in the proper
+sense---and a quenched large-deviation calculation would sharpen the prediction of
+$f_0$ and connect the critical nucleus size to the combinatorics of contrarian
+clustering. And the statistics of Results~II carry flags that interpretation must not
+launder: the monotone-in-cash onset rate near the cliff (Section~\ref{sec:mb-barrier})
+and the freeze mid-patch onset delay (Section~\ref{sec:mb-gating}) are exploratory,
+uncorrected observations; the injection effect stands at $14$ of $19$ seeds with a
+sign-test $p = 0.064$, and it is the paired design, not the count, that carries the
+causal reading; and the barrier-shift null is a power-bounded statement---the
+overlapping confidence intervals bound a shift, they do not exclude a small one.
+
+A last question shadows any two-rule study: how much hangs on the two rules? The
+totalistic framework at least makes the question answerable, in a way unavailable to
+models with continuous behavioral parameters, because the rule space is finite and
+enumerable---$3^9 = 19{,}683$ totalistic rules---and the majority/contrarian pair
+studied here, two rules that differ at a single neighbourhood sum, is one point in that
+space. Whether the nucleation spine assembled in this paper---metastable attractor,
+disorder-seeded nucleus, budget-gated growth---recurs across other rule pairings, and
+whether the intervention asymmetry survives boundary rules other than the contrarian
+band, are questions a systematic screen of the rule space can settle; that screen is
+future work.
+
+% ============================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 % ============================================================================
