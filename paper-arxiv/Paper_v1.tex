@@ -93,7 +93,14 @@ A natural question arises: \emph{what is the minimal microscopic mechanism that 
 to produce these phenomena?} If the answer involves the collective dynamics of interacting
 agents rather than exogenous shocks, then the spatial structure of those
 interactions---who talks to whom, and how far signals travel---matters at least as much as
-the decision rules themselves~\cite{battiston2016complexity}.
+the decision rules themselves~\cite{battiston2016complexity}. We contend that the question
+can be made sharper still: if crashes are \emph{nucleation} events---rare, spatially
+localized escapes from a metastable state---then a crash is not one thing but three, for a
+nucleus must be born, must escape the fluctuations that reabsorb its siblings, and must
+grow into the macroscopic collapse the market records. The question then shifts from
+\emph{when} markets crash to \emph{what decides a nucleus's fate}; and it is that fate
+under the most elementary of realistic constraints---agents with finite budgets---that
+this paper takes as its object of study.
 
 The ingredients for an answer already exist, though they have not been assembled. On one
 side, a generation of agent-based models (ABMs) has demonstrated that heterogeneous
@@ -114,34 +121,55 @@ designs that resist systematic comparison. What is missing is a framework that c
 \emph{local} spatial dynamics on a regular lattice with a \emph{complete, enumerable} space
 of behavioral rules and a \emph{direct} connection to real market data.
 
-In this paper, we close that gap. We model agent interactions on a two-dimensional grid
-governed by Wolfram totalistic CA rules~\cite{wolfram2002new}, in which each agent occupies
-one cell, maintains one of three states---Buy, Hold, or Sell---and updates deterministically
-from the states of its four cardinal neighbors. The totalistic rule framework provides two
-properties that are unavailable in prior financial ABMs: strictly local information
-propagation, so that sell cascades must spread from neighbor to neighbor as spatially resolved
-wavefronts; and a finite, enumerable rule space ($3^9 = 19{,}683$ rules), enabling systematic
-screening of agent behaviors rather than ad hoc rule design. We study two complementary
-configurations (Figure~\ref{fig:schematic}). In \textbf{Model~A} (open), boundary agents
-observe real QQQ ETF minute-bar data via a Bollinger Band filter, injecting exogenous market
-sentiment that validates the CA against empirical time series. In \textbf{Model~B} (closed),
-the boundary agents respond to an endogenous price formed from the grid's own net order
-imbalance, creating a reflexive feedback loop that produces crashes without any external input.
-The single control parameter is the minority (contrarian) agent fraction~$f$, and the central
-result is a sharp first-order phase transition at a critical threshold $f_c \approx 0.145$:
-below $f_c$ the market is stable; above $f_c$ the system abruptly locks into a sell-dominated
-regime. The transition is discontinuous, occurring over $\Delta f < 0.01$, consistent with a
-tipping-point mechanism rather than a gradual crossover~\cite{scheffer2009early}. At the
-transition, sell cascades nucleate from localized seeds and propagate as coherent spatial
-wavefronts---a contagion mechanism that is invisible to mean-field treatments and that
-connects naturally to the growing body of work on early-warning signals for critical
-transitions in complex systems~\cite{scheffer2009early,battiston2016complexity}.
+In this paper, we assemble those ingredients and put them to work on the fate question.
+Agents occupy the cells of a two-dimensional grid, hold one of three states---Buy, Hold,
+or Sell---and update deterministically from their four cardinal neighbors under Wolfram
+totalistic CA rules~\cite{wolfram2002new}; the interior mixes just two such rules, a
+majority/herding rule and a contrarian/destabilizer rule, at the minority (contrarian)
+fraction~$f$ that serves throughout as the single control parameter. The totalistic rule
+framework provides two properties that are unavailable in prior financial ABMs: strictly
+local information propagation, so that sell cascades must spread from neighbor to neighbor
+as spatially resolved wavefronts; and a finite, enumerable rule space ($3^9 = 19{,}683$
+rules), enabling systematic screening of agent behaviors rather than ad hoc rule design.
+We study two complementary configurations (Figure~\ref{fig:schematic}). In
+\textbf{Model~A} (open), boundary agents observe real QQQ ETF minute-bar data via a
+Bollinger Band filter, injecting exogenous market sentiment that validates the CA against
+empirical time series. In \textbf{Model~B} (closed), the boundary responds instead to an
+endogenous price formed from the grid's own net order imbalance---a reflexive loop that
+produces crashes without any external input---and every agent holds finite cash and
+shares, so that budgets can suppress the very orders sentiment demands; it is in this
+closed, budget-constrained market that a nucleus's fate is decided.
+
+The paper makes four contributions, which together trace an arc from transition to
+barrier to fate. First, we show that this minimal market crashes: Model~A exhibits a
+sharp first-order phase transition at a critical minority fraction $f_c \approx 0.145$,
+below which the market is stable and above which it abruptly locks into a sell-dominated
+regime, with sell cascades that nucleate from localized seeds and propagate as spatially
+coherent crash fronts---a tipping-point mechanism rather than a gradual
+crossover~\cite{scheffer2009early}, and a contagion structure that mean-field treatments
+cannot see. Second, we quantify the barrier that guards the transition: a
+zero-temperature Potts mapping exposes the all-Sell ground state beneath the mixed
+attractor the market inhabits, and the metastable lifetime follows the escape law of
+Kramers~\cite{kramers1940brownian}, $\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ with
+$R^2 = 0.991$, whose divergence at $f = 0.101$ reveals the observed threshold as an
+observation-time-dependent crossover rather than a sharp thermodynamic boundary. Third,
+we place the same nucleus under the finite budgets of Model~B and find its fate divided
+by stage: the escape law survives at every cash level with no detectable barrier shift,
+the winning nuclei are bulk-born rather than boundary-templated, and what budgets gate is
+\emph{growth}, reaching the front not directly but through a price-mediated contrarian
+boundary. Fourth, that gating carries an applied consequence, a
+\emph{liquidity-intervention asymmetry}: cash injected at crash onset props the price and
+flips the stabilizing boundary into an accelerant, speeding the front in $14$ of $19$
+seeds, while withdrawals are inert because crashes self-finance their dip-buyers.
 
 Section~\ref{sec:related} reviews related work on ABMs, lattice models, and CA in finance.
-Section~\ref{sec:background} introduces the CA rule framework and edge-agent decision model.
-Section~\ref{sec:methods} describes the simulation procedure for Models~A and~B.
-Section~\ref{sec:results} presents the phase diagram and grid dynamics, and
-Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:background} introduces the CA rule framework and edge-agent decision
+model, and Section~\ref{sec:methods} describes the simulation and measurement protocols
+for Models~A and~B. Section~\ref{sec:results} presents the Model~A transition and its
+spatial anatomy (Results~I); Section~\ref{sec:theory} develops the nucleation barrier that
+guards it; Section~\ref{sec:results-b} follows the same nucleus under budget constraints
+(Results~II); and Section~\ref{sec:discussion} weighs the intervention asymmetry against
+the crisis literature before Section~\ref{sec:conclusion} concludes.
 
 % --- Figure 1: Model Schematic ---
 \begin{figure}[tb]
