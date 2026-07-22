@@ -1888,78 +1888,59 @@ future work.
 \label{sec:conclusion}
 % ============================================================================
 
-We presented a minimal agent-based model of financial markets in which traders on a
-two-dimensional grid follow deterministic Wolfram totalistic cellular automaton rules.
-The model required only two ingredients---a majority/herding rule (19280) and a
-contrarian/destabilizer rule (19286)---and a single control parameter, the minority
-agent fraction~$f$. We observed a sharp first-order phase transition at
-$f_c \approx 0.15$: below this threshold the market persisted in a metastable
-mixed-state attractor; above it, the system collapsed to an all-Sell absorbing state
-with a discontinuous drop in the Potts energy ($\Delta e \approx 0.56$) and the
-site entropy ($\Delta S_1 \approx 0.88$).
+We presented a minimal agent-based market---traders on a two-dimensional lattice
+following two deterministic Wolfram totalistic rules, a majority/herding rule and a
+contrarian/destabilizer rule, mixed at a single control fraction~$f$---and followed its
+crash through three acts. In the first (Section~\ref{sec:results}), Model~A exhibited a
+sharp first-order transition at $f_c \approx 0.145$ at the simulation horizon: below the
+threshold the market persisted in a metastable mixed attractor; above it, a sell cascade
+nucleated from a localized seed and propagated as a spatially coherent wavefront,
+arriving at different parts of the grid at different times. The crash, that is, had a
+\emph{spatial history}---a location, a front, a sequence---which is precisely the
+structure that mean-field descriptions erase.
 
-The principal theoretical contribution of this work is the identification and
-characterisation of the transition mechanism through a hierarchy of successively
-refined approximations. The mean-field self-consistency map
-(Section~\ref{sec:mean-field}) predicted no transition: the buy-dominated fixed point
-remained linearly stable for all $f \in [0,1]$. The pair approximation
-(Section~\ref{sec:pair-approx}), which incorporates nearest-neighbour correlations
-via a synchronous pair-density map, likewise found no instability---the spectral
-radius of the Jacobian at the uncorrelated fixed point was strictly below unity for
-all~$f$, and the spatial mutual information decayed to zero from every tested initial
-condition. The failure of \emph{both} approximations establishes by elimination that
-the transition is a \emph{nucleation} phenomenon: the system crosses the barrier
-between the metastable mixed attractor and the all-Sell ground state via a rare,
-large-scale fluctuation that no finite-order correlation expansion can capture.
+The second act established what guards that transition, and it did so by elimination
+(Section~\ref{sec:theory}). Mean-field theory (Section~\ref{sec:mean-field}) predicted
+no transition; the pair approximation (Section~\ref{sec:pair-approx}), which restores
+nearest-neighbor correlations, predicted none either; and the failure of \emph{both}
+identified the crash as a nucleation event---a rare fluctuation carrying the system over
+the barrier that separates the mixed attractor from the all-Sell ground state of the
+Potts energy (Section~\ref{sec:potts}). The nucleation theory
+(Section~\ref{sec:nucleation}) then quantified the barrier directly: the metastable
+lifetime followed the Kramers escape law $\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ with
+$R^2 = 0.991$, the divergence at $f_0 \approx 0.10$ marking the disorder level below
+which the barrier is infinite and the mixed state absolutely stable, and the observed
+$f_c$ resolving into an observation-time-dependent crossover---the disorder level at
+which the waiting time first falls below the horizon---rather than a sharp thermodynamic
+boundary.
 
-The nucleation theory (Section~\ref{sec:nucleation}) quantified this mechanism
-directly. The metastable lifetime followed the Kramers escape scaling
-$\ln \bar{\tau} = a + B/(f - f_0)$ with $R^2 = 0.991$, identifying a critical
-disorder threshold $f_0 \approx 0.10$ below which the nucleation barrier is infinite
-and the mixed state is absolutely stable. The observed $f_c \approx 0.15$ is not a
-sharp thermodynamic phase boundary but an observation-time-dependent crossover. The
-mechanism is disorder-driven: each contrarian agent creates a point-like sell excess
-(influence radius ${\sim}1$~lattice spacing), and nucleation occurs when random
-clustering of contrarians produces a local density sufficient to seed a sell domain
-that exceeds the critical size; the majority rule then amplifies this seed into a
-coherent wavefront.
+The third act placed the same nucleus under finite budgets
+(Section~\ref{sec:results-b}), and the answer divided by stage. The transition survived
+budgets intact, reappearing at the same threshold at every price impact we tested; the
+escape statistics survived as well, the Kramers law holding at every cash level with no
+detectable barrier shift between the tightest and the loosest budget; and births were
+bulk and free---the winning nucleus was an interior single-cell fluctuation, consistent
+with spatially uniform placement, never a structure templated by the boundary or by any
+patch we planted. What budgets gated was \emph{growth}: the front slowed in proportion
+to the buy orders suppressed at its moving interface, and the gate was reached causally
+through the price-mediated contrarian boundary. The practical face of that gating was
+the liquidity-intervention asymmetry: cash injected at crash onset propped the price,
+flipped the contrarian boundary from buying to selling, and accelerated the sentiment
+crash, while withdrawals were near-inert, because a crash self-finances its own
+dip-buyers.
 
-Three additional features distinguished this framework. First, the Potts energy
-mapping (Section~\ref{sec:potts}) connects the CA dynamics to zero-temperature
-three-state Potts model physics, with the contrarian fraction~$f$ playing the role
-of quenched disorder strength, grounding the model in established statistical
-mechanics. Second, the transition was discontinuous, placing it within the
-tipping-point framework of Scheffer et al.~\cite{scheffer2009early}; the Kramers
-scaling of the metastable lifetime suggests that early-warning signals (rising
-variance and autocorrelation of the sell fraction) may be detectable in the
-pre-nucleation regime. Third, the full rule space is finite and enumerable
-($3^9 = 19{,}683$ rules), enabling systematic screening of agent
-behaviours---a property unavailable in models with continuous behavioural parameters.
-
-\paragraph{Limitations.}
-The present study uses a single price series (QQQ, 2024 calendar year) for Model~A
-validation; robustness across instruments and market regimes remains to be established.
-The CA rules are deterministic and do not incorporate stochastic noise, learning, or
-adaptive strategy switching---features that are present in real markets and that would
-enrich the model at the cost of breaking the enumerability of the rule space. The
-nucleation theory treats the contrarian disorder as annealed (averaging over rule
-types) rather than quenched (fixed spatial assignment); a quenched large-deviation
-calculation would sharpen the prediction of~$f_0$ and connect the critical nucleus
-size to the combinatorics of contrarian clustering.
-
-\paragraph{Future directions.}
-Model~B (closed-loop endogenous price) remains to be fully characterised; its
-four-dimensional parameter space $(k, w, \lambda, f)$ may admit a stability analysis
-that yields a closed-form expression for the phase boundary. A key open question is
-whether Model~B self-organises to criticality without fine-tuning of~$f$---i.e.,
-whether the reflexive feedback loop drives the system toward its own tipping point,
-a phenomenon that would connect this framework to the broader literature on
-self-organised criticality in financial
-markets~\cite{sornette2017why,bak1987selforganized,gabaix2003theory}. On the
-theoretical side, a quenched-disorder nucleation calculation---using
-large-deviation statistics of the local contrarian density to predict the critical
-nucleus size and the barrier height $\Delta G^*(f)$ from first principles---would
-close the gap between the phenomenological Kramers fit and a fully predictive theory.
+Two directions carry the program forward. The Kramers fit is phenomenological---it
+measures the barrier pair $(B, f_0)$ rather than predicting it---and a quenched-disorder
+nucleation calculation, using large-deviation statistics of the local contrarian density
+to derive both parameters from first principles, would convert the fitted law into a
+predictive theory. And the framework's defining property remains largely unspent: the
+rule space is finite and enumerable---$3^9 = 19{,}683$ totalistic rules, of which the
+pair studied here occupies a single point---and the systematic screen it invites would
+ask whether the arc traced in this paper, from metastable attractor through
+disorder-seeded nucleus to budget-gated front, is particular to one rule pairing or
+generic to lattice markets. A market that can crash needs remarkably little: two rules,
+one lattice, and a fraction to mix them sufficed for a crash with a location, a waiting
+time, and a barrier---and for a rule space small enough to search.
 
 
 % ============================================================================
