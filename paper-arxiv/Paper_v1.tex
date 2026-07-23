@@ -998,8 +998,8 @@ withdrawal doses), with the pre-toggle histories asserted bit-identical between 
 of a pair so that any divergence dates strictly from the shock; we then measure outcomes in an
 onset-aligned window of $W = 400$ steps and take the front velocity to be the endpoint
 difference quotient---the change in largest-cluster fraction between onset and
-onset$+W$, divided by $W$---rather than a fitted slope; a pair is excluded from every
-arm when the control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
+onset$+W$, divided by $W$---rather than a fitted slope; a pair is excluded from an
+arm when its control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
 leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$). The
 boundary-versus-bulk campaign
 asks where the winning cluster is born: we track the founding cell of the onset cluster and
@@ -1300,10 +1300,10 @@ Kramers~\cite{kramers1940brownian}, the classical framework for thermally activa
 barrier crossing reviewed by H\"{a}nggi, Talkner, and
 Borkovec~\cite{hanggi1990reaction}:
 \begin{equation}
-  \ln \bar{\tau} \;=\; a + \frac{B}{f - f_0},
+  \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0},
   \label{eq:kramers}
 \end{equation}
-with best-fit parameters $a = 2.78$, $B = 0.389$, and $f_0 = 0.101$
+with best-fit parameters $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$
 ($R^2 = 0.991$; $n = 12$ data points with all seeds collapsed; collected, with the
 Model~B fits, in Table~\ref{tab:kramers-fits}). The divergence at
 $f_0 \approx 0.10$ implies that the nucleation barrier becomes infinite below this
@@ -1356,8 +1356,8 @@ overcome.
 
 This barrier picture does more than explain Model~A; it makes three falsifiable
 predictions for the budget-constrained model that follows. If nucleation survives the
-introduction of finite budgets, escape times should still diverge as
-$A + B/(f - f_0)$, the functional signature of barrier crossing; if budgets act on
+introduction of finite budgets, escape times should still diverge, with $\ln\bar\tau$
+following $A + B/(f - f_0)$, the functional signature of barrier crossing; if budgets act on
 nucleation itself, the effect must appear as a shift in the fitted pair
 $(B, f_0)$---a taller barrier or a displaced divergence threshold; and if budgets act
 elsewhere in the dynamics, the law should hold with the \emph{same} barrier while
@@ -1390,9 +1390,9 @@ with the large Model~B factorial sweep described in Section~\ref{sec:mb-protocol
 $10{,}800$-run crossing of the minority fraction, the price impact, the cash endowment, the
 disposition switch, and the two order-band parameters. The crash transition survived the
 imposition of budgets intact: the sell-dominated regime appeared abruptly between
-$f = 0.15$ and $f = 0.20$ at every price impact~$\lambda$ we tested, reproducing the
-threshold that Model~A had located without any price feedback; and a variance decomposition
-attributed $94$--$98\%$ of the outcome variance to the swept knobs and at most $5.4\%$ to the
+$f = 0.15$ and $f = 0.20$ at every price impact~$\lambda$ we tested, consistent with the
+threshold Model~A had located without any price feedback; and a variance decomposition
+attributed $94$--$97\%$ of the outcome variance to the swept knobs and at most $5.4\%$ to the
 disorder seed (Appendix~\ref{app:stage2})---so the fate of a Model~B run was fixed overwhelmingly by its budget regime,
 not by the particular random placement of its contrarians.
 
@@ -1513,16 +1513,16 @@ bites.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BirthSites.pdf}
-  \caption{Birth locations of the onset cluster. (Top left) map of the founding cell of the
+  \caption{Birth locations of the onset cluster. (Top left) Map of the founding cell of the
   largest sell cluster at crash onset across the $39$ boundary-versus-bulk runs that
   nucleated, labeled on the interior alone so that a bulk birth can be told apart from
-  attachment to the active-edge ring. (Top right and bottom left) histograms of the founding
+  attachment to the active-edge ring. (Top right and bottom left) Histograms of the founding
   cell's distance from the nearest boundary, for the $20$ freeze and $19$ collapse runs
   separately, each against the uniform-null expectation. Births were bulk-dominated and
   consistent with a uniform distribution: the pooled fraction founded within distance~$2$ of
   the boundary was $0.077$, below rather than above the $0.125$ uniform null and
   statistically indistinguishable from it (binomial $p = 0.47$), with a median founding
-  distance of $12$ cells into the deep bulk. (Bottom right) timing of ring attachment
+  distance of $12$ cells into the deep bulk. (Bottom right) Timing of ring attachment
   relative to birth and onset for the runs whose growing cluster reached the active-edge
   ring before onset---$6$ of $19$ collapse runs and $0$ of $20$ freeze runs---the edge
   asserting itself only after birth. The winning nucleus is born in the bulk, not templated
@@ -1530,7 +1530,7 @@ bites.
   \label{fig:mb-birthsites}
 \end{figure}
 
-\subsection{Budgets Do Not Move the Barrier}
+\subsection{No Detectable Barrier Shift}
 \label{sec:mb-barrier}
 A nucleus that is spatial and bulk-born poses the natural next question: does the budget
 constraint change how hard such a nucleus is to \emph{create}? Two clean answers suggested
@@ -1584,7 +1584,9 @@ quantile---the data bound the barrier shift, they do not exclude a small one.
 \centering
 \caption{Kramers escape-law fits $\ln\tilde\tau = A + B/(f - f_0)$ to
 Kaplan--Meier median onset times, per cash level, with the Model~A fit for
-reference. Brackets are 95\% bootstrap CIs (2{,}000 resamples of seeds
+reference. The Model~A row is the mean-lifetime fit of
+Equation~\eqref{eq:kramers}; the Model~B rows fit Kaplan--Meier medians.
+Brackets are 95\% bootstrap CIs (2{,}000 resamples of seeds
 within each~$f$). The cash-500 $f_0$ lower bound of $0.000$ is the physical
 boundary of the fit domain, not a data quantile. CIs overlap between tight
 (500) and loose (5000) cash on both $B$ and $f_0$: no detectable barrier
@@ -1911,14 +1913,13 @@ overlapping confidence intervals bound a shift, they do not exclude a small one.
 
 A last question shadows any two-rule study: how much hangs on the two rules? The
 totalistic framework at least makes the question answerable, in a way unavailable to
-models with continuous behavioral parameters, because the rule space is finite and
-enumerable---$3^9 = 19{,}683$ totalistic rules---and the majority/contrarian pair
-studied here, two rules that differ at a single neighborhood sum, is one point in that
-space. Whether the nucleation spine assembled in this paper---metastable attractor,
-disorder-seeded nucleus, budget-gated growth---recurs across other rule pairings, and
-whether the intervention asymmetry survives boundary rules other than the contrarian
-band, are questions a systematic screen of the rule space can settle; that screen is
-future work.
+models with continuous behavioral parameters, because the majority/contrarian pair
+studied here, two rules that differ at a single neighborhood sum, is one point in a
+finite and enumerable rule space. Whether the nucleation spine assembled in this
+paper---metastable attractor, disorder-seeded nucleus, budget-gated growth---recurs
+across other rule pairings, and whether the intervention asymmetry survives boundary
+rules other than the contrarian band, are open questions; a systematic screen of that
+space, which we take up in closing, is future work.
 
 % ============================================================================
 \section{Conclusion}
@@ -1958,8 +1959,8 @@ escape statistics survived as well, the Kramers law holding at every cash level 
 detectable barrier shift between the tightest and the loosest budget; and births were
 bulk and free---the winning nucleus was an interior single-cell fluctuation, consistent
 with spatially uniform placement, never a structure templated by the boundary or by any
-patch we planted. What budgets gated was \emph{growth}: the front slowed in proportion
-to the buy orders suppressed at its moving interface, and the gate was reached causally
+patch we planted. What budgets gated was \emph{growth}: the front slowed as the buy
+orders suppressed at its moving interface rose, and the gate was reached causally
 through the price-mediated contrarian boundary. The practical face of that gating was
 the liquidity-intervention asymmetry: cash injected at crash onset propped the price,
 flipped the contrarian boundary from buying to selling, and accelerated the sentiment
@@ -2116,7 +2117,7 @@ design.
 Grouping runs by their knob configuration splits each summary metric's variance into
 a between-configuration share, attributable to the swept knobs jointly, and a
 within-configuration share, attributable to the disorder seed. The knobs accounted
-for $94$--$98\%$ of the variance across the four summary metrics---between-configuration
+for $94$--$97\%$ of the variance across the four summary metrics---between-configuration
 shares of $0.946$ for crash frequency, $0.952$ for return kurtosis, $0.959$ for
 return standard deviation, and $0.974$ for the $\varphi$ sign-flip count---leaving
 the seed at most $5.4\%$. The disposition toggle roughly doubled the return standard

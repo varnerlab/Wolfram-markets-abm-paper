@@ -453,6 +453,8 @@ Model~B, cash 5000   & 6  & 4.10 & 0.098~[0.050, 0.415] & 0.143~[0.077, 0.157] &
 - [ ] **Step 2: Build.**
 - [ ] **Step 3: Commit** — `git commit -m "Add 7.3: budgets do not move the barrier (Kramers fits + table)"`
 
+*(Amended 2026-07-23 at final review, user decision: subsection title softened to "No Detectable Barrier Shift" per obligation 7.)*
+
 ### Task 8: 7.4 "Growth Is Gated at the Boundary"
 
 **Files:**
