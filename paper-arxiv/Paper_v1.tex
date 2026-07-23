@@ -95,7 +95,7 @@ opens every rule in its class to systematic screening.
 Financial markets crash. They crash without proportionate external shocks, without advance
 warning from traditional risk metrics, and with a statistical regularity---heavy-tailed
 return distributions, volatility clustering, and transient negative
-autocorrelation---that is remarkably consistent across instruments, geographic markets,
+autocorrelation---that is consistent across instruments, geographic markets,
 and sampling frequencies~\cite{cont2001empirical,mandelbrot1963variation,sornette2017why}.
 A natural question arises: \emph{what is the minimal microscopic mechanism that is sufficient
 to produce these phenomena?} If the answer involves the collective dynamics of interacting
@@ -609,7 +609,7 @@ stop short of the connection we propose.
 The quantitative study of financial market dynamics has been shaped by a tension between
 tractable theoretical frameworks and the empirical complexity of observed data.
 Mandelbrot~\cite{mandelbrot1963variation} demonstrated that speculative price changes
-exhibit heavy tails far beyond Gaussian predictions; Fama~\cite{fama1970efficient}
+exhibit heavy tails beyond Gaussian predictions; Fama~\cite{fama1970efficient}
 showed that raw return series display negligible linear autocorrelation, consistent with
 the efficient markets hypothesis; yet Schwert~\cite{schwert1989volatility} documented
 that the \emph{magnitude} of returns exhibits substantial positive autocorrelation
@@ -1064,7 +1064,7 @@ to capture both the early transient and the late-time steady state
 In the homogeneous model ($f = 0$, top row), the grid reached a dynamic steady state
 dominated by Buy (blue) and Sell (orange) agents in a fine-grained spatial mixture; the
 pattern fluctuated locally but never exhibited large-scale coordination, and the sell
-fraction remained near its equilibrium value of ${\sim}0.26$ throughout the simulation.
+fraction remained near its equilibrium value of ${\sim}0.26$ throughout the simulation (cf.~Figure~\ref{fig:fig3}).
 At $f = 0.15$ (middle row)---just above the critical threshold---the system initially
 resembled the homogeneous case, but at $t = 8{,}236$ we observed a sell cascade that
 nucleated from a localized seed and propagated outward as a spatially coherent wavefront.
@@ -1268,7 +1268,7 @@ confirmed that every trajectory converged to one of only two fixed points: the
 uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
 state. Spatial mutual information $I = 2S_1 - S_2$ decayed to zero in all cases.
 
-The failure of the pair approximation is significant: it establishes that the phase
+The failure of the pair approximation is decisive: it establishes that the phase
 transition cannot be understood as a growing instability at \emph{any} finite
 correlation order. Both mean-field (zero-range correlations) and pair approximation
 (nearest-neighbour correlations) see the same picture---two stable fixed points
@@ -1304,7 +1304,8 @@ Borkovec~\cite{hanggi1990reaction}:
   \label{eq:kramers}
 \end{equation}
 with best-fit parameters $a = 2.78$, $B = 0.389$, and $f_0 = 0.101$
-($R^2 = 0.991$; $n = 12$ data points with all seeds collapsed). The divergence at
+($R^2 = 0.991$; $n = 12$ data points with all seeds collapsed; collected, with the
+Model~B fits, in Table~\ref{tab:kramers-fits}). The divergence at
 $f_0 \approx 0.10$ implies that the nucleation barrier becomes infinite below this
 threshold: the mixed attractor is \emph{absolutely stable} for $f < f_0$, and no
 amount of waiting will produce a collapse. The observed transition
@@ -1392,7 +1393,7 @@ imposition of budgets intact: the sell-dominated regime appeared abruptly betwee
 $f = 0.15$ and $f = 0.20$ at every price impact~$\lambda$ we tested, reproducing the
 threshold that Model~A had located without any price feedback; and a variance decomposition
 attributed $94$--$98\%$ of the outcome variance to the swept knobs and at most $5.4\%$ to the
-disorder seed---so the fate of a Model~B run was fixed overwhelmingly by its budget regime,
+disorder seed (Appendix~\ref{app:stage2})---so the fate of a Model~B run was fixed overwhelmingly by its budget regime,
 not by the particular random placement of its contrarians.
 
 What budgets changed was not whether the market crashed but how it crashed, and to see this
@@ -1410,12 +1411,12 @@ Model~B, the liquidity \emph{freeze}. The typical crash-prone run was not a coll
 sell-saturated stasis: its interior locked near a Sell fraction of $0.88$ while budget
 exhaustion starved the order flow that would have moved the quote, so that the median maximum
 drawdown across crash-prone runs was only about $5\%$ and fully half of them never traded
-below the initial price at all (median price minimum $100.00$). True price collapses lived in
+below the initial price at all (median price minimum $100.00$) (Appendix~\ref{app:stage2}). True price collapses lived in
 the tail of this distribution---$897$ of the $4{,}211$ crash-prone runs drove the price below
 $90$, and the most violent of them, concentrated at $f = 0.2$, $\lambda = 0.05$, cash
 $5{,}000$, and disposition off, first inflated $2.5$--$2.7\times$ bubbles and then crashed
 them by $40$--$69\%$, with the disposition effect roughly doubling the return volatility
-wherever it was switched on (a ratio of $2.40\times$). Figure~\ref{fig:mb-exemplars} places
+wherever it was switched on (a ratio of $2.40\times$) (Appendix~\ref{app:stage2}). Figure~\ref{fig:mb-exemplars} places
 one such tail trajectory beside a representative oscillatory run precisely because the
 collapse makes the mechanism legible; the exemplar is the exception, though, and the reader
 should hold the freeze---not the bubble---as the modal crash-prone outcome.
@@ -1445,7 +1446,7 @@ freeze, and collapse configurations across $20$ disorder seeds, tracking, step b
 largest sell cluster as a fraction of the grid, and summarizing each run by the ratio of the
 largest cluster to the total sell population at its peak. The three configurations separated
 cleanly and without exception. In the stable regime the at-peak ratio sat at a median of
-$0.022$ (IQR $0.018$--$0.027$) across every seed---the Sell cells present were scattered into
+$0.022$ (IQR $0.018$--$0.027$) across every seed (Figure~\ref{fig:mb-seedsweep})---the Sell cells present were scattered into
 roughly $500$ dispersed fragments, the largest of which never exceeded about $0.5\%$ of the
 grid, and all $20$ trajectories stayed flat---whereas the freeze and collapse regimes
 gathered their Sell cells into a single dominant domain, reaching median at-peak ratios of
@@ -1491,7 +1492,7 @@ Having established that a nucleus exists, we asked where on the grid it was born
 particular whether the active-edge ring that injects the budget-constrained orders is also
 the cradle of the winning cluster. The boundary-versus-bulk campaign of
 Section~\ref{sec:mb-protocols} tracked the founding cell of the onset cluster across $40$
-runs, of which $39$ nucleated within the horizon, and compared its position against the
+runs, of which $39$ nucleated within the horizon (Figure~\ref{fig:mb-birthsites}), and compared its position against the
 analytic null for spatially uniform births under which a fraction $0.125$ of foundings fall
 within distance~$2$ of the boundary. Births were, if anything, biased away from the edge
 rather than toward it: the pooled fraction of onset clusters founded in the boundary band was
@@ -1543,7 +1544,7 @@ Equation~\eqref{eq:kramers} established for Model~A, to the Kaplan--Meier median
 times at each cash level separately. Neither answer materialized. The escape law survived
 at every cash level we probed---the fits achieved $R^2 = 0.978$, $0.990$, and $0.980$ for
 cash $500$, $1{,}000$, and $5{,}000$, on $5$, $6$, and $6$ median points respectively,
-comparable to the $0.991$ of the Model~A fit---so nucleation under budgets remained what it
+comparable to the $0.991$ of the Model~A fit (Table~\ref{tab:kramers-fits})---so nucleation under budgets remained what it
 had been without them, a stochastic escape over a barrier; and yet the barrier itself, so
 far as the data could resolve it, did not move.
 
@@ -1613,7 +1614,7 @@ observation, which we report uncorrected for multiple comparisons and weigh acco
 already points the same way: near the cliff the onset rate was monotone in cash---at
 $f = 0.174$ the fraction of seeds nucleating within the horizon rose from $0.45$ to $0.62$
 to $0.70$ from tight to loose cash, and at $f = 0.177$ the Kaplan--Meier medians fell in
-the same order, $1{,}598$, $1{,}427$, and $1{,}208$ steps. Because the onset trigger is
+the same order, $1{,}598$, $1{,}427$, and $1{,}208$ steps (Appendix~\ref{app:censoring}). Because the onset trigger is
 itself a growth milestone---$t_{\mathrm{on}}$ marks the step at which the largest sell
 cluster first reaches $5\%$ of the grid---a faster-growing front reaches the trigger
 sooner, and a monotone-in-cash onset rate is precisely the signature one expects if budgets
@@ -1631,7 +1632,7 @@ stamped run paired against an unstamped control, and the patch failed absolutely
 founder: in all six cells of the configuration-by-placement design the dominance rate was
 $0/20$---the domain standing largest at onset never once descended from the stamped
 patch---the patch's forward lineages grew only to $9$--$15$ cells before dying out, never
-alive at the moment of onset, and no placement advanced the onset itself. The interior,
+alive at the moment of onset, and no placement advanced the onset itself (Figure~\ref{fig:mb-seeding}). The interior,
 evidently, does not lack seeds; the single-cell fluctuations of Section~\ref{sec:mb-spatial}
 supply them constantly and at no cost---what is scarce above threshold is not a nucleus but
 the \emph{growth} that would make one matter.
@@ -1675,7 +1676,7 @@ suppression rate rose---pooled Spearman $\rho = -0.372$, permutation $p = 0.0003
 relationship was not a between-dose confound, for it held within every dose separately, with
 $\rho$ between $-0.38$ and $-0.52$, and it survived the removal of any single dose entirely
 (leave-one-dose-out $p \le 0.0014$). We state the shape of this result as carefully as its
-strength (Figure~\ref{fig:mb-velsupp}). The median suppression load varied remarkably little
+strength (Figure~\ref{fig:mb-velsupp}). The median suppression load varied little
 across the ladder ($517$--$595$ orders per step), and the median velocity was U-shaped in
 cash---highest at the tightest dose, lowest in the middle of the ladder, rising again at the
 loosest---so the claim the data support is the pooled, and within-dose, negative
@@ -1780,7 +1781,7 @@ standing price, so buys died outright and the suppressed-buy load jumped from $5
 $680$ orders per step---and yet the median front velocity moved only from $2.23$ to
 $2.38 \times 10^{-4}$ grid fractions per step ($11$ of $19$ seeds in the predicted
 direction; sign-flip permutation $p = 0.29$), while the price barely registered the cut at
-all, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$. The trace explains
+all, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$ (Figure~\ref{fig:mb-toggle}). The trace explains
 the null (Figure~\ref{fig:mb-edgetrace}): in the loose configuration the control ring
 already sat near $0.46$ Buy after onset---a brake the crash itself had engaged, the sell
 wave having pressed the price beneath nearly half the ring's bands---and the cash cut
@@ -1974,7 +1975,7 @@ rule space is finite and enumerable---$3^9 = 19{,}683$ totalistic rules, of whic
 pair studied here occupies a single point---and the systematic screen it invites would
 ask whether the arc traced in this paper, from metastable attractor through
 disorder-seeded nucleus to budget-gated front, is particular to one rule pairing or
-generic to lattice markets. A market that can crash needs remarkably little: two rules,
+generic to lattice markets. A market that can crash needs little: two rules,
 one lattice, and a fraction to mix them sufficed for a crash with a location, a waiting
 time, and a barrier---and for a rule space small enough to search.
 
@@ -2108,7 +2109,9 @@ steps, stated here against the sweep's horizon so that it transfers to other run
 lengths. Failing that, a run whose total price range stays below $0.10\,P_0$ is a
 \emph{plateau}, and any remaining run is a \emph{drift}. Of the $10{,}800$ runs,
 $6{,}589$ ($61\%$) were oscillatory and $4{,}211$ ($39\%$) crash-prone; no run was
-ever inert, plateau, or drift.
+ever inert, plateau, or drift. The sell-dominated (crash-prone) regime appeared
+abruptly between $f = 0.15$ and $f = 0.20$ at every price impact $\lambda$ in the
+design.
 
 Grouping runs by their knob configuration splits each summary metric's variance into
 a between-configuration share, attributable to the swept knobs jointly, and a
@@ -2116,7 +2119,8 @@ within-configuration share, attributable to the disorder seed. The knobs account
 for $94$--$98\%$ of the variance across the four summary metrics---between-configuration
 shares of $0.946$ for crash frequency, $0.952$ for return kurtosis, $0.959$ for
 return standard deviation, and $0.974$ for the $\varphi$ sign-flip count---leaving
-the seed at most $5.4\%$.
+the seed at most $5.4\%$. The disposition toggle roughly doubled the return standard
+deviation wherever it was switched on, a ratio of $2.40\times$.
 
 The crash-prone class divides into the modal freeze and a collapsing tail, the
 decomposition Section~\ref{sec:mb-transition} builds on: the median crash-prone run
