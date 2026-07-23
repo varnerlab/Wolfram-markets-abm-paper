@@ -759,8 +759,8 @@ embed agent dynamics in the complete Wolfram totalistic rule space ($3^9$ rules)
 systematic enumeration and comparison rather than ad hoc rule design. Second, we couple the
 CA to real market data (Model~A) or an endogenous reflexive price (Model~B) via boundary
 agents, bridging the gap between abstract CA dynamics and empirical financial time series.
-Third, we identify a discontinuous transition at a critical contrarian fraction and
-resolve its spatial structure---nucleation of sell cascades from localized seeds followed by
+Third, we identify a discontinuous transition once the contrarian fraction crosses a
+threshold and resolve its spatial structure---nucleation of sell cascades from localized seeds followed by
 wavefront propagation---connecting the CA dynamics to the tipping-point framework of
 Scheffer et al.~\cite{scheffer2009early}.
 
@@ -1202,16 +1202,20 @@ first-order transition (Figure~\ref{fig:theory-overview}A).
   $S_1 \approx 1.06$; above the transition the system collapses to the
   all-Sell state at $e \approx -0.93$ and $S_1 \approx 0.18$, a discontinuous
   drop ($\Delta e \approx 0.56$, $\Delta S_1 \approx 0.88$) consistent with a
-  first-order transition.
+  first-order transition; near threshold the $2{,}000$-step averages retain
+  the mixed state because metastable lifetimes exceed the window, so the
+  crossover completes to the right of the marked $f_c$.
   B:~Spectral radius of the pair-approximation Jacobian at the uncorrelated
   fixed point, declining monotonically from $0.95$ at $f = 0$ to $0.71$ at
   $f = 0.5$, strictly below the instability threshold (dashed line at~$1$):
   no finite correlation order captures the transition.
   C:~Sell-cluster sizes in the mixed state (log scale): largest cluster ever
   observed (orange) and mean largest per snapshot (black), over 100 snapshots
-  of a $128 \times 128$ lattice. The largest clusters grow from
-  ${\sim}30$--$60$~cells in the subcritical mixed state to ${\sim}400$~cells
-  at $f = 0.145$ and exceed $1{,}800$~cells by $f = 0.16$.
+  of a $128 \times 128$ lattice. The mean largest cluster (black) holds at
+  ${\sim}30$--$60$~cells in the subcritical mixed state, while the largest
+  observed cluster (orange) reaches ${\sim}400$~cells near $f = 0.145$ and
+  exceeds $1{,}800$~cells by $f = 0.16$ (the dip at $f = 0.155$ is a
+  single-realization fluctuation of the fixed-seed protocol).
   Dashed vertical lines mark $f_c \approx 0.145$.}
   \label{fig:theory-overview}
 \end{figure}
@@ -1958,7 +1962,7 @@ contrarian minority, mixed at a single control fraction~$f$---and followed its
 crash through three acts. In the first (Section~\ref{sec:results}), Model~A exhibited a
 sharp first-order transition at $f_c \approx 0.145$ at the simulation horizon: below the
 threshold the market persisted in a metastable mixed attractor; above it, a sell cascade
-nucleated from a localized seed and propagated as a spatially coherent wavefront,
+was born from a single localized seed and carried outward as a coherent wavefront,
 reaching different regions of the lattice at staggered moments. The crash, that is, had a
 \emph{spatial history}---a location, a front, a sequence---which is precisely the
 structure that mean-field descriptions erase.
