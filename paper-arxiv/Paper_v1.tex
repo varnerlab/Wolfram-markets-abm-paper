@@ -1260,9 +1260,9 @@ and the trinomial distribution of the remaining three neighbours' sum
 The pair approximation also predicted no phase transition. We computed the $6 \times 6$
 Jacobian of the pair map~\eqref{eq:pair-update} evaluated at the uncorrelated
 (mean-field) fixed point $\rho_{ab}^* = \rho_a^* \rho_b^*$ and found that its spectral
-radius was strictly less than unity for all $f \in [0, 1]$---ranging from
-$|\lambda_{\max}| \approx 0.95$ at $f = 0$ to $|\lambda_{\max}| \approx 0.71$ at
-$f = 0.5$. A systematic search over correlated initial conditions (same-state
+radius was strictly less than unity at every $f$ we sampled ($f \in [0, 0.5]$),
+declining monotonically from $|\lambda_{\max}| \approx 0.95$ at $f = 0$ to
+$|\lambda_{\max}| \approx 0.71$ at $f = 0.5$. A systematic search over correlated initial conditions (same-state
 correlation $\varepsilon$ ranging from $0.1$ to $0.5$, both buy- and sell-biased)
 confirmed that every trajectory converged to one of only two fixed points: the
 uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
@@ -2056,8 +2056,9 @@ The search for correlated fixed points used initial conditions
 which interpolate between the uncorrelated product state at $\varepsilon = 0$ and
 perfect same-state correlation at $\varepsilon = 1$. We ran
 $\varepsilon \in \{0.1,\, 0.3,\, 0.5\}$ on buy-biased marginals
-$(0.50,\, 0.30,\, 0.20)$ and on sell-biased marginals $(0.20,\, 0.10,\, 0.70)$ and
-$(0.10,\, 0.05,\, 0.85)$, together with an uncorrelated uniform control, at thirteen
+$(0.50,\, 0.30,\, 0.20)$, $\varepsilon \in \{0.1,\, 0.3\}$ on sell-biased marginals
+$(0.20,\, 0.10,\, 0.70)$, and $\varepsilon = 0.5$ on $(0.10,\, 0.05,\, 0.85)$,
+together with an uncorrelated uniform control, at thirteen
 values of~$f$ between $0$ and $0.5$. Every trajectory converged either to the
 uncorrelated buy-dominated fixed point or to the all-Sell absorbing state, with the
 spatial mutual information $I = 2S_1 - S_2$ decaying to zero in all cases: the pair
@@ -2133,7 +2134,7 @@ loosest budget regime in the design.
 
 The escape-time campaign of Section~\ref{sec:mb-protocols} runs each seed to a
 horizon of $2{,}000$ steps, and any run that has not nucleated by then is
-right-censored: its onset time $\tau = t_{\mathrm{on}}$ is recorded as exceeding the
+right-censored: its onset time $\tau = t_{\mathrm{on}}$ is treated as exceeding the
 horizon, and the run enters the Kaplan--Meier estimator carrying that censoring
 mark---censored runs are never dropped. Table~\ref{tab:censoring-counts} lists the
 resulting counts for every $(f, \text{cash})$ cell of the campaign; rows at $20$
