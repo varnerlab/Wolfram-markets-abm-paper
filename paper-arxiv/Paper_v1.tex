@@ -1174,7 +1174,8 @@ in a single time step, and the all-Sell absorbing state ($c = 8 \to \text{Sell}$
 is the unique ground state at $e = -1$. The ``buy-dominated'' phase observed in
 simulations is therefore not a static equilibrium but a \emph{dynamic mixed-state
 attractor} with fractions $p_0 \approx 0.49$, $p_1 \approx 0.24$,
-$p_2 \approx 0.26$ and $e \approx -0.37$---a metastable state separated from the
+$p_2 \approx 0.26$ and $e \approx -0.37$
+(Figure~\ref{fig:theory-overview}A)---a metastable state separated from the
 all-Sell ground state by a barrier that the deterministic majority dynamics alone
 cannot cross.
 
@@ -1189,7 +1190,31 @@ lattice with periodic boundaries. Below $f_c$ the mixed attractor persisted at
 $e \approx -0.37$ and $S_1 \approx 1.06$ (near the maximum $\ln 3 \approx 1.10$);
 above $f_c$ the system collapsed to the all-Sell absorbing state at
 $e \approx -0.93$ and $S_1 \approx 0.18$---a discontinuous drop characteristic of a
-first-order transition.
+first-order transition (Figure~\ref{fig:theory-overview}A).
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig-ModelA-Theory.pdf}
+  \caption{Theory overview for Model~A (Rules~19280/19286).
+  A:~Potts energy~$e$ and site entropy~$S_1$ vs.\ minority fraction~$f$
+  ($128 \times 128$ lattice, periodic boundaries, time-averaged over
+  $2{,}000$ steps). The mixed attractor persists at $e \approx -0.37$ and
+  $S_1 \approx 1.06$; above the transition the system collapses to the
+  all-Sell state at $e \approx -0.93$ and $S_1 \approx 0.18$, a discontinuous
+  drop ($\Delta e \approx 0.56$, $\Delta S_1 \approx 0.88$) consistent with a
+  first-order transition.
+  B:~Spectral radius of the pair-approximation Jacobian at the uncorrelated
+  fixed point, declining monotonically from $0.95$ at $f = 0$ to $0.71$ at
+  $f = 0.5$, strictly below the instability threshold (dashed line at~$1$):
+  no finite correlation order captures the transition.
+  C:~Sell-cluster sizes in the mixed state (log scale): largest cluster ever
+  observed (orange) and mean largest per snapshot (black), over 100 snapshots
+  of a $128 \times 128$ lattice. The largest clusters grow from
+  ${\sim}30$--$60$~cells in the subcritical mixed state to ${\sim}400$~cells
+  at $f = 0.145$ and exceed $1{,}800$~cells by $f = 0.16$.
+  Dashed vertical lines mark $f_c \approx 0.145$.}
+  \label{fig:theory-overview}
+\end{figure}
 
 \subsection{Mean-Field Analysis}
 \label{sec:mean-field}
@@ -1262,7 +1287,8 @@ Jacobian of the pair map~\eqref{eq:pair-update} evaluated at the uncorrelated
 (mean-field) fixed point $\rho_{ab}^* = \rho_a^* \rho_b^*$ and found that its spectral
 radius was strictly less than unity at every $f$ we sampled ($f \in [0, 0.5]$),
 declining monotonically from $|\lambda_{\max}| \approx 0.95$ at $f = 0$ to
-$|\lambda_{\max}| \approx 0.71$ at $f = 0.5$. A systematic search over correlated initial conditions (same-state
+$|\lambda_{\max}| \approx 0.71$ at $f = 0.5$
+(Figure~\ref{fig:theory-overview}B). A systematic search over correlated initial conditions (same-state
 correlation $\varepsilon$ ranging from $0.1$ to $0.5$, both buy- and sell-biased)
 confirmed that every trajectory converged to one of only two fixed points: the
 uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
@@ -1328,7 +1354,7 @@ requires the \emph{collective} effect of many such seeds. Sell cluster analysis
 confirmed this: below $f_c$ the largest sell cluster in the mixed attractor contained
 ${\sim}30$--$60$~cells; at $f = 0.145$ transient clusters of ${\sim}400$~cells
 appeared; and at $f = 0.16$ macroscopic clusters exceeding $1{,}800$~cells formed and
-triggered system-wide collapse.
+triggered system-wide collapse (Figure~\ref{fig:theory-overview}C).
 
 The nucleation mechanism is thus disorder-driven: the quenched random placement of
 contrarian agents at density~$f$ creates local density fluctuations; at $f > f_0$,
@@ -1352,7 +1378,7 @@ metastable lifetime. The Potts energy mapping provides the natural order paramet
 energy discontinuity $\Delta e \approx 0.56$ at $f_c$, from the mixed attractor
 ($e \approx -0.37$) to the all-Sell ground state ($e \approx -0.93$), confirms the
 first-order character of the transition and quantifies the barrier that the system must
-overcome.
+overcome (Figure~\ref{fig:theory-overview}A).
 
 This barrier picture does more than explain Model~A; it makes three falsifiable
 predictions for the budget-constrained model that follows. If nucleation survives the
@@ -2050,7 +2076,7 @@ symmetry and normalization, computed by finite differences with step
 $\delta = 10^{-7}$, each perturbed matrix projected back onto the probability simplex
 before the map was applied. The spectral radius sat strictly below unity at every
 value of~$f$ we sampled---twelve values from $0$ to $0.5$---declining monotonically
-from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$.
+from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory-overview}B).
 
 The search for correlated fixed points used initial conditions
 \begin{equation}

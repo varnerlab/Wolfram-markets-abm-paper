@@ -22,6 +22,13 @@
 
 using Printf
 
+# ─── Include guard ────────────────────────────────────────────────────────
+# When this file is included from another script that has already defined
+# `_PAIRAPPROX_SKIP_ANALYSES` (e.g. Figs-ModelA-Theory.jl, which reuses the
+# function definitions below), the console analyses are skipped. Standalone
+# execution (`julia code/model-a/PairApproximation.jl`) is unchanged.
+_run_pair_analyses = !@isdefined(_PAIRAPPROX_SKIP_ANALYSES)
+
 # ─── Rule tables ──────────────────────────────────────────────────────────
 const RULE_19280 = [2, 0, 0, 0, 1, 1, 2, 2, 2]   # RULE_19280[c+1] = output
 const RULE_19286 = [2, 2, 0, 0, 1, 1, 2, 2, 2]
@@ -226,9 +233,11 @@ mutual_information(ρ::Matrix{Float64}) = 2 * site_entropy(ρ) - pair_entropy(ρ
 # Main: Pair approximation with stability analysis
 # ═══════════════════════════════════════════════════════════════════════════
 
+if _run_pair_analyses  # (include guard: see top of file)
 println("=" ^ 70)
 println("  Pair Approximation — Stability & Correlated IC Analysis")
 println("=" ^ 70)
+end
 
 # ─── Mean-field (for comparison) ──────────────────────────────────────────
 function pi_distribution(p0, p1, p2)
@@ -288,6 +297,7 @@ end
 # Analysis 1: Stability of the uncorrelated fixed point
 # ═══════════════════════════════════════════════════════════════════════════
 
+if _run_pair_analyses  # (include guard: see top of file)
 println("\n─── Analysis 1: Stability of uncorrelated FP ───")
 println("  Perturbing MF fixed point with ε = 0.01 same-state correlation")
 println("  Tracking whether MI grows (unstable) or decays (stable)\n")
@@ -325,11 +335,13 @@ for f in fs_test
     @printf("  %.2f  │  %.4f  │ %.6f │ %.6f │ %.6f │ %.6f │ %.6f │ %s\n",
             f, p2_mf, MI_0, MI_1, MI_10, MI_100, MI_final, status)
 end
+end  # if _run_pair_analyses
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Analysis 2: Search for correlated fixed points
 # ═══════════════════════════════════════════════════════════════════════════
 
+if _run_pair_analyses  # (include guard: see top of file)
 println("\n─── Analysis 2: Search for correlated fixed points ───")
 println("  Trying multiple ICs with strong correlations (ε = 0.1, 0.3, 0.5)")
 println("  and sell-biased ICs\n")
@@ -359,14 +371,17 @@ for f in fs_search
                 f, ε, p_init[3], ρ_marg[3], MI, E, iters, label)
     end
 end
+end  # if _run_pair_analyses
 
 # ═══════════════════════════════════════════════════════════════════════════
 # Analysis 3: Eigenvalue of the linearized pair map at the uncorrelated FP
 # ═══════════════════════════════════════════════════════════════════════════
 
+if _run_pair_analyses  # (include guard: see top of file)
 println("\n─── Analysis 3: Spectral radius of pair map Jacobian ───")
 println("  Numerical Jacobian of pair_step at the MF fixed point")
 println("  (restricted to the 6-dimensional pair density space)\n")
+end
 
 using LinearAlgebra
 
@@ -415,6 +430,7 @@ function numerical_jacobian(f_val::Float64, ρ_fp::Matrix{Float64}; δ = 1e-7)
     return J
 end
 
+if _run_pair_analyses  # (include guard: see top of file)
 println("  f     │ Spectral radius │ Max |λ| (non-trivial) │ Dominant mode")
 println("────────┼─────────────────┼───────────────────────┼──────────────")
 
@@ -444,3 +460,4 @@ end
 println("\nIf spectral radius > 1 at some f, the uncorrelated FP is unstable")
 println("and correlations grow → pair approximation predicts a transition.")
 println("\nDone.")
+end  # if _run_pair_analyses
