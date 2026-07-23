@@ -325,3 +325,59 @@ unmoved*: nucleation (birth + escape) is budget-independent, and budget
 effects act downstream, gating front GROWTH (A2, budget toggle, boundary
 ring). §7.3 becomes "budgets do not move the barrier"; §7.4 carries the
 arrest mechanism. This strengthens the bulk-creates / boundary-gates spine.
+
+---
+
+# Amendments (Phase 2 execution, 2026-07-21 → 2026-07-23)
+
+Executed via SDD on branch `paper-restructure` (base 34a780a), Tasks 1–19 complete,
+every writing task gated by an independent task review. Deviations and decisions:
+
+1. **Price-update convention (Task 4):** the plan's Methods text mixed
+   P_{tau+1} and P_{tau-1} conventions; amended (5af454d) to the single
+   convention P_tau = P_{tau-1} exp(lambda phi_tau) and applied uniformly
+   (including the Fig 1 TikZ annotation).
+2. **Campaign horizons (Task 2):** toggle and boundary-vs-bulk campaigns run
+   1,500 steps (plan prose had said 2,000); corrected pre-dispatch.
+3. **Withdrawal-mild p-value (Task 9):** the plan's p = 0.65 was not the
+   sign-flip test's output on the committed CSV (deterministic replication:
+   0.671 → printed 0.67; 0.65 was likely the exact-binomial 0.6476 for
+   11/19). Plan amended in 24e0857; the p attaches to the velocity null, not
+   the suppressed-buys shift. Methods also corrected in the same commit:
+   toggle-window velocity is the endpoint difference quotient (not an OLS
+   slope; the OLS description belongs to the velocity-suppression campaign),
+   and the toggle admission rule (t_on == 0 or t_on > horizon − W) now
+   appears in Methods.
+4. **Abstract conventions (Task 16, USER DECISION 2026-07-23):** the author's
+   `review-abstract` conventions govern the abstract, overriding the plan's
+   beat-structure constraints where they conflict — no results numbers, no
+   math mode, no em-dashes, 200–300 words, narrative structure. Plan amended
+   (90172a2); abstract is 298 words with all gates mechanically verified.
+5. **Pair-approximation f-range (Task 17):** main text claimed spectral
+   radius < 1 "for all f in [0,1]"; the code samples [0, 0.5]. Narrowed to
+   the sampled range with the (verified) monotone decline (fc40d74). The
+   appendix states the code's true convergence criterion (max-norm < 1e-12;
+   the plan's 1e-14 L1 belongs to the mean-field map).
+6. **RegimeMap not promoted:** `ModelB-Stage2-RegimeMap` (spec Part 2
+   optional item) was not promoted to the paper; 7.1 cites the Stage 2
+   aggregates through Appendix B instead — the regime map added no claim the
+   text needed. Fig8-MeanField retired with the other casualties (Task 18)
+   because Section 6 as written claims no figure.
+7. **Final audit (Task 19):** build clean with ZERO undefined references;
+   Test-EscapeTime.jl and Test-BoundaryVsBulk.jl green; all SEVEN prose
+   obligations verified in situ (the plan's five grew to seven during
+   Phase 1's final review); style-check enforced rules pass (no bullets, no
+   Discussion paragraph heads) with the arXiv waivers recorded (em-dashes,
+   Section~\ref roadmap, subsections in Results, PNAS-template rules);
+   magic-number audit fixed 15 pointer gaps (39fe3c1) — notably 7.2's two
+   figures were never \ref'd from prose — and recorded as WAIVED: the theory
+   section's unfigured numbers (energy/entropy vs f, lifetime vs f, cluster
+   sizes, mean-field fixed points — the long-standing theory-figures TODO,
+   a user scope decision before submission), and plan-mandated prose numbers
+   with no figure panel (toggle-arm prices/suppression counts in 7.5, birth
+   size/step/span in 7.2, 500-fragments count) whose homes are the committed
+   CSVs.
+
+**Outstanding user obligations before arXiv submission:** supply
+Acknowledgments (stub commented out); decide on the theory-figures TODO;
+push (main is ahead of origin; paper-restructure branch unmerged).
