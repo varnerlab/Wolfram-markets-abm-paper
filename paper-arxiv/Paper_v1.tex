@@ -698,12 +698,12 @@ broader program on crises and collective socio-economic phenomena already casts 
 crashes in the language of statistical mechanics, treating them as barrier-crossing
 transitions between metastable equilibria governed by the same slow-relaxation machinery
 that organizes glasses and other disordered media~\cite{bouchaud2013crises}; and Sornette et
-al.~\cite{sornette2003endogenous}, decomposing shocks in complex networks into endogenous and
-exogenous components---validated empirically not on markets directly but on the cleaner
-testbed of book-sale-rank cascades---show that self-generated shocks carry identifiable
-precursory and relaxation fingerprints, separable from externally triggered ones---a
-decomposition that presumes exactly the internal-dynamics picture we make explicit at the
-agent level. Neither account, however,
+al.~\cite{sornette2003endogenous} decompose shocks in complex networks into endogenous and
+exogenous components, a split validated empirically not on markets directly but on the
+cleaner testbed of book-sale-rank cascades, and show that self-generated shocks carry
+identifiable precursory and relaxation fingerprints, separable from externally triggered
+ones---a decomposition that presumes exactly the internal-dynamics picture we make explicit
+at the agent level. Neither account, however,
 supplies a setting in which the barrier, the waiting time, and the escape velocity can be
 measured directly rather than merely invoked. A second, empirical literature studies the
 interventions meant to arrest such escapes on real markets: Brunnermeier and
@@ -759,7 +759,7 @@ embed agent dynamics in the complete Wolfram totalistic rule space ($3^9$ rules)
 systematic enumeration and comparison rather than ad hoc rule design. Second, we couple the
 CA to real market data (Model~A) or an endogenous reflexive price (Model~B) via boundary
 agents, bridging the gap between abstract CA dynamics and empirical financial time series.
-Third, we identify a sharp first-order phase transition at a critical minority fraction and
+Third, we identify a discontinuous transition at a critical contrarian fraction and
 resolve its spatial structure---nucleation of sell cascades from localized seeds followed by
 wavefront propagation---connecting the CA dynamics to the tipping-point framework of
 Scheffer et al.~\cite{scheffer2009early}.
@@ -834,7 +834,7 @@ interpretable channel through which real market information enters the grid.
 \begin{table}[tb]
 \centering
 \caption{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads
-right-to-left: digit $a_i$ gives the next state when the neighbourhood
+right-to-left: digit $a_i$ gives the next state when the neighborhood
 sum index equals $i$.}
 \label{tab:rule-taxonomy}
 \small
@@ -844,7 +844,7 @@ Rule & Base-3 encoding & Interpretation & Role \\
 \midrule
 6158 & $(022110002)_{3}$ & Imitation / herding & Homogeneous model; stable waves \\
 19280 & $(222110002)_{3}$ & Majority rule & 80\% crash model; herding \\
-19286 & $(222110022)_{3}$ & Contrarian & 20\% crash model; destabiliser \\
+19286 & $(222110022)_{3}$ & Contrarian & 20\% crash model; destabilizer \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -852,7 +852,7 @@ Rule & Base-3 encoding & Interpretation & Role \\
 Table~\ref{tab:rule-taxonomy} lists the three rules used in this study. Rule~19280 is a
 majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
 promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
-from 19280 at a single neighbourhood sum---$c = 1$, the case in which exactly one neighbour
+from 19280 at a single neighborhood sum---$c = 1$, the case in which exactly one neighbor
 holds a non-zero (Hold or Sell) state. A Rule~19280 agent responds to this weak signal by
 \emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
 \emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
@@ -1156,19 +1156,19 @@ the transition, they must move this barrier.
 
 The majority/herding rule (19280) admits a natural interpretation as zero-temperature
 dynamics of a three-state Potts model. We defined the Potts alignment energy per
-nearest-neighbour bond as
+nearest-neighbor bond as
 \begin{equation}
   e \;=\; -\frac{1}{2N_{\mathrm{bonds}}}
        \sum_{\langle i,j\rangle} \delta(\sigma_i,\,\sigma_j),
   \label{eq:potts-energy}
 \end{equation}
-where the sum runs over all distinct nearest-neighbour pairs on the lattice and
+where the sum runs over all distinct nearest-neighbor pairs on the lattice and
 $\delta$ is the Kronecker delta. In a perfectly aligned (single-state) configuration
 $e = -1$; in a maximally disordered configuration $e \approx -1/3$.
-For Rule~19280, the output at neighbourhood sum $c \in \{2,3\}$ is Buy, at
+For Rule~19280, the output at neighborhood sum $c \in \{2,3\}$ is Buy, at
 $c \in \{4,5\}$ is Hold, and at $c \in \{6,7,8\}$ is Sell---precisely the states that
-maximise local alignment with the majority. The one exception is
-$c = 0$ (all neighbours Buy), which outputs Sell rather than Buy. This anomaly means
+maximize local alignment with the majority. The one exception is
+$c = 0$ (all neighbors Buy), which outputs Sell rather than Buy. This anomaly means
 that the all-Buy configuration is \emph{unstable}: every interior cell flips to Sell
 in a single time step, and the all-Sell absorbing state ($c = 8 \to \text{Sell}$)
 is the unique ground state at $e = -1$. The ``buy-dominated'' phase observed in
@@ -1196,10 +1196,10 @@ first-order transition.
 
 To isolate the role of spatial correlations, we derived a mean-field self-consistency
 map for the mixed 19280/19286 population. The mean-field approximation replaces the
-lattice with a well-mixed population in which each agent's four neighbours are drawn
+lattice with a well-mixed population in which each agent's four neighbors are drawn
 independently from the global state distribution $(p_0, p_1, p_2)$, where $p_s$
 denotes the fraction of agents in state~$s$ ($p_0 + p_1 + p_2 = 1$). Because each
-neighbour contributes independently to the neighbourhood sum
+neighbor contributes independently to the neighborhood sum
 $c = s_N + s_S + s_E + s_W$, the probability $\pi_k = \Pr(c = k)$ follows from
 the multinomial convolution of four i.i.d.\ draws from $\{0,1,2\}$ with weights
 $(p_0, p_1, p_2)$:
@@ -1240,9 +1240,9 @@ discontinuity.
 \label{sec:pair-approx}
 
 We extended the mean-field analysis to the pair approximation, which tracks
-nearest-neighbour pair densities $\rho_{ab} = \Pr(\sigma_i = a,\, \sigma_j = b)$
+nearest-neighbor pair densities $\rho_{ab} = \Pr(\sigma_i = a,\, \sigma_j = b)$
 for adjacent sites $i, j$ rather than single-site marginals alone. In the pair
-approximation closure~\cite{gutowitz1987local}, the three neighbours of a focal site
+approximation closure~\cite{gutowitz1987local}, the three neighbors of a focal site
 \emph{other} than its paired partner are drawn independently from the conditional
 distribution $q(s \mid a) = \rho_{as} / \rho_a$, where
 $\rho_a = \sum_b \rho_{ab}$ is the marginal density of state~$a$. For a synchronous
@@ -1252,9 +1252,9 @@ update, the new pair density is
     T_b(a, a')\; T_{b'}(a', a),
   \label{eq:pair-update}
 \end{equation}
-where $T_b(a, a')$ is the probability that a site in state~$a$ with paired neighbour
+where $T_b(a, a')$ is the probability that a site in state~$a$ with paired neighbor
 in state~$a'$ transitions to state~$b$; it is computed from the effective rule table
-and the trinomial distribution of the remaining three neighbours' sum
+and the trinomial distribution of the remaining three neighbors' sum
 (Appendix~\ref{app:pair}).
 
 The pair approximation also predicted no phase transition. We computed the $6 \times 6$
@@ -1271,7 +1271,7 @@ state. Spatial mutual information $I = 2S_1 - S_2$ decayed to zero in all cases.
 The failure of the pair approximation is decisive: it establishes that the phase
 transition cannot be understood as a growing instability at \emph{any} finite
 correlation order. Both mean-field (zero-range correlations) and pair approximation
-(nearest-neighbour correlations) see the same picture---two stable fixed points
+(nearest-neighbor correlations) see the same picture---two stable fixed points
 separated by a barrier that never vanishes. The lattice transition must therefore
 proceed by a qualitatively different mechanism: barrier crossing via a rare,
 large-scale fluctuation.
@@ -1281,16 +1281,16 @@ large-scale fluctuation.
 
 The successive failure of mean-field and pair approximation identifies the lattice
 transition as a \emph{nucleation} phenomenon---the stochastic escape from a metastable
-dynamic attractor over a free-energy barrier. We characterised this mechanism through
+dynamic attractor over a free-energy barrier. We characterized this mechanism through
 three measurements.
 
 \paragraph{Metastable lifetime.}
-We initialised $64 \times 64$ lattices from random states, equilibrated for 200~steps
+We initialized $64 \times 64$ lattices from random states, equilibrated for 200~steps
 to the mixed attractor, then recorded the time $\tau$ at which the sell fraction first
 exceeded~$0.90$ (collapse to the absorbing state). For each value of~$f$ we ran 20
-independent realisations with distinct random seeds for both initial conditions and
+independent realizations with distinct random seeds for both initial conditions and
 minority-agent placement. Below $f \approx 0.14$ the mixed state survived in all
-realisations for $10^5$~steps; above $f \approx 0.155$ all realisations collapsed,
+realizations for $10^5$~steps; above $f \approx 0.155$ all realizations collapsed,
 with the mean lifetime decreasing from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$
 to $\bar{\tau} \approx 86$ at $f = 0.30$.
 
@@ -1343,7 +1343,7 @@ sizes.
 The theoretical hierarchy---mean-field $\to$ pair approximation $\to$ nucleation
 theory---progressively narrows the mechanism responsible for the phase transition.
 Mean-field theory, by erasing all spatial structure, misses the transition entirely.
-The pair approximation, which restores nearest-neighbour correlations, fares no
+The pair approximation, which restores nearest-neighbor correlations, fares no
 better: the uncorrelated fixed point remains linearly stable at all~$f$, and the
 spatial mutual information vanishes. Only the nucleation framework, which accounts for
 rare large-scale fluctuations seeded by quenched contrarian disorder, correctly
@@ -1919,7 +1919,7 @@ finite and enumerable rule space. Whether the nucleation spine assembled in this
 paper---metastable attractor, disorder-seeded nucleus, budget-gated growth---recurs
 across other rule pairings, and whether the intervention asymmetry survives boundary
 rules other than the contrarian band, are open questions; a systematic screen of that
-space, which we take up in closing, is future work.
+space is future work.
 
 % ============================================================================
 \section{Conclusion}
@@ -1927,13 +1927,13 @@ space, which we take up in closing, is future work.
 % ============================================================================
 
 We presented a minimal agent-based market---traders on a two-dimensional lattice
-following two deterministic Wolfram totalistic rules, a majority/herding rule and a
-contrarian/destabilizer rule, mixed at a single control fraction~$f$---and followed its
+following two deterministic Wolfram totalistic rules, a herding majority paired with a
+contrarian minority, mixed at a single control fraction~$f$---and followed its
 crash through three acts. In the first (Section~\ref{sec:results}), Model~A exhibited a
 sharp first-order transition at $f_c \approx 0.145$ at the simulation horizon: below the
 threshold the market persisted in a metastable mixed attractor; above it, a sell cascade
 nucleated from a localized seed and propagated as a spatially coherent wavefront,
-arriving at different parts of the grid at different times. The crash, that is, had a
+reaching different regions of the lattice at staggered moments. The crash, that is, had a
 \emph{spatial history}---a location, a front, a sequence---which is precisely the
 structure that mean-field descriptions erase.
 
@@ -1982,9 +1982,10 @@ time, and a barrier---and for a rule space small enough to search.
 
 
 % ============================================================================
-% \section*{Acknowledgments}
+\section*{Acknowledgments}
 % ============================================================================
-% TODO: Acknowledgments here.
+We thank [COLLEAGUES / DISCUSSANTS --- TO BE COMPLETED] for helpful discussions.
+[FUNDING ACKNOWLEDGMENT --- TO BE COMPLETED BEFORE SUBMISSION.]
 
 \bibliographystyle{unsrtnat}
 \bibliography{References_v1}
@@ -2000,7 +2001,7 @@ time, and a barrier---and for a rule space small enough to search.
 This appendix records the pair-approximation calculation summarized in
 Section~\ref{sec:pair-approx}, in the form in which it was implemented. The quenched
 rule mixture enters in its annealed form: Rules~19280 and~19286 share every entry of
-their totalistic tables except at neighbourhood sum $c = 1$, where the majority rule
+their totalistic tables except at neighborhood sum $c = 1$, where the majority rule
 outputs Buy and the contrarian rule outputs Sell, so a site whose rule assignment is
 drawn afresh at minority fraction~$f$ follows the effective stochastic rule
 \begin{equation}
@@ -2010,13 +2011,13 @@ drawn afresh at minority fraction~$f$ follows the effective stochastic rule
 deterministic at every $c \neq 1$ and splitting $c = 1$ between Buy, with
 probability $1 - f$, and Sell, with probability~$f$.
 
-The state of the approximation is the symmetric matrix of nearest-neighbour pair
+The state of the approximation is the symmetric matrix of nearest-neighbor pair
 densities $\rho_{ab}$, $a, b \in \{0, 1, 2\}$, normalized by
 $\sum_{ab} \rho_{ab} = 1$, with site marginals $\rho_a = \sum_b \rho_{ab}$ and
-conditional neighbour distribution $q(s \mid a) = \rho_{as} / \rho_a$. The closure is
+conditional neighbor distribution $q(s \mid a) = \rho_{as} / \rho_a$. The closure is
 the local-structure ansatz of Gutowitz, Victor, and
 Knight~\cite{gutowitz1987local}: given a focal site in state~$a$, its three
-neighbours \emph{other} than the paired partner are drawn independently from
+neighbors \emph{other} than the paired partner are drawn independently from
 $q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution
 \begin{equation}
   \Pr(m = k \mid a) \;=\;
@@ -2025,13 +2026,13 @@ $q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution
   q(0 \mid a)^{n_0}\, q(1 \mid a)^{n_1}\, q(2 \mid a)^{n_2},
   \qquad k = 0, \ldots, 6,
 \end{equation}
-and the focal site's full neighbourhood sum is the partner's state plus that draw,
+and the focal site's full neighborhood sum is the partner's state plus that draw,
 $c = a' + m$, which never exceeds~$8$. Averaging the effective rule over the
 trinomial weights gives the transition kernel
 \begin{equation}
   T_b(a, a') \;=\; \sum_{k=0}^{6} \Pr(m = k \mid a)\; R_f(a' + k \to b),
 \end{equation}
-the probability that a site in state~$a$ with paired neighbour in state~$a'$ lands in
+the probability that a site in state~$a$ with paired neighbor in state~$a'$ lands in
 state~$b$ after one synchronous step. Substituting this kernel for both members of a
 pair---each site conditioning on its own partner---yields the synchronous pair update
 $\rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\, T_b(a, a')\, T_{b'}(a', a)$ quoted as
