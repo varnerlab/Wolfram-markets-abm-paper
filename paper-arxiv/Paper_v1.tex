@@ -62,22 +62,29 @@
 \maketitle
 
 \begin{abstract}
-Financial markets crash without proportionate external shocks, yet most agent-based models
-either assume global (mean-field) coupling that erases the spatial structure of contagion,
-or employ ad hoc behavioral rules that resist systematic analysis. We introduce a minimal
-model in which traders on a two-dimensional grid follow deterministic Wolfram totalistic
-cellular automaton (CA) rules with three states---Buy, Hold, Sell---and update from their
-four cardinal neighbors. Boundary agents inject real market sentiment derived from QQQ ETF
-minute-bar data via a Bollinger Band filter; interior agents are governed by one of two
-rules, a majority/herding rule and a contrarian/destabilizer rule, whose mixture fraction~$f$
-is the single control parameter. The model exhibits a sharp first-order phase transition at
-a critical minority fraction $f_c \approx 0.145$: below this threshold the market is stable,
-while above it the system abruptly locks into a sell-dominated regime. At the transition,
-sell cascades nucleate from localized seeds and propagate as spatially coherent wavefronts,
-a contagion mechanism that is invisible to mean-field treatments and that connects naturally
-to the tipping-point phenomenology observed in real markets. Because the full rule space
-($3^9 = 19{,}683$ rules) is finite and enumerable, the framework enables systematic
-screening of agent behaviors---a property unavailable in models with continuous parameters.
+Financial markets crash without shocks of commensurate size, and if a crash begins as a
+nucleation event, a rare local escape from a long-lived metastable state, then it is a
+sequence of trials: a nucleus must appear, must outlive the fluctuations that erase most of
+its kind, and must grow into a macroscopic collapse. We asked what decides that fate in a
+deliberately minimal market: traders occupied a two-dimensional grid, chose among three
+states (Buy, Hold, and Sell) according to deterministic Wolfram totalistic cellular
+automaton rules that read only their four cardinal neighbors, with a herding majority mixed
+with a contrarian minority whose fraction was the only parameter we varied. In Model A, an
+open configuration driven at its boundary by real ETF minute-bar data, the market underwent
+a discontinuous transition at a critical contrarian fraction; sell cascades were born at
+localized seeds and spread across the grid as coherent fronts. Mean-field and pair
+approximations failed to reproduce this transition, establishing its nucleation character
+by elimination, and the metastable lifetime obeyed a Kramers-type escape law, growing
+without bound as the contrarian fraction approached a finite threshold. In Model B, a
+closed configuration with an endogenous price feeding back to the boundary and finite
+per-agent budgets of cash and shares, the same escape law survived at every budget level
+and showed no detectable barrier shift; budgets instead gated the growth of the crash
+front, their influence carried by a price-mediated contrarian boundary. Within the model
+this gating produced a
+liquidity-intervention asymmetry: cash injected at crash onset flipped the boundary from
+brake to accelerant, while withdrawals left the front unmoved because crashes financed
+their own dip-buyers. Because the rule space is finite and fully enumerable, the framework
+opens every rule in its class to systematic screening.
 \end{abstract}
 
 % ============================================================================
