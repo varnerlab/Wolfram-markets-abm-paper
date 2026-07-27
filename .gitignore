@@ -32,3 +32,7 @@ code/data/*.jld2
 code/data/*.csv
 !code/data/ModelB-Stage2-*.csv
 !code/data/ModelB-Nucleation-*.csv
+
+# LaTeX build-state files (the refreshed PDF and bibliography remain tracked)
+paper-arxiv/*.fdb_latexmk
+paper-arxiv/*.fls

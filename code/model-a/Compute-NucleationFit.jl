@@ -1,16 +1,15 @@
 ## Compute-NucleationFit.jl
 #
-# Fit the mixed-state lifetime data τ(f) to extract the effective
-# nucleation barrier ΔG*(f) and predict f_c.
+# Fit the mixed-state lifetime data τ(f) with descriptive finite-horizon curves.
 #
-# Model: τ(f) = A · exp(B / (f - f₀))   (Kramers escape with barrier ~ 1/(f-f₀))
-# or:    τ(f) = A · exp(B / f^α)         (general power law in barrier)
+# Candidate form: τ(f) = A · exp(B / (f - f₀)).
+# This is an empirical onset-time fit, not a derived Kramers law.
 #
 # Also: finer lifetime sweep near the transition for better resolution.
 
 import Pkg; Pkg.activate(joinpath(@__DIR__, "..")); Pkg.instantiate()
 
-using Printf, Statistics, Random
+using CSV, DataFrames, Printf, Statistics, Random
 
 # ─── Rule decoding ────────────────────────────────────────────────────────
 function decode_rule(index::Int, ncolors::Int, radius::Int)
@@ -74,12 +73,20 @@ sort!(unique!(fs_fine))
 
 # Collect data
 lifetime_data = Dict{Float64, Vector{Int}}()
+observed_data = Dict{Float64, BitVector}()
+lifetime_rows = DataFrame(
+    f=Float64[],
+    seed=Int[],
+    onset_time=Int[],
+    event_observed=Bool[],
+)
 
 println("\n  f     │ Mean τ     │ Median τ   │ Std τ      │ Survived │ ln(mean τ)")
 println("────────┼────────────┼────────────┼────────────┼──────────┼───────────")
 
 for f in fs_fine
     lifetimes = Int[]
+    observed = Bool[]
 
     for s in 1:N_SEEDS
         grid = rand(Random.MersenneTwister(1000 + s), 0:2, L, L)
@@ -95,19 +102,24 @@ for f in fs_fine
 
         # Measure lifetime
         lifetime = T_MAX
+        event_observed = false
         for t in 1:T_MAX
             ca_step!(grid, nxt, is_min, L, L)
             grid, nxt = nxt, grid
             if sell_fraction(grid) > 0.90
                 lifetime = t
+                event_observed = true
                 break
             end
         end
         push!(lifetimes, lifetime)
+        push!(observed, event_observed)
+        push!(lifetime_rows, (f, s, lifetime, event_observed))
     end
 
     lifetime_data[f] = lifetimes
-    survived = count(==(T_MAX), lifetimes)
+    observed_data[f] = BitVector(observed)
+    survived = count(!, observed)
     μ = mean(lifetimes)
     md = median(lifetimes)
     σ = std(lifetimes)
@@ -116,12 +128,14 @@ for f in fs_fine
             f, μ, md, σ, survived, N_SEEDS, log(μ))
 end
 
+CSV.write(joinpath(@__DIR__, "..", "data", "ModelA-OnsetTimes.csv"), lifetime_rows)
+
 # ═══════════════════════════════════════════════════════════════════════════
 # 2. Fit ln(τ) vs f
 # ═══════════════════════════════════════════════════════════════════════════
 
 println("\n" * "=" ^ 70)
-println("  Nucleation Barrier Fitting")
+println("  Empirical Onset-Time Fitting")
 println("=" ^ 70)
 
 # Only use f values where not all seeds survived (finite lifetime)
@@ -131,7 +145,7 @@ lnτ_fit = Float64[]
 
 for f in sort(collect(keys(lifetime_data)))
     τs = lifetime_data[f]
-    survived = count(==(T_MAX), τs)
+    survived = count(!, observed_data[f])
     if survived == 0 && mean(τs) > 50  # finite lifetime, not trivial
         push!(f_fit, f)
         push!(lnτ_fit, log(mean(τs)))
@@ -161,7 +175,6 @@ if length(f_fit) >= 2
 
     @printf("\n  Fit 1: ln(τ) = %.3f + %.3f / f\n", a1, b1)
     @printf("  R² = %.6f\n", R2_1)
-    @printf("  Interpretation: ΔG*(f) = %.3f / f\n", b1)
     @printf("  Pre-exponential: τ₀ = exp(%.3f) = %.1f\n", a1, exp(a1))
 end
 
@@ -196,17 +209,27 @@ let
 
         @printf("\n  Fit 2: ln(τ) = %.3f + %.3f / (f - %.3f)\n", best_a, best_b, best_f0)
         @printf("  R² = %.6f\n", best_R2)
-        @printf("  Critical threshold: f₀ = %.3f\n", best_f0)
-        @printf("  Below f₀, barrier is infinite → mixed state is absolutely stable\n")
-        @printf("  Interpretation: ΔG*(f) ∝ 1/(f - %.3f)\n", best_f0)
+        @printf("  Fitted pseudo-threshold: f₀ = %.3f\n", best_f0)
+        @printf("  This extrapolation does not establish absolute stability below f₀.\n")
 
-        for L_pred in [64, 128, 256, 512]
-            for T_obs in [1000, 10000]
-                local denom = log(T_obs) - best_a
-                if denom > 0
-                    local f_c_pred = best_f0 + best_b / denom
-                    @printf("  → f_c(L=%d, T=%d) = %.4f\n", L_pred, T_obs, f_c_pred)
-                end
+        CSV.write(
+            joinpath(@__DIR__, "..", "data", "ModelA-OnsetTime-Fit.csv"),
+            DataFrame(
+                model=["log_tau = a + b/(f-f0)"],
+                a=[best_a],
+                b=[best_b],
+                f0=[best_f0],
+                r_squared=[best_R2],
+                n_f=[length(f_fit)],
+            ),
+        )
+
+        for T_obs in [1000, 10000]
+            local denom = log(T_obs) - best_a
+            if denom > 0
+                local f_cross = best_f0 + best_b / denom
+                @printf("  → finite-horizon crossover estimate f(T=%d) = %.4f\n",
+                        T_obs, f_cross)
             end
         end
     end

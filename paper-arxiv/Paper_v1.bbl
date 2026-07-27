@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{48}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -118,14 +118,6 @@ Stephen Wolfram.
 \newblock \emph{A New Kind of Science}.
 \newblock Wolfram Media, 2002.
 
-\bibitem[Scheffer et~al.(2009)Scheffer, Bascompte, Brock, Brovkin, Carpenter,
-  Dakos, Held, Van~Nes, Rietkerk, and Sugihara]{scheffer2009early}
-Marten Scheffer, Jordi Bascompte, William~A Brock, Victor Brovkin, Stephen~R
-  Carpenter, Vasilis Dakos, Hermann Held, Egbert~H Van~Nes, Max Rietkerk, and
-  George Sugihara.
-\newblock Early-warning signals for critical transitions.
-\newblock \emph{Nature}, 461:\penalty0 53--59, 2009.
-
 \bibitem[Fama(1970)]{fama1970efficient}
 Eugene~F. Fama.
 \newblock Efficient capital markets: a review of theory and empirical work.
@@ -210,11 +202,58 @@ Xavier Gabaix, Parameswaran Gopikrishnan, Vasiliki Plerou, and H~Eugene
 \newblock A theory of power-law distributions in financial market fluctuations.
 \newblock \emph{Nature}, 423:\penalty0 267--270, 2003.
 
+\bibitem[Scheffer et~al.(2009)Scheffer, Bascompte, Brock, Brovkin, Carpenter,
+  Dakos, Held, Van~Nes, Rietkerk, and Sugihara]{scheffer2009early}
+Marten Scheffer, Jordi Bascompte, William~A Brock, Victor Brovkin, Stephen~R
+  Carpenter, Vasilis Dakos, Hermann Held, Egbert~H Van~Nes, Max Rietkerk, and
+  George Sugihara.
+\newblock Early-warning signals for critical transitions.
+\newblock \emph{Nature}, 461:\penalty0 53--59, 2009.
+
 \bibitem[Farmer et~al.(2005)Farmer, Patelli, and Zovko]{farmer2005predictive}
 J~Doyne Farmer, Paolo Patelli, and Ilija~I Zovko.
 \newblock The predictive power of zero intelligence in financial markets.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 102\penalty0
   (6):\penalty0 2254--2259, 2005.
+
+\bibitem[Bouchaud(2013)]{bouchaud2013crises}
+Jean-Philippe Bouchaud.
+\newblock Crises and collective socio-economic phenomena: Simple models and
+  challenges.
+\newblock \emph{Journal of Statistical Physics}, 151\penalty0 (3--4):\penalty0
+  567--606, 2013.
+
+\bibitem[Sornette et~al.(2004)Sornette, Deschatres, Gilbert, and
+  Ageon]{sornette2003endogenous}
+Didier Sornette, Fabrice Deschatres, Thomas Gilbert, and Yann Ageon.
+\newblock Endogenous versus exogenous shocks in complex networks: an empirical
+  test using book sale rankings.
+\newblock \emph{Physical Review Letters}, 93:\penalty0 228701, 2004.
+
+\bibitem[Brunnermeier and Pedersen(2009)]{brunnermeier2009market}
+Markus~K. Brunnermeier and Lasse~Heje Pedersen.
+\newblock Market liquidity and funding liquidity.
+\newblock \emph{The Review of Financial Studies}, 22\penalty0 (6):\penalty0
+  2201--2238, 2009.
+
+\bibitem[Kirilenko et~al.(2017)Kirilenko, Kyle, Samadi, and
+  Tuzun]{kirilenko2017flash}
+Andrei Kirilenko, Albert~S. Kyle, Mehrdad Samadi, and Tugkan Tuzun.
+\newblock The flash crash: High-frequency trading in an electronic market.
+\newblock \emph{The Journal of Finance}, 72\penalty0 (3):\penalty0 967--998,
+  2017.
+
+\bibitem[Subrahmanyam(1994)]{subrahmanyam1994circuit}
+Avanidhar Subrahmanyam.
+\newblock Circuit breakers and market volatility: A theoretical perspective.
+\newblock \emph{The Journal of Finance}, 49\penalty0 (1):\penalty0 237--254,
+  1994.
+
+\bibitem[Farhi and Tirole(2012)]{farhi2012collective}
+Emmanuel Farhi and Jean Tirole.
+\newblock Collective moral hazard, maturity mismatch, and systemic bailouts.
+\newblock \emph{American Economic Review}, 102\penalty0 (1):\penalty0 60--93,
+  2012.
 
 \bibitem[Wolfram(1984)]{wolfram1984universality}
 Stephen Wolfram.
@@ -226,10 +265,41 @@ Norman~H. Packard and Stephen Wolfram.
 \newblock Two-dimensional cellular automata.
 \newblock \emph{Journal of Statistical Physics}, 38:\penalty0 901--946, 1985.
 
+\bibitem[Kyle(1985)]{kyle1985continuous}
+Albert~S. Kyle.
+\newblock Continuous auctions and insider trading.
+\newblock \emph{Econometrica}, 53\penalty0 (6):\penalty0 1315--1335, 1985.
+
+\bibitem[Shefrin and Statman(1985)]{shefrin1985disposition}
+Hersh Shefrin and Meir Statman.
+\newblock The disposition to sell winners too early and ride losers too long:
+  Theory and evidence.
+\newblock \emph{The Journal of Finance}, 40\penalty0 (3):\penalty0 777--790,
+  1985.
+
+\bibitem[Odean(1998)]{odean1998investors}
+Terrance Odean.
+\newblock Are investors reluctant to realize their losses?
+\newblock \emph{The Journal of Finance}, 53\penalty0 (5):\penalty0 1775--1798,
+  1998.
+
 \bibitem[Gutowitz et~al.(1987)Gutowitz, Victor, and Knight]{gutowitz1987local}
 Howard~A. Gutowitz, Jonathan~D. Victor, and Bruce~W. Knight.
 \newblock Local structure theory for cellular automata.
 \newblock \emph{Physica D: Nonlinear Phenomena}, 28\penalty0 (1--2):\penalty0
   18--48, 1987.
+
+\bibitem[Kramers(1940)]{kramers1940brownian}
+Hendrik~A. Kramers.
+\newblock Brownian motion in a field of force and the diffusion model of
+  chemical reactions.
+\newblock \emph{Physica}, 7\penalty0 (4):\penalty0 284--304, 1940.
+
+\bibitem[H{\"a}nggi et~al.(1990)H{\"a}nggi, Talkner, and
+  Borkovec]{hanggi1990reaction}
+Peter H{\"a}nggi, Peter Talkner, and Michal Borkovec.
+\newblock Reaction-rate theory: Fifty years after {K}ramers.
+\newblock \emph{Reviews of Modern Physics}, 62\penalty0 (2):\penalty0 251--341,
+  1990.
 
 \end{thebibliography}

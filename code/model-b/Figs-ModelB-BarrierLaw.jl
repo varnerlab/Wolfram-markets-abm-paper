@@ -26,7 +26,7 @@ let
     # Model A reference: ln τ = 2.78 + 0.389/(f − 0.101), R² = 0.991 (Sec 5.6)
     A_REF, B_REF, F0_REF = 2.78, 0.389, 0.101
     # Display ceiling for curve drawing only (~15x the 2000-step horizon) — not
-    # an analysis quantity; keeps the diverging Kramers curves from stretching
+    # an analysis quantity; keeps the empirical curves from stretching
     # the log axis across 15 decades and crushing the data medians.
     TAU_MAX = 3.0e4
 
@@ -68,11 +68,11 @@ let
     # and panel b carries the story, per the spec's surprise handling)
     fok = fits[.!isnan.(fits.f0), :]
     xs  = collect(1:max(nrow(fok), 1))
-    p_f0 = plot(title = "fitted f0 (divergence)", titlefont = 10,
+    p_f0 = plot(title = "fitted pseudo-threshold f0", titlefont = 10,
                 xlabel = "initial cash", ylabel = "f0",
                 guidefont = 8, tickfont = 7, legend = false,
                 xlims = (0.5, max(nrow(fok), 1) + 0.5))
-    p_B = plot(title = "fitted barrier coefficient B", titlefont = 10,
+    p_B = plot(title = "fitted shape coefficient B", titlefont = 10,
                xlabel = "initial cash", ylabel = "B",
                guidefont = 8, tickfont = 7, legend = false,
                xlims = (0.5, max(nrow(fok), 1) + 0.5))
@@ -92,7 +92,7 @@ let
 
     fig = plot(p_tau, p_rate, p_f0, p_B; layout = (2, 2), size = (1150, 950),
                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-               plot_title = "Escape-time barrier law under budgets (dashed: Model A reference)",
+               plot_title = "Empirical onset-time fits under budgets (dashed: Model A reference)",
                plot_titlefontsize = 11)
     _save_figure(fig, "ModelB-Nucleation-BarrierLaw.pdf")
     @info "Saved: ModelB-Nucleation-BarrierLaw.pdf"

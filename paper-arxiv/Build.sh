@@ -1,12 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# Build the paper and refresh bibliography and cross-references.
+# Usage: ./build.sh [jobname]
 
-# Clean auxiliary files that can cause hyperref instability
-rm -f $1.out
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-# Build: pdflatex -> bibtex -> pdflatex x3
-# The extra passes resolve citations, cross-refs, and hyperref outlines.
-pdflatex -interaction=nonstopmode $1.tex
-bibtex $1
-pdflatex -interaction=nonstopmode $1.tex
-pdflatex -interaction=nonstopmode $1.tex
-pdflatex -interaction=nonstopmode $1.tex
+JOB="${1:-Paper_v1}"
+latexmk -pdf -interaction=nonstopmode -halt-on-error "$JOB.tex"

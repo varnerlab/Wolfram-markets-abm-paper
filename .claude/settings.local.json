@@ -6,7 +6,11 @@
       "Bash(brew install:*)",
       "Bash(pdftoppm:*)",
       "Bash(git clone:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Skill(review-abstract)",
+      "Skill(style-check)",
+      "Skill(audit-magic-numbers)",
+      "Skill(review-section)"
     ]
   }
 }

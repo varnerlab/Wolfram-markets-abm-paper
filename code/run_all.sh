@@ -1,36 +1,72 @@
 #!/usr/bin/env bash
-# run_all.sh — run all simulation and figure scripts in dependency order
-# Usage: bash run_all.sh  (from the code/ directory)
-# Logs go to run_all.log
+# Reproduce tests, figures, or the full simulation pipeline.
+# Usage (from any directory):
+#   bash code/run_all.sh tests
+#   bash code/run_all.sh figures
+#   bash code/run_all.sh all
 
-set -e
-LOG="$(pwd)/run_all.log"
-JULIA=julia
+set -euo pipefail
 
-run() {
-    echo "==== $(date '+%H:%M:%S')  $1 ====" | tee -a "$LOG"
-    $JULIA --project=. "$1" >> "$LOG" 2>&1 \
-        && echo "     OK" | tee -a "$LOG" \
-        || echo "     FAILED (see $LOG)" | tee -a "$LOG"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+MODE="${1:-tests}"
+LOG="$SCRIPT_DIR/run_all.log"
+
+run_julia() {
+    local script="$1"
+    printf '\n[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$script" | tee -a "$LOG"
+    julia --project=. "$script" 2>&1 | tee -a "$LOG"
 }
 
-echo "Starting run_all.sh at $(date)" | tee "$LOG"
+run_tests() {
+    run_julia model-a/Test-EdgeFraction.jl
+    run_julia model-b/Test-ModelB.jl
+    run_julia model-b/Test-EscapeTime.jl
+    run_julia model-b/Test-BoundaryVsBulk.jl
+}
 
-# Stage 1 — compute (expensive; must finish before figures)
-run model-a/Compute-ModelA.jl
-run model-b/Compute-ModelB.jl
+run_compute() {
+    run_julia model-a/Compute-ModelA.jl
+    run_julia model-a/FineSweep.jl
+    run_julia model-a/Compute-ModelA-Critical.jl
+    run_julia model-a/Compute-SpatialTheory.jl
+    run_julia model-a/Compute-NucleationFit.jl
 
-# Stage 2 — figures
-run model-a/Fig2-GridSnapshots.jl
-run model-a/Fig3-PhaseDiagram.jl
-run model-b/Fig4-ClosedLoop.jl
-run model-b/Fig5-PhaseDiagram.jl
-run comparison/Fig6-ReturnDistributions.jl
-run comparison/Fig7-SOC.jl
-run comparison/Fig8-MeanField.jl
+    run_julia model-b/Compute-ModelB-Stage2.jl
+    run_julia model-b/Compute-ModelB-NucleationSeeds.jl
+    run_julia model-b/Compute-ModelB-Nucleation-EscapeTime.jl
+    run_julia model-b/Compute-ModelB-BoundaryVsBulk.jl
+    run_julia model-b/Compute-ModelB-BudgetToggle.jl
+}
 
-# Stage 3 — tables (write .tex files into paper/sections/)
-run model-a/Table1-RuleTaxonomy.jl
-run comparison/Table2-StylizedFacts.jl
+run_figures() {
+    run_julia model-a/Fig2-Combined.jl
+    run_julia model-a/Fig3-PhaseDiagram.jl
+    run_julia model-a/Figs-ModelA-Theory.jl
+    run_julia model-b/Figs-ModelB-Exemplars.jl
+    run_julia model-b/Figs-ModelB-BarrierLaw.jl
+    run_julia model-b/Figs-ModelB-BoundaryVsBulk.jl
+    run_julia model-b/Figs-ModelB-VelocitySuppression.jl
+}
 
-echo "Finished at $(date)" | tee -a "$LOG"
+: > "$LOG"
+case "$MODE" in
+    tests)
+        run_tests
+        ;;
+    figures)
+        run_figures
+        ;;
+    all)
+        run_tests
+        run_compute
+        run_figures
+        ;;
+    *)
+        echo "Usage: bash code/run_all.sh {tests|figures|all}" >&2
+        exit 2
+        ;;
+esac
+
+printf '\nCompleted mode: %s\n' "$MODE" | tee -a "$LOG"
