@@ -84,15 +84,23 @@ analysis possible for every totalistic rule in this model class.
 \section{Introduction}
 % ============================================================================
 
-Financial crashes can emerge without proportionate external shocks. Their returns also
-show robust statistical features, including heavy tails and volatility
-clustering~\cite{cont2001empirical,mandelbrot1963variation,sornette2017why}. We ask a
-narrower question: can local interactions alone produce a spatially organized transition
-from mixed trading states to a sell-dominated state? If so, the interaction network
-matters because it determines where a disturbance begins and how it
-spreads~\cite{battiston2016complexity}. We study this question in a deliberately minimal
-model and then test how finite agent budgets affect the onset and growth of the
-sell-dominated domain.
+Large price declines in financial markets are not always traceable to news of comparable
+size. The crash of October 1987 removed roughly a fifth of the value of the United States
+equity market in a single session, and the flash crash of May 2010 took about nine percent
+off the major indices and returned it within the hour, neither of them following an
+exogenous announcement of matching
+magnitude~\cite{sornette2017why,kirilenko2017flash}. Market returns carry statistical
+signatures that an account built on independent external shocks does not reproduce either,
+since heavy tails, volatility clustering, and long memory in absolute returns persist
+across assets, sampling frequencies, and
+decades~\cite{cont2001empirical,mandelbrot1963variation}. Both observations point to the
+same broad question, whether the interactions among traders can generate large moves on
+their own, and we address one narrow version of it here: can local interactions alone
+produce a spatially organized transition from mixed trading states to a sell-dominated
+state? If they can, then the interaction network matters, because it determines where a
+disturbance begins and how far it spreads~\cite{battiston2016complexity}. We study this
+question in a deliberately minimal model and then test how finite agent budgets affect the
+onset and growth of the sell-dominated domain.
 
 The ingredients for an answer already exist, though they have not been assembled. On one
 side, a generation of agent-based models (ABMs) has demonstrated that heterogeneous
@@ -102,47 +110,49 @@ to generate power-law-tailed returns~\cite{cont2000herd}, and that minority-game
 dynamics~\cite{challet1997minority} and adaptive strategy
 switching~\cite{farmer2002price,hommes2006heterogeneous} produce non-Gaussian fluctuations
 without any exogenous noise assumption. On the other side, a mature literature on lattice
-and spin models---Ising models with market
+and spin models (Ising models with market
 coupling~\cite{bornholdt2001ising,krawiecki2002volatility}, opinion dynamics on
 chains~\cite{sznajd2002simple}, and the three-state speculative model of
-Kaizoji~\cite{kaizoji2002speculative}---has shown that nearest-neighbor interactions on a
+Kaizoji~\cite{kaizoji2002speculative}) has shown that nearest-neighbor interactions on a
 regular grid can produce phase transitions between ordered (crash) and disordered (efficient)
 regimes. Meanwhile, cellular automata (CA) have been applied to financial
-markets~\cite{wei2003cellular,qiu2007cellular,yang2019financial}, but only with ad hoc rule
-designs that resist systematic comparison. What is missing is a framework that combines
+markets~\cite{wei2003cellular,qiu2007cellular,yang2019financial}, but the rules in those
+studies were chosen by hand rather than drawn from an enumerated space, which leaves them
+resistant to systematic comparison. What is missing is a framework that combines
 \emph{local} spatial dynamics on a regular lattice with a \emph{complete, enumerable} space
 of behavioral rules and a \emph{direct} connection to real market data.
 
 In this paper, we assemble those ingredients in a spatial cellular-automaton market.
-Agents occupy the cells of a two-dimensional grid, hold one of three states---Buy, Hold,
-or Sell---and update deterministically from their four cardinal neighbors under Wolfram
-totalistic CA rules~\cite{wolfram2002new}; the interior mixes just two such rules, a
+Agents occupy the cells of a two-dimensional grid, hold one of three states (Buy, Hold,
+or Sell), and update deterministically from their four cardinal neighbors under Wolfram
+totalistic CA rules~\cite{wolfram2002new}. The interior mixes just two such rules, a
 majority/herding rule and a contrarian/destabilizer rule, at the minority (contrarian)
 fraction~$f$ that serves throughout as the single control parameter. The totalistic rule
-framework provides two properties that are unavailable in prior financial ABMs: strictly
+framework supplies two properties that the models cited above do not combine: strictly
 local information propagation, so that sell cascades must spread from neighbor to neighbor
 as spatially resolved wavefronts; and a finite, enumerable rule space ($3^9 = 19{,}683$
-rules), enabling systematic screening of agent behaviors rather than ad hoc rule design.
-We study two complementary configurations (Figure~\ref{fig:schematic}). In
-\textbf{Model~A} (open), boundary agents observe real QQQ ETF minute-bar data via a
-Bollinger Band filter, providing an empirical boundary forcing. In
-\textbf{Model~B} (feedback-closed), the boundary responds instead to an
-endogenous price formed from the grid's own net order imbalance---a reflexive loop that
-produces crashes without any external input---and every agent holds finite cash and
-shares, so that budgets can suppress the very orders sentiment demands; it is in this
-budget-constrained feedback loop that we separate onset from post-onset growth.
-
-The paper makes four contributions. First, Model~A exhibits a sharp finite-horizon
-crossover between $f=0.14$ and $f=0.15$. Above that bracket, localized sell domains grow
-as spatially coherent fronts. Second, mean-field and pair approximations retain a stable
-mixed branch and therefore do not reproduce the lattice crossover. An inverse-distance
-fit summarizes the observed onset times, but we treat it as phenomenological rather than
-as a derived thermal escape law. Third, Model~B shows similar spatial onset across the
-tested cash levels, with onset times equivalent within a factor of two across a tenfold
-cash range, while budgets alter subsequent front growth. Fourth, a paired cash
-intervention links that growth effect to the endogenous price and the boundary response.
-Cash injection accelerated the front in $14$ of $19$ included pairs; withdrawals produced
-no detectable change in the tested configurations.
+rules), which allows systematic screening of agent behaviors rather than rule design by
+hand. We study two complementary configurations (Figure~\ref{fig:schematic}). In
+Model~A (open), boundary agents observe real QQQ ETF minute-bar data through a
+Bollinger Band filter, which supplies an empirical boundary forcing. In
+Model~B (feedback-closed), the boundary responds instead to an
+endogenous price formed from the grid's own net order imbalance, a reflexive loop that
+produces crashes without any external input, and every agent holds finite cash and
+shares, so that budgets can suppress the very orders sentiment demands. It is in this
+budget-constrained feedback loop that we separate onset from post-onset growth. Model~A
+exhibited a sharp finite-horizon crossover between $f=0.14$ and $f=0.15$, above which
+localized sell domains grew as spatially coherent fronts, whereas mean-field and pair
+approximations retained a stable mixed branch and therefore did not reproduce that
+crossover, leaving an inverse-distance fit to the observed onset times that we treat as
+phenomenological rather than as a derived thermal escape law. Model~B showed similar
+spatial onset across the tested cash levels, with onset times equivalent within a factor
+of two across a tenfold cash range, while budgets altered subsequent front growth, and a
+paired cash intervention linked that growth effect to the endogenous price and the
+boundary response, since cash injection accelerated the front in $14$ of $19$ included
+pairs while withdrawals produced no detectable change in the tested configurations. Taken
+together, these results separate the onset of a sell-dominated domain, which the tested
+budgets did not move, from its growth, which they did, and they locate the difference in
+the boundary channel through which price information reaches the interior.
 
 % --- Figure 1: Model Schematic ---
 \begin{figure}[tb]
@@ -274,10 +284,10 @@ no detectable change in the tested configurations.
       & 6 & 7 & 8 \\[1pt] \hline
     \rule{0pt}{7pt}%
     \textcolor{buyblue!80!black}{19280} &
-      2 & 0 & 0 & 1 & 1 & \cellcolor{yellow!25}\textbf{2} &
+      2 & 0 & 0 & 0 & 1 & \cellcolor{yellow!25}\textbf{1} &
       2 & 2 & 2 \\
     \textcolor{sellorange!80!black}{19286} &
-      2 & 2 & 0 & 1 & 1 & \cellcolor{yellow!25}\textbf{2} &
+      2 & 2 & 0 & 0 & 1 & \cellcolor{yellow!25}\textbf{1} &
       2 & 2 & 2 \\
   \end{tabular}};
 
@@ -291,12 +301,12 @@ no detectable change in the tested configurations.
   (ruletab.south) -- ++(0, -1.05) -| (zC.south);
 % Label below zS, clear of everything
 \node[annot, text=buyblue!70!black, anchor=north]
-  at (\zx, \zy-\zs-0.7) {$s'_{r,c}\!=\!2$~(Sell)};
+  at (\zx, \zy-\zs-0.7) {$s'_{r,c}\!=\!1$~(Hold)};
 
 % Difference annotation — below the rule table
 \node[tinyannot, text=sellorange!80!black, anchor=north west]
   at ($(ruletab.south west)+(0.0, -0.1)$)
-  {Rules differ only at $c \in \{0,1\}$};
+  {Rules differ only at $c = 1$};
 
 % =====================================================================
 %  ROW 2 — PANEL C (Model A) + PANEL D (Model B)
@@ -549,8 +559,7 @@ follow the minority rule~(19286); solid interior cells follow the majority
 rule~(19280). The highlighted cell and its Von~Neumann neighbors are expanded in~B.
 B:~CA update: the four neighbor states are summed to produce~$c_{r,c}$, which indexes
 into the rule table to determine the next state~$s'_{r,c}$. In this example
-$c_{r,c}=5$, so both rules output Sell; the two rules differ only at
-$c \in \{0,1\}$.
+$c_{r,c}=5$, so both rules output Hold. The two rules differ only at $c = 1$.
 C:~Model~A (open): exogenous QQQ prices (black trace) fluctuate within a Bollinger
 Band (gray region). Band breakouts set the edge-agent state, which is injected into
 the grid boundary.
@@ -577,8 +586,8 @@ Mandelbrot~\cite{mandelbrot1963variation} demonstrated that speculative price ch
 exhibit heavy tails beyond Gaussian predictions; Fama~\cite{fama1970efficient}
 showed that raw return series display negligible linear autocorrelation, consistent with
 the efficient markets hypothesis; yet Schwert~\cite{schwert1989volatility} documented
-that the \emph{magnitude} of returns exhibits substantial positive autocorrelation
-decaying slowly over time---large price changes tend to be followed by large changes
+that the \emph{magnitude} of returns exhibits positive autocorrelation
+decaying slowly over time, so that large price changes tend to be followed by large changes
 regardless of sign, a pattern known as \emph{volatility clustering}. Bouchaud and
 Potters~\cite{bouchaud2002apparent} further documented the asymmetric response of
 volatility to positive versus negative returns (the leverage effect). Cont~\cite{cont2001empirical}
@@ -596,7 +605,7 @@ reproduces heavy tails and volatility clustering as emergent properties, a resul
 established ABMs as a credible framework for studying market dynamics. Cont and
 Bouchaud~\cite{cont2000herd} demonstrated that a simple random-graph herding structure
 alone is sufficient to generate fat-tailed return distributions, highlighting the role of
-coordination---rather than agent sophistication---in generating extreme events. The minority
+coordination, rather than agent sophistication, in generating extreme events. The minority
 game of Challet and Zhang~\cite{challet1997minority} introduced the paradigm of
 bounded-rational agents competing via strategic coordination, a framework subsequently shown
 to produce non-Gaussian fluctuations; Farmer and Joshi~\cite{farmer2002price} demonstrated
@@ -610,13 +619,13 @@ inflates bubbles that eventually collapse, connecting the ABM literature to cras
 On the theoretical side, Hommes~\cite{hommes2006heterogeneous} surveys heterogeneous agent
 models incorporating adaptive expectations and evolutionary strategy selection;
 LeBaron~\cite{lebaron2006agent} provides a systematic treatment of agent-based computational
-finance; Arthur~\cite{arthur2021complexity} argues that heterogeneous agent interactions give
-rise to phenomena---persistent disequilibrium, emergent structure, tipping
-points---inaccessible to equilibrium theory; and Farmer~\cite{farmer2025quantitative}
-demonstrates that quantitative ABMs can produce time-series predictions competitive with
-mainstream macroeconomic models. Battiston et al.~\cite{battiston2016complexity} make the
-case that complexity science and ABMs should inform financial regulation. While mechanistically
-compelling, these models share a persistent limitation: agents interact either globally
+finance; Arthur~\cite{arthur2021complexity} argued that heterogeneous agent interactions give
+rise to phenomena (persistent disequilibrium, emergent structure, tipping
+points) inaccessible to equilibrium theory; and Farmer~\cite{farmer2025quantitative}
+demonstrated that quantitative ABMs can produce time-series predictions competitive with
+mainstream macroeconomic models. Battiston et al.~\cite{battiston2016complexity} made the
+case that complexity science and ABMs should inform financial regulation. These models share
+a limitation, however: agents interact either globally
 (mean-field coupling) or on ad hoc network topologies, making it difficult to disentangle the
 contributions of local spatial contagion from global coordination. The present work addresses
 this gap by placing agents on a regular lattice with strictly local CA rules, so that every
@@ -625,10 +634,10 @@ cascade must propagate neighbor-by-neighbor through physical space.
 \subsection{Lattice Models, Spin Models, and Phase Transitions}
 The mapping of financial agent interactions onto lattice models draws on the statistical
 mechanics tradition, where the mathematical machinery for analyzing cooperative phenomena on
-regular grids---phase transitions, critical exponents, universality classes---is well
+regular grids (phase transitions, critical exponents, universality classes) is well
 developed. Ising-type models map agent states (buy/sell) onto spins and impose
 nearest-neighbor coupling on a
-lattice~\cite{stauffer2000generalization,chowdhury2000statistical}; these models naturally
+lattice~\cite{stauffer2000generalization,chowdhury2000statistical}. These models naturally
 capture local herding and can exhibit phase transitions between ordered (bubble/crash) and
 disordered (efficient) regimes. Bornholdt~\cite{bornholdt2001ising} introduced a
 two-dimensional Ising model with a global coupling term representing market impact, producing
@@ -642,41 +651,42 @@ extended the Ising framework to three states (buy/hold/sell) to model speculativ
 which is the closest antecedent to our three-state CA formulation.
 
 The crash literature provides the other essential ingredient. Sornette~\cite{sornette2017why}
-argues that large crashes are the culmination of cooperative herding behavior and can be
+argued that large crashes are the culmination of cooperative herding behavior and can be
 modeled as critical points analogous to phase transitions in physical systems. The
 self-organized criticality (SOC) framework of Bak, Tang, and
 Wiesenfeld~\cite{bak1987selforganized} suggests that complex systems may naturally evolve
-toward a critical state where scale-free avalanches occur without parameter tuning; Bak and
+toward a critical state where scale-free avalanches occur without parameter tuning, and Bak and
 Paczuski~\cite{bak1996complexity} applied this idea to economic systems. Gabaix et
-al.~\cite{gabaix2003theory} derive power-law tails from the size distribution of large
+al.~\cite{gabaix2003theory} derived power-law tails from the size distribution of large
 institutional trades, providing an alternative mechanism for heavy tails that does not require
-agent heterogeneity. Scheffer et al.~\cite{scheffer2009early} propose generic early-warning
-signals---rising autocorrelation and variance---for systems approaching a tipping point, a
+agent heterogeneity. Scheffer et al.~\cite{scheffer2009early} proposed generic early-warning
+signals, rising autocorrelation and variance, for systems approaching a tipping point, a
 framework that has been applied to ecosystems, climate, and financial
-markets~\cite{battiston2016complexity}. Farmer et al.~\cite{farmer2005predictive} demonstrate
+markets~\cite{battiston2016complexity}. Farmer et al.~\cite{farmer2005predictive} demonstrated
 that even zero-intelligence agents can reproduce aspects of market microstructure when placed
 in a realistic order-book mechanism, suggesting that the structure of interaction may matter
 more than the sophistication of individual decision rules.
 
 Statistical-mechanics accounts describe crashes as collective transitions with slow
-relaxation or endogenous amplification~\cite{bouchaud2013crises,sornette2003endogenous}.
-Related market models study feedback between funding and market liquidity, the 2010 Flash
-Crash, circuit breakers, and anticipated bailouts
-~\cite{brunnermeier2009market,kirilenko2017flash,subrahmanyam1994circuit,farhi2012collective}.
-Our model is not a calibrated version of those settings. Its narrower advantage is that
-the same deterministic realization can be rerun with and without a cash intervention.
-
-Our approach differs from an Ising lattice in two ways: (i)~we replace the single coupling
-constant with Wolfram totalistic CA rules, which provide a richer and fully enumerable space
-of $3^9 = 19{,}683$ local update functions; and (ii)~we couple the lattice to an external
-or endogenous price signal via boundary agents. The external series supplies an empirical
-forcing; it does not validate the model's prices. The fixed-seed sweep shows a sharp
-finite-horizon crossover rather than a parameter-free SOC transition.
+relaxation or endogenous amplification~\cite{bouchaud2013crises}, a distinction that has
+been tested empirically in other complex systems by separating endogenous from exogenous
+shocks~\cite{sornette2003endogenous}, and related market models study feedback between
+funding and market liquidity, the 2010 Flash Crash, circuit breakers, and anticipated
+bailouts~\cite{kirilenko2017flash,brunnermeier2009market,subrahmanyam1994circuit,farhi2012collective}.
+Our model is not a calibrated version of those settings, and it differs from an Ising
+lattice in two further ways, since we replace the single coupling constant with Wolfram
+totalistic CA rules, which provide a richer and fully enumerable space of
+$3^9 = 19{,}683$ local update functions, and we couple the lattice to an external or
+endogenous price signal through boundary agents. The external series supplies an empirical
+forcing. It does not validate the model's prices. The fixed-seed sweep shows a sharp
+finite-horizon crossover rather than a parameter-free SOC transition, and the narrower
+advantage of the construction is that the same deterministic realization can be rerun with
+and without a cash intervention.
 
 \subsection{Cellular Automata in Complex Systems and Finance}
 Wolfram~\cite{wolfram1984universality} classified one-dimensional CA into four behavioral
-classes---fixed points, periodic orbits, spatial chaos, and complex/undecidable
-dynamics---and later provided an exhaustive treatment of the
+classes (fixed points, periodic orbits, spatial chaos, and complex/undecidable
+dynamics) and later provided an exhaustive treatment of the
 subject~\cite{wolfram2002new}. Packard and Wolfram~\cite{packard1985two} extended this
 classification to two-dimensional totalistic rules on Von~Neumann neighborhoods,
 demonstrating rich pattern-formation dynamics including self-replication, spiral waves,
@@ -685,39 +695,39 @@ strictly local rules can produce dynamics ranging from trivially ordered to comp
 universal, a property that makes CA attractive as a modeling framework wherever the goal
 is to understand how microscopic rules generate macroscopic complexity.
 
-The application of CA to financial markets, however, remains sparse relative to the broader
-ABM literature. Wei et al.~\cite{wei2003cellular} proposed a CA model for securities markets
+Applications to financial markets, however, are few, and we are aware of three that apply
+CA directly to market dynamics. Wei et al.~\cite{wei2003cellular} proposed a CA model for
+securities markets
 in which agent states evolve based on local majority rules and demonstrated qualitative
 agreement with empirical return distributions. Qiu et al.~\cite{qiu2007cellular} developed a
 CA model specifically targeting abnormal fluctuations, showing that local interaction rules
 can produce heavy-tailed returns. Yang et al.~\cite{yang2019financial} simulated financial
 markets using CA with heterogeneous update rules and showed that the ratio of contrarian to
-trend-following agents controls the transition between calm and volatile regimes---a result
+trend-following agents controls the transition between calm and volatile regimes, a result
 qualitatively consistent with our phase diagram, though their model uses a different rule
 framework and does not characterize the transition as a sharp phase boundary. None of these
 studies uses the full Wolfram totalistic rule framework, and none couples the CA to real
 market data or resolves the spatial structure of crash cascades.
 
-The present work differs from prior CA-based financial models in three respects. First, we
-embed agent dynamics in the complete Wolfram totalistic rule space ($3^9$ rules), enabling
-systematic enumeration and comparison rather than ad hoc rule design. Second, we couple the
-CA to real market data (Model~A) or an endogenous reflexive price (Model~B) via boundary
-agents, bridging the gap between abstract CA dynamics and empirical financial time series.
-Third, we identify a discontinuous transition once the contrarian fraction crosses a
-threshold and resolve its spatial structure---nucleation of sell cascades from localized seeds followed by
-wavefront propagation---connecting the CA dynamics to the tipping-point framework of
-Scheffer et al.~\cite{scheffer2009early}.
+The present work embeds agent dynamics in the complete Wolfram totalistic rule space
+($3^9$ rules), which allows systematic enumeration and comparison rather than rule design
+by hand; it couples the CA to real market data (Model~A) or an endogenous reflexive price
+(Model~B) through boundary agents, bridging the gap between abstract CA dynamics and
+empirical financial time series; and it identifies a discontinuous transition once the
+contrarian fraction crosses a threshold, resolving its spatial structure as nucleation of
+sell cascades from localized seeds followed by wavefront propagation, which connects the
+CA dynamics to the tipping-point framework of Scheffer et al.~\cite{scheffer2009early}.
 
 
 % ============================================================================
-\section{Background}
-\label{sec:background}
+\section{Methods}
+\label{sec:methods}
 % ============================================================================
 
-This section establishes the formal ingredients of the model: the CA rule framework that
-governs interior agent dynamics (Section~\ref{sec:ca-rules}), the Bollinger Band filter
-that translates price signals into edge-agent states (Section~\ref{sec:edge-agents}), and
-the specific rules used in this study (Section~\ref{sec:rule-taxonomy}).
+We first establish the formal ingredients of the model, the CA rule framework that governs
+interior agent dynamics, the Bollinger Band filter that translates price signals into
+edge-agent states, and the specific rules used in this study, and then describe the two
+simulation configurations and the phase-sweep protocol used to map the crash transition.
 
 \subsection{Three-State Totalistic Cellular Automata}
 \label{sec:ca-rules}
@@ -732,7 +742,7 @@ neighbor states $\{s_N, s_S, s_E, s_W\}$, the neighborhood sum is:
 \end{equation}
 A \emph{totalistic rule} is a mapping $\mathcal{R}: \{0,1,\ldots,8\} \to \{0,1,2\}$ that
 assigns a next state to each of the nine possible neighborhood sums. Since each of the
-nine outputs can take three values, there are $3^9 = 19{,}683$ distinct rules---each
+nine outputs can take three values, there are $3^9 = 19{,}683$ distinct rules, each
 identified by its decimal index:
 \begin{equation}
   \text{Rule index} = \sum_{j=0}^{8} a_j \cdot 3^j,
@@ -740,9 +750,9 @@ identified by its decimal index:
 \end{equation}
 where $a_j = \mathcal{R}(j)$ is the next state when the neighborhood sum equals~$j$.
 This sum uses the ordered numerical encoding Buy${}=0$, Hold${}=1$, and Sell${}=2$.
-Relabeling the states would change the rule; the ordering is therefore part of the model,
+Relabeling the states would change the rule. The ordering is therefore part of the model,
 not a neutral label choice.
-The key structural observation is that this rule space is finite, enumerable, and
+This rule space is finite, enumerable, and
 complete: every possible deterministic, translation-invariant, totalistic update function
 on the Von~Neumann neighborhood is represented exactly once.
 
@@ -750,7 +760,7 @@ on the Von~Neumann neighborhood is represented exactly once.
 \label{sec:edge-agents}
 Boundary cells serve as \emph{edge agents} that inject external information into the
 grid (Figure~\ref{fig:schematic}A, green cells). A fraction $f_e$ of boundary cells,
-selected uniformly at random with a fixed seed, are designated as edge agents; the
+selected uniformly at random with a fixed seed, are designated as edge agents. The
 remaining boundary cells stay fixed in the Hold state. The CA update acts only on
 strictly interior cells.
 
@@ -797,10 +807,10 @@ Rule & Base-3 encoding & Interpretation & Role \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:rule-taxonomy} lists the three rules used in this study. Rule~19280 is a
+Three rules are used in this study (Table~\ref{tab:rule-taxonomy}). Rule~19280 is a
 majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
 promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
-from 19280 at a single neighborhood sum---$c = 1$, the case with three Buy neighbors and
+from 19280 at a single neighborhood sum, $c = 1$, the case with three Buy neighbors and
 one Hold neighbor. A Rule~19280 agent responds to this configuration by
 \emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
 \emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
@@ -808,55 +818,44 @@ in the base-3 encoding is the minimal perturbation that converts a stabilizing a
 destabilizing one, and it is this minimal difference that drives the phase transition
 studied below.
 
-
-% ============================================================================
-\section{Methods}
-\label{sec:methods}
-% ============================================================================
-
-The background section established the CA rule framework, the edge-agent decision model,
-and the specific rules under study. We now describe the two simulation configurations
-and the phase-sweep protocol used to map the crash transition.
-
 \subsection{Model~A: Open (Boundary-Driven) Simulation}
 \label{sec:model-a}
-In Model~A (Figure~\ref{fig:schematic}C), edge agents observe real market
-data---specifically, one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2
-through March~28, 2024, $T = 23{,}790$ time steps). At each step~$\tau$ three operations occur in
-sequence: (i)~the typical price $P_\tau = (H_\tau + L_\tau + C_\tau)/3$ is computed from
-the OHLC bar; (ii)~each edge agent evaluates Eq.~\eqref{eq:edge-state} using the online
-EMA and volatility from Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol}; and (iii)~all interior
-agents update simultaneously via their assigned CA rule. The grid is initialized to
+In Model~A (Figure~\ref{fig:schematic}C), edge agents observe real market data, namely
+one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2 through March~28,
+2024, $T = 23{,}790$ time steps). The vendor feed is no longer publicly available, so an
+archival copy travels with the repository alongside its SHA-256 checksum and a record of
+the bar accounting, $61$ trading days of exactly $390$ regular-session bars each. At each
+step~$\tau$ the typical price $P_\tau = (H_\tau + L_\tau + C_\tau)/3$ is computed from the
+OHLC bar, each edge agent then evaluates Eq.~\eqref{eq:edge-state} using the online EMA
+and volatility from Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol}, and all interior agents
+update simultaneously via their assigned CA rule. The grid is initialized to
 all-Hold ($s=1$), so that any Buy or Sell activity must originate from the boundary and
 propagate inward.
 
 For the heterogeneous (crash) model, a fraction~$f$ of interior agents are assigned
 Rule~19286 (contrarian) uniformly at random, while the remaining $1-f$ agents use
-Rule~19280 (majority). The minority agent positions are fixed for the duration of the
+Rule~19280 (majority), and the minority agent positions are fixed for the duration of the
 simulation (quenched disorder), so that the only control parameter is the mixture
-fraction~$f$.
-
-\paragraph{Simulation parameters.}
-The default grid is $256 \times 256$ ($N = 65{,}536$ agents). Edge agents comprise
-25\% of boundary cells ($f_e = 0.25$, yielding $255$ active edge agents), selected
-with a fixed random seed for reproducibility. The EMA smoothing parameter is
-$\alpha = 1/60$ (a 60-minute window) and the band width is $k = 1.0$ standard deviations.
+fraction~$f$. The default grid is $256 \times 256$ ($N = 65{,}536$ agents), edge agents
+comprise 25\% of boundary cells ($f_e = 0.25$, yielding $255$ active edge agents),
+selected with a fixed random seed for reproducibility, the EMA smoothing parameter is
+$\alpha = 1/60$ (a 60-minute window), and the band width is $k = 1.0$ standard deviations.
 
 \subsection{Model~B: Feedback-Closed (Endogenous Price) Simulation}
 \label{sec:model-b}
-In Model~B (Figure~\ref{fig:schematic}D), there is no external price feed; instead, the
+In Model~B (Figure~\ref{fig:schematic}D), there is no external price feed. The
 price is generated endogenously from the grid's own collective state, and every trading
-cell---each interior agent together with each active edge agent---now carries a \emph{book}
+cell, each interior agent together with each active edge agent, now carries a \emph{book}
 that gates whether its sentiment can be acted upon: a cash balance initialized to
 $\texttt{initial\_cash}$ (the sweep variable, default~$1{,}000$), a share inventory
 initialized to $10$ shares acquired at the reference cost basis $P_0 = 100$, and a running
 average cost basis that tracks the price paid across subsequent fills. Sentiment still flows
-by the same totalistic rule as in Model~A---this is what keeps the two models' interiors
-directly comparable---but a cell now expresses that sentiment through orders: a cell in the
+by the same totalistic rule as in Model~A, which is what keeps the two models' interiors
+directly comparable, but a cell now expresses that sentiment through orders: a cell in the
 Buy state submits a one-share buy order every step it remains in that state, a cell in the
 Sell state submits a one-share sell order, and a Hold cell submits nothing.
 
-Orders do not clear against one another; they fill at the standing quote $P_{\tau-1}$
+Orders do not clear against one another. They fill at the standing quote $P_{\tau-1}$
 against an unmodeled infinite-inventory market maker in the spirit of the price-impact accounting of
 Kyle~\cite{kyle1985continuous} and the market-clearing conventions of Farmer and
 collaborators~\cite{farmer2005predictive}. A buy fills if and only if the cell holds cash
@@ -864,7 +863,7 @@ $\ge P$; a sell fills if and only if the cell holds at least one share and, when
 disposition toggle is on, the standing quote exceeds the cell's average cost basis,
 $P > \bar{c}_i$. This cost-basis sell rule is the \emph{disposition effect} of Shefrin and
 Statman~\cite{shefrin1985disposition}, the reluctance to realize losses that Odean later
-documented in the trading records of individual investors~\cite{odean1998investors}; we
+documented in the trading records of individual investors~\cite{odean1998investors}. We
 treat it not as a modeling assumption but as a behavioral bias and hence a sweep factor,
 toggled on and off across campaigns. Every order that the book cannot honor is tallied as a
 \emph{suppressed} order rather than executed: budget constraints suppress order \emph{flow},
@@ -886,8 +885,8 @@ and the price updates multiplicatively from this executed imbalance,
   \label{eq:price-update}
 \end{equation}
 where $\lambda > 0$ is the price-impact parameter controlling how strongly the aggregate
-order flow moves the quote. Edge agents are full participants in $\varphi$---their fills
-enter the numerator on the same footing as interior fills---and, to break the all-or-none
+order flow moves the quote. Edge agents are full participants in $\varphi$, since their fills
+enter the numerator on the same footing as interior fills, and, to break the all-or-none
 lockstep that a single shared band would impose, each edge cell draws its own band
 half-width $k_i \sim U\!\bigl(k(1-\delta),\, k(1+\delta)\bigr)$, where $\delta$ is the
 band-spread parameter; the edge cells then evaluate Eq.~\eqref{eq:edge-state} against the
@@ -896,135 +895,134 @@ Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol} observing that same new price. The resul
 self-contained loop: the grid's executed orders generate the price, the price drives the
 edge agents, and the edge agents inject signals back into the grid.
 
-To probe that loop causally we expose a deterministic intervention hook---a function of the
+To probe that loop causally we expose a deterministic intervention hook, a function of the
 current step and the full collection of books, $(t, \text{books})$, invoked at the top of
-step~$t$ before any orders execute---through which we implement mid-run cash shocks by
+step~$t$ before any orders execute, through which we implement mid-run cash shocks by
 scaling every cell's cash by a common factor. These are uniform wealth shocks within the
 model, not conventional order-book liquidity operations. The hook takes
 no randomness of its own, so the same seed still yields an identical trajectory up to the
-moment of intervention; this same-seed, identical-trajectory contract is precisely what the
-paired counterfactuals of Results~II rely on to attribute any downstream divergence to the
+moment of intervention. This same-seed, identical-trajectory contract is what the
+paired counterfactuals rely on to attribute any downstream divergence to the
 liquidity shock alone.
 
 \subsection{Phase Sweep Protocol}
 \label{sec:phase-sweep}
-To map the finite-horizon crossover, we sweep the minority fraction $f$ from $0.0$ to $0.50$ in
-two passes. A coarse sweep with $\Delta f = 0.05$ covers the full range; a fine-grained
-sweep with $\Delta f = 0.01$ resolves the transition region $f \in [0.08, 0.22]$.
-For each value of~$f$, the full $T$-step price series drives a $128 \times 128$ grid
+To map the finite-horizon crossover, we swept the minority fraction $f$ from $0.0$ to $0.50$ in
+two passes. A coarse sweep with $\Delta f = 0.05$ covered the full range; a fine-grained
+sweep with $\Delta f = 0.01$ resolved the transition region $f \in [0.08, 0.22]$.
+For each value of~$f$, the full $T$-step price series drove a $128 \times 128$ grid
 (chosen for computational efficiency),
-and we record the sell fraction at every time step. Three summary statistics characterize
+and we recorded the sell fraction at every time step. Three summary statistics characterize
 each run: mean sell fraction, peak sell fraction, and crash frequency (the fraction of
 time steps at which the sell fraction exceeds~$0.50$).
-Each value of~$f$ uses one fixed disorder realization. The sweep therefore brackets a
+Each value of~$f$ used one fixed disorder realization. The sweep therefore brackets a
 finite-horizon crossover; it does not estimate a thermodynamic critical point.
 
 \subsection{Model~B Nucleation Campaigns}
 \label{sec:mb-protocols}
 The endogenous-price machinery of Model~B lets us treat a market crash as a nucleation
-event and interrogate it with a family of purpose-built campaigns; unless a campaign states
-otherwise, all of them share one configuration---a $64 \times 64$ grid, price impact
+event and interrogate it with a family of campaigns. Unless a campaign states
+otherwise, all of them share one configuration, a $64 \times 64$ grid, price impact
 $\lambda = 0.02$, nominal band half-width $k = 1$, band spread $\delta = 0.5$, the
-disposition rule switched off, an initial quote $P_0 = 100$, and deterministic seeds---and
+disposition rule switched off, an initial quote $P_0 = 100$, and deterministic seeds, and
 they differ only in the minority fraction~$f$, the initial cash, and the horizon over which
 we let the loop run, which is $1{,}000$ steps for the seed sweep, $1{,}500$ steps for the
 budget-toggle and boundary-versus-bulk campaigns, and $2{,}000$ steps for the escape-time
-campaign. Two definitions, fixed once here and reused throughout Results~II, make the
-campaigns compose: we label sell clusters by breadth-first search over the $4$-connected
+campaign. Two definitions, fixed once and reused by every campaign, let the campaigns be
+read together: we label sell clusters by breadth-first search over the $4$-connected
 Sell cells of the grid, and we define the crash onset $t_{\mathrm{on}}$ as the first step at
 which the largest sell cluster reaches $5\%$ of the grid. Cluster labeling runs on the
-full grid in every campaign but one---the boundary-versus-bulk birth analysis instead labels
+full grid in every campaign but one, since the boundary-versus-bulk birth analysis instead labels
 on the interior alone, so that a cluster attached to the active-edge ring can be told apart
-from one born in the bulk---and because onset and cluster size are measured identically
+from one born in the bulk, and because onset and cluster size are measured identically
 everywhere else, front velocities and onset times reported by different analyses can be read
 on a common footing.
 
 The seed sweep compares variation across configurations with variation across disorder
-realizations. We run three configurations---a
+realizations. We ran three configurations, a
 \emph{stable} regime at $f = 0.10$ with cash $1{,}000$, a \emph{freeze} regime at $f = 0.20$
-with cash $500$, and a \emph{collapse} regime at $f = 0.20$ with cash $5{,}000$---across $20$
+with cash $500$, and a \emph{collapse} regime at $f = 0.20$ with cash $5{,}000$, across $20$
 seeds each. The budget toggle then turns the deterministic hook into a controlled experiment.
-For each seed, we use the control trajectory to identify $t_{\mathrm{on}}$. In the paired
+For each seed, we used the control trajectory to identify $t_{\mathrm{on}}$. In the paired
 counterfactual, every cell's cash is scaled at the start of that step by $\times 10$
 (an injection) or by $\times 0.1$ or $\times 0.01$ (two withdrawal doses). Histories are
 bit-identical through step $t_{\mathrm{on}}-1$, so the intervention immediately precedes
-the control's first detectable onset frame. We then measure outcomes in an
-onset-aligned window of $W = 400$ steps and take the front velocity to be the endpoint
-difference quotient---the change in largest-cluster fraction between onset and
-onset$+W$, divided by $W$---rather than a fitted slope; a pair is excluded from an
+the control's first detectable onset frame. We then measured outcomes in an
+onset-aligned window of $W = 400$ steps and took the front velocity to be the endpoint
+difference quotient, the change in largest-cluster fraction between onset and
+onset$+W$ divided by $W$, rather than a fitted slope. A pair is excluded from an
 arm when its control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
-leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$). The
-boundary-versus-bulk campaign
-asks where the winning cluster is born: we track the founding cell of the onset cluster and
-compare its location against the analytic null for spatially uniform births, under which the
-fraction of births falling within distance~$2$ of the boundary is~$0.125$, and we complement
+leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$).
+
+The boundary-versus-bulk campaign
+asks where the winning cluster is born: we tracked the founding cell of the onset cluster and
+compared its location against the analytic null for spatially uniform births, under which the
+fraction of births falling within distance~$2$ of the boundary is~$0.125$, and we complemented
 this observational arm with an interventional one that stamps a $3 \times 3$ sell patch onto
 the grid at boundary-adjacent, mid, and center placements, each paired against an unstamped
 control.
 
 The onset-time campaign measures how the waiting time changes with~$f$ at three cash
 levels, $\text{cash} \in \{500,\,1{,}000,\,
-5{,}000\}$. A pilot pass sweeps $f \in \{0.12,\,0.15,\,0.18,\,0.20,\,0.25,\,0.30\}$ at $20$
-seeds; having localized the onset cliff to the interval between $0.15$ and $0.18$ at all
-three cash levels, a refinement pass adds $f \in \{0.156,\,0.162,\,0.168,\,0.174,\,0.177\}$
-at $40$ seeds. We take the escape time to be $\tau = t_{\mathrm{on}}$, right-censored at the
+5{,}000\}$. A pilot pass swept $f \in \{0.12,\,0.15,\,0.18,\,0.20,\,0.25,\,0.30\}$ at $20$
+seeds, and having localized the onset cliff to the interval between $0.15$ and $0.18$ at all
+three cash levels, a refinement pass added $f \in \{0.156,\,0.162,\,0.168,\,0.174,\,0.177\}$
+at $40$ seeds. We took the escape time to be $\tau = t_{\mathrm{on}}$, right-censored at the
 $2{,}000$-step horizon and never discarded, so runs without onset still inform the
-Kaplan--Meier estimates. We fit the empirical form
+Kaplan--Meier estimates. We fitted the empirical form
 $\ln \tilde\tau = A + B/(f - f_0)$ separately at each cash level using the finite
-Kaplan--Meier medians, with the pseudo-threshold $f_0$ left free, and obtain $95\%$
+Kaplan--Meier medians, with the pseudo-threshold $f_0$ left free, and obtained $95\%$
 confidence intervals on
 $(A, B, f_0)$ from $2{,}000$ bootstrap resamples of the seeds within each~$f$.
 
 A companion
 velocity--suppression dose-response holds $f = 0.20$ and extends the cash ladder with the
-levels $250$ and $2{,}000$ so that five doses are probed at $20$ seeds each; for every run we
-form, over the window $[t_{\mathrm{on}} + 50,\, t_{\mathrm{on}} + 400]$, a front velocity as
+levels $250$ and $2{,}000$ so that five doses are probed at $20$ seeds each. For every run we
+formed, over the window $[t_{\mathrm{on}} + 50,\, t_{\mathrm{on}} + 400]$, a front velocity as
 the OLS slope of the front extent and a suppression load as the mean \emph{absolute} number
-of suppressed buy orders per step, and we test their association by Spearman rank correlation
+of suppressed buy orders per step, and we tested their association by Spearman rank correlation
 with a $10{,}000$-draw permutation $p$-value, excluding and separately counting any run that
 is censored before onset or whose window endpoint $t_{\mathrm{on}} + 400$ would exceed the
 horizon.
 
 Finally, to place these targeted campaigns against the model's full parameter dependence, we
-draw on a large factorial sweep whose crash statistics anchor the regime discussion of
-Section~\ref{sec:results}: the full crossing of $f \in \{0,\,0.1,\,0.15,\,0.2,\,0.3\}$,
+drew on a large factorial sweep whose crash statistics anchor the Model~B regime
+discussion: the full crossing of $f \in \{0,\,0.1,\,0.15,\,0.2,\,0.3\}$,
 $\lambda \in \{0.005,\,0.01,\,0.02,\,0.05\}$, $\text{cash} \in \{500,\,1{,}000,\,5{,}000\}$,
 disposition $\in \{\text{off},\,\text{on}\}$, band spread $\delta \in \{0,\,0.5,\,0.9\}$, and
 band half-width $k \in \{0.5,\,1,\,2\}$ yields $1{,}080$ configurations which, replicated
-across $10$ seeds of $2{,}000$ steps, comprise $10{,}800$ runs; the full design and its
+across $10$ seeds of $2{,}000$ steps, comprise $10{,}800$ runs. The full design and its
 variance decomposition are deferred to Appendix~\ref{app:stage2}.
 
 % ============================================================================
-\section{Results I: Model~A, the Clean Nucleation Baseline}
+\section{Results}
 \label{sec:results}
 % ============================================================================
 
 Model~A provides an unconstrained spatial baseline. Prices arrive from outside the
-model, and CA states are not filtered through budgets. We first inspect representative
-grid trajectories and then locate the finite-horizon crossover in a fixed-seed sweep.
+model, and CA states are not filtered through budgets. We first inspected representative
+grid trajectories and then located the finite-horizon crossover in a fixed-seed sweep.
 
-\subsection{Grid Dynamics: Stable vs.\ Crash Regimes}
 We simulated the $256 \times 256$ agent grid under Model~A for three values of the
-minority fraction---$f = 0$ (homogeneous), $f = 0.15$ (near-critical), and $f = 0.20$
-(supercritical)---and recorded grid snapshots at four logarithmically spaced time points
+minority fraction, $f = 0$ (homogeneous), $f = 0.15$ (near-critical), and $f = 0.20$
+(supercritical), and recorded grid snapshots at four logarithmically spaced time points
 to capture both the early transient and the late-time steady state
-(Figure~\ref{fig:fig2}).
-
-In the homogeneous model ($f = 0$, top row), the grid reached a dynamic steady state
-dominated by Buy (blue) and Sell (orange) agents in a fine-grained spatial mixture; the
-pattern fluctuated locally but never exhibited large-scale coordination, and the sell
-fraction remained near its equilibrium value of ${\sim}0.26$ throughout the simulation (cf.~Figure~\ref{fig:fig3}).
-At $f = 0.15$ (middle row)---the first sampled value above the crossover bracket---the system initially
+(Figure~\ref{fig:fig2}). In the homogeneous model ($f = 0$, top row), the grid reached a
+dynamic steady state dominated by Buy (blue) and Sell (orange) agents in a fine-grained
+spatial mixture. The pattern fluctuated locally but never exhibited large-scale
+coordination, and the sell fraction remained near its equilibrium value of ${\sim}0.26$
+throughout the simulation (cf.~Figure~\ref{fig:fig3}).
+At $f = 0.15$ (middle row), the first sampled value above the crossover bracket, the system initially
 resembled the homogeneous case, but at $t = 8{,}236$ we observed a sell cascade that
 nucleated from a localized seed and propagated outward as a spatially coherent wavefront.
 The orange region grew concentrically until it engulfed the grid by $t = 23{,}790$,
 which suggests a contagion mechanism qualitatively different from the instantaneous
 global crashes produced by mean-field models: the crash had a \emph{spatial history},
 starting at one location, spreading through a physical medium, and arriving at different
-parts of the grid at different times (Figure~\ref{fig:fig2}, middle row). This
-sequence---a localized seed, a coherent front, a spatial history---is
+parts of the grid at different times (Figure~\ref{fig:fig2}, middle row). That
+sequence, a localized seed, a coherent front, and a spatial history, is
 nucleation-and-growth in the classical sense. At $f = 0.20$
-(bottom row), the cascade occurred earlier and more rapidly; the grid was already
+(bottom row), the cascade occurred earlier and more rapidly, and the grid was already
 predominantly sell-dominated by $t = 2{,}851$, consistent with a system deep in the
 supercritical regime.
 
@@ -1039,24 +1037,22 @@ supercritical regime.
   \label{fig:fig2}
 \end{figure}
 
-\subsection{Finite-Horizon Crossover}
-We swept the minority fraction~$f$ from $0.0$ to $0.50$ and computed three summary
-statistics---mean sell fraction, peak sell fraction, and crash frequency---for each run
-(Figure~\ref{fig:fig3}). All three summaries changed sharply between the sampled values
-$f=0.14$ and $f=0.15$. The dashed line at $f=0.145$ marks the midpoint of this bracket;
-it is not an independently fitted critical point.
-
+Having characterized the two regimes, we next located the crossover between them. We
+swept the minority fraction~$f$ from $0.0$ to $0.50$ and computed three summary
+statistics, the mean sell fraction, the peak sell fraction, and the crash frequency, for
+each run (Figure~\ref{fig:fig3}). All three summaries changed sharply between the sampled
+values $f=0.14$ and $f=0.15$. The dashed line at $f=0.145$ marks the midpoint of this
+bracket, and it is not an independently fitted critical point.
 At and below $f=0.14$, the system remained stable: the mean sell fraction hovered near $0.26$
 (close to the $1/3$ expected for a uniform random mixture of three states), the peak sell
 fraction never exceeded $0.30$, and no crashes occurred. At and above $f=0.15$, the system
 entered a sell-dominated regime: the mean sell fraction jumped to ${\sim}0.50$ at
-$f = 0.15$ and saturated near $0.91$ by $f = 0.20$; crash frequency exceeded 95\%
-(Figure~\ref{fig:fig3}C). The fixed-seed scan therefore shows a sharp finite-size,
-finite-horizon crossover. Whether that crossover sits at a fixed value of~$f$ is
-the subject of Section~\ref{sec:finite-size}, which repeats the measurement across
-five lattice sizes with replicated disorder.
+$f = 0.15$ and saturated near $0.91$ by $f = 0.20$, and crash frequency exceeded 95\%
+(Figure~\ref{fig:fig3}C). The fixed-seed scan therefore showed a sharp finite-size,
+finite-horizon crossover, and whether that crossover sits at a fixed value of~$f$ calls
+for repeating the measurement across five lattice sizes with replicated disorder.
 
-These results suggest a clear economic interpretation: a small minority of contrarian
+These results have an economic interpretation: a small minority of contrarian
 agents was harmless, because Rule~19280 (majority) agents damped local sell signals
 through herding toward the dominant state. But once the contrarian fraction
 entered the crossover bracket, Rule~19286 agents were numerous enough to seed sell clusters that the
@@ -1081,9 +1077,7 @@ individual rule.
   \label{fig:fig3}
 \end{figure}
 
-\subsection{The Crossover Moves With System Size}
-\label{sec:finite-size}
-The crossover is not located at a fixed value of~$f$. We repeated the sweep on
+The crossover was not located at a fixed value of~$f$ (Figure~\ref{fig:finite-size}). We repeated the sweep on
 lattices from $32 \times 32$ to $512 \times 512$, with twenty disorder seeds at each
 size, on periodic boundaries and with no price forcing. Larger lattices crashed at
 lower contrarian fractions. At $f = 0.14$, no run out of twenty converted on the
@@ -1093,7 +1087,7 @@ required $f \approx 0.155$ at $64 \times 64$ but only $f \approx 0.14$ at
 $512 \times 512$. The apparent threshold is therefore a property of the lattice and
 the observation window, not of the rule mixture alone.
 
-The direction of that shift is worth stating plainly, because it runs against the
+The direction of that shift runs opposite to the
 usual intuition. One might expect a larger population to absorb contrarian pressure
 better, since idiosyncratic behavior averages out as the number of agents grows. That
 reasoning applies to quantities that are averages. Whether the lattice crashes is not
@@ -1103,11 +1097,11 @@ system. Enlarging the lattice adds candidate regions, so it raises the chance th
 least one is favorable. The mechanism is the size effect familiar from brittle
 fracture, where a larger specimen fails at lower stress than a small one of the same
 material because it is more likely to contain a critical flaw. Size does not make a
-stable configuration unstable---above the spreading threshold every lattice converts
-eventually, because the sell state is absorbing and the waiting time is finite---but it
+stable configuration unstable, since above the spreading threshold every lattice converts
+eventually, because the sell state is absorbing and the waiting time is finite, but it
 does decide what has already happened inside a fixed window.
 
-The averaging intuition is nonetheless correct about a different quantity. As the
+The averaging intuition is nonetheless correct about a different quantity (Figure~\ref{fig:finite-size}). As the
 lattice grew, conversion times became sharply more predictable: the coefficient of
 variation across seeds fell from $0.66$ at $32 \times 32$ to $0.035$ at
 $512 \times 512$ at $f = 0.20$, halving on each doubling of the linear size and so
@@ -1118,7 +1112,7 @@ conversion time was independent of size, within $9\%$ across a $16$-fold range i
 domains growing and merging at once rather than by one domain sweeping the lattice.
 Size averages away the uncertainty in when the crash arrives without removing the crash.
 
-What sets that common clock is visible in the shape of the conversion curve. Writing
+What sets that common clock is visible in the shape of the conversion curve (Figure~\ref{fig:finite-size}). Writing
 the converted fraction as $X(t) = 1 - \exp[-(Kt)^{n}]$, the exponent~$n$ distinguishes
 two mechanisms: $n = d + 1 = 3$ in two dimensions if new domains keep appearing
 throughout the transformation, and $n = d = 2$ if the domains are all present at the
@@ -1135,18 +1129,17 @@ started. That is what the construction implies: the contrarian sites are assigne
 at setup, and never move, so the favorable regions are a property of the quenched
 disorder rather than something that arises during the run. What differs between seeds
 is how quickly the transformation spreads from regions that were present all along. The
-distinction matters for how the onset-time fit of Section~\ref{sec:nucleation} should be
-read. Thermal activation would mean ignition at random times; this transformation is
-measurably not that, which is why the inverse-distance form is a compact empirical
-summary rather than a derived law.
+distinction matters for how the onset-time fit should be read. Thermal activation would
+mean ignition at random times; this transformation is measurably not that, which is why
+the inverse-distance form is a compact empirical summary rather than a derived law.
 
 Two limits bound these measurements. The $32 \times 32$ lattice behaves anomalously
 because a domain of the size used to mark local clustering already spans a tenth of it,
-so local and system-wide events are not separable at that size; it is shown in
-Figure~\ref{fig:finite-size} but excluded from the conversion-curve fits. And the fixed
-cluster-size criterion used to flag local clustering is not a scale-free detector of
+so local and system-wide events are not separable at that size, and we plotted it
+(Figure~\ref{fig:finite-size}) but excluded it from the conversion-curve fits. The fixed
+cluster-size criterion used to flag local clustering is also not a scale-free detector of
 nucleation, since the mixed state produces sell clusters of $30$ to $60$~cells
-unprompted and the largest such cluster grows with the number of sites; conclusions
+unprompted and the largest such cluster grows with the number of sites. Conclusions
 about rates here rest on the conversion curve, which requires no cluster identification.
 
 \begin{figure}[tb]
@@ -1171,21 +1164,14 @@ about rates here rest on the conversion curve, which requires no cluster identif
 
 
 % ============================================================================
-\section{Spatial Diagnostics and Onset-Time Scaling}
-\label{sec:theory}
-% ============================================================================
+The fixed-seed scan showed a sharp finite-horizon crossover that spread through coherent
+fronts. We next compared the lattice simulations with two low-order approximations and
+summarized the observed onset times. Neither mean-field nor pair closure reproduced the
+crossover, and across the sampled range the onset times were well fit by
+$\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ ($R^2 = 0.991$), a curve we use as a
+phenomenological description of the finite data rather than as a derived thermal escape law.
 
-Results~I showed a sharp finite-horizon crossover that spreads through coherent fronts.
-We now compare the lattice simulations with two low-order approximations and summarize
-the observed onset times. Neither mean-field nor pair closure reproduces the crossover.
-Across the sampled range, the onset times are well fit by
-$\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ ($R^2 = 0.991$). We use this curve as a
-phenomenological description of the finite data, not as a derived thermal escape law.
-
-\subsection{Potts-Inspired Alignment Statistic}
-\label{sec:potts}
-
-To measure local ordering, we use the nearest-neighbor alignment statistic associated
+To measure local ordering, we used the nearest-neighbor alignment statistic associated
 with a three-state Potts model:
 \begin{equation}
   e \;=\; -\frac{1}{N_{\mathrm{bonds}}}
@@ -1218,7 +1204,7 @@ $S_1 = -\sum_s \rho_s \ln \rho_s$ across the phase sweep on a $128 \times 128$
 lattice with periodic boundaries. Below $f_c$ the mixed attractor persisted at
 $e \approx -0.37$ and $S_1 \approx 1.06$ (near the maximum $\ln 3 \approx 1.10$);
 above the crossover the system approached the all-Sell absorbing state at
-$e \approx -0.93$ and $S_1 \approx 0.18$---a sharp finite-size drop consistent with
+$e \approx -0.93$ and $S_1 \approx 0.18$, a sharp finite-size drop consistent with
 a discontinuous transition (Figure~\ref{fig:theory-overview}A).
 
 \begin{figure}[tb]
@@ -1250,9 +1236,6 @@ a discontinuous transition (Figure~\ref{fig:theory-overview}A).
   \label{fig:theory-overview}
 \end{figure}
 
-\subsection{Mean-Field Analysis}
-\label{sec:mean-field}
-
 To isolate the role of spatial correlations, we derived a mean-field self-consistency
 map for the mixed 19280/19286 population. The mean-field approximation replaces the
 lattice with a well-mixed population in which each agent's four neighbors are drawn
@@ -1268,10 +1251,10 @@ $(p_0, p_1, p_2)$:
   \qquad k = 0,1,\ldots,8.
   \label{eq:pi-dist}
 \end{equation}
-The verified rule tables (Section~\ref{sec:rule-taxonomy}) assign next states as
+The verified rule tables (Table~\ref{tab:rule-taxonomy}) assign next states as
 follows: $c \in \{2,3\} \to \text{Buy}$; $c \in \{4,5\} \to \text{Hold}$;
 $c \in \{0,6,7,8\} \to \text{Sell}$ (both rules agree at these values); and $c = 1$,
-where the two rules diverge---Rule~19280 outputs Buy while Rule~19286 outputs Sell.
+where the two rules diverge, with Rule~19280 outputting Buy and Rule~19286 Sell.
 In a population with minority fraction~$f$, the mean-field map is therefore:
 \begin{align}
   p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
@@ -1284,21 +1267,18 @@ $(p_0, p_2)$ through Eq.~\eqref{eq:pi-dist}.
 We iterated Eqs.~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence
 ($\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$) from multiple initial
 conditions and swept $f$ from $0$ to $1$. For every value of~$f$ the map admitted
-two stable fixed points: (i)~a \emph{buy-dominated} equilibrium with
+two stable fixed points, a \emph{buy-dominated} equilibrium with
 $p_0^* \approx 0.63$, $p_1^* \approx 0.18$, $p_2^* \approx 0.19$ at $f = 0$,
-shifting smoothly to $p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$; and
-(ii)~the all-Sell absorbing state $p_2^* = 1$. The Jacobian at the buy-dominated
+shifting smoothly to $p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$, and
+the all-Sell absorbing state $p_2^* = 1$. The Jacobian at the buy-dominated
 fixed point had complex eigenvalues with modulus $|\lambda| \approx 0.95$ (a stable
 spiral), confirming local stability. At no value of~$f$ did the buy-dominated branch
 disappear or cross the sell-majority threshold $p_2 > 0.50$. The mean-field map
-predicted no phase transition whatsoever: the sell fraction increased by only
+predicted no phase transition: the sell fraction increased by only
 ${\sim}0.04$ across the entire range of~$f$, a smooth monotone drift with no
 discontinuity.
 
-\subsection{Pair Approximation}
-\label{sec:pair-approx}
-
-We extended the mean-field analysis to the pair approximation, which tracks
+We next extended the mean-field analysis to the pair approximation, which tracks
 nearest-neighbor pair densities $\rho_{ab} = \Pr(\sigma_i = a,\, \sigma_j = b)$
 for adjacent sites $i, j$ rather than single-site marginals alone. In the pair
 approximation closure~\cite{gutowitz1987local}, the three neighbors of a focal site
@@ -1328,20 +1308,16 @@ confirmed that every trajectory converged to one of only two fixed points: the
 uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
 state. Spatial mutual information $I = 2S_1 - S_2$ decayed to zero in all cases.
 
-The pair approximation gives the same negative result as mean field: within this
-particular nearest-neighbor closure, the mixed branch remains locally stable. This
+The pair approximation gave the same negative result as mean field: within this
+particular nearest-neighbor closure, the mixed branch remained locally stable. That
 does not rule out every finite-order closure, but it shows that single-site marginals
 and the tested pair correlations are insufficient. The explicit lattice simulations
-instead show localized clusters and propagating fronts.
+instead showed localized clusters and propagating fronts.
 
-\subsection{Nucleation Theory}
-\label{sec:nucleation}
-
-The localized clusters and seed-dependent waiting times motivate a \emph{nucleation}
-description: a small sell domain appears, survives local fluctuations, and grows into
-a macroscopic domain. We characterize this interpretation through three measurements.
-
-\paragraph{Metastable lifetime.}
+Those localized clusters and seed-dependent waiting times motivated a \emph{nucleation}
+description, in which a small sell domain appears, survives local fluctuations, and grows into
+a macroscopic domain, and we characterized that interpretation through three measurements.
+We first measured the metastable lifetime.
 We initialized $64 \times 64$ lattices from random states, equilibrated for 200~steps
 to the mixed attractor, then recorded the time $\tau$ at which the sell fraction first
 exceeded~$0.90$ (collapse to the absorbing state). For each value of~$f$ we ran 20
@@ -1351,8 +1327,7 @@ realizations for $10^5$~steps; above $f \approx 0.155$ all realizations collapse
 with the mean lifetime decreasing from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$
 to $\bar{\tau} \approx 86$ at $f = 0.30$.
 
-\paragraph{Phenomenological onset-time scaling.}
-Motivated by the inverse-distance form used in Kramers-type escape
+We next fit the observed onset times. Motivated by the inverse-distance form used in Kramers-type escape
 problems~\cite{kramers1940brownian,hanggi1990reaction}, we fit
 \begin{equation}
   \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0},
@@ -1373,8 +1348,7 @@ for example, $f_c(T = 10{,}000) \approx 0.162$ and $f_c(T = 1{,}000) \approx 0.1
 consistent with the steepening of the phase boundary observed in the
 simulations.
 
-\paragraph{Mechanism: disorder-driven nucleation.}
-We measured the spatial influence of an isolated contrarian agent embedded in an
+We then measured the spatial influence of an isolated contrarian agent embedded in an
 otherwise all-majority lattice. The sell density at the contrarian's own site was
 elevated ($\rho_2 \approx 0.42$ vs.\ the background $\rho_2 \approx 0.26$), but this
 excess decayed to zero within one to two lattice spacings. Individual contrarians
@@ -1394,58 +1368,47 @@ weak ($f_c \approx 0.17$ at $L = 32$, $f_c \approx 0.16$ at $L = 128$), consiste
 with a critical nucleus that is small relative to the lattice dimensions at all tested
 sizes.
 
-\paragraph{Summary.}
-The sequence of approximations narrows the plausible description of the lattice
-crossover.
-Mean-field theory, by erasing all spatial structure, misses the transition entirely.
-The pair approximation, which restores nearest-neighbor correlations, fares no
-better: the uncorrelated fixed point remains linearly stable at all~$f$, and the
-spatial mutual information vanishes. The lattice simulations add the missing
+Taken together, the sequence of approximations narrows the plausible description of the
+lattice crossover.
+Mean-field theory, by erasing all spatial structure, missed the transition.
+The pair approximation, which restores nearest-neighbor correlations, fared no
+better: the uncorrelated fixed point remained linearly stable at all~$f$, and the
+spatial mutual information vanished. The lattice simulations added the missing
 ingredients: localized clusters, broad seed-dependent waiting times, and propagating
-fronts. The Potts-inspired statistic summarizes the accompanying increase in alignment,
+fronts. The Potts-inspired statistic summarized the accompanying increase in alignment,
 with a finite-size drop $\Delta e \approx 0.56$ from the mixed attractor
 ($e \approx -0.37$) toward the all-Sell state ($e \approx -0.93$). These observations
 are consistent with a nucleation-like discontinuous crossover but do not establish a
 thermodynamic free-energy barrier (Figure~\ref{fig:theory-overview}A).
 
-Model~B provides a direct comparison. We ask whether the same empirical onset-time form
-describes each cash level and whether fitted parameters or post-onset growth change.
-The experiments are designed to detect large shifts; overlapping uncertainty intervals
-cannot exclude smaller budget effects.
+Model~B provides a direct comparison. Retaining the same two rules and quenched disorder
+but adding endogenous price feedback and per-agent cash and inventory constraints, it let
+us ask whether the same empirical onset-time form described each cash level, whether the
+spatial crossover survived budgets, whether cash was associated with onset, and how
+budgets affected post-onset growth. The experiments are designed to detect large shifts,
+and overlapping uncertainty intervals cannot exclude smaller budget effects.
 
-
-% ============================================================================
-\section{Results II: Model~B under Budget Constraints}
-\label{sec:results-b}
-% ============================================================================
-
-Model~B retains the same two rules and quenched disorder, but it adds endogenous price
-feedback and per-agent cash and inventory constraints. We test whether the spatial
-crossover survives, whether cash is associated with onset, and how budgets affect
-post-onset growth.
-
-\subsection{The Transition Survives Budgets}
-\label{sec:mb-transition}
-The Model~B factorial sweep contains $10{,}800$ runs across minority fraction, price
-impact, cash, the disposition switch, and two order-band parameters. A sell-dominated
+We first asked whether the crossover survived the budget constraint, drawing on a
+factorial sweep of $10{,}800$ runs across minority fraction, price
+impact, cash, the disposition switch, and two order-band parameters
+(Appendix~\ref{app:stage2}). A sell-dominated
 regime appeared between the sampled values $f=0.15$ and $f=0.20$ at every tested price
 impact. A variance decomposition attributed $94$--$97\%$ of each summary metric's
 variance to differences among the swept configurations and at most $5.4\%$ to disorder
-seeds within a configuration (Appendix~\ref{app:stage2}). This decomposition is
-descriptive: it does not identify which individual parameter causes the difference.
-
-The classifier assigned $6{,}589$ runs ($61\%$) to an oscillatory regime and $4{,}211$
-($39\%$) to a crash-prone regime; none entered the other three candidate classes
-(Appendix~\ref{app:stage2}). ``Crash-prone'' is a grid-state label: the Sell fraction is
+seeds within a configuration. That decomposition is
+descriptive, and it does not identify which individual parameter causes the difference.
+The classifier assigned every run to one of two realized regimes and left the other three
+candidate classes empty, with $6{,}589$ runs ($61\%$) called oscillatory and $4{,}211$
+($39\%$) crash-prone. ``Crash-prone'' is a grid-state label: the Sell fraction is
 at least $0.5$ on at least $1\%$ of steps. It does not imply a large price drawdown.
-
-The modal crash-prone outcome was a liquidity \emph{freeze}: the interior locked near a
-Sell fraction of $0.88$, but suppressed orders limited price movement. The median maximum
+That classification also had a price signature. The modal crash-prone outcome was a
+liquidity \emph{freeze}, in which the interior locked near a
+Sell fraction of $0.88$ while suppressed orders limited price movement. The median maximum
 drawdown in this class was about $5\%$, and its median minimum price was $100.00$.
-Price collapses formed a tail: $897$ of the $4{,}211$ crash-prone runs fell below $90$.
-Across matched design cells, enabling the disposition rule increased return volatility
-by a factor of $2.40$ on average (Appendix~\ref{app:stage2}). Figure~\ref{fig:mb-exemplars}
-shows one tail trajectory beside an oscillatory run; it is not the modal case.
+Price collapses formed a tail, with $897$ of the $4{,}211$ crash-prone runs falling below $90$.
+Across matched design cells, enabling the disposition rule increased the return standard
+deviation by a factor of $2.40$ on average. One tail trajectory sat beside an oscillatory run
+(Figure~\ref{fig:mb-exemplars}), and it was not the modal case.
 
 \begin{figure}[tb]
   \centering
@@ -1453,8 +1416,8 @@ shows one tail trajectory beside an oscillatory run; it is not the modal case.
   \caption{Model~B regime exemplars: price, interior state fractions, and
   suppressed orders for a crash-prone run (left, run 9652) and an
   oscillatory run (right, run 5916). The crash-prone exemplar is the
-  dramatic tail of its regime---a bubble-and-collapse trajectory
-  ($100 \to 266 \to 83$)---shown because it makes the mechanism visible;
+  dramatic tail of its regime, a bubble-and-collapse trajectory
+  ($100 \to 266 \to 83$), shown because it makes the mechanism visible;
   the \emph{typical} crash-prone run is a liquidity freeze in which the
   grid locks near a Sell fraction of $0.88$ while the price barely moves.
   ``Crash-prone'' throughout denotes majority-sell lock-in (Sell fraction
@@ -1462,33 +1425,30 @@ shows one tail trajectory beside an oscillatory run; it is not the modal case.
   \label{fig:mb-exemplars}
 \end{figure}
 
-\subsection{The Nucleus Is Spatial and Bulk-Born}
-\label{sec:mb-spatial}
 We next compared the largest Sell clusters in stable, freeze, and collapse configurations,
-using $20$ disorder seeds per configuration. In the stable regime the at-peak ratio of the
+using $20$ disorder seeds per configuration (Figure~\ref{fig:mb-seedsweep}). In the stable regime the at-peak ratio of the
 largest cluster to the total Sell population had a median of
-$0.022$ (IQR $0.018$--$0.027$) across every seed (Figure~\ref{fig:mb-seedsweep})---the Sell cells present were scattered into
+$0.022$ (IQR $0.018$--$0.027$) across every seed, since the Sell cells present were scattered into
 roughly $500$ dispersed fragments, the largest of which never exceeded about $0.5\%$ of the
-grid, and all $20$ trajectories stayed flat---whereas the freeze and collapse regimes
+grid, and all $20$ trajectories stayed flat, whereas the freeze and collapse regimes
 gathered their Sell cells into a single dominant domain, reaching median at-peak ratios of
 $0.26$ and $0.44$ respectively with zero overlap against the stable band. That gap was the
-observed signature of localized domain growth rather than a synchronous grid-wide flip.
-
-The above-threshold trajectories formed time-shifted sigmoids: their onset varied more
-than their eventual shape. This pattern motivates the onset-aligned front velocities,
-budget toggles, and onset-time fits below. It is consistent with variable waiting times,
-but does not by itself establish a Kramers escape process.
+observed signature of localized domain growth rather than a synchronous grid-wide flip,
+and the above-threshold trajectories that produced it formed time-shifted sigmoids whose
+onset varied more than their eventual shape. That pattern motivates the onset-aligned
+front velocities, budget toggles, and onset-time fits that follow. It is consistent with
+variable waiting times, but does not by itself establish a Kramers escape process.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-SeedSweep.pdf}
   \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed. (Top row) For
-  each of the three budget configurations---stable ($f = 0.10$, cash $1{,}000$), freeze
-  ($f = 0.20$, cash $500$), and collapse ($f = 0.20$, cash $5{,}000$)---the largest sell
+  each of the three budget configurations (stable at $f = 0.10$, cash $1{,}000$; freeze
+  at $f = 0.20$, cash $500$; and collapse at $f = 0.20$, cash $5{,}000$), the largest sell
   cluster, expressed as a fraction of the grid, is drawn step by step for every one of $20$
   disorder seeds. (Bottom left) Per-seed ratio of the largest cluster to the total sell
   population at its peak: the stable configuration sits at a median ratio of
-  $0.022$---dispersed fluctuations with no dominant domain---while the freeze and collapse
+  $0.022$, dispersed fluctuations with no dominant domain, while the freeze and collapse
   configurations concentrate into a single growing domain at median ratios of $0.26$ and
   $0.44$; the stable band shows zero overlap against either above-threshold configuration,
   the signature of a spatial nucleus above threshold and its absence below. (Bottom right)
@@ -1498,11 +1458,11 @@ but does not by itself establish a Kramers escape process.
   \label{fig:mb-seedsweep}
 \end{figure}
 
-Having established that a nucleus exists, we asked where on the grid it was born---and in
+Having established that a nucleus exists, we asked where on the grid it was born, and in
 particular whether the active-edge ring that injects the budget-constrained orders is also
-the cradle of the winning cluster. The boundary-versus-bulk campaign of
-Section~\ref{sec:mb-protocols} tracked the founding cell of the onset cluster across $40$
-runs, of which $39$ nucleated within the horizon (Figure~\ref{fig:mb-birthsites}), and compared its position against the
+the cradle of the winning cluster (Figure~\ref{fig:mb-birthsites}). The boundary-versus-bulk campaign tracked the
+founding cell of the onset cluster across $40$
+runs, of which $39$ nucleated within the horizon, and compared its position against the
 analytic null for spatially uniform births under which a fraction $0.125$ of foundings fall
 within distance~$2$ of the boundary. Births were, if anything, biased away from the edge
 rather than toward it: the pooled fraction of onset clusters founded in the boundary band was
@@ -1511,14 +1471,13 @@ $0.077$, statistically indistinguishable from and slightly below the uniform exp
 founding cell sat a distance $12$ into the deep bulk; and the typical founding was a
 single Sell cell (median birth size $1$ cell), with a
 median birth step of $256$ and individual onsets spanning $75$ to $1{,}115$. The winning
-nucleus, in short, was overwhelmingly a bulk object---an interior single-cell fluctuation
-that happened to survive and grow---rather than a structure templated by the boundary. The
+nucleus, in short, was overwhelmingly a bulk object, an interior single-cell fluctuation
+that happened to survive and grow, rather than a structure templated by the boundary. The
 one place the edge did assert itself was \emph{after} birth: pre-onset attachment of the
 growing cluster to the active-edge ring occurred only in the collapse configuration ($6$ of
 $19$ runs) and never in the freeze ($0$ of $20$), a first hint that the boundary governs how a
-nucleus grows rather than where it is born---a distinction we sharpen in
-Section~\ref{sec:mb-gating}, when we ask where in the market the budget constraint actually
-bites.
+nucleus grows rather than where it is born, a distinction we sharpen when we ask where in
+the market the budget constraint actually bites.
 
 \begin{figure}[tb]
   \centering
@@ -1534,16 +1493,15 @@ bites.
   statistically indistinguishable from it (binomial $p = 0.47$), with a median founding
   distance of $12$ cells into the deep bulk. (Bottom right) Timing of ring attachment
   relative to birth and onset for the runs whose growing cluster reached the active-edge
-  ring before onset---$6$ of $19$ collapse runs and $0$ of $20$ freeze runs---the edge
+  ring before onset ($6$ of $19$ collapse runs and $0$ of $20$ freeze runs), the edge
   asserting itself only after birth. The winning nucleus is born in the bulk, not templated
   by the boundary.}
   \label{fig:mb-birthsites}
 \end{figure}
 
-\subsection{Onset Times Are Equivalent Across Budgets Within a Factor of Two}
-\label{sec:mb-barrier}
 A spatial, bulk-born nucleus raises a direct question: is cash associated with its onset
-time? We fit the same empirical form,
+time? Across a tenfold cash range, onset times proved equivalent within a factor of two
+(Table~\ref{tab:kramers-fits}). We fitted the same empirical form,
 $\ln\tilde\tau = A + B/(f-f_0)$, to Kaplan--Meier median onset times at each cash level.
 The fits achieved $R^2 = 0.978$, $0.990$, and $0.980$ for cash $500$, $1{,}000$, and
 $5{,}000$, using only $5$, $6$, and $6$ finite median points, respectively
@@ -1551,10 +1509,10 @@ $5{,}000$, using only $5$, $6$, and $6$ finite median points, respectively
 have undefined medians and do not enter these fits. The small number of fitted points and
 the three free parameters make the curves descriptive rather than confirmatory.
 
-Table~\ref{tab:kramers-fits} collects the fitted parameters with their $95\%$ bootstrap
-confidence intervals, and Figure~\ref{fig:mb-barrier} draws the curves over the medians.
-Between the tightest and loosest budgets, the intervals overlap on both fitted shape
-parameters: for the pseudo-threshold $f_0$, cash $500$ gave $(0.000,\,0.153)$ against
+Between the tightest and loosest budgets, the bootstrap confidence intervals overlapped on
+both fitted shape parameters, with the curves drawn over the medians
+(Table~\ref{tab:kramers-fits}, Figure~\ref{fig:mb-barrier}):
+for the pseudo-threshold $f_0$, cash $500$ gave $(0.000,\,0.153)$ against
 $(0.077,\,0.157)$ at cash $5{,}000$; for $B$, cash $500$ gave $(0.070,\,1.135)$ against
 $(0.050,\,0.415)$; and the onset cliff itself sat between $f = 0.15$ and $f = 0.18$ at
 every cash level. We state the accompanying power caveat just as plainly, because an
@@ -1568,28 +1526,27 @@ disorder seeds at every~$f$, so the bootstrap can be paired: each of $4{,}000$ d
 resampled seed positions once per~$f$, applied the same resampled positions to all three
 arms, refit each arm, and differenced the fits within the draw, which removes the shared
 disorder variance from the difference. Because the three fitted parameters trade off
-against one another, we compare the quantity they jointly determine---the predicted log
+against one another, we compared the quantity they jointly determine, the predicted log
 median onset time at a given~$f$, whose difference between two arms is the log ratio of
-their predicted onset times---at every $f$ retaining a defined median in all three arms.
+their predicted onset times, at every $f$ retaining a defined median in all three arms.
 The margin was fixed in advance at a factor of two, $|\Delta\ln\tilde\tau| < \ln 2$, and
 assessed by two one-sided tests at $\alpha = 0.05$.
 
 Every pairwise comparison met the margin at every shared~$f$: budgets spanning a tenfold
-range change the predicted median onset time by less than a factor of two. The largest
+range changed the predicted median onset time by less than a factor of two. The largest
 point difference anywhere in the comparison was $0.354$ in $\ln\tilde\tau$, a factor of
 $1.42$, between cash $500$ and $5{,}000$ at $f = 0.20$, with a $95\%$ interval of
-$(-0.098,\,0.718)$. The individual parameters remain poorly determined by comparison---the
+$(-0.098,\,0.718)$. The individual parameters remain poorly determined by comparison, since the
 difference in~$B$ between cash $500$ and $1{,}000$ has a $95\%$ interval of
-$(-0.298,\,0.965)$---which is precisely why an argument from overlapping parameter
+$(-0.298,\,0.965)$, which is why an argument from overlapping parameter
 intervals carried so little information. One comparison is worth flagging without
 promoting: between cash $1{,}000$ and $5{,}000$ near the threshold, the intervals exclude
 zero at $f = 0.177$ and $f = 0.18$, $(0.014,\,0.433)$ and $(0.021,\,0.398)$, placing onset
 roughly $19\%$ later under the tighter budget. Those are adjacent points on the same pair
 of fitted curves and so are one signal rather than two, and neither survives correction
-for the fifteen comparisons in the family. We read it as a lead, not a result.
-
-The claim this section supports is therefore bounded rather than null: across a tenfold
-cash range, onset times are equivalent within a factor of two, and any residual effect is
+for the fifteen comparisons in the family. We read it as a lead, not a result. What the
+onset-time analysis supports is therefore bounded rather than null: across a tenfold
+cash range, onset times were equivalent within a factor of two, and any residual effect is
 smaller than that.
 
 \begin{figure}[tb]
@@ -1641,53 +1598,51 @@ The present experiments did not resolve a large cash-associated difference in fo
 sites or fitted onset-time parameters. They therefore direct attention to post-onset
 growth, without proving that cash has no effect on onset. One exploratory
 observation, which we report uncorrected for multiple comparisons and weigh accordingly,
-already points the same way: near the cliff the onset rate was monotone in cash---at
+already points the same way: near the cliff the onset rate was monotone in cash, and at
 $f = 0.174$ the fraction of seeds nucleating within the horizon rose from $0.45$ to $0.62$
-to $0.70$ from tight to loose cash, and at $f = 0.177$ the Kaplan--Meier medians fell in
+to $0.70$ from tight to loose cash, while at $f = 0.177$ the Kaplan--Meier medians fell in
 the same order, $1{,}598$, $1{,}427$, and $1{,}208$ steps (Appendix~\ref{app:censoring}). Because the onset trigger is
-itself a growth milestone---$t_{\mathrm{on}}$ marks the step at which the largest sell
-cluster first reaches $5\%$ of the grid---a faster-growing front reaches the trigger
-sooner, and a monotone-in-cash onset rate is precisely the signature one expects if budgets
-gate growth rather than birth. It is that gating we now set out to demonstrate directly.
+itself a growth milestone, in that $t_{\mathrm{on}}$ marks the step at which the largest sell
+cluster first reaches $5\%$ of the grid, a faster-growing front reaches the trigger
+sooner, and a monotone-in-cash onset rate is the signature one expects if budgets
+gate growth rather than birth. It is that gating we set out to demonstrate directly.
 
-\subsection{Growth Is Gated at the Boundary}
-\label{sec:mb-gating}
-If budgets act on growth rather than birth, two predictions follow---one negative, one
-positive---and the campaigns of Section~\ref{sec:mb-protocols} let us test both. The negative
+If budgets act on growth rather than birth, two predictions follow, one negative and one
+positive, and the nucleation campaigns let us test both (Figure~\ref{fig:mb-seeding}). The negative
 prediction is that handing the interior a ready-made nucleus should buy nothing, because the
 interior was never short of nuclei; the interventional arm of the boundary-versus-bulk
 campaign therefore stamped a $3 \times 3$ sell patch onto the grid at boundary-adjacent
 (edge), mid, and center placements in both the freeze and the collapse configurations, each
-stamped run paired against an unstamped control, and the patch failed absolutely as a
-founder: in all six cells of the configuration-by-placement design the dominance rate was
-$0/20$---the domain standing largest at onset never once descended from the stamped
-patch---the patch's forward lineages grew only to $9$--$15$ cells before dying out, never
-alive at the moment of onset, and no placement advanced the onset itself (Figure~\ref{fig:mb-seeding}). The interior,
-evidently, does not lack seeds; the single-cell fluctuations of Section~\ref{sec:mb-spatial}
-supply them constantly and at no cost---what is scarce above threshold is not a nucleus but
+stamped run paired against an unstamped control, and the patch never founded the winning
+domain: in all six cells of the configuration-by-placement design the dominance rate was
+$0/20$, the domain standing largest at onset never once descended from the stamped
+patch, the patch's forward lineages grew only to $9$--$15$ cells before dying out, never
+alive at the moment of onset, and no placement advanced the onset itself. The interior,
+evidently, does not lack seeds. The single-cell fluctuations from which onset clusters are
+born supply them constantly and at no cost, and what is scarce above threshold is not a nucleus but
 the \emph{growth} that would make one matter.
 
-Figure~\ref{fig:mb-seeding} lays out the paired onsets, the dominance rates, and exemplar
-growth trajectories, and it also contains the one nominal placement effect, which ran, if
+The paired onsets, the dominance rates, and exemplar
+growth trajectories also contain one nominal placement effect, which ran, if
 anywhere, in the wrong direction for seeding: the freeze-configuration mid-grid patch
-\emph{delayed} onset (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$)---an
+\emph{delayed} onset (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$), an
 observation we hold as exploratory, since it is uncorrected across a six-test family, fails
-the Bonferroni threshold of $0.0083$, and rests on a sign-flip test of the mean---and we
+the Bonferroni threshold of $0.0083$, and rests on a sign-flip test of the mean, and we
 accordingly report it as a lead, not a result. Even taken at face value, though, it points
 the same way as the null it accompanies: a stamped patch could, at best, perturb the interior
-into nucleating \emph{later}; nothing we planted made the market crash sooner.
+into nucleating \emph{later}, and nothing we planted made the market crash sooner.
 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-Seeding.pdf}
   \caption{Stamped-patch seeding outcomes across placements and configurations. (Top row)
-  Onset step per seed under each arm---an unstamped control and a $3 \times 3$ sell patch
-  stamped at edge, mid, and center placements---for the freeze (left) and collapse (right)
+  Onset step per seed under each arm (an unstamped control and a $3 \times 3$ sell patch
+  stamped at edge, mid, and center placements) for the freeze (left) and collapse (right)
   configurations, with gray lines pairing the same seed across arms; the pairings cross in
   both directions and no placement advances onset. The apparent delay under the freeze mid
   placement (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$) is
-  exploratory---uncorrected across the six-test family and failing the Bonferroni
-  threshold of $0.0083$---a lead, not a result. (Middle row) Dominance rate per placement:
+  exploratory, uncorrected across the six-test family and failing the Bonferroni
+  threshold of $0.0083$, a lead rather than a result. (Middle row) Dominance rate per placement:
   the fraction of runs in which the cluster standing largest at onset descends from the
   stamped patch is $0/20$ in every one of the six configuration-by-placement cells.
   (Bottom row) Largest-cluster growth trajectories for a single exemplar seed under each
@@ -1699,17 +1654,17 @@ into nucleating \emph{later}; nothing we planted made the market crash sooner.
 
 The positive prediction is a dose-response: if suppressed buy orders are the brake on the
 front, the front should slow in proportion to how hard the brake is pressed, whatever the
-nominal cash endowment that produced the pressing. Across the five budget doses at
+nominal cash endowment that produced the pressing (Figure~\ref{fig:mb-velsupp}). Across the five budget doses at
 $f = 0.20$ (cash $250$--$5{,}000$; $n = 97$ runs included, with $3$ excluded by the window
-rule of Section~\ref{sec:mb-protocols}), the front velocity fell as the \emph{absolute}
-suppression rate rose---pooled Spearman $\rho = -0.372$, permutation $p = 0.0003$---and the
+rule), the front velocity fell as the \emph{absolute}
+suppression rate rose, at a pooled Spearman $\rho = -0.372$ with permutation $p = 0.0003$, and the
 relationship was not a between-dose confound, for it held within every dose separately, with
 $\rho$ between $-0.38$ and $-0.52$, and it survived the removal of any single dose entirely
 (leave-one-dose-out $p \le 0.0014$). We state the shape of this result as carefully as its
-strength (Figure~\ref{fig:mb-velsupp}). The median suppression load varied little
+strength. The median suppression load varied little
 across the ladder ($517$--$595$ orders per step), and the median velocity was U-shaped in
-cash---highest at the tightest dose, lowest in the middle of the ladder, rising again at the
-loosest---so the claim the data support is the pooled, and within-dose, negative
+cash, highest at the tightest dose, lowest in the middle of the ladder, and rising again at the
+loosest, so the claim the data support is the pooled, and within-dose, negative
 velocity--suppression relationship, not a monotone-in-cash dose ladder: initial cash was a
 weak proxy for the suppression a given front actually experienced, and it was the realized
 suppression, wherever it landed, that tracked the slowing of the front.
@@ -1719,37 +1674,32 @@ suppression, wherever it landed, that tracked the slowing of the front.
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-VelocitySuppression.pdf}
   \caption{Front velocity against absolute budget suppression at $f = 0.20$. (Left) For the
   $97$ runs included across the five cash doses ($250$--$5{,}000$; $3$ runs excluded by the
-  window rule), the front velocity---the OLS slope of the front extent over the
-  onset-aligned window $[t_{\mathrm{on}}+50,\,t_{\mathrm{on}}+400]$---is plotted against
+  window rule), the front velocity, the OLS slope of the front extent over the
+  onset-aligned window $[t_{\mathrm{on}}+50,\,t_{\mathrm{on}}+400]$, is plotted against
   the mean absolute number of suppressed buy orders per step over the same window, colored
   by dose with the per-cash medians marked as diamonds; velocity falls as suppression
   rises, Spearman $\rho = -0.372$, permutation $p = 0.0003$. (Right) The same velocities
   arranged by initial cash on a logarithmic axis, with a bar at each per-dose median: the
-  medians are U-shaped in cash---highest at cash $250$, lowest near $1{,}000$--$2{,}000$,
-  rising again at $5{,}000$---while the per-dose median suppression spans only $517$--$595$
+  medians are U-shaped in cash, highest at cash $250$, lowest near $1{,}000$--$2{,}000$,
+  and rising again at $5{,}000$, while the per-dose median suppression spans only $517$--$595$
   orders per step, so the supported claim is the pooled and within-dose
   velocity--suppression relationship, not a monotone ordering by dose.}
   \label{fig:mb-velsupp}
 \end{figure}
 
-Together, these experiments locate the clearest budget effect after onset. The winning
+Together, these experiments located the budget effect after onset. The winning
 domain was bulk-born, and planted nine-cell patches did not found it. The onset-time fits
-bound any cash-associated difference to within a factor of two, while front velocity
-covaried with suppressed buy orders. The paired intervention next tests how a cash shock reaches the
-front through the price-mediated boundary.
+bounded any cash-associated difference to within a factor of two, while front velocity
+covaried with suppressed buy orders.
 
-\subsection{The Intervention Asymmetry}
-\label{sec:mb-intervention}
-The budget toggle provides a paired intervention. For each seed, the control identifies
-$t_{\mathrm{on}}$; the paired run receives a uniform cash shock at the start of that step.
-The two histories are identical through $t_{\mathrm{on}}-1$, so the intervention occurs
-immediately before the first onset frame in the control. Scaling cash $\times 10$ in the
+We next used the budget toggle as a paired intervention to test how a cash shock reaches
+the front through the price-mediated boundary (Figure~\ref{fig:mb-toggle}). Scaling cash $\times 10$ in the
 tight freeze configuration (cash $500$) \emph{accelerated} the front in
 $14$ of $19$ seeds (sign test $p = 0.064$; we report the count and the $p$-value as they
-stand)---the median front velocity rose from $1.39$ to $3.55 \times 10^{-4}$ grid fractions
+stand), since the median front velocity rose from $1.39$ to $3.55 \times 10^{-4}$ grid fractions
 per step, the median front extent at $t_{\mathrm{on}}+400$ from $0.112$ to $0.192$, and the
-suppressed buy orders fell by $29\%$ (Figure~\ref{fig:mb-toggle}; the window rule of
-Section~\ref{sec:mb-protocols} admitted $19$ of the $20$ seeds in every arm). Handing the
+suppressed buy orders fell by $29\%$ (the post-toggle window
+rule admitted $19$ of the $20$ seeds in every arm). Handing the
 modeled population's cash tenfold just before detected onset made the sell domain spread
 \emph{faster}. This is a causal result within the paired simulation, not evidence about
 real-market liquidity policy.
@@ -1758,11 +1708,11 @@ real-market liquidity policy.
   \centering
   \includegraphics[width=0.95\linewidth]{figs/ModelB-Nucleation-BudgetToggle.pdf}
   \caption{Budget-toggle intervention: paired, onset-aligned counterfactuals at $f = 0.20$
-  with a $W = 400$ post-toggle window (Section~\ref{sec:mb-protocols}). (Left column)
+  with a $W = 400$ post-toggle window. (Left column)
   Largest sell cluster as a fraction of the grid against steps since onset, for the three
-  arms---injection (cash $\times 10$ at onset, on the tight cash-$500$ base) and the mild
+  arms (injection at cash $\times 10$ on the tight cash-$500$ base, and the mild
   ($\times 0.1$) and harsh ($\times 0.01$) withdrawals, both on the loose cash-$5{,}000$
-  base---with each toggled trajectory (color) drawn over its control (gray) for the $19$
+  base), with each toggled trajectory (color) drawn over its control (gray) for the $19$
   included seed pairs per arm; the dashed line marks the toggle at $t_{\mathrm{on}}$, and
   the pre-toggle trajectories coincide by construction. (Right column) Paired front
   velocities over the window, one line per seed pair, control against toggled: injection
@@ -1771,39 +1721,39 @@ real-market liquidity policy.
   \label{fig:mb-toggle}
 \end{figure}
 
-An acceleration under injection is exactly backwards for the naive mechanism, and that is
-what makes it diagnostic. Injected cash cannot feed the front directly---the front is a
+An acceleration under injection runs opposite to the naive mechanism, which is
+what makes it diagnostic. Injected cash cannot feed the front directly, since the front is a
 \emph{sell} wave, sells need shares rather than cash, and the interior CA never sees the
-books at all, since budgets suppress order flow and never sentiment
-(Section~\ref{sec:model-b})---so the only conduit by which a cash shock can reach interior
+books at all, because budgets suppress order flow and never
+sentiment, so the only conduit by which a cash shock can reach interior
 sentiment is the loop's own: executed flow moves the price, the price crosses the edge
 bands, and the band crossings set the state of the active-edge ring whose sentiment the
-boundary feeds into the grid. The edge trace of Figure~\ref{fig:mb-edgetrace} caught that
-conduit in the act. At the toggle, injection flipped the ring \emph{instantly}, from the
+boundary feeds into the grid. The edge-ring trace recorded that conduit directly
+(Figure~\ref{fig:mb-edgetrace}). At the toggle, injection flipped the ring \emph{instantly}, from the
 control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and ${\sim}1.0$ Sell: the injected cash
 let the buy orders the books had been suppressing execute at last, the supported
-price---$113$ against the control's $93$ at $t_{\mathrm{on}}+400$---broke above the upper
+price, $113$ against the control's $93$ at $t_{\mathrm{on}}+400$, broke above the upper
 bands, and the entire ring, contrarian in the value trader's sense of buying below its band
 and selling above it, dumped at once, the flipped state decaying back over the following
 $100$--$200$ steps as the EMA bands caught up with the new price level. Under tight budgets
-the boundary bought into the falling price and braked the front; under injection it sold into
+the boundary bought into the falling price and braked the front, whereas under injection it sold into
 the supported price and fed the front instead. The boundary switched from brake to
-accelerant---a sign reversal, not a modulation.
+accelerant, a sign reversal.
 
 Withdrawal, which by symmetry ought to have braked the crash, did nothing of the
-kind---at either dose, and the two doses matter because together they rule out mere
+kind at either dose (Figure~\ref{fig:mb-toggle}), and the two doses matter because together they rule out mere
 under-dosing. The mild cut ($\times 0.1$, applied in the loose collapse configuration,
 cash $5{,}000$) left the front statistically untouched (sign-flip permutation $p = 0.67$)
-and barely disturbed the suppression load, suppressed buys moving $+7\%$; the harsh cut
-($\times 0.01$) \emph{binds}---it dropped every cell to ${\sim}50$ in cash, below the
+and barely disturbed the suppression load, suppressed buys moving $+7\%$. The harsh cut
+($\times 0.01$) \emph{bound}, in that it dropped every cell to ${\sim}50$ in cash, below the
 standing price, so buys died outright and the suppressed-buy load jumped from $524$ to
-$680$ orders per step---and yet the median front velocity moved only from $2.23$ to
+$680$ orders per step, and yet the median front velocity moved only from $2.23$ to
 $2.38 \times 10^{-4}$ grid fractions per step ($11$ of $19$ seeds in the predicted
 direction; sign-flip permutation $p = 0.29$), while the price barely registered the cut at
-all, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$ (Figure~\ref{fig:mb-toggle}). The trace explains
-the null (Figure~\ref{fig:mb-edgetrace}): in the loose configuration the control ring
-already sat near $0.46$ Buy after onset---a brake the crash itself had engaged, the sell
-wave having pressed the price beneath nearly half the ring's bands---and the cash cut
+all, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$. The null has an
+explanation in the loose configuration (Figure~\ref{fig:mb-edgetrace}): the control ring
+already sat near $0.46$ Buy after onset, a brake the crash itself had engaged, the sell
+wave having pressed the price beneath nearly half the ring's bands, and the cash cut
 could only strengthen it transiently, lifting the ring's Buy fraction to
 ${\sim}0.72$--$0.74$ before it relaxed back to the control level within ${\sim}200$
 steps: the same sign, a modest margin, and a decay.
@@ -1817,14 +1767,14 @@ steps: the same sign, a modest margin, and a decay.
   dashed line marking the toggle at $t_{\mathrm{on}}$: the ring's Buy fraction occupies the
   left column and its Sell fraction the right, one row per arm (injection $\times 10$; mild
   withdrawal $\times 0.1$; harsh withdrawal $\times 0.01$), and the pre-toggle traces
-  coincide by construction. (Top row) Injection flips the ring at the toggle---from
-  ${\sim}0.5$ Buy and $0$ Sell in the control to $0$ Buy and ${\sim}1.0$ Sell---and the
+  coincide by construction. (Top row) Injection flips the ring at the toggle, from
+  ${\sim}0.5$ Buy and $0$ Sell in the control to $0$ Buy and ${\sim}1.0$ Sell, and the
   flipped state decays back over the following $100$--$200$ steps as the EMA bands catch up
   with the supported price. (Middle and bottom rows) Withdrawal transiently deepens an
   already-engaged brake: the control ring sits near $0.46$ Buy after onset, either cut
   lifts the Buy fraction to ${\sim}0.72$--$0.74$ before the transient excess dissipates
-  by ${\sim}200$ steps, and the Sell fraction---which in this loose configuration
-  declines from ${\sim}0.37$ well before onset to zero just after---remains
+  by ${\sim}200$ steps, and the Sell fraction, which in this loose configuration
+  declines from ${\sim}0.37$ well before onset to zero just after, remains
   indistinguishable between control and toggled throughout.}
   \label{fig:mb-edgetrace}
 \end{figure}
@@ -1833,7 +1783,7 @@ Why the asymmetry? Two features of the model's economy combine to produce it. Th
 a matter of sign and ceiling: only injection can \emph{reverse} the boundary's state,
 because propping the price above the upper bands flips the ring from buying to selling,
 whereas withdrawal can move the ring only \emph{further} in the direction it already
-points, and only transiently---an engaged brake pressed harder, not a new force. The
+points, and only transiently, an engaged brake pressed harder rather than a new force. The
 second follows from the execution convention: every cell the front recruits can sell up
 to its $10$-share endowment to the unmodeled market maker, receiving roughly $1{,}000$ in
 cash at prices near $P \approx 100$--$120$. A one-time cash reduction can therefore be
@@ -1849,59 +1799,64 @@ institutions, which is outside the scope of this study.
 \label{sec:discussion}
 % ============================================================================
 
-The paired intervention identifies a model-specific feedback. Added cash lets suppressed
-buys execute, raises the price, and moves the contrarian boundary from Buy to Sell. The
-front accelerated in $14$ of $19$ included pairs (two-sided sign test $p=0.064$).
-Withdrawals produced no detectable change at either dose. Later sales to the unmodeled
-market maker replenish agent cash, which helps explain why a one-time reduction has
-little effect. This mechanism is structurally related to feedback between funding and
-market liquidity~\cite{brunnermeier2009market}, but it is not a calibrated account of
-the 2010 Flash Crash or a policy model~\cite{kirilenko2017flash}. In particular, the
-agents do not form expectations, so the mechanism is distinct from ex-ante collective
-moral hazard~\cite{farhi2012collective}.
-
-The experiments distinguish onset from growth. Birth sites were consistent with uniform
-interior placement, and the onset-time fits bound any cash-associated difference to
-within a factor of two.
-Post-onset growth, however, covaried with suppressed buy orders and responded to the
-paired cash shock through the price-to-boundary loop. This separation is a
-model-generated hypothesis, not policy advice. Circuit breakers and other real
-interventions involve strategic responses absent here~\cite{subrahmanyam1994circuit}.
+The lattice produced a sharp finite-horizon crossover between $f = 0.14$ and $f = 0.15$,
+above which localized sell domains grew as spatially coherent fronts, and neither the
+mean-field map nor the pair closure reproduced that behavior. Against that baseline, the
+paired intervention identified a model-specific feedback in which added cash lets
+suppressed buys execute, raises the price, and moves the contrarian boundary from Buy to
+Sell, so that the front accelerated in $14$ of $19$ included pairs (two-sided sign test
+$p=0.064$) while withdrawals produced no detectable change at either dose. Later sales to
+the unmodeled market maker replenish agent cash, which helps explain why a one-time
+reduction has little effect. This mechanism is structurally related to feedback between
+funding and market liquidity~\cite{brunnermeier2009market}, but it is not a calibrated
+account of the 2010 Flash Crash or a policy model~\cite{kirilenko2017flash}, and in
+particular the agents do not form expectations, so the mechanism is distinct from ex-ante
+collective moral hazard~\cite{farhi2012collective}. That mechanism also sharpens the
+study's central separation: the experiments distinguished onset from growth, since birth
+sites were consistent with uniform interior placement and the onset-time fits bounded any
+cash-associated difference to within a factor of two, whereas post-onset growth covaried
+with suppressed buy orders and responded to the paired cash shock through the
+price-to-boundary loop. That separation is a model-generated hypothesis, not policy
+advice, and circuit breakers and other real interventions involve strategic responses
+absent here~\cite{subrahmanyam1994circuit}.
 
 The limitations of the study bound how far these readings travel. Model~A uses one
-boundary-forcing series---QQQ one-minute bars from January~2 through March~28, 2024---and
+boundary-forcing series, QQQ one-minute bars from January~2 through March~28, 2024, and
 does not constitute empirical price validation. Robustness across instruments and market
-regimes remains to be established;
-the Model~B nucleation campaigns all ran on a single $64 \times 64$ grid trading a
+regimes remains to be established.
+The Model~B nucleation campaigns all ran on a single $64 \times 64$ grid trading a
 single asset against an infinite-inventory market maker, and while the weak system-size
 dependence of the Model~A transition makes grid-size robustness plausible, the budget
 results have not been rechecked at other scales and the model is silent on cross-asset
-contagion. The agents themselves are deterministic---the CA rules incorporate no
+contagion. The agents themselves are deterministic, since the CA rules incorporate no
 stochastic noise, no learning, and no adaptive strategy switching, features of real
 markets whose inclusion would enrich the dynamics at the cost of breaking the
-enumerability of the rule space. On the theory side, the analytical hierarchy of
-Section~\ref{sec:theory} treats the contrarian disorder as annealed, averaging over
-rule types in the mean-field and pair maps, whereas the simulations fix each
-contrarian's placement for the duration of a run---quenched disorder in the proper
-sense---and a quenched large-deviation calculation would sharpen the prediction of
+enumerability of the rule
+space~\cite{farmer2002price,hommes2006heterogeneous}. On the theory side, the analytical
+hierarchy treats the contrarian disorder as annealed, averaging over
+rule types in the mean-field and pair maps, whereas the simulations fixed each
+contrarian's placement for the duration of a run, quenched disorder in the proper
+sense, and a calculation that carried that quenching through would sharpen the prediction of
 $f_0$ and connect the critical nucleus size to the combinatorics of contrarian
-clustering. And the statistics of Results~II carry flags that interpretation must not
-launder: the monotone-in-cash onset rate near the cliff (Section~\ref{sec:mb-barrier})
+clustering. And the Model~B statistics carry flags that interpretation must not
+launder: the monotone-in-cash onset rate near the cliff
 and the freeze mid-patch onset delay are exploratory,
 uncorrected observations; the injection effect stands at $14$ of $19$ seeds with a
 sign-test $p = 0.064$, and it is the paired design, not the count, that carries the
 causal reading; and the onset-fit comparison is power-bounded. Overlapping confidence
 intervals do not establish parameter equality or exclude a small effect.
 
-A last question shadows any two-rule study: how much hangs on the two rules? The
-totalistic framework at least makes the question answerable, in a way unavailable to
-models with continuous behavioral parameters, because the majority/contrarian pair
-studied here, two rules that differ at a single neighborhood sum, is one point in a
-finite and enumerable rule space. Whether the nucleation spine assembled in this
-paper---metastable attractor, disorder-seeded nucleus, budget-gated growth---recurs
+A last question applies to any two-rule study: how much hangs on the two rules? The
+totalistic framework makes the question answerable, which models with continuous
+behavioral parameters cannot match because their parameter space is not enumerable, since
+the majority/contrarian pair studied here, two rules that differ at a single neighborhood
+sum, is one point in a finite and enumerable rule space. Whether the same sequence, a
+metastable attractor, a disorder-seeded nucleus, and budget-gated growth, recurs
 across other rule pairings, and whether the intervention asymmetry survives boundary
-rules other than the contrarian band, are open questions; a systematic screen of that
-space is future work.
+rules other than the contrarian band, are open questions. A screen over rule pairs that
+differ at a single neighborhood sum, the same minimal perturbation studied here, would
+test the first directly, and swapping the band classifier for a momentum or threshold
+rule at the boundary would test the second.
 
 % ============================================================================
 \section{Conclusion}
@@ -1909,27 +1864,25 @@ space is future work.
 % ============================================================================
 
 We studied a deterministic three-state cellular automaton with two totalistic rules on
-a two-dimensional lattice. In Model~A, a fixed-seed sweep showed a sharp finite-horizon
-crossover between $f=0.14$ and $f=0.15$. Above this bracket, localized sell domains grew
-through coherent fronts. Mean-field and the tested pair closure did not reproduce this
-spatial behavior.
-
-Onset times were well summarized by an inverse-distance empirical curve. The fit is
-consistent with a nucleation interpretation, but it is neither a derived Kramers law nor
-evidence of an infinite thermodynamic barrier. The Potts-inspired alignment statistic
+a two-dimensional lattice, and in Model~A a fixed-seed sweep showed a sharp
+finite-horizon crossover between $f=0.14$ and $f=0.15$, above which localized sell
+domains grew through coherent fronts that neither mean-field nor the tested pair closure
+reproduced. Onset times were well summarized by an inverse-distance empirical curve, a
+fit consistent with a nucleation interpretation but neither a derived Kramers law nor
+evidence of an infinite thermodynamic barrier, and the Potts-inspired alignment statistic
 similarly measures spatial order without generating the CA dynamics.
 
 Model~B added endogenous price feedback and finite cash and share inventories. Birth
 sites were consistent with uniform interior placement, and the present experiments
-bound any cash-associated difference in onset time to within a factor of two. Budgets
-were more clearly associated with post-onset growth. In paired simulations, a tenfold cash
+bounded any cash-associated difference in onset time to within a factor of two, whereas
+budgets were associated with post-onset growth. In paired simulations, a tenfold cash
 injection just before the control's detected onset accelerated the front in $14$ of
 $19$ included pairs by changing the price-mediated boundary state. This result is
 specific to the model's unmodeled infinite-inventory market maker and uniform cash-shock
 intervention.
 
 The finite set of $3^9=19{,}683$ totalistic rules makes systematic extension possible.
-Future work should replicate the crossover across disorder seeds and system sizes,
+Future work should recheck the budget results at other grid sizes,
 compare alternative onset-time models under censoring, include explicit counterparties,
 and test whether the same spatial mechanism appears for other rule pairs.
 
@@ -1948,8 +1901,8 @@ and test whether the same spatial mechanism appears for other rule pairs.
 \label{app:pair}
 % ============================================================================
 
-This appendix records the pair-approximation calculation summarized in
-Section~\ref{sec:pair-approx}, in the form in which it was implemented. The quenched
+This appendix records the pair-approximation calculation in the form in which it was
+implemented. The quenched
 rule mixture enters in its annealed form: Rules~19280 and~19286 share every entry of
 their totalistic tables except at neighborhood sum $c = 1$, where the majority rule
 outputs Buy and the contrarian rule outputs Sell, so a site whose rule assignment is
@@ -1984,22 +1937,22 @@ trinomial weights gives the transition kernel
 \end{equation}
 the probability that a site in state~$a$ with paired neighbor in state~$a'$ lands in
 state~$b$ after one synchronous step. Substituting this kernel for both members of a
-pair---each site conditioning on its own partner---yields the synchronous pair update
+pair (each site conditioning on its own partner) yields the synchronous pair update
 $\rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\, T_b(a, a')\, T_{b'}(a', a)$ quoted as
-Equation~\eqref{eq:pair-update} of the main text; the implementation symmetrizes and
+Equation~\eqref{eq:pair-update} of the main text. The implementation symmetrizes and
 renormalizes $\rho'$ after every step to guard against numerical drift.
 
 We iterated the map to its fixed points, declaring convergence when the largest
-componentwise change $\max_{ab} |\rho'_{ab} - \rho_{ab}|$ fell below $10^{-12}$;
+componentwise change $\max_{ab} |\rho'_{ab} - \rho_{ab}|$ fell below $10^{-12}$, and
 every trajectory reported here converged within a few hundred iterations. Stability
-of the uncorrelated fixed point $\rho^*_{ab} = \rho^*_a \rho^*_b$---the product state
-built from the mean-field marginals of Section~\ref{sec:mean-field}---was assessed
+of the uncorrelated fixed point $\rho^*_{ab} = \rho^*_a \rho^*_b$, the product state
+built from the mean-field marginals, was assessed
 through the Jacobian of the map restricted to the six independent components
 $(\rho_{00}, \rho_{01}, \rho_{02}, \rho_{11}, \rho_{12}, \rho_{22})$ that survive
 symmetry and normalization, computed by finite differences with step
 $\delta = 10^{-7}$, each perturbed matrix projected back onto the probability simplex
 before the map was applied. The spectral radius sat strictly below unity at every
-value of~$f$ we sampled---twelve values from $0$ to $0.5$---declining monotonically
+value of~$f$ we sampled (twelve values from $0$ to $0.5$), declining monotonically
 from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory-overview}B).
 
 The search for correlated fixed points used initial conditions
@@ -2016,18 +1969,16 @@ values of~$f$ between $0$ and $0.5$. Every trajectory converged either to the
 uncorrelated buy-dominated fixed point or to the all-Sell absorbing state, with the
 spatial mutual information $I = 2S_1 - S_2$ decaying to zero in all cases: the pair
 approximation supports no correlated fixed point, which is the negative result on
-which the nucleation argument of Section~\ref{sec:nucleation} rests.
+which the nucleation argument rests.
 
 % ============================================================================
 \section{Model~B Stage~2 Factorial}
 \label{app:stage2}
 % ============================================================================
 
-The factorial sweep introduced in Section~\ref{sec:mb-protocols} and read in
-Section~\ref{sec:mb-transition} crossed six factors in full
-(Table~\ref{tab:stage2-design}); the crossing yields $1{,}080$ configurations, each
-replicated across ten disorder seeds for $2{,}000$ steps, for $10{,}800$ runs in
-total.
+The Stage~2 factorial sweep crossed six factors in full, giving the design from which
+every Model~B summary statistic in this study is drawn
+(Table~\ref{tab:stage2-design}).
 
 \begin{table}[tb]
 \centering
@@ -2053,10 +2004,10 @@ Band half-width $k$     & $0.5,\ 1,\ 2$                 & 3 \\
 Every run was assigned to one of five candidate regimes by a classifier evaluated in
 strict order, each test applying only to runs that fail all earlier ones. A run with
 zero return standard deviation is \emph{inert}. Failing that, a run is
-\emph{crash-prone} when its crash frequency---the fraction of steps at which the
-grid's Sell fraction stands at or above $0.5$---reaches at least $0.01$. Failing
+\emph{crash-prone} when its crash frequency, the fraction of steps at which the
+grid's Sell fraction stands at or above $0.5$, reaches at least $0.01$. Failing
 that, a run is \emph{oscillatory} when the net order imbalance $\varphi$ changes sign
-at least $20$ times per $2{,}000$ steps; the threshold is a rate, one flip per $100$
+at least $20$ times per $2{,}000$ steps. That threshold is a rate, one flip per $100$
 steps, stated here against the sweep's horizon so that it transfers to other run
 lengths. Failing that, a run whose total price range stays below $0.10\,P_0$ is a
 \emph{plateau}, and any remaining run is a \emph{drift}. Of the $10{,}800$ runs,
@@ -2065,21 +2016,21 @@ ever inert, plateau, or drift. The sell-dominated (crash-prone) regime appeared
 abruptly between $f = 0.15$ and $f = 0.20$ at every price impact $\lambda$ in the
 design.
 
-Grouping runs by their parameter configuration splits each summary metric's variance into
+Grouping runs by their parameter configuration split each summary metric's variance into
 a between-configuration share, attributable to the swept parameters jointly, and a
 within-configuration share, attributable to the disorder seed. The parameters accounted
-for $94$--$97\%$ of the variance across the four summary metrics---between-configuration
+for $94$--$97\%$ of the variance across the four summary metrics, at between-configuration
 shares of $0.946$ for crash frequency, $0.952$ for return kurtosis, $0.959$ for
-return standard deviation, and $0.974$ for the $\varphi$ sign-flip count---leaving
-the seed at most $5.4\%$. Across matched design cells, the disposition toggle increased
+return standard deviation, and $0.974$ for the $\varphi$ sign-flip count, leaving
+the seed at most $5.4\%$. Across matched design cells, enabling the disposition rule increased
 return standard deviation by a factor of $2.40$ on average.
 
-The crash-prone class divides into the modal freeze and a collapsing tail, the
-decomposition Section~\ref{sec:mb-transition} builds on: the median crash-prone run
+The crash-prone class divided into the modal freeze and a collapsing tail, the
+decomposition on which the transition analysis builds: the median crash-prone run
 had a maximum drawdown of about $5\%$ and a price minimum of $100.00$, so half the
 class never traded below the initial quote at all, while $897$ of the $4{,}211$ runs
-drove the price below $90$ and $451$ below $80$. The deepest collapses---drawdowns of
-$40$--$69\%$ arriving after bubbles of $2.5$--$2.7\times$ the initial price---were
+drove the price below $90$ and $451$ below $80$. The deepest collapses, drawdowns of
+$40$--$69\%$ arriving after bubbles of $2.5$--$2.7\times$ the initial price, were
 concentrated at $f = 0.2$, $\lambda = 0.05$, cash $5{,}000$, disposition off, the
 loosest budget regime in the design.
 
@@ -2088,16 +2039,16 @@ loosest budget regime in the design.
 \label{app:censoring}
 % ============================================================================
 
-The escape-time campaign of Section~\ref{sec:mb-protocols} runs each seed to a
+The escape-time campaign ran each seed to a
 horizon of $2{,}000$ steps, and any run that has not nucleated by then is
 right-censored: its onset time $\tau = t_{\mathrm{on}}$ is treated as exceeding the
 horizon, and the run enters the Kaplan--Meier estimator carrying that censoring
-mark---censored runs are never dropped. Table~\ref{tab:censoring-counts} lists the
-resulting counts for every $(f, \text{cash})$ cell of the campaign; rows at $20$
+mark, since censored runs are never dropped. The resulting counts are recorded for every
+$(f, \text{cash})$ cell of the campaign (Table~\ref{tab:censoring-counts}); rows at $20$
 seeds belong to the pilot pass and rows at $40$ seeds to the refinement pass. The
-companion velocity--suppression dose-response of Section~\ref{sec:mb-gating} added
+companion velocity--suppression dose-response added
 two further cells at $f = 0.20$, cash $250$ and cash $2{,}000$, each with $20$ seeds,
-one censored run, and an onset rate of $0.95$; those cells feed the dose-response
+one censored run, and an onset rate of $0.95$. Those cells feed the dose-response
 analysis, not the barrier fits.
 
 \begin{table}[tb]
@@ -2105,7 +2056,7 @@ analysis, not the barrier fits.
 \caption{Escape-time campaign: run count $n$, censored count $c$, and onset rate
 $(n - c)/n$ for every $(f, \text{cash})$ cell. Rows at $n = 20$ come from the pilot
 pass, rows at $n = 40$ from the refinement pass. A Kaplan--Meier median is finite
-only where the onset rate reaches $0.5$; the qualifying cells are exactly the
+only where the onset rate reaches $0.5$. The qualifying cells are exactly the
 $n_f = 5/6/6$ fit points of Table~\ref{tab:kramers-fits}.}
 \label{tab:censoring-counts}
 \small
@@ -2133,21 +2084,22 @@ $0.30$  & 20 & 0  & 1.00 & 20 & 0  & 1.00 & 20 & 0  & 1.00 \\
 
 Because censoring occurs only at the horizon, the Kaplan--Meier survival curve of a
 cell steps down at each observed onset and its median is finite exactly when the
-onset rate reaches one half. The fits of Table~\ref{tab:kramers-fits} therefore rest
-on five points at cash $500$---$f \in \{0.177,\, 0.18,\, 0.20,\, 0.25,\, 0.30\}$---and
-on six points at cash $1{,}000$ and $5{,}000$, which add $f = 0.174$. Cash $500$ has
+onset rate reaches one half. The fits therefore rest
+on five points at cash $500$, at $f \in \{0.177,\, 0.18,\, 0.20,\, 0.25,\, 0.30\}$, and
+on six points at cash $1{,}000$ and $5{,}000$, which add $f = 0.174$
+(Table~\ref{tab:kramers-fits}). Cash $500$ has
 one fewer because its onset rate at $f = 0.174$ was $0.45$, just below the one-half a
-finite median requires; it was this gap that prompted extending the refinement grid
+finite median requires. It was this gap that prompted extending the refinement grid
 to $f = 0.177$, so that the tightest budget still contributed a point hard against
-the cliff. The confidence intervals of Table~\ref{tab:kramers-fits} and
-Figure~\ref{fig:mb-barrier} come from $2{,}000$ bootstrap resamples drawn over seeds
+the cliff. The reported confidence intervals (Table~\ref{tab:kramers-fits},
+Figure~\ref{fig:mb-barrier}) come from $2{,}000$ bootstrap resamples drawn over seeds
 within each~$f$: each resample recomputes the Kaplan--Meier medians and refits the
 barrier law, and the intervals are the $2.5$th and $97.5$th percentiles of the
 resampled parameters.
 
-Finally, the onset-rate observation of Section~\ref{sec:mb-barrier} is visible
-directly in Table~\ref{tab:censoring-counts}, and it carries here the same label it
-carries there: exploratory, reported uncorrected for multiple comparisons, and
+Finally, the onset-rate observation near the cliff is visible
+directly in Table~\ref{tab:censoring-counts}, and it carries the same label as in the
+main text: exploratory, reported uncorrected for multiple comparisons, and
 weighed accordingly. At $f = 0.174$ the onset rate rose monotonically in cash,
 $0.45$, $0.62$, $0.70$; at $f = 0.177$ the Kaplan--Meier medians fell in the same
 order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.

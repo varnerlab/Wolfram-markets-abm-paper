@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  27 JUL 2026 12:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  27 JUL 2026 16:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -989,7 +989,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 /texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 27
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 28
 0.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1phv.fd
@@ -1002,11 +1002,14 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 
 [2]
-Underfull \vbox (badness 3746) has occurred while \output is active []
+Underfull \vbox (badness 4505) has occurred while \output is active []
 
 
 
 [3]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [4]
 
@@ -1017,21 +1020,18 @@ Underfull \vbox (badness 3746) has occurred while \output is active []
 [7]
 
 [8]
-<figs/Fig2-Combined.pdf, id=333, 1003.75pt x 762.85pt>
+<figs/Fig2-Combined.pdf, id=272, 1003.75pt x 762.85pt>
 File: figs/Fig2-Combined.pdf Graphic file (type pdf)
 <use figs/Fig2-Combined.pdf>
-Package pdftex.def Info: figs/Fig2-Combined.pdf  used on input line 1033.
+Package pdftex.def Info: figs/Fig2-Combined.pdf  used on input line 1031.
 (pdftex.def)             Requested size: 377.60951pt x 286.98763pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 [9]
-<figs/Fig3-PhaseDiagram.pdf, id=344, 963.6pt x 321.2pt>
+<figs/Fig3-PhaseDiagram.pdf, id=281, 963.6pt x 321.2pt>
 File: figs/Fig3-PhaseDiagram.pdf Graphic file (type pdf)
 <use figs/Fig3-PhaseDiagram.pdf>
-Package pdftex.def Info: figs/Fig3-PhaseDiagram.pdf  used on input line 1074.
+Package pdftex.def Info: figs/Fig3-PhaseDiagram.pdf  used on input line 1070.
 (pdftex.def)             Requested size: 377.60951pt x 125.87033pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1039,151 +1039,155 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [10 <./figs/Fig2-Combined.pdf>]
-Underfull \vbox (badness 1082) has occurred while \output is active []
+<figs/Fig-ModelA-FiniteSize.pdf, id=320, 903.375pt x 702.625pt>
+File: figs/Fig-ModelA-FiniteSize.pdf Graphic file (type pdf)
+<use figs/Fig-ModelA-FiniteSize.pdf>
+Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 114
+7.
+(pdftex.def)             Requested size: 377.60951pt x 293.69601pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [11 <./figs/Fig3-PhaseDiagram.pdf>]
-<figs/Fig-ModelA-FiniteSize.pdf, id=386, 903.375pt x 702.625pt>
-File: figs/Fig-ModelA-FiniteSize.pdf Graphic file (type pdf)
-<use figs/Fig-ModelA-FiniteSize.pdf>
-Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 115
-4.
-(pdftex.def)             Requested size: 377.60951pt x 293.69601pt.
-
 
 [12 <./figs/Fig-ModelA-FiniteSize.pdf>]
-<figs/Fig-ModelA-Theory.pdf, id=394, 963.6pt x 321.2pt>
+<figs/Fig-ModelA-Theory.pdf, id=335, 963.6pt x 321.2pt>
 File: figs/Fig-ModelA-Theory.pdf Graphic file (type pdf)
 <use figs/Fig-ModelA-Theory.pdf>
-Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 1226.
+Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 1212.
 (pdftex.def)             Requested size: 377.60951pt x 125.87033pt.
 
 
 [13 <./figs/Fig-ModelA-Theory.pdf>]
 
 [14]
-
-[15]
-<figs/Fig-ModelB-Exemplars.pdf, id=445, 803.0pt x 782.925pt>
+<figs/Fig-ModelB-Exemplars.pdf, id=375, 803.0pt x 782.925pt>
 File: figs/Fig-ModelB-Exemplars.pdf Graphic file (type pdf)
 <use figs/Fig-ModelB-Exemplars.pdf>
-Package pdftex.def Info: figs/Fig-ModelB-Exemplars.pdf  used on input line 1452
+Package pdftex.def Info: figs/Fig-ModelB-Exemplars.pdf  used on input line 1415
 .
 (pdftex.def)             Requested size: 377.60951pt x 368.17789pt.
-<figs/ModelB-Nucleation-SeedSweep.pdf, id=447, 1405.25pt x 762.85pt>
+<figs/ModelB-Nucleation-SeedSweep.pdf, id=377, 1405.25pt x 762.85pt>
 File: figs/ModelB-Nucleation-SeedSweep.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-SeedSweep.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-SeedSweep.pdf  used on input li
-ne 1484.
+ne 1444.
 (pdftex.def)             Requested size: 377.60951pt x 204.98283pt.
-<figs/ModelB-Nucleation-BirthSites.pdf, id=451, 1154.3125pt x 953.5625pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[15]
+<figs/ModelB-Nucleation-BirthSites.pdf, id=386, 1154.3125pt x 953.5625pt>
 File: figs/ModelB-Nucleation-BirthSites.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-BirthSites.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-BirthSites.pdf  used on input l
-ine 1525.
+ine 1484.
 (pdftex.def)             Requested size: 377.60951pt x 311.94116pt.
 
-Underfull \vbox (badness 3168) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[16]
+[16 <./figs/Fig-ModelB-Exemplars.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[17 <./figs/Fig-ModelB-Exemplars.pdf>]
-<figs/ModelB-Nucleation-BarrierLaw.pdf, id=468, 1154.3125pt x 953.5625pt>
+
+
+[17 <./figs/ModelB-Nucleation-SeedSweep.pdf>]
+<figs/ModelB-Nucleation-BarrierLaw.pdf, id=402, 1154.3125pt x 953.5625pt>
 File: figs/ModelB-Nucleation-BarrierLaw.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-BarrierLaw.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-BarrierLaw.pdf  used on input l
-ine 1597.
+ine 1554.
 (pdftex.def)             Requested size: 377.60951pt x 311.94116pt.
 
+
+[18 <./figs/ModelB-Nucleation-BirthSites.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[18 <./figs/ModelB-Nucleation-SeedSweep.pdf>]
-
-[19 <./figs/ModelB-Nucleation-BirthSites.pdf>]
-<figs/ModelB-Nucleation-Seeding.pdf, id=492, 1154.3125pt x 1254.6875pt>
+[19 <./figs/ModelB-Nucleation-BarrierLaw.pdf>]
+<figs/ModelB-Nucleation-Seeding.pdf, id=423, 1154.3125pt x 1254.6875pt>
 File: figs/ModelB-Nucleation-Seeding.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-Seeding.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-Seeding.pdf  used on input line
- 1682.
+ 1637.
 (pdftex.def)             Requested size: 377.60951pt x 410.4489pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[20 <./figs/ModelB-Nucleation-BarrierLaw.pdf>]
-<figs/ModelB-Nucleation-VelocitySuppression.pdf, id=501, 1154.3125pt x 521.95pt
+<figs/ModelB-Nucleation-VelocitySuppression.pdf, id=425, 1154.3125pt x 521.95pt
 >
 File: figs/ModelB-Nucleation-VelocitySuppression.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-VelocitySuppression.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-VelocitySuppression.pdf  used o
-n input line 1719.
+n input line 1674.
 (pdftex.def)             Requested size: 377.60951pt x 170.74673pt.
-<figs/ModelB-Nucleation-BudgetToggle.pdf, id=504, 1254.6875pt x 1053.9375pt>
+<figs/ModelB-Nucleation-BudgetToggle.pdf, id=427, 1254.6875pt x 1053.9375pt>
 File: figs/ModelB-Nucleation-BudgetToggle.pdf Graphic file (type pdf)
 <use figs/ModelB-Nucleation-BudgetToggle.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-BudgetToggle.pdf  used on input
- line 1759.
+ line 1709.
 (pdftex.def)             Requested size: 377.60951pt x 317.19684pt.
 
 
-[21]
-<figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf, id=519, 1254.6875pt x 1053.
+[20]
+<figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf, id=439, 1254.6875pt x 1053.
 9375pt>
 File: figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf Graphic file (type pdf)
 
 <use figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf>
 Package pdftex.def Info: figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf  use
-d on input line 1813.
+d on input line 1763.
 (pdftex.def)             Requested size: 377.60951pt x 317.19684pt.
 
 
-[22]
+[21]
 
-[23 <./figs/ModelB-Nucleation-Seeding.pdf>]
+[22 <./figs/ModelB-Nucleation-Seeding.pdf>]
 
-[24 <./figs/ModelB-Nucleation-VelocitySuppression.pdf>]
+[23 <./figs/ModelB-Nucleation-VelocitySuppression.pdf>]
 
-[25 <./figs/ModelB-Nucleation-BudgetToggle.pdf>]
+[24 <./figs/ModelB-Nucleation-BudgetToggle.pdf>]
 
-[26 <./figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf>]
+[25 <./figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf>]
+Underfull \vbox (badness 4779) has occurred while \output is active []
 
-[27
+
+
+[26
 
 ] (./Paper_v1.bbl
 
-[28]
+[27]
 
-[29])
+[28])
+
+[29]
 
 [30]
-
-[31]
 Underfull \vbox (badness 1817) has occurred while \output is active []
 
 
 
-[32]
+[31]
 
-[33] (./Paper_v1.aux)
+[32] (./Paper_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 1A60B6A37C80D6A938A171D8076A687E;7239.
+(rerunfilecheck)             Checksum: C79E3FD9216207FFF997300B3BC88484;3665.
  ) 
 Here is how much of TeX's memory you used:
- 28703 strings out of 473190
- 531036 string characters out of 5715801
- 1095259 words of memory out of 5000000
- 51017 multiletter control sequences out of 15000+600000
- 621548 words of font info for 291 fonts, out of 8000000 for 9000
+ 28643 strings out of 473190
+ 530278 string characters out of 5715801
+ 1099150 words of memory out of 5000000
+ 50989 multiletter control sequences out of 15000+600000
+ 621139 words of font info for 283 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,13n,87p,1667b,1206s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
@@ -1209,10 +1213,10 @@ t/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
 urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on Paper_v1.pdf (33 pages, 2751771 bytes).
+Output written on Paper_v1.pdf (32 pages, 2746704 bytes).
 PDF statistics:
- 744 PDF objects out of 1000 (max. 8388607)
- 615 compressed objects within 7 object streams
- 158 named destinations out of 1000 (max. 500000)
- 61785 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 649 PDF objects out of 1000 (max. 8388607)
+ 523 compressed objects within 6 object streams
+ 137 named destinations out of 1000 (max. 500000)
+ 61665 words of extra memory for PDF output out of 61914 (max. 10000000)
 

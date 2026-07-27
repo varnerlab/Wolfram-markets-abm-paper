@@ -5,6 +5,19 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[Sornette(2017)]{sornette2017why}
+Didier Sornette.
+\newblock \emph{Why Stock Markets Crash: Critical Events in Complex Financial
+  Systems}.
+\newblock Princeton University Press, 2017.
+
+\bibitem[Kirilenko et~al.(2017)Kirilenko, Kyle, Samadi, and
+  Tuzun]{kirilenko2017flash}
+Andrei Kirilenko, Albert~S. Kyle, Mehrdad Samadi, and Tugkan Tuzun.
+\newblock The flash crash: High-frequency trading in an electronic market.
+\newblock \emph{The Journal of Finance}, 72\penalty0 (3):\penalty0 967--998,
+  2017.
+
 \bibitem[Cont(2001)]{cont2001empirical}
 Rama Cont.
 \newblock Empirical properties of asset returns: stylized facts and statistical
@@ -16,12 +29,6 @@ Benoit Mandelbrot.
 \newblock The variation of certain speculative prices.
 \newblock \emph{The Journal of Business}, 36\penalty0 (4):\penalty0 394--419,
   1963.
-
-\bibitem[Sornette(2017)]{sornette2017why}
-Didier Sornette.
-\newblock \emph{Why Stock Markets Crash: Critical Events in Complex Financial
-  Systems}.
-\newblock Princeton University Press, 2017.
 
 \bibitem[Battiston et~al.(2016)Battiston, Farmer, Flache, Garlaschelli,
   Haldane, Heesterbeek, Hommes, Jaeger, May, and
@@ -235,13 +242,6 @@ Markus~K. Brunnermeier and Lasse~Heje Pedersen.
 \newblock Market liquidity and funding liquidity.
 \newblock \emph{The Review of Financial Studies}, 22\penalty0 (6):\penalty0
   2201--2238, 2009.
-
-\bibitem[Kirilenko et~al.(2017)Kirilenko, Kyle, Samadi, and
-  Tuzun]{kirilenko2017flash}
-Andrei Kirilenko, Albert~S. Kyle, Mehrdad Samadi, and Tugkan Tuzun.
-\newblock The flash crash: High-frequency trading in an electronic market.
-\newblock \emph{The Journal of Finance}, 72\penalty0 (3):\penalty0 967--998,
-  2017.
 
 \bibitem[Subrahmanyam(1994)]{subrahmanyam1994circuit}
 Avanidhar Subrahmanyam.
