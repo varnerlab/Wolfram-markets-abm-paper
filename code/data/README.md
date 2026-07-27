@@ -107,6 +107,18 @@ transformation curve, which needs no cluster identification.
   from `model-b/Compute-ModelB-BoundaryVsBulk.jl`.
 - `ModelB-Nucleation-BudgetToggle.csv`: paired cash-shock campaign from
   `model-b/Compute-ModelB-BudgetToggle.jl`.
+- `ModelB-Nucleation-BudgetEquivalence.csv`: between-cash difference and
+  equivalence analysis from `model-b/Compute-ModelB-BudgetEquivalence.jl`.
+  Re-analysis only; it runs no simulation, reading the escape-time campaign
+  above. The three cash arms share disorder seeds at every f, so the bootstrap
+  is paired: each draw resamples seed positions once per f, applies the same
+  positions to all arms, and differences the refits within the draw. Columns
+  carry the point estimate, the bootstrap median, 95% and 90% intervals, the
+  pre-stated equivalence margin, and the two-one-sided-test verdict. The
+  margin applies only to `lntau@<f>` rows, which are log ratios of predicted
+  median onset times; no margin is asserted for `f0` or `B` separately,
+  because the three fitted parameters trade off and none carries a defensible
+  scale of its own.
 
 ## Reproducibility notes
 

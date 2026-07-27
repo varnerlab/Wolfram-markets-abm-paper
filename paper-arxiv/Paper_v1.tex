@@ -1560,8 +1560,36 @@ every cash level. We state the accompanying power caveat just as plainly, becaus
 overlap of intervals is a bound and not a demonstration of equality: the $B$ point
 estimates differ by $2.5\times$ across the cash ladder, and the cash-$500$ lower bound of
 $0.000$ on $f_0$ is the physical boundary of the fit domain rather than a data
-quantile. Interval overlap is not a test of equality. These experiments resolve no large
-cash-associated shift, but they neither establish equivalence nor exclude a smaller effect.
+quantile. Interval overlap is not a test of equality.
+
+We therefore tested the difference directly. The three cash arms were run on identical
+disorder seeds at every~$f$, so the bootstrap can be paired: each of $4{,}000$ draws
+resampled seed positions once per~$f$, applied the same resampled positions to all three
+arms, refit each arm, and differenced the fits within the draw, which removes the shared
+disorder variance from the difference. Because the three fitted parameters trade off
+against one another, we compare the quantity they jointly determine---the predicted log
+median onset time at a given~$f$, whose difference between two arms is the log ratio of
+their predicted onset times---at every $f$ retaining a defined median in all three arms.
+The margin was fixed in advance at a factor of two, $|\Delta\ln\tilde\tau| < \ln 2$, and
+assessed by two one-sided tests at $\alpha = 0.05$.
+
+Every pairwise comparison met the margin at every shared~$f$: budgets spanning a tenfold
+range change the predicted median onset time by less than a factor of two. The largest
+point difference anywhere in the comparison was $0.354$ in $\ln\tilde\tau$, a factor of
+$1.42$, between cash $500$ and $5{,}000$ at $f = 0.20$, with a $95\%$ interval of
+$(-0.098,\,0.718)$. The individual parameters remain poorly determined by comparison---the
+difference in~$B$ between cash $500$ and $1{,}000$ has a $95\%$ interval of
+$(-0.298,\,0.965)$---which is precisely why an argument from overlapping parameter
+intervals carried so little information. One comparison is worth flagging without
+promoting: between cash $1{,}000$ and $5{,}000$ near the threshold, the intervals exclude
+zero at $f = 0.177$ and $f = 0.18$, $(0.014,\,0.433)$ and $(0.021,\,0.398)$, placing onset
+roughly $19\%$ later under the tighter budget. Those are adjacent points on the same pair
+of fitted curves and so are one signal rather than two, and neither survives correction
+for the fifteen comparisons in the family. We read it as a lead, not a result.
+
+The claim this section supports is therefore bounded rather than null: across a tenfold
+cash range, onset times are equivalent within a factor of two, and any residual effect is
+smaller than that.
 
 \begin{figure}[tb]
   \centering
@@ -1576,7 +1604,9 @@ cash-associated shift, but they neither establish equivalence nor exclude a smal
   (Bottom row) Fitted pseudo-threshold $f_0$ (left) and shape coefficient $B$
   (right) per cash level, with $95\%$ bootstrap confidence intervals; the dashed lines mark
   the Model~A values $f_0 = 0.101$ and $B = 0.389$. The intervals overlap between tight and
-  loose cash on both parameters; this overlap does not establish equivalence. Censoring at the horizon and
+  loose cash on both parameters. That overlap is not itself a test; the paired equivalence
+  analysis reported in the text is, and it bounds the between-budget difference in
+  predicted median onset time to within a factor of two. Censoring at the horizon and
   its handling in the medians are detailed in Appendix~\ref{app:censoring}.}
   \label{fig:mb-barrier}
 \end{figure}
