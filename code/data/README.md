@@ -55,7 +55,12 @@ on periodic boundaries with no price input.
 
 - `ModelA-OnsetTimes.csv` and `ModelA-OnsetTime-Fit.csv`: seed-level onset
   observations, censoring flags, and the fitted descriptive curve from
-  `model-a/Compute-NucleationFit.jl`.
+  `model-a/Compute-NucleationFit.jl`. The fit table reproduces the values the
+  manuscript quotes for the Model A reference curve — a = 2.782, b = 0.389,
+  f0 = 0.101, R^2 = 0.991 over 12 f-points — so that headline curve can be
+  checked against a committed artifact instead of requiring a rerun. Note that
+  only f values at which every seed collapsed enter the fit; the censored
+  low-f rows are present in the onset table but excluded from the curve.
 
 Treat the inverse-distance curve as an empirical finite-horizon fit, not a
 derived thermodynamic law.
