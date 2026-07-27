@@ -104,38 +104,37 @@ let
               marker = :circle, ms = 3, label = "f = $f")
     end
 
-    # ── D: the Avrami rate constant is intensive ───────────────────────────
-    # K ∝ (I v²)^(1/3) with I the per-site nucleation rate. A flat K against L
-    # means the rate is extensive in area, measured without any cluster-size
-    # criterion — the transformation curve reads only the sell fraction.
-    av_ls = sort(unique(avrami.L))
-    av_fs = sort(unique(avrami.f))
+    # ── D: every market size and every f fall on one curve ─────────────────
+    # Rescaling time by each run's own fitted K collapses all 320 runs onto
+    # 1 − exp(−u^n). The collapse across colors is the size-independence claim,
+    # shown as a curve rather than as a column of indistinguishable constants.
+    trajs  = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-AvramiTrajectories.csv"), DataFrame)
+    av_ls  = sort(unique(avrami.L))
     # Quote the exponent at the largest lattice, where the per-run fits have
     # converged (R² ≈ 0.999 and the seed spread has collapsed); at L = 64 a
     # single sweeping domain is not a KJMA process and the fit is poor.
-    n_big = mean(avrami[avrami.L .== maximum(av_ls), :avrami_n])
-    pD = plot(title = @sprintf("D  Avrami rate constant (n = %.2f at L = %d)",
-                               n_big, maximum(av_ls)),
-              titlefont = 10, xlabel = "lattice size L", ylabel = "rate constant K",
-              xscale = :log10, yscale = :log10, guidefont = 8, tickfont = 7,
-              legend = :topright, legendfontsize = 6,
-              xticks = (av_ls, string.(av_ls)))
-    for (i, f) in enumerate(av_fs)
-        xs, ys, es = Float64[], Float64[], Float64[]
-        for L in av_ls
-            s = avrami[(avrami.L .== L) .& (avrami.f .== f), :]
-            nrow(s) >= 2 || continue
-            push!(xs, L); push!(ys, mean(s.avrami_K))
-            push!(es, std(s.avrami_K) / sqrt(nrow(s)))
-        end
-        length(xs) >= 2 || continue
-        c = disp_colors[mod1(i, length(disp_colors))]
-        plot!(pD, xs, ys, yerror = es, color = c, lw = 1.6, marker = :circle,
-              ms = 3, msc = c, label = "f = $f")
-        # Flat reference anchored at the smallest size drawn for this f.
-        plot!(pD, [xs[1], xs[end]], [ys[1], ys[1]], color = c, ls = :dash,
-              lw = 1.0, label = "")
+    n_big  = mean(avrami[avrami.L .== maximum(av_ls), :avrami_n])
+    pD = plot(title = @sprintf("D  all sizes collapse (n = %.2f)", n_big),
+              titlefont = 10, xlabel = "rescaled time  K·t",
+              ylabel = "fraction converted to Sell",
+              guidefont = 8, tickfont = 7, legend = :bottomright,
+              legendfontsize = 6, xlims = (0, 2.2), ylims = (-0.02, 1.02))
+    fitkey = Dict((r.L, r.f, r.seed) => (r.avrami_K, r.baseline) for r in eachrow(avrami))
+    drawn = Set{Int}()
+    for g in groupby(trajs, [:L, :f, :seed])
+        key = (g.L[1], g.f[1], g.seed[1])
+        haskey(fitkey, key) || continue
+        K, base = fitkey[key]
+        u = K .* g.t
+        X = (g.sell_fraction .- base) ./ (1 - base)
+        c = Lcolor[g.L[1]]
+        lbl = g.L[1] in drawn ? "" : "L = $(g.L[1])"
+        push!(drawn, g.L[1])
+        plot!(pD, u, X, color = c, lw = 0.5, alpha = 0.25, label = lbl)
     end
+    uu = range(0.01, 2.2; length = 300)
+    plot!(pD, uu, 1 .- exp.(-uu .^ n_big), color = :black, ls = :dash, lw = 2,
+          label = @sprintf("1 − exp(−u^%.2f)", n_big))
 
     fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (900, 700),
                left_margin = 5Plots.mm, bottom_margin = 5Plots.mm)
