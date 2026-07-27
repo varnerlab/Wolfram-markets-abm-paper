@@ -1051,9 +1051,9 @@ fraction never exceeded $0.30$, and no crashes occurred. At and above $f=0.15$, 
 entered a sell-dominated regime: the mean sell fraction jumped to ${\sim}0.50$ at
 $f = 0.15$ and saturated near $0.91$ by $f = 0.20$; crash frequency exceeded 95\%
 (Figure~\ref{fig:fig3}C). The fixed-seed scan therefore shows a sharp finite-size,
-finite-horizon crossover consistent with a discontinuous transition. Replicated
-finite-size scaling or hysteresis measurements would be needed to establish a
-thermodynamic first-order transition.
+finite-horizon crossover. Whether that crossover sits at a fixed value of~$f$ is
+the subject of Section~\ref{sec:finite-size}, which repeats the measurement across
+five lattice sizes with replicated disorder.
 
 These results suggest a clear economic interpretation: a small minority of contrarian
 agents was harmless, because Rule~19280 (majority) agents damped local sell signals
@@ -1078,6 +1078,94 @@ individual rule.
   The dashed vertical line at $f=0.145$ marks the midpoint of the observed
   $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic critical point.}
   \label{fig:fig3}
+\end{figure}
+
+\subsection{The Crossover Moves With System Size}
+\label{sec:finite-size}
+The crossover is not located at a fixed value of~$f$. We repeated the sweep on
+lattices from $32 \times 32$ to $512 \times 512$, with twenty disorder seeds at each
+size, on periodic boundaries and with no price forcing. Larger lattices crashed at
+lower contrarian fractions. At $f = 0.14$, no run out of twenty converted on the
+$64 \times 64$ lattice, half converted at $128 \times 128$, and every run converted
+at $256 \times 256$ and above (Figure~\ref{fig:finite-size}A). Certain conversion
+required $f \approx 0.155$ at $64 \times 64$ but only $f \approx 0.14$ at
+$512 \times 512$. The apparent threshold is therefore a property of the lattice and
+the observation window, not of the rule mixture alone.
+
+The direction of that shift is worth stating plainly, because it runs against the
+usual intuition. One might expect a larger population to absorb contrarian pressure
+better, since idiosyncratic behavior averages out as the number of agents grows. That
+reasoning applies to quantities that are averages. Whether the lattice crashes is not
+an average: it is decided by the most favorable local region anywhere on the grid, since
+a single sell domain that survives to critical size is enough to convert the whole
+system. Enlarging the lattice adds candidate regions, so it raises the chance that at
+least one is favorable. The mechanism is the size effect familiar from brittle
+fracture, where a larger specimen fails at lower stress than a small one of the same
+material because it is more likely to contain a critical flaw. Size does not make a
+stable configuration unstable---above the spreading threshold every lattice converts
+eventually, because the sell state is absorbing and the waiting time is finite---but it
+does decide what has already happened inside a fixed window.
+
+The averaging intuition is nonetheless correct about a different quantity. As the
+lattice grew, conversion times became sharply more predictable: the coefficient of
+variation across seeds fell from $0.66$ at $32 \times 32$ to $0.035$ at
+$512 \times 512$ at $f = 0.20$, halving on each doubling of the linear size and so
+tracking $N^{-1/2}$ in the agent count~$N$ (Figure~\ref{fig:finite-size}B). Larger
+systems also stopped taking longer to convert. Above $f \approx 0.17$ the median
+conversion time was independent of size, within $9\%$ across a $16$-fold range in area
+(Figure~\ref{fig:finite-size}C), which is the signature of a conversion carried by many
+domains growing and merging at once rather than by one domain sweeping the lattice.
+Size averages away the uncertainty in when the crash arrives without removing the crash.
+
+What sets that common clock is visible in the shape of the conversion curve. Writing
+the converted fraction as $X(t) = 1 - \exp[-(Kt)^{n}]$, the exponent~$n$ distinguishes
+two mechanisms: $n = d + 1 = 3$ in two dimensions if new domains keep appearing
+throughout the transformation, and $n = d = 2$ if the domains are all present at the
+outset and the transformation is growth alone. Fitted per run, $n$ ran from $2.54$ at
+$f = 0.16$ to $1.91$ at $f = 0.20$ on the largest lattice ($R^2 = 0.994$ to $0.999$),
+approaching~$2$ as~$f$ rose. The rate constant~$K$ did not depend on system size: read
+as a characteristic time, $1/K$ was $1445$, $1363$, $1367$, and $1358$~steps across
+$4{,}096$ to $262{,}144$ agents at $f = 0.18$, a spread of $6\%$. Rescaling each run's
+time by its own fitted~$K$ collapsed all $320$~runs, across four sizes and four values
+of~$f$, onto a single curve (Figure~\ref{fig:finite-size}D).
+
+An exponent near~$2$ says that the vulnerable regions were fixed before the clock
+started. That is what the construction implies: the contrarian sites are assigned once,
+at setup, and never move, so the favorable regions are a property of the quenched
+disorder rather than something that arises during the run. What differs between seeds
+is how quickly the transformation spreads from regions that were present all along. The
+distinction matters for how the onset-time fit of Section~\ref{sec:nucleation} should be
+read. Thermal activation would mean ignition at random times; this transformation is
+measurably not that, which is why the inverse-distance form is a compact empirical
+summary rather than a derived law.
+
+Two limits bound these measurements. The $32 \times 32$ lattice behaves anomalously
+because a domain of the size used to mark local clustering already spans a tenth of it,
+so local and system-wide events are not separable at that size; it is shown in
+Figure~\ref{fig:finite-size} but excluded from the conversion-curve fits. And the fixed
+cluster-size criterion used to flag local clustering is not a scale-free detector of
+nucleation, since the mixed state produces sell clusters of $30$ to $60$~cells
+unprompted and the largest such cluster grows with the number of sites; conclusions
+about rates here rest on the conversion curve, which requires no cluster identification.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig-ModelA-FiniteSize.pdf}
+  \caption{System-size dependence of the Model~A crossover (Rules~19280/19286,
+  periodic boundaries, no price forcing, twenty disorder seeds per cell).
+  A:~Fraction of seeds converting within the $100{,}000$-step horizon against~$f$,
+  one curve per lattice size, with Wilson score intervals. Larger lattices convert at
+  lower~$f$. The dotted curve marks where a $100$-cell sell cluster was seen at any
+  size; such clusters appear even where nothing converts, so what moves with size is
+  spreading rather than clustering. This is a descriptive threshold and not a certified
+  critical nucleus.
+  B:~Coefficient of variation of the conversion time against lattice size, for cells in
+  which every seed converted, against the $N^{-1/2}$ self-averaging reference.
+  C:~Median conversion time against lattice size, saturating above $f \approx 0.17$.
+  D:~All $320$~conversion curves plotted against time rescaled by each run's own fitted
+  rate constant, with $1 - \exp(-u^{n})$ overlaid. Sizes lie on top of one another; the
+  band tightens with size, and the smallest lattice visibly fails to collapse.}
+  \label{fig:finite-size}
 \end{figure}
 
 
