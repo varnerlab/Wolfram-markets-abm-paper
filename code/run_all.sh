@@ -21,6 +21,7 @@ run_julia() {
 
 run_tests() {
     run_julia model-a/Test-EdgeFraction.jl
+    run_julia model-a/Test-FiniteSizeScaling.jl
     run_julia model-b/Test-ModelB.jl
     run_julia model-b/Test-EscapeTime.jl
     run_julia model-b/Test-BoundaryVsBulk.jl
@@ -32,6 +33,7 @@ run_compute() {
     run_julia model-a/Compute-ModelA-Critical.jl
     run_julia model-a/Compute-SpatialTheory.jl
     run_julia model-a/Compute-NucleationFit.jl
+    run_julia model-a/Compute-FiniteSizeScaling.jl
 
     run_julia model-b/Compute-ModelB-Stage2.jl
     run_julia model-b/Compute-ModelB-NucleationSeeds.jl
@@ -44,6 +46,7 @@ run_figures() {
     run_julia model-a/Fig2-Combined.jl
     run_julia model-a/Fig3-PhaseDiagram.jl
     run_julia model-a/Figs-ModelA-Theory.jl
+    run_julia model-a/Figs-ModelA-FiniteSize.jl
     run_julia model-b/Figs-ModelB-Exemplars.jl
     run_julia model-b/Figs-ModelB-BarrierLaw.jl
     run_julia model-b/Figs-ModelB-BoundaryVsBulk.jl

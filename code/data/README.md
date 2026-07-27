@@ -8,12 +8,40 @@ All paths below are relative to `code/`. Large computations should be run with
 
 `QQQ-OHLC-1-min-aggregate-2024.csv` contains QQQ one-minute OHLC bars from
 January 2 through March 28, 2024. The manuscript uses the close-price column as
-Model A's boundary forcing. The file was obtained from oneminutedata.com and is
-not committed to this repository.
+Model A's boundary forcing.
 
-The present repository does not record the vendor timezone, missing-bar policy,
-license terms, or checksum of the source file. These provenance fields must be
-added from the original download record before archival or submission.
+The file came from oneminutedata.com, which has since gone offline; there is no
+Wayback Machine snapshot of the site, so the vendor's stated timezone, fill
+policy, and license terms cannot be recovered. The file is committed here as an
+archival copy, because the series cannot be re-obtained and without it Model A
+is not reproducible.
+
+Rather than assert vendor metadata we cannot verify, the provenance below was
+reconstructed from the artifact itself and can be re-checked by any reader:
+
+| Field | Value | How it was established |
+|---|---|---|
+| SHA-256 | `0d90853ea20b1e022b1c97828ff48fa3f1e295c3937e3a80a35844f7e5a3da0f` | `shasum -a 256` |
+| Size | 1,314,588 bytes; 23,790 data rows | `wc` |
+| Schema | `date,open,high,low,close,volume` | header |
+| Range | 2024-01-02 09:30 through 2024-03-28 15:59 | first and last row |
+| Trading days | 61, each with exactly 390 bars | distinct dates, bars per date |
+| Timezone | America/New_York, exchange local time | 09:30–15:59 session, bars labeled by bar-open |
+| Session | Regular hours only, no extended-hours bars | no timestamps outside 09:30–15:59 |
+| Missing bars | None | 61 × 390 = 23,790, matching the row count exactly; 61 is the NYSE/Nasdaq trading-day count for the range, Good Friday falling on March 29 |
+| Synthetic fill | None detected | zero zero-volume bars and zero bars with `open == high == low == close` |
+
+Reproduce the checks with:
+
+```bash
+shasum -a 256 code/data/QQQ-OHLC-1-min-aggregate-2024.csv
+tail -n +2 code/data/QQQ-OHLC-1-min-aggregate-2024.csv | cut -d, -f1 | cut -d' ' -f1 | sort | uniq -c | awk '{print $1}' | sort -u
+tail -n +2 code/data/QQQ-OHLC-1-min-aggregate-2024.csv | awk -F, '$6==0 || ($2==$3 && $3==$4 && $4==$5)' | wc -l
+```
+
+No headline claim depends on this series. It drives the Model A illustrations
+only; the quantitative escape-time, finite-size, and Model B campaigns all run
+on periodic boundaries with no price input.
 
 ## Model A outputs
 
@@ -31,6 +59,35 @@ added from the original download record before archival or submission.
 
 Treat the inverse-distance curve as an empirical finite-horizon fit, not a
 derived thermodynamic law.
+
+### Finite-size scaling
+
+All four files come from `model-a/Compute-FiniteSizeScaling.jl`, which runs on
+periodic boundaries with no price input. The primitives it uses live in
+`model-a/FiniteSize-Lib.jl` and are unit-tested by
+`model-a/Test-FiniteSizeScaling.jl`.
+
+- `ModelA-FiniteSizeScaling.csv`: survey pass. One row per run over
+  L ∈ {32, 64, 128, 256, 512} × 9 values of f × 20 seeds, recording the times
+  at which the sell fraction first passes 0.50 and 0.90, the time a 100-cell
+  sell cluster first appears, and censoring flags for each stage.
+- `ModelA-FiniteSizeSummary.csv`: derived per-cell table (conversion
+  probability, median times, coefficient of variation, cluster counts), so
+  manuscript numbers can cite a committed artifact. Dispersion statistics are
+  present only for cells in which every seed converted, so no censored value
+  enters a mean or a variance.
+- `ModelA-AvramiTrajectories.csv` and `ModelA-AvramiFits.csv`: transformation
+  curves X(t) sampled every 10 steps, and the per-run fit of
+  X(t) = 1 − exp(−(K t)^n).
+
+A caution on the cluster columns: `t_nuc`, `largest_at_nuc`, and
+`n_clusters_at_half` use a fixed 100-cell criterion, which is **not** a
+scale-free detector of nucleation. The subcritical mixed state produces 30–60
+cell sell clusters on its own, and the largest chance cluster anywhere on the
+lattice grows with the number of sites, so a fixed threshold is crossed sooner
+on a larger lattice for reasons unrelated to nucleation. Read those columns as
+descriptive only. The nucleation-and-growth rate is instead measured from the
+transformation curve, which needs no cluster identification.
 
 ## Model B outputs
 

@@ -1,0 +1,86 @@
+  Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
+
+====================================================================================
+  SURVEY pass — L = [32, 64, 128, 256, 512], f = [0.13, 0.14, 0.145, 0.15, 0.155, 0.16, 0.17, 0.18, 0.2]
+  20 seeds, T_MAX = 100000, n_crit = 100, check every 25 steps, threads = 24
+====================================================================================
+  L=  32 f=0.130 │ nuc 20/20 med    17275 │ conv 15/20 med    54840 │ nuclei   0.0 │    0.2 s
+  L=  32 f=0.140 │ nuc 20/20 med    14738 │ conv 19/20 med    50606 │ nuclei   0.0 │    0.1 s
+  L=  32 f=0.145 │ nuc 20/20 med     7238 │ conv 20/20 med    30570 │ nuclei   0.0 │    0.1 s
+  L=  32 f=0.150 │ nuc 20/20 med     3688 │ conv 20/20 med    23724 │ nuclei   0.0 │    0.1 s
+  L=  32 f=0.155 │ nuc 20/20 med     2325 │ conv 20/20 med    10744 │ nuclei   0.0 │    0.1 s
+  L=  32 f=0.160 │ nuc 20/20 med     3762 │ conv 20/20 med     9817 │ nuclei   0.0 │    0.0 s
+  L=  32 f=0.170 │ nuc 20/20 med     1338 │ conv 20/20 med     5614 │ nuclei   0.0 │    0.0 s
+  L=  32 f=0.180 │ nuc 20/20 med     1225 │ conv 20/20 med     4250 │ nuclei   0.0 │    0.0 s
+  L=  32 f=0.200 │ nuc 20/20 med      262 │ conv 20/20 med     1566 │ nuclei   1.0 │    0.0 s
+  L=  64 f=0.130 │ nuc 19/20 med     7750 │ conv  0/20 med        - │ nuclei   1.0 │    0.6 s
+  L=  64 f=0.140 │ nuc 20/20 med     5900 │ conv  0/20 med        - │ nuclei   1.0 │    0.5 s
+  L=  64 f=0.145 │ nuc 20/20 med     4512 │ conv  5/20 med    91491 │ nuclei   1.0 │    0.5 s
+  L=  64 f=0.150 │ nuc 20/20 med     2775 │ conv 16/20 med    39302 │ nuclei   2.0 │    0.5 s
+  L=  64 f=0.155 │ nuc 20/20 med     1762 │ conv 20/20 med    15816 │ nuclei   2.0 │    0.3 s
+  L=  64 f=0.160 │ nuc 20/20 med      838 │ conv 20/20 med    11515 │ nuclei   1.0 │    0.2 s
+  L=  64 f=0.170 │ nuc 20/20 med      525 │ conv 20/20 med     3568 │ nuclei   1.0 │    0.1 s
+  L=  64 f=0.180 │ nuc 20/20 med      200 │ conv 20/20 med     1770 │ nuclei   1.5 │    0.0 s
+  L=  64 f=0.200 │ nuc 20/20 med       75 │ conv 20/20 med      872 │ nuclei   2.0 │    0.0 s
+  L= 128 f=0.130 │ nuc 20/20 med     3525 │ conv  0/20 med        - │ nuclei     - │    7.0 s
+  L= 128 f=0.140 │ nuc 20/20 med     1950 │ conv 10/20 med    49232 │ nuclei   5.0 │    2.0 s
+  L= 128 f=0.145 │ nuc 20/20 med      425 │ conv 18/20 med    22824 │ nuclei   4.0 │    3.4 s
+  L= 128 f=0.150 │ nuc 20/20 med      400 │ conv 20/20 med    12708 │ nuclei   4.0 │    1.6 s
+  L= 128 f=0.155 │ nuc 20/20 med      412 │ conv 20/20 med     6698 │ nuclei   3.0 │    0.6 s
+  L= 128 f=0.160 │ nuc 20/20 med      238 │ conv 20/20 med     4910 │ nuclei   3.0 │    0.7 s
+  L= 128 f=0.170 │ nuc 20/20 med      188 │ conv 20/20 med     2589 │ nuclei   3.0 │    0.1 s
+  L= 128 f=0.180 │ nuc 20/20 med       38 │ conv 20/20 med     1744 │ nuclei   4.0 │    0.1 s
+  L= 128 f=0.200 │ nuc 20/20 med       25 │ conv 20/20 med      858 │ nuclei   5.0 │    0.0 s
+  L= 256 f=0.130 │ nuc 20/20 med     1075 │ conv  2/20 med    79383 │ nuclei  19.5 │    7.8 s
+  L= 256 f=0.140 │ nuc 20/20 med      675 │ conv 20/20 med    23988 │ nuclei  12.0 │    4.3 s
+  L= 256 f=0.145 │ nuc 20/20 med      238 │ conv 20/20 med    13162 │ nuclei  12.0 │    2.1 s
+  L= 256 f=0.150 │ nuc 20/20 med      112 │ conv 20/20 med     7974 │ nuclei  11.0 │    1.1 s
+  L= 256 f=0.155 │ nuc 20/20 med      100 │ conv 20/20 med     5901 │ nuclei  11.0 │    0.6 s
+  L= 256 f=0.160 │ nuc 20/20 med       50 │ conv 20/20 med     4281 │ nuclei  12.0 │    0.5 s
+  L= 256 f=0.170 │ nuc 20/20 med       50 │ conv 20/20 med     2677 │ nuclei  12.0 │    0.3 s
+  L= 256 f=0.180 │ nuc 20/20 med       25 │ conv 20/20 med     1776 │ nuclei  16.5 │    0.3 s
+  L= 256 f=0.200 │ nuc 20/20 med       25 │ conv 20/20 med      884 │ nuclei  19.5 │    0.1 s
+  L= 512 f=0.130 │ nuc 20/20 med      225 │ conv  5/20 med    86984 │ nuclei  50.0 │   31.0 s
+  L= 512 f=0.140 │ nuc 20/20 med      100 │ conv 20/20 med    21651 │ nuclei  45.0 │   12.2 s
+  L= 512 f=0.145 │ nuc 20/20 med       50 │ conv 20/20 med    12700 │ nuclei  46.0 │    4.9 s
+  L= 512 f=0.150 │ nuc 20/20 med       75 │ conv 20/20 med     8618 │ nuclei  36.0 │    2.9 s
+  L= 512 f=0.155 │ nuc 20/20 med       50 │ conv 20/20 med     6108 │ nuclei  43.5 │    2.4 s
+  L= 512 f=0.160 │ nuc 20/20 med       25 │ conv 20/20 med     4429 │ nuclei  43.5 │    1.7 s
+  L= 512 f=0.170 │ nuc 20/20 med       25 │ conv 20/20 med     2692 │ nuclei  50.5 │    1.0 s
+  L= 512 f=0.180 │ nuc 20/20 med       25 │ conv 20/20 med     1782 │ nuclei  59.5 │    0.7 s
+  L= 512 f=0.200 │ nuc 20/20 med       25 │ conv 20/20 med      929 │ nuclei  75.5 │    0.4 s
+
+====================================================================================
+  AVRAMI pass — L = [64, 128, 256, 512], f = [0.16, 0.17, 0.18, 0.2]
+  20 seeds, T_MAX = 40000, sampled every 10 steps
+  X(t) = 1 - exp(-(K t)^n); 2D continuous nucleation predicts n = 3
+====================================================================================
+  L=  64 f=0.160 │ fitted 20/20 │ n =  1.77 ± 1.43 │ K = 0.00014 │ R² 0.649 │    0.4 s
+  L=  64 f=0.170 │ fitted 20/20 │ n =  2.02 ± 1.08 │ K = 0.00038 │ R² 0.835 │    0.0 s
+  L=  64 f=0.180 │ fitted 20/20 │ n =  2.08 ± 0.74 │ K = 0.00069 │ R² 0.934 │    0.0 s
+  L=  64 f=0.200 │ fitted 20/20 │ n =  1.94 ± 0.32 │ K = 0.00156 │ R² 0.966 │    0.0 s
+  L= 128 f=0.160 │ fitted 20/20 │ n =  3.25 ± 1.66 │ K = 0.00025 │ R² 0.975 │    0.1 s
+  L= 128 f=0.170 │ fitted 20/20 │ n =  2.53 ± 0.58 │ K = 0.00049 │ R² 0.979 │    0.1 s
+  L= 128 f=0.180 │ fitted 20/20 │ n =  2.25 ± 0.36 │ K = 0.00073 │ R² 0.985 │    0.1 s
+  L= 128 f=0.200 │ fitted 20/20 │ n =  2.01 ± 0.26 │ K = 0.00146 │ R² 0.993 │    0.0 s
+  L= 256 f=0.160 │ fitted 20/20 │ n =  2.69 ± 0.40 │ K = 0.00028 │ R² 0.989 │    0.5 s
+  L= 256 f=0.170 │ fitted 20/20 │ n =  2.30 ± 0.19 │ K = 0.00048 │ R² 0.992 │    0.6 s
+  L= 256 f=0.180 │ fitted 20/20 │ n =  2.23 ± 0.17 │ K = 0.00073 │ R² 0.993 │    0.2 s
+  L= 256 f=0.200 │ fitted 20/20 │ n =  1.90 ± 0.13 │ K = 0.00152 │ R² 0.998 │    0.1 s
+  L= 512 f=0.160 │ fitted 20/20 │ n =  2.54 ± 0.12 │ K = 0.00028 │ R² 0.994 │    1.7 s
+  L= 512 f=0.170 │ fitted 20/20 │ n =  2.32 ± 0.07 │ K = 0.00048 │ R² 0.995 │    1.0 s
+  L= 512 f=0.180 │ fitted 20/20 │ n =  2.12 ± 0.08 │ K = 0.00074 │ R² 0.996 │    0.7 s
+  L= 512 f=0.200 │ fitted 20/20 │ n =  1.91 ± 0.05 │ K = 0.00146 │ R² 0.999 │    0.4 s
+
+====================================================================================
+  Avrami rate constant K against L (prediction: no dependence)
+====================================================================================
+  f = 0.160 │ L=64: K=0.00014 n=1.77 │ L=128: K=0.00025 n=3.25 │ L=256: K=0.00028 n=2.69 │ L=512: K=0.00028 n=2.54 │  d(lnK)/d(lnL) = +0.331
+  f = 0.170 │ L=64: K=0.00038 n=2.02 │ L=128: K=0.00049 n=2.53 │ L=256: K=0.00048 n=2.30 │ L=512: K=0.00048 n=2.32 │  d(lnK)/d(lnL) = +0.098
+  f = 0.180 │ L=64: K=0.00069 n=2.08 │ L=128: K=0.00073 n=2.25 │ L=256: K=0.00073 n=2.23 │ L=512: K=0.00074 n=2.12 │  d(lnK)/d(lnL) = +0.027
+  f = 0.200 │ L=64: K=0.00156 n=1.94 │ L=128: K=0.00146 n=2.01 │ L=256: K=0.00152 n=1.90 │ L=512: K=0.00146 n=1.91 │  d(lnK)/d(lnL) = -0.025
+
+Wrote code/data/ModelA-FiniteSizeScaling.csv     (900 rows)
+Wrote code/data/ModelA-AvramiFits.csv            (320 rows)
+Wrote code/data/ModelA-AvramiTrajectories.csv    (109622 rows)
+Wrote code/data/ModelA-FiniteSizeSummary.csv     (45 rows)

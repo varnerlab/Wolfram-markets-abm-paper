@@ -32,6 +32,14 @@ code/data/*.jld2
 code/data/*.csv
 !code/data/ModelB-Stage2-*.csv
 !code/data/ModelB-Nucleation-*.csv
+!code/data/ModelA-FiniteSize*.csv
+!code/data/ModelA-Avrami*.csv
+!code/data/ModelA-OnsetTime*.csv
+
+# Model A boundary forcing: retained as an archival copy of a defunct vendor's
+# output (oneminutedata.com), since the series cannot be re-obtained. Provenance
+# and checksum are recorded in code/data/README.md.
+!code/data/QQQ-OHLC-1-min-aggregate-2024.csv
 
 # LaTeX build-state files (the refreshed PDF and bibliography remain tracked)
 paper-arxiv/*.fdb_latexmk
