@@ -9,18 +9,31 @@
 # per-panel-scaling flaw this analysis exists to fix. Spearman ρ and the
 # +1-corrected permutation p are recomputed here from the CSV via the lib
 # (fixed rng ⇒ same numbers as the compute log).
+#
+# The A2 window (`a2_subset`) and the cash ramp (`CASH_RAMP` /
+# `cash_color_map`) now live in EscapeTime-Lib.jl, shared with
+# Figs-ModelB-BarrierLaw.jl (Fig6-GrowthGating.pdf's panels C/D use this same
+# subset and the same colours per dose) — see that file's header for the
+# ownership ruling. This script still emits its own current figure
+# (`ModelB-Nucleation-VelocitySuppression.pdf`) unchanged in shape; only the
+# subset/colour SOURCE moved, plus the reserved-state-hue palette below,
+# which had to go regardless of which figure reads it.
 
 isdefined(Main, :_PATH_TO_DATA)    || include(joinpath(@__DIR__, "Include.jl"))
 isdefined(Main, :spearman_perm_p)  || include(joinpath(@__DIR__, "EscapeTime-Lib.jl"))
 
 let
     df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), DataFrame)
-    a2 = df[(df.f .== 0.20) .& .!isnan.(df.v_front), :]
-    n_excluded = count((df.f .== 0.20) .& isnan.(df.v_front))
+    a2, n_excluded = a2_subset(df)
 
+    # Cash is ORDINAL (a budget dose), not five independent categories, so it
+    # takes a sequential ramp rather than the three reserved state hues this
+    # palette used to encode it with (`#009E73` = _EDGE_COLOR, `_BUY_COLOR`,
+    # `_SELL_COLOR` — Tasks 5-7 established that non-state quantities must not
+    # wear reserved state hues). See EscapeTime-Lib.jl's `CASH_RAMP` docstring
+    # for the measured background-contrast numbers.
     cashes = sort(unique(a2.cash))
-    base_colors = ["#009E73", _BUY_COLOR, "#E69F00", "#CC79A7", _SELL_COLOR]
-    cash_color  = Dict(c => base_colors[i] for (i, c) in enumerate(cashes))
+    cash_color = cash_color_map(cashes, cashes)
 
     sp = spearman_perm_p(collect(Float64.(a2.suppb_w)), collect(Float64.(a2.v_front)))
 

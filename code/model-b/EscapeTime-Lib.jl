@@ -168,3 +168,65 @@ function spearman_perm_p(x::Vector{Float64}, y::Vector{Float64};
     end
     return (rho = rho, p = (1 + hits) / (ndraws + 1))
 end
+
+"""
+    a2_subset(df) → (a2, n_excluded)
+
+The A2 dose-response window: f = 0.20 with a defined front velocity, POOLED
+across every `stage` value present in `df` (`pilot`, `a2x`, ...) — not
+filtered to one stage. Of the 100 (f = 0.20) runs across all stages, 97 carry
+a defined `v_front`; 3 are excluded because the front never reached the
+fitting window within the run's horizon.
+
+Shared by `Figs-ModelB-BarrierLaw.jl` (panels C, D) and
+`Figs-ModelB-VelocitySuppression.jl` so both scripts apply IDENTICALLY the
+same window rule, rather than each maintaining its own copy that could
+silently drift apart (the `_load_phase_sweep()` precedent in
+`model-a/Include.jl`, extracted for the same reason in Task 4).
+"""
+function a2_subset(df::DataFrame)
+    mask       = (df.f .== 0.20) .& .!isnan.(df.v_front)
+    n_excluded = count((df.f .== 0.20) .& isnan.(df.v_front))
+    return (df[mask, :], n_excluded)
+end
+
+"""
+    CASH_RAMP
+
+Five-step single-hue sequential ramp (ColorBrewer "Purples", 9-class,
+keeping only classes 5-9 — the same trim `Figs-ModelA-FiniteSize.jl` applied
+to its own L- and f-ramps) for the ordinal cash/budget axis shared by the
+barrier-law and velocity-suppression analyses. Every step's Euclidean RGB
+distance from `_panel_kw`'s background (`#F0F0F0`) exceeds 120 — the bar
+Task 5 set, benchmarked against `_HOLD_COLOR`'s own 121.2:
+
+    #9e9ac8 → 125.4   #807dba → 169.4   #6a51a3 → 221.7
+    #54278f → 272.3   #3f007d → 319.6
+
+Kept HERE rather than in `PaperStyle.jl` (which stays cross-model and does
+not encode any one figure's non-state series) and reused by BOTH scripts
+that draw cash, via `cash_color_map` below, so the two figures render one
+budget level in the same colour instead of two hand-copied arrays drifting
+apart.
+"""
+const CASH_RAMP = ["#9e9ac8", "#807dba", "#6a51a3", "#54278f", "#3f007d"]
+
+"""
+    cash_color_map(cashes, full_cashes) → Dict{<:Real,String}
+
+Map each cash level in `cashes` to a colour from `CASH_RAMP`, keyed by that
+cash level's ORDINAL POSITION within `full_cashes` (sorted ascending, and
+required to have exactly `length(CASH_RAMP)` distinct levels) — not by its
+position within `cashes` itself. This is what lets a strict subset of cash
+levels (the barrier law's three of the dose-response campaign's five: 500,
+1000, 5000 landing on ramp positions 2, 3, 5) take the SAME colours they
+would take in the full five-level set, so a reader tracks one budget across
+panels that show only some of the five doses.
+"""
+function cash_color_map(cashes, full_cashes)
+    fc = sort(unique(full_cashes))
+    @assert length(fc) == length(CASH_RAMP) "cash ramp needs exactly $(length(CASH_RAMP)) distinct cash levels, got $(length(fc))"
+    @assert issubset(Set(cashes), Set(fc)) "cash level outside the given full-dose domain"
+    pos = Dict(c => i for (i, c) in enumerate(fc))
+    return Dict(c => CASH_RAMP[pos[c]] for c in cashes)
+end
