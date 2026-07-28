@@ -137,13 +137,36 @@ Restyled to the same standard, referenced from the Results text.
 | S5 | Full seeding design: onset per seed, growth trajectories | `Seeding` |
 | S6 | Full budget-toggle cluster trajectories; full three-arm edge trace | `BudgetToggle`, `EdgeTrace` |
 
-### 1.4 Data
+### 1.4 Data, and one reproducibility debt to pay first
 
-Every figure regenerates from data already on disk. The CSVs are committed
+Most figures regenerate from data already on disk. The CSVs are committed
 (`.gitignore` un-ignores `ModelB-Nucleation-*`, `ModelA-FiniteSize*`,
-`ModelA-Avrami*`, `ModelA-OnsetTime*`, `ModelB-Stage2-*`). The `.jld2` files
-that back the grid snapshots, the phase sweep, and the Model B exemplars are
-gitignored but present locally. No simulation is re-run and no value changes.
+`ModelA-Avrami*`, `ModelA-OnsetTime*`, `ModelB-Stage2-*`), and the `.jld2`
+files backing the grid snapshots, the phase sweep, and the Model B exemplars
+are gitignored but present locally.
+
+**Three figures are the exception and must be fixed before they can be
+restyled.** `ModelB-Nucleation-SeedSweep.pdf`,
+`ModelB-Nucleation-BudgetToggle.pdf`, and
+`ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf` are emitted as side effects of
+`Compute-ModelB-NucleationSeeds.jl` and `Compute-ModelB-BudgetToggle.jl`
+rather than by `Figs-*` scripts, and none of the three appears in
+`run_all.sh figures`. Their committed CSVs hold per-seed summaries only
+(`ModelB-Nucleation-SeedSweep.csv` is 61 rows: 60 seeds plus a header), so the
+per-step traces those panels plot cannot be recovered. Restyling them today
+would mean re-running the campaigns every time.
+
+The fix follows the pattern the repository already adopted for
+boundary-versus-bulk in `a477211` ("trajectories CSV committed, figures
+standalone-reproducible"): extend each compute script to emit a trajectories
+CSV, re-run it once, confirm the existing summary CSV returns byte-identical
+(the seeds are deterministic, so any difference is a bug), commit the new CSV,
+and extract the plotting into a standalone `Figs-*` script added to
+`run_all.sh`. After that every figure in the paper replots from committed data
+without re-running a simulation.
+
+Apart from that one-time re-run, no simulation is re-run and no reported value
+changes.
 
 ---
 
@@ -200,7 +223,9 @@ exemplar's proportions already.
 
 ## What does not change
 
-- No simulation re-run; every reported number is preserved exactly.
+- Every reported number is preserved exactly. The only simulations re-run are
+  the two Model B campaigns whose trajectory data was never persisted, and
+  their existing summary CSVs must return byte-identical.
 - No split into `sections/*.tex`; the file stays monolithic.
 - Results stays one flat section with no subsections.
 - Methods keeps its seven subsections; Related Work keeps its three.
