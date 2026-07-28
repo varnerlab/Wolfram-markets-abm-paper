@@ -1003,28 +1003,7 @@ Model~A provides an unconstrained spatial baseline. Prices arrive from outside t
 model, and CA states are not filtered through budgets. We first inspected representative
 grid trajectories and then located the finite-horizon crossover in a fixed-seed sweep.
 
-We simulated the $256 \times 256$ agent grid under Model~A for three values of the
-minority fraction, $f = 0$ (homogeneous), $f = 0.15$ (near-critical), and $f = 0.20$
-(supercritical), and recorded grid snapshots at four logarithmically spaced time points
-to capture both the early transient and the late-time steady state
-(Figure~\ref{fig:fig2}). In the homogeneous model ($f = 0$, top row), the grid reached a
-dynamic steady state dominated by Buy (blue) and Sell (orange) agents in a fine-grained
-spatial mixture. The pattern fluctuated locally but never exhibited large-scale
-coordination, and the sell fraction remained near its equilibrium value of ${\sim}0.26$
-throughout the simulation (cf.~Figure~\ref{fig:fig3}).
-At $f = 0.15$ (middle row), the first sampled value above the crossover bracket, the system initially
-resembled the homogeneous case, but at $t = 8{,}236$ we observed a sell cascade that
-nucleated from a localized seed and propagated outward as a spatially coherent wavefront.
-The orange region grew concentrically until it engulfed the grid by $t = 23{,}790$,
-which suggests a contagion mechanism qualitatively different from the instantaneous
-global crashes produced by mean-field models: the crash had a \emph{spatial history},
-starting at one location, spreading through a physical medium, and arriving at different
-parts of the grid at different times (Figure~\ref{fig:fig2}, middle row). That
-sequence, a localized seed, a coherent front, and a spatial history, is
-nucleation-and-growth in the classical sense. At $f = 0.20$
-(bottom row), the cascade occurred earlier and more rapidly, and the grid was already
-predominantly sell-dominated by $t = 2{,}851$, consistent with a system deep in the
-supercritical regime.
+We simulated the $256 \times 256$ agent grid under Model~A across the minority fraction and observed a sharp finite-horizon crossover with spatially coherent front growth above it (Figure~\ref{fig:crossover}). Three values of~$f$ fix the picture, each sampled at four logarithmically spaced times. In the homogeneous model, $f = 0$, the grid settled into a fine-grained mixture of Buy and Sell agents that fluctuated locally, never coordinated over large distances, and held the sell fraction near $0.26$ throughout. At $f = 0.15$, the first sampled value above the crossover bracket, the grid at first looked the same, but at $t = 8{,}236$ a sell cascade nucleated from a localized seed and spread outward as a coherent wavefront, growing concentrically until it engulfed the grid by $t = 23{,}790$. The crash had a spatial history, beginning at one location, moving through a physical medium, and reaching different parts of the grid at different times, which is nucleation and growth in the classical sense rather than the instantaneous global collapse of a mean-field model. At $f = 0.20$ the same sequence ran faster and the grid was sell-dominated by $t = 2{,}851$. Sweeping~$f$ from $0.0$ to $0.50$ at a fixed seed on a $128 \times 128$ lattice placed the change between the sampled values $f = 0.14$ and $f = 0.15$. At and below $f = 0.14$ the system was stable, with a mean sell fraction near $0.26$, close to the $1/3$ expected of a uniform random mixture of three states, and no crashes. At $f = 0.15$ the mean sell fraction jumped to ${\sim}0.50$, saturating near $0.91$ by $f = 0.20$, where crash frequency rose above $95\%$. The dashed marker at $f = 0.145$ is the midpoint of that bracket and not an independently fitted critical point. What the sweep describes is a coordination failure built from two deterministic rules and nothing else, with no noise, no learning, and no strategy switching. A small contrarian minority was harmless, because the majority agents (Rule~19280) damped local sell signals by herding toward the dominant state, and the sell clusters that did form died before reaching the size at which herding turns from damper into amplifier. Inside the bracket the contrarians (Rule~19286) grew numerous enough to seed clusters the majority could no longer absorb, the local majority tipped from buy to sell, and the same herding mechanism amplified the cascade it had been suppressing. One fixed seed on one lattice cannot say whether that bracket belongs to the rule mixture or to the grid we happened to simulate, so we repeated the measurement across five lattice sizes with replicated disorder.
 
 \begin{figure}[tb]
   \centering
@@ -1034,36 +1013,8 @@ supercritical regime.
   time points; rows vary the minority fraction~$f$. Blue = Buy, gray = Hold,
   orange = Sell. At $f = 0.15$ (middle row, $t = 8{,}236$), a sell cascade nucleates
   from a localized seed and propagates as a coherent wavefront before engulfing the grid.}
-  \label{fig:fig2}
+  \label{fig:crossover}
 \end{figure}
-
-Having characterized the two regimes, we next located the crossover between them. We
-swept the minority fraction~$f$ from $0.0$ to $0.50$ and computed three summary
-statistics, the mean sell fraction, the peak sell fraction, and the crash frequency, for
-each run (Figure~\ref{fig:fig3}). All three summaries changed sharply between the sampled
-values $f=0.14$ and $f=0.15$. The dashed line at $f=0.145$ marks the midpoint of this
-bracket, and it is not an independently fitted critical point.
-At and below $f=0.14$, the system remained stable: the mean sell fraction hovered near $0.26$
-(close to the $1/3$ expected for a uniform random mixture of three states), the peak sell
-fraction never exceeded $0.30$, and no crashes occurred. At and above $f=0.15$, the system
-entered a sell-dominated regime: the mean sell fraction jumped to ${\sim}0.50$ at
-$f = 0.15$ and saturated near $0.91$ by $f = 0.20$, and crash frequency exceeded 95\%
-(Figure~\ref{fig:fig3}C). The fixed-seed scan therefore showed a sharp finite-size,
-finite-horizon crossover, and whether that crossover sits at a fixed value of~$f$ calls
-for repeating the measurement across five lattice sizes with replicated disorder.
-
-These results have an economic interpretation: a small minority of contrarian
-agents was harmless, because Rule~19280 (majority) agents damped local sell signals
-through herding toward the dominant state. But once the contrarian fraction
-entered the crossover bracket, Rule~19286 agents were numerous enough to seed sell clusters that the
-majority-rule agents could no longer absorb; instead, the herding mechanism
-\emph{amplified} the cascade, because the local majority had tipped from buy to sell. The
-result was a coordination failure triggered by the interaction between two
-deterministic rules, without any stochastic component, learning, or adaptive strategy
-switching. Below the bracket, sell clusters still formed, but each
-died before reaching the critical size at which the herding mechanism turns from damper
-to amplifier. The crash was an emergent property of the rule mixture, not of any
-individual rule.
 
 \begin{figure}[tb]
   \centering
@@ -1077,70 +1028,7 @@ individual rule.
   \label{fig:fig3}
 \end{figure}
 
-The crossover was not located at a fixed value of~$f$ (Figure~\ref{fig:finite-size}). We repeated the sweep on
-lattices from $32 \times 32$ to $512 \times 512$, with twenty disorder seeds at each
-size, on periodic boundaries and with no price forcing. Larger lattices crashed at
-lower contrarian fractions. At $f = 0.14$, no run out of twenty converted on the
-$64 \times 64$ lattice, half converted at $128 \times 128$, and every run converted
-at $256 \times 256$ and above (Figure~\ref{fig:finite-size}A). Certain conversion
-required $f \approx 0.155$ at $64 \times 64$ but only $f \approx 0.14$ at
-$512 \times 512$. The apparent threshold is therefore a property of the lattice and
-the observation window, not of the rule mixture alone.
-
-The direction of that shift runs opposite to the
-usual intuition. One might expect a larger population to absorb contrarian pressure
-better, since idiosyncratic behavior averages out as the number of agents grows. That
-reasoning applies to quantities that are averages. Whether the lattice crashes is not
-an average: it is decided by the most favorable local region anywhere on the grid, since
-a single sell domain that survives to critical size is enough to convert the whole
-system. Enlarging the lattice adds candidate regions, so it raises the chance that at
-least one is favorable. The mechanism is the size effect familiar from brittle
-fracture, where a larger specimen fails at lower stress than a small one of the same
-material because it is more likely to contain a critical flaw. Size does not make a
-stable configuration unstable, since above the spreading threshold every lattice converts
-eventually, because the sell state is absorbing and the waiting time is finite, but it
-does decide what has already happened inside a fixed window.
-
-The averaging intuition is nonetheless correct about a different quantity (Figure~\ref{fig:finite-size}). As the
-lattice grew, conversion times became sharply more predictable: the coefficient of
-variation across seeds fell from $0.66$ at $32 \times 32$ to $0.035$ at
-$512 \times 512$ at $f = 0.20$, halving on each doubling of the linear size and so
-tracking $N^{-1/2}$ in the agent count~$N$ (Figure~\ref{fig:finite-size}B). Larger
-systems also stopped taking longer to convert. Above $f \approx 0.17$ the median
-conversion time was independent of size, within $9\%$ across a $16$-fold range in area
-(Figure~\ref{fig:finite-size}C), which is the signature of a conversion carried by many
-domains growing and merging at once rather than by one domain sweeping the lattice.
-Size averages away the uncertainty in when the crash arrives without removing the crash.
-
-What sets that common clock is visible in the shape of the conversion curve (Figure~\ref{fig:finite-size}). Writing
-the converted fraction as $X(t) = 1 - \exp[-(Kt)^{n}]$, the exponent~$n$ distinguishes
-two mechanisms: $n = d + 1 = 3$ in two dimensions if new domains keep appearing
-throughout the transformation, and $n = d = 2$ if the domains are all present at the
-outset and the transformation is growth alone. Fitted per run, $n$ ran from $2.54$ at
-$f = 0.16$ to $1.91$ at $f = 0.20$ on the largest lattice ($R^2 = 0.994$ to $0.999$),
-approaching~$2$ as~$f$ rose. The rate constant~$K$ did not depend on system size: read
-as a characteristic time, $1/K$ was $1445$, $1363$, $1367$, and $1358$~steps across
-$4{,}096$ to $262{,}144$ agents at $f = 0.18$, a spread of $6\%$. Rescaling each run's
-time by its own fitted~$K$ collapsed all $320$~runs, across four sizes and four values
-of~$f$, onto a single curve (Figure~\ref{fig:finite-size}D).
-
-An exponent near~$2$ says that the vulnerable regions were fixed before the clock
-started. That is what the construction implies: the contrarian sites are assigned once,
-at setup, and never move, so the favorable regions are a property of the quenched
-disorder rather than something that arises during the run. What differs between seeds
-is how quickly the transformation spreads from regions that were present all along. The
-distinction matters for how the onset-time fit should be read. Thermal activation would
-mean ignition at random times; this transformation is measurably not that, which is why
-the inverse-distance form is a compact empirical summary rather than a derived law.
-
-Two limits bound these measurements. The $32 \times 32$ lattice behaves anomalously
-because a domain of the size used to mark local clustering already spans a tenth of it,
-so local and system-wide events are not separable at that size, and we plotted it
-(Figure~\ref{fig:finite-size}) but excluded it from the conversion-curve fits. The fixed
-cluster-size criterion used to flag local clustering is also not a scale-free detector of
-nucleation, since the mixed state produces sell clusters of $30$ to $60$~cells
-unprompted and the largest such cluster grows with the number of sites. Conclusions
-about rates here rest on the conversion curve, which requires no cluster identification.
+Having located the crossover, we next asked whether it sits at a fixed value of~$f$ (Figure~\ref{fig:finite-size}). It does not. We repeated the sweep on lattices from $32 \times 32$ to $512 \times 512$, twenty disorder seeds at each size, with periodic boundaries and no price forcing, and larger lattices crashed at lower contrarian fractions. At $f = 0.14$ no run out of twenty converted at $64 \times 64$, half converted at $128 \times 128$, and all converted at $256 \times 256$ and above; certain conversion required $f \approx 0.155$ at $64 \times 64$ but only $f \approx 0.14$ at $512 \times 512$. That direction is the opposite of the usual intuition, because whether the lattice crashes is not an average but is settled by the most favorable local region anywhere on the grid: one sell domain surviving to critical size converts the whole system, and a larger lattice offers more candidate regions. It is the size effect of brittle fracture, where a bigger specimen fails at lower stress than a small one of the same material because it more likely contains a critical flaw. Size does not make a stable configuration unstable, since the sell state is absorbing and every lattice above the spreading threshold converts eventually; it decides only what has happened inside a fixed window. The averaging intuition holds instead for the timing. The coefficient of variation of the conversion time fell from $0.66$ at $32 \times 32$ to $0.035$ at $512 \times 512$ at $f = 0.20$, halving on each doubling of the linear size and so tracking $N^{-1/2}$ in the agent count~$N$, and above $f \approx 0.17$ the median conversion time was size-independent to within $9\%$ over a $16$-fold range in area. Writing the converted fraction as $X(t) = 1 - \exp[-(Kt)^{n}]$ identifies that clock: in two dimensions $n = d + 1 = 3$ if new domains keep appearing and $n = d = 2$ if all are present at the outset and the transformation is growth alone. Fitted per run, $n$ ran from $2.54$ at $f = 0.16$ to $1.91$ at $f = 0.20$ on the largest lattice ($R^2 = 0.994$ to $0.999$), and the rate constant did not depend on size: read as a characteristic time, $1/K$ was $1445$, $1363$, $1367$, and $1358$~steps from $4{,}096$ to $262{,}144$ agents at $f = 0.18$, a spread of $6\%$, and rescaling each run by its own fitted~$K$ collapsed all $320$~runs onto one curve. An exponent near~$2$ says the vulnerable regions were fixed before the clock started, as the construction implies: contrarian sites are assigned once at setup and never move. Two limits bound the instrument. The $32 \times 32$ lattice is anomalous, because a domain of the size used to mark local clustering already spans a tenth of it, so we plotted it but kept it out of the conversion-curve fits; and the fixed cluster-size criterion is not a scale-free detector of nucleation, since the mixed state throws up sell clusters of ${\sim}30$--$60$~cells unprompted. Rate conclusions therefore rest on the conversion curve, which needs no cluster identification. A threshold that moves with size implicates spatial structure, so we next removed the space.
 
 \begin{figure}[tb]
   \centering
@@ -1162,50 +1050,7 @@ about rates here rest on the conversion curve, which requires no cluster identif
   \label{fig:finite-size}
 \end{figure}
 
-
-% ============================================================================
-The fixed-seed scan showed a sharp finite-horizon crossover that spread through coherent
-fronts. We next compared the lattice simulations with two low-order approximations and
-summarized the observed onset times. Neither mean-field nor pair closure reproduced the
-crossover, and across the sampled range the onset times were well fit by
-$\ln\bar{\tau} = 2.78 + 0.389/(f - 0.101)$ ($R^2 = 0.991$), a curve we use as a
-phenomenological description of the finite data rather than as a derived thermal escape law.
-
-To measure local ordering, we used the nearest-neighbor alignment statistic associated
-with a three-state Potts model:
-\begin{equation}
-  e \;=\; -\frac{1}{N_{\mathrm{bonds}}}
-       \sum_{\langle i,j\rangle} \delta(\sigma_i,\,\sigma_j),
-  \label{eq:potts-energy}
-\end{equation}
-where the sum runs over all distinct nearest-neighbor pairs on the lattice and
-$\delta$ is the Kronecker delta. In a perfectly aligned (single-state) configuration
-$e = -1$; in a maximally disordered configuration $e \approx -1/3$.
-This statistic measures order, but it is not a Hamiltonian that generates the CA
-dynamics. Rule~19280 acts on the numerical sum of state labels rather than on counts of
-matching neighbors, and a synchronous update need not decrease~$e$. For example, three
-Hold neighbors and one Buy neighbor have $c=3$, for which the rule outputs Buy rather
-than the local majority state. A further anomaly occurs at $c=0$ (all neighbors Buy),
-which outputs Sell rather than Buy. This rule entry means
-that the all-Buy configuration is \emph{unstable}: every interior cell flips to Sell
-in a single time step, and the all-Sell absorbing state ($c = 8 \to \text{Sell}$)
-has maximal alignment, $e=-1$. The ``buy-dominated'' phase observed in
-simulations is therefore not a static equilibrium but a \emph{dynamic mixed-state
-attractor} with fractions $p_0 \approx 0.49$, $p_1 \approx 0.24$,
-$p_2 \approx 0.26$ and $e \approx -0.37$
-(Figure~\ref{fig:theory-overview}A).
-
-The contrarian rule (19286), which differs only at $c = 1$ by outputting Sell instead
-of Buy, provides quenched rule disorder: a fraction~$f$ of sites carry a fixed
-sell-biased response to the three-Buy, one-Hold neighborhood.
-
-We measured the Potts energy and the single-site Shannon entropy
-$S_1 = -\sum_s \rho_s \ln \rho_s$ across the phase sweep on a $128 \times 128$
-lattice with periodic boundaries. Below $f_c$ the mixed attractor persisted at
-$e \approx -0.37$ and $S_1 \approx 1.06$ (near the maximum $\ln 3 \approx 1.10$);
-above the crossover the system approached the all-Sell absorbing state at
-$e \approx -0.93$ and $S_1 \approx 0.18$, a sharp finite-size drop consistent with
-a discontinuous transition (Figure~\ref{fig:theory-overview}A).
+We next compared the lattice against two low-order closures and found that neither reproduced the crossover (Figure~\ref{fig:theory}). Local order was tracked with the nearest-neighbor alignment statistic~$e$ of a three-state Potts model, the negated fraction of neighbor bonds whose two sites share a state, so that a single-state lattice reads $-1$ and a maximally disordered one about $-1/3$. It measures order without generating the dynamics, since the rules act on the numerical sum of neighbor labels rather than on counts of matching neighbors, and one entry is decisive: a cell with four Buy neighbors outputs Sell, so the all-Buy configuration is \emph{unstable} and the ``buy-dominated'' phase is not a static equilibrium but a dynamic mixed-state attractor at $p_0 \approx 0.49$, $p_1 \approx 0.24$, $p_2 \approx 0.26$. On a $128 \times 128$ lattice it held at $e \approx -0.37$ and site entropy $S_1 \approx 1.06$ below the crossover and fell to $-0.93$ and $0.18$ above. Replacing the lattice with a well-mixed population, each agent's four neighbors drawn independently from the global state distribution, gave a map whose only stable fixed points at every~$f$ were the all-Sell absorbing state and a buy-dominated state, at $p_0^* \approx 0.63$ and $p_2^* \approx 0.19$ when $f = 0$ and locally stable as a spiral with $|\lambda| \approx 0.95$. That branch never crossed the sell-majority threshold and its sell fraction drifted up by only ${\sim}0.04$ over the whole range of~$f$, so mean field predicted no transition. Restoring nearest-neighbor correlations did not help. The pair approximation~\cite{gutowitz1987local} tracks pair densities $\rho_{ab}$ under the closure $q(s \mid a) = \rho_{as}/\rho_a$, giving the synchronous update \begin{equation} \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a), \label{eq:pair-update} \end{equation} with kernel $T_b(a, a')$ derived in Appendix~\ref{app:pair}. Its Jacobian at the uncorrelated fixed point had spectral radius strictly below unity at every sampled~$f$, falling from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$, and correlated initial conditions all converged to that fixed point or to all-Sell, with the spatial mutual information $I = 2S_1 - S_2$ decaying to zero. Other finite-order closures are not excluded, but single-site marginals and the tested pair correlations are insufficient, because they erase exactly what the lattice supplies. An isolated contrarian lifted the sell density at its own site to $\rho_2 \approx 0.42$ against a background of $0.26$, an excess gone within one to two lattice spacings, so the seeds are point-like and the transition needs many together. On $64 \times 64$ lattices the mixed state survived $10^5$~steps in all twenty realizations below $f \approx 0.14$, while above $f \approx 0.155$ all collapsed past a sell fraction of $0.90$, the mean lifetime falling from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$ to $\bar{\tau} \approx 86$ at $f = 0.30$. Those onset times follow the inverse-distance form of Kramers-type escape problems~\cite{kramers1940brownian,hanggi1990reaction}, \begin{equation} \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0}, \label{eq:kramers} \end{equation} with $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$ over twelve points ($R^2 = 0.991$; collected with the Model~B fits in Table~\ref{tab:kramers-fits}). The fit drops values at which not every seed collapsed within the horizon and is not derived from the CA dynamics, so $f_0$ is an extrapolated pseudo-threshold, not proof of absolute stability, and the curve is phenomenological, not a thermal escape law. Read as an extrapolation it places the crossover at $f_c \approx 0.162$ for a $10{,}000$-step window and $f_c \approx 0.195$ for a $1{,}000$-step one. Model~B keeps these rules and this quenched disorder but adds endogenous price feedback with per-agent cash and inventory limits, letting us ask whether the crossover, the onset-time form, and the front's growth survive a budget; those experiments are sized to detect large shifts, so overlapping intervals cannot exclude smaller budget effects.
 
 \begin{figure}[tb]
   \centering
@@ -1233,160 +1078,8 @@ a discontinuous transition (Figure~\ref{fig:theory-overview}A).
   single-realization fluctuation of the fixed-seed protocol).
   Dashed vertical lines mark the midpoint $f=0.145$ of the observed
   $[0.14,0.15]$ bracket.}
-  \label{fig:theory-overview}
+  \label{fig:theory}
 \end{figure}
-
-To isolate the role of spatial correlations, we derived a mean-field self-consistency
-map for the mixed 19280/19286 population. The mean-field approximation replaces the
-lattice with a well-mixed population in which each agent's four neighbors are drawn
-independently from the global state distribution $(p_0, p_1, p_2)$, where $p_s$
-denotes the fraction of agents in state~$s$ ($p_0 + p_1 + p_2 = 1$). Because each
-neighbor contributes independently to the neighborhood sum
-$c = s_N + s_S + s_E + s_W$, the probability $\pi_k = \Pr(c = k)$ follows from
-the multinomial convolution of four i.i.d.\ draws from $\{0,1,2\}$ with weights
-$(p_0, p_1, p_2)$:
-\begin{equation}
-  \pi_k = \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
-  \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
-  \qquad k = 0,1,\ldots,8.
-  \label{eq:pi-dist}
-\end{equation}
-The verified rule tables (Table~\ref{tab:rule-taxonomy}) assign next states as
-follows: $c \in \{2,3\} \to \text{Buy}$; $c \in \{4,5\} \to \text{Hold}$;
-$c \in \{0,6,7,8\} \to \text{Sell}$ (both rules agree at these values); and $c = 1$,
-where the two rules diverge, with Rule~19280 outputting Buy and Rule~19286 Sell.
-In a population with minority fraction~$f$, the mean-field map is therefore:
-\begin{align}
-  p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
-  p_1' &= \pi_4 + \pi_5, \label{eq:mf-p1} \\
-  p_2' &= \pi_0 + f\,\pi_1 + \pi_6 + \pi_7 + \pi_8, \label{eq:mf-p2}
-\end{align}
-where primes denote the next-step fractions and $\pi_k$ depends on the current
-$(p_0, p_2)$ through Eq.~\eqref{eq:pi-dist}.
-
-We iterated Eqs.~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence
-($\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$) from multiple initial
-conditions and swept $f$ from $0$ to $1$. For every value of~$f$ the map admitted
-two stable fixed points, a \emph{buy-dominated} equilibrium with
-$p_0^* \approx 0.63$, $p_1^* \approx 0.18$, $p_2^* \approx 0.19$ at $f = 0$,
-shifting smoothly to $p_0^* \approx 0.45$, $p_2^* \approx 0.23$ at $f = 1$, and
-the all-Sell absorbing state $p_2^* = 1$. The Jacobian at the buy-dominated
-fixed point had complex eigenvalues with modulus $|\lambda| \approx 0.95$ (a stable
-spiral), confirming local stability. At no value of~$f$ did the buy-dominated branch
-disappear or cross the sell-majority threshold $p_2 > 0.50$. The mean-field map
-predicted no phase transition: the sell fraction increased by only
-${\sim}0.04$ across the entire range of~$f$, a smooth monotone drift with no
-discontinuity.
-
-We next extended the mean-field analysis to the pair approximation, which tracks
-nearest-neighbor pair densities $\rho_{ab} = \Pr(\sigma_i = a,\, \sigma_j = b)$
-for adjacent sites $i, j$ rather than single-site marginals alone. In the pair
-approximation closure~\cite{gutowitz1987local}, the three neighbors of a focal site
-\emph{other} than its paired partner are drawn independently from the conditional
-distribution $q(s \mid a) = \rho_{as} / \rho_a$, where
-$\rho_a = \sum_b \rho_{ab}$ is the marginal density of state~$a$. For a synchronous
-update, the new pair density is
-\begin{equation}
-  \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\;
-    T_b(a, a')\; T_{b'}(a', a),
-  \label{eq:pair-update}
-\end{equation}
-where $T_b(a, a')$ is the probability that a site in state~$a$ with paired neighbor
-in state~$a'$ transitions to state~$b$; it is computed from the effective rule table
-and the trinomial distribution of the remaining three neighbors' sum
-(Appendix~\ref{app:pair}).
-
-The pair approximation also predicted no phase transition. We computed the $6 \times 6$
-Jacobian of the pair map~\eqref{eq:pair-update} evaluated at the uncorrelated
-(mean-field) fixed point $\rho_{ab}^* = \rho_a^* \rho_b^*$ and found that its spectral
-radius was strictly less than unity at every $f$ we sampled ($f \in [0, 0.5]$),
-declining monotonically from $|\lambda_{\max}| \approx 0.95$ at $f = 0$ to
-$|\lambda_{\max}| \approx 0.71$ at $f = 0.5$
-(Figure~\ref{fig:theory-overview}B). A systematic search over correlated initial conditions (same-state
-correlation $\varepsilon$ ranging from $0.1$ to $0.5$, both buy- and sell-biased)
-confirmed that every trajectory converged to one of only two fixed points: the
-uncorrelated buy-dominated state (identical to mean-field) or the all-Sell absorbing
-state. Spatial mutual information $I = 2S_1 - S_2$ decayed to zero in all cases.
-
-The pair approximation gave the same negative result as mean field: within this
-particular nearest-neighbor closure, the mixed branch remained locally stable. That
-does not rule out every finite-order closure, but it shows that single-site marginals
-and the tested pair correlations are insufficient. The explicit lattice simulations
-instead showed localized clusters and propagating fronts.
-
-Those localized clusters and seed-dependent waiting times motivated a \emph{nucleation}
-description, in which a small sell domain appears, survives local fluctuations, and grows into
-a macroscopic domain, and we characterized that interpretation through three measurements.
-We first measured the metastable lifetime.
-We initialized $64 \times 64$ lattices from random states, equilibrated for 200~steps
-to the mixed attractor, then recorded the time $\tau$ at which the sell fraction first
-exceeded~$0.90$ (collapse to the absorbing state). For each value of~$f$ we ran 20
-independent realizations with distinct random seeds for both initial conditions and
-minority-agent placement. Below $f \approx 0.14$ the mixed state survived in all
-realizations for $10^5$~steps; above $f \approx 0.155$ all realizations collapsed,
-with the mean lifetime decreasing from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$
-to $\bar{\tau} \approx 86$ at $f = 0.30$.
-
-We next fit the observed onset times. Motivated by the inverse-distance form used in Kramers-type escape
-problems~\cite{kramers1940brownian,hanggi1990reaction}, we fit
-\begin{equation}
-  \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0},
-  \label{eq:kramers}
-\end{equation}
-with best-fit parameters $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$
-($R^2 = 0.991$; $n = 12$ data points with all seeds collapsed; collected, with the
-Model~B fits, in Table~\ref{tab:kramers-fits}). Because the fit excludes values at which
-not all seeds collapsed within the horizon and is not derived from the CA dynamics,
-$f_0$ is an extrapolated pseudo-threshold rather than proof of absolute stability.
-The observed change near $f=0.15$ is best read as an observation-time-dependent
-crossover: the fitted waiting time enters the simulation window over a narrow range
-of~$f$.
-
-As an extrapolation, Eq.~\eqref{eq:kramers} gives an effective crossover at a chosen
-observation window:
-for example, $f_c(T = 10{,}000) \approx 0.162$ and $f_c(T = 1{,}000) \approx 0.195$,
-consistent with the steepening of the phase boundary observed in the
-simulations.
-
-We then measured the spatial influence of an isolated contrarian agent embedded in an
-otherwise all-majority lattice. The sell density at the contrarian's own site was
-elevated ($\rho_2 \approx 0.42$ vs.\ the background $\rho_2 \approx 0.26$), but this
-excess decayed to zero within one to two lattice spacings. Individual contrarians
-therefore act as point-like sell seeds with negligible spatial range; the transition
-requires the \emph{collective} effect of many such seeds. Sell cluster analysis
-confirmed this: below $f_c$ the largest sell cluster in the mixed attractor contained
-${\sim}30$--$60$~cells; at $f = 0.145$ transient clusters of ${\sim}400$~cells
-appeared; and at $f = 0.16$ macroscopic clusters exceeding $1{,}800$~cells formed and
-triggered system-wide collapse (Figure~\ref{fig:theory-overview}C).
-
-The measurements support a disorder-driven nucleation interpretation: the quenched random placement of
-contrarian agents at density~$f$ creates local density fluctuations; at $f > f_0$,
-rare regions with an anomalously high local contrarian density seed sell clusters that
-exceed the critical size; the majority/herding rule then amplifies these seeds into
-coherent wavefronts that engulf the lattice. The system-size dependence of $f_c$ was
-weak ($f_c \approx 0.17$ at $L = 32$, $f_c \approx 0.16$ at $L = 128$), consistent
-with a critical nucleus that is small relative to the lattice dimensions at all tested
-sizes.
-
-Taken together, the sequence of approximations narrows the plausible description of the
-lattice crossover.
-Mean-field theory, by erasing all spatial structure, missed the transition.
-The pair approximation, which restores nearest-neighbor correlations, fared no
-better: the uncorrelated fixed point remained linearly stable at all~$f$, and the
-spatial mutual information vanished. The lattice simulations added the missing
-ingredients: localized clusters, broad seed-dependent waiting times, and propagating
-fronts. The Potts-inspired statistic summarized the accompanying increase in alignment,
-with a finite-size drop $\Delta e \approx 0.56$ from the mixed attractor
-($e \approx -0.37$) toward the all-Sell state ($e \approx -0.93$). These observations
-are consistent with a nucleation-like discontinuous crossover but do not establish a
-thermodynamic free-energy barrier (Figure~\ref{fig:theory-overview}A).
-
-Model~B provides a direct comparison. Retaining the same two rules and quenched disorder
-but adding endogenous price feedback and per-agent cash and inventory constraints, it let
-us ask whether the same empirical onset-time form described each cash level, whether the
-spatial crossover survived budgets, whether cash was associated with onset, and how
-budgets affected post-onset growth. The experiments are designed to detect large shifts,
-and overlapping uncertainty intervals cannot exclude smaller budget effects.
 
 We first asked whether the crossover survived the budget constraint, drawing on a
 factorial sweep of $10{,}800$ runs across minority fraction, price
@@ -1953,7 +1646,7 @@ symmetry and normalization, computed by finite differences with step
 $\delta = 10^{-7}$, each perturbed matrix projected back onto the probability simplex
 before the map was applied. The spectral radius sat strictly below unity at every
 value of~$f$ we sampled (twelve values from $0$ to $0.5$), declining monotonically
-from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory-overview}B).
+from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory}B).
 
 The search for correlated fixed points used initial conditions
 \begin{equation}
