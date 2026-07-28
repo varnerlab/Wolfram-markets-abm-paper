@@ -13,10 +13,10 @@
 #
 # Two independent `let` blocks (locals only, no consts), so including this file
 # after a sweep cannot collide with the sweep's global constants:
-#   1) Fig5-Nucleus.pdf     — Task 7: the crash nucleus is a single spatial
-#      domain, born in the interior. Reads BirthSites.csv + SeedSweep.csv.
-#   2) ModelB-Nucleation-Seeding.pdf — the seeding-intervention figure, left
-#      in its pre-restyle form; Task 10 turns it into FigS5-SeedingDetail.pdf.
+#   1) Fig5-Nucleus.pdf         — Task 7: the crash nucleus is a single
+#      spatial domain, born in the interior. Reads BirthSites.csv + SeedSweep.csv.
+#   2) FigS5-SeedingDetail.pdf  — Task 10: the seeding-intervention figure,
+#      restyled onto the shared style (formerly ModelB-Nucleation-Seeding.pdf).
 
 isdefined(Main, :_PATH_TO_DATA)  || include(joinpath(@__DIR__, "Include.jl"))
 isdefined(Main, :null_shell_pmf) || include(joinpath(@__DIR__, "BoundaryVsBulk-Lib.jl"))
@@ -178,8 +178,16 @@ let
 end
 
 # =============================================================================
-# ModelB-Nucleation-Seeding.pdf — seeding intervention (unchanged; Task 10
-# restyles this into FigS5-SeedingDetail.pdf)
+# FigS5-SeedingDetail.pdf (Task 10) — seeding intervention, restyled onto the
+# shared style. Formerly ModelB-Nucleation-Seeding.pdf, left in its
+# pre-restyle form (titles, no panel letters, ad hoc font sizes) until now.
+#
+# Colour fix (Task 10 cleanup item): `arm_color["control"]` was "#888888", an
+# out-of-palette raw hex. Replaced with `_SERIES_COLORS[5]` ("#000000") — the
+# same precedent Task 7 used for the "stable" config (a baseline / no-
+# intervention category takes the neutral in-palette colour rather than an
+# arbitrary gray). `edge`/`mid`/`center` keep their existing colours
+# unchanged (out of this task's scope).
 # =============================================================================
 let
     seed_df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedingIntervention.csv"), DataFrame)
@@ -200,8 +208,7 @@ let
     seeds    = sort(unique(seed_df.seed))
     s_patch  = maximum(seed_df.patch_size)          # control rows carry 0
 
-    cfg_color = Dict("freeze" => _BUY_COLOR, "collapse" => _SELL_COLOR)
-    arm_color = Dict("control" => "#888888", "edge" => _SELL_COLOR,
+    arm_color = Dict("control" => _SERIES_COLORS[5], "edge" => _SELL_COLOR,
                      "mid" => "#E69F00", "center" => _BUY_COLOR)
 
     # (config, seed) → arm → largest-cluster-fraction trajectory
@@ -219,14 +226,16 @@ let
     end
 
     # -----------------------------------------------------------------------
-    # Figure 2 — seeding intervention: (a) paired t_on by arm; (b) dominance
-    # rates; (c) exemplar largest-cluster growth (first seed with full pairs)
+    # (row 1) paired t_on by arm; (row 2) dominance rates; (row 3) exemplar
+    # largest-cluster growth (first seed with full pairs). No in-figure
+    # titles: the config name (and, for row 3, the exemplar seed) moves to a
+    # top-right annotation on every panel instead of depending on row/column
+    # position.
     # -----------------------------------------------------------------------
     fig2_panels = Plots.Plot[]
     for cname in configs
-        p = plot(title = "$(cname): onset by arm", titlefont = 10,
-                 xticks = (1:length(arms), arms), ylabel = "onset step",
-                 guidefont = 8, tickfont = 7, legend = false)
+        p = plot(; xticks = (1:length(arms), arms), ylabel = "onset step",
+                 legend = false, _panel_kw...)
         for seed in seeds
             ts = [ton(cname, seed, arm) for arm in arms]
             any(ismissing, ts) && continue
@@ -240,37 +249,45 @@ let
             scatter!(p, fill(j, nrow(sub)), sub.t_on, color = arm_color[arm],
                      markersize = 4, markerstrokewidth = 0)
         end
+        annotate!(p, (0.98, 1.06), text("$(cname) (patch s=$(s_patch))", 8, :black, :right))
         push!(fig2_panels, p)
     end
     for cname in configs
-        p = plot(title = "$(cname): patch dominance", titlefont = 10,
-                 xticks = (1:3, arms[2:end]), ylabel = "dominant-from-patch rate",
-                 ylims = (0, 1.05), guidefont = 8, tickfont = 7, legend = false)
+        p = plot(; xticks = (1:3, arms[2:end]), ylabel = "dominant-from-patch rate",
+                 ylims = (0, 1.05), legend = false, _panel_kw...)
         for (j, arm) in enumerate(arms[2:end])
             dom = seed_df[(seed_df.config .== cname) .& (seed_df.arm .== arm), :dominant_from_patch]
             bar!(p, [j], [count(dom) / max(length(dom), 1)],
                  color = arm_color[arm], fillalpha = 0.7, bar_width = 0.55)
         end
+        # Every one of the 20 seeds, in every arm, comes back exactly zero (the
+        # bars themselves are true but invisible at zero height) — the full
+        # statistical treatment (95% Wilson upper bound on 0/20) lives in
+        # Fig6-GrowthGating.pdf panel B; this panel states the raw count so an
+        # empty-looking panel does not read as a rendering defect.
+        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm (see Fig. 6B)", 9, :black, :center))
+        annotate!(p, (0.98, 1.06), text(cname, 8, :black, :right))
         push!(fig2_panels, p)
     end
     for cname in configs
         # Exemplar: the first seed whose four arms all reached onset (else first seed)
         ex = findfirst(seed -> all(arm -> !ismissing(ton(cname, seed, arm)), arms), seeds)
         ex_seed = isnothing(ex) ? seeds[1] : seeds[ex]
-        p = plot(title = "$(cname): exemplar growth (seed $(ex_seed))", titlefont = 10,
-                 xlabel = "step", ylabel = "largest cluster / grid",
-                 guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
+        p = plot(; xlabel = "step", ylabel = "largest cluster / grid",
+                 legend = :outertopright, _panel_kw...)
         for arm in arms
             plot!(p, 1:steps, trajs[(cname, ex_seed)][arm],
                   color = arm_color[arm], lw = 1.6, label = arm)
         end
+        annotate!(p, (0.98, 1.06), text("$(cname), seed $(ex_seed)", 8, :black, :right))
         push!(fig2_panels, p)
     end
 
+    for (p, letter) in zip(fig2_panels, ["A", "B", "C", "D", "E", "F"])
+        _panel_letter!(p, letter)
+    end
+
     fig2 = plot(fig2_panels...; layout = (3, 2), size = (1150, 1250),
-                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-                plot_title = "Patch seeding at a distance gradient (paired; s=$(s_patch))",
-                plot_titlefontsize = 11)
-    _save_figure(fig2, "ModelB-Nucleation-Seeding.pdf")
-    @info "Saved: ModelB-Nucleation-Seeding.pdf"
+                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+    _save_figure(fig2, "FigS5-SeedingDetail.pdf")
 end

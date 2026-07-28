@@ -1,12 +1,13 @@
 # Fig3-PhaseDiagram.jl
 # Loads: data/ModelA-PhaseSweep.jld2 + data/ModelA-PhaseSweep-Fine.jld2
-# Produces: figs/Fig3-PhaseDiagram.pdf  →  paper-arxiv/figs/Fig3-PhaseDiagram.pdf
+# Produces: figs/FigS3-PeakSell.pdf  →  paper-arxiv/figs/FigS3-PeakSell.pdf
 #
 # Single panel: peak (max) sell fraction vs f. The mean-sell-fraction and
 # crash-frequency panels that used to live here (as panels A and C) moved to
 # Fig2-Combined.jl, which now emits the merged Fig2-Crossover.pdf (snapshot
 # montage + mean sell + crash frequency). This script keeps only the panel
-# that figure displaced; a later task re-homes it as FigS3-PeakSell.pdf.
+# that figure displaced, now re-homed as the supplementary FigS3-PeakSell.pdf
+# (Task 10) — no other change: it was already restyled in Task 4.
 
 include(joinpath(@__DIR__, "Include.jl"))
 using Colors
@@ -35,4 +36,4 @@ vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
 # ---------------------------------------------------------------------------
 fig3 = plot(pB; size = (480, 380))
 
-_save_figure(fig3, "Fig3-PhaseDiagram.pdf")
+_save_figure(fig3, "FigS3-PeakSell.pdf")

@@ -3,15 +3,15 @@
 #
 # Reads: code/data/ModelB-Nucleation-SeedSweep.csv
 #        code/data/ModelB-Nucleation-SeedSweep-Trajectories.csv
-# Writes: code/figs/ModelB-Nucleation-SeedSweep.pdf (+ paper-arxiv/figs copy)
+# Writes: code/figs/FigS2-SeedTrajectories.pdf (+ paper-arxiv/figs copy)
 #
 # Five panels: row 1 = largest-cluster trajectories (20 seeds per config,
 # one panel per config); row 2 = per-run distributions of the two headline
-# metrics (ratio_at_peak, front_final). Restyling (Task 7) will change the
-# look; this script currently reproduces the same image the compute script
-# used to render as a side effect, with one deliberate fix: the distribution
-# scatter's jitter is now drawn from a fixed local RNG instead of bare
-# `rand`, so the figure is deterministic across reruns.
+# metrics (ratio_at_peak, front_final). Task 10 moved this onto the shared
+# style (_panel_kw, _panel_letter!, no in-figure titles) and renamed the
+# output from ModelB-Nucleation-SeedSweep.pdf to FigS2-SeedTrajectories.pdf.
+# The distribution scatter's jitter is drawn from a fixed local RNG instead
+# of bare `rand`, so the figure is deterministic across reruns.
 #
 # Run: julia --project=code code/model-b/Figs-ModelB-SeedSweep.jl
 
@@ -43,17 +43,27 @@ seeds = sort(unique(traj.seed))
 # ---------------------------------------------------------------------------
 # Figure: row 1 = largest-cluster trajectories (20 seeds per config);
 #         row 2 = per-run distributions of the two headline metrics
+#
+# Shared style (Task 10): _panel_kw + _panel_letter! throughout; no in-figure
+# titles (the config name moves to a top-right annotation on every trajectory
+# panel — column position alone would be positional language). Config colours
+# now match the mapping already established and justified in Fig5-Nucleus.pdf
+# and Fig6-GrowthGating.pdf (stable -> _SERIES_COLORS[5], freeze ->
+# _SERIES_COLORS[3], collapse -> _SELL_COLOR) instead of this script's
+# previous ad hoc "#666666"/_BUY_COLOR pair, so a reader tracks one
+# configuration by one colour across every figure in the paper, and freeze no
+# longer borrows the reserved Buy hue for a non-state category.
 # ---------------------------------------------------------------------------
-const _CFG_COLOR = Dict("stable" => "#666666", "freeze" => _BUY_COLOR, "collapse" => _SELL_COLOR)
+const _CFG_COLOR = Dict("stable" => _SERIES_COLORS[5], "freeze" => _SERIES_COLORS[3], "collapse" => _SELL_COLOR)
 
 traj_panels = Plots.Plot[]
 for cfg in CONFIGS
-    p = plot(title = cfg, titlefont = 10, xlabel = "step",
-             ylabel = "largest cluster / grid", ylims = (0, 0.8),
-             guidefont = 8, tickfont = 7, legend = false)
+    p = plot(; xlabel = "step", ylabel = "largest cluster / grid", ylims = (0, 0.8),
+             legend = false, _panel_kw...)
     for seed in seeds
         plot!(p, 1:STEPS, traj_map[(cfg, seed)], color = _CFG_COLOR[cfg], alpha = 0.35, lw = 1.0)
     end
+    annotate!(p, (0.98, 1.06), text(cfg, 8, :black, :right))
     push!(traj_panels, p)
 end
 
@@ -66,8 +76,7 @@ names_by_run = summ.config
 dist_panels  = Plots.Plot[]
 for (metric, lbl) in ((summ.ratio_at_peak, "largest cluster / total sell at peak"),
                       (summ.front_final, "largest cluster / grid at t=$(STEPS)"))
-    p = plot(ylabel = lbl, guidefont = 8, tickfont = 7, legend = false,
-             xticks = (1:length(CONFIGS), CONFIGS))
+    p = plot(; ylabel = lbl, legend = false, xticks = (1:length(CONFIGS), CONFIGS), _panel_kw...)
     for (j, cfg) in enumerate(CONFIGS)
         vals = metric[names_by_run .== cfg]
         boxplot!(p, fill(j, length(vals)), vals,
@@ -79,12 +88,14 @@ for (metric, lbl) in ((summ.ratio_at_peak, "largest cluster / total sell at peak
     push!(dist_panels, p)
 end
 
-fig = plot(traj_panels..., dist_panels...;
+panels = vcat(traj_panels, dist_panels)
+for (p, letter) in zip(panels, ["A", "B", "C", "D", "E"])
+    _panel_letter!(p, letter)
+end
+
+fig = plot(panels...;
            layout = @layout([a b c; d e]), size = (1400, 760),
-           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-           plot_title = "Nucleation probe across $(length(seeds)) seeds",
-           plot_titlefontsize = 11)
-_save_figure(fig, "ModelB-Nucleation-SeedSweep.pdf")
-@info "Saved: ModelB-Nucleation-SeedSweep.pdf"
+           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+_save_figure(fig, "FigS2-SeedTrajectories.pdf")
 
 @info "Figs-ModelB-SeedSweep.jl complete."

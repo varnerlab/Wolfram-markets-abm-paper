@@ -205,4 +205,50 @@ let
                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
     _save_figure(fig, "Fig6-GrowthGating.pdf")
     @info "Saved: Fig6-GrowthGating.pdf"
+
+    # =========================================================================
+    # FigS4-BarrierParameters.pdf (Task 10) — the three panels dropped from the
+    # main figure when it was reduced to A-D: onset rate vs f (all three cash
+    # levels), and the fitted Kramers parameters (f0, B) per cash level with
+    # bootstrap CIs. Reuses `a1`, `cashes_a1`, `cash_color`, `fits_sorted`,
+    # and the Model A reference constants already computed above — no refit.
+    # =========================================================================
+    pS1 = plot(; xlabel = "f", ylabel = "fraction of seeds with onset (within horizon)",
+               ylims = (0, 1.05), legend = :outertopright, _panel_kw...)
+    for cash in cashes_a1
+        sub   = a1[a1.cash .== cash, :]
+        fvals = sort(unique(sub.f))
+        onr   = [mean(sub.t_on[sub.f .== f] .> 0) for f in fvals]
+        plot!(pS1, fvals, onr, color = cash_color[cash], lw = 1.6,
+              marker = :circle, markersize = 4, markerstrokewidth = 0,
+              label = "cash $(Int(cash))")
+    end
+    _panel_letter!(pS1, "A")
+
+    fok    = fits_sorted[.!isnan.(fits_sorted.f0), :]
+    xs_fit = collect(1:max(nrow(fok), 1))
+
+    pS2 = plot(; xlabel = "initial cash", ylabel = "fitted pseudo-threshold f0",
+               xticks = (xs_fit, string.(Int.(fok.cash))),
+               xlims = (0.5, max(nrow(fok), 1) + 0.5), legend = false, _panel_kw...)
+    if nrow(fok) > 0
+        scatter!(pS2, xs_fit, fok.f0, yerror = (fok.f0 .- fok.f0_lo, fok.f0_hi .- fok.f0),
+                 color = [cash_color[c] for c in fok.cash], markersize = 6, markerstrokewidth = 0.5)
+        hline!(pS2, [F0_REF], color = :black, ls = :dash, lw = 1.0, label = "")
+    end
+    _panel_letter!(pS2, "B")
+
+    pS3 = plot(; xlabel = "initial cash", ylabel = "fitted shape coefficient B",
+               xticks = (xs_fit, string.(Int.(fok.cash))),
+               xlims = (0.5, max(nrow(fok), 1) + 0.5), legend = false, _panel_kw...)
+    if nrow(fok) > 0
+        scatter!(pS3, xs_fit, fok.B, yerror = (fok.B .- fok.B_lo, fok.B_hi .- fok.B),
+                 color = [cash_color[c] for c in fok.cash], markersize = 6, markerstrokewidth = 0.5)
+        hline!(pS3, [B_REF], color = :black, ls = :dash, lw = 1.0, label = "")
+    end
+    _panel_letter!(pS3, "C")
+
+    figS4 = plot(pS1, pS2, pS3; layout = (1, 3), size = (1500, 430),
+                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+    _save_figure(figS4, "FigS4-BarrierParameters.pdf")
 end

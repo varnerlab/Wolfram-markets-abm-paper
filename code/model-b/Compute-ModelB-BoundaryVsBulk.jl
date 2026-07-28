@@ -25,8 +25,8 @@
 # Writes: code/data/ModelB-Nucleation-BirthSites.csv
 #         code/data/ModelB-Nucleation-SeedingIntervention.csv
 #         code/data/ModelB-Nucleation-SeedingTrajectories.csv
-#         code/figs/ModelB-Nucleation-BirthSites.pdf   (via Figs-ModelB-BoundaryVsBulk.jl)
-#         code/figs/ModelB-Nucleation-Seeding.pdf      (via Figs-ModelB-BoundaryVsBulk.jl)
+#         code/figs/Fig5-Nucleus.pdf         (via Figs-ModelB-BoundaryVsBulk.jl)
+#         code/figs/FigS5-SeedingDetail.pdf  (via Figs-ModelB-BoundaryVsBulk.jl)
 #
 # Figures are drawn by Figs-ModelB-BoundaryVsBulk.jl (included at the end),
 # which reads ONLY the three CSVs above — so the committed figures remain

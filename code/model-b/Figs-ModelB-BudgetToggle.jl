@@ -1,33 +1,29 @@
-# Figs-ModelB-BudgetToggle.jl — rebuilds the budget-toggle and edge-trace
-# figures from committed CSVs. No simulation.
+# Figs-ModelB-BudgetToggle.jl — rebuilds the budget-toggle figures from
+# committed CSVs. No simulation.
 #
 # Reads: code/data/ModelB-Nucleation-BudgetToggle.csv
 #        code/data/ModelB-Nucleation-BudgetToggle-Trajectories.csv
-# Writes: code/figs/ModelB-Nucleation-BudgetToggle.pdf          (+ paper-arxiv/figs copy)
-#         code/figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf (+ paper-arxiv/figs copy)
-#         code/figs/Fig7-Intervention.pdf                        (+ paper-arxiv/figs copy)
+# Writes: code/figs/FigS6-ToggleDetail.pdf   (+ paper-arxiv/figs copy)
+#         code/figs/Fig7-Intervention.pdf    (+ paper-arxiv/figs copy)
 #
-# Three `let` blocks (locals only, no consts colliding on re-include), so this
+# Two `let` blocks (locals only, no consts colliding on re-include), so this
 # file can be standalone-rerun from the repo root:
 #   julia --project=code code/model-b/Figs-ModelB-BudgetToggle.jl
 #
-#   1) ModelB-Nucleation-BudgetToggle.pdf — paired trajectories: largest-
-#      cluster/grid, control vs toggled, one line per included seed,
-#      onset-aligned; plus a paired-velocity slope-graph panel per direction.
-#      Left in its pre-restyle form (titles, six-panel layout unchanged);
-#      Task 10 turns it into a supplementary figure.
-#   2) ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf — edge-ring trace: mean
-#      (over included seeds) edge-ring Buy/Sell fraction, control vs toggled,
-#      onset-aligned, three arms x two states. Also left in its pre-restyle
-#      form for Task 10's supplementary figure S6.
-#   3) Fig7-Intervention.pdf (Task 9, THIS task's output) — the paper's
-#      intervention-asymmetry figure: (A) paired front velocities under
-#      injection, (B) paired velocities under both withdrawal doses, (C) the
-#      edge-ring Buy/Sell mechanism under injection, (D) the same under the
-#      harsh withdrawal dose (the mild dose behaves the same way per the
-#      paper's own text — "either cut lifts the Buy fraction to ~0.72-0.74" —
-#      so showing one exemplar does not lose information; both doses appear
-#      in panel B and, in full, in Task 10's supplementary figure).
+#   1) FigS6-ToggleDetail.pdf (Task 10) — full per-arm cluster trajectories +
+#      the full three-arm edge trace, on the shared style. Merges what used
+#      to be two separate pre-restyle figures (ModelB-Nucleation-
+#      BudgetToggle.pdf and ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf,
+#      neither emitted any more) into one 3x3 grid: rows = direction,
+#      columns = {cluster trajectory, edge Buy fraction, edge Sell fraction}.
+#   2) Fig7-Intervention.pdf (Task 9) — the paper's intervention-asymmetry
+#      figure: (A) paired front velocities under injection, (B) paired
+#      velocities under both withdrawal doses, (C) the edge-ring Buy/Sell
+#      mechanism under injection, (D) the same under the harsh withdrawal
+#      dose (the mild dose behaves the same way per the paper's own text —
+#      "either cut lifts the Buy fraction to ~0.72-0.74" — so showing one
+#      exemplar does not lose information; both doses appear in panel B and,
+#      in full, in FigS6-ToggleDetail.pdf).
 #
 # DIRECTIONS' names/factors and the PRE/W window below duplicate constants
 # from Compute-ModelB-BudgetToggle.jl by design (same pattern as
@@ -131,82 +127,90 @@ function _aligned_mean_from_traj(sub::DataFrame, valcol::Symbol, xs::AbstractRan
 end
 
 # ---------------------------------------------------------------------------
-# Figure 1: row per direction — onset-aligned paired trajectories + paired dv
-# (pre-restyle form; Task 10 turns this into a supplementary figure)
+# FigS6-ToggleDetail.pdf (Task 10) — full per-arm cluster trajectories + the
+# full three-arm edge trace, on the shared style. Merges what used to be two
+# separate pre-restyle figures (ModelB-Nucleation-BudgetToggle.pdf and
+# ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf, neither emitted any more)
+# into one: 3 rows (one per direction) x 3 columns (cluster trajectory, edge
+# Buy fraction, edge Sell fraction). The paired-velocity slope-graphs from
+# the old BudgetToggle.pdf are NOT repeated here — Fig7-Intervention.pdf
+# already carries them in more detail (injection alone in panel A, both
+# withdrawal doses overlaid in panel B) — so nothing here duplicates that
+# panel's content.
+#
+# Edge-trace panels reuse Fig7's own scheme (Buy/Sell are genuine state
+# quantities: reserved hue, solid = toggled; _HOLD_COLOR dashed = control)
+# rather than the old block's ad hoc "#888888"/arm-colour pairing, which lost
+# the Buy/Sell identity of the very quantity being plotted. The cluster-
+# trajectory column is not a state quantity, so "control" there takes
+# _SERIES_COLORS[5] ("#000000", the same fix and precedent as the "control"
+# colour in Figs-ModelB-BoundaryVsBulk.jl) rather than the old raw
+# "#888888"; "toggled" keeps the existing _TOG_COLOR per-arm colour.
 # ---------------------------------------------------------------------------
 let
-    panels = Plots.Plot[]
+    xs      = (-PRE):W
+    panels  = Plots.Plot[]
+    letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+    li      = 0
     for dir in DIRECTIONS
-        p = plot(title = "$(dir.name): cash x$(dir.factor) at onset", titlefont = 10,
-                 xlabel = "steps since onset", ylabel = "largest cluster / grid",
-                 guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
+        dose_lbl = if dir.name == "injection"
+            "injection: cash x$(Int(dir.factor)) at onset"
+        elseif dir.name == "withdrawal_mild"
+            "withdrawal, mild: cash x$(dir.factor) at onset"
+        else
+            "withdrawal, harsh: cash x$(dir.factor) at onset"
+        end
+
         sub_c = traj[(traj.direction .== dir.name) .& (traj.condition .== "control"), :]
         sub_t = traj[(traj.direction .== dir.name) .& (traj.condition .== "toggled"), :]
         seeds = sort(unique(sub_c.seed))
+
+        # column 1 — full per-seed cluster trajectories, control vs toggled
+        p1 = plot(; xlabel = "steps since onset", ylabel = "largest cluster / grid",
+                  legend = :outertopright, _panel_kw...)
         seen_lbl = false
         for seed in seeds
             cs = sort(sub_c[sub_c.seed .== seed, :], :step_since_onset)
             ts = sort(sub_t[sub_t.seed .== seed, :], :step_since_onset)
-            plot!(p, cs.step_since_onset, cs.cluster_frac, color = "#888888", alpha = 0.45,
-                  lw = 1.0, label = seen_lbl ? "" : "control")
-            plot!(p, ts.step_since_onset, ts.cluster_frac, color = _TOG_COLOR[dir.name],
+            plot!(p1, cs.step_since_onset, cs.cluster_frac, color = _SERIES_COLORS[5],
+                  alpha = 0.45, lw = 1.0, label = seen_lbl ? "" : "control")
+            plot!(p1, ts.step_since_onset, ts.cluster_frac, color = _TOG_COLOR[dir.name],
                   alpha = 0.45, lw = 1.0, label = seen_lbl ? "" : "toggled")
             seen_lbl = true
         end
-        vline!(p, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-        push!(panels, p)
+        vline!(p1, [0], color = :black, ls = :dash, lw = 0.8, label = "")
+        annotate!(p1, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
+        li += 1; _panel_letter!(p1, letters[li])
+        push!(panels, p1)
 
-        sub = summ[(summ.direction .== dir.name) .& summ.included, :]
-        q = plot(ylabel = "front velocity x 1e4 (per step)", guidefont = 8,
-                 tickfont = 7, legend = false, xticks = ([1, 2], ["control", "toggled"]),
-                 xlims = (0.6, 2.4), title = "paired velocities", titlefont = 10)
-        for r in eachrow(sub)
-            plot!(q, [1, 2], [r.v_ctrl, r.v_toggle] .* 1e4,
-                  color = _TOG_COLOR[dir.name], alpha = 0.5, lw = 1.0, marker = :circle,
-                  markersize = 3, markerstrokewidth = 0)
-        end
-        push!(panels, q)
+        # columns 2-3 — edge-ring mean Buy / Sell fraction, control vs toggled
+        buy_c  = _aligned_mean_from_traj(sub_c, :edge_buy_frac,  xs)
+        buy_t  = _aligned_mean_from_traj(sub_t, :edge_buy_frac,  xs)
+        sell_c = _aligned_mean_from_traj(sub_c, :edge_sell_frac, xs)
+        sell_t = _aligned_mean_from_traj(sub_t, :edge_sell_frac, xs)
+
+        p2 = plot(; xlabel = "steps since onset", ylabel = "edge ring: Buy fraction",
+                  ylims = (-0.02, 1.02), legend = :outertopright, _panel_kw...)
+        plot!(p2, xs, buy_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "control")
+        plot!(p2, xs, buy_t, color = _BUY_COLOR,  lw = 2.2, label = "toggled")
+        vline!(p2, [0], color = :black, ls = :dash, lw = 0.8, label = "")
+        annotate!(p2, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
+        li += 1; _panel_letter!(p2, letters[li])
+        push!(panels, p2)
+
+        p3 = plot(; xlabel = "steps since onset", ylabel = "edge ring: Sell fraction",
+                  ylims = (-0.02, 1.02), legend = :outertopright, _panel_kw...)
+        plot!(p3, xs, sell_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "control")
+        plot!(p3, xs, sell_t, color = _SELL_COLOR, lw = 2.2, label = "toggled")
+        vline!(p3, [0], color = :black, ls = :dash, lw = 0.8, label = "")
+        annotate!(p3, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
+        li += 1; _panel_letter!(p3, letters[li])
+        push!(panels, p3)
     end
 
-    fig = plot(panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
-               left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-               plot_title = "Budget-toggle intervention (paired, onset-aligned; W=$(W))",
-               plot_titlefontsize = 11)
-    _save_figure(fig, "ModelB-Nucleation-BudgetToggle.pdf")
-    @info "Saved: ModelB-Nucleation-BudgetToggle.pdf"
-end
-
-# ---------------------------------------------------------------------------
-# Figure 2: edge-trace mechanism — onset-aligned MEAN edge-ring Buy and Sell
-# fractions, control vs toggled, per direction. This is the conduit figure:
-# budgets can only reach interior sentiment through these ring states.
-# (pre-restyle form; Task 10 turns this into supplementary figure S6)
-# ---------------------------------------------------------------------------
-let
-    edge_panels = Plots.Plot[]
-    xs = (-PRE):W
-    for dir in DIRECTIONS
-        subc = traj[(traj.direction .== dir.name) .& (traj.condition .== "control"), :]
-        subt = traj[(traj.direction .== dir.name) .& (traj.condition .== "toggled"), :]
-        for (valcol, lbl) in ((:edge_buy_frac, "edge ring: Buy fraction"),
-                              (:edge_sell_frac, "edge ring: Sell fraction"))
-            mc = _aligned_mean_from_traj(subc, valcol, xs)
-            mt = _aligned_mean_from_traj(subt, valcol, xs)
-            p  = plot(title = "$(dir.name): cash x$(dir.factor)", titlefont = 10,
-                      xlabel = "steps since onset", ylabel = lbl, ylims = (0, 1),
-                      guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
-            plot!(p, xs, mc, color = "#888888", lw = 1.8, label = "control")
-            plot!(p, xs, mt, color = _TOG_COLOR[dir.name], lw = 1.8, label = "toggled")
-            vline!(p, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-            push!(edge_panels, p)
-        end
-    end
-    fig_edge = plot(edge_panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
-                    left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-                    plot_title = "Edge-ring trace: the price -> boundary conduit (mean over seeds)",
-                    plot_titlefontsize = 11)
-    _save_figure(fig_edge, "ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf")
-    @info "Saved: ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"
+    figS6 = plot(panels...; layout = (length(DIRECTIONS), 3), size = (1750, 1050),
+                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+    _save_figure(figS6, "FigS6-ToggleDetail.pdf")
 end
 
 # ---------------------------------------------------------------------------
@@ -310,7 +314,6 @@ let
     fig7 = plot(pA, pB, pC, pD; layout = (2, 2), size = (1150, 950),
                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
     _save_figure(fig7, "Fig7-Intervention.pdf")
-    @info "Saved: Fig7-Intervention.pdf"
 end
 
 @info "Figs-ModelB-BudgetToggle.jl complete."

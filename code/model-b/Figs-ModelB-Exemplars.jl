@@ -84,57 +84,70 @@ crash_res = simulate(_exemplar_config(crash_row); snapshot_steps = Int64[], verb
 # ---------------------------------------------------------------------------
 # 3. Curated 3x2 figure: columns = {crash-prone, oscillatory}, rows =
 #    {price, interior state fractions, suppressed orders}
+#
+# Shared style (Task 10): _panel_kw + _panel_letter! throughout, no in-figure
+# titles (the regime name moves to a top-right annotation on every panel, so
+# no panel's identity depends on its column position). State-fraction traces
+# genuinely ARE Buy/Hold/Sell quantities and keep the reserved state hues
+# (Hold now uses the exact reserved _HOLD_COLOR rather than the pre-restyle
+# "#888888" stand-in, with a heavier linewidth for legibility against the
+# panel's gray background). Price and suppressed-order series are NOT state
+# quantities: price stays neutral black/gray (a deliberate grayscale, not a
+# Plots default), and suppressed buys/sells take two _SERIES_COLORS entries
+# rather than the reserved Buy/Sell hues.
 # ---------------------------------------------------------------------------
-const _HOLD_LINE = "#888888"  # _HOLD_COLOR is too light to read as a line
 
-function _price_panel(res; title = "", ylabel = "", legend = false)
+function _price_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(0:T, res.band_lower, fillrange = res.band_upper, fillalpha = 0.15,
-             lw = 0, color = :gray, label = legend ? "EMA band" : "")
+    p = plot(; ylabel = "price", legend = legend ? :outertopright : false, _panel_kw...)
+    plot!(p, 0:T, res.band_lower, fillrange = res.band_upper, fillalpha = 0.15,
+          lw = 0, color = :gray, label = legend ? "EMA band" : "")
     plot!(p, 0:T, res.ema_price, color = :gray, ls = :dash, lw = 1.0,
           label = legend ? "EMA" : "")
     plot!(p, 0:T, res.prices, color = :black, lw = 1.3, label = legend ? "price" : "")
-    plot!(p; title = title, titlefont = 10, ylabel = ylabel, guidefont = 8,
-          tickfont = 7, legendfontsize = 6, legend = legend ? :best : false)
+    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
     return p
 end
 
-function _pop_panel(res; ylabel = "", legend = false)
+function _pop_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(0:T, res.buy_fraction, color = _BUY_COLOR, lw = 1.3,
-             label = legend ? "Buy" : "")
-    plot!(p, 0:T, res.hold_fraction, color = _HOLD_LINE, lw = 1.3,
+    p = plot(; ylabel = "state fraction", ylims = (0, 1),
+             legend = legend ? :outertopright : false, _panel_kw...)
+    plot!(p, 0:T, res.buy_fraction, color = _BUY_COLOR, lw = 1.3,
+          label = legend ? "Buy" : "")
+    plot!(p, 0:T, res.hold_fraction, color = _HOLD_COLOR, lw = 1.6,
           label = legend ? "Hold" : "")
     plot!(p, 0:T, res.sell_fraction, color = _SELL_COLOR, lw = 1.3,
           label = legend ? "Sell" : "")
-    plot!(p; ylabel = ylabel, ylims = (0, 1), guidefont = 8, tickfont = 7,
-          legendfontsize = 6, legend = legend ? :best : false)
+    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
     return p
 end
 
-function _supp_panel(res; ylabel = "", legend = false)
+function _supp_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(1:T, res.suppressed_buys, color = _BUY_COLOR, lw = 1.2,
-             label = legend ? "suppressed buys" : "")
-    plot!(p, 1:T, res.suppressed_sells, color = _SELL_COLOR, lw = 1.2,
+    p = plot(; ylabel = "suppressed orders", xlabel = "step",
+             legend = legend ? :outertopright : false, _panel_kw...)
+    plot!(p, 1:T, res.suppressed_buys, color = _SERIES_COLORS[1], lw = 1.2,
+          label = legend ? "suppressed buys" : "")
+    plot!(p, 1:T, res.suppressed_sells, color = _SERIES_COLORS[2], lw = 1.2,
           label = legend ? "suppressed sells" : "")
-    plot!(p; ylabel = ylabel, xlabel = "step", guidefont = 8, tickfont = 7,
-          legendfontsize = 6, legend = legend ? :best : false)
+    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
     return p
 end
 
 panels = [
-    _price_panel(crash_res; title = "crash-prone (tail exemplar)", ylabel = "price"),
-    _price_panel(osc_res;   title = "oscillatory", legend = true),
-    _pop_panel(crash_res;   ylabel = "state fraction"),
-    _pop_panel(osc_res;     legend = true),
-    _supp_panel(crash_res;  ylabel = "suppressed orders"),
-    _supp_panel(osc_res;    legend = true),
+    _price_panel(crash_res; regime = "crash-prone (tail exemplar)"),
+    _price_panel(osc_res;   regime = "oscillatory", legend = true),
+    _pop_panel(crash_res;   regime = "crash-prone (tail exemplar)"),
+    _pop_panel(osc_res;     regime = "oscillatory", legend = true),
+    _supp_panel(crash_res;  regime = "crash-prone (tail exemplar)"),
+    _supp_panel(osc_res;    regime = "oscillatory", legend = true),
 ]
+for (p, letter) in zip(panels, ["A", "B", "C", "D", "E", "F"])
+    _panel_letter!(p, letter)
+end
 
-fig = plot(panels...; layout = (3, 2), size = (800, 780),
-           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-           plot_title = "Model B exemplars: two realized regimes (of five possible)",
-           plot_titlefontsize = 11)
-_save_figure(fig, "Fig-ModelB-Exemplars.pdf")
+fig = plot(panels...; layout = (3, 2), size = (950, 950),
+           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+_save_figure(fig, "FigS1-Exemplars.pdf")
 @info "Figs-ModelB-Exemplars.jl complete." osc_run = osc_row.run_id crash_run = crash_row.run_id
