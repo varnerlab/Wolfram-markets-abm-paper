@@ -182,12 +182,27 @@ end
 # shared style. Formerly ModelB-Nucleation-Seeding.pdf, left in its
 # pre-restyle form (titles, no panel letters, ad hoc font sizes) until now.
 #
-# Colour fix (Task 10 cleanup item): `arm_color["control"]` was "#888888", an
-# out-of-palette raw hex. Replaced with `_SERIES_COLORS[5]` ("#000000") — the
-# same precedent Task 7 used for the "stable" config (a baseline / no-
-# intervention category takes the neutral in-palette colour rather than an
-# arbitrary gray). `edge`/`mid`/`center` keep their existing colours
-# unchanged (out of this task's scope).
+# Colour fix (Task 10 cleanup item + review finding): `arm_color["control"]`
+# was "#888888", an out-of-palette raw hex — replaced with `_SERIES_COLORS[5]`
+# ("#000000"), the same precedent Task 7 used for the "stable" config (a
+# baseline / no-intervention category takes the neutral in-palette colour
+# rather than an arbitrary gray).
+#
+# `edge`/`mid`/`center` were ALSO wrong: "edge" was `_SELL_COLOR` and "center"
+# was `_BUY_COLOR`, borrowing reserved Okabe-Ito STATE hues for what are
+# purely categorical PLACEMENT arms (Task 9 precedent: categorical arms take
+# `_SERIES_COLORS`, reserved hues are only for genuine Buy/Hold/Sell/edge
+# quantities). "edge" in Sell-orange additionally collided with the figure's
+# own edge-BAND semantics elsewhere in the paper (the boundary ring, coloured
+# via `_HOLD_COLOR`/`_SELL_COLOR` in panel C and Fig6/Fig7). Remapped all four
+# arms onto `_SERIES_COLORS` alone: control -> [5] (black, unchanged), edge ->
+# [2] (blue), center -> [3] (pink/magenta). "mid" keeps its exact existing hue
+# but now spells it as `_SERIES_COLORS[1]` instead of the literal "#E69F00" it
+# happened to equal, so all four arms read from one named source. Entry [4]
+# ("#F0E442", yellow) is deliberately left unused: it is the weakest colour
+# against this figure's #F0F0F0 panel background, and with only three
+# non-control arms the three strongest entries already give full
+# distinguishability without it.
 # =============================================================================
 let
     seed_df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedingIntervention.csv"), DataFrame)
@@ -208,8 +223,8 @@ let
     seeds    = sort(unique(seed_df.seed))
     s_patch  = maximum(seed_df.patch_size)          # control rows carry 0
 
-    arm_color = Dict("control" => _SERIES_COLORS[5], "edge" => _SELL_COLOR,
-                     "mid" => "#E69F00", "center" => _BUY_COLOR)
+    arm_color = Dict("control" => _SERIES_COLORS[5], "edge" => _SERIES_COLORS[2],
+                     "mid" => _SERIES_COLORS[1], "center" => _SERIES_COLORS[3])
 
     # (config, seed) → arm → largest-cluster-fraction trajectory
     trajs = Dict{Tuple{String,Int},Dict{String,Vector{Float64}}}()
