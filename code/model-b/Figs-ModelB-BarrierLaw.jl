@@ -160,11 +160,21 @@ let
     pC = plot(; xlabel = "suppressed buy orders / step (absolute)",
               ylabel = "front velocity × 1e4 (fraction/step)",
               legend = :outertopright, _panel_kw...)
+    # Two passes — every point, THEN every median diamond — rather than one
+    # pass per cash group. The five medians cluster tightly, so interleaving
+    # (points, diamond) per group let a later group's diamond partially cover
+    # an earlier group's individual points (self-occlusion from loop order,
+    # not a design choice). Drawing all 97 points first and all five diamonds
+    # last is the same visual intent (raw data underneath, medians marked on
+    # top) with no dependence on iteration order.
     for cash in cashes_a2
         s = a2[a2.cash .== cash, :]
         scatter!(pC, s.suppb_w, s.v_front .* 1e4, color = cash_color[cash],
                  markersize = 4, markerstrokewidth = 0.3, alpha = 0.8,
                  label = "cash $(Int(cash)) (n=$(nrow(s)))")
+    end
+    for cash in cashes_a2
+        s = a2[a2.cash .== cash, :]
         scatter!(pC, [median(s.suppb_w)], [median(s.v_front) * 1e4],
                  color = cash_color[cash], marker = :diamond, markersize = 9,
                  markerstrokewidth = 1.2, markerstrokecolor = :black, label = "")

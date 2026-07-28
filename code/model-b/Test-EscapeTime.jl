@@ -80,6 +80,57 @@ end
     @test 0 < length(bs4.f0) <= 100
 end
 
+@testset "a2_subset" begin
+    # Synthetic check of the window rule itself: f == 0.20 pooled across every
+    # `stage` value, with a defined v_front, independent of the committed CSV.
+    syn = DataFrame(stage = ["pilot", "pilot", "a2x", "pilot", "a2x"],
+                     f     = [0.20, 0.20, 0.20, 0.15, 0.20],
+                     v_front = [0.10, NaN, 0.30, 0.20, 0.05])
+    s_a2, s_excl = a2_subset(syn)
+    @test nrow(s_a2) == 3               # 4 rows at f=0.20, 1 of them NaN
+    @test s_excl == 1
+    @test all(s_a2.f .== 0.20)
+    @test all(.!isnan.(s_a2.v_front))
+    @test Set(s_a2.stage) == Set(["pilot", "a2x"])   # pooled, not filtered to one stage
+
+    # The committed CSV: this n is what the paper cites (97 included, 3
+    # excluded). a2_subset is shared by two scripts now, so a silent change
+    # to it would silently move that number.
+    df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), DataFrame)
+    a2, n_excluded = a2_subset(df)
+    @test nrow(a2) == 97
+    @test n_excluded == 3
+    @test all(a2.f .== 0.20)
+    @test all(.!isnan.(a2.v_front))
+    @test nrow(a2) + n_excluded == count(==(0.20), df.f)
+end
+
+@testset "CASH_RAMP / cash_color_map" begin
+    @test length(CASH_RAMP) == 5
+    @test allunique(CASH_RAMP)
+
+    full5 = [250.0, 500.0, 1000.0, 2000.0, 5000.0]
+    cmap5 = cash_color_map(full5, full5)
+    @test cmap5[250.0]  == CASH_RAMP[1]
+    @test cmap5[500.0]  == CASH_RAMP[2]
+    @test cmap5[1000.0] == CASH_RAMP[3]
+    @test cmap5[2000.0] == CASH_RAMP[4]
+    @test cmap5[5000.0] == CASH_RAMP[5]
+
+    # The property the paper's cross-panel readability depends on: a cash
+    # level shared between a 3-level subset (barrier law's panel A) and the
+    # full 5-level set (panels C/D) must land on the SAME colour in both, so
+    # a reader tracks one budget across panels showing different dose subsets.
+    subset3 = [500.0, 1000.0, 5000.0]
+    cmap3   = cash_color_map(subset3, full5)
+    @test cmap3[500.0]  == cmap5[500.0]
+    @test cmap3[1000.0] == cmap5[1000.0]
+    @test cmap3[5000.0] == cmap5[5000.0]
+
+    @test_throws AssertionError cash_color_map([500.0], [500.0, 1000.0])  # full domain != 5 levels
+    @test_throws AssertionError cash_color_map([999.0], full5)            # cash outside full domain
+end
+
 @testset "spearman_perm_p" begin
     x  = collect(1.0:40.0)
     sp = spearman_perm_p(x, -2.0 .* x .+ 100.0)
