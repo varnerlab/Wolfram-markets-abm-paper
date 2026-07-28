@@ -50,8 +50,25 @@ this system — hence the `GKS: could not find font bold.ttf` warning on every
 run, and silently non-bold text. "helvetica bold" IS a key in that table
 (mapped to GR's built-in font 107, no TTF file involved), so it renders true
 bold with no warning; confirmed by rendering both side by side.
+
+The relative y-position branches on the axis's own flip state. `annotate!`'s
+relative-position path (`(rx, ry)` a fraction of the axis range, per
+`locate_annotation(sp, rel::Tuple, label)` in Plots' `components.jl`) is
+anchored to the DATA range, not the screen: on a normal (unflipped) axis,
+`ry = 1.06` sits 6% above the top of the rendered panel, which is what every
+call site wants. On a `yflip = true` axis (row/col spatial maps, drawn with
+row 1 at the visual top), the data-range maximum renders at the visual
+BOTTOM, so the same `ry = 1.06` places the letter 6% below the panel instead
+of above it (first hit in Fig5-Nucleus.pdf's panel B; documented for the
+montage case in Fig2-Combined.jl:68-77, which sidestepped it with a
+dedicated unflipped blank corner panel rather than branching here). Querying
+`plt.subplots[1][:yaxis][:flip]` is a cheap, reliable way to detect this
+per-plot, so the branch lives in this one shared function instead of being
+special-cased at every flipped call site.
 """
 function _panel_letter!(plt, letter::String)
-    annotate!(plt, (0.02, 1.06), text(letter, :black, :left, 12, "helvetica bold"))
+    flipped = plt.subplots[1][:yaxis][:flip]
+    ry = flipped ? -0.06 : 1.06
+    annotate!(plt, (0.02, ry), text(letter, :black, :left, 12, "helvetica bold"))
     return plt
 end

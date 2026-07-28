@@ -39,9 +39,13 @@ let
     # contrast, so freeze takes the pink (_SERIES_COLORS[3]) instead. Collapse
     # keeps _SELL_COLOR deliberately: the collapse config is the one that
     # converts the lattice to Sell, so Sell-orange is semantically load-bearing
-    # here, not merely decorative. Same mapping in every panel below, so a
+    # here, not merely decorative. Stable takes _SERIES_COLORS[5] ("#000000")
+    # rather than an arbitrary gray: the binding constraint restricts non-state
+    # series to the five _SERIES_COLORS entries, and black reads as neutral
+    # gray at this fill alpha while staying unambiguous against freeze's pink
+    # and collapse's vermillion. Same mapping in every panel below, so a
     # reader tracks a configuration by colour across the whole figure.
-    cfg_color = Dict("stable" => "#666666", "freeze" => _SERIES_COLORS[3], "collapse" => _SELL_COLOR)
+    cfg_color = Dict("stable" => _SERIES_COLORS[5], "freeze" => _SERIES_COLORS[3], "collapse" => _SELL_COLOR)
 
     # Grid size recovered from the census itself — neither CSV carries a
     # `gridn` column. chebyshev_boundary_distance(r, c, n, n) = min(r-1, n-r,
@@ -97,9 +101,14 @@ let
     _panel_letter!(pA, "A")
 
     # ── B: birth-site map (interior-only clusters; freeze + collapse) ──────
+    # Legend placed OUTSIDE the axes (:outertopright): this scatter covers the
+    # grid edge-to-edge (that is the panel's whole point — births are not
+    # confined to any corner), so no interior legend position is provably
+    # clear of data. An outer legend cannot occlude a plotted point because
+    # it is drawn in a separate margin region, not over the axes box.
     pB = plot(; xlims = (1, gridn), ylims = (1, gridn), yflip = true,
               aspect_ratio = :equal, xlabel = "col", ylabel = "row",
-              legend = :topright, _panel_kw...)
+              legend = :outertopright, _panel_kw...)
     plot!(pB, [1, gridn, gridn, 1, 1], [1, 1, gridn, gridn, 1],
           color = :black, lw = 0.8, label = "")
     for cname in configs
@@ -143,8 +152,12 @@ let
     # Collapse alone carries points; freeze carries an explicit zero-count
     # legend entry (a proxy series with empty data) so the "0 of 20" is
     # asserted ON the figure rather than merely implied by absent markers.
+    # Legend placed OUTSIDE the axes for the same reason as panel B: only 6
+    # data points total, but they are spread from one corner to the other, so
+    # every interior corner is close to at least one of them (verified below,
+    # not assumed).
     pD = plot(; xlabel = "attach step − birth step", ylabel = "onset − birth (steps)",
-              legend = :bottomright, _panel_kw...)
+              legend = :outertopright, _panel_kw...)
     for cname in configs
         sub   = inc[(inc.config .== cname) .& inc.attached, :]
         total = count(==(cname), inc.config)
