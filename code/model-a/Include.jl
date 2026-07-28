@@ -40,3 +40,35 @@ function _grid_panel(grid::Array{Int64,2}, title::String = "")
         axis = false, colorbar = false,
         yflip = true, title = title, titlefont = 8)
 end
+
+"""
+    _load_phase_sweep()
+
+Load the coarse f-sweep (`ModelA-PhaseSweep.jld2`) and, if present, the fine
+f-sweep (`ModelA-PhaseSweep-Fine.jld2`), merging the fine values in where the
+two overlap. Shared by every script that plots a summary vs f (mean sell
+fraction, peak sell fraction, crash frequency) so the load-and-merge logic
+lives in one place instead of being copied into each script.
+
+Returns `(f_vals, all_sweep)`: `f_vals` is the sorted vector of f values,
+`all_sweep` is a `Dict{Float64,Dict}` keyed by f, e.g.
+`all_sweep[f]["mean_sell_fraction"]`.
+"""
+function _load_phase_sweep()
+    d        = load(joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep.jld2"))
+    f_coarse = d["f_values"]
+    sweep_c  = d["sweep_results"]
+
+    fine_path = joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep-Fine.jld2")
+    if isfile(fine_path)
+        df      = load(fine_path)
+        sweep_f = df["sweep_results"]
+        # Merge: fine sweep values override coarse where they overlap
+        all_sweep = merge(sweep_c, sweep_f)
+        f_vals    = sort(collect(keys(all_sweep)))
+    else
+        all_sweep = sweep_c
+        f_vals    = sort(collect(f_coarse))
+    end
+    return f_vals, all_sweep
+end

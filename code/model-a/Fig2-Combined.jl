@@ -32,24 +32,10 @@ frames_cr   = cr["frames"]
 snap_steps = [581, 2851, 8236, 23790]
 
 # ---------------------------------------------------------------------------
-# Load phase sweep data (coarse + fine merge) — same merge Fig3-PhaseDiagram.jl
-# performs for its own (now sole) panel.
+# Load phase sweep data (coarse + fine merge) — shared with Fig3-PhaseDiagram.jl
+# via `_load_phase_sweep()` in Include.jl so the merge logic lives in one place.
 # ---------------------------------------------------------------------------
-d        = load(joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep.jld2"))
-f_coarse = d["f_values"]
-sweep_c  = d["sweep_results"]
-
-fine_path = joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep-Fine.jld2")
-if isfile(fine_path)
-    df      = load(fine_path)
-    sweep_f = df["sweep_results"]
-    # Merge: fine sweep values override coarse where they overlap
-    all_sweep = merge(sweep_c, sweep_f)
-    f_vals    = sort(collect(keys(all_sweep)))
-else
-    all_sweep = sweep_c
-    f_vals    = sort(collect(f_coarse))
-end
+f_vals, all_sweep = _load_phase_sweep()
 
 mean_sell  = [all_sweep[f]["mean_sell_fraction"] for f in f_vals]
 crash_freq = [all_sweep[f]["crash_frequency"]    for f in f_vals]
@@ -72,14 +58,35 @@ fc = 0.145
 # Panel A — snapshot montage
 #
 # Row/column identification used to be carried by `title=` on each tile; the
-# house style forbids in-figure titles. A plain `ylabel=`/annotate! placed on
-# the heatmap tiles themselves does not work here: an opaque `heatmap` in this
-# Plots/GR version draws its raster AFTER the subplot's `:annotations` layer,
-# so any text placed directly on a filled heatmap tile is drawn UNDER the
-# colored cells and is invisible (verified empirically — a scatter series
-# added after the heatmap DOES show on top; an annotation does not). So row
-# labels (f value) and column labels (time step) get their own dedicated
-# blank cells in an expanded 4x5 grid instead of being drawn on the tiles.
+# house style forbids in-figure titles. Direct annotation on the heatmap
+# tiles is NOT blocked by opacity — a heatmap's raster draws before the
+# subplot's `:annotations` layer, so opaque tiles do not hide annotations
+# drawn on them (verified: a plain `annotate!(p, x, y, text(...))` call with
+# unpacked, absolute-data-coordinate arguments renders on top of an opaque
+# heatmap tile without issue).
+#
+# The actual obstacle is `_panel_letter!`'s *relative*-position call shape
+# (`annotate!(plt, (rx, ry), text(...))`, `rx`/`ry` a fraction of the axis
+# range via `locate_annotation(sp, rel::Tuple, label)` in Plots'
+# `components.jl`). `_snap_panel` sets `yflip = true` so row 1 renders as the
+# visual top row; `yflip` reverses which direction is "up" on screen, so the
+# same relative fraction that lands 6% above the top of an un-flipped panel
+# lands 6% below the bottom of a flipped one, and `margin = 0mm` leaves no
+# room to show it there either — verified by rendering `_panel_letter!` on a
+# `yflip = true` tile (letter appears below the grid, not above) versus the
+# same call with `yflip = false` (letter appears correctly at the top).
+#
+# A per-tile fix (unpacked absolute coordinates, with the "above"/"left"
+# direction chosen to account for the flip) is possible, but was not worth
+# it here: doing it for twelve tiles means reserving a left_margin/top_margin
+# on only SOME of them (the first row and first column), and Plots sizes
+# each subplot to its own margin under `aspect_ratio = :equal` — a tile with
+# extra left_margin renders visibly SMALLER than its unmodified row-mates
+# (confirmed by rendering a row of four identical tiles with only the first
+# carrying `left_margin = 15mm`). Dedicated blank label cells in an expanded
+# 4x5 grid sidestep both problems: the twelve heatmap tiles keep an identical,
+# uniform margin (so they render at identical size), and the labels live in
+# cells that were never part of the montage's own coordinate system.
 # ---------------------------------------------------------------------------
 function _snap_panel(fdict, t)
     heatmap(fdict[t];

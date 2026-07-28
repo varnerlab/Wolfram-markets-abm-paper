@@ -38,8 +38,20 @@ _grid_cgrad() = cgrad([_BUY_COLOR, _HOLD_COLOR, _SELL_COLOR], [0.0, 0.5, 1.0])
 
 Draw a bold panel letter at the top left of `plt`. Captions reference these as
 \\textbf{(A)}; never use positional language like "top row" in a caption.
+
+The weight comes from the font FAMILY string "helvetica bold", not from a
+`:bold` symbol. Plots' `Font` has no separate weight field (see
+`Plots/src/components.jl`, `function font(args...)`): a bare `:bold` symbol
+falls through `font()`'s type-based dispatch, fails `parse(Colorant, "bold")`,
+and is taken as a literal font *family* named "bold". The GR backend then
+looks up that name in its built-in `gr_font_family` table, fails to find an
+entry, and falls back to `GR.loadfont("bold.ttf")`, which does not exist on
+this system — hence the `GKS: could not find font bold.ttf` warning on every
+run, and silently non-bold text. "helvetica bold" IS a key in that table
+(mapped to GR's built-in font 107, no TTF file involved), so it renders true
+bold with no warning; confirmed by rendering both side by side.
 """
 function _panel_letter!(plt, letter::String)
-    annotate!(plt, (0.02, 1.06), text(letter, :black, :left, 12, :bold))
+    annotate!(plt, (0.02, 1.06), text(letter, :black, :left, 12, "helvetica bold"))
     return plt
 end

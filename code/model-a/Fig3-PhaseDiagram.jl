@@ -11,23 +11,9 @@
 include(joinpath(@__DIR__, "Include.jl"))
 using Colors
 
-# Load coarse sweep
-d      = load(joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep.jld2"))
-f_coarse = d["f_values"]
-sweep_c  = d["sweep_results"]
-
-# Load fine sweep (if available) and merge
-fine_path = joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep-Fine.jld2")
-if isfile(fine_path)
-    df = load(fine_path)
-    sweep_f = df["sweep_results"]
-    # Merge: fine sweep values override coarse where they overlap
-    all_sweep = merge(sweep_c, sweep_f)
-    f_vals = sort(collect(keys(all_sweep)))
-else
-    all_sweep = sweep_c
-    f_vals = sort(collect(f_coarse))
-end
+# Load coarse + fine sweep (merged) — shared with Fig2-Combined.jl via
+# `_load_phase_sweep()` in Include.jl so the merge logic lives in one place.
+f_vals, all_sweep = _load_phase_sweep()
 
 max_sell = [all_sweep[f]["max_sell_fraction"] for f in f_vals]
 
