@@ -1,13 +1,15 @@
 # Fig3-PhaseDiagram.jl
 # Loads: data/ModelA-PhaseSweep.jld2 + data/ModelA-PhaseSweep-Fine.jld2
-# Produces: figs/Fig3-PhaseDiagram.pdf  →  paper/figs/Fig3-PhaseDiagram.pdf
+# Produces: figs/Fig3-PhaseDiagram.pdf  →  paper-arxiv/figs/Fig3-PhaseDiagram.pdf
 #
-# Layout (1×3):
-#   Panel A  mean sell fraction vs f
-#   Panel B  max (peak) sell fraction vs f
-#   Panel C  crash frequency vs f   (fraction of steps with sell > 0.5)
+# Single panel: peak (max) sell fraction vs f. The mean-sell-fraction and
+# crash-frequency panels that used to live here (as panels A and C) moved to
+# Fig2-Combined.jl, which now emits the merged Fig2-Crossover.pdf (snapshot
+# montage + mean sell + crash frequency). This script keeps only the panel
+# that figure displaced; a later task re-homes it as FigS3-PeakSell.pdf.
 
 include(joinpath(@__DIR__, "Include.jl"))
+using Colors
 
 # Load coarse sweep
 d      = load(joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep.jld2"))
@@ -18,7 +20,6 @@ sweep_c  = d["sweep_results"]
 fine_path = joinpath(_PATH_TO_DATA, "ModelA-PhaseSweep-Fine.jld2")
 if isfile(fine_path)
     df = load(fine_path)
-    f_fine  = df["f_values"]
     sweep_f = df["sweep_results"]
     # Merge: fine sweep values override coarse where they overlap
     all_sweep = merge(sweep_c, sweep_f)
@@ -28,49 +29,24 @@ else
     f_vals = sort(collect(f_coarse))
 end
 
-mean_sell  = [all_sweep[f]["mean_sell_fraction"] for f in f_vals]
-max_sell   = [all_sweep[f]["max_sell_fraction"]  for f in f_vals]
-crash_freq = [all_sweep[f]["crash_frequency"]    for f in f_vals]
+max_sell = [all_sweep[f]["max_sell_fraction"] for f in f_vals]
 
-# Vertical line at critical fraction
+# Vertical dashed line marks the midpoint of the crossover bracket (0.15-0.20);
+# it is not an independently fitted critical point.
 fc = 0.145
 
-# Shared style — slick gray background (Cell / Science style)
-using Colors
-
 # ---------------------------------------------------------------------------
-# Panel A — mean sell fraction
-# ---------------------------------------------------------------------------
-pA = plot(f_vals, mean_sell;
-    marker = :circle, ms = 3, lw = 1.5, color = :red,
-    xlabel = "Minority fraction f", ylabel = "Mean sell fraction",
-    title = "A", legend = false, _panel_kw...)
-vline!(pA, [fc]; linestyle = :dash, color = :gray50, label = false)
-
-# ---------------------------------------------------------------------------
-# Panel B — peak sell fraction
+# Peak sell fraction vs f
 # ---------------------------------------------------------------------------
 pB = plot(f_vals, max_sell;
-    marker = :circle, ms = 3, lw = 1.5, color = :darkred,
+    marker = :circle, ms = 3, lw = 1.5, color = _SELL_COLOR,
     xlabel = "Minority fraction f", ylabel = "Peak sell fraction",
-    title = "B", legend = false, _panel_kw...)
+    legend = false, _panel_kw...)
 vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
-
-# ---------------------------------------------------------------------------
-# Panel C — crash frequency
-# ---------------------------------------------------------------------------
-pC = plot(f_vals, crash_freq;
-    marker = :circle, ms = 3, lw = 1.5, color = :black,
-    xlabel = "Minority fraction f", ylabel = "Crash frequency",
-    title = "C", legend = false, _panel_kw...)
-vline!(pC, [fc]; linestyle = :dash, color = :gray50, label = false)
 
 # ---------------------------------------------------------------------------
 # Compose and save
 # ---------------------------------------------------------------------------
-fig3 = plot(pA, pB, pC;
-    layout = (1, 3), size = (960, 320),
-    bottom_margin = 6Plots.mm, left_margin = 5Plots.mm, right_margin = 5Plots.mm,
-    plot_title = "")
+fig3 = plot(pB; size = (480, 380))
 
 _save_figure(fig3, "Fig3-PhaseDiagram.pdf")
