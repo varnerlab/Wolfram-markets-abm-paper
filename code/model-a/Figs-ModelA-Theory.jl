@@ -198,7 +198,10 @@ println("  f = 0.16:  >1,800 vs max-ever $(max_ever_clust[fC .== 0.16][1])")
 @assert max_ever_clust[fC .== 0.16][1] > 1800 "Panel C: f=0.16 cluster size does not reproduce"
 
 # ---------------------------------------------------------------------------
-# Shared style — slick gray background (matches Fig3-PhaseDiagram.jl)
+# fc marks the midpoint of the crossover bracket (0.15-0.20) used by the
+# vline! markers below; it is not an independently fitted critical point.
+# `using Colors` is redundant with PaperStyle.jl (already loaded via
+# Include.jl) but kept here, matching Fig3-PhaseDiagram.jl.
 # ---------------------------------------------------------------------------
 using Colors
 fc = 0.145
@@ -225,8 +228,8 @@ pB = plot(fB, ρJ;
     label = false,
     xlabel = "Minority fraction f", ylabel = "Spectral radius of pair map",
     ylims = (0.60, 1.08), legend = false, _panel_kw...)
-hline!(pB, [1.0]; linestyle = :dash, color = _SELL_COLOR, label = false)
-annotate!(pB, 0.25, 1.035, text("instability threshold = 1", 7, :center, _SELL_COLOR))
+hline!(pB, [1.0]; linestyle = :dash, color = _HOLD_COLOR, label = false)
+annotate!(pB, 0.25, 1.035, text("instability threshold = 1", 7, :center, _HOLD_COLOR))
 _panel_letter!(pB, "B")
 
 # ---------------------------------------------------------------------------
