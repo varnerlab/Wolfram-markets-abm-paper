@@ -31,21 +31,31 @@ let
     cov_by_L = Dict(row.L => row.cv_t_conv for row in eachrow(s20))
     cov_32, cov_512 = cov_by_L[32], cov_by_L[512]
 
-    n_f016 = mean(avrami[avrami.f .== 0.16, :avrami_n])
-    n_f020 = mean(avrami[avrami.f .== 0.20, :avrami_n])
+    # Paper_v1.tex:1119-1120 quotes n "on the largest lattice," not pooled over
+    # all four — filter to L = maximum(av_ls) first, the same lattice panel D's
+    # n_big uses below, so the assertion checks the fit the paper actually cites.
+    n_f016 = mean(avrami[(avrami.L .== maximum(av_ls)) .& (avrami.f .== 0.16), :avrami_n])
+    n_f020 = mean(avrami[(avrami.L .== maximum(av_ls)) .& (avrami.f .== 0.20), :avrami_n])
 
     inv_K_f018 = [1 / mean(avrami[(avrami.L .== L) .& (avrami.f .== 0.18), :avrami_K]) for L in av_ls]
 
     @assert isapprox(cov_32,  0.66;  atol = 0.02) "CoV at 32x32 does not reproduce"
     @assert isapprox(cov_512, 0.035; atol = 0.005) "CoV at 512x512 does not reproduce"
-    @assert isapprox(n_f016, 2.54; atol = 0.05) "Avrami n at f=0.16 does not reproduce"
-    @assert isapprox(n_f020, 1.91; atol = 0.05) "Avrami n at f=0.20 does not reproduce"
+    @assert isapprox(n_f016, 2.54; atol = 0.05) "Avrami n at f=0.16 (largest lattice) does not reproduce"
+    @assert isapprox(n_f020, 1.91; atol = 0.05) "Avrami n at f=0.20 (largest lattice) does not reproduce"
     @assert all(isapprox.(inv_K_f018, [1445, 1363, 1367, 1358]; rtol = 0.02)) "1/K spread does not reproduce"
 
-    # Size ramp: single-hue sequential purple (ColorBrewer "Purples", 5-class).
-    # The old ramp's endpoints (#0072B2, #D55E00) duplicated the reserved
+    # Size ramp: single-hue sequential purple (ColorBrewer "Purples", 9-class,
+    # keeping only classes 5-9). The first attempt used the standard 5-class
+    # Purples ramp starting at #f2f0f7, which sits 7 RGB units from
+    # _panel_kw's background_color_inside (#F0F0F0) — invisible against the
+    # house gray. Classes 5-9 of the 9-class ramp keep the same hue family but
+    # start at #9e9ac8 (contrast 125 vs. the background, on par with
+    # _HOLD_COLOR's own 121) and end one class darker than before, so every
+    # step — including L = 32, the smallest lattice — carries visible ink.
+    # The old ramp's endpoints (#0072B2, #D55E00) also duplicated the reserved
     # Buy/Sell hues, which here would read as "state," not "size."
-    size_colors = ["#f2f0f7", "#cbc9e2", "#9e9ac8", "#756bb1", "#54278f"]
+    size_colors = ["#9e9ac8", "#807dba", "#6a51a3", "#54278f", "#3f007d"]
     Lcolor = Dict(L => size_colors[min(i, length(size_colors))] for (i, L) in enumerate(LS))
 
     # Wilson score interval — behaves at p = 0 and p = 1, unlike the normal
@@ -91,10 +101,12 @@ let
               xticks = (LS, string.(LS)), _panel_kw...)
     f_disp = [f for f in FS if f >= 0.155]
     # Minority-fraction ramp for the dispersion/timing panels (also an ordered
-    # variable): single-hue sequential magenta (ColorBrewer "PuRd", 5-class) —
-    # a different hue family from the L-ramp above, and, like it, clear of
-    # the reserved Buy/Hold/Sell/Edge hues.
-    disp_colors = ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"]
+    # variable): single-hue sequential magenta (ColorBrewer "PuRd", 9-class,
+    # keeping only classes 5-9 for the same background-contrast reason as the
+    # L-ramp above — the 5-class version's #f1eef6 sits 6 RGB units from the
+    # house background). A different hue family from the L-ramp, and, like
+    # it, clear of the reserved Buy/Hold/Sell/Edge hues.
+    disp_colors = ["#df65b0", "#e7298a", "#ce1256", "#980043", "#67001f"]
     for (i, f) in enumerate(f_disp)
         xs, ys = Float64[], Float64[]
         for L in LS
@@ -103,8 +115,9 @@ let
             push!(xs, L); push!(ys, std(s.t_conv) / mean(s.t_conv))
         end
         length(xs) >= 2 || continue
-        plot!(pB, xs, ys, color = disp_colors[mod1(i, length(disp_colors))], lw = 1.6,
-              marker = :circle, ms = 3, label = "f = $f")
+        c = disp_colors[mod1(i, length(disp_colors))]
+        plot!(pB, xs, ys, color = c, lw = 1.6,
+              marker = :circle, ms = 3, msc = c, label = "f = $f")
     end
     # Self-averaging reference: CV ∝ N^(-1/2) = L^(-1), anchored at L = 32.
     Lref = range(minimum(LS), maximum(LS); length = 50)
@@ -124,8 +137,9 @@ let
             push!(xs, L); push!(ys, median(s.t_conv))
         end
         length(xs) >= 2 || continue
-        plot!(pC, xs, ys, color = disp_colors[mod1(i, length(disp_colors))], lw = 1.6,
-              marker = :circle, ms = 3, label = "f = $f")
+        c = disp_colors[mod1(i, length(disp_colors))]
+        plot!(pC, xs, ys, color = c, lw = 1.6,
+              marker = :circle, ms = 3, msc = c, label = "f = $f")
     end
     _panel_letter!(pC, "C")
 
