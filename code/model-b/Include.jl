@@ -20,6 +20,7 @@ include(joinpath(_PATH_TO_SRC, "Wolfram.jl"))
 include(joinpath(_PATH_TO_SRC, "Compute.jl"))
 include(joinpath(_PATH_TO_SRC, "Files.jl"))
 include(joinpath(_PATH_TO_SRC, "Simulate.jl"))
+include(joinpath(_PATH_TO_SRC, "PaperStyle.jl"))
 
 function _save_figure(fig, filename::String)
     local_path = joinpath(_PATH_TO_FIGS, filename)
@@ -28,16 +29,6 @@ function _save_figure(fig, filename::String)
     isdir(_PATH_TO_PAPER_FIGS) && cp(local_path, paper_path; force = true)
     @info "Saved: $(filename)"
 end
-
-const _PALETTE = :wong
-const _BUY_COLOR, _HOLD_COLOR, _SELL_COLOR = if _PALETTE == :wong
-    ("#0072B2", "#DDDDDD", "#D55E00")
-elseif _PALETTE == :finance
-    ("#27AE60", "#BDC3C7", "#C0392B")
-else
-    ("#0072B2", "#DDDDDD", "#D55E00")
-end
-_grid_cgrad() = cgrad([_BUY_COLOR, _HOLD_COLOR, _SELL_COLOR], [0.0, 0.5, 1.0])
 
 function _grid_panel(grid::Array{Int64,2}, title::String = "")
     heatmap(grid;
