@@ -44,7 +44,7 @@ using Colors
 pA = plot(f_vals, mean_sell;
     marker = :circle, ms = 3, lw = 1.5, color = :red,
     xlabel = "Minority fraction f", ylabel = "Mean sell fraction",
-    title = "A", _panel_kw...)
+    title = "A", legend = false, _panel_kw...)
 vline!(pA, [fc]; linestyle = :dash, color = :gray50, label = false)
 
 # ---------------------------------------------------------------------------
@@ -53,7 +53,7 @@ vline!(pA, [fc]; linestyle = :dash, color = :gray50, label = false)
 pB = plot(f_vals, max_sell;
     marker = :circle, ms = 3, lw = 1.5, color = :darkred,
     xlabel = "Minority fraction f", ylabel = "Peak sell fraction",
-    title = "B", _panel_kw...)
+    title = "B", legend = false, _panel_kw...)
 vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
 
 # ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
 pC = plot(f_vals, crash_freq;
     marker = :circle, ms = 3, lw = 1.5, color = :black,
     xlabel = "Minority fraction f", ylabel = "Crash frequency",
-    title = "C", _panel_kw...)
+    title = "C", legend = false, _panel_kw...)
 vline!(pC, [fc]; linestyle = :dash, color = :gray50, label = false)
 
 # ---------------------------------------------------------------------------
