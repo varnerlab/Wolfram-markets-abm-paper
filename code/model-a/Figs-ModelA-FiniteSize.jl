@@ -1,6 +1,7 @@
 # Figs-ModelA-FiniteSize.jl — system-size scaling of the sell-state escape,
 # drawn ENTIRELY from the committed CSVs (no simulation):
-#   code/data/ModelA-FiniteSizeScaling.csv   (survey pass)
+#   code/data/ModelA-FiniteSizeScaling.csv   (survey pass, per-seed)
+#   code/data/ModelA-FiniteSizeSummary.csv   (survey pass, cv_t_conv — cited assertions)
 #   code/data/ModelA-AvramiFits.csv          (Avrami pass)
 # Standalone-rerunnable from the repo root:
 #   julia code/model-a/Figs-ModelA-FiniteSize.jl
@@ -14,14 +15,37 @@ isdefined(Main, :_PATH_TO_DATA) || include(joinpath(@__DIR__, "Include.jl"))
 using Printf
 
 let
-    survey = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-FiniteSizeScaling.csv"), DataFrame)
-    avrami = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-AvramiFits.csv"), DataFrame)
+    survey  = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-FiniteSizeScaling.csv"), DataFrame)
+    fs_summ = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-FiniteSizeSummary.csv"), DataFrame)
+    avrami  = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-AvramiFits.csv"), DataFrame)
 
-    LS = sort(unique(survey.L))
-    FS = sort(unique(survey.f))
+    LS    = sort(unique(survey.L))
+    FS    = sort(unique(survey.f))
+    av_ls = sort(unique(avrami.L))   # Avrami fits exist only for L = 64-512; no L = 32 row.
 
-    # Size ramp: cool (small) to warm (large), colorblind-safe endpoints.
-    size_colors = ["#0072B2", "#56B4E9", "#999999", "#E69F00", "#D55E00"]
+    # ── Assert the cited values before plotting anything ───────────────────
+    s20 = fs_summ[fs_summ.f .== 0.20, :]
+    for L in unique(s20.L)
+        @assert count(==(L), s20.L) == 1 "expected exactly one (L, f=0.20) row in the finite-size summary"
+    end
+    cov_by_L = Dict(row.L => row.cv_t_conv for row in eachrow(s20))
+    cov_32, cov_512 = cov_by_L[32], cov_by_L[512]
+
+    n_f016 = mean(avrami[avrami.f .== 0.16, :avrami_n])
+    n_f020 = mean(avrami[avrami.f .== 0.20, :avrami_n])
+
+    inv_K_f018 = [1 / mean(avrami[(avrami.L .== L) .& (avrami.f .== 0.18), :avrami_K]) for L in av_ls]
+
+    @assert isapprox(cov_32,  0.66;  atol = 0.02) "CoV at 32x32 does not reproduce"
+    @assert isapprox(cov_512, 0.035; atol = 0.005) "CoV at 512x512 does not reproduce"
+    @assert isapprox(n_f016, 2.54; atol = 0.05) "Avrami n at f=0.16 does not reproduce"
+    @assert isapprox(n_f020, 1.91; atol = 0.05) "Avrami n at f=0.20 does not reproduce"
+    @assert all(isapprox.(inv_K_f018, [1445, 1363, 1367, 1358]; rtol = 0.02)) "1/K spread does not reproduce"
+
+    # Size ramp: single-hue sequential purple (ColorBrewer "Purples", 5-class).
+    # The old ramp's endpoints (#0072B2, #D55E00) duplicated the reserved
+    # Buy/Sell hues, which here would read as "state," not "size."
+    size_colors = ["#f2f0f7", "#cbc9e2", "#9e9ac8", "#756bb1", "#54278f"]
     Lcolor = Dict(L => size_colors[min(i, length(size_colors))] for (i, L) in enumerate(LS))
 
     # Wilson score interval — behaves at p = 0 and p = 1, unlike the normal
@@ -37,10 +61,8 @@ let
 
     # ── A: conversion probability vs f, one curve per L ────────────────────
     # The stage that moves with system size is sweeping, not nucleating.
-    pA = plot(title = "A  conversion probability", titlefont = 10,
-              xlabel = "minority fraction f", ylabel = "P(convert within horizon)",
-              guidefont = 8, tickfont = 7, legend = :bottomright, legendfontsize = 6,
-              ylims = (-0.05, 1.08))
+    pA = plot(; xlabel = "Minority fraction f", ylabel = "Fraction of seeds converting",
+              legend = :bottomright, ylims = (-0.05, 1.08), _panel_kw...)
     for L in LS
         ps, los, his = Float64[], Float64[], Float64[]
         for f in FS
@@ -60,16 +82,19 @@ let
     nuc_all = [mean(survey[survey.f .== f, :nuc_observed]) for f in FS]
     plot!(pA, FS, nuc_all, color = :black, ls = :dot, lw = 1.5,
           label = "≥100-cell cluster seen")
+    _panel_letter!(pA, "A")
 
     # ── B: dispersion collapse ─────────────────────────────────────────────
     # Uncensored cells only, so no horizon-pinned value enters a variance.
-    pB = plot(title = "B  dispersion collapse", titlefont = 10,
-              xlabel = "lattice size L", ylabel = "CV of conversion time",
-              xscale = :log10, yscale = :log10, guidefont = 8, tickfont = 7,
-              legend = :bottomleft, legendfontsize = 6,
-              xticks = (LS, string.(LS)))
+    pB = plot(; xlabel = "Lattice size L", ylabel = "Coefficient of variation",
+              xscale = :log10, yscale = :log10, legend = :bottomleft,
+              xticks = (LS, string.(LS)), _panel_kw...)
     f_disp = [f for f in FS if f >= 0.155]
-    disp_colors = ["#0072B2", "#56B4E9", "#009E73", "#E69F00", "#D55E00", "#CC79A7"]
+    # Minority-fraction ramp for the dispersion/timing panels (also an ordered
+    # variable): single-hue sequential magenta (ColorBrewer "PuRd", 5-class) —
+    # a different hue family from the L-ramp above, and, like it, clear of
+    # the reserved Buy/Hold/Sell/Edge hues.
+    disp_colors = ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"]
     for (i, f) in enumerate(f_disp)
         xs, ys = Float64[], Float64[]
         for L in LS
@@ -85,13 +110,12 @@ let
     Lref = range(minimum(LS), maximum(LS); length = 50)
     plot!(pB, Lref, 0.70 .* (Lref ./ 32) .^ (-1.0), color = :black, ls = :dash,
           lw = 1.5, label = "CV ∝ N^(-1/2)")
+    _panel_letter!(pB, "B")
 
     # ── C: conversion-time saturation ──────────────────────────────────────
-    pC = plot(title = "C  conversion time saturates", titlefont = 10,
-              xlabel = "lattice size L", ylabel = "median conversion time (steps)",
-              xscale = :log10, yscale = :log10, guidefont = 8, tickfont = 7,
-              legend = :topright, legendfontsize = 6,
-              xticks = (LS, string.(LS)))
+    pC = plot(; xlabel = "Lattice size L", ylabel = "Median conversion time (steps)",
+              xscale = :log10, yscale = :log10, legend = :topright,
+              xticks = (LS, string.(LS)), _panel_kw...)
     for (i, f) in enumerate(f_disp)
         xs, ys = Float64[], Float64[]
         for L in LS
@@ -103,22 +127,20 @@ let
         plot!(pC, xs, ys, color = disp_colors[mod1(i, length(disp_colors))], lw = 1.6,
               marker = :circle, ms = 3, label = "f = $f")
     end
+    _panel_letter!(pC, "C")
 
     # ── D: every market size and every f fall on one curve ─────────────────
     # Rescaling time by each run's own fitted K collapses all 320 runs onto
     # 1 − exp(−u^n). The collapse across colors is the size-independence claim,
     # shown as a curve rather than as a column of indistinguishable constants.
     trajs  = CSV.read(joinpath(_PATH_TO_DATA, "ModelA-AvramiTrajectories.csv"), DataFrame)
-    av_ls  = sort(unique(avrami.L))
     # Quote the exponent at the largest lattice, where the per-run fits have
     # converged (R² ≈ 0.999 and the seed spread has collapsed); at L = 64 a
     # single sweeping domain is not a KJMA process and the fit is poor.
     n_big  = mean(avrami[avrami.L .== maximum(av_ls), :avrami_n])
-    pD = plot(title = @sprintf("D  all sizes collapse (n = %.2f)", n_big),
-              titlefont = 10, xlabel = "rescaled time  K·t",
-              ylabel = "fraction converted to Sell",
-              guidefont = 8, tickfont = 7, legend = :bottomright,
-              legendfontsize = 6, xlims = (0, 2.2), ylims = (-0.02, 1.02))
+    pD = plot(; xlabel = "Rescaled time Kt", ylabel = "Converted fraction",
+              legend = :bottomright, xlims = (0, 2.2), ylims = (-0.02, 1.02),
+              _panel_kw...)
     fitkey = Dict((r.L, r.f, r.seed) => (r.avrami_K, r.baseline) for r in eachrow(avrami))
     drawn = Set{Int}()
     for g in groupby(trajs, [:L, :f, :seed])
@@ -135,8 +157,8 @@ let
     uu = range(0.01, 2.2; length = 300)
     plot!(pD, uu, 1 .- exp.(-uu .^ n_big), color = :black, ls = :dash, lw = 2,
           label = @sprintf("1 − exp(−u^%.2f)", n_big))
+    _panel_letter!(pD, "D")
 
-    fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (900, 700),
-               left_margin = 5Plots.mm, bottom_margin = 5Plots.mm)
+    fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (1000, 800))
     _save_figure(fig, "Fig-ModelA-FiniteSize.pdf")
 end
