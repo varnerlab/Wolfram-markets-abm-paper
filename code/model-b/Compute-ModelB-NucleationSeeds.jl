@@ -13,8 +13,13 @@
 #   late_slope    — mean per-step growth of the largest cluster over the last
 #                   LATE_WINDOW steps (Q2: stalled ≈ 0 vs still climbing > 0)
 #
-# Writes: code/data/ModelB-Nucleation-SeedSweep.csv  (one row per run)
-#         code/figs/ModelB-Nucleation-SeedSweep.pdf  (trajectories + distributions)
+# Writes: code/data/ModelB-Nucleation-SeedSweep.csv              (one row per run)
+#         code/data/ModelB-Nucleation-SeedSweep-Trajectories.csv  (per-step maxcl
+#                                                                   trace, long format)
+#
+# Figures are drawn by Figs-ModelB-SeedSweep.jl (a separate, standalone script),
+# which reads ONLY the two CSVs above — so the committed figure remains
+# reproducible without re-running the 60-sim sweep.
 #
 # Launch: julia -t 8 code/model-b/Compute-ModelB-NucleationSeeds.jl
 #
@@ -143,47 +148,20 @@ for cfg in CONFIGS
     @info "Summary: $(cfg.name)" ratio_at_peak = _mi(sub.ratio_at_peak) front_final = _mi(sub.front_final) late_slope_e4 = _mi(sub.late_slope .* 1e4) peak_sell = _mi(sub.peak_sell)
 end
 
-# ---------------------------------------------------------------------------
-# Figure: row 1 = largest-cluster trajectories (20 seeds per config);
-#         row 2 = per-run distributions of the two headline metrics
-# ---------------------------------------------------------------------------
-const _CFG_COLOR = Dict("stable" => "#666666", "freeze" => _BUY_COLOR, "collapse" => _SELL_COLOR)
-
-traj_panels = Plots.Plot[]
-for cfg in CONFIGS
-    p = plot(title = cfg.name, titlefont = 10, xlabel = "step",
-             ylabel = "largest cluster / grid", ylims = (0, 0.8),
-             guidefont = 8, tickfont = 7, legend = false)
-    for i in eachindex(runs)
-        runs[i].cfg.name == cfg.name || continue
-        plot!(p, 1:STEPS, trajs[i], color = _CFG_COLOR[cfg.name], alpha = 0.35, lw = 1.0)
+# Persist the per-step traces so the figure can be rebuilt without re-running
+# the campaign. Columns: config, seed, step, maxcluster_frac. Built by
+# indexing `runs`/`trajs` in deterministic `eachindex` order (both were
+# filled by the threaded loop above using index assignment, not push!, so
+# this iteration order is reproducible regardless of thread scheduling).
+traj_rows = NamedTuple[]
+for i in eachindex(runs)
+    cfg_name, seed, maxcl = runs[i].cfg.name, runs[i].seed, trajs[i]
+    for (step, v) in enumerate(maxcl)
+        push!(traj_rows, (config = cfg_name, seed = seed, step = step, maxcluster_frac = v))
     end
-    push!(traj_panels, p)
 end
-
-names_by_run = [r.cfg.name for r in runs]
-dist_panels  = Plots.Plot[]
-for (metric, lbl) in ((df.ratio_at_peak, "largest cluster / total sell at peak"),
-                      (df.front_final, "largest cluster / grid at t=$(STEPS)"))
-    p = plot(ylabel = lbl, guidefont = 8, tickfont = 7, legend = false,
-             xticks = (1:length(CONFIGS), [c.name for c in CONFIGS]))
-    for (j, cfg) in enumerate(CONFIGS)
-        vals = metric[names_by_run .== cfg.name]
-        boxplot!(p, fill(j, length(vals)), vals,
-                 color = _CFG_COLOR[cfg.name], fillalpha = 0.4, lw = 1.2,
-                 outliers = false, bar_width = 0.5)
-        scatter!(p, j .+ 0.28 .* (rand(length(vals)) .- 0.5), vals,
-                 color = _CFG_COLOR[cfg.name], markersize = 3, markerstrokewidth = 0)
-    end
-    push!(dist_panels, p)
-end
-
-fig = plot(traj_panels..., dist_panels...;
-           layout = @layout([a b c; d e]), size = (1400, 760),
-           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-           plot_title = "Nucleation probe across $(length(SEEDS)) seeds",
-           plot_titlefontsize = 11)
-_save_figure(fig, "ModelB-Nucleation-SeedSweep.pdf")
-@info "Saved: ModelB-Nucleation-SeedSweep.pdf"
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedSweep-Trajectories.csv"),
+          DataFrame(traj_rows))
+@info "Saved: ModelB-Nucleation-SeedSweep-Trajectories.csv" rows = length(traj_rows)
 
 @info "Compute-ModelB-NucleationSeeds.jl complete."
