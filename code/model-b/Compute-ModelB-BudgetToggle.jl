@@ -32,9 +32,15 @@
 # control's (tight/crashing) edge ring flips to Buy as the price falls below
 # band, while a cash-supported price keeps the ring selling.
 #
-# Writes: code/data/ModelB-Nucleation-BudgetToggle.csv (one row per direction x seed)
-#         code/figs/ModelB-Nucleation-BudgetToggle.pdf
-#         code/figs/ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf
+# Writes: code/data/ModelB-Nucleation-BudgetToggle.csv              (one row per
+#                                                                      direction x seed)
+#         code/data/ModelB-Nucleation-BudgetToggle-Trajectories.csv  (onset-aligned
+#                                                                      per-step trace,
+#                                                                      long format)
+#
+# Figures are drawn by Figs-ModelB-BudgetToggle.jl (a separate, standalone script),
+# which reads ONLY the two CSVs above — so the committed figures remain
+# reproducible without re-running the 120-sim campaign.
 #
 # Launch: julia -t 8 code/model-b/Compute-ModelB-BudgetToggle.jl
 # Smoke:  TOGGLE_SMOKE=1 julia code/model-b/Compute-ModelB-BudgetToggle.jl
@@ -53,6 +59,7 @@ const GRIDN      = SMOKE ? 32 : 64
 const STEPS      = SMOKE ? 200 : 1500
 const SEEDS      = SMOKE ? collect(1:2) : collect(1:20)
 const W          = SMOKE ? 100 : 400      # post-toggle comparison window
+const PRE        = SMOKE ? 40  : 200      # pre-onset window persisted/plotted
 const ONSET_FRAC = 0.05                   # largest cluster ≥ 5% of grid = front established
 const N_CELLS    = GRIDN * GRIDN
 
@@ -208,96 +215,40 @@ for dir in DIRECTIONS
 end
 
 # ---------------------------------------------------------------------------
-# Figure: row per direction — onset-aligned paired trajectories + paired dv
-# ---------------------------------------------------------------------------
-const _TOG_COLOR = Dict("injection"        => _BUY_COLOR,
-                        "withdrawal_mild"  => _SELL_COLOR,
-                        "withdrawal_harsh" => "#8E1B00")
-const PRE = SMOKE ? 40 : 200
-
-panels = Plots.Plot[]
-for dir in DIRECTIONS
-    p = plot(title = "$(dir.name): cash x$(dir.factor) at onset", titlefont = 10,
-             xlabel = "steps since onset", ylabel = "largest cluster / grid",
-             guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
-    seen_lbl = false
-    for (i, it) in enumerate(items)
-        (it.dir.name == dir.name && results[i].row.included) || continue
-        r  = results[i]
-        xs = (-min(PRE, r.t_on - 1)):W
-        plot!(p, xs, r.maxcl_c[r.t_on .+ xs], color = "#888888", alpha = 0.45,
-              lw = 1.0, label = seen_lbl ? "" : "control")
-        plot!(p, xs, r.maxcl_t[r.t_on .+ xs], color = _TOG_COLOR[dir.name],
-              alpha = 0.45, lw = 1.0, label = seen_lbl ? "" : "toggled")
-        seen_lbl = true
-    end
-    vline!(p, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-    push!(panels, p)
-
-    sub = df[(df.direction .== dir.name) .& df.included, :]
-    q = plot(ylabel = "front velocity x 1e4 (per step)", guidefont = 8,
-             tickfont = 7, legend = false, xticks = ([1, 2], ["control", "toggled"]),
-             xlims = (0.6, 2.4), title = "paired velocities", titlefont = 10)
-    for r in eachrow(sub)
-        plot!(q, [1, 2], [r.v_ctrl, r.v_toggle] .* 1e4,
-              color = _TOG_COLOR[dir.name], alpha = 0.5, lw = 1.0, marker = :circle,
-              markersize = 3, markerstrokewidth = 0)
-    end
-    push!(panels, q)
-end
-
-fig = plot(panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
-           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-           plot_title = "Budget-toggle intervention (paired, onset-aligned; W=$(W))",
-           plot_titlefontsize = 11)
-_save_figure(fig, "ModelB-Nucleation-BudgetToggle.pdf")
-@info "Saved: ModelB-Nucleation-BudgetToggle.pdf"
-
-# ---------------------------------------------------------------------------
-# Edge-trace mechanism figure: onset-aligned MEAN edge-ring Buy and Sell
-# fractions, control vs toggled, per direction. This is the conduit figure:
-# budgets can only reach interior sentiment through these ring states.
-# ---------------------------------------------------------------------------
-
-"""Mean of series aligned at per-seed onsets over offsets xs, NaN-padded."""
-function _aligned_mean(series_list::Vector{Vector{Float64}},
-                       tons::Vector{Int}, xs::AbstractRange)
-    out = Float64[]
-    for x in xs
-        vals = Float64[]
-        for (s, t_on) in zip(series_list, tons)
-            t = t_on + x
-            1 <= t <= length(s) && push!(vals, s[t])
-        end
-        push!(out, isempty(vals) ? NaN : mean(vals))
-    end
-    return out
-end
-
-edge_panels = Plots.Plot[]
-for dir in DIRECTIONS
-    idx = [i for i in eachindex(items)
-           if items[i].dir.name == dir.name && results[i].row.included]
-    tons = Int[results[i].t_on for i in idx]
-    xs   = (-PRE):W
-    for (fld_c, fld_t, lbl) in ((:eb_c, :eb_t, "edge ring: Buy fraction"),
-                                (:es_c, :es_t, "edge ring: Sell fraction"))
-        mc = _aligned_mean(Vector{Float64}[getfield(results[i], fld_c) for i in idx], tons, xs)
-        mt = _aligned_mean(Vector{Float64}[getfield(results[i], fld_t) for i in idx], tons, xs)
-        p  = plot(title = "$(dir.name): cash x$(dir.factor)", titlefont = 10,
-                  xlabel = "steps since onset", ylabel = lbl, ylims = (0, 1),
-                  guidefont = 8, tickfont = 7, legend = :topleft, legendfontsize = 6)
-        plot!(p, xs, mc, color = "#888888", lw = 1.8, label = "control")
-        plot!(p, xs, mt, color = _TOG_COLOR[dir.name], lw = 1.8, label = "toggled")
-        vline!(p, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-        push!(edge_panels, p)
+# Persist onset-aligned per-step traces so both figures (paired trajectories +
+# edge-ring trace) can be rebuilt without re-running the campaign. Columns:
+# direction, seed, condition, step_since_onset, cluster_frac, edge_buy_frac,
+# edge_sell_frac. Only included pairs have an onset to align to; an excluded
+# pair (t_on == 0, or t_on + W > STEPS) has no toggled run and contributes no
+# trace. Range persisted per seed: (-min(PRE, t_on - 1)):W — the same
+# per-seed-clipped pre-window the paired-trajectory figure plots, and a
+# subset of the fixed (-PRE):W window the edge-trace figure means over (any
+# offset the edge-trace figure needs but a given seed lacks is, by
+# construction, outside that seed's valid step range and correctly absent).
+# Built by indexing `items`/`results` sequentially AFTER the threaded loop
+# above, in deterministic eachindex order (results were filled by index
+# assignment, not push!, so this iteration order is reproducible regardless
+# of thread scheduling).
+traj_rows = NamedTuple[]
+for i in eachindex(items)
+    r = results[i]
+    r.row.included || continue
+    dir_name = items[i].dir.name
+    seed     = items[i].seed
+    t_on     = r.t_on
+    xlo = -min(PRE, t_on - 1)
+    for x in xlo:W
+        t = t_on + x
+        push!(traj_rows, (direction = dir_name, seed = seed, condition = "control",
+                           step_since_onset = x, cluster_frac = r.maxcl_c[t],
+                           edge_buy_frac = r.eb_c[t], edge_sell_frac = r.es_c[t]))
+        push!(traj_rows, (direction = dir_name, seed = seed, condition = "toggled",
+                           step_since_onset = x, cluster_frac = r.maxcl_t[t],
+                           edge_buy_frac = r.eb_t[t], edge_sell_frac = r.es_t[t]))
     end
 end
-fig_edge = plot(edge_panels...; layout = (length(DIRECTIONS), 2), size = (1250, 1050),
-                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm,
-                plot_title = "Edge-ring trace: the price -> boundary conduit (mean over seeds)",
-                plot_titlefontsize = 11)
-_save_figure(fig_edge, "ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf")
-@info "Saved: ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf"
+CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BudgetToggle-Trajectories.csv"),
+          DataFrame(traj_rows))
+@info "Saved: ModelB-Nucleation-BudgetToggle-Trajectories.csv" rows = length(traj_rows)
 
 @info "Compute-ModelB-BudgetToggle.jl complete."
