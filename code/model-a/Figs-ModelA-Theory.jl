@@ -201,20 +201,6 @@ println("  f = 0.16:  >1,800 vs max-ever $(max_ever_clust[fC .== 0.16][1])")
 # Shared style — slick gray background (matches Fig3-PhaseDiagram.jl)
 # ---------------------------------------------------------------------------
 using Colors
-_bg = RGB(0.94, 0.94, 0.94)
-_grid_col = RGB(1.0, 1.0, 1.0)
-_panel_kw = (
-    background_color_inside = _bg,
-    foreground_color_grid = _grid_col,
-    gridalpha = 0.8,
-    gridlinewidth = 0.5,
-    framestyle = :box,
-    tickfontsize = 7,
-    guidefontsize = 8,
-    titlefontsize = 9,
-    legendfontsize = 7,
-    margin = 5Plots.mm,
-)
 fc = 0.145
 
 # ---------------------------------------------------------------------------
