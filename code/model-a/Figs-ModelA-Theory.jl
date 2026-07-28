@@ -207,25 +207,27 @@ fc = 0.145
 # Panel A — Potts energy and site entropy vs f
 # ---------------------------------------------------------------------------
 pA = plot(fA, energy;
-    marker = :circle, ms = 3, lw = 1.5, color = _BUY_COLOR,
+    marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[2],
     label = "energy e",
     xlabel = "Minority fraction f", ylabel = "Energy e / entropy S1",
-    title = "A", legend = :right, _panel_kw...)
+    legend = :right, _panel_kw...)
 plot!(pA, fA, S1;
-    marker = :circle, ms = 3, lw = 1.5, color = "#E69F00",
+    marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[1],
     label = "entropy S1")
-vline!(pA, [fc]; linestyle = :dash, color = :gray50, label = false)
+vline!(pA, [fc]; linestyle = :dash, color = _HOLD_COLOR, label = false)
+_panel_letter!(pA, "A")
 
 # ---------------------------------------------------------------------------
 # Panel B — pair-approximation spectral radius vs f
 # ---------------------------------------------------------------------------
 pB = plot(fB, ρJ;
-    marker = :circle, ms = 3, lw = 1.5, color = :black,
+    marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
     label = false,
     xlabel = "Minority fraction f", ylabel = "Spectral radius of pair map",
-    title = "B", ylims = (0.60, 1.08), legend = false, _panel_kw...)
+    ylims = (0.60, 1.08), legend = false, _panel_kw...)
 hline!(pB, [1.0]; linestyle = :dash, color = _SELL_COLOR, label = false)
 annotate!(pB, 0.25, 1.035, text("instability threshold = 1", 7, :center, _SELL_COLOR))
+_panel_letter!(pB, "B")
 
 # ---------------------------------------------------------------------------
 # Panel C — sell-cluster sizes vs f in the mixed state (log y)
@@ -234,11 +236,12 @@ pC = plot(fC, max_ever_clust;
     marker = :circle, ms = 4, lw = 1.5, color = _SELL_COLOR,
     linestyle = :dash, label = "largest observed",
     xlabel = "Minority fraction f", ylabel = "Sell-cluster size (cells)",
-    title = "C", yscale = :log10, legend = :topleft, _panel_kw...)
+    yscale = :log10, legend = :topleft, _panel_kw...)
 plot!(pC, fC, mean_max_clust;
-    marker = :square, ms = 3, lw = 1.5, color = :black,
+    marker = :square, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
     label = "mean largest per snapshot")
-vline!(pC, [fc]; linestyle = :dash, color = :gray50, label = false)
+vline!(pC, [fc]; linestyle = :dash, color = _HOLD_COLOR, label = false)
+_panel_letter!(pC, "C")
 
 # ---------------------------------------------------------------------------
 # Compose and save
