@@ -286,7 +286,7 @@ let
         # statistical treatment (95% Wilson upper bound on 0/20) lives in
         # Fig6-GrowthGating.pdf panel B; this panel states the raw count so an
         # empty-looking panel does not read as a rendering defect.
-        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm (see Fig. 6B)", 9, :black, :center))
+        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm (95% Wilson upper bounds)", 9, :black, :center))
         annotate!(p, (0.98, 1.06), text(cname, 8, :black, :right))
         push!(fig2_panels, p)
     end
