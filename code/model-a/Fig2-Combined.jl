@@ -161,7 +161,8 @@ _panel_letter!(pC, "C")
 # ---------------------------------------------------------------------------
 # Compose and save
 # ---------------------------------------------------------------------------
-fig = plot(pA, plot(pB, pC, layout = (1, 2)),
-    layout = grid(2, 1, heights = [0.6, 0.4]), size = (1000, 900))
+fig = plot(pA, pB, pC;
+    layout = @layout([a{0.62h}; b c]),
+    size = (1160, 1160))
 
 _save_figure(fig, "Fig2-Crossover.pdf")
