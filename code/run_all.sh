@@ -41,6 +41,7 @@ run_compute() {
     run_julia model-b/Compute-ModelB-BoundaryVsBulk.jl
     run_julia model-b/Compute-ModelB-BudgetToggle.jl
     run_julia model-b/Compute-ModelB-BudgetEquivalence.jl
+    run_julia model-b/Compute-ModelB-StripFrames.jl
 }
 
 run_figures() {
