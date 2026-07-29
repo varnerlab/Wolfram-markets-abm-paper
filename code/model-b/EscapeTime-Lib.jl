@@ -1,7 +1,7 @@
 # EscapeTime-Lib.jl — pure helpers for the escape-time / barrier-law (A1)
 # and velocity-vs-suppression (A2) analyses (spec: docs/superpowers/specs/
 # 2026-07-20-nucleation-spine-restructure-design.md, Part 1). Included by
-# Compute-ModelB-Nucleation-EscapeTime.jl, both Figs-ModelB-*.jl scripts, and
+# Compute-ModelB-Nucleation-EscapeTime.jl, Figs-ModelB-BarrierLaw.jl, and
 # Test-EscapeTime.jl; depends only on packages already loaded by
 # model-b/Include.jl.
 

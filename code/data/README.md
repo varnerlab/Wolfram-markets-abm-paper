@@ -100,7 +100,10 @@ transformation curve, which needs no cluster identification.
   `ModelB-Stage2-VarianceDecomposition.csv`: factorial sweep and summaries from
   `model-b/Compute-ModelB-Stage2.jl` and
   `model-b/Analyze-ModelB-Stage2.jl`.
-- `ModelB-Nucleation-SeedSweep.csv`: seed sweep from
+- `ModelB-Nucleation-SeedSweep.csv` and
+  `ModelB-Nucleation-SeedSweep-Trajectories.csv`: seed sweep and its per-step
+  largest-cluster traces (config, seed, step, maxcluster_frac; 3 configs x 20
+  seeds x 1000 steps, 60,000 rows) from
   `model-b/Compute-ModelB-NucleationSeeds.jl`.
 - `ModelB-Nucleation-EscapeTime.csv`,
   `ModelB-Nucleation-EscapeTime-Trajectories.csv`, and
@@ -110,8 +113,11 @@ transformation curve, which needs no cluster identification.
   `ModelB-Nucleation-SeedingIntervention.csv`, and
   `ModelB-Nucleation-SeedingTrajectories.csv`: boundary-versus-bulk campaign
   from `model-b/Compute-ModelB-BoundaryVsBulk.jl`.
-- `ModelB-Nucleation-BudgetToggle.csv`: paired cash-shock campaign from
-  `model-b/Compute-ModelB-BudgetToggle.jl`.
+- `ModelB-Nucleation-BudgetToggle.csv` and
+  `ModelB-Nucleation-BudgetToggle-Trajectories.csv`: paired cash-shock campaign
+  and its onset-aligned per-seed traces (direction, seed, condition,
+  step_since_onset, cluster_frac, edge_buy_frac, edge_sell_frac; 3 arms x 19
+  seed pairs x 2 conditions) from `model-b/Compute-ModelB-BudgetToggle.jl`.
 - `ModelB-Nucleation-BudgetEquivalence.csv`: between-cash difference and
   equivalence analysis from `model-b/Compute-ModelB-BudgetEquivalence.jl`.
   Re-analysis only; it runs no simulation, reading the escape-time campaign

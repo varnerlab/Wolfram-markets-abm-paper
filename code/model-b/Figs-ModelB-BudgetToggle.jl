@@ -312,7 +312,7 @@ let
     _panel_letter!(pD, "D")
 
     fig7 = plot(pA, pB, pC, pD; layout = (2, 2), size = (1150, 950),
-                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm, top_margin = 8Plots.mm)
     _save_figure(fig7, "Fig7-Intervention.pdf")
 end
 

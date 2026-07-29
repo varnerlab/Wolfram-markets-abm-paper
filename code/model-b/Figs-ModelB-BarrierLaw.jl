@@ -200,7 +200,7 @@ let
     _panel_letter!(pD, "D")
 
     fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (1150, 950),
-               left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+               left_margin = 6Plots.mm, bottom_margin = 4Plots.mm, top_margin = 8Plots.mm)
     _save_figure(fig, "Fig6-GrowthGating.pdf")
     @info "Saved: Fig6-GrowthGating.pdf"
 
@@ -253,6 +253,6 @@ let
     # figure only — Fig6 is built entirely above this point from pA..pD and
     # is untouched by this change.
     figS4 = plot(pS1, pS2, pS3; layout = (1, 3), size = (1500, 560),
-                 left_margin = 12Plots.mm, bottom_margin = 12Plots.mm)
+                 left_margin = 12Plots.mm, bottom_margin = 12Plots.mm, top_margin = 10Plots.mm)
     _save_figure(figS4, "FigS4-BarrierParameters.pdf")
 end
