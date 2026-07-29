@@ -15,11 +15,9 @@
 # it supersedes this script's own former output (`ModelB-Nucleation-
 # BarrierLaw.pdf`, panels: median onset time, onset rate by horizon, fitted
 # f0, fitted B), which is no longer emitted by this file.
-# `Figs-ModelB-VelocitySuppression.jl` and `Figs-ModelB-BoundaryVsBulk.jl`
-# keep emitting their CURRENT figures unchanged for now (Task 10 turns those
-# into supplementary figures); VelocitySuppression.jl is touched here only to
-# share the A2 subset rule and the cash ramp (see EscapeTime-Lib.jl), not to
-# change what it emits.
+# The standalone dose-response script that used to draw panels C and D on its
+# own has been retired; its window rule and cash ramp live in EscapeTime-Lib.jl
+# and are read from there.
 #
 # CASH RAMP (design-conflict resolution): the brief asked for panels A and D
 # to track cash via `_SERIES_COLORS[1..3]`, but panel A has THREE cash levels
@@ -45,7 +43,7 @@ let
     fits_sorted = sort(fits, :cash)                 # do not trust CSV row order
     a1          = df[df.stage .!= "a2x", :]
     cashes_a1   = sort(unique(a1.cash))              # [500, 1000, 5000]
-    a2, n_excluded = a2_subset(df)                   # pooled f=0.20 window, shared with VelocitySuppression
+    a2, n_excluded = a2_subset(df)                   # pooled f=0.20 window (EscapeTime-Lib.jl)
     cashes_a2   = sort(unique(a2.cash))              # [250, 500, 1000, 2000, 5000] — the full ramp domain
 
     @assert Set(cashes_a1) ⊆ Set(cashes_a2) "panel A's cash levels must be a subset of the full dose ramp"

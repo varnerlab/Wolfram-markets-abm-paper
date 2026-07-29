@@ -53,7 +53,6 @@ run_figures() {
     run_julia model-b/Figs-ModelB-BarrierLaw.jl
     run_julia model-b/Figs-ModelB-BoundaryVsBulk.jl
     run_julia model-b/Figs-ModelB-BudgetToggle.jl
-    run_julia model-b/Figs-ModelB-VelocitySuppression.jl
 }
 
 : > "$LOG"

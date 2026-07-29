@@ -94,8 +94,8 @@ end
     @test Set(s_a2.stage) == Set(["pilot", "a2x"])   # pooled, not filtered to one stage
 
     # The committed CSV: this n is what the paper cites (97 included, 3
-    # excluded). a2_subset is shared by two scripts now, so a silent change
-    # to it would silently move that number.
+    # excluded). a2_subset feeds panels C and D of Fig6-GrowthGating, so a
+    # silent change to it would silently move that number.
     df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-EscapeTime.csv"), DataFrame)
     a2, n_excluded = a2_subset(df)
     @test nrow(a2) == 97

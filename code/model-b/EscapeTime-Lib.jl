@@ -178,11 +178,13 @@ filtered to one stage. Of the 100 (f = 0.20) runs across all stages, 97 carry
 a defined `v_front`; 3 are excluded because the front never reached the
 fitting window within the run's horizon.
 
-Shared by `Figs-ModelB-BarrierLaw.jl` (panels C, D) and
-`Figs-ModelB-VelocitySuppression.jl` so both scripts apply IDENTICALLY the
-same window rule, rather than each maintaining its own copy that could
-silently drift apart (the `_load_phase_sweep()` precedent in
-`model-a/Include.jl`, extracted for the same reason in Task 4).
+Used by `Figs-ModelB-BarrierLaw.jl` (panels C, D of `Fig6-GrowthGating.pdf`).
+It was extracted here when a second script drew the same dose-response, so
+that both applied IDENTICALLY the same window rule rather than each keeping
+a copy that could silently drift (the `_load_phase_sweep()` precedent in
+`model-a/Include.jl`, extracted for the same reason in Task 4); that second
+script has since been retired into this figure's panels, and the rule stays
+here so the window is stated in exactly one place.
 """
 function a2_subset(df::DataFrame)
     mask       = (df.f .== 0.20) .& .!isnan.(df.v_front)
