@@ -89,11 +89,12 @@ size. The crash of October 1987 removed roughly a fifth of the value of the Unit
 equity market in a single session, and the flash crash of May 2010 took about nine percent
 off the major indices and returned it within the hour, neither of them following an
 exogenous announcement of matching
-magnitude~\cite{sornette2017why,kirilenko2017flash}. Market returns carry statistical
-signatures that an account built on independent external shocks does not reproduce either,
-since heavy tails, volatility clustering, and long memory in absolute returns persist
-across assets, sampling frequencies, and
-decades~\cite{cont2001empirical,mandelbrot1963variation}. Both observations point to the
+magnitude~\cite{sornette2017why,kirilenko2017flash}. The everyday statistics of returns
+raise the same difficulty in a milder form. Heavy tails, volatility clustering, and long
+memory in absolute returns persist across assets, sampling frequencies, and
+decades~\cite{cont2001empirical,mandelbrot1963variation}, and a market driven only by
+independent external shocks would inherit the arrival statistics of those shocks rather
+than produce structure of its own. Both observations point to the
 same broad question, whether the interactions among traders can generate large moves on
 their own, and we address one narrow version of it here: can local interactions alone
 produce a spatially organized transition from mixed trading states to a sell-dominated
@@ -120,39 +121,34 @@ markets~\cite{wei2003cellular,qiu2007cellular,yang2019financial}, but the rules 
 studies were chosen by hand rather than drawn from an enumerated space, which leaves them
 resistant to systematic comparison. What is missing is a framework that combines
 \emph{local} spatial dynamics on a regular lattice with a \emph{complete, enumerable} space
-of behavioral rules and a \emph{direct} connection to real market data.
+of behavioral rules and a \emph{direct} connection to real market data. Wolfram totalistic
+CA rules~\cite{wolfram2002new} supply the first two of those at once. Information reaches a
+cell only from its immediate neighbors, so a sell cascade cannot appear everywhere at once
+but must travel from neighbor to neighbor as a spatially resolved wavefront whose origin
+and speed are both measurable. The space of such rules is also finite
+($3^9 = 19{,}683$ rules), so agent behaviors can be screened by enumeration rather than
+designed by hand.
 
 In this paper, we assemble those ingredients in a spatial cellular-automaton market.
 Agents occupy the cells of a two-dimensional grid, hold one of three states (Buy, Hold,
 or Sell), and update deterministically from their four cardinal neighbors under Wolfram
-totalistic CA rules~\cite{wolfram2002new}. The interior mixes just two such rules, a
-majority/herding rule and a contrarian/destabilizer rule, at the minority (contrarian)
-fraction~$f$ that serves throughout as the single control parameter. The totalistic rule
-framework supplies two properties that the models cited above do not combine: strictly
-local information propagation, so that sell cascades must spread from neighbor to neighbor
-as spatially resolved wavefronts; and a finite, enumerable rule space ($3^9 = 19{,}683$
-rules), which allows systematic screening of agent behaviors rather than rule design by
-hand. We study two complementary configurations (Figure~\ref{fig:schematic}). In
-Model~A (open), boundary agents observe real QQQ ETF minute-bar data through a
-Bollinger Band filter, which supplies an empirical boundary forcing. In
-Model~B (feedback-closed), the boundary responds instead to an
-endogenous price formed from the grid's own net order imbalance, a reflexive loop that
-produces crashes without any external input, and every agent holds finite cash and
-shares, so that budgets can suppress the very orders sentiment demands. It is in this
-budget-constrained feedback loop that we separate onset from post-onset growth. Model~A
-exhibited a sharp finite-horizon crossover between $f=0.14$ and $f=0.15$, above which
-localized sell domains grew as spatially coherent fronts, whereas mean-field and pair
-approximations retained a stable mixed branch and therefore did not reproduce that
-crossover, leaving an inverse-distance fit to the observed onset times that we treat as
-phenomenological rather than as a derived thermal escape law. Model~B showed similar
-spatial onset across the tested cash levels, with onset times equivalent within a factor
-of two across a tenfold cash range, while budgets altered subsequent front growth, and a
-paired cash intervention linked that growth effect to the endogenous price and the
-boundary response, since cash injection accelerated the front in $14$ of $19$ included
-pairs while withdrawals produced no detectable change in the tested configurations. Taken
-together, these results separate the onset of a sell-dominated domain, which the tested
-budgets did not move, from its growth, which they did, and they locate the difference in
-the boundary channel through which price information reaches the interior.
+totalistic rules. The interior mixes just two such rules, a majority/herding rule and a
+contrarian/destabilizer rule, at the minority (contrarian) fraction~$f$ that serves
+throughout as the single control parameter. We study two complementary configurations
+(Figure~\ref{fig:schematic}). In Model~A (open), boundary agents observe real QQQ ETF
+minute-bar data through a Bollinger Band filter, which supplies an empirical boundary
+forcing. In Model~B (feedback-closed), the boundary responds instead to an endogenous
+price formed from the grid's own net order imbalance, a reflexive loop that produces
+crashes without any external input, and every agent holds finite cash and shares, so that
+budgets can suppress the very orders sentiment demands. Model~A showed a sharp
+finite-horizon crossover between $f=0.14$ and $f=0.15$, above which localized sell domains
+grew as spatially coherent fronts that neither a mean-field map nor a pair approximation
+reproduced.
+Model~B kept that crossover under a budget, and across the tested cash levels the budgets
+moved onset by less than a factor of two while altering the domain's post-onset growth, a
+separation that a paired cash intervention traced to the boundary channel through which
+price information reaches the interior. We read the transition as nucleation and growth,
+a crash with a location, a start time, and a speed.
 
 % --- Figure 1: Model Schematic ---
 \begin{figure}[tb]
