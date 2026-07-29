@@ -18,6 +18,31 @@
 # under a matching .../outlines key — Fig 5's is the birth-lineage chain,
 # Figs 6/7's is that frame's own largest sell cluster.
 #
+# Fix round 2: round 1's lineage chain compared overlap across the four
+# SPARSE strip snapshots (100+ steps apart), which lets the tracked cluster
+# churn away between frames — verified broken (onset-tile mask sizes of
+# 1/1/4/6 cells, when the onset cluster is by definition >= 205 cells).
+# Fig 5's lineage is now walked on the DENSE per-step sequence (every step
+# from birth_step to the last strip step), extracting the mask only at the
+# four strip steps for saving; an assertion now fails loudly if the
+# onset-tile mask ever comes out under ONSET_FRAC*N_CELLS. Figs 6/7's
+# largest-cluster outlines are unaffected by this round.
+#
+# Fix round 3: the dense chain (round 2) turned out to die within 1-5 steps
+# of birth_step for 9 of the 11 birth_dist>=10 candidates (verified: most
+# have birth_size=1, and a lone just-born Sell cell frequently flickers or
+# its whole tiny local cluster evacuates in one synchronized step — a real
+# CA dynamics property, not a bug). Rather than route around that with a
+# one-off seed swap, lineage SURVIVAL is now folded into the seed-selection
+# filter itself, alongside birth_dist>=10: the exemplar panel is meant to
+# illustrate the paper's mechanism sentence, "an interior single-cell
+# fluctuation that happened to survive and grow," so surviving to onset is
+# a requirement of what makes a run a valid exemplar, not an inconvenience
+# to be patched around after the fact. The onset-tile assertion is kept as
+# a defensive check (it should now be unreachable, since only survivors
+# reach the argmin pick — but it stays as a guard against a future CSV
+# update introducing a false "survivor").
+#
 # Reads (read-only):
 #   code/data/ModelB-Nucleation-BirthSites.csv               (Fig 5 seed pick)
 #   code/data/ModelB-Nucleation-SeedSweep-Trajectories.csv   (Fig 6 seed pick)
@@ -103,73 +128,117 @@ function _largest_cluster_mask(grid::Matrix{Int64})::BitMatrix
     return labels .== best_id
 end
 
-"""Birth-lineage chain of outline masks, one per frame in `frames` (same
-order/length). Tile 1's mask is just the birth cell. Each later tile's mask
+"""Birth-lineage chain of outline masks, computed on the DENSE per-STEP
+sequence (not the sparse strip tiles — chaining overlap across strip
+snapshots 100+ steps apart lets the tracked cluster churn away between
+frames; the onset-tile mask must by construction contain the onset
+cluster, so the chain has to be walked one step at a time). Starting from
+the birth cell at `birth_step`, at every subsequent step the lineage mask
 is the sell cluster (via _label_sell_clusters) with maximal cell-overlap
-against the PREVIOUS tile's mask; if no sell cluster overlaps at all (the
-lineage died, or the previous mask was itself already empty), the mask is
-all-false and stays all-false for every subsequent tile (zero overlap with
-an empty mask is unavoidable). Ties in overlap count broken by lowest
-cluster id (scan order)."""
-function _lineage_masks(frames::Vector{Matrix{Int64}}, birth_row::Int, birth_col::Int)
-    nr, nc = size(frames[1])
-    masks  = Vector{BitMatrix}(undef, length(frames))
-    prev   = falses(nr, nc)
+against the PREVIOUS STEP's mask; once no cluster overlaps at all (died,
+or the previous mask was itself already empty), the mask is all-false and
+stays all-false forever after (zero overlap with an empty mask is
+unavoidable). Ties in overlap count broken by lowest cluster id (scan
+order). `frame_at(t)` fetches frame t (e.g. `t -> res.frames[t]`, backed by
+a dense snapshot_steps = collect(1:STEPS) run). Returns one BitMatrix per
+entry of `target_steps` (must be sorted ascending, first entry ==
+birth_step), in order — only those four masks are kept in memory/returned,
+the intervening per-step masks are not."""
+function _lineage_masks(frame_at, birth_step::Int, birth_row::Int, birth_col::Int,
+                        target_steps::Vector{Int64})
+    @assert target_steps[1] == birth_step "first target step must be birth_step"
+    nr, nc  = size(frame_at(birth_step))
+    prev    = falses(nr, nc)
     prev[birth_row, birth_col] = true
-    masks[1] = prev
-    for i in 2:length(frames)
-        labels, sizes = _label_sell_clusters(frames[i])
-        if isempty(sizes) || !any(prev)
-            masks[i] = falses(nr, nc)
-        else
+    targets = Dict{Int64,BitMatrix}(birth_step => prev)
+    for t in (birth_step + 1):target_steps[end]
+        cur = falses(nr, nc)
+        if any(prev)
+            labels, sizes = _label_sell_clusters(frame_at(t))
             best_ov, best_id = 0, 0
             for id in 1:length(sizes)
                 ov = count(@. (labels == id) & prev)
                 ov > best_ov && ((best_ov, best_id) = (ov, id))
             end
-            masks[i] = best_ov > 0 ? (labels .== best_id) : falses(nr, nc)
+            best_ov > 0 && (cur = labels .== best_id)
         end
-        prev = masks[i]
+        t in target_steps && (targets[t] = cur)
+        prev = cur
     end
-    return masks
+    return [targets[t] for t in target_steps]
 end
 
 # =============================================================================
 # Fig 5 — collapse nucleation exemplar
 # =============================================================================
-# Among nucleated ("included") collapse rows of BirthSites, restrict to those
-# with birth_dist >= 10 (a comfortably interior birth — median birth_dist is
-# 10-12; the exemplar must be typical in the dimension the panel is about),
-# THEN pick the seed whose onset (t_on) is nearest the median onset — that
-# median is taken over ALL nucleated collapse rows (not just the filtered
-# subset), per the amended selection rule. birth_step/t_on/birth_row/
-# birth_col are taken directly from the CSV (no recompute needed here — the
-# frames are pure CA state, unaffected by which script's onset-detection
-# convention produced the CSV row).
+# Among nucleated ("included") collapse rows of BirthSites, restrict to
+# those with birth_dist >= 10 (a comfortably interior birth — median
+# birth_dist is 10-12) AND whose birth cell's dense forward-lineage chain
+# survives intact to onset with an onset-tile mask >= ONSET_FRAC*N_CELLS —
+# survival is part of what the exemplar has to demonstrate (see fix round 3
+# note above), not just a post-hoc sanity check. Among that surviving pool,
+# pick the seed whose onset (t_on) is nearest the median onset, where the
+# median is taken over ALL nucleated collapse rows (unfiltered), lowest
+# seed number breaking ties (argmin's first-occurrence rule over a
+# seed-ascending DataFrame).
 
 birth_df   = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BirthSites.csv"), DataFrame)
 collapse_b = birth_df[(birth_df.config .== "collapse") .& birth_df.included, :]
 collapse_b_interior = collapse_b[collapse_b.birth_dist .>= 10, :]
 
-med_onset_fig5 = median(collapse_b.t_on)
-fig5_idx       = argmin(abs.(collapse_b_interior.t_on .- med_onset_fig5))
-fig5_seed      = collapse_b_interior.seed[fig5_idx]
-fig5_birth     = collapse_b_interior.birth_step[fig5_idx]
-fig5_onset     = collapse_b_interior.t_on[fig5_idx]
-fig5_row       = collapse_b_interior.birth_row[fig5_idx]
-fig5_col       = collapse_b_interior.birth_col[fig5_idx]
-fig5_dist      = collapse_b_interior.birth_dist[fig5_idx]
+"""Does the dense forward-lineage chain from the birth cell at
+(birth_row, birth_col), starting at birth_step, survive intact to t_on with
+a final mask >= ONSET_FRAC*N_CELLS? Runs its own simulate pass (only frames
+birth_step:t_on are needed to answer this). Returns (survives, onset_size)."""
+function _fig5_lineage_survives(seed::Int, birth_step::Int, row::Int, col::Int, t_on::Int)
+    res  = simulate(_probe_config(f = 0.20, cash = 5000.0, seed = seed);
+                    snapshot_steps = collect(birth_step:t_on), verbose = false)
+    mask = _lineage_masks(t -> res.frames[t], birth_step, row, col, Int64[birth_step, t_on])[end]
+    sz   = count(mask)
+    return sz >= ONSET_FRAC * N_CELLS, sz
+end
 
-@info "Fig5 seed selection (median-representative, nucleated collapse rows with birth_dist>=10)" n_all_nucleated = nrow(collapse_b) n_interior_candidates = nrow(collapse_b_interior) median_t_on_all = med_onset_fig5 seed = fig5_seed birth_step = fig5_birth t_on = fig5_onset birth_row = fig5_row birth_col = fig5_col birth_dist = fig5_dist
+survives = falses(nrow(collapse_b_interior))
+for i in 1:nrow(collapse_b_interior)
+    r = collapse_b_interior[i, :]
+    ok, sz = _fig5_lineage_survives(r.seed, r.birth_step, r.birth_row, r.birth_col, r.t_on)
+    survives[i] = ok
+    @info "Fig5 candidate lineage-survival screen" seed = r.seed birth_step = r.birth_step t_on = r.t_on onset_mask_size = sz survives = ok
+end
+collapse_b_survivors = collapse_b_interior[survives, :]
+@assert nrow(collapse_b_survivors) > 0 "Fig5: no birth_dist>=10 candidate's lineage survived to onset"
+
+med_onset_fig5 = median(collapse_b.t_on)
+fig5_idx       = argmin(abs.(collapse_b_survivors.t_on .- med_onset_fig5))
+fig5_seed      = collapse_b_survivors.seed[fig5_idx]
+fig5_birth     = collapse_b_survivors.birth_step[fig5_idx]
+fig5_onset     = collapse_b_survivors.t_on[fig5_idx]
+fig5_row       = collapse_b_survivors.birth_row[fig5_idx]
+fig5_col       = collapse_b_survivors.birth_col[fig5_idx]
+fig5_dist      = collapse_b_survivors.birth_dist[fig5_idx]
+
+@info "Fig5 seed selection (median-representative, birth_dist>=10 AND lineage-survives-to-onset)" n_all_nucleated = nrow(collapse_b) n_interior_candidates = nrow(collapse_b_interior) n_survivors = nrow(collapse_b_survivors) median_t_on_all = med_onset_fig5 seed = fig5_seed birth_step = fig5_birth t_on = fig5_onset birth_row = fig5_row birth_col = fig5_col birth_dist = fig5_dist
 
 fig5_steps = Int64[fig5_birth, (fig5_birth + fig5_onset) ÷ 2, fig5_onset, min(fig5_onset + 200, STEPS)]
 @info "Fig5 strip steps" steps = fig5_steps
 
-fig5_res    = simulate(_probe_config(f = 0.20, cash = 5000.0, seed = fig5_seed);
-                       snapshot_steps = fig5_steps, verbose = false)
+# Dense pass: every step from 1 to STEPS is captured (~50 MB of 64x64
+# Int64 frames, held only in memory) so the lineage chain below can walk
+# the birth cell one step at a time up to the last strip step; only the 4
+# sparse strip frames and the 4 resulting outline masks are ever saved.
+fig5_res     = simulate(_probe_config(f = 0.20, cash = 5000.0, seed = fig5_seed);
+                        snapshot_steps = collect(1:STEPS), verbose = false)
 fig5_frames  = Matrix{Int64}[fig5_res.frames[t] for t in fig5_steps]
-fig5_outlines = _lineage_masks(fig5_frames, Int(fig5_row), Int(fig5_col))
-@info "Fig5 lineage outline sizes (cells per tile)" sizes = [count(m) for m in fig5_outlines]
+fig5_outlines = _lineage_masks(t -> fig5_res.frames[t], fig5_birth,
+                               Int(fig5_row), Int(fig5_col), fig5_steps)
+
+# The onset-tile mask must by construction contain the onset cluster
+# (>= ONSET_FRAC of the grid). This should now be unreachable (only
+# candidates whose lineage already survived to onset reach this point) —
+# kept as a defensive guard, not the primary filter anymore.
+@assert count(fig5_outlines[3]) >= ONSET_FRAC * N_CELLS "Fig5 lineage chain broke before onset: onset-tile mask has $(count(fig5_outlines[3])) cells, need >= $(ONSET_FRAC * N_CELLS)"
+
+@info "Fig5 lineage outline sizes (cells per tile, dense per-step chain)" sizes = [count(m) for m in fig5_outlines]
 
 # =============================================================================
 # Fig 6 — freeze vs collapse, same seed
@@ -293,7 +362,7 @@ fig7 = _fig7_pair(fig7_seed)
 # =============================================================================
 meta_created = """
 Created $(now()) by Compute-ModelB-StripFrames.jl (GRIDN=$GRIDN, STEPS=$STEPS, P0=$P0).
-Fig5: seed=$fig5_seed (median-representative among $(nrow(collapse_b_interior)) nucleated collapse rows with birth_dist>=10, out of $(nrow(collapse_b)) total nucleated; median t_on over ALL nucleated rows=$med_onset_fig5); steps=$fig5_steps (birth=$fig5_birth, mid, t_on=$fig5_onset, t_on+200); birth site=(row=$fig5_row, col=$fig5_col), birth_dist=$fig5_dist; outline = birth-lineage chain.
+Fig5: seed=$fig5_seed (median-representative among $(nrow(collapse_b_survivors)) collapse rows with birth_dist>=10 AND a lineage that survives to onset, out of $(nrow(collapse_b_interior)) birth_dist>=10 candidates / $(nrow(collapse_b)) total nucleated; median t_on over ALL nucleated rows=$med_onset_fig5); steps=$fig5_steps (birth=$fig5_birth, mid, t_on=$fig5_onset, t_on+200); birth site=(row=$fig5_row, col=$fig5_col), birth_dist=$fig5_dist; outline = birth-lineage chain walked on the dense per-step sequence, onset-tile size asserted >= ONSET_FRAC*N_CELLS.
 Fig6: seed=$fig6_seed (median-representative among $(length(common_seeds)) seeds with finite onset in both freeze and collapse per SeedSweep trajectories; median_freeze=$med_freeze_sweep, median_collapse=$med_collapse_sweep); freeze recomputed t_on=$(fig6_freeze.t_on) steps=$(fig6_freeze.steps); collapse recomputed t_on=$(fig6_collapse.t_on) steps=$(fig6_collapse.steps); outline = per-frame largest sell cluster.
 Fig7: seed=$fig7_seed (median-representative among $(nrow(accel)) accelerating (dv>0) injection pairs out of $(nrow(injection)) included; median dv=$med_dv); recomputed t_on=$(fig7.t_on) steps=$(fig7.steps); pre-toggle bit-identity asserted at t_on-1; outline = per-frame largest sell cluster.
 """
