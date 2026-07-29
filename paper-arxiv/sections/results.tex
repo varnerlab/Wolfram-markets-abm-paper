@@ -1,0 +1,210 @@
+% results.tex -- Results
+% ============================================================================
+\section{Results}
+\label{sec:results}
+% ============================================================================
+
+Model~A provides an unconstrained spatial baseline. Prices arrive from outside the
+model, and CA states are not filtered through budgets. We first inspected representative
+grid trajectories and then located the finite-horizon crossover in a fixed-seed sweep.
+
+We simulated the $256 \times 256$ agent grid under Model~A across the minority fraction and observed a sharp finite-horizon crossover with spatially coherent front growth above it (Figure~\ref{fig:crossover}). Three values of~$f$ fix the picture, each sampled at four logarithmically spaced times. In the homogeneous model, $f = 0$, the grid settled into a fine-grained mixture of Buy and Sell agents that fluctuated locally, never coordinated over large distances, and held the sell fraction near $0.26$ throughout. At $f = 0.15$, the first sampled value above the crossover bracket, the grid at first looked the same, but at $t = 8{,}236$ a sell cascade nucleated from a localized seed and spread outward as a coherent wavefront, growing concentrically until it engulfed the grid by $t = 23{,}790$. The crash had a spatial history, beginning at one location, moving through a physical medium, and reaching different parts of the grid at different times, which is nucleation and growth in the classical sense rather than the instantaneous global collapse of a mean-field model. At $f = 0.20$ the same sequence ran faster and the grid was sell-dominated by $t = 2{,}851$. Sweeping~$f$ from $0.0$ to $0.50$ at a fixed seed on a $128 \times 128$ lattice placed the change between the sampled values $f = 0.14$ and $f = 0.15$. At and below $f = 0.14$ the system was stable, with a mean sell fraction near $0.26$, close to the $1/3$ expected of a uniform random mixture of three states, and no crashes. At $f = 0.15$ the mean sell fraction jumped to ${\sim}0.50$, saturating near $0.91$ by $f = 0.20$, where crash frequency rose above $95\%$. The dashed marker at $f = 0.145$ is the midpoint of that bracket and not an independently fitted critical point. What the sweep describes is a coordination failure built from two deterministic rules and nothing else, with no noise, no learning, and no strategy switching. A small contrarian minority was harmless, because the majority agents (Rule~19280) damped local sell signals by herding toward the dominant state, and the sell clusters that did form died before reaching the size at which herding turns from damper into amplifier. Inside the bracket the contrarians (Rule~19286) grew numerous enough to seed clusters the majority could no longer absorb, the local majority tipped from buy to sell, and the same herding mechanism amplified the cascade it had been suppressing. One fixed seed on one lattice cannot say whether that bracket belongs to the rule mixture or to the grid we happened to simulate, so we repeated the measurement across five lattice sizes with replicated disorder.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig2-Crossover.pdf}
+  \caption{The Model~A crossover (Rules~19280/19286, QQQ 2024 Q1 data).
+  \textbf{(A)}~Spatiotemporal snapshots of the $256 \times 256$ agent grid at four
+  logarithmically spaced times ($t = 581$, $2{,}851$, $8{,}236$, and $23{,}790$) and
+  three minority fractions ($f = 0$, $f = 0.15$, and $f = 0.20$), with blue for Buy,
+  gray for Hold, and orange for Sell. At $f = 0.15$ and $t = 8{,}236$ a sell cascade
+  nucleated from a localized seed and propagated as a coherent wavefront before
+  engulfing the grid.
+  \textbf{(B)}~Mean sell fraction against the minority fraction~$f$ over a fixed-seed
+  sweep on a $128 \times 128$ grid.
+  \textbf{(C)}~Crash frequency, the fraction of time steps whose sell fraction exceeds
+  $0.50$, over the same sweep. The dashed vertical line at $f = 0.145$ marks the
+  midpoint of the observed $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic
+  critical point. Peak sell fraction over the same sweep is given in
+  Figure~\ref{fig:s3}.}
+  \label{fig:crossover}
+\end{figure}
+
+Having located the crossover, we next asked whether it sits at a fixed value of~$f$ (Figure~\ref{fig:finite-size}). It does not. We repeated the sweep on lattices from $32 \times 32$ to $512 \times 512$, twenty disorder seeds at each size, with periodic boundaries and no price forcing, and larger lattices crashed at lower contrarian fractions. At $f = 0.14$ no run out of twenty converted at $64 \times 64$, half converted at $128 \times 128$, and all converted at $256 \times 256$ and above; certain conversion required $f \approx 0.155$ at $64 \times 64$ but only $f \approx 0.14$ at $512 \times 512$. That direction is the opposite of the usual intuition, because whether the lattice crashes is not an average but is settled by the most favorable local region anywhere on the grid: one sell domain surviving to critical size converts the whole system, and a larger lattice offers more candidate regions. It is the size effect of brittle fracture, where a bigger specimen fails at lower stress than a small one of the same material because it more likely contains a critical flaw. Size does not make a stable configuration unstable, since the sell state is absorbing and every lattice above the spreading threshold converts eventually; it decides only what has happened inside a fixed window. The averaging intuition holds instead for the timing. The coefficient of variation of the conversion time fell from $0.66$ at $32 \times 32$ to $0.035$ at $512 \times 512$ at $f = 0.20$, halving on each doubling of the linear size and so tracking $N^{-1/2}$ in the agent count~$N$, and above $f \approx 0.17$ the median conversion time was size-independent to within $9\%$ over a $16$-fold range in area. Writing the converted fraction as $X(t) = 1 - \exp[-(Kt)^{n}]$ identifies that clock: in two dimensions $n = d + 1 = 3$ if new domains keep appearing and $n = d = 2$ if all are present at the outset and the transformation is growth alone. Fitted per run, $n$ ran from $2.54$ at $f = 0.16$ to $1.91$ at $f = 0.20$ on the largest lattice ($R^2 = 0.994$ to $0.999$), and the rate constant did not depend on size: read as a characteristic time, $1/K$ was $1445$, $1363$, $1367$, and $1358$~steps from $4{,}096$ to $262{,}144$ agents at $f = 0.18$, a spread of $6\%$, and rescaling each run by its own fitted~$K$ collapsed all $320$~runs onto one curve. An exponent near~$2$ says the vulnerable regions were fixed before the clock started, as the construction implies: contrarian sites are assigned once at setup and never move. Two limits bound the instrument. The $32 \times 32$ lattice is anomalous, because a domain of the size used to mark local clustering already spans a tenth of it, so we plotted it but kept it out of the conversion-curve fits; and the fixed cluster-size criterion is not a scale-free detector of nucleation, since the mixed state throws up sell clusters of ${\sim}30$--$60$~cells unprompted. Rate conclusions therefore rest on the conversion curve, which needs no cluster identification. A threshold that moves with size implicates spatial structure, so we next removed the space.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig-ModelA-FiniteSize.pdf}
+  \caption{System-size dependence of the Model~A crossover (Rules~19280/19286,
+  periodic boundaries, no price forcing, twenty disorder seeds per cell).
+  \textbf{(A)}~Fraction of seeds converting within the $100{,}000$-step horizon against~$f$,
+  one curve per lattice size, with Wilson score intervals. Larger lattices convert at
+  lower~$f$. The dotted curve marks where a $100$-cell sell cluster was seen at any
+  size; such clusters appear even where nothing converts, so what moves with size is
+  spreading rather than clustering. This is a descriptive threshold and not a certified
+  critical nucleus.
+  \textbf{(B)}~Coefficient of variation of the conversion time against lattice size, for cells in
+  which every seed converted, against the $N^{-1/2}$ self-averaging reference.
+  \textbf{(C)}~Median conversion time against lattice size, saturating above $f \approx 0.17$.
+  \textbf{(D)}~All $320$~conversion curves plotted against time rescaled by each run's own fitted
+  rate constant, with $1 - \exp(-u^{n})$ overlaid. Sizes lie on top of one another; the
+  band tightens with size, and the smallest lattice visibly fails to collapse.}
+  \label{fig:finite-size}
+\end{figure}
+
+We next compared the lattice against two low-order closures and found that neither reproduced the crossover (Figure~\ref{fig:theory}). Local order was tracked with the nearest-neighbor alignment statistic~$e$ of a three-state Potts model, the negated fraction of neighbor bonds whose two sites share a state, so that a single-state lattice reads $-1$ and a maximally disordered one about $-1/3$. It measures order without generating the dynamics, since the rules act on the numerical sum of neighbor labels rather than on counts of matching neighbors, and one entry is decisive: a cell with four Buy neighbors outputs Sell, so the all-Buy configuration is \emph{unstable} and the ``buy-dominated'' phase is not a static equilibrium but a dynamic mixed-state attractor at $p_0 \approx 0.49$, $p_1 \approx 0.24$, $p_2 \approx 0.26$. On a $128 \times 128$ lattice it held at $e \approx -0.37$ and site entropy $S_1 \approx 1.06$ below the crossover and fell to $-0.93$ and $0.18$ above. Replacing the lattice with a well-mixed population, each agent's four neighbors drawn independently from the global state distribution, gave a map (Appendix~\ref{app:pair}) whose only stable fixed points at every~$f$ were the all-Sell absorbing state and a buy-dominated state, at $p_0^* \approx 0.63$ and $p_2^* \approx 0.19$ when $f = 0$ and locally stable as a spiral with $|\lambda| \approx 0.95$. That branch never crossed the sell-majority threshold and its sell fraction drifted up by only ${\sim}0.04$ over the whole range of~$f$, so mean field predicted no transition. Restoring nearest-neighbor correlations did not help. The pair approximation~\cite{gutowitz1987local} tracks pair densities $\rho_{ab}$ under the closure $q(s \mid a) = \rho_{as}/\rho_a$, giving the synchronous update \begin{equation} \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a), \label{eq:pair-update} \end{equation} with kernel $T_b(a, a')$ derived in Appendix~\ref{app:pair}. Its Jacobian at the uncorrelated fixed point had spectral radius strictly below unity at every sampled~$f$, falling from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$, and correlated initial conditions all converged to that fixed point or to all-Sell, with the spatial mutual information $I = 2S_1 - S_2$ decaying to zero. Other finite-order closures are not excluded, but single-site marginals and the tested pair correlations are insufficient, because they erase exactly what the lattice supplies. An isolated contrarian lifted the sell density at its own site to $\rho_2 \approx 0.42$ against a background of $0.26$, an excess gone within one to two lattice spacings, so the seeds are point-like and the transition needs many together. On $64 \times 64$ lattices the mixed state survived $10^5$~steps in all twenty realizations below $f \approx 0.14$, while above $f \approx 0.155$ all collapsed past a sell fraction of $0.90$, the mean lifetime falling from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$ to $\bar{\tau} \approx 86$ at $f = 0.30$. Those onset times follow the inverse-distance form of Kramers-type escape problems~\cite{kramers1940brownian,hanggi1990reaction}, \begin{equation} \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0}, \label{eq:kramers} \end{equation} with $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$ over twelve points ($R^2 = 0.991$; collected with the Model~B fits in Table~\ref{tab:kramers-fits}). The fit drops values at which not every seed collapsed within the horizon and is not derived from the CA dynamics, so $f_0$ is an extrapolated pseudo-threshold, not proof of absolute stability, and the curve is phenomenological, not a thermal escape law. Read as an extrapolation it places the crossover at $f_c \approx 0.162$ for a $10{,}000$-step window and $f_c \approx 0.195$ for a $1{,}000$-step one. Model~B keeps these rules and this quenched disorder but adds endogenous price feedback with per-agent cash and inventory limits, letting us ask whether the crossover, the onset-time form, and the front's growth survive a budget; those experiments are sized to detect large shifts, so overlapping intervals cannot exclude smaller budget effects.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig-ModelA-Theory.pdf}
+  \caption{Theory overview for Model~A (Rules~19280/19286).
+  \textbf{(A)}~Potts energy~$e$ and site entropy~$S_1$ vs.\ minority fraction~$f$
+  ($128 \times 128$ lattice, periodic boundaries, time-averaged over
+  $2{,}000$ steps). The mixed attractor persists at $e \approx -0.37$ and
+  $S_1 \approx 1.06$; above the transition the system collapses to the
+  all-Sell state at $e \approx -0.93$ and $S_1 \approx 0.18$, a sharp finite-size
+  drop ($\Delta e \approx 0.56$, $\Delta S_1 \approx 0.88$); near the crossover
+  the $2{,}000$-step averages retain
+  the mixed state because metastable lifetimes exceed the window, so the
+  crossover completes to the right of the marked $f_c$.
+  \textbf{(B)}~Spectral radius of the pair-approximation Jacobian at the uncorrelated
+  fixed point, declining monotonically from $0.95$ at $f = 0$ to $0.71$ at
+  $f = 0.5$, strictly below the instability threshold (dashed line at~$1$).
+  This tested pair closure does not capture the crossover.
+  \textbf{(C)}~Sell-cluster sizes in the mixed state (log scale): largest cluster ever
+  observed (orange) and mean largest per snapshot (black), over 100 snapshots
+  of a $128 \times 128$ lattice. The mean largest cluster (black) holds at
+  ${\sim}30$--$60$~cells in the subcritical mixed state, while the largest
+  observed cluster (orange) reaches ${\sim}400$~cells near $f = 0.145$ and
+  exceeds $1{,}800$~cells by $f = 0.16$ (the dip at $f = 0.155$ is a
+  single-realization fluctuation of the fixed-seed protocol).
+  Dashed vertical lines mark the midpoint $f=0.145$ of the observed
+  $[0.14,0.15]$ bracket.}
+  \label{fig:theory}
+\end{figure}
+
+We next asked whether the crossover survived finite budgets and where on the grid the winning domain was born (Figure~\ref{fig:nucleus}). The $10{,}800$-run factorial sweep (Appendix~\ref{app:stage2}) placed a sell-dominated regime between the sampled values $f = 0.15$ and $f = 0.20$ at every tested price impact, so a budget did not remove the crossover. A variance decomposition attributed $94$--$97\%$ of each summary metric's variance to differences among the swept configurations and at most $5.4\%$ to disorder seeds within a configuration; that decomposition is descriptive, and it does not identify which individual parameter causes the difference. The classifier assigned every run to one of two realized regimes and left the other three candidate classes empty, $6{,}589$ runs ($61\%$) called oscillatory and $4{,}211$ ($39\%$) crash-prone, where ``crash-prone'' is a grid-state label, the Sell fraction standing at or above $0.5$ on at least $1\%$ of steps, and not a price drawdown. The modal crash-prone outcome was a liquidity \emph{freeze} in which the interior locked near a Sell fraction of $0.88$ while suppressed orders limited price movement, its median maximum drawdown about $5\%$ and its median minimum price $100.00$, while the price collapses formed a tail of the class rather than its center (Figure~\ref{fig:s1}). Above threshold the Sell cells gathered into one dominant domain. Across $20$ disorder seeds per configuration the at-peak ratio of the largest cluster to the total Sell population held a median of $0.022$ (IQR $0.018$--$0.027$) in the stable regime, whose Sell cells were scattered into roughly $500$ dispersed fragments the largest of which never exceeded about $0.5\%$ of the grid, against median ratios of $0.26$ in the freeze and $0.44$ in the collapse with zero overlap against the stable band, and the above-threshold trajectories formed time-shifted sigmoids whose onset varied more than their eventual shape (Figure~\ref{fig:s2}). That gap is the observed signature of localized domain growth rather than a synchronous grid-wide flip, and it is consistent with variable waiting times without by itself establishing a Kramers escape process. The domain was born in the bulk. Across $40$ boundary-versus-bulk runs, $39$ of which nucleated within the horizon, the founding cell of the onset cluster fell in the boundary band at a pooled fraction of $0.077$, slightly below and statistically indistinguishable from the analytic null of $0.125$ for spatially uniform births within distance~$2$ of the edge (binomial $p = 0.47$; the freeze configuration taken alone gave $p = 1.0$), the median founding cell sat a distance $12$ into the deep bulk, and the typical founding was a single Sell cell (median birth size $1$ cell), with a median birth step of $256$ and individual onsets spanning $75$ to $1{,}115$. The winning nucleus was an interior single-cell fluctuation that happened to survive and grow, not a structure templated by the boundary, and the one place the active-edge ring asserted itself was \emph{after} birth: pre-onset attachment of the growing cluster to the ring occurred in $6$ of $19$ collapse runs and never in the $20$ freeze runs. A boundary that touches growth but not birth sharpens the question of which of the two a budget acts on.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig5-Nucleus.pdf}
+  \caption{The winning sell domain is a single dominant nucleus born in the bulk.
+  \textbf{(A)}~Per-seed ratio of the largest sell cluster to the total sell population
+  at its peak, for the three budget configurations (stable at $f = 0.10$, cash
+  $1{,}000$; freeze at $f = 0.20$, cash $500$; and collapse at $f = 0.20$, cash
+  $5{,}000$), $20$ disorder seeds each. The stable configuration sits at a median ratio
+  of $0.022$, dispersed fluctuations with no dominant domain, while the freeze and
+  collapse configurations concentrate into a single growing domain at median ratios of
+  $0.26$ and $0.44$; the stable band shows zero overlap against either above-threshold
+  configuration, the signature of a spatial nucleus above threshold and its absence
+  below. Per-seed trajectories behind these summaries are given in
+  Figure~\ref{fig:s2}.
+  \textbf{(B)}~Map of the founding cell of the largest sell cluster at crash onset
+  across the $39$ boundary-versus-bulk runs that nucleated, plotted on the interior
+  alone so that a bulk birth can be told apart from attachment to the active-edge ring.
+  \textbf{(C)}~Distance of that founding cell from the nearest boundary, pooled over the
+  $20$ freeze and $19$ collapse runs, against the uniform-null expectation and with the
+  boundary shell ($d \le 2$) shaded. Births were bulk-dominated and consistent with a
+  uniform distribution: the pooled fraction founded within distance~$2$ of the boundary
+  was $0.077$, below rather than above the $0.125$ uniform null and statistically
+  indistinguishable from it (binomial $p = 0.47$), with a median founding distance of
+  $12$ cells into the deep bulk.
+  \textbf{(D)}~Timing of ring attachment relative to birth and onset for the runs whose
+  growing cluster reached the active-edge ring before onset ($6$ of $19$ collapse runs
+  and $0$ of $20$ freeze runs), the edge asserting itself only after birth. The winning
+  nucleus was born in the bulk, not templated by the boundary.}
+  \label{fig:nucleus}
+\end{figure}
+
+Having established a bulk-born nucleus, we next tested whether budgets act on its birth or on its growth (Figure~\ref{fig:growth-gating}). Onset times proved equivalent within a factor of two across a tenfold cash range. We fitted the same empirical form, $\ln\tilde\tau = A + B/(f-f_0)$, to Kaplan--Meier median onset times at cash $500$, $1{,}000$, and $5{,}000$, on the $5$, $6$, and $6$ cells whose onset rate reached one half (Table~\ref{tab:kramers-fits}; Appendix~\ref{app:censoring}); the few points and the three free parameters make the curves descriptive rather than confirmatory. The bootstrap intervals on both fitted shape parameters overlapped between the tightest and the loosest budget, and the onset cliff sat between $f = 0.15$ and $f = 0.18$ at every cash level (Figure~\ref{fig:s4}), but an overlap of intervals is a bound and not a demonstration of equality, the $B$ point estimates differing by $2.5\times$ across the cash ladder and the cash-$500$ lower bound of $0.000$ on $f_0$ being the physical boundary of the fit domain rather than a data quantile. We therefore tested the difference directly, with a $4{,}000$-draw bootstrap paired across the three arms on the disorder seeds they share at every~$f$, comparing the predicted log median onset time, which the three fitted parameters jointly determine, against a margin fixed in advance at a factor of two, $|\Delta\ln\tilde\tau| < \ln 2$, by two one-sided tests at $\alpha = 0.05$. Every pairwise comparison met that margin at every shared~$f$. The largest point difference anywhere was $0.354$ in $\ln\tilde\tau$, a factor of $1.42$, between cash $500$ and $5{,}000$ at $f = 0.20$, with a $95\%$ interval of $(-0.098,\,0.718)$, while the $95\%$ interval on the difference in~$B$ between cash $500$ and $1{,}000$ spanned $(-0.298,\,0.965)$, so the individual parameters remain poorly determined by comparison. One comparison is worth flagging without promoting: between cash $1{,}000$ and $5{,}000$ near the threshold the intervals exclude zero at $f = 0.177$ and $f = 0.18$, $(0.014,\,0.433)$ and $(0.021,\,0.398)$, placing onset roughly $19\%$ later under the tighter budget, but those are adjacent points on the same pair of fitted curves and so are one signal rather than two, and neither survives correction for the fifteen comparisons in the family. Birth was equally indifferent to a nucleus handed to it. The stamped $3 \times 3$ sell patch, set at boundary-adjacent, mid, and center placements in both the freeze and the collapse configurations, never founded the winning domain: the dominance rate was $0/20$ in all six cells of that design, the patch's forward lineages grew only to $9$--$15$ cells before dying out and were never alive at onset, no placement advanced the onset, and the one nominal placement effect ran, if anywhere, in the direction of delay (Figure~\ref{fig:s5}). The interior does not lack seeds, and what is scarce above threshold is the \emph{growth} that would make one matter. Growth did track the budget. Across the five doses at $f = 0.20$ (cash $250$--$5{,}000$; $n = 97$ runs included, $3$ excluded by the window rule) the front velocity fell as the absolute suppression rate rose, at a pooled Spearman $\rho = -0.372$ with permutation $p = 0.0003$, and the relationship was not a between-dose confound, holding within every dose separately, with $\rho$ between $-0.38$ and $-0.52$, and surviving the removal of any single dose (leave-one-dose-out $p \le 0.0014$). The median suppression load varied little across the ladder ($517$--$595$ orders per step) and the median velocity was U-shaped in cash, so initial cash was a weak proxy for the suppression a given front actually experienced, and it was the realized suppression that tracked the slowing of the front. A brake that acts on growth is best tested by releasing it.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig6-GrowthGating.pdf}
+  \caption{Budgets gate the growth of the nucleus rather than its birth.
+  \textbf{(A)}~Kaplan--Meier median onset times (points) against the minority
+  fraction~$f$ at cash $500$, $1{,}000$, and $5{,}000$, each with its fitted divergence
+  $\ln\tilde\tau = A + B/(f - f_0)$ (solid curves) and the Model~A fit of
+  Equation~\eqref{eq:kramers} dashed for reference; the fitted curves are drawn only up
+  to a display ceiling so that the medians are not crushed by the divergence near $f_0$.
+  Censoring at the horizon and its handling in the medians are detailed in
+  Appendix~\ref{app:censoring}, and the fitted parameters with their bootstrap intervals
+  in Figure~\ref{fig:s4}.
+  \textbf{(B)}~Dominance rate, the fraction of runs in which the cluster standing
+  largest at onset descends from a stamped $3 \times 3$ sell patch, for the patch
+  stamped at edge, mid, and center placements in both the freeze and the collapse
+  configurations; it is $0/20$ in every one of the six configuration-by-placement cells,
+  and the whiskers are $95\%$ Wilson upper bounds. The onset times and growth
+  trajectories behind that design are given in Figure~\ref{fig:s5}.
+  \textbf{(C)}~Front velocity against absolute budget suppression at $f = 0.20$ for the
+  $97$ runs included across the five cash doses ($250$--$5{,}000$; $3$ runs excluded by
+  the window rule). The velocity is the OLS slope of the front extent over the
+  onset-aligned window $[t_{\mathrm{on}}+50,\,t_{\mathrm{on}}+400]$ and the suppression
+  is the mean absolute number of suppressed buy orders per step over the same window,
+  colored by dose with the per-dose medians marked as diamonds; velocity fell as
+  suppression rose, Spearman $\rho = -0.372$, permutation $p = 0.0003$.
+  \textbf{(D)}~The same velocities arranged by initial cash, with a bar at each per-dose
+  median: the medians are U-shaped in cash, highest at cash $250$, lowest near
+  $1{,}000$--$2{,}000$, and rising again at $5{,}000$, while the per-dose median
+  suppression spans only $517$--$595$ orders per step, so the supported claim is the
+  pooled and within-dose velocity--suppression relationship, not a monotone ordering by
+  dose.}
+  \label{fig:growth-gating}
+\end{figure}
+
+\begin{table}[tb]
+\centering
+\caption{Empirical fits $\ln\tilde\tau = A + B/(f - f_0)$ to
+Kaplan--Meier median onset times, per cash level, with the Model~A fit for
+reference. The Model~A row is the mean-lifetime fit of
+Equation~\eqref{eq:kramers}; the Model~B rows fit Kaplan--Meier medians.
+Brackets are 95\% bootstrap CIs (2{,}000 resamples of seeds
+within each~$f$). The cash-500 $f_0$ lower bound of $0.000$ is the physical
+boundary of the fit domain, not a data quantile. CIs overlap between tight
+(500) and loose (5000) cash on both $B$ and $f_0$, but this overlap does not
+establish parameter equality.}
+\label{tab:kramers-fits}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Configuration & $n_f$ & $A$ & $B$ & $f_0$ & $R^2$ \\
+\midrule
+Model~A (reference)  & 12 & 2.78 & 0.389 & 0.101 & 0.991 \\
+Model~B, cash 500    & 5  & 3.38 & 0.247~[0.070, 1.135] & 0.112~[0.000, 0.153] & 0.978 \\
+Model~B, cash 1000   & 6  & 3.80 & 0.143~[0.071, 0.691] & 0.135~[0.048, 0.152] & 0.990 \\
+Model~B, cash 5000   & 6  & 4.10 & 0.098~[0.050, 0.415] & 0.143~[0.077, 0.157] & 0.980 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We finally used the budget toggle as a paired intervention to test how a cash shock reaches the front (Figure~\ref{fig:intervention}). Releasing the brake made the crash faster, and tightening it did nothing at all. Scaling cash $\times 10$ in the tight freeze configuration (cash $500$) just before detected onset \emph{accelerated} the front in $14$ of $19$ seeds (sign test $p = 0.064$; we report the count and the $p$-value as they stand), the median front velocity rising from $1.39$ to $3.55 \times 10^{-4}$ grid fractions per step, the median front extent at $t_{\mathrm{on}}+400$ from $0.112$ to $0.192$, and the suppressed buy orders falling by $29\%$, with $19$ of the $20$ seed pairs meeting the window rule in every arm. That is a causal result within the paired simulation, not evidence about real-market liquidity policy, and it runs opposite to the naive mechanism, which makes it diagnostic. Injected cash cannot feed the front directly, since the front is a \emph{sell} wave, sells need shares rather than cash, and budgets suppress order flow and never sentiment, so the only conduit to interior sentiment is the loop's own: executed flow moves the price, the price crosses the edge bands, and the band crossings set the state of the active-edge ring the boundary feeds into the grid. At the toggle, injection flipped the ring \emph{instantly}, from the control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and ${\sim}1.0$ Sell: the injected cash let the buy orders the books had been suppressing execute at last, the supported price, $113$ against the control's $93$ at $t_{\mathrm{on}}+400$, broke above the upper bands, and the entire ring, contrarian in the value trader's sense of buying below its band and selling above it, dumped at once, the flipped state decaying back over the following $100$--$200$ steps as the EMA bands caught up. A boundary that under tight budgets had bought into the falling price and braked the front now sold into the supported price and fed it, a sign reversal from brake to accelerant. Withdrawal, which by symmetry ought to have braked the crash, did nothing of the kind at either dose, and the two doses matter because together they rule out mere under-dosing. The mild cut ($\times 0.1$, applied in the loose collapse configuration, cash $5{,}000$) left the front statistically untouched (sign-flip permutation $p = 0.67$) and barely disturbed the suppression load, suppressed buys moving $+7\%$; the harsh cut ($\times 0.01$) \emph{bound}, in that it dropped every cell to ${\sim}50$ in cash, below the standing price, so buys died outright and the suppressed-buy load jumped from $524$ to $680$ orders per step, and yet the median front velocity moved only from $2.23$ to $2.38 \times 10^{-4}$ grid fractions per step ($11$ of $19$ seeds in the predicted direction; sign-flip permutation $p = 0.29$), while the price barely registered the cut, $119.5$ against the control's $123.6$ at $t_{\mathrm{on}}+400$ (Figure~\ref{fig:s6}). Two features of the model's economy combine to produce that asymmetry. The first is a matter of sign and ceiling: only injection can \emph{reverse} the boundary's state, because propping the price above the upper bands flips the ring from buying to selling, whereas withdrawal can move the ring only \emph{further} in the direction it already points, and only transiently, the control ring already sitting near $0.46$ Buy after onset, a brake the crash itself had engaged, and either cut lifting its Buy fraction to ${\sim}0.72$--$0.74$ before it relaxed back to the control level within ${\sim}200$ steps. The second follows from the execution convention: every cell the front recruits can sell up to its $10$-share endowment to the unmodeled market maker, receiving roughly $1{,}000$ in cash at prices near $P \approx 100$--$120$, so a one-time cash reduction can be offset by later sales to the external counterparty. Within Model~B, then, injections prop the price, flip the contrarian boundary to selling, and accelerate the sentiment crash, while withdrawals are near-inert; what that asymmetry would mean for the design of liquidity interventions requires a market model with explicit counterparties and calibrated institutions, which is outside the scope of this study.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig7-Intervention.pdf}
+  \caption{Liquidity intervention is asymmetric. Paired, onset-aligned counterfactuals
+  at $f = 0.20$ with a $W = 400$ post-toggle window and $19$ included seed pairs per
+  arm; the pre-toggle trajectories coincide by construction.
+  \textbf{(A)}~Paired front velocities over the window, one line per seed pair, control
+  against toggled, for the injection arm (cash $\times 10$ on the tight cash-$500$
+  base): injection accelerated the front in $14$ of $19$ pairs (sign test
+  $p = 0.064$).
+  \textbf{(B)}~The same paired comparison for the mild ($\times 0.1$) and harsh
+  ($\times 0.01$) withdrawals, both on the loose cash-$5{,}000$ base: withdrawal was
+  null at both doses (sign-flip permutation $p = 0.67$ mild, $p = 0.29$ harsh).
+  \textbf{(C)}~Edge-ring Buy and Sell fractions under injection, averaged over the $19$
+  seed pairs and aligned at the per-seed onset, for the toggled arm against its control,
+  with the dashed line marking the toggle at $t_{\mathrm{on}}$. Injection flipped the
+  ring at the toggle, from the control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and
+  ${\sim}1.0$ Sell, and the flipped state decayed back over the following $100$--$200$
+  steps as the EMA bands caught up with the supported price.
+  \textbf{(D)}~The same trace under the harsh withdrawal, which only transiently
+  deepened an already-engaged brake: the control ring sits near $0.46$ Buy after onset,
+  the cut lifted the Buy fraction to ${\sim}0.72$--$0.74$ before the transient excess
+  dissipated by ${\sim}200$ steps, and the Sell fraction, which in this loose
+  configuration declines from ${\sim}0.37$ well before onset to zero just after,
+  remained indistinguishable between control and toggled. The mild withdrawal behaved
+  the same way, and the cluster trajectories for all three arms are given in
+  Figure~\ref{fig:s6}.}
+  \label{fig:intervention}
+\end{figure}

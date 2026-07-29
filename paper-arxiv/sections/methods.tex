@@ -1,0 +1,275 @@
+% methods.tex -- Methods
+% ============================================================================
+\section{Methods}
+\label{sec:methods}
+% ============================================================================
+
+We first establish the formal ingredients of the model, the CA rule framework that governs
+interior agent dynamics, the Bollinger Band filter that translates price signals into
+edge-agent states, and the specific rules used in this study, and then describe the two
+simulation configurations and the phase-sweep protocol used to map the crash transition.
+
+\subsection{Three-State Totalistic Cellular Automata}
+\label{sec:ca-rules}
+We consider a two-dimensional grid of $N = N_r \times N_c$ agents, each in one of three
+states: Buy~($s=0$), Hold~($s=1$), or Sell~($s=2$). At each discrete time step, every
+interior agent updates its state deterministically based on the states of its four
+cardinal (Von~Neumann) neighbors. For an agent at position $(r,c)$ with
+neighbor states $\{s_N, s_S, s_E, s_W\}$, the neighborhood sum is:
+\begin{equation}
+  c_{r,c} = s_N + s_S + s_E + s_W \in \{0, 1, \ldots, 8\}.
+  \label{eq:neighborhood-sum}
+\end{equation}
+A \emph{totalistic rule} is a mapping $\mathcal{R}: \{0,1,\ldots,8\} \to \{0,1,2\}$ that
+assigns a next state to each of the nine possible neighborhood sums. Since each of the
+nine outputs can take three values, there are $3^9 = 19{,}683$ distinct rules, each
+identified by its decimal index:
+\begin{equation}
+  \text{Rule index} = \sum_{j=0}^{8} a_j \cdot 3^j,
+  \label{eq:rule-index}
+\end{equation}
+where $a_j = \mathcal{R}(j)$ is the next state when the neighborhood sum equals~$j$.
+This sum uses the ordered numerical encoding Buy${}=0$, Hold${}=1$, and Sell${}=2$.
+Relabeling the states would change the rule. The ordering is therefore part of the model,
+not a neutral label choice.
+This rule space is finite, enumerable, and
+complete: every possible deterministic, translation-invariant, totalistic update function
+on the Von~Neumann neighborhood is represented exactly once.
+
+\subsection{Edge Agent Decision Model}
+\label{sec:edge-agents}
+Boundary cells serve as \emph{edge agents} that inject external information into the
+grid (Figure~\ref{fig:schematic}A, green cells). A fraction $f_e$ of boundary cells,
+selected uniformly at random with a fixed seed, are designated as edge agents. The
+remaining boundary cells stay fixed in the Hold state. The CA update acts only on
+strictly interior cells.
+
+Each edge agent classifies the current price $P_\tau$ relative to an exponential moving
+average (EMA) and its associated volatility band:
+\begin{align}
+  \hat{S}_\tau &= \hat{S}_{\tau-1} + \alpha\bigl(P_\tau - \hat{S}_{\tau-1}\bigr), \label{eq:ema} \\
+  \hat{\sigma}_\tau &= \hat{\sigma}_{\tau-1} + \alpha\bigl(|P_\tau - \hat{S}_\tau| - \hat{\sigma}_{\tau-1}\bigr), \label{eq:ema-vol}
+\end{align}
+where $\alpha = 1/60$ corresponds to a 60-minute smoothing window. The decision rule
+is a three-way classifier:
+\begin{equation}
+  e_\tau = \begin{cases}
+    0 \;\text{(Buy)}  & \text{if } P_\tau < \hat{S}_\tau - k\,\hat{\sigma}_\tau, \\
+    1 \;\text{(Hold)} & \text{if } \hat{S}_\tau - k\,\hat{\sigma}_\tau \le P_\tau \le \hat{S}_\tau + k\,\hat{\sigma}_\tau, \\
+    2 \;\text{(Sell)} & \text{if } P_\tau > \hat{S}_\tau + k\,\hat{\sigma}_\tau,
+  \end{cases}
+  \label{eq:edge-state}
+\end{equation}
+where $k$ controls the width of the hold band. When the price is within $k$ standard
+deviations of its moving average, the edge agent holds; when the price breaks out above
+(below) the band, it sells (buys). This is a standard mean-reversion signal widely used
+in technical analysis, and its simplicity is deliberate: the edge agents provide a minimal,
+interpretable channel through which real market information enters the grid.
+
+\subsection{Rule Taxonomy}
+\label{sec:rule-taxonomy}
+
+\begin{table}[tb]
+\centering
+\caption{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads
+right-to-left: digit $a_i$ gives the next state when the neighborhood
+sum index equals $i$.}
+\label{tab:rule-taxonomy}
+\small
+\begin{tabular}{ccll}
+\toprule
+Rule & Base-3 encoding & Interpretation & Role \\
+\midrule
+6158 & $(022110002)_{3}$ & Imitation / herding & Homogeneous model; stable waves \\
+19280 & $(222110002)_{3}$ & Majority rule & 80\% crash model; herding \\
+19286 & $(222110022)_{3}$ & Contrarian & 20\% crash model; destabilizer \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three rules are used in this study (Table~\ref{tab:rule-taxonomy}). Rule~19280 is a
+majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
+promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
+from 19280 at a single neighborhood sum, $c = 1$, the case with three Buy neighbors and
+one Hold neighbor. A Rule~19280 agent responds to this configuration by
+\emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
+\emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
+in the base-3 encoding is the minimal perturbation that converts a stabilizing agent into a
+destabilizing one, and it is this minimal difference that drives the phase transition
+studied below.
+
+\subsection{Model~A: Open (Boundary-Driven) Simulation}
+\label{sec:model-a}
+In Model~A, edge agents observe real market data, namely
+one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2 through March~28,
+2024, $T = 23{,}790$ time steps). The vendor feed is no longer publicly available, so an
+archival copy travels with the repository alongside its SHA-256 checksum and a record of
+the bar accounting, $61$ trading days of exactly $390$ regular-session bars each. At each
+step~$\tau$ the typical price $P_\tau = (H_\tau + L_\tau + C_\tau)/3$ is computed from the
+OHLC bar, each edge agent then evaluates Eq.~\eqref{eq:edge-state} using the online EMA
+and volatility from Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol}, and all interior agents
+update simultaneously via their assigned CA rule. The grid is initialized to
+all-Hold ($s=1$), so that any Buy or Sell activity must originate from the boundary and
+propagate inward.
+
+For the heterogeneous (crash) model, a fraction~$f$ of interior agents are assigned
+Rule~19286 (contrarian) uniformly at random, while the remaining $1-f$ agents use
+Rule~19280 (majority), and the minority agent positions are fixed for the duration of the
+simulation (quenched disorder), so that the only control parameter is the mixture
+fraction~$f$. The default grid is $256 \times 256$ ($N = 65{,}536$ agents), edge agents
+comprise 25\% of boundary cells ($f_e = 0.25$, yielding $255$ active edge agents),
+selected with a fixed random seed for reproducibility, the EMA smoothing parameter is
+$\alpha = 1/60$ (a 60-minute window), and the band width is $k = 1.0$ standard deviations.
+
+\subsection{Model~B: Feedback-Closed (Endogenous Price) Simulation}
+\label{sec:model-b}
+In Model~B, there is no external price feed. The
+price is generated endogenously from the grid's own collective state, and every trading
+cell, each interior agent together with each active edge agent, now carries a \emph{book}
+that gates whether its sentiment can be acted upon: a cash balance initialized to
+$\texttt{initial\_cash}$ (the sweep variable, default~$1{,}000$), a share inventory
+initialized to $10$ shares acquired at the reference cost basis $P_0 = 100$, and a running
+average cost basis that tracks the price paid across subsequent fills. Sentiment still flows
+by the same totalistic rule as in Model~A, which is what keeps the two models' interiors
+directly comparable, but a cell now expresses that sentiment through orders: a cell in the
+Buy state submits a one-share buy order every step it remains in that state, a cell in the
+Sell state submits a one-share sell order, and a Hold cell submits nothing.
+
+Orders do not clear against one another. They fill at the standing quote $P_{\tau-1}$
+against an unmodeled infinite-inventory market maker in the spirit of the price-impact accounting of
+Kyle~\cite{kyle1985continuous} and the market-clearing conventions of Farmer and
+collaborators~\cite{farmer2005predictive}. A buy fills if and only if the cell holds cash
+$\ge P$; a sell fills if and only if the cell holds at least one share and, when the
+disposition toggle is on, the standing quote exceeds the cell's average cost basis,
+$P > \bar{c}_i$. This cost-basis sell rule is the \emph{disposition effect} of Shefrin and
+Statman~\cite{shefrin1985disposition}, the reluctance to realize losses that Odean later
+documented in the trading records of individual investors~\cite{odean1998investors}. We
+treat it not as a modeling assumption but as a behavioral bias and hence a sweep factor,
+toggled on and off across campaigns. Every order that the book cannot honor is tallied as a
+\emph{suppressed} order rather than executed: budget constraints suppress order \emph{flow},
+never the underlying CA states. The interior uses the same update rule as Model~A, while
+cash and inventory throttle its market footprint. Because the market maker lies outside
+the modeled population, cash and shares are not conserved among grid agents. Model~B is
+closed with respect to price feedback, not economically closed.
+
+Because fills, not states, now drive the price, the imbalance is measured on executed flow
+rather than on the raw sentiment census:
+\begin{equation}
+  \varphi_\tau = \frac{(\text{executed buys})_\tau - (\text{executed sells})_\tau}{N_{\text{traders}}},
+  \qquad N_{\text{traders}} = N_{\text{interior}} + N_{\text{active edge}},
+  \label{eq:imbalance}
+\end{equation}
+and the price updates multiplicatively from this executed imbalance,
+\begin{equation}
+  P_\tau = P_{\tau-1} \cdot \exp\!\bigl(\lambda\,\varphi_\tau\bigr),
+  \label{eq:price-update}
+\end{equation}
+where $\lambda > 0$ is the price-impact parameter controlling how strongly the aggregate
+order flow moves the quote. Edge agents are full participants in $\varphi$, since their fills
+enter the numerator on the same footing as interior fills, and, to break the all-or-none
+lockstep that a single shared band would impose, each edge cell draws its own band
+half-width $k_i \sim U\!\bigl(k(1-\delta),\, k(1+\delta)\bigr)$, where $\delta$ is the
+band-spread parameter; the edge cells then evaluate Eq.~\eqref{eq:edge-state} against the
+newly generated price $P_\tau$, with the online EMA and volatility recursions of
+Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol} observing that same new price. The result is a fully
+self-contained loop: the grid's executed orders generate the price, the price drives the
+edge agents, and the edge agents inject signals back into the grid.
+
+To probe that loop causally we expose a deterministic intervention hook, a function of the
+current step and the full collection of books, $(t, \text{books})$, invoked at the top of
+step~$t$ before any orders execute, through which we implement mid-run cash shocks by
+scaling every cell's cash by a common factor. These are uniform wealth shocks within the
+model, not conventional order-book liquidity operations. The hook takes
+no randomness of its own, so the same seed still yields an identical trajectory up to the
+moment of intervention. This same-seed, identical-trajectory contract is what the
+paired counterfactuals rely on to attribute any downstream divergence to the
+liquidity shock alone.
+
+\subsection{Phase Sweep Protocol}
+\label{sec:phase-sweep}
+To map the finite-horizon crossover, we swept the minority fraction $f$ from $0.0$ to $0.50$ in
+two passes. A coarse sweep with $\Delta f = 0.05$ covered the full range; a fine-grained
+sweep with $\Delta f = 0.01$ resolved the transition region $f \in [0.08, 0.22]$.
+For each value of~$f$, the full $T$-step price series drove a $128 \times 128$ grid
+(chosen for computational efficiency),
+and we recorded the sell fraction at every time step. Three summary statistics characterize
+each run: mean sell fraction, peak sell fraction, and crash frequency (the fraction of
+time steps at which the sell fraction exceeds~$0.50$).
+Each value of~$f$ used one fixed disorder realization. The sweep therefore brackets a
+finite-horizon crossover; it does not estimate a thermodynamic critical point.
+
+\subsection{Model~B Nucleation Campaigns}
+\label{sec:mb-protocols}
+The endogenous-price machinery of Model~B lets us treat a market crash as a nucleation
+event and interrogate it with a family of campaigns. Unless a campaign states
+otherwise, all of them share one configuration, a $64 \times 64$ grid, price impact
+$\lambda = 0.02$, nominal band half-width $k = 1$, band spread $\delta = 0.5$, the
+disposition rule switched off, an initial quote $P_0 = 100$, and deterministic seeds, and
+they differ only in the minority fraction~$f$, the initial cash, and the horizon over which
+we let the loop run, which is $1{,}000$ steps for the seed sweep, $1{,}500$ steps for the
+budget-toggle and boundary-versus-bulk campaigns, and $2{,}000$ steps for the escape-time
+campaign. Two definitions, fixed once and reused by every campaign, let the campaigns be
+read together: we label sell clusters by breadth-first search over the $4$-connected
+Sell cells of the grid, and we define the crash onset $t_{\mathrm{on}}$ as the first step at
+which the largest sell cluster reaches $5\%$ of the grid. Cluster labeling runs on the
+full grid in every campaign but one, since the boundary-versus-bulk birth analysis instead labels
+on the interior alone, so that a cluster attached to the active-edge ring can be told apart
+from one born in the bulk, and because onset and cluster size are measured identically
+everywhere else, front velocities and onset times reported by different analyses can be read
+on a common footing.
+
+The seed sweep compares variation across configurations with variation across disorder
+realizations. We ran three configurations, a
+\emph{stable} regime at $f = 0.10$ with cash $1{,}000$, a \emph{freeze} regime at $f = 0.20$
+with cash $500$, and a \emph{collapse} regime at $f = 0.20$ with cash $5{,}000$, across $20$
+seeds each. The budget toggle then turns the deterministic hook into a controlled experiment.
+For each seed, we used the control trajectory to identify $t_{\mathrm{on}}$. In the paired
+counterfactual, every cell's cash is scaled at the start of that step by $\times 10$
+(an injection) or by $\times 0.1$ or $\times 0.01$ (two withdrawal doses). Histories are
+bit-identical through step $t_{\mathrm{on}}-1$, so the intervention immediately precedes
+the control's first detectable onset frame. We then measured outcomes in an
+onset-aligned window of $W = 400$ steps and took the front velocity to be the endpoint
+difference quotient, the change in largest-cluster fraction between onset and
+onset$+W$ divided by $W$, rather than a fitted slope. A pair is excluded from an
+arm when its control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
+leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$).
+
+The boundary-versus-bulk campaign
+asks where the winning cluster is born: we tracked the founding cell of the onset cluster and
+compared its location against the analytic null for spatially uniform births, under which the
+fraction of births falling within distance~$2$ of the boundary is~$0.125$, and we complemented
+this observational arm with an interventional one that stamps a $3 \times 3$ sell patch onto
+the grid at boundary-adjacent, mid, and center placements, each paired against an unstamped
+control.
+
+The onset-time campaign measures how the waiting time changes with~$f$ at three cash
+levels, $\text{cash} \in \{500,\,1{,}000,\,
+5{,}000\}$. A pilot pass swept $f \in \{0.12,\,0.15,\,0.18,\,0.20,\,0.25,\,0.30\}$ at $20$
+seeds, and having localized the onset cliff to the interval between $0.15$ and $0.18$ at all
+three cash levels, a refinement pass added $f \in \{0.156,\,0.162,\,0.168,\,0.174,\,0.177\}$
+at $40$ seeds. We took the escape time to be $\tau = t_{\mathrm{on}}$, right-censored at the
+$2{,}000$-step horizon and never discarded, so runs without onset still inform the
+Kaplan--Meier estimates. We fitted the empirical form
+$\ln \tilde\tau = A + B/(f - f_0)$ separately at each cash level using the finite
+Kaplan--Meier medians, with the pseudo-threshold $f_0$ left free, and obtained $95\%$
+confidence intervals on
+$(A, B, f_0)$ from $2{,}000$ bootstrap resamples of the seeds within each~$f$.
+
+A companion
+velocity--suppression dose-response holds $f = 0.20$ and extends the cash ladder with the
+levels $250$ and $2{,}000$ so that five doses are probed at $20$ seeds each. For every run we
+formed, over the window $[t_{\mathrm{on}} + 50,\, t_{\mathrm{on}} + 400]$, a front velocity as
+the OLS slope of the front extent and a suppression load as the mean \emph{absolute} number
+of suppressed buy orders per step, and we tested their association by Spearman rank correlation
+with a $10{,}000$-draw permutation $p$-value, excluding and separately counting any run that
+is censored before onset or whose window endpoint $t_{\mathrm{on}} + 400$ would exceed the
+horizon.
+
+Finally, to place these targeted campaigns against the model's full parameter dependence, we
+drew on a large factorial sweep whose crash statistics anchor the Model~B regime
+discussion: the full crossing of $f \in \{0,\,0.1,\,0.15,\,0.2,\,0.3\}$,
+$\lambda \in \{0.005,\,0.01,\,0.02,\,0.05\}$, $\text{cash} \in \{500,\,1{,}000,\,5{,}000\}$,
+disposition $\in \{\text{off},\,\text{on}\}$, band spread $\delta \in \{0,\,0.5,\,0.9\}$, and
+band half-width $k \in \{0.5,\,1,\,2\}$ yields $1{,}080$ configurations which, replicated
+across $10$ seeds of $2{,}000$ steps, comprise $10{,}800$ runs. The full design and its
+variance decomposition are deferred to Appendix~\ref{app:stage2}.

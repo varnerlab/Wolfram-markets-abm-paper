@@ -1,0 +1,219 @@
+% introduction.tex -- Introduction
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+Large price declines in financial markets are not always traceable to news of comparable
+size. The crash of October 1987 removed roughly a fifth of the value of the United States
+equity market in a single session, and the flash crash of May 2010 took about nine percent
+off the major indices and returned it within the hour, neither of them following an
+exogenous announcement of matching
+magnitude~\cite{sornette2017why,kirilenko2017flash}. The everyday statistics of returns
+raise the same difficulty in a milder form. Heavy tails, volatility clustering, and long
+memory in absolute returns persist across assets, sampling frequencies, and
+decades~\cite{cont2001empirical,mandelbrot1963variation}, and a market driven only by
+independent external shocks would inherit the arrival statistics of those shocks rather
+than produce structure of its own. Both observations point to the
+same broad question, whether the interactions among traders can generate large moves on
+their own, and we address one narrow version of it here: can local interactions alone
+produce a spatially organized transition from mixed trading states to a sell-dominated
+state? If they can, then the interaction network matters, because it determines where a
+disturbance begins and how far it spreads~\cite{battiston2016complexity}. We study this
+question in a deliberately minimal model and then test how finite agent budgets affect the
+onset and growth of the sell-dominated domain.
+
+The ingredients for an answer already exist, though they have not been assembled. On one
+side, a generation of agent-based models (ABMs) has demonstrated that heterogeneous
+populations of chartists and fundamentalists can reproduce fat tails and clustered
+volatility~\cite{lux1999scaling,bak1997price}, that herding on random graphs is sufficient
+to generate power-law-tailed returns~\cite{cont2000herd}, and that minority-game
+dynamics~\cite{challet1997minority} and adaptive strategy
+switching~\cite{farmer2002price,hommes2006heterogeneous} produce non-Gaussian fluctuations
+without any exogenous noise assumption. On the other side, a mature literature on lattice
+and spin models (Ising models with market
+coupling~\cite{bornholdt2001ising,krawiecki2002volatility}, opinion dynamics on
+chains~\cite{sznajd2002simple}, and the three-state speculative model of
+Kaizoji~\cite{kaizoji2002speculative}) has shown that nearest-neighbor interactions on a
+regular grid can produce phase transitions between ordered (crash) and disordered (efficient)
+regimes. Meanwhile, cellular automata (CA) have been applied to financial
+markets~\cite{wei2003cellular,qiu2007cellular,yang2019financial}, but the rules in those
+studies were chosen by hand rather than drawn from an enumerated space, which leaves them
+resistant to systematic comparison. What is missing is a framework that combines
+\emph{local} spatial dynamics on a regular lattice with a \emph{complete, enumerable} space
+of behavioral rules and a \emph{direct} connection to real market data. Wolfram totalistic
+CA rules~\cite{wolfram2002new} supply the first two of those at once. Information reaches a
+cell only from its immediate neighbors, so a sell cascade cannot appear everywhere at once
+but must travel from neighbor to neighbor as a spatially resolved wavefront whose origin
+and speed are both measurable. The space of such rules is also finite
+($3^9 = 19{,}683$ rules), so agent behaviors can be screened by enumeration rather than
+designed by hand.
+
+In this paper, we assemble those ingredients in a spatial cellular-automaton market.
+Agents occupy the cells of a two-dimensional grid, hold one of three states (Buy, Hold,
+or Sell), and update deterministically from their four cardinal neighbors under Wolfram
+totalistic rules (Figure~\ref{fig:schematic}). The interior mixes just two such rules, a majority/herding rule and a
+contrarian/destabilizer rule, at the minority (contrarian) fraction~$f$ that serves
+throughout as the single control parameter. We study two complementary configurations.
+In Model~A (open), boundary agents observe real QQQ ETF
+minute-bar data through a Bollinger Band filter, which supplies an empirical boundary
+forcing. In Model~B (feedback-closed), the boundary responds instead to an endogenous
+price formed from the grid's own net order imbalance, a reflexive loop that produces
+crashes without any external input, and every agent holds finite cash and shares, so that
+budgets can suppress the very orders sentiment demands. Model~A showed a sharp
+finite-horizon crossover between $f=0.14$ and $f=0.15$, above which localized sell domains
+grew as spatially coherent fronts that neither a mean-field map nor a pair approximation
+reproduced.
+Model~B kept that crossover under a budget, and across the tested cash levels the budgets
+moved onset by less than a factor of two while altering the domain's post-onset growth, a
+separation that a paired cash intervention traced to the boundary channel through which
+price information reaches the interior. We read the transition as nucleation and growth,
+a crash with a location, a start time, and a speed.
+
+% --- Figure 1: Model Schematic ---
+\begin{figure}[tb]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    annot/.style={font=\scriptsize},
+    tinyannot/.style={font=\tiny},
+    panellabel/.style={font=\normalsize\bfseries, anchor=south west},
+    % Grid cell styles
+    cell/.style={minimum size=4.75mm, draw=white, line width=0.4pt, inner sep=0pt},
+    edgecell/.style={cell, fill=edgegreen},
+    buycell/.style={cell, fill=buyblue},
+    holdcell/.style={cell, fill=holdgray},
+    sellcell/.style={cell, fill=sellorange},
+    minorcell/.style={cell, fill=sellorange!20, draw=sellorange!95!black,
+                      line width=0.55pt, dash pattern=on 1.4pt off 1.0pt},
+    % Zoomed neighborhood
+    zcell/.style={minimum size=10mm, draw=black!30, line width=0.35pt, inner sep=0pt,
+                  font=\footnotesize},
+    thickarrow/.style={->, black!50, line width=0.7pt},
+]
+
+% --- Panel A: 12x12 Agent Grid ---
+\node[panellabel] at (-0.25, 4.75) {A};
+
+\foreach \r in {0,...,11} {
+  \foreach \c in {0,...,11} {
+    \pgfmathsetmacro{\xpos}{\c*0.50}
+    \pgfmathsetmacro{\ypos}{\r*0.50 - 1.10}
+    \ifnum\r=0
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\r=11
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\c=0
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\c=11
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else
+      \pgfmathparse{int(mod(\r*7+\c*13+3,11))}
+      \ifnum\pgfmathresult<2
+        \node[minorcell] (g\r\c) at (\xpos,\ypos) {};
+      \else
+        \pgfmathparse{int(mod(\r*3+\c*7+1,5))}
+        \ifnum\pgfmathresult<2
+          \node[buycell] (g\r\c) at (\xpos,\ypos) {};
+        \else\ifnum\pgfmathresult=2
+          \node[holdcell] (g\r\c) at (\xpos,\ypos) {};
+        \else
+          \node[sellcell] (g\r\c) at (\xpos,\ypos) {};
+        \fi\fi
+      \fi
+    \fi\fi\fi\fi
+  }
+}
+
+% Highlight target cell (6,7) and Von Neumann neighbors
+\node[cell, fill=hlyellow, draw=black, line width=0.9pt] at (7*0.50, 6*0.50-1.10) {};
+\foreach \dr/\dc in {1/0, -1/0, 0/1, 0/-1} {
+  \pgfmathsetmacro{\nr}{int(6+\dr)}
+  \pgfmathsetmacro{\nc}{int(7+\dc)}
+  \draw[black, line width=0.6pt]
+    ($(g\nr\nc.south west)$) rectangle ($(g\nr\nc.north east)$);
+}
+
+% Shared color key, stacked vertically in the gutter between the panels
+\fill[buyblue]    (6.35, 2.95) rectangle +(0.25, 0.25);
+\node[annot, anchor=west] at (6.70, 3.075) {Buy};
+\fill[holdgray]   (6.35, 2.45) rectangle +(0.25, 0.25);
+\node[annot, anchor=west] at (6.70, 2.575) {Hold};
+\fill[sellorange] (6.35, 1.95) rectangle +(0.25, 0.25);
+\node[annot, anchor=west] at (6.70, 2.075) {Sell};
+\fill[edgegreen]  (6.35, 1.45) rectangle +(0.25, 0.25);
+\node[annot, anchor=west] at (6.70, 1.575) {Edge};
+\draw[fill=sellorange!20, draw=sellorange!95!black, line width=0.55pt,
+      dash pattern=on 1.4pt off 1.0pt] (6.35, 0.95) rectangle +(0.25, 0.25);
+\node[annot, anchor=west] at (6.70, 1.075) {Minority};
+
+% --- Panel B: rule-update pipeline on a centered vertical spine ---
+% cross -> sum -> table lookup, top to bottom; the next state exits right
+\node[panellabel] at (7.55, 4.75) {B};
+
+% Von Neumann cross with state values; neighbor names inside cell corners
+\def\zx{9.90}
+\def\zy{3.05}
+\def\zs{1.08}
+
+\node[zcell, fill=buyblue]    (zN) at (\zx,      \zy+\zs) {\textcolor{white}{\textbf{0}}};
+\node[zcell, fill=sellorange] (zW) at (\zx-\zs,  \zy)     {\textcolor{white}{\textbf{2}}};
+\node[zcell, fill=hlyellow, draw=black, line width=0.9pt]
+                              (zC) at (\zx,      \zy)     {\textbf{?}};
+\node[zcell, fill=holdgray]   (zE) at (\zx+\zs,  \zy)     {\textcolor{black!75}{\textbf{1}}};
+\node[zcell, fill=sellorange] (zS) at (\zx,      \zy-\zs) {\textcolor{white}{\textbf{2}}};
+
+\node[tinyannot, anchor=north west, text=white, opacity=0.85, inner sep=1.5pt] at (zN.north west) {$s_N$};
+\node[tinyannot, anchor=north west, text=white, opacity=0.85, inner sep=1.5pt] at (zW.north west) {$s_W$};
+\node[tinyannot, anchor=north west, text=black!55, inner sep=1.5pt] at (zE.north west) {$s_E$};
+\node[tinyannot, anchor=north west, text=white, opacity=0.85, inner sep=1.5pt] at (zS.north west) {$s_S$};
+
+% Sum equation directly below the cross
+\node[font=\footnotesize, anchor=north] (sumeq) at (\zx, 1.10)
+  {$c_{r,c} = 0+2+1+2 = 5$};
+\draw[thickarrow] (zS.south) -- (sumeq.north)
+  node[midway, right=3pt, tinyannot, text=black!55] {sum};
+
+% Rule table directly below the sum equation
+\node[draw=black!35, rounded corners=2.5pt, fill=lightbg,
+      inner sep=3.5pt, line width=0.3pt,
+      anchor=north] (ruletab) at (\zx, 0.32) {%
+  \footnotesize\sffamily
+  \setlength{\tabcolsep}{2pt}%
+  \begin{tabular}{@{}r|ccccccccc@{}}
+    $c$ & 0 & \cellcolor{sellorange!25}1 & 2 & 3 & 4
+      & \cellcolor{hlyellow!55}\textbf{5} & 6 & 7 & 8 \\[1pt] \hline
+    \rule{0pt}{8pt}%
+    \textcolor{buyblue}{\textbf{19280}} &
+      2 & \cellcolor{sellorange!25}0 & 0 & 0 & 1 &
+      \cellcolor{hlyellow!55}\textbf{1} & 2 & 2 & 2 \\
+    \textcolor{sellorange!90!black}{\textbf{19286}} &
+      2 & \cellcolor{sellorange!25}2 & 0 & 0 & 1 &
+      \cellcolor{hlyellow!55}\textbf{1} & 2 & 2 & 2 \\
+  \end{tabular}};
+
+\draw[thickarrow] (sumeq.south) -- (ruletab.north)
+  node[midway, right=3pt, tinyannot, text=black!55] {lookup};
+
+% Difference annotation below the table
+\node[tinyannot, text=sellorange!80!black, anchor=north]
+  at ($(ruletab.south)+(0.0, -0.10)$)
+  {rules differ only at $c = 1$};
+
+% Output: the next state of the highlighted cell, exiting to the right
+\node[zcell, fill=holdgray] (zOut) at (12.95, -0.38) {\textcolor{black!75}{\textbf{1}}};
+\draw[thickarrow] (ruletab.east |- zOut.west) -- (zOut.west);
+\node[tinyannot, anchor=north] at ($(zOut.south)+(0,-0.08)$) {$s'_{r,c}$ (Hold)};
+
+\end{tikzpicture}%
+}
+\caption{Model architecture. \textbf{(A)}~Agent grid ($N_r \times N_c$) with three
+states (Buy, Hold, Sell). Green boundary cells are edge agents; dashed-outline
+interior cells follow the minority rule~(19286); solid interior cells follow the
+majority rule~(19280). The outlined cell and its Von~Neumann neighbors are expanded
+in~B.
+\textbf{(B)}~CA update for the outlined cell: the four neighbor states are summed to
+$c_{r,c} = 5$, the sum indexes the rule table, and both rules output Hold, so the
+next state is $s'_{r,c} = 1$. The two rules differ only at $c = 1$ (shaded column).}
+\label{fig:schematic}
+\end{figure}

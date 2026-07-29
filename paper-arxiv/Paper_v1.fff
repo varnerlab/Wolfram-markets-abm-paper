@@ -1,0 +1,126 @@
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS1-Exemplars.pdf}
+  \caption{Model~B regime exemplars from the Stage~2 factorial: a crash-prone run
+  (run 9652) and an oscillatory run (run 5916).
+  \textbf{(A)}~Price, its exponential moving average, and the EMA band for the
+  crash-prone exemplar, a bubble-and-collapse trajectory ($100 \to 266 \to 83$).
+  \textbf{(B)}~The same for the oscillatory exemplar, whose price stayed within a few
+  percent of its starting value.
+  \textbf{(C)}~Interior Buy, Hold, and Sell fractions for the crash-prone exemplar.
+  \textbf{(D)}~The same for the oscillatory exemplar.
+  \textbf{(E)}~Suppressed buy and sell orders per step for the crash-prone exemplar.
+  \textbf{(F)}~The same for the oscillatory exemplar. The crash-prone exemplar is the
+  dramatic tail of its regime, shown because it makes the mechanism visible; the
+  \emph{typical} crash-prone run is a liquidity freeze in which the grid locks near a
+  Sell fraction of $0.88$ while the price barely moves. ``Crash-prone'' throughout
+  denotes majority-sell lock-in (Sell fraction $\ge 0.5$ on at least 1\% of steps), not
+  a price discontinuity.}
+  \label{fig:s1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS2-SeedTrajectories.pdf}
+  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
+  seeds per budget configuration.
+  \textbf{(A)}~Largest sell cluster, expressed as a fraction of the grid, drawn step by
+  step for every seed of the stable configuration ($f = 0.10$, cash $1{,}000$).
+  \textbf{(B)}~The same for the freeze configuration ($f = 0.20$, cash $500$).
+  \textbf{(C)}~The same for the collapse configuration ($f = 0.20$, cash $5{,}000$). The
+  time-shifted-sigmoid fan within each above-threshold configuration reflects stochastic
+  nucleation waiting times rather than a spread of eventual outcomes.
+  \textbf{(D)}~Per-seed ratio of the largest cluster to the total sell population at its
+  peak, the summary carried in the main text as Figure~\ref{fig:nucleus}A.
+  \textbf{(E)}~Largest-cluster fraction of the grid at the end of the run.}
+  \label{fig:s2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
+  \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
+  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep
+  whose mean sell fraction and crash frequency are Figure~\ref{fig:crossover}B
+  and~\ref{fig:crossover}C. The dashed vertical line at $f = 0.145$ marks the midpoint of
+  the observed $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic critical
+  point.}
+  \label{fig:s3}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS4-BarrierParameters.pdf}
+  \caption{Onset cliff and fitted barrier parameters across the cash ladder.
+  \textbf{(A)}~Fraction of seeds that nucleated within the $2{,}000$-step horizon,
+  against the minority fraction~$f$ at cash $500$, $1{,}000$, and $5{,}000$: the onset
+  cliff sits between $f = 0.15$ and $f = 0.18$ at every cash level.
+  \textbf{(B)}~Fitted pseudo-threshold $f_0$ per cash level with $95\%$ bootstrap
+  confidence intervals; the dashed line marks the Model~A value $f_0 = 0.101$.
+  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the Model~A
+  value $B = 0.389$. The intervals overlap between tight and loose cash on both
+  parameters. That overlap is not itself a test; the paired equivalence analysis
+  reported in the text is, and it bounds the between-budget difference in predicted
+  median onset time to within a factor of two. The resampling behind these intervals is
+  described in Appendix~\ref{app:censoring}.}
+  \label{fig:s4}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figs/FigS5-SeedingDetail.pdf}
+  \caption{Stamped-patch seeding detail across placements and configurations.
+  \textbf{(A)}~Onset step per seed under each arm (an unstamped control and a
+  $3 \times 3$ sell patch stamped at edge, mid, and center placements) for the freeze
+  configuration, with gray lines pairing the same seed across arms; the pairings cross in
+  both directions and no placement advanced onset. The apparent delay under the freeze
+  mid placement (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$) is
+  exploratory, uncorrected across the six-test family and failing the Bonferroni
+  threshold of $0.0083$, a lead rather than a result.
+  \textbf{(B)}~The same for the collapse configuration.
+  \textbf{(C)}~Dominance rate per placement for the freeze configuration: the fraction of
+  runs in which the cluster standing largest at onset descends from the stamped patch is
+  $0/20$ in every arm.
+  \textbf{(D)}~The same for the collapse configuration; all six cells are collected in
+  Figure~\ref{fig:growth-gating}B.
+  \textbf{(E)}~Largest-cluster growth trajectories for a single exemplar seed under each
+  arm in the freeze configuration.
+  \textbf{(F)}~The same in the collapse configuration. Which arm reaches domain scale
+  first differs between the two configurations rather than tracking the stamped
+  placement, and the domain that grows is in every run one founded away from the patch.}
+  \label{fig:s5}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS6-ToggleDetail.pdf}
+  \caption{Full budget-toggle detail: paired, onset-aligned counterfactuals at
+  $f = 0.20$ over the $19$ included seed pairs per arm, with the dashed line marking the
+  toggle at $t_{\mathrm{on}}$ and the pre-toggle traces coinciding by construction. The
+  edge-ring traces are averaged over the seed pairs, toggled against control.
+  \textbf{(A)}~Largest sell cluster as a fraction of the grid against steps since onset
+  under injection (cash $\times 10$ on the tight cash-$500$ base), each toggled
+  trajectory drawn over its control.
+  \textbf{(B)}~Edge-ring Buy fraction under injection.
+  \textbf{(C)}~Edge-ring Sell fraction under injection; the ring flips from the
+  control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and ${\sim}1.0$ Sell at the toggle.
+  \textbf{(D)}~Largest sell cluster under the mild withdrawal (cash $\times 0.1$ on the
+  loose cash-$5{,}000$ base).
+  \textbf{(E)}~Edge-ring Buy fraction under the mild withdrawal.
+  \textbf{(F)}~Edge-ring Sell fraction under the mild withdrawal.
+  \textbf{(G)}~Largest sell cluster under the harsh withdrawal (cash $\times 0.01$).
+  \textbf{(H)}~Edge-ring Buy fraction under the harsh withdrawal.
+  \textbf{(I)}~Edge-ring Sell fraction under the harsh withdrawal. Either cut lifts the
+  ring's Buy fraction from the control's ${\sim}0.46$ after onset to ${\sim}0.72$--$0.74$
+  before the transient excess dissipates by ${\sim}200$ steps, and the Sell fraction,
+  which in this loose configuration declines from ${\sim}0.37$ well before onset to zero
+  just after, remains indistinguishable between control and toggled throughout.}
+  \label{fig:s6}
+\end{figure}

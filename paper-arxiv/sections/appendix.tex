@@ -1,0 +1,375 @@
+% appendix.tex -- Appendices A-C
+% ============================================================================
+\section{Mean-Field and Pair-Approximation Derivations}
+\label{app:pair}
+% ============================================================================
+
+This appendix records the mean-field and pair-approximation calculations in the form in
+which they were implemented. The quenched
+rule mixture enters in its annealed form: Rules~19280 and~19286 share every entry of
+their totalistic tables except at neighborhood sum $c = 1$, where the majority rule
+outputs Buy and the contrarian rule outputs Sell, so a site whose rule assignment is
+drawn afresh at minority fraction~$f$ follows the effective stochastic rule
+\begin{equation}
+  R_f(c \to b) \;=\; (1-f)\,\mathbf{1}\!\left[\mathcal{R}_{19280}(c) = b\right]
+  \;+\; f\,\mathbf{1}\!\left[\mathcal{R}_{19286}(c) = b\right],
+\end{equation}
+deterministic at every $c \neq 1$ and splitting $c = 1$ between Buy, with
+probability $1 - f$, and Sell, with probability~$f$.
+
+The mean-field closure is that same effective rule with all spatial structure discarded:
+each agent's four neighbors are drawn independently from the global state distribution
+$(p_0, p_1, p_2)$, where $p_s$ is the fraction of agents in state~$s$ and
+$p_0 + p_1 + p_2 = 1$. The neighborhood sum $c = s_N + s_S + s_E + s_W$ is then a
+multinomial convolution of four i.i.d.\ draws,
+\begin{equation}
+  \pi_k \;=\; \Pr(c = k) \;=\; \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
+  \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
+  \qquad k = 0,1,\ldots,8,
+  \label{eq:pi-dist}
+\end{equation}
+and the verified rule tables (Table~\ref{tab:rule-taxonomy}) send $c \in \{2,3\}$ to Buy,
+$c \in \{4,5\}$ to Hold, and $c \in \{0,6,7,8\}$ to Sell for both rules, leaving $c = 1$
+as the only entry on which they differ. The map is therefore
+\begin{align}
+  p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
+  p_1' &= \pi_4 + \pi_5, \label{eq:mf-p1} \\
+  p_2' &= \pi_0 + f\,\pi_1 + \pi_6 + \pi_7 + \pi_8, \label{eq:mf-p2}
+\end{align}
+with primes denoting next-step fractions and each $\pi_k$ evaluated from
+Equation~\eqref{eq:pi-dist} at the current $(p_0, p_1, p_2)$. We iterated
+Equations~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence,
+$\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$, from multiple initial conditions and
+across $f \in [0, 1]$. The two stable fixed points reported in the main text are those of
+this map, and the Jacobian at the buy-dominated branch has complex eigenvalues of modulus
+$|\lambda| \approx 0.95$, a stable spiral. The pair approximation restores one level of
+spatial structure.
+
+The state of the pair approximation is the symmetric matrix of nearest-neighbor pair
+densities $\rho_{ab}$, $a, b \in \{0, 1, 2\}$, normalized by
+$\sum_{ab} \rho_{ab} = 1$, with site marginals $\rho_a = \sum_b \rho_{ab}$ and
+conditional neighbor distribution $q(s \mid a) = \rho_{as} / \rho_a$. The closure is
+the local-structure ansatz of Gutowitz, Victor, and
+Knight~\cite{gutowitz1987local}: given a focal site in state~$a$, its three
+neighbors \emph{other} than the paired partner are drawn independently from
+$q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution
+\begin{equation}
+  \Pr(m = k \mid a) \;=\;
+  \sum_{\substack{n_0 + n_1 + n_2 = 3 \\ n_1 + 2n_2 = k}}
+  \binom{3}{n_0,\,n_1,\,n_2}\,
+  q(0 \mid a)^{n_0}\, q(1 \mid a)^{n_1}\, q(2 \mid a)^{n_2},
+  \qquad k = 0, \ldots, 6,
+\end{equation}
+and the focal site's full neighborhood sum is the partner's state plus that draw,
+$c = a' + m$, which never exceeds~$8$. Averaging the effective rule over the
+trinomial weights gives the transition kernel
+\begin{equation}
+  T_b(a, a') \;=\; \sum_{k=0}^{6} \Pr(m = k \mid a)\; R_f(a' + k \to b),
+\end{equation}
+the probability that a site in state~$a$ with paired neighbor in state~$a'$ lands in
+state~$b$ after one synchronous step. Substituting this kernel for both members of a
+pair (each site conditioning on its own partner) yields the synchronous pair update
+$\rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\, T_b(a, a')\, T_{b'}(a', a)$ quoted as
+Equation~\eqref{eq:pair-update} of the main text. The implementation symmetrizes and
+renormalizes $\rho'$ after every step to guard against numerical drift.
+
+We iterated the map to its fixed points, declaring convergence when the largest
+componentwise change $\max_{ab} |\rho'_{ab} - \rho_{ab}|$ fell below $10^{-12}$, and
+every trajectory reported here converged within a few hundred iterations. Stability
+of the uncorrelated fixed point $\rho^*_{ab} = \rho^*_a \rho^*_b$, the product state
+built from the mean-field marginals, was assessed
+through the Jacobian of the map restricted to the six independent components
+$(\rho_{00}, \rho_{01}, \rho_{02}, \rho_{11}, \rho_{12}, \rho_{22})$ that survive
+symmetry and normalization, computed by finite differences with step
+$\delta = 10^{-7}$, each perturbed matrix projected back onto the probability simplex
+before the map was applied. The spectral radius sat strictly below unity at every
+value of~$f$ we sampled (twelve values from $0$ to $0.5$), declining monotonically
+from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory}B).
+
+The search for correlated fixed points used initial conditions
+\begin{equation}
+  \rho_{ab} \;=\; p_a p_b + \varepsilon \left( \delta_{ab}\, p_a - p_a p_b \right),
+\end{equation}
+which interpolate between the uncorrelated product state at $\varepsilon = 0$ and
+perfect same-state correlation at $\varepsilon = 1$. We ran
+$\varepsilon \in \{0.1,\, 0.3,\, 0.5\}$ on buy-biased marginals
+$(0.50,\, 0.30,\, 0.20)$, $\varepsilon \in \{0.1,\, 0.3\}$ on sell-biased marginals
+$(0.20,\, 0.10,\, 0.70)$, and $\varepsilon = 0.5$ on $(0.10,\, 0.05,\, 0.85)$,
+together with an uncorrelated uniform control, at thirteen
+values of~$f$ between $0$ and $0.5$. Every trajectory converged either to the
+uncorrelated buy-dominated fixed point or to the all-Sell absorbing state, with the
+spatial mutual information between adjacent sites decaying to zero in all cases. That
+mutual information is $I = 2S_1 - S_2$, built from the single-site and pair Shannon
+entropies
+\begin{equation}
+  S_1 \;=\; -\sum_{a} \rho_a \ln \rho_a,
+  \qquad
+  S_2 \;=\; -\sum_{a,b} \rho_{ab} \ln \rho_{ab},
+  \label{eq:entropies}
+\end{equation}
+in which $S_1$ is the site entropy plotted for the lattice in the main text
+(Figure~\ref{fig:theory}A), maximal at $\ln 3$ for a uniform mixture of the three states
+and zero in a single-state configuration. Because the two site marginals of a symmetric
+$\rho_{ab}$ are equal, $I$ vanishes exactly when the pair densities factorize as
+$\rho_{ab} = \rho_a \rho_b$. The pair approximation therefore supports no correlated
+fixed point, which is the negative result on which the nucleation argument rests.
+
+% ============================================================================
+\section{Model~B Stage~2 Factorial}
+\label{app:stage2}
+% ============================================================================
+
+The Stage~2 factorial sweep crossed six factors in full, giving the design from which
+every Model~B summary statistic in this study is drawn
+(Table~\ref{tab:stage2-design}).
+
+\begin{table}[tb]
+\centering
+\caption{Model~B Stage~2 factorial design. The six factors are crossed in full:
+$5 \times 4 \times 3 \times 2 \times 3 \times 3 = 1{,}080$ configurations, each run
+at $10$ seeds for $2{,}000$ steps ($10{,}800$ runs).}
+\label{tab:stage2-design}
+\small
+\begin{tabular}{llc}
+\toprule
+Factor & Levels & Count \\
+\midrule
+Minority fraction $f$   & $0,\ 0.1,\ 0.15,\ 0.2,\ 0.3$  & 5 \\
+Price impact $\lambda$  & $0.005,\ 0.01,\ 0.02,\ 0.05$  & 4 \\
+Initial cash            & $500,\ 1{,}000,\ 5{,}000$     & 3 \\
+Disposition rule        & off, on                       & 2 \\
+Band spread $\delta$    & $0,\ 0.5,\ 0.9$               & 3 \\
+Band half-width $k$     & $0.5,\ 1,\ 2$                 & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Every run was assigned to one of five candidate regimes by a classifier evaluated in
+strict order, each test applying only to runs that fail all earlier ones. A run with
+zero return standard deviation is \emph{inert}. Failing that, a run is
+\emph{crash-prone} when its crash frequency, the fraction of steps at which the
+grid's Sell fraction stands at or above $0.5$, reaches at least $0.01$. Failing
+that, a run is \emph{oscillatory} when the net order imbalance $\varphi$ changes sign
+at least $20$ times per $2{,}000$ steps. That threshold is a rate, one flip per $100$
+steps, stated here against the sweep's horizon so that it transfers to other run
+lengths. Failing that, a run whose total price range stays below $0.10\,P_0$ is a
+\emph{plateau}, and any remaining run is a \emph{drift}. Of the $10{,}800$ runs,
+$6{,}589$ ($61\%$) were oscillatory and $4{,}211$ ($39\%$) crash-prone; no run was
+ever inert, plateau, or drift. The sell-dominated (crash-prone) regime appeared
+abruptly between $f = 0.15$ and $f = 0.20$ at every price impact $\lambda$ in the
+design.
+
+Grouping runs by their parameter configuration split each summary metric's variance into
+a between-configuration share, attributable to the swept parameters jointly, and a
+within-configuration share, attributable to the disorder seed. The parameters accounted
+for $94$--$97\%$ of the variance across the four summary metrics, at between-configuration
+shares of $0.946$ for crash frequency, $0.952$ for return kurtosis, $0.959$ for
+return standard deviation, and $0.974$ for the $\varphi$ sign-flip count, leaving
+the seed at most $5.4\%$. Across matched design cells, enabling the disposition rule increased
+return standard deviation by a factor of $2.40$ on average.
+
+The crash-prone class divided into the modal freeze and a collapsing tail, the
+decomposition on which the transition analysis builds: the median crash-prone run
+had a maximum drawdown of about $5\%$ and a price minimum of $100.00$, so half the
+class never traded below the initial quote at all, while $897$ of the $4{,}211$ runs
+drove the price below $90$ and $451$ below $80$. The deepest collapses, drawdowns of
+$40$--$69\%$ arriving after bubbles of $2.5$--$2.7\times$ the initial price, were
+concentrated at $f = 0.2$, $\lambda = 0.05$, cash $5{,}000$, disposition off, the
+loosest budget regime in the design.
+
+% ============================================================================
+\section{Escape-Time Censoring and Survival Detail}
+\label{app:censoring}
+% ============================================================================
+
+The escape-time campaign ran each seed to a
+horizon of $2{,}000$ steps, and any run that has not nucleated by then is
+right-censored: its onset time $\tau = t_{\mathrm{on}}$ is treated as exceeding the
+horizon, and the run enters the Kaplan--Meier estimator carrying that censoring
+mark, since censored runs are never dropped. The resulting counts are recorded for every
+$(f, \text{cash})$ cell of the campaign (Table~\ref{tab:censoring-counts}); rows at $20$
+seeds belong to the pilot pass and rows at $40$ seeds to the refinement pass. The
+companion velocity--suppression dose-response added
+two further cells at $f = 0.20$, cash $250$ and cash $2{,}000$, each with $20$ seeds,
+one censored run, and an onset rate of $0.95$. Those cells feed the dose-response
+analysis, not the barrier fits.
+
+\begin{table}[tb]
+\centering
+\caption{Escape-time campaign: run count $n$, censored count $c$, and onset rate
+$(n - c)/n$ for every $(f, \text{cash})$ cell. Rows at $n = 20$ come from the pilot
+pass, rows at $n = 40$ from the refinement pass. A Kaplan--Meier median is finite
+only where the onset rate reaches $0.5$. The qualifying cells are exactly the
+$n_f = 5/6/6$ fit points of Table~\ref{tab:kramers-fits}.}
+\label{tab:censoring-counts}
+\small
+\begin{tabular}{lccccccccc}
+\toprule
+ & \multicolumn{3}{c}{Cash $500$} & \multicolumn{3}{c}{Cash $1{,}000$}
+ & \multicolumn{3}{c}{Cash $5{,}000$} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+$f$ & $n$ & $c$ & rate & $n$ & $c$ & rate & $n$ & $c$ & rate \\
+\midrule
+$0.12$  & 20 & 20 & 0.00 & 20 & 20 & 0.00 & 20 & 20 & 0.00 \\
+$0.15$  & 20 & 18 & 0.10 & 20 & 18 & 0.10 & 20 & 18 & 0.10 \\
+$0.156$ & 40 & 37 & 0.07 & 40 & 38 & 0.05 & 40 & 36 & 0.10 \\
+$0.162$ & 40 & 31 & 0.23 & 40 & 33 & 0.17 & 40 & 30 & 0.25 \\
+$0.168$ & 40 & 24 & 0.40 & 40 & 31 & 0.23 & 40 & 22 & 0.45 \\
+$0.174$ & 40 & 22 & 0.45 & 40 & 15 & 0.62 & 40 & 12 & 0.70 \\
+$0.177$ & 40 & 16 & 0.60 & 40 & 14 & 0.65 & 40 & 13 & 0.68 \\
+$0.18$  & 20 & 3  & 0.85 & 20 & 4  & 0.80 & 20 & 4  & 0.80 \\
+$0.20$  & 20 & 0  & 1.00 & 20 & 0  & 1.00 & 20 & 1  & 0.95 \\
+$0.25$  & 20 & 0  & 1.00 & 20 & 0  & 1.00 & 20 & 0  & 1.00 \\
+$0.30$  & 20 & 0  & 1.00 & 20 & 0  & 1.00 & 20 & 0  & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Because censoring occurs only at the horizon, the Kaplan--Meier survival curve of a
+cell steps down at each observed onset and its median is finite exactly when the
+onset rate reaches one half. The fits therefore rest
+on five points at cash $500$, at $f \in \{0.177,\, 0.18,\, 0.20,\, 0.25,\, 0.30\}$, and
+on six points at cash $1{,}000$ and $5{,}000$, which add $f = 0.174$
+(Table~\ref{tab:kramers-fits}). Cash $500$ has
+one fewer because its onset rate at $f = 0.174$ was $0.45$, just below the one-half a
+finite median requires. It was this gap that prompted extending the refinement grid
+to $f = 0.177$, so that the tightest budget still contributed a point hard against
+the cliff. The reported confidence intervals (Table~\ref{tab:kramers-fits},
+Figure~\ref{fig:s4}) come from $2{,}000$ bootstrap resamples drawn over seeds
+within each~$f$: each resample recomputes the Kaplan--Meier medians and refits the
+barrier law, and the intervals are the $2.5$th and $97.5$th percentiles of the
+resampled parameters.
+
+Finally, the onset-rate observation near the cliff is visible
+directly in Table~\ref{tab:censoring-counts}, and it carries the same label as in the
+main text: exploratory, reported uncorrected for multiple comparisons, and
+weighed accordingly. At $f = 0.174$ the onset rate rose monotonically in cash,
+$0.45$, $0.62$, $0.70$; at $f = 0.177$ the Kaplan--Meier medians fell in the same
+order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
+
+% ============================================================================
+% Supplementary figures (numbered S1-S6)
+% ============================================================================
+\clearpage
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS1-Exemplars.pdf}
+  \caption{Model~B regime exemplars from the Stage~2 factorial: a crash-prone run
+  (run 9652) and an oscillatory run (run 5916).
+  \textbf{(A)}~Price, its exponential moving average, and the EMA band for the
+  crash-prone exemplar, a bubble-and-collapse trajectory ($100 \to 266 \to 83$).
+  \textbf{(B)}~The same for the oscillatory exemplar, whose price stayed within a few
+  percent of its starting value.
+  \textbf{(C)}~Interior Buy, Hold, and Sell fractions for the crash-prone exemplar.
+  \textbf{(D)}~The same for the oscillatory exemplar.
+  \textbf{(E)}~Suppressed buy and sell orders per step for the crash-prone exemplar.
+  \textbf{(F)}~The same for the oscillatory exemplar. The crash-prone exemplar is the
+  dramatic tail of its regime, shown because it makes the mechanism visible; the
+  \emph{typical} crash-prone run is a liquidity freeze in which the grid locks near a
+  Sell fraction of $0.88$ while the price barely moves. ``Crash-prone'' throughout
+  denotes majority-sell lock-in (Sell fraction $\ge 0.5$ on at least 1\% of steps), not
+  a price discontinuity.}
+  \label{fig:s1}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS2-SeedTrajectories.pdf}
+  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
+  seeds per budget configuration.
+  \textbf{(A)}~Largest sell cluster, expressed as a fraction of the grid, drawn step by
+  step for every seed of the stable configuration ($f = 0.10$, cash $1{,}000$).
+  \textbf{(B)}~The same for the freeze configuration ($f = 0.20$, cash $500$).
+  \textbf{(C)}~The same for the collapse configuration ($f = 0.20$, cash $5{,}000$). The
+  time-shifted-sigmoid fan within each above-threshold configuration reflects stochastic
+  nucleation waiting times rather than a spread of eventual outcomes.
+  \textbf{(D)}~Per-seed ratio of the largest cluster to the total sell population at its
+  peak, the summary carried in the main text as Figure~\ref{fig:nucleus}A.
+  \textbf{(E)}~Largest-cluster fraction of the grid at the end of the run.}
+  \label{fig:s2}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
+  \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
+  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep
+  whose mean sell fraction and crash frequency are Figure~\ref{fig:crossover}B
+  and~\ref{fig:crossover}C. The dashed vertical line at $f = 0.145$ marks the midpoint of
+  the observed $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic critical
+  point.}
+  \label{fig:s3}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS4-BarrierParameters.pdf}
+  \caption{Onset cliff and fitted barrier parameters across the cash ladder.
+  \textbf{(A)}~Fraction of seeds that nucleated within the $2{,}000$-step horizon,
+  against the minority fraction~$f$ at cash $500$, $1{,}000$, and $5{,}000$: the onset
+  cliff sits between $f = 0.15$ and $f = 0.18$ at every cash level.
+  \textbf{(B)}~Fitted pseudo-threshold $f_0$ per cash level with $95\%$ bootstrap
+  confidence intervals; the dashed line marks the Model~A value $f_0 = 0.101$.
+  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the Model~A
+  value $B = 0.389$. The intervals overlap between tight and loose cash on both
+  parameters. That overlap is not itself a test; the paired equivalence analysis
+  reported in the text is, and it bounds the between-budget difference in predicted
+  median onset time to within a factor of two. The resampling behind these intervals is
+  described in Appendix~\ref{app:censoring}.}
+  \label{fig:s4}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figs/FigS5-SeedingDetail.pdf}
+  \caption{Stamped-patch seeding detail across placements and configurations.
+  \textbf{(A)}~Onset step per seed under each arm (an unstamped control and a
+  $3 \times 3$ sell patch stamped at edge, mid, and center placements) for the freeze
+  configuration, with gray lines pairing the same seed across arms; the pairings cross in
+  both directions and no placement advanced onset. The apparent delay under the freeze
+  mid placement (median paired onset advance $-257$ steps, sign-flip $p = 0.0238$) is
+  exploratory, uncorrected across the six-test family and failing the Bonferroni
+  threshold of $0.0083$, a lead rather than a result.
+  \textbf{(B)}~The same for the collapse configuration.
+  \textbf{(C)}~Dominance rate per placement for the freeze configuration: the fraction of
+  runs in which the cluster standing largest at onset descends from the stamped patch is
+  $0/20$ in every arm.
+  \textbf{(D)}~The same for the collapse configuration; all six cells are collected in
+  Figure~\ref{fig:growth-gating}B.
+  \textbf{(E)}~Largest-cluster growth trajectories for a single exemplar seed under each
+  arm in the freeze configuration.
+  \textbf{(F)}~The same in the collapse configuration. Which arm reaches domain scale
+  first differs between the two configurations rather than tracking the stamped
+  placement, and the domain that grows is in every run one founded away from the patch.}
+  \label{fig:s5}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS6-ToggleDetail.pdf}
+  \caption{Full budget-toggle detail: paired, onset-aligned counterfactuals at
+  $f = 0.20$ over the $19$ included seed pairs per arm, with the dashed line marking the
+  toggle at $t_{\mathrm{on}}$ and the pre-toggle traces coinciding by construction. The
+  edge-ring traces are averaged over the seed pairs, toggled against control.
+  \textbf{(A)}~Largest sell cluster as a fraction of the grid against steps since onset
+  under injection (cash $\times 10$ on the tight cash-$500$ base), each toggled
+  trajectory drawn over its control.
+  \textbf{(B)}~Edge-ring Buy fraction under injection.
+  \textbf{(C)}~Edge-ring Sell fraction under injection; the ring flips from the
+  control's ${\sim}0.5$ Buy and $0$ Sell to $0$ Buy and ${\sim}1.0$ Sell at the toggle.
+  \textbf{(D)}~Largest sell cluster under the mild withdrawal (cash $\times 0.1$ on the
+  loose cash-$5{,}000$ base).
+  \textbf{(E)}~Edge-ring Buy fraction under the mild withdrawal.
+  \textbf{(F)}~Edge-ring Sell fraction under the mild withdrawal.
+  \textbf{(G)}~Largest sell cluster under the harsh withdrawal (cash $\times 0.01$).
+  \textbf{(H)}~Edge-ring Buy fraction under the harsh withdrawal.
+  \textbf{(I)}~Edge-ring Sell fraction under the harsh withdrawal. Either cut lifts the
+  ring's Buy fraction from the control's ${\sim}0.46$ after onset to ${\sim}0.72$--$0.74$
+  before the transient excess dissipates by ${\sim}200$ steps, and the Sell fraction,
+  which in this loose configuration declines from ${\sim}0.37$ well before onset to zero
+  just after, remains indistinguishable between control and toggled throughout.}
+  \label{fig:s6}
+\end{figure}
