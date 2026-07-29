@@ -21,6 +21,7 @@ include(joinpath(_PATH_TO_SRC, "Compute.jl"))
 include(joinpath(_PATH_TO_SRC, "Files.jl"))
 include(joinpath(_PATH_TO_SRC, "Simulate.jl"))
 include(joinpath(_PATH_TO_SRC, "PaperStyle.jl"))
+include(joinpath(_PATH_TO_SRC, "StripPanels.jl"))
 
 gr()   # reinitialise GR backend — prevents stale render cache on repeated runs
 

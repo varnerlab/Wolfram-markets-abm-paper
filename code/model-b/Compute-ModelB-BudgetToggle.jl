@@ -69,21 +69,7 @@ const DIRECTIONS = [
     (name = "withdrawal_harsh", base_cash = 5000.0, factor =  0.01),
 ]
 
-function _toggle_config(; cash, seed)
-    return build(MyModelBConfiguration, (
-        number_of_rows    = GRIDN,
-        number_of_cols    = GRIDN,
-        steps             = STEPS,
-        seed              = seed,
-        λ                 = 0.02,
-        k                 = 1.0,
-        minority_fraction = 0.20,
-        edge_band_spread  = 0.5,
-        cost_basis_rule   = false,
-        initial_cash      = cash,
-        P0                = P0,
-    ))
-end
+include(joinpath(@__DIR__, "NucleationConfigs-Lib.jl"))
 
 # Connected components of sell (state 2) cells, 4-neighbour, OPEN boundaries
 # (same reduction as Probe-ModelB-Nucleation.jl). Returns (n, max).

@@ -21,6 +21,7 @@ include(joinpath(_PATH_TO_SRC, "Compute.jl"))
 include(joinpath(_PATH_TO_SRC, "Files.jl"))
 include(joinpath(_PATH_TO_SRC, "Simulate.jl"))
 include(joinpath(_PATH_TO_SRC, "PaperStyle.jl"))
+include(joinpath(_PATH_TO_SRC, "StripPanels.jl"))
 
 function _save_figure(fig, filename::String)
     local_path = joinpath(_PATH_TO_FIGS, filename)

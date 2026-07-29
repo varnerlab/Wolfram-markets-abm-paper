@@ -41,21 +41,7 @@ const CONFIGS = [
     (name = "collapse", f = 0.20, cash = 5000.0),
 ]
 
-function _probe_config(; f, cash, seed)
-    return build(MyModelBConfiguration, (
-        number_of_rows    = GRIDN,
-        number_of_cols    = GRIDN,
-        steps             = STEPS,
-        seed              = seed,
-        λ                 = 0.02,
-        k                 = 1.0,
-        minority_fraction = f,
-        edge_band_spread  = 0.5,
-        cost_basis_rule   = false,
-        initial_cash      = cash,
-        P0                = P0,
-    ))
-end
+include(joinpath(@__DIR__, "NucleationConfigs-Lib.jl"))
 
 # Connected components of sell (state 2) cells, 4-neighbour, OPEN boundaries
 # (same reduction as Probe-ModelB-Nucleation.jl). Returns (n, max).
