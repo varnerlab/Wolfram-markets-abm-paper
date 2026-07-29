@@ -12,4 +12,17 @@ canvas = _strip_canvas(frames; gap = 4)
 plt = _strip_panel(frames, ["t = 1", "t = 2", "t = 3"]; marks = Dict(1 => (3, 3)))
 @test plt isa Plots.Plot
 
+# _strip_canvas is unaffected by the outlines amendment (isequal, not ==, so
+# the NaN gutter columns compare equal to themselves)
+canvas2 = _strip_canvas(frames; gap = 4)
+@test isequal(canvas2, canvas)
+
+# A single-true mask (tile 1 only, all other tiles unmasked) on 8x8 frames
+# renders without error via the outlines kwarg.
+mask = falses(8, 8)
+mask[3, 3] = true
+plt_outlined = _strip_panel(frames, ["t = 1", "t = 2", "t = 3"];
+                             outlines = [mask, nothing, nothing])
+@test plt_outlined isa Plots.Plot
+
 println("StripPanels OK")
