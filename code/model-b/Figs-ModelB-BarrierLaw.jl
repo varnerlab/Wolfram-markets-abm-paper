@@ -246,7 +246,13 @@ let
     end
     _panel_letter!(pS3, "C")
 
-    figS4 = plot(pS1, pS2, pS3; layout = (1, 3), size = (1500, 430),
-                 left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+    # Taller canvas and larger left/bottom margins than the Fig6 combine call
+    # above: a single-row (1,3) layout at only 430pt of total height left the
+    # x-axis titles ("f", "initial cash" x2) and panel A's y-axis title
+    # clipped against the page edge (Task 13 fix review). Scoped to this
+    # figure only — Fig6 is built entirely above this point from pA..pD and
+    # is untouched by this change.
+    figS4 = plot(pS1, pS2, pS3; layout = (1, 3), size = (1500, 560),
+                 left_margin = 12Plots.mm, bottom_margin = 12Plots.mm)
     _save_figure(figS4, "FigS4-BarrierParameters.pdf")
 end
