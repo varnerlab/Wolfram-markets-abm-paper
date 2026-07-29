@@ -1050,7 +1050,7 @@ Having located the crossover, we next asked whether it sits at a fixed value of~
   \label{fig:finite-size}
 \end{figure}
 
-We next compared the lattice against two low-order closures and found that neither reproduced the crossover (Figure~\ref{fig:theory}). Local order was tracked with the nearest-neighbor alignment statistic~$e$ of a three-state Potts model, the negated fraction of neighbor bonds whose two sites share a state, so that a single-state lattice reads $-1$ and a maximally disordered one about $-1/3$. It measures order without generating the dynamics, since the rules act on the numerical sum of neighbor labels rather than on counts of matching neighbors, and one entry is decisive: a cell with four Buy neighbors outputs Sell, so the all-Buy configuration is \emph{unstable} and the ``buy-dominated'' phase is not a static equilibrium but a dynamic mixed-state attractor at $p_0 \approx 0.49$, $p_1 \approx 0.24$, $p_2 \approx 0.26$. On a $128 \times 128$ lattice it held at $e \approx -0.37$ and site entropy $S_1 \approx 1.06$ below the crossover and fell to $-0.93$ and $0.18$ above. Replacing the lattice with a well-mixed population, each agent's four neighbors drawn independently from the global state distribution, gave a map whose only stable fixed points at every~$f$ were the all-Sell absorbing state and a buy-dominated state, at $p_0^* \approx 0.63$ and $p_2^* \approx 0.19$ when $f = 0$ and locally stable as a spiral with $|\lambda| \approx 0.95$. That branch never crossed the sell-majority threshold and its sell fraction drifted up by only ${\sim}0.04$ over the whole range of~$f$, so mean field predicted no transition. Restoring nearest-neighbor correlations did not help. The pair approximation~\cite{gutowitz1987local} tracks pair densities $\rho_{ab}$ under the closure $q(s \mid a) = \rho_{as}/\rho_a$, giving the synchronous update \begin{equation} \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a), \label{eq:pair-update} \end{equation} with kernel $T_b(a, a')$ derived in Appendix~\ref{app:pair}. Its Jacobian at the uncorrelated fixed point had spectral radius strictly below unity at every sampled~$f$, falling from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$, and correlated initial conditions all converged to that fixed point or to all-Sell, with the spatial mutual information $I = 2S_1 - S_2$ decaying to zero. Other finite-order closures are not excluded, but single-site marginals and the tested pair correlations are insufficient, because they erase exactly what the lattice supplies. An isolated contrarian lifted the sell density at its own site to $\rho_2 \approx 0.42$ against a background of $0.26$, an excess gone within one to two lattice spacings, so the seeds are point-like and the transition needs many together. On $64 \times 64$ lattices the mixed state survived $10^5$~steps in all twenty realizations below $f \approx 0.14$, while above $f \approx 0.155$ all collapsed past a sell fraction of $0.90$, the mean lifetime falling from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$ to $\bar{\tau} \approx 86$ at $f = 0.30$. Those onset times follow the inverse-distance form of Kramers-type escape problems~\cite{kramers1940brownian,hanggi1990reaction}, \begin{equation} \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0}, \label{eq:kramers} \end{equation} with $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$ over twelve points ($R^2 = 0.991$; collected with the Model~B fits in Table~\ref{tab:kramers-fits}). The fit drops values at which not every seed collapsed within the horizon and is not derived from the CA dynamics, so $f_0$ is an extrapolated pseudo-threshold, not proof of absolute stability, and the curve is phenomenological, not a thermal escape law. Read as an extrapolation it places the crossover at $f_c \approx 0.162$ for a $10{,}000$-step window and $f_c \approx 0.195$ for a $1{,}000$-step one. Model~B keeps these rules and this quenched disorder but adds endogenous price feedback with per-agent cash and inventory limits, letting us ask whether the crossover, the onset-time form, and the front's growth survive a budget; those experiments are sized to detect large shifts, so overlapping intervals cannot exclude smaller budget effects.
+We next compared the lattice against two low-order closures and found that neither reproduced the crossover (Figure~\ref{fig:theory}). Local order was tracked with the nearest-neighbor alignment statistic~$e$ of a three-state Potts model, the negated fraction of neighbor bonds whose two sites share a state, so that a single-state lattice reads $-1$ and a maximally disordered one about $-1/3$. It measures order without generating the dynamics, since the rules act on the numerical sum of neighbor labels rather than on counts of matching neighbors, and one entry is decisive: a cell with four Buy neighbors outputs Sell, so the all-Buy configuration is \emph{unstable} and the ``buy-dominated'' phase is not a static equilibrium but a dynamic mixed-state attractor at $p_0 \approx 0.49$, $p_1 \approx 0.24$, $p_2 \approx 0.26$. On a $128 \times 128$ lattice it held at $e \approx -0.37$ and site entropy $S_1 \approx 1.06$ below the crossover and fell to $-0.93$ and $0.18$ above. Replacing the lattice with a well-mixed population, each agent's four neighbors drawn independently from the global state distribution, gave a map (Appendix~\ref{app:pair}) whose only stable fixed points at every~$f$ were the all-Sell absorbing state and a buy-dominated state, at $p_0^* \approx 0.63$ and $p_2^* \approx 0.19$ when $f = 0$ and locally stable as a spiral with $|\lambda| \approx 0.95$. That branch never crossed the sell-majority threshold and its sell fraction drifted up by only ${\sim}0.04$ over the whole range of~$f$, so mean field predicted no transition. Restoring nearest-neighbor correlations did not help. The pair approximation~\cite{gutowitz1987local} tracks pair densities $\rho_{ab}$ under the closure $q(s \mid a) = \rho_{as}/\rho_a$, giving the synchronous update \begin{equation} \rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a), \label{eq:pair-update} \end{equation} with kernel $T_b(a, a')$ derived in Appendix~\ref{app:pair}. Its Jacobian at the uncorrelated fixed point had spectral radius strictly below unity at every sampled~$f$, falling from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$, and correlated initial conditions all converged to that fixed point or to all-Sell, with the spatial mutual information $I = 2S_1 - S_2$ decaying to zero. Other finite-order closures are not excluded, but single-site marginals and the tested pair correlations are insufficient, because they erase exactly what the lattice supplies. An isolated contrarian lifted the sell density at its own site to $\rho_2 \approx 0.42$ against a background of $0.26$, an excess gone within one to two lattice spacings, so the seeds are point-like and the transition needs many together. On $64 \times 64$ lattices the mixed state survived $10^5$~steps in all twenty realizations below $f \approx 0.14$, while above $f \approx 0.155$ all collapsed past a sell fraction of $0.90$, the mean lifetime falling from $\bar{\tau} \approx 24{,}000$ at $f = 0.155$ to $\bar{\tau} \approx 86$ at $f = 0.30$. Those onset times follow the inverse-distance form of Kramers-type escape problems~\cite{kramers1940brownian,hanggi1990reaction}, \begin{equation} \ln \bar{\tau} \;=\; A + \frac{B}{f - f_0}, \label{eq:kramers} \end{equation} with $A = 2.78$, $B = 0.389$, and $f_0 = 0.101$ over twelve points ($R^2 = 0.991$; collected with the Model~B fits in Table~\ref{tab:kramers-fits}). The fit drops values at which not every seed collapsed within the horizon and is not derived from the CA dynamics, so $f_0$ is an extrapolated pseudo-threshold, not proof of absolute stability, and the curve is phenomenological, not a thermal escape law. Read as an extrapolation it places the crossover at $f_c \approx 0.162$ for a $10{,}000$-step window and $f_c \approx 0.195$ for a $1{,}000$-step one. Model~B keeps these rules and this quenched disorder but adds endogenous price feedback with per-agent cash and inventory limits, letting us ask whether the crossover, the onset-time form, and the front's growth survive a budget; those experiments are sized to detect large shifts, so overlapping intervals cannot exclude smaller budget effects.
 
 \begin{figure}[tb]
   \centering
@@ -1590,12 +1590,12 @@ and test whether the same spatial mechanism appears for other rule pairs.
 \appendix
 
 % ============================================================================
-\section{Pair-Approximation Derivation}
+\section{Mean-Field and Pair-Approximation Derivations}
 \label{app:pair}
 % ============================================================================
 
-This appendix records the pair-approximation calculation in the form in which it was
-implemented. The quenched
+This appendix records the mean-field and pair-approximation calculations in the form in
+which they were implemented. The quenched
 rule mixture enters in its annealed form: Rules~19280 and~19286 share every entry of
 their totalistic tables except at neighborhood sum $c = 1$, where the majority rule
 outputs Buy and the contrarian rule outputs Sell, so a site whose rule assignment is
@@ -1607,7 +1607,35 @@ drawn afresh at minority fraction~$f$ follows the effective stochastic rule
 deterministic at every $c \neq 1$ and splitting $c = 1$ between Buy, with
 probability $1 - f$, and Sell, with probability~$f$.
 
-The state of the approximation is the symmetric matrix of nearest-neighbor pair
+The mean-field closure is that same effective rule with all spatial structure discarded:
+each agent's four neighbors are drawn independently from the global state distribution
+$(p_0, p_1, p_2)$, where $p_s$ is the fraction of agents in state~$s$ and
+$p_0 + p_1 + p_2 = 1$. The neighborhood sum $c = s_N + s_S + s_E + s_W$ is then a
+multinomial convolution of four i.i.d.\ draws,
+\begin{equation}
+  \pi_k \;=\; \Pr(c = k) \;=\; \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
+  \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
+  \qquad k = 0,1,\ldots,8,
+  \label{eq:pi-dist}
+\end{equation}
+and the verified rule tables (Table~\ref{tab:rule-taxonomy}) send $c \in \{2,3\}$ to Buy,
+$c \in \{4,5\}$ to Hold, and $c \in \{0,6,7,8\}$ to Sell for both rules, leaving $c = 1$
+as the only entry on which they differ. The map is therefore
+\begin{align}
+  p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
+  p_1' &= \pi_4 + \pi_5, \label{eq:mf-p1} \\
+  p_2' &= \pi_0 + f\,\pi_1 + \pi_6 + \pi_7 + \pi_8, \label{eq:mf-p2}
+\end{align}
+with primes denoting next-step fractions and each $\pi_k$ evaluated from
+Equation~\eqref{eq:pi-dist} at the current $(p_0, p_1, p_2)$. We iterated
+Equations~\eqref{eq:mf-p0}--\eqref{eq:mf-p2} to convergence,
+$\lVert\mathbf{p}' - \mathbf{p}\rVert_1 < 10^{-14}$, from multiple initial conditions and
+across $f \in [0, 1]$. The two stable fixed points reported in the main text are those of
+this map, and the Jacobian at the buy-dominated branch has complex eigenvalues of modulus
+$|\lambda| \approx 0.95$, a stable spiral. The pair approximation restores one level of
+spatial structure.
+
+The state of the pair approximation is the symmetric matrix of nearest-neighbor pair
 densities $\rho_{ab}$, $a, b \in \{0, 1, 2\}$, normalized by
 $\sum_{ab} \rho_{ab} = 1$, with site marginals $\rho_a = \sum_b \rho_{ab}$ and
 conditional neighbor distribution $q(s \mid a) = \rho_{as} / \rho_a$. The closure is
@@ -1660,9 +1688,21 @@ $(0.20,\, 0.10,\, 0.70)$, and $\varepsilon = 0.5$ on $(0.10,\, 0.05,\, 0.85)$,
 together with an uncorrelated uniform control, at thirteen
 values of~$f$ between $0$ and $0.5$. Every trajectory converged either to the
 uncorrelated buy-dominated fixed point or to the all-Sell absorbing state, with the
-spatial mutual information $I = 2S_1 - S_2$ decaying to zero in all cases: the pair
-approximation supports no correlated fixed point, which is the negative result on
-which the nucleation argument rests.
+spatial mutual information between adjacent sites decaying to zero in all cases. That
+mutual information is $I = 2S_1 - S_2$, built from the single-site and pair Shannon
+entropies
+\begin{equation}
+  S_1 \;=\; -\sum_{a} \rho_a \ln \rho_a,
+  \qquad
+  S_2 \;=\; -\sum_{a,b} \rho_{ab} \ln \rho_{ab},
+  \label{eq:entropies}
+\end{equation}
+in which $S_1$ is the site entropy plotted for the lattice in the main text
+(Figure~\ref{fig:theory}A), maximal at $\ln 3$ for a uniform mixture of the three states
+and zero in a single-state configuration. Because the two site marginals of a symmetric
+$\rho_{ab}$ are equal, $I$ vanishes exactly when the pair densities factorize as
+$\rho_{ab} = \rho_a \rho_b$. The pair approximation therefore supports no correlated
+fixed point, which is the negative result on which the nucleation argument rests.
 
 % ============================================================================
 \section{Model~B Stage~2 Factorial}
