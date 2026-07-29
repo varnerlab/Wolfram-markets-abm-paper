@@ -1,7 +1,8 @@
 # Figs-ModelB-BoundaryVsBulk.jl — figures for the boundary-vs-bulk seeding
-# analysis, drawn ENTIRELY from committed CSVs (no simulation):
+# analysis, drawn from committed CSVs/JLD2 (no simulation):
 #   code/data/ModelB-Nucleation-BirthSites.csv
-#   code/data/ModelB-Nucleation-SeedSweep.csv          (Task 7: panel A medians)
+#   code/data/ModelB-Nucleation-SeedSweep.csv          (cited-value assertions)
+#   code/data/ModelB-StripFrames.jld2                  (Task 4: panel A strip)
 #   code/data/ModelB-Nucleation-SeedingIntervention.csv
 #   code/data/ModelB-Nucleation-SeedingTrajectories.csv
 # Included by Compute-ModelB-BoundaryVsBulk.jl at the end of a sweep, and
@@ -13,8 +14,12 @@
 #
 # Two independent `let` blocks (locals only, no consts), so including this file
 # after a sweep cannot collide with the sweep's global constants:
-#   1) Fig5-Nucleus.pdf         — Task 7: the crash nucleus is a single
-#      spatial domain, born in the interior. Reads BirthSites.csv + SeedSweep.csv.
+#   1) Fig5-Nucleus.pdf         — Task 4: rebuilt around the birth-to-engulfment
+#      market strip (panel A), which shows the crash nucleus is a single
+#      spatial domain, born in the interior, growing into a dominant orange
+#      (Sell) region. Panels B (birth-site map) and C (birth-distance
+#      histogram vs. the uniform null) are unchanged from Task 7. Reads
+#      BirthSites.csv + SeedSweep.csv (cited-value assertions) + StripFrames.jld2.
 #   2) FigS5-SeedingDetail.pdf  — Task 10: the seeding-intervention figure,
 #      restyled onto the shared style (formerly ModelB-Nucleation-Seeding.pdf).
 
@@ -23,11 +28,12 @@ isdefined(Main, :null_shell_pmf) || include(joinpath(@__DIR__, "BoundaryVsBulk-L
 using Printf
 
 # =============================================================================
-# Fig5-Nucleus.pdf (Task 7)
+# Fig5-Nucleus.pdf (Task 7; rebuilt around the market strip in Task 4)
 # =============================================================================
 let
-    birth_df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BirthSites.csv"), DataFrame)
-    sweep_df = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedSweep.csv"), DataFrame)
+    birth_df  = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BirthSites.csv"), DataFrame)
+    sweep_df  = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedSweep.csv"), DataFrame)
+    strip_dat = load(joinpath(_PATH_TO_DATA, "ModelB-StripFrames.jld2"))
 
     inc     = birth_df[birth_df.included, :]
     configs = ["freeze", "collapse"]   # the census carries no `stable` births:
@@ -83,22 +89,35 @@ let
     @assert maximum(sweep_df[sweep_df.config .== "stable",  :ratio_at_peak]) <
             minimum(sweep_df[sweep_df.config .!= "stable", :ratio_at_peak]) "stable band must not overlap"
 
-    # ── A: per-seed ratio-at-peak by configuration, medians marked ─────────
-    _jitter_rng = MersenneTwister(20260728)   # fixed local RNG: deterministic
-                                               # reruns without touching global state.
-    CONFIGS_A = ["stable", "freeze", "collapse"]
-    pA = plot(; xticks = (1:3, CONFIGS_A), ylabel = "largest cluster / total sell at peak",
-              ylims = (0, 1.0), legend = false, _panel_kw...)
-    for (j, cfg) in enumerate(CONFIGS_A)
-        vals = sweep_df[sweep_df.config .== cfg, :ratio_at_peak]
-        boxplot!(pA, fill(j, length(vals)), vals, color = cfg_color[cfg], fillalpha = 0.35,
-                 lw = 1.2, outliers = false, bar_width = 0.5)
-        scatter!(pA, j .+ 0.28 .* (rand(_jitter_rng, length(vals)) .- 0.5), vals,
-                 color = cfg_color[cfg], markersize = 3, markerstrokewidth = 0)
-        annotate!(pA, j, maximum(vals) + 0.07,
-                  text(@sprintf("median %.3f", med(cfg)), 8, :black, :center))
-    end
-    _panel_letter!(pA, "A")
+    # ── A: birth-to-engulfment market strip (single exemplar run, seed 17) ──
+    # Four snapshots (StripFrames.jld2, `fig5/*`) trace one collapse run from
+    # a single marked founding cell (tile 1, × mark) to a dominant orange
+    # (Sell) domain — the figure's title claim made visible before any
+    # statistic is shown. `_strip_panel` (StripPanels.jl) builds the seamless
+    # heatmap montage and its own "t = <step>" tile captions.
+    #
+    # Panel letter: `_panel_letter!` cannot be used directly on the strip.
+    # Its yflip branch (see PaperStyle.jl docstring) assumes the axis's data
+    # range is the plotted range with no extra padding, so its extrapolated
+    # offset lands a fixed 6% beyond `ylims`. The strip panel's `ylims` carry
+    # a large, asymmetric bottom pad (`-0.14*H` to `H+0.5`) reserved for the
+    # tile captions themselves (see StripPanels.jl `_strip_panel`), so that
+    # offset either overlaps the captions or is clipped by `margin = 0mm`
+    # (confirmed by trying it first). Following the Fig2-Combined.jl montage
+    # precedent (:59-89) instead: a slim, unflipped blank panel sits above
+    # the strip and carries the letter via the ordinary (unflipped)
+    # `_panel_letter!` path, and the two are composed into one plot object
+    # that fills the outer layout's "a" slot — exactly how Fig2-Combined
+    # assembles its own lettered montage panel.
+    frames5 = strip_dat["fig5/frames"]
+    steps5  = strip_dat["fig5/steps"]
+    birth5  = strip_dat["fig5/birth"]
+    stripA_body = _strip_panel(frames5, ["t = $(s)" for s in steps5];
+                                marks = Dict(1 => birth5))
+    _letterA = plot(; framestyle = :none, grid = false, legend = false,
+                     ticks = false, xlims = (0, 1), ylims = (0, 1))
+    _panel_letter!(_letterA, "A")
+    stripA = plot(_letterA, stripA_body; layout = @layout([a{0.12h}; b]))
 
     # ── B: birth-site map (interior-only clusters; freeze + collapse) ──────
     # Legend placed OUTSIDE the axes (:outertopright): this scatter covers the
@@ -118,9 +137,8 @@ let
                  markersize = 5, markerstrokewidth = 0.5, label = "$(cname) (n=$(nrow(sub)))")
     end
     # Zero-size proxy series: adds the pooled total as a third legend row
-    # (matching panel D's proxy-entry technique) instead of a floating
-    # annotation, which collided with the legend box at every position tried
-    # against this scatter's edge-to-edge coverage.
+    # instead of a floating annotation, which collided with the legend box
+    # at every position tried against this scatter's edge-to-edge coverage.
     plot!(pB, Float64[], Float64[], seriestype = :scatter, markersize = 0,
           markerstrokewidth = 0, color = :white, label = "n = $(n_nucleated) total")
     _panel_letter!(pB, "B")
@@ -148,31 +166,16 @@ let
                    8, :black, :left))
     _panel_letter!(pC, "C")
 
-    # ── D: ring-attachment timing ───────────────────────────────────────────
-    # Collapse alone carries points; freeze carries an explicit zero-count
-    # legend entry (a proxy series with empty data) so the "0 of 20" is
-    # asserted ON the figure rather than merely implied by absent markers.
-    # Legend placed OUTSIDE the axes for the same reason as panel B: only 6
-    # data points total, but they are spread from one corner to the other, so
-    # every interior corner is close to at least one of them (verified below,
-    # not assumed).
-    pD = plot(; xlabel = "attach step − birth step", ylabel = "onset − birth (steps)",
-              legend = :outertopright, _panel_kw...)
-    for cname in configs
-        sub   = inc[(inc.config .== cname) .& inc.attached, :]
-        total = count(==(cname), inc.config)
-        if isempty(sub)
-            plot!(pD, Float64[], Float64[], seriestype = :scatter, color = cfg_color[cname],
-                  markersize = 5, markerstrokewidth = 0.5, label = "$(cname) (0/$(total) attached)")
-        else
-            scatter!(pD, sub.attach_step .- sub.birth_step, sub.t_on .- sub.birth_step,
-                     color = cfg_color[cname], markersize = 5, markerstrokewidth = 0.5,
-                     label = "$(cname) ($(nrow(sub))/$(total) attached, $(count(sub.attached_before_onset)) pre-onset)")
-        end
-    end
-    _panel_letter!(pD, "D")
+    # Ring-attachment timing (formerly panel D, a scatter of attach-vs-birth
+    # timing) is no longer plotted in this figure — the strip panel above
+    # carries the figure's spatial narrative instead. The counts it would
+    # have shown (6 of 19 collapse runs attach pre-onset, never in the 20
+    # freeze runs) are still cited in Results text, so `ring_attach_collapse`
+    # / `ring_attach_freeze` stay asserted above rather than being dropped
+    # along with the panel.
 
-    fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (1100, 850))
+    fig = plot(stripA, pB, pC;
+        layout = @layout([a{0.40h}; b c]), size = (1160, 900))
     _save_figure(fig, "Fig5-Nucleus.pdf")
     @info "Saved: Fig5-Nucleus.pdf"
 end
