@@ -89,12 +89,14 @@ let
     @assert maximum(sweep_df[sweep_df.config .== "stable",  :ratio_at_peak]) <
             minimum(sweep_df[sweep_df.config .!= "stable", :ratio_at_peak]) "stable band must not overlap"
 
-    # ── A: birth-to-engulfment market strip (single exemplar run, seed 17) ──
+    # ── A: birth-to-engulfment market strip (single exemplar run, seed 20) ──
     # Four snapshots (StripFrames.jld2, `fig5/*`) trace one collapse run from
     # a single marked founding cell (tile 1, × mark) to a dominant orange
     # (Sell) domain — the figure's title claim made visible before any
     # statistic is shown. `_strip_panel` (StripPanels.jl) builds the seamless
-    # heatmap montage and its own "t = <step>" tile captions.
+    # heatmap montage and its own "t = <step>" tile captions; `outlines`
+    # (the birth-lineage cluster mask per tile) traces that single growing
+    # domain across all four tiles.
     #
     # Panel letter: `_panel_letter!` cannot be used directly on the strip.
     # Its yflip branch (see PaperStyle.jl docstring) assumes the axis's data
@@ -109,11 +111,12 @@ let
     # `_panel_letter!` path, and the two are composed into one plot object
     # that fills the outer layout's "a" slot — exactly how Fig2-Combined
     # assembles its own lettered montage panel.
-    frames5 = strip_dat["fig5/frames"]
-    steps5  = strip_dat["fig5/steps"]
-    birth5  = strip_dat["fig5/birth"]
+    frames5   = strip_dat["fig5/frames"]
+    steps5    = strip_dat["fig5/steps"]
+    birth5    = strip_dat["fig5/birth"]
+    outlines5 = strip_dat["fig5/outlines"]
     stripA_body = _strip_panel(frames5, ["t = $(s)" for s in steps5];
-                                marks = Dict(1 => birth5))
+                                marks = Dict(1 => birth5), outlines = outlines5)
     _letterA = plot(; framestyle = :none, grid = false, legend = false,
                      ticks = false, xlims = (0, 1), ylims = (0, 1))
     _panel_letter!(_letterA, "A")
