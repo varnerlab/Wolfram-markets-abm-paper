@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  29 JUL 2026 22:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  29 JUL 2026 23:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1030,13 +1030,16 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [6]
 
 [7]) (./sections/results.tex
-Underfull \vbox (badness 1215) has occurred while \output is active []
-
-
 
 [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [9]
+Underfull \vbox (badness 7433) has occurred while \output is active []
+
+
 
 [10]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1044,9 +1047,6 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [11]) (./sections/discussion.tex
-Underfull \vbox (badness 5652) has occurred while \output is active []
-
-
 
 [12])
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1057,9 +1057,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [14]
 
-[15])
+[15]
 
-[16] (./Paper_v1.fff
+[16])
+
+[17] (./Paper_v1.fff
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 13
 7.
 
@@ -1072,16 +1074,16 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[17]
-<figs/Fig2-Crossover.pdf, id=366, 1164.35pt x 1164.35pt>
+[18]
+<figs/Fig2-Crossover.pdf, id=394, 1164.35pt x 1164.35pt>
 File: figs/Fig2-Crossover.pdf Graphic file (type pdf)
 <use figs/Fig2-Crossover.pdf>
 Package pdftex.def Info: figs/Fig2-Crossover.pdf  used on input line 152.
 (pdftex.def)             Requested size: 377.60951pt x 377.60977pt.
 
 
-[18 <./figs/Fig2-Crossover.pdf>]
-<figs/Fig-ModelA-FiniteSize.pdf, id=401, 1003.75pt x 903.375pt>
+[19 <./figs/Fig2-Crossover.pdf>]
+<figs/Fig-ModelA-FiniteSize.pdf, id=430, 1003.75pt x 903.375pt>
 File: figs/Fig-ModelA-FiniteSize.pdf Graphic file (type pdf)
 <use figs/Fig-ModelA-FiniteSize.pdf>
 Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 173
@@ -1089,45 +1091,45 @@ Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 173
 (pdftex.def)             Requested size: 377.60951pt x 339.85376pt.
 
 
-[19 <./figs/Fig-ModelA-FiniteSize.pdf>]
-<figs/Fig-ModelA-Theory.pdf, id=418, 963.6pt x 321.2pt>
+[20 <./figs/Fig-ModelA-FiniteSize.pdf>]
+<figs/Fig-ModelA-Theory.pdf, id=446, 963.6pt x 321.2pt>
 File: figs/Fig-ModelA-Theory.pdf Graphic file (type pdf)
 <use figs/Fig-ModelA-Theory.pdf>
 Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 201.
 (pdftex.def)             Requested size: 377.60951pt x 125.87033pt.
 
 
-[20 <./figs/Fig-ModelA-Theory.pdf>]
-<figs/Fig5-Nucleus.pdf, id=427, 1164.35pt x 903.375pt>
+[21 <./figs/Fig-ModelA-Theory.pdf>]
+<figs/Fig5-Nucleus.pdf, id=454, 1164.35pt x 903.375pt>
 File: figs/Fig5-Nucleus.pdf Graphic file (type pdf)
 <use figs/Fig5-Nucleus.pdf>
 Package pdftex.def Info: figs/Fig5-Nucleus.pdf  used on input line 232.
 (pdftex.def)             Requested size: 377.60951pt x 292.9731pt.
 
 
-[21 <./figs/Fig5-Nucleus.pdf>]
-<figs/Fig6-GrowthGating.pdf, id=441, 1164.35pt x 983.675pt>
+[22 <./figs/Fig5-Nucleus.pdf>]
+<figs/Fig6-GrowthGating.pdf, id=468, 1164.35pt x 983.675pt>
 File: figs/Fig6-GrowthGating.pdf Graphic file (type pdf)
 <use figs/Fig6-GrowthGating.pdf>
 Package pdftex.def Info: figs/Fig6-GrowthGating.pdf  used on input line 259.
 (pdftex.def)             Requested size: 377.60951pt x 319.01515pt.
 
 
-[22 <./figs/Fig6-GrowthGating.pdf>]
-<figs/Fig7-Intervention.pdf, id=465, 1164.35pt x 983.675pt>
+[23 <./figs/Fig6-GrowthGating.pdf>]
+<figs/Fig7-Intervention.pdf, id=492, 1164.35pt x 983.675pt>
 File: figs/Fig7-Intervention.pdf Graphic file (type pdf)
 <use figs/Fig7-Intervention.pdf>
 Package pdftex.def Info: figs/Fig7-Intervention.pdf  used on input line 294.
 (pdftex.def)             Requested size: 377.60951pt x 319.01515pt.
 )
 
-[23 <./figs/Fig7-Intervention.pdf>] (./Paper_v1.ttt
+[24 <./figs/Fig7-Intervention.pdf>] (./Paper_v1.ttt
 
-[24])
+[25])
 
-[25] (./sections/appendix.tex
+[26] (./sections/appendix.tex
 
-[26
+[27
 
 
 
@@ -1144,22 +1146,22 @@ Package pdftex.def Info: figs/Fig7-Intervention.pdf  used on input line 294.
 
  (Paper_v1.ttt)
 
-[27]
-
 [28]
+
+[29]
 \openout4 = `Paper_v1.fff'.
 
  (Paper_v1.fff)) AED endfloat: Processing end Figures and Tables
 (./Paper_v1.fff
-<figs/FigS1-Exemplars.pdf, id=531, 953.5625pt x 953.5625pt>
+<figs/FigS1-Exemplars.pdf, id=559, 953.5625pt x 953.5625pt>
 File: figs/FigS1-Exemplars.pdf Graphic file (type pdf)
 <use figs/FigS1-Exemplars.pdf>
 Package pdftex.def Info: figs/FigS1-Exemplars.pdf  used on input line 5.
 (pdftex.def)             Requested size: 377.60951pt x 377.62065pt.
 
 
-[29 <./figs/FigS1-Exemplars.pdf>]
-<figs/FigS2-SeedTrajectories.pdf, id=539, 1405.25pt x 762.85pt>
+[30 <./figs/FigS1-Exemplars.pdf>]
+<figs/FigS2-SeedTrajectories.pdf, id=567, 1405.25pt x 762.85pt>
 File: figs/FigS2-SeedTrajectories.pdf Graphic file (type pdf)
 <use figs/FigS2-SeedTrajectories.pdf>
 Package pdftex.def Info: figs/FigS2-SeedTrajectories.pdf  used on input line 27
@@ -1167,16 +1169,16 @@ Package pdftex.def Info: figs/FigS2-SeedTrajectories.pdf  used on input line 27
 (pdftex.def)             Requested size: 377.60951pt x 204.98283pt.
 
 
-[30 <./figs/FigS2-SeedTrajectories.pdf>]
-<figs/FigS3-PeakSell.pdf, id=547, 481.8pt x 381.425pt>
+[31 <./figs/FigS2-SeedTrajectories.pdf>]
+<figs/FigS3-PeakSell.pdf, id=576, 481.8pt x 381.425pt>
 File: figs/FigS3-PeakSell.pdf Graphic file (type pdf)
 <use figs/FigS3-PeakSell.pdf>
 Package pdftex.def Info: figs/FigS3-PeakSell.pdf  used on input line 48.
 (pdftex.def)             Requested size: 218.61795pt x 173.0714pt.
 
 
-[31 <./figs/FigS3-PeakSell.pdf>]
-<figs/FigS4-BarrierParameters.pdf, id=559, 1154.3125pt x 953.5625pt>
+[32 <./figs/FigS3-PeakSell.pdf>]
+<figs/FigS4-BarrierParameters.pdf, id=586, 1154.3125pt x 953.5625pt>
 File: figs/FigS4-BarrierParameters.pdf Graphic file (type pdf)
 <use figs/FigS4-BarrierParameters.pdf>
 Package pdftex.def Info: figs/FigS4-BarrierParameters.pdf  used on input line 6
@@ -1184,24 +1186,24 @@ Package pdftex.def Info: figs/FigS4-BarrierParameters.pdf  used on input line 6
 (pdftex.def)             Requested size: 377.60951pt x 311.94116pt.
 
 
-[32 <./figs/FigS4-BarrierParameters.pdf>]
-<figs/FigS5-SeedingDetail.pdf, id=571, 1154.3125pt x 1254.6875pt>
+[33 <./figs/FigS4-BarrierParameters.pdf>]
+<figs/FigS5-SeedingDetail.pdf, id=598, 1154.3125pt x 1254.6875pt>
 File: figs/FigS5-SeedingDetail.pdf Graphic file (type pdf)
 <use figs/FigS5-SeedingDetail.pdf>
 Package pdftex.def Info: figs/FigS5-SeedingDetail.pdf  used on input line 87.
 (pdftex.def)             Requested size: 337.86465pt x 367.23872pt.
 
 
-[33 <./figs/FigS5-SeedingDetail.pdf>]
-<figs/FigS6-ToggleDetail.pdf, id=579, 1756.5625pt x 1053.9375pt>
+[34 <./figs/FigS5-SeedingDetail.pdf>]
+<figs/FigS6-ToggleDetail.pdf, id=606, 1756.5625pt x 1053.9375pt>
 File: figs/FigS6-ToggleDetail.pdf Graphic file (type pdf)
 <use figs/FigS6-ToggleDetail.pdf>
 Package pdftex.def Info: figs/FigS6-ToggleDetail.pdf  used on input line 114.
 (pdftex.def)             Requested size: 377.60951pt x 226.55998pt.
 
 
-[34 <./figs/FigS6-ToggleDetail.pdf>]
-<figs/FigS7-FiniteSizeDetail.pdf, id=587, 1003.75pt x 421.575pt>
+[35 <./figs/FigS6-ToggleDetail.pdf>]
+<figs/FigS7-FiniteSizeDetail.pdf, id=614, 1003.75pt x 421.575pt>
 File: figs/FigS7-FiniteSizeDetail.pdf Graphic file (type pdf)
 <use figs/FigS7-FiniteSizeDetail.pdf>
 Package pdftex.def Info: figs/FigS7-FiniteSizeDetail.pdf  used on input line 14
@@ -1209,11 +1211,11 @@ Package pdftex.def Info: figs/FigS7-FiniteSizeDetail.pdf  used on input line 14
 (pdftex.def)             Requested size: 377.60951pt x 158.5984pt.
 )
 
-[35 <./figs/FigS7-FiniteSizeDetail.pdf>] (./Paper_v1.ttt
+[36 <./figs/FigS7-FiniteSizeDetail.pdf>] (./Paper_v1.ttt
 
-[36])
+[37])
 
-[37] (./Paper_v1.aux)
+[38] (./Paper_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1222,13 +1224,13 @@ Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 1EB834C965E6EE7D898A0EC3892CAE4E;3751.
  ) 
 Here is how much of TeX's memory you used:
- 28870 strings out of 473190
- 533457 string characters out of 5715801
- 1037128 words of memory out of 5000000
- 51125 multiletter control sequences out of 15000+600000
- 621028 words of font info for 314 fonts, out of 8000000 for 9000
+ 28897 strings out of 473190
+ 534054 string characters out of 5715801
+ 1038276 words of memory out of 5000000
+ 51140 multiletter control sequences out of 15000+600000
+ 621478 words of font info for 318 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,87p,4634b,1037s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,14n,87p,4688b,1037s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -1252,10 +1254,10 @@ t/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
 urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on Paper_v1.pdf (37 pages, 2789331 bytes).
+Output written on Paper_v1.pdf (38 pages, 2792195 bytes).
 PDF statistics:
- 737 PDF objects out of 1000 (max. 8388607)
- 578 compressed objects within 6 object streams
- 143 named destinations out of 1000 (max. 500000)
+ 767 PDF objects out of 1000 (max. 8388607)
+ 606 compressed objects within 7 object streams
+ 149 named destinations out of 1000 (max. 500000)
  59622 words of extra memory for PDF output out of 61914 (max. 10000000)
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{48}
+\begin{thebibliography}{53}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -282,6 +282,36 @@ Terrance Odean.
 \newblock Are investors reluctant to realize their losses?
 \newblock \emph{The Journal of Finance}, 53\penalty0 (5):\penalty0 1775--1798,
   1998.
+
+\bibitem[Weibull(1951)]{weibull1951statistical}
+Waloddi Weibull.
+\newblock A statistical distribution function of wide applicability.
+\newblock \emph{Journal of Applied Mechanics}, 18\penalty0 (3):\penalty0
+  293--297, 1951.
+
+\bibitem[Kolmogorov(1937)]{kolmogorov1937statistical}
+Andrei~N. Kolmogorov.
+\newblock On the statistical theory of the crystallization of metals.
+\newblock \emph{Izvestiya Akademii Nauk SSSR, Seriya Matematicheskaya},
+  1\penalty0 (3):\penalty0 355--359, 1937.
+
+\bibitem[Johnson and Mehl(1939)]{johnson1939reaction}
+William~A. Johnson and Robert~F. Mehl.
+\newblock Reaction kinetics in processes of nucleation and growth.
+\newblock \emph{Transactions of the American Institute of Mining and
+  Metallurgical Engineers}, 135:\penalty0 416--442, 1939.
+
+\bibitem[Avrami(1939)]{avrami1939kinetics}
+Melvin Avrami.
+\newblock Kinetics of phase change. i. general theory.
+\newblock \emph{The Journal of Chemical Physics}, 7\penalty0 (12):\penalty0
+  1103--1112, 1939.
+
+\bibitem[Potts(1952)]{potts1952some}
+Renfrey~B. Potts.
+\newblock Some generalized order-disorder transformations.
+\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical
+  Society}, 48\penalty0 (1):\penalty0 106--109, 1952.
 
 \bibitem[Gutowitz et~al.(1987)Gutowitz, Victor, and Knight]{gutowitz1987local}
 Howard~A. Gutowitz, Jonathan~D. Victor, and Bruce~W. Knight.
