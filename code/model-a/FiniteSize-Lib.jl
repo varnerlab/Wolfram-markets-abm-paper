@@ -192,6 +192,33 @@ function run_cell_trajectory(L::Int, f::Float64, seed::Int;
     return ts, xs
 end
 
+# ─── Frame captures (market strips) ───────────────────────────────────────
+# Same init and stepping as run_cell -- copied, not shared, so run_cell stays
+# byte-identical -- but records full grid snapshots at requested absolute
+# times instead of stage-crossing statistics. Used only by
+# Compute-FiniteSizeStrips.jl; nothing else calls it.
+function run_cell_frames(L::Int, f::Float64, seed::Int, t_max::Int,
+                         capture_at::Vector{Int64}; burn_in::Int = 200)
+    grid   = rand(Random.MersenneTwister(1000 + seed), 0:2, L, L)
+    nxt    = copy(grid)
+    is_min = falses(L, L)
+    assign_minority!(is_min, f, L, L, 5000 + seed)
+
+    for _ in 1:burn_in
+        ca_step!(grid, nxt, is_min, L, L)
+        grid, nxt = nxt, grid
+    end
+
+    capture_set = Set(capture_at)
+    out = Dict{Int64,Matrix{Int}}()
+    for t in 1:t_max
+        ca_step!(grid, nxt, is_min, L, L)
+        grid, nxt = nxt, grid
+        t in capture_set && (out[t] = copy(grid))
+    end
+    return out
+end
+
 # Fit ln(-ln(1 - X)) = n ln t + n ln K over the transformed fraction window
 # [x_lo, x_hi], after rescaling the raw sell fraction against the metastable
 # baseline so that X runs from 0 in the mixed state to 1 in the absorbing one.

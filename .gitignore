@@ -30,6 +30,7 @@ JuliaLocalPreferences.toml
 # Simulation data — too large for git
 code/data/*.jld2
 !code/data/ModelB-StripFrames.jld2
+!code/data/ModelA-FiniteSizeStrips.jld2
 code/data/*.csv
 !code/data/ModelB-Stage2-*.csv
 !code/data/ModelB-Nucleation-*.csv

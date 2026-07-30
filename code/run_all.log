@@ -1,5 +1,5 @@
 
-[2026-07-27 11:17:30] model-a/Test-EdgeFraction.jl
+[2026-07-29 20:52:36] model-a/Test-EdgeFraction.jl
   Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
 [ Info: Grid: 64×64  Boundary cells: 252  Edge agents: 63 (25.0%)
 
@@ -171,7 +171,7 @@ RULE 16788
    400 | Buy      | 25.0%  | 4.8%  | 70.1% 
    500 | Hold     | 25.6%  | 6.7%  | 67.7% 
 
-[2026-07-27 11:17:37] model-a/Test-FiniteSizeScaling.jl
+[2026-07-29 20:52:43] model-a/Test-FiniteSizeScaling.jl
   Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
 Test Summary: | Pass  Total  Time
 rule tables   |    4      4  0.0s
@@ -188,7 +188,7 @@ run_cell — staging, censoring, determinism |    8      8  0.1s
 
 All finite-size scaling tests passed.
 
-[2026-07-27 11:17:39] model-b/Test-ModelB.jl
+[2026-07-29 20:52:45] model-b/Test-ModelB.jl
   Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
 Test Summary:                                  | Pass  Total  Time
 interior imbalance excludes the whole boundary |    4      4  0.5s
@@ -197,7 +197,7 @@ interior fractions |    4      4  0.0s
 Test Summary:                             | Pass  Total  Time
 crash statistics from the full trajectory |    8      8  0.0s
 Test Summary:                                  | Pass  Total  Time
-configuration builder: defaults and validation |   29     29  0.1s
+configuration builder: defaults and validation |   29     29  0.2s
 Test Summary:                  | Pass  Total  Time
 desired orders and book totals |    6      6  0.1s
 Test Summary:                           | Pass  Total  Time
@@ -207,7 +207,7 @@ edge coordinates: seeded boundary sample |    8      8  0.1s
 Test Summary:      | Pass  Total  Time
 initial grid modes |   13     13  0.1s
 Test Summary:                   | Pass  Total  Time
-agent books: initial endowments |    6      6  0.1s
+agent books: initial endowments |    6      6  0.0s
 Test Summary:                            | Pass  Total  Time
 edge bands: seeded per-agent half-widths |    6      6  0.2s
 Test Summary:                             | Pass  Total  Time
@@ -249,7 +249,7 @@ Test Summary:                     | Pass  Total  Time
 Test Summary:                        | Pass  Total  Time
 18. regime classifier decision order |    7      7  0.0s
 
-[2026-07-27 11:17:45] model-b/Test-EscapeTime.jl
+[2026-07-29 20:52:52] model-b/Test-EscapeTime.jl
   Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
 Test Summary:                                | Pass  Total  Time
 sell_clusters (full grid, toggle definition) |    4      4  0.5s
@@ -263,10 +263,14 @@ Test Summary:       | Pass  Total  Time
 kramers_profile_fit |    5      5  0.2s
 Test Summary:     | Pass  Total  Time
 bootstrap_kramers |    4      4  0.2s
+Test Summary: | Pass  Total  Time
+a2_subset     |   10     10  1.5s
+Test Summary:              | Pass  Total  Time
+CASH_RAMP / cash_color_map |   12     12  0.1s
 Test Summary:   | Pass  Total  Time
-spearman_perm_p |    5      5  0.1s
+spearman_perm_p |    5      5  0.3s
 
-[2026-07-27 11:17:50] model-b/Test-BoundaryVsBulk.jl
+[2026-07-29 20:52:59] model-b/Test-BoundaryVsBulk.jl
   Activating project at `~/Desktop/julia_work/Wolfram-markets-abm-paper/code`
 Test Summary:               | Pass  Total  Time
 chebyshev_boundary_distance |    4      4  0.4s

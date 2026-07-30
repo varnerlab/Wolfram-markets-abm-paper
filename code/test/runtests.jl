@@ -8,3 +8,4 @@
 
 include(joinpath(@__DIR__, "test_paperstyle.jl"))
 include(joinpath(@__DIR__, "test_strippanels.jl"))
+include(joinpath(@__DIR__, "test_finitesize_frames.jl"))

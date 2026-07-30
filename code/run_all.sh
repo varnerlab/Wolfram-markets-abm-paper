@@ -34,6 +34,7 @@ run_compute() {
     run_julia model-a/Compute-SpatialTheory.jl
     run_julia model-a/Compute-NucleationFit.jl
     run_julia model-a/Compute-FiniteSizeScaling.jl
+    run_julia model-a/Compute-FiniteSizeStrips.jl
 
     run_julia model-b/Compute-ModelB-Stage2.jl
     run_julia model-b/Compute-ModelB-NucleationSeeds.jl
