@@ -273,16 +273,17 @@ pC = plot(fC, max_ever_q25;
     fillrange = max_ever_q75, fillalpha = 0.2, lw = 0,
     color = _SELL_COLOR, label = false,
     xlabel = "Minority fraction f", ylabel = "Sell-cluster size (cells)",
-    yscale = :log10, legend = :topleft, _panel_kw...)
+    yscale = :log10, legend = :topleft,
+    background_color_legend = nothing, _panel_kw...)
 plot!(pC, fC, max_ever_median;
     marker = :circle, ms = 4, lw = 1.5, color = _SELL_COLOR,
-    linestyle = :dash, label = "largest observed (median)")
+    linestyle = :dash, label = "largest observed")
 plot!(pC, fC, mean_max_q25;
     fillrange = mean_max_q75, fillalpha = 0.2, lw = 0,
     color = _SERIES_COLORS[5], label = false)
 plot!(pC, fC, mean_max_median;
     marker = :square, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
-    label = "mean largest per snapshot (median)")
+    label = "mean largest")
 vline!(pC, [fc]; linestyle = :dash, color = _HOLD_COLOR, label = false)
 _panel_letter!(pC, "C")
 
