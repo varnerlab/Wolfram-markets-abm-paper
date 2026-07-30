@@ -47,9 +47,9 @@
   \centering
   \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
   \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
-  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep
-  whose mean sell fraction and crash frequency are Figure~\ref{fig:crossover}B
-  and~\ref{fig:crossover}C. The dashed vertical line at $f = 0.145$ marks the midpoint of
+  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep, alongside
+  its mean sell fraction and crash frequency (Figure~\ref{fig:crossover}B
+  and~\ref{fig:crossover}C). The dashed vertical line at $f = 0.145$ marks the midpoint of
   the observed $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic critical
   point.}
   \label{fig:s3}
@@ -76,7 +76,7 @@
   highest at cash $250$, lowest near $1{,}000$--$2{,}000$, and rising again at
   $5{,}000$, while the per-dose median suppression spans only $517$--$595$ orders per
   step. The supported claim is therefore the pooled and within-dose
-  velocity--suppression relationship of Figure~\ref{fig:growth-gating}C, not a monotone
+  velocity--suppression relationship (Figure~\ref{fig:growth-gating}C), not a monotone
   ordering by dose.}
   \label{fig:s4}
 \end{figure}
@@ -96,9 +96,9 @@
   \textbf{(B)}~The same for the collapse configuration.
   \textbf{(C)}~Dominance rate per placement for the freeze configuration: the fraction of
   runs in which the cluster standing largest at onset descends from the stamped patch is
-  $0/20$ in every arm, so the bars are true but sit at zero height and the panel carries
+  $0/20$ in each of the three stamped placements, so the bars are true but sit at zero height and the panel carries
   the count as text.
-  \textbf{(D)}~The same for the collapse configuration, also $0/20$ in every arm, which
+  \textbf{(D)}~The same for the collapse configuration, also $0/20$ in each stamped placement, which
   completes the six configuration-by-placement cells of the design.
   \textbf{(E)}~Largest-cluster growth trajectories for a single exemplar seed under each
   arm in the freeze configuration.

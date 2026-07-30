@@ -183,10 +183,10 @@ loosest budget regime in the design.
 % ============================================================================
 
 The escape-time campaign ran each seed to a
-horizon of $2{,}000$ steps, and any run that has not nucleated by then is
-right-censored: its onset time $\tau = t_{\mathrm{on}}$ is treated as exceeding the
-horizon, and the run enters the Kaplan--Meier estimator carrying that censoring
-mark, since censored runs are never dropped. The resulting counts are recorded for every
+horizon of $2{,}000$ steps, and any run that had not nucleated by then was
+right-censored: its onset time $\tau = t_{\mathrm{on}}$ was treated as exceeding the
+horizon, and the run entered the Kaplan--Meier estimator carrying that censoring
+mark, since censored runs were never dropped. The resulting counts are recorded for every
 $(f, \text{cash})$ cell of the campaign (Table~\ref{tab:censoring-counts}); rows at $20$
 seeds belong to the pilot pass and rows at $40$ seeds to the refinement pass. The
 companion velocity--suppression dose-response added
@@ -240,8 +240,8 @@ within each~$f$: each resample recomputes the Kaplan--Meier medians and refits t
 barrier law, and the intervals are the $2.5$th and $97.5$th percentiles of the
 resampled parameters.
 
-Finally, the onset-rate observation near the cliff is visible
-directly in Table~\ref{tab:censoring-counts}, and it carries the same label as in the
+Finally, the onset-rate ordering near the cliff can be read from the
+cell counts (Table~\ref{tab:censoring-counts}), and it carries the same label as in the
 main text: exploratory, reported uncorrected for multiple comparisons, and
 weighed accordingly. At $f = 0.174$ the onset rate rose monotonically in cash,
 $0.45$, $0.62$, $0.70$; at $f = 0.177$ the Kaplan--Meier medians fell in the same
@@ -299,9 +299,9 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   \centering
   \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
   \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
-  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep
-  whose mean sell fraction and crash frequency are Figure~\ref{fig:crossover}B
-  and~\ref{fig:crossover}C. The dashed vertical line at $f = 0.145$ marks the midpoint of
+  (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep, alongside
+  its mean sell fraction and crash frequency (Figure~\ref{fig:crossover}B
+  and~\ref{fig:crossover}C). The dashed vertical line at $f = 0.145$ marks the midpoint of
   the observed $[0.14,0.15]$ crossover bracket, not a fitted thermodynamic critical
   point.}
   \label{fig:s3}
@@ -327,7 +327,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   highest at cash $250$, lowest near $1{,}000$--$2{,}000$, and rising again at
   $5{,}000$, while the per-dose median suppression spans only $517$--$595$ orders per
   step. The supported claim is therefore the pooled and within-dose
-  velocity--suppression relationship of Figure~\ref{fig:growth-gating}C, not a monotone
+  velocity--suppression relationship (Figure~\ref{fig:growth-gating}C), not a monotone
   ordering by dose.}
   \label{fig:s4}
 \end{figure}
@@ -346,9 +346,9 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   \textbf{(B)}~The same for the collapse configuration.
   \textbf{(C)}~Dominance rate per placement for the freeze configuration: the fraction of
   runs in which the cluster standing largest at onset descends from the stamped patch is
-  $0/20$ in every arm, so the bars are true but sit at zero height and the panel carries
+  $0/20$ in each of the three stamped placements, so the bars are true but sit at zero height and the panel carries
   the count as text.
-  \textbf{(D)}~The same for the collapse configuration, also $0/20$ in every arm, which
+  \textbf{(D)}~The same for the collapse configuration, also $0/20$ in each stamped placement, which
   completes the six configuration-by-placement cells of the design.
   \textbf{(E)}~Largest-cluster growth trajectories for a single exemplar seed under each
   arm in the freeze configuration.
