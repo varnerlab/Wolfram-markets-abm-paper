@@ -98,19 +98,45 @@ let
     # (the birth-lineage cluster mask per tile) traces that single growing
     # domain across all four tiles.
     #
-    # 2x2 arrangement (author choice): two stacked rows of two tiles each
-    # (row 1: t = 203, 265; row 2: t = 328, 528) instead of one row of four.
-    # The float-page budget (see the canvas-size rationale below) caps the
-    # achievable growth at about 1.34x the old tile's linear size, not a
-    # full 2x — the page, not the layout, is the binding constraint. Time
-    # still reads left-to-right, top-to-bottom, so no caption wording changes.
-    # Two `_strip_panel` calls (2 frames each) stacked via `@layout([a; b])`,
-    # the same pattern the Fig6/Fig7 freeze-vs-collapse and control-vs-
-    # injection strip pairs use (Figs-ModelB-BarrierLaw.jl,
-    # Figs-ModelB-BudgetToggle.jl) — `_strip_panel`'s frame/label/outline
-    # counts are all data-driven, so a 2-frame row needs no renderer change.
-    # The birth-cross mark (tile 1 of the OLD 4-tile row, i.e. t = 203) moves
-    # with its frame into row 1's tile 1; row 2 carries no mark.
+    # 2x2 arrangement, ONE merged canvas (round 2 fix): round 1 (git history,
+    # commit 010dcc4) built the two tile rows as two SEPARATE `_strip_panel`
+    # heatmaps stacked via `@layout([a; b])` — visually correct top-to-bottom
+    # ordering (row 1: t = 203, 265; row 2: t = 328, 528) but each
+    # `_strip_panel` call is its own GR subplot, and GR/Plots.jl reserves a
+    # per-subplot margin floor of order 70-90px at 110dpi around every
+    # individual subplot regardless of that subplot's own `margin = 0mm`
+    # setting — the exact disease Fig2-Combined.jl's snapshot montage and
+    # Fig-ModelA-FiniteSize.jl's panel A hit and fixed the same way (see
+    # their own comments). Paid twice (once per row), that floor was the
+    # large gap the author flagged between the two tile rows.
+    #
+    # The fix follows that same precedent: compose all four frames into ONE
+    # Float64 canvas with thin NaN gutters and draw it with a SINGLE heatmap
+    # call, so the per-subplot floor is paid once for the whole panel, not
+    # once per row. Unlike Fig2's montage (one header shared by every row,
+    # since every row there shares the same column labels), this grid's two
+    # rows show DIFFERENT time steps, so each row keeps its own header band —
+    # `_fig5_2x2_canvas`/`_fig5_2x2_panel` below, local to this file
+    # (StripPanels.jl is untouched, exactly like Fig2/Fig3's own local
+    # montage helpers): [header 1 ("t = 203"/"t = 265"); tile row 1; a thin
+    # NaN row gutter; header 2 ("t = 328"/"t = 528"); tile row 2]. `header =
+    # 22` and 12pt labels keep the house strip-label convention
+    # (`_strip_canvas`'s own default, StripPanels.jl); `gap = 4` (between the
+    # two tiles in a row) and `rowgap = 4` (between the two tile rows) are
+    # both "a few cells" thin, the same idiom Fig2's snapshot montage and
+    # Fig3's finite-size montage use for their own gutters.
+    #
+    # The birth-lineage outline masks and the birth-cross mark are re-derived
+    # in this merged canvas's own coordinates: `_mask_outline_xy` (from
+    # StripPanels.jl, unmodified — it only ever offsets the COLUMN axis by a
+    # caller-supplied `x0`) is called once per tile with that tile's column
+    # offset, and the ROW offset (which a single-row `_strip_panel` call adds
+    # as one constant `header`) is generalized here to a per-tile `row_y0[i]`:
+    # row-1 tiles sit under header band 1, row-2 tiles sit under header band
+    # 2. Checked tile-by-tile against the round-1 render (the committed
+    # Fig5-Nucleus.pdf at HEAD before this change): same outline shape and
+    # position relative to its own tile's Sell(orange) cluster in all four
+    # tiles, same birth-cross cell in tile 1.
     #
     # Panel letter: `_panel_letter!` cannot be used directly on the strip
     # (its yflip branch would land the letter in the tile-caption header
@@ -123,11 +149,74 @@ let
     steps5    = strip_dat["fig5/steps"]
     birth5    = strip_dat["fig5/birth"]
     outlines5 = strip_dat["fig5/outlines"]
-    stripA_row1 = _strip_panel(frames5[1:2], ["t = $(s)" for s in steps5[1:2]];
-                                marks = Dict(1 => birth5), outlines = outlines5[1:2])
-    stripA_row2 = _strip_panel(frames5[3:4], ["t = $(s)" for s in steps5[3:4]];
-                                outlines = outlines5[3:4])
-    stripA_body = plot(stripA_row1, stripA_row2; layout = @layout([a; b]))
+
+    # `_fig5_2x2_canvas`/`_fig5_2x2_panel`: local montage helpers, deliberately
+    # NOT added to StripPanels.jl (every other call site there is a single
+    # tile ROW with one shared header; this figure alone needs a two-row grid
+    # with a header PER row, so it stays a one-off here rather than growing
+    # the shared renderer's API for a single caller).
+    function _fig5_2x2_canvas(frames::Vector{<:AbstractMatrix};
+                               gap::Int64 = 4, header::Int64 = 22, rowgap::Int64 = 4)
+        H, W = size(frames[1])
+        row1_y0 = header                              # tile-row-1 top offset (canvas rows)
+        row2_y0 = header + H + rowgap + header         # tile-row-2 top offset (canvas rows)
+        total_rows = row2_y0 + H
+        total_cols = 2*W + gap
+        canvas = fill(NaN, total_rows, total_cols)
+        for (i, F) in enumerate(frames[1:2])
+            c0 = (i - 1)*(W + gap)
+            canvas[(row1_y0+1):(row1_y0+H), (c0+1):(c0+W)] .= Float64.(F)
+        end
+        for (i, F) in enumerate(frames[3:4])
+            c0 = (i - 1)*(W + gap)
+            canvas[(row2_y0+1):(row2_y0+H), (c0+1):(c0+W)] .= Float64.(F)
+        end
+        return canvas, H, W, row1_y0, row2_y0
+    end
+
+    function _fig5_2x2_panel(frames::Vector{<:AbstractMatrix},
+                              labels_row1::Vector{String}, labels_row2::Vector{String};
+                              gap::Int64 = 4, header::Int64 = 22, rowgap::Int64 = 4,
+                              mark = nothing, outlines = nothing)
+        canvas, H, W, row1_y0, row2_y0 =
+            _fig5_2x2_canvas(frames; gap = gap, header = header, rowgap = rowgap)
+        total_rows, total_cols = size(canvas)
+        plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
+                      aspect_ratio = :equal, axis = false, colorbar = false,
+                      framestyle = :none, background_color_inside = :white,
+                      xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
+                      margin = 0Plots.mm)
+        for (i, lab) in enumerate(labels_row1)
+            cx = (i - 1)*(W + gap) + W/2
+            annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
+        end
+        for (i, lab) in enumerate(labels_row2)
+            cx = (i - 1)*(W + gap) + W/2
+            annotate!(plt, cx, row2_y0 - header*0.5, text(lab, :black, :center, 12, "helvetica"))
+        end
+        row_y0 = (row1_y0, row1_y0, row2_y0, row2_y0)   # per-tile (1..4) row offset
+        if mark !== nothing
+            tile_i, rc = mark
+            c0 = mod(tile_i - 1, 2)*(W + gap)
+            scatter!(plt, [c0 + rc[2]], [row_y0[tile_i] + rc[1]]; marker = :xcross,
+                     markersize = 6, markercolor = :white, markerstrokecolor = :black,
+                     markerstrokewidth = 1.4, label = "")
+        end
+        if outlines !== nothing
+            for (i, m) in enumerate(outlines)
+                m === nothing && continue
+                c0     = mod(i - 1, 2)*(W + gap)
+                xs, ys = _mask_outline_xy(m, c0)
+                isempty(xs) && continue
+                plot!(plt, xs, ys .+ row_y0[i]; seriescolor = :black, linewidth = 1.2, label = "")
+            end
+        end
+        return plt
+    end
+
+    stripA_body = _fig5_2x2_panel(frames5,
+        ["t = $(s)" for s in steps5[1:2]], ["t = $(s)" for s in steps5[3:4]];
+        mark = (1, birth5), outlines = outlines5)
     _letterA = _strip_letter_row("A")
     # Letter fraction 0.08h (not 0.12h): matches the Fig6/Fig7 strip-anchor
     # convention and gives the body a little more of panel A's row.
@@ -146,7 +235,7 @@ let
     pB = plot(; xlims = (1, gridn), ylims = (1, gridn), yflip = true,
               aspect_ratio = :equal, xlabel = "col", ylabel = "row",
               legend = :bottomright, background_color_legend = nothing,
-              foreground_color_legend = nothing, _panel_kw...)
+              foreground_color_legend = nothing, _panel_kw..., left_margin = 33.3Plots.mm)
     plot!(pB, [1, gridn, gridn, 1, 1], [1, 1, gridn, gridn, 1],
           color = :black, lw = 0.8, label = "")
     for cname in configs
@@ -174,7 +263,7 @@ let
     pooled_pmf = [count(==(d), inc.birth_dist) / n_nucleated for d in dists]
     ytop       = 1.3 * maximum(vcat(pooled_pmf, null_pmf))
     pC = plot(; xlabel = "Distance from frame (cells)", ylabel = "probability",
-              ylims = (0, ytop), legend = :topright, _panel_kw...)
+              ylims = (0, ytop), legend = :topright, _panel_kw..., right_margin = 51Plots.mm)
     vspan!(pC, [0.5, 2.5], color = _HOLD_COLOR, alpha = 0.25, label = "boundary shell (d ≤ 2)")
     bar!(pC, dists, pooled_pmf, color = _SERIES_COLORS[2], fillalpha = 0.7, lw = 0.3,
          bar_width = 0.85, label = "births (n=$(n_nucleated))")
