@@ -121,6 +121,8 @@ fixed point, the negative result on which the nucleation argument rests.
 
 \setcounter{table}{0}
 \renewcommand{\thetable}{S\arabic{table}}
+\setcounter{algorithm}{0}
+\renewcommand{\thealgorithm}{S\arabic{algorithm}}
 
 The Stage~2 factorial sweep crossed six factors in full, giving the design from which
 every Model~B summary statistic in this study is drawn
@@ -185,7 +187,7 @@ states $e_{i,\tau}$, settled books, and the step's executed and suppressed order
 \ENDFOR
 \FORALL{strictly interior cells $(r,c)$, simultaneously}
   \STATE $c_{r,c} \leftarrow$ sum of the four Von~Neumann neighbor states
-    \COMMENT{interior neighbors as of $\tau-1$, boundary neighbors at $e_{i,\tau}$}
+    \COMMENT{interior neighbors as of $\tau-1$, active-ring boundary neighbors at $e_{i,\tau}$, passive boundary neighbors fixed at Hold}
   \STATE $s_{r,c} \leftarrow \mathcal{R}(c_{r,c})$ under the rule assigned to the cell
     \COMMENT{Rule~19286 on the minority fraction $f$, Rule~19280 elsewhere; boundary cells are never written}
 \ENDFOR
