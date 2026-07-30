@@ -135,8 +135,8 @@ end
 
 pA = plot(panels...;
     layout = grid(4, 5;
-        widths  = [0.09, 0.2275, 0.2275, 0.2275, 0.2275],
-        heights = [0.10, 0.30, 0.30, 0.30]))
+        widths  = [0.05, 0.2375, 0.2375, 0.2375, 0.2375],
+        heights = [0.07, 0.31, 0.31, 0.31]))
 
 # ---------------------------------------------------------------------------
 # Panel B — mean sell fraction vs f
@@ -162,7 +162,7 @@ _panel_letter!(pC, "C")
 # Compose and save
 # ---------------------------------------------------------------------------
 fig = plot(pA, pB, pC;
-    layout = @layout([a{0.62h}; b c]),
-    size = (1160, 1160))
+    layout = @layout([a{0.635h}; b c]),
+    size = (1160, 1400))
 
 _save_figure(fig, "Fig2-Crossover.pdf")
