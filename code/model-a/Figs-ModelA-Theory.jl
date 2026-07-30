@@ -10,7 +10,9 @@
 #   Panel C  Sell-cluster sizes in the mixed state vs f — recomputed with the
 #            protocol of Compute-NucleationTheory.jl §3 ("Sell Cluster Size
 #            Distribution"): 128×128, equilibrated 500 steps, 100 snapshots
-#            10 steps apart, identical seeds (grid 42, minority 1234)
+#            10 steps apart, repeated over 20 independent seeds (grid seed =
+#            seed, minority seed = 1000 + seed for seed in 1:20); the panel
+#            plots the across-seed median with a 25-75% IQR ribbon
 #
 # Produces: figs/Fig-ModelA-Theory.pdf  →  paper-arxiv/figs/Fig-ModelA-Theory.pdf
 # Run from the repo root:  julia --project=code code/model-a/Figs-ModelA-Theory.jl
@@ -154,48 +156,78 @@ end
 
 const _L_CLUST = 128
 fC = [0.05, 0.10, 0.13, 0.145, 0.155, 0.16]
-mean_max_clust = Float64[]
-max_ever_clust = Int[]
+const _N_SEEDS_CLUST = 20
 
-for f in fC
-    grid = rand(Random.MersenneTwister(42), 0:2, _L_CLUST, _L_CLUST)
-    nxt = copy(grid)
-    is_min = falses(_L_CLUST, _L_CLUST)
-    _assign_minority!(is_min, f, _L_CLUST, _L_CLUST, 1234)
+# Seeding scheme: for seed in 1:_N_SEEDS_CLUST, the grid-fill RNG uses `seed`
+# directly and the minority-assignment RNG uses `1000 + seed` — two
+# deterministic, disjoint streams derived from the loop variable, so rerunning
+# the script reproduces the figure bit-for-bit (was: fixed grid seed 42,
+# minority seed 1234, single realization).
+mean_max_by_seed = [Float64[] for _ in fC]   # mean_max_by_seed[i][s] = one seed's "mean largest per snapshot" at fC[i]
+max_ever_by_seed = [Int[]     for _ in fC]   # max_ever_by_seed[i][s] = one seed's "largest cluster ever observed" at fC[i]
 
-    for _ in 1:500   # equilibrate to the mixed attractor
-        _ca_step_theory!(grid, nxt, is_min, _L_CLUST, _L_CLUST)
-        grid, nxt = nxt, grid
-    end
+_t_clust0 = time()
+for seed in 1:_N_SEEDS_CLUST
+    for (i, f) in enumerate(fC)
+        grid = rand(Random.MersenneTwister(seed), 0:2, _L_CLUST, _L_CLUST)
+        nxt = copy(grid)
+        is_min = falses(_L_CLUST, _L_CLUST)
+        _assign_minority!(is_min, f, _L_CLUST, _L_CLUST, 1000 + seed)
 
-    max_sum = 0.0
-    max_ever = 0
-    n_snap = 100
-    for _ in 1:n_snap
-        for _ in 1:10
+        for _ in 1:500   # equilibrate to the mixed attractor
             _ca_step_theory!(grid, nxt, is_min, _L_CLUST, _L_CLUST)
             grid, nxt = nxt, grid
         end
-        clusters = _find_sell_clusters(grid, _L_CLUST, _L_CLUST)
-        if !isempty(clusters)
-            max_sum += maximum(clusters)
-            max_ever = max(max_ever, maximum(clusters))
-        end
-    end
-    push!(mean_max_clust, max_sum / n_snap)
-    push!(max_ever_clust, max_ever)
-end
 
-# Verify against the values cited in the paper (Nucleation Theory):
-# largest clusters ~30–60 cells subcritical, ~400 near f = 0.145,
-# exceeding 1,800 by f = 0.16.
-println("Panel C verification (cited vs computed):")
-println("  subcritical (f ≤ 0.13) largest: ~30–60 vs mean-max $(round.(mean_max_clust[fC .<= 0.13], digits = 0)), max-ever $(max_ever_clust[fC .<= 0.13])")
-println("  f = 0.145: ~400 vs max-ever $(max_ever_clust[fC .== 0.145][1])")
-println("  f = 0.16:  >1,800 vs max-ever $(max_ever_clust[fC .== 0.16][1])")
-@assert all(30 .<= mean_max_clust[fC .<= 0.13] .<= 60) "Panel C: subcritical cluster sizes do not reproduce"
-@assert isapprox(max_ever_clust[fC .== 0.145][1], 400; atol = 100) "Panel C: f=0.145 cluster size does not reproduce"
-@assert max_ever_clust[fC .== 0.16][1] > 1800 "Panel C: f=0.16 cluster size does not reproduce"
+        max_sum = 0.0
+        max_ever = 0
+        n_snap = 100
+        for _ in 1:n_snap
+            for _ in 1:10
+                _ca_step_theory!(grid, nxt, is_min, _L_CLUST, _L_CLUST)
+                grid, nxt = nxt, grid
+            end
+            clusters = _find_sell_clusters(grid, _L_CLUST, _L_CLUST)
+            if !isempty(clusters)
+                max_sum += maximum(clusters)
+                max_ever = max(max_ever, maximum(clusters))
+            end
+        end
+        push!(mean_max_by_seed[i], max_sum / n_snap)
+        push!(max_ever_by_seed[i], max_ever)
+    end
+end
+_clust_elapsed = time() - _t_clust0
+println("Panel C sampling: $(_N_SEEDS_CLUST) seeds × $(length(fC)) f-values took $(round(_clust_elapsed, digits = 1)) s")
+@assert _clust_elapsed < 600 "Panel C: 20-seed sampling exceeded the 10-minute guard; subsample snapshots per the protocol in Compute-NucleationTheory.jl §3"
+
+# Across-seed summary statistics: median with 25-75% IQR bounds, per f.
+mean_max_median = [median(v)          for v in mean_max_by_seed]
+mean_max_q25    = [quantile(v, 0.25)  for v in mean_max_by_seed]
+mean_max_q75    = [quantile(v, 0.75)  for v in mean_max_by_seed]
+max_ever_median = [median(v)          for v in max_ever_by_seed]
+max_ever_q25    = [quantile(v, 0.25)  for v in max_ever_by_seed]
+max_ever_q75    = [quantile(v, 0.75)  for v in max_ever_by_seed]
+
+# Verify against the across-seed headline numbers this 20-seed run produces
+# (superseding the single-seed values 30-60 / ~400 / >1,800 cited previously;
+# a later task reconciles any paper prose that still cites those numbers).
+println("Panel C verification (20-seed median, cited single-seed values in parentheses):")
+println("  subcritical (f ≤ 0.13) median largest-ever: $(max_ever_median[fC .<= 0.13]) (was ~30-91 single-seed)")
+println("  f = 0.145: median largest-ever $(max_ever_median[fC .== 0.145][1]), IQR [$(max_ever_q25[fC .== 0.145][1]), $(max_ever_q75[fC .== 0.145][1])] (was ~400 single-seed)")
+println("  f = 0.16:  median largest-ever $(max_ever_median[fC .== 0.16][1]), IQR [$(max_ever_q25[fC .== 0.16][1]), $(max_ever_q75[fC .== 0.16][1])] (was >1,800 single-seed)")
+# NOTE: the 20-seed medians are substantially lower than the old single-seed
+# (grid 42, minority 1234) numbers cited above — that realization sat in the
+# upper tail of a heavy-tailed, highly seed-sensitive cluster-size
+# distribution near/above criticality (see per-seed spread in the task
+# report). The median + IQR band is the more representative statistic; a
+# later task reconciles any paper prose that still cites the old single-seed
+# figures (30-60 / ~400 / >1,800).
+@assert all(40 .<= max_ever_median[fC .<= 0.13] .<= 100) "Panel C: subcritical median cluster sizes do not reproduce"
+@assert isapprox(max_ever_median[fC .== 0.145][1], 98; atol = 30) "Panel C: f=0.145 median cluster size does not reproduce"
+@assert max_ever_median[fC .== 0.16][1] > 150 "Panel C: f=0.16 median cluster size does not reproduce"
+@assert all(max_ever_q25 .<= max_ever_median .<= max_ever_q75) "Panel C: median must lie within its own IQR band"
+@assert all(mean_max_q25 .<= mean_max_median .<= mean_max_q75) "Panel C: mean-largest median must lie within its own IQR band"
 
 # ---------------------------------------------------------------------------
 # fc marks the midpoint of the crossover bracket (0.15-0.20) used by the
@@ -233,16 +265,24 @@ annotate!(pB, 0.25, 1.035, text("instability threshold = 1", 7, :center, _HOLD_C
 _panel_letter!(pB, "B")
 
 # ---------------------------------------------------------------------------
-# Panel C — sell-cluster sizes vs f in the mixed state (log y)
+# Panel C — sell-cluster sizes vs f in the mixed state (log y), 20-seed
+# median with a 25-75% IQR ribbon per series (fillalpha = 0.2); series
+# colors match the retired single-seed panel exactly.
 # ---------------------------------------------------------------------------
-pC = plot(fC, max_ever_clust;
-    marker = :circle, ms = 4, lw = 1.5, color = _SELL_COLOR,
-    linestyle = :dash, label = "largest observed",
+pC = plot(fC, max_ever_q25;
+    fillrange = max_ever_q75, fillalpha = 0.2, lw = 0,
+    color = _SELL_COLOR, label = false,
     xlabel = "Minority fraction f", ylabel = "Sell-cluster size (cells)",
     yscale = :log10, legend = :topleft, _panel_kw...)
-plot!(pC, fC, mean_max_clust;
+plot!(pC, fC, max_ever_median;
+    marker = :circle, ms = 4, lw = 1.5, color = _SELL_COLOR,
+    linestyle = :dash, label = "largest observed (median)")
+plot!(pC, fC, mean_max_q25;
+    fillrange = mean_max_q75, fillalpha = 0.2, lw = 0,
+    color = _SERIES_COLORS[5], label = false)
+plot!(pC, fC, mean_max_median;
     marker = :square, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
-    label = "mean largest per snapshot")
+    label = "mean largest per snapshot (median)")
 vline!(pC, [fc]; linestyle = :dash, color = _HOLD_COLOR, label = false)
 _panel_letter!(pC, "C")
 
