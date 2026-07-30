@@ -7,7 +7,14 @@
 # aspect_ratio = :equal's clipping of `ylims` padding (GR fits the axis box to
 # the image's own data extent under aspect_ratio = :equal and ignores extra
 # ylims padding beyond that extent) — see `_strip_panel` below.
-function _strip_canvas(frames::Vector{<:AbstractMatrix}; gap::Int64 = 4, header::Int64 = 10)
+#
+# `header = 22` and the 12pt label size (`_strip_panel` below) are the house
+# strip-label convention (Figs 5-7 all share this renderer): the labels used
+# to be 8pt at `header = 10` and hugged the tile edge by a few px, the same
+# defect Fig2/Fig3's montage tiles had before their own enlargement. Default
+# deepened here so every strip figure inherits the fix; pass `header =` to
+# override at a call site that needs a different depth.
+function _strip_canvas(frames::Vector{<:AbstractMatrix}; gap::Int64 = 4, header::Int64 = 22)
     n = length(frames); H, W = size(frames[1])
     canvas = fill(NaN, H + header, n*W + (n-1)*gap)
     for (i, F) in enumerate(frames)
@@ -73,16 +80,20 @@ end
 
 function _strip_panel(frames::Vector{<:AbstractMatrix}, labels::Vector{String};
                       gap::Int64 = 4, marks = nothing, rowlabel::String = "",
-                      outlines = nothing, header::Int64 = 10)
+                      outlines = nothing, header::Int64 = 22, label_fontsize::Int64 = 12)
     canvas = _strip_canvas(frames; gap = gap, header = header)
     H, W = size(frames[1]); n = length(frames)
     plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
                   aspect_ratio = :equal, axis = false, colorbar = false,
                   framestyle = :none, background_color_inside = :white,
                   ylims = (0.5, header + H + 0.5), margin = 0Plots.mm)
+    # Label anchor at the header band's midpoint (not a fraction that hugs
+    # the tile edge) so the 12pt caption sits centered between the panel's
+    # top edge and the first tile row, with clear standoff on both sides —
+    # the same fix and rationale as the Fig2/Fig3 montage labels.
     for (i, lab) in enumerate(labels)
         cx = (i - 1)*(W + gap) + W/2
-        annotate!(plt, cx, header * 0.45, text(lab, :black, :center, 8, "helvetica"))
+        annotate!(plt, cx, header * 0.5, text(lab, :black, :center, label_fontsize, "helvetica"))
     end
     if marks !== nothing
         for (i, rc) in pairs(marks)
@@ -103,6 +114,6 @@ function _strip_panel(frames::Vector{<:AbstractMatrix}, labels::Vector{String};
         end
     end
     isempty(rowlabel) || annotate!(plt, -0.05*(n*W + (n-1)*gap), header + H/2,
-        text(rowlabel, :black, :center, 8, "helvetica"; rotation = 90))
+        text(rowlabel, :black, :center, label_fontsize, "helvetica"; rotation = 90))
     return plt
 end

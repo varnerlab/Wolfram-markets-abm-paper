@@ -5,7 +5,7 @@ include(joinpath(@__DIR__, "..", "src", "PaperStyle.jl"))
 include(joinpath(@__DIR__, "..", "src", "StripPanels.jl"))
 
 frames = [fill(2, 8, 8), fill(0, 8, 8), fill(1, 8, 8)]
-header = 10
+header = 22   # house strip-label convention default (12pt labels, deep header band)
 canvas = _strip_canvas(frames; gap = 4)
 @test size(canvas) == (8 + header, 3*8 + 2*4)
 @test all(isnan, canvas[:, 9:12])                        # first gutter (all rows)

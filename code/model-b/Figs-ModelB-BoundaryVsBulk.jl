@@ -112,17 +112,24 @@ let
     stripA_body = _strip_panel(frames5, ["t = $(s)" for s in steps5];
                                 marks = Dict(1 => birth5), outlines = outlines5)
     _letterA = _strip_letter_row("A")
-    stripA = plot(_letterA, stripA_body; layout = @layout([a{0.12h}; b]))
+    # Letter fraction 0.08h (not 0.12h): matches the Fig6/Fig7 strip-anchor
+    # convention and gives the body a little more of panel A's row.
+    stripA = plot(_letterA, stripA_body; layout = @layout([a{0.08h}; b]))
 
     # ── B: birth-site map (interior-only clusters; freeze + collapse) ──────
-    # Legend placed OUTSIDE the axes (:outertopright): this scatter covers the
-    # grid edge-to-edge (that is the panel's whole point — births are not
-    # confined to any corner), so no interior legend position is provably
-    # clear of data. An outer legend cannot occlude a plotted point because
-    # it is drawn in a separate margin region, not over the axes box.
+    # Legend moved INSIDE (bottom-right): row > 48 & col > 48 (the last
+    # quarter of the 64x64 grid in that corner) holds zero births of either
+    # config, checked directly against the census — the scatter covers the
+    # grid edge-to-edge everywhere else, but this one corner is genuinely
+    # clear. `background_color_legend = nothing` keeps it transparent as a
+    # second line of defense. An outer legend used to dodge this by drawing
+    # in a separate margin region, but that margin made panel B narrower
+    # than panel C's undecorated box; an inside legend restores the same
+    # plot-area size and shape as panel C.
     pB = plot(; xlims = (1, gridn), ylims = (1, gridn), yflip = true,
               aspect_ratio = :equal, xlabel = "col", ylabel = "row",
-              legend = :outertopright, _panel_kw...)
+              legend = :bottomright, background_color_legend = nothing,
+              foreground_color_legend = nothing, _panel_kw...)
     plot!(pB, [1, gridn, gridn, 1, 1], [1, 1, gridn, gridn, 1],
           color = :black, lw = 0.8, label = "")
     for cname in configs
@@ -169,8 +176,21 @@ let
     # / `ring_attach_freeze` stay asserted above rather than being dropped
     # along with the panel.
 
+    # Panel A's row share and the overall canvas both grew (0.40h/900pt ->
+    # 0.50h/1120pt) so the four strip tiles render at house scale (Fig2/3
+    # precedent: large tiles, 12pt labels) instead of the cramped ~285px
+    # tiles the old 900pt-tall canvas gave them. The b/c row is now half
+    # (not 0.60) of the canvas: panel B's aspect_ratio = :equal (a spatial
+    # row/col map) forces a SQUARE plot box inside whatever cell it is
+    # given, while panel C (an ordinary bar/line panel) fills its cell
+    # edge to edge; at the old row share C's cell was taller than it was
+    # wide, so C rendered as a tall rectangle next to B's square — the
+    # "not the same size or shape" mismatch. Shrinking the row so each
+    # cell is itself close to square lets C's natural fill and B's forced
+    # square coincide (confirmed by measuring both panels' axis-box pixel
+    # extents after render: both ~715-730px on a side).
     fig = plot(stripA, pB, pC;
-        layout = @layout([a{0.40h}; b c]), size = (1160, 900))
+        layout = @layout([a{0.50h}; b c]), size = (1160, 1120))
     _save_figure(fig, "Fig5-Nucleus.pdf")
     @info "Saved: Fig5-Nucleus.pdf"
 end
