@@ -282,11 +282,11 @@ let
                  color = arm_color[arm], fillalpha = 0.7, bar_width = 0.55)
         end
         # Every one of the 20 seeds, in every arm, comes back exactly zero (the
-        # bars themselves are true but invisible at zero height) — the full
-        # statistical treatment (95% Wilson upper bound on 0/20) lives in
-        # Fig6-GrowthGating.pdf panel B; this panel states the raw count so an
-        # empty-looking panel does not read as a rendering defect.
-        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm (95% Wilson upper bounds)", 9, :black, :center))
+        # bars themselves are true but invisible at zero height); this panel
+        # states the raw count so an empty-looking panel does not read as a
+        # rendering defect. The statistical treatment (95% Wilson upper bound
+        # on 0/20) is reported in Results prose, citing this figure.
+        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm", 9, :black, :center))
         annotate!(p, (0.98, 1.06), text(cname, 8, :black, :right))
         push!(fig2_panels, p)
     end

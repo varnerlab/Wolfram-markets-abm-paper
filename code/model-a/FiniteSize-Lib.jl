@@ -195,8 +195,8 @@ end
 # ─── Frame captures (market strips) ───────────────────────────────────────
 # Same init and stepping as run_cell -- copied, not shared, so run_cell stays
 # byte-identical -- but records full grid snapshots at requested absolute
-# times instead of stage-crossing statistics. Used only by
-# Compute-FiniteSizeStrips.jl; nothing else calls it.
+# times instead of stage-crossing statistics. Called by
+# Compute-FiniteSizeStrips.jl and by code/test/test_finitesize_frames.jl.
 function run_cell_frames(L::Int, f::Float64, seed::Int, t_max::Int,
                          capture_at::Vector{Int64}; burn_in::Int = 200)
     grid   = rand(Random.MersenneTwister(1000 + seed), 0:2, L, L)
