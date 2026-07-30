@@ -98,6 +98,20 @@ let
     # (the birth-lineage cluster mask per tile) traces that single growing
     # domain across all four tiles.
     #
+    # 2x2 arrangement (author choice): two stacked rows of two tiles each
+    # (row 1: t = 203, 265; row 2: t = 328, 528) instead of one row of four.
+    # The float-page budget (see the canvas-size rationale below) caps the
+    # achievable growth at about 1.34x the old tile's linear size, not a
+    # full 2x — the page, not the layout, is the binding constraint. Time
+    # still reads left-to-right, top-to-bottom, so no caption wording changes.
+    # Two `_strip_panel` calls (2 frames each) stacked via `@layout([a; b])`,
+    # the same pattern the Fig6/Fig7 freeze-vs-collapse and control-vs-
+    # injection strip pairs use (Figs-ModelB-BarrierLaw.jl,
+    # Figs-ModelB-BudgetToggle.jl) — `_strip_panel`'s frame/label/outline
+    # counts are all data-driven, so a 2-frame row needs no renderer change.
+    # The birth-cross mark (tile 1 of the OLD 4-tile row, i.e. t = 203) moves
+    # with its frame into row 1's tile 1; row 2 carries no mark.
+    #
     # Panel letter: `_panel_letter!` cannot be used directly on the strip
     # (its yflip branch would land the letter in the tile-caption header
     # band instead of above the panel); `_strip_letter_row` (StripPanels.jl)
@@ -109,8 +123,11 @@ let
     steps5    = strip_dat["fig5/steps"]
     birth5    = strip_dat["fig5/birth"]
     outlines5 = strip_dat["fig5/outlines"]
-    stripA_body = _strip_panel(frames5, ["t = $(s)" for s in steps5];
-                                marks = Dict(1 => birth5), outlines = outlines5)
+    stripA_row1 = _strip_panel(frames5[1:2], ["t = $(s)" for s in steps5[1:2]];
+                                marks = Dict(1 => birth5), outlines = outlines5[1:2])
+    stripA_row2 = _strip_panel(frames5[3:4], ["t = $(s)" for s in steps5[3:4]];
+                                outlines = outlines5[3:4])
+    stripA_body = plot(stripA_row1, stripA_row2; layout = @layout([a; b]))
     _letterA = _strip_letter_row("A")
     # Letter fraction 0.08h (not 0.12h): matches the Fig6/Fig7 strip-anchor
     # convention and gives the body a little more of panel A's row.
@@ -176,21 +193,47 @@ let
     # / `ring_attach_freeze` stay asserted above rather than being dropped
     # along with the panel.
 
-    # Panel A's row share and the overall canvas both grew (0.40h/900pt ->
-    # 0.50h/1120pt) so the four strip tiles render at house scale (Fig2/3
-    # precedent: large tiles, 12pt labels) instead of the cramped ~285px
-    # tiles the old 900pt-tall canvas gave them. The b/c row is now half
-    # (not 0.60) of the canvas: panel B's aspect_ratio = :equal (a spatial
-    # row/col map) forces a SQUARE plot box inside whatever cell it is
-    # given, while panel C (an ordinary bar/line panel) fills its cell
-    # edge to edge; at the old row share C's cell was taller than it was
-    # wide, so C rendered as a tall rectangle next to B's square — the
-    # "not the same size or shape" mismatch. Shrinking the row so each
-    # cell is itself close to square lets C's natural fill and B's forced
-    # square coincide (confirmed by measuring both panels' axis-box pixel
-    # extents after render: both ~715-730px on a side).
+    # 2x2 rework (author choice): the canvas width stays 1160pt (unchanged
+    # from the 4-tile version) so absolute font sizes stay on the same scale
+    # as every other strip figure, but the canvas is now much taller
+    # (1160x1430, up from 1160x1120) and panel A takes most of that growth
+    # (0.8252h vs the old 0.50h) so the two 2-tile rows render as large as
+    # the float page allows. Two tiles per row, at full canvas width, are
+    # inherently HEIGHT-bound rather than width-bound (a 2-tile row's data
+    # aspect is ~132/86, about half a 4-tile row's ~268/86, so at any given
+    # row height a 2-tile row's width-matching box is narrower than the
+    # canvas) — the tiles print with blank margins left/right rather than
+    # touching the canvas edges, and row height (hence tile size) is set by
+    # how much of the canvas panel A is given, not by the canvas width.
+    # 1430pt total is an empirical ceiling, not a round number: 1520pt
+    # overflowed the float page by 15.6pt ("Float too large for page" in
+    # Paper_v1.log) once placed at 0.95\linewidth; 1430pt clears it with
+    # ~15pt of slack, matching the safety margin Fig6-GrowthGating.pdf's own
+    # two-row strip pair runs at (that figure's page is 632/648pt full).
+    # Panel A's 0.8252h share (b/c row = 250pt) is itself an empirical
+    # legibility floor, not a derived number: b/c's cell stops being close
+    # to square (b's aspect_ratio = :equal square vs c's edge-to-edge fill,
+    # same tension as the original 4-tile design's fix below) as the row
+    # shrinks, but both panels' legends and in-panel text stayed clear of
+    # the data through 250pt; at 190pt the B legend started crowding its
+    # own scatter points and at 130pt the C in-panel annotation collided
+    # with the C legend, so 250pt is the smallest row height tried that
+    # rendered cleanly at both extremes.
+    #
+    # Panel B's aspect_ratio = :equal (a spatial row/col map) forces a
+    # SQUARE plot box inside whatever cell it is given, while panel C (an
+    # ordinary bar/line panel) fills its cell edge to edge; the original
+    # 4-tile design's b/c row height (half the canvas, 560pt against a
+    # 580pt-wide cell) was tuned so the cell itself was close to square,
+    # letting C's natural fill and B's forced square coincide. The 2x2
+    # design's much smaller 250pt b/c row against the same 580pt-wide cell
+    # cannot keep that exact match (250 far from 580), so B's square now
+    # sits inside a visibly wider cell than it fills; both panels stayed
+    # legible and close enough in apparent size through visual review, but
+    # this is the one respect in which the 2x2 canvas is a looser match to
+    # the original square-cell recipe.
     fig = plot(stripA, pB, pC;
-        layout = @layout([a{0.50h}; b c]), size = (1160, 1120))
+        layout = @layout([a{0.8252h}; b c]), size = (1160, 1430))
     _save_figure(fig, "Fig5-Nucleus.pdf")
     @info "Saved: Fig5-Nucleus.pdf"
 end
