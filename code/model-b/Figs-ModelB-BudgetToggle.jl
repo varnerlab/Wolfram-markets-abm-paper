@@ -16,14 +16,20 @@
 #      BudgetToggle.pdf and ModelB-Nucleation-BudgetToggle-EdgeTrace.pdf,
 #      neither emitted any more) into one 3x3 grid: rows = direction,
 #      columns = {cluster trajectory, edge Buy fraction, edge Sell fraction}.
-#   2) Fig7-Intervention.pdf (Task 9) — the paper's intervention-asymmetry
-#      figure: (A) paired front velocities under injection, (B) paired
-#      velocities under both withdrawal doses, (C) the edge-ring Buy/Sell
-#      mechanism under injection, (D) the same under the harsh withdrawal
-#      dose (the mild dose behaves the same way per the paper's own text —
-#      "either cut lifts the Buy fraction to ~0.72-0.74" — so showing one
-#      exemplar does not lose information; both doses appear in panel B and,
-#      in full, in FigS6-ToggleDetail.pdf).
+#   2) Fig7-Intervention.pdf (Task 9; rebuilt around the control-vs-injection
+#      strip pair in Task 6) — the paper's intervention-asymmetry figure:
+#      (A) two onset-aligned market strips (`ModelB-StripFrames.jld2` keys
+#      `fig7/control/*` / `fig7/injection/*`, seed 16), rows "control" and
+#      "cash ×10", pre-toggle bit-identical at tile 1; (B) the edge-ring
+#      Buy/Sell mechanism under injection (former panel C, verbatim) — the
+#      panel that must show the ~0.5-Buy -> ~1.0-Sell flip unmistakably;
+#      (C) paired dumbbells, one thin control->toggled segment per seed, for
+#      all three arms (injection, mild withdrawal, harsh withdrawal) grouped
+#      side by side. The former panels A/B (per-seed spaghetti of paired
+#      front velocities) are replaced by (C); the former panel D (edge-ring
+#      mechanism under harsh withdrawal) is dropped outright — that trace
+#      already lives in full in FigS6-ToggleDetail.pdf, so nothing is lost by
+#      not repeating it here.
 #
 # DIRECTIONS' names/factors and the PRE/W window below duplicate constants
 # from Compute-ModelB-BudgetToggle.jl by design (same pattern as
@@ -214,20 +220,27 @@ let
 end
 
 # ---------------------------------------------------------------------------
-# Fig7-Intervention.pdf (Task 9) — the paper's intervention-asymmetry figure.
+# Fig7-Intervention.pdf (Task 9; rebuilt around the control-vs-injection strip
+# pair in Task 6) — the paper's intervention-asymmetry figure.
 #
-# (A) paired front velocities, injection only, coloured by arm.
-# (B) paired velocities, BOTH withdrawal doses overlaid, coloured by arm.
-# (C) edge-ring Buy/Sell mechanism under injection: control (gray dashed) vs
-#     toggled (Buy = _BUY_COLOR, Sell = _SELL_COLOR solid). This is the panel
-#     that must show the ~0.5-Buy -> ~1.0-Sell flip unmistakably.
-# (D) the same construction under the harsh withdrawal dose — chosen because
-#     it is the dose that genuinely binds (cash drops below the standing
-#     price, buys die outright) yet still produces no sign reversal; the
-#     paper's own text treats mild and harsh as behaving alike here ("either
-#     cut lifts the Buy fraction to ~0.72-0.74"), and the mild dose's own
-#     trace is preserved in full in Figure 2 above / Task 10's supplementary
-#     figure, so no information is lost by picking one exemplar.
+# TASK 6 REWORK: Fig7 is now anchored on the control-vs-injection market strip
+# (panel A, onset-aligned, `ModelB-StripFrames.jld2` keys `fig7/control/*` and
+# `fig7/injection/*`, both seed 16) — the same freeze/collapse strip-pair
+# idiom Task 5 used for Fig6, mirrored here with `t_on-1` as the first tile so
+# the pre-toggle bit-identity between the two arms (control and injection have
+# not diverged yet) is visible directly, not just asserted in prose. The
+# former panels A and B (per-seed spaghetti of paired front velocities,
+# injection alone / both withdrawal doses overlaid) are replaced by a single
+# paired-dumbbell panel (C) that shows all three arms — injection, mild
+# withdrawal, harsh withdrawal — side by side on one categorical axis: each
+# seed's short control->toggled segment now reads directly against the other
+# arms' segments instead of splitting the comparison across two panels. The
+# former panel C (edge-ring Buy/Sell mechanism under injection) is kept
+# verbatim as the new panel B — it is still the panel that must show the
+# ~0.5-Buy -> ~1.0-Sell flip unmistakably. The former panel D (the same
+# construction under the harsh withdrawal dose) is dropped outright: that
+# trace already lives in full in FigS6-ToggleDetail.pdf, so nothing is lost
+# by not repeating it here.
 #
 # No in-figure titles anywhere. Legends moved to :outertopright throughout
 # (Tasks 7-8's remedy for `_panel_kw`'s opaque inside-legend backing), and
@@ -237,82 +250,128 @@ end
 # ---------------------------------------------------------------------------
 let
     xs = (-PRE):W
+    strip_dat = load(joinpath(_PATH_TO_DATA, "ModelB-StripFrames.jld2"))
 
-    # ── A: paired front velocities, injection ───────────────────────────────
-    pA = plot(; xticks = ([1, 2], ["control", "toggled"]), xlims = (0.6, 2.4),
-              ylabel = "front velocity x 1e4 (per step)",
-              legend = :outertopright, _panel_kw...)
-    for r in eachrow(inj)
-        plot!(pA, [1, 2], [r.v_ctrl, r.v_toggle] .* 1e4, color = _TOG_COLOR["injection"],
-              alpha = 0.55, lw = 1.2, marker = :circle, markersize = 3,
-              markerstrokewidth = 0, label = "")
-    end
-    plot!(pA, Float64[], Float64[], color = _TOG_COLOR["injection"], lw = 2.0,
-          label = "injection (cash x10 at onset, n=$(nrow(inj)))")
-    annotate!(pA, (1.02, 1.0),
-              text(@sprintf("%d of %d pairs accelerate\nsign test p = %.3f\n(W = %d steps)",
-                            n_accel_inj, nrow(inj), sign_test_p, W),
-                   8, :black, :left))
-    _panel_letter!(pA, "A")
+    # ── A: control-vs-injection market strip pair, onset-aligned ────────────
+    # Four onset-aligned frames per arm at offsets [t_on-1, +100, +250, +400]
+    # (Compute-ModelB-StripFrames.jl picked seed 16, the median-representative
+    # accelerating pair — see the JLD2's own `meta/created` note). Starting
+    # the tile sequence at `t_on-1` rather than `t_on` makes the pre-toggle
+    # bit-identity between the two rows a rendered fact (tile 1 of both rows
+    # must be pixel-identical) rather than a claim the reader has to take on
+    # faith; the arms only begin to diverge from tile 2 (`+100`) onward, and
+    # by `+250` the injected row is visibly ahead. `outlines` traces the
+    # largest sell cluster in every frame, same convention as Fig6's strip.
+    # Panel letter via the Fig2/Fig5/Fig6 blank-row technique: `_panel_letter!`
+    # cannot be used directly on a yflip strip (see the Fig5-Nucleus.pdf block
+    # for the full rationale).
+    tile_labels = ["t_on-1", "+100", "+250", "+400"]
+    strip_control = _strip_panel(strip_dat["fig7/control/frames"], tile_labels;
+                                  outlines = strip_dat["fig7/control/outlines"],
+                                  rowlabel = "control")
+    strip_injection = _strip_panel(strip_dat["fig7/injection/frames"], tile_labels;
+                                    outlines = strip_dat["fig7/injection/outlines"],
+                                    rowlabel = "cash ×10")
+    strip_pair = plot(strip_control, strip_injection; layout = @layout([a; b]))
+    _letterA = plot(; framestyle = :none, grid = false, legend = false,
+                     ticks = false, xlims = (0, 1), ylims = (0, 1))
+    _panel_letter!(_letterA, "A")
+    anchor = plot(_letterA, strip_pair; layout = @layout([a{0.08h}; b]))
 
-    # ── B: paired front velocities, both withdrawal doses ───────────────────
-    pB = plot(; xticks = ([1, 2], ["control", "toggled"]), xlims = (0.6, 2.4),
-              ylabel = "front velocity x 1e4 (per step)",
-              legend = :outertopright, _panel_kw...)
-    for (df_, dname) in ((mild, "withdrawal_mild"), (harsh, "withdrawal_harsh"))
-        for r in eachrow(df_)
-            plot!(pB, [1, 2], [r.v_ctrl, r.v_toggle] .* 1e4, color = _TOG_COLOR[dname],
-                  alpha = 0.5, lw = 1.0, marker = :circle, markersize = 3,
-                  markerstrokewidth = 0, label = "")
-        end
-    end
-    plot!(pB, Float64[], Float64[], color = _TOG_COLOR["withdrawal_mild"], lw = 2.0,
-          label = @sprintf("mild (cash x0.1, p = %.2f)", mild_p))
-    plot!(pB, Float64[], Float64[], color = _TOG_COLOR["withdrawal_harsh"], lw = 2.0,
-          label = @sprintf("harsh (cash x0.01, p = %.2f)", harsh_p))
-    _panel_letter!(pB, "B")
-
-    # ── C: edge-ring mechanism, injection — the sign-reversal panel ─────────
+    # ── B: edge-ring mechanism, injection — the sign-reversal panel (former
+    # panel C, kept verbatim; only its letter changes) ──────────────────────
     subc = traj[(traj.direction .== "injection") .& (traj.condition .== "control"), :]
     subt = traj[(traj.direction .== "injection") .& (traj.condition .== "toggled"), :]
     buy_c  = _aligned_mean_from_traj(subc, :edge_buy_frac,  xs)
     buy_t  = _aligned_mean_from_traj(subt, :edge_buy_frac,  xs)
     sell_c = _aligned_mean_from_traj(subc, :edge_sell_frac, xs)
     sell_t = _aligned_mean_from_traj(subt, :edge_sell_frac, xs)
-    pC = plot(; xlabel = "steps since onset", ylabel = "edge-ring state fraction",
+    pB = plot(; xlabel = "steps since onset", ylabel = "edge-ring state fraction",
               ylims = (-0.02, 1.12), legend = :outertopright, _panel_kw...)
-    plot!(pC, xs, buy_c,  color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Buy (control)")
-    plot!(pC, xs, sell_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Sell (control)")
-    plot!(pC, xs, buy_t,  color = _BUY_COLOR,  lw = 2.4, label = "Buy (toggled)")
-    plot!(pC, xs, sell_t, color = _SELL_COLOR, lw = 2.4, label = "Sell (toggled)")
-    vline!(pC, [0], color = :black, ls = :dash, lw = 1.0, label = "toggle (t_on)")
+    plot!(pB, xs, buy_c,  color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Buy (control)")
+    plot!(pB, xs, sell_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Sell (control)")
+    plot!(pB, xs, buy_t,  color = _BUY_COLOR,  lw = 2.4, label = "Buy (toggled)")
+    plot!(pB, xs, sell_t, color = _SELL_COLOR, lw = 2.4, label = "Sell (toggled)")
+    vline!(pB, [0], color = :black, ls = :dash, lw = 1.0, label = "toggle (t_on)")
     # Top-RIGHT corner (never top-left, where _panel_letter! always draws) and
     # right-aligned so it grows away from that corner as text is added.
-    annotate!(pC, (0.98, 1.06),
+    annotate!(pB, (0.98, 1.06),
               text("injection: cash x10 at t_on", 8, :black, :right))
+    _panel_letter!(pB, "B")
+
+    # ── C: paired dumbbell — control->toggled front velocity, all three arms
+    # side by side ────────────────────────────────────────────────────────
+    # Replaces the former panels A and B (two separate spaghetti plots, one
+    # per experiment) with one categorical panel: injection at x=1, mild
+    # withdrawal at x=2, harsh withdrawal at x=3, each seed drawn as a short
+    # control(left)->toggled(right) segment plus endpoint markers. Injection
+    # is the arm that reversed the boundary's sign, so it keeps the reserved
+    # Sell hue (the front it accelerates is a sell wave); withdrawal was
+    # statistically null at both doses, so both withdrawal arms share the
+    # neutral _HOLD_COLOR, with harsh drawn at reduced alpha so the two
+    # (otherwise identically-null) doses remain visually distinguishable
+    # without introducing an out-of-palette hex. A local `Xoshiro` RNG (same
+    # precedent as `_signflip_p` above) gives the per-seed jitter a fixed,
+    # reproducible seed rather than drawing on shared global RNG state.
+    dumbbell_arms = (
+        (df = inj,   x = 1, color = _SELL_COLOR, alpha = 1.00,
+         label = @sprintf("injection (n=%d, %d/%d up, p=%.3f)", nrow(inj), n_accel_inj, nrow(inj), sign_test_p)),
+        (df = mild,  x = 2, color = _HOLD_COLOR, alpha = 1.00,
+         label = @sprintf("withdrawal mild (n=%d, p=%.2f)", nrow(mild), mild_p)),
+        (df = harsh, x = 3, color = _HOLD_COLOR, alpha = 0.55,
+         label = @sprintf("withdrawal harsh (n=%d, p=%.2f)", nrow(harsh), harsh_p)),
+    )
+    half_width  = 0.16   # control/toggled separation within an arm's slot
+    jitter_amp  = 0.09   # per-seed jitter around that separation
+    all_v       = vcat(inj.v_ctrl, inj.v_toggle, mild.v_ctrl, mild.v_toggle,
+                        harsh.v_ctrl, harsh.v_toggle) .* 1e4
+    v_range     = maximum(all_v) - minimum(all_v)
+    ytop        = maximum(all_v) + 0.18 * v_range   # room for the median annotation
+
+    pC = plot(; xticks = ([1, 2, 3], ["injection", "mild", "harsh"]),
+              xlims = (0.5, 3.5), ylims = (minimum(all_v) - 0.08 * v_range, ytop + 0.16 * v_range),
+              ylabel = "front velocity x 1e4 (per step)",
+              legend = :outertopright, _panel_kw...)
+    jrng = Xoshiro(11)
+    for arm in dumbbell_arms
+        for r in eachrow(arm.df)
+            jit    = (rand(jrng) - 0.5) * 2 * jitter_amp
+            x_ctrl = arm.x - half_width + jit
+            x_tog  = arm.x + half_width + jit
+            plot!(pC, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
+                  color = arm.color, alpha = arm.alpha * 0.5, lw = 1.0, label = "")
+            scatter!(pC, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
+                     color = arm.color, alpha = arm.alpha, markersize = 3,
+                     markerstrokewidth = 0, label = "")
+        end
+        med_ctrl = median(arm.df.v_ctrl)  * 1e4
+        med_tog  = median(arm.df.v_toggle) * 1e4
+        # Zero-length proxy series: the one legend entry per arm (diamond
+        # glyph matches the "diamond = median" convention already used in
+        # Fig6 panel C / FigS4 panel D). Deliberately NOT drawn as a real
+        # control->toggled trend line over the per-seed cloud: median(v_ctrl)
+        # and median(v_toggle) are each arm's own marginal medians, not the
+        # median of the PAIRED per-seed difference the sign-flip test above
+        # actually tests, and for the withdrawal arms those two disagree in
+        # sign (mild's marginal medians rise 2.23->3.57, but only 8 of 19
+        # pairs individually increase and the paired-difference test is null,
+        # p = 0.67) — a bold marginal-median line would visually overstate a
+        # result the p-value says is not there. The per-seed cloud above
+        # already carries the honest paired picture; the medians are reported
+        # as plain text instead of a second, competing trend line.
+        plot!(pC, Float64[], Float64[], color = arm.color, alpha = arm.alpha,
+              lw = 3.0, marker = :diamond, markersize = 7, markerstrokewidth = 1.0,
+              markerstrokecolor = :black, label = arm.label)
+        # Stacked two-line text (not a single "1.39→3.55" line): the arm
+        # slots are ~1 data-unit wide and a one-line arrow label overruns
+        # into the neighbouring arm's slot at any legible font size (tried
+        # first; overlapped). A narrow vertical stack fits inside one slot.
+        annotate!(pC, arm.x, ytop,
+                  text(@sprintf("%.2f\n%.2f", med_ctrl, med_tog), 6, :black, :center))
+    end
     _panel_letter!(pC, "C")
 
-    # ── D: edge-ring mechanism, harsh withdrawal (mild is qualitatively the
-    # same per the paper's text; its own trace lives in Figure 2 above) ─────
-    subc_h = traj[(traj.direction .== "withdrawal_harsh") .& (traj.condition .== "control"), :]
-    subt_h = traj[(traj.direction .== "withdrawal_harsh") .& (traj.condition .== "toggled"), :]
-    buy_c_h  = _aligned_mean_from_traj(subc_h, :edge_buy_frac,  xs)
-    buy_t_h  = _aligned_mean_from_traj(subt_h, :edge_buy_frac,  xs)
-    sell_c_h = _aligned_mean_from_traj(subc_h, :edge_sell_frac, xs)
-    sell_t_h = _aligned_mean_from_traj(subt_h, :edge_sell_frac, xs)
-    pD = plot(; xlabel = "steps since onset", ylabel = "edge-ring state fraction",
-              ylims = (-0.02, 1.12), legend = :outertopright, _panel_kw...)
-    plot!(pD, xs, buy_c_h,  color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Buy (control)")
-    plot!(pD, xs, sell_c_h, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Sell (control)")
-    plot!(pD, xs, buy_t_h,  color = _BUY_COLOR,  lw = 2.4, label = "Buy (toggled)")
-    plot!(pD, xs, sell_t_h, color = _SELL_COLOR, lw = 2.4, label = "Sell (toggled)")
-    vline!(pD, [0], color = :black, ls = :dash, lw = 1.0, label = "toggle (t_on)")
-    annotate!(pD, (0.98, 1.06),
-              text("withdrawal, harsh: cash x0.01 at t_on\n(mild: same pattern, Fig. S6)", 8, :black, :right))
-    _panel_letter!(pD, "D")
-
-    fig7 = plot(pA, pB, pC, pD; layout = (2, 2), size = (1150, 950),
-                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm, top_margin = 8Plots.mm)
+    fig7 = plot(anchor, pB, pC; layout = @layout([a{0.46h}; b c]), size = (1160, 980))
     _save_figure(fig7, "Fig7-Intervention.pdf")
 end
 
