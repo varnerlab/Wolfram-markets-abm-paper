@@ -214,9 +214,14 @@ let
         return plt
     end
 
+    # header = 13 / rowgap = 3 (defaults are 22/4): at the 2x2 scale a
+    # 22-unit band renders ~170px deep and reads as the row gap the author
+    # flagged; 13 units keeps the 12pt labels clear of the tiles while the
+    # grid stays visually tight. Fewer canvas rows also means the
+    # height-bound tiles render larger for the same panel share.
     stripA_body = _fig5_2x2_panel(frames5,
         ["t = $(s)" for s in steps5[1:2]], ["t = $(s)" for s in steps5[3:4]];
-        mark = (1, birth5), outlines = outlines5)
+        mark = (1, birth5), outlines = outlines5, header = 13, rowgap = 3)
     _letterA = _strip_letter_row("A")
     # Letter fraction 0.08h (not 0.12h): matches the Fig6/Fig7 strip-anchor
     # convention and gives the body a little more of panel A's row.
@@ -235,7 +240,7 @@ let
     pB = plot(; xlims = (1, gridn), ylims = (1, gridn), yflip = true,
               aspect_ratio = :equal, xlabel = "col", ylabel = "row",
               legend = :bottomright, background_color_legend = nothing,
-              foreground_color_legend = nothing, _panel_kw..., left_margin = 33.3Plots.mm)
+              foreground_color_legend = nothing, _panel_kw..., left_margin = 14.8Plots.mm)
     plot!(pB, [1, gridn, gridn, 1, 1], [1, 1, gridn, gridn, 1],
           color = :black, lw = 0.8, label = "")
     for cname in configs
@@ -263,7 +268,7 @@ let
     pooled_pmf = [count(==(d), inc.birth_dist) / n_nucleated for d in dists]
     ytop       = 1.3 * maximum(vcat(pooled_pmf, null_pmf))
     pC = plot(; xlabel = "Distance from frame (cells)", ylabel = "probability",
-              ylims = (0, ytop), legend = :topright, _panel_kw..., right_margin = 51Plots.mm)
+              ylims = (0, ytop), legend = :topright, _panel_kw..., right_margin = 40.7Plots.mm)
     vspan!(pC, [0.5, 2.5], color = _HOLD_COLOR, alpha = 0.25, label = "boundary shell (d ≤ 2)")
     bar!(pC, dists, pooled_pmf, color = _SERIES_COLORS[2], fillalpha = 0.7, lw = 0.3,
          bar_width = 0.85, label = "births (n=$(n_nucleated))")
