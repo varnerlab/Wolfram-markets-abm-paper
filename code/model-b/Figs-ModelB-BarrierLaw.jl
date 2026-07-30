@@ -80,15 +80,18 @@ let
     # ── A: freeze-vs-collapse market strip pair, onset-aligned ──────────────
     # `ModelB-StripFrames.jld2` (Task 3) carries four 64x64 frames per arm at
     # onset-aligned offsets [t_on, +100, +250, +400] — the two arms have
-    # different absolute t_on (freeze/cash 500 nucleates later than
-    # collapse/cash 5000), which is the point of aligning by offset rather
-    # than by absolute step: a reader compares how far each arm's nucleus has
-    # grown N steps after ITS OWN onset, not two unrelated clocks. `outlines`
-    # traces the largest sell cluster in every frame; `rowlabel` spells out
-    # the cash level driving each arm, since "freeze"/"collapse" are internal
-    # config names that never appear on the page. Panel letter via the
-    # Fig2/Fig5 blank-row technique: `_panel_letter!` cannot be used directly
-    # on a yflip strip (see the Fig5-Nucleus.pdf block for the full rationale).
+    # different absolute t_on: population medians run 412 (freeze/cash 500)
+    # vs. 374 (collapse/cash 5000), freeze later on average, though the
+    # seed-17 strips actually drawn below run the other way (freeze
+    # t_on = 350, before collapse's t_on = 374). Aligning by offset rather
+    # than by absolute step sidesteps both: a reader compares how far each
+    # arm's nucleus has grown N steps after ITS OWN onset, not two unrelated
+    # clocks. `outlines` traces the largest sell cluster in every frame;
+    # `rowlabel` spells out the cash level driving each arm, since
+    # "freeze"/"collapse" are internal config names that never appear on the
+    # page. Panel letter via `_strip_letter_row` (StripPanels.jl):
+    # `_panel_letter!` cannot be used directly on a yflip strip (see that
+    # helper's docstring for the full rationale).
     tile_labels = ["t_on", "+100", "+250", "+400"]
     strip_freeze = _strip_panel(strip_dat["fig6/freeze/frames"], tile_labels;
                                  outlines = strip_dat["fig6/freeze/outlines"],
@@ -97,9 +100,7 @@ let
                                    outlines = strip_dat["fig6/collapse/outlines"],
                                    rowlabel = "cash 5,000")
     strip_pair = plot(strip_freeze, strip_collapse; layout = @layout([a; b]))
-    _letterA = plot(; framestyle = :none, grid = false, legend = false,
-                     ticks = false, xlims = (0, 1), ylims = (0, 1))
-    _panel_letter!(_letterA, "A")
+    _letterA = _strip_letter_row("A")
     anchor = plot(_letterA, strip_pair; layout = @layout([a{0.08h}; b]))
 
     # ── B: Kaplan-Meier median onset time vs f, three cash levels, fitted curves ──

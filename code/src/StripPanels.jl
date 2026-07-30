@@ -1,5 +1,5 @@
 # StripPanels.jl -- seamless "market strip" montage: one heatmap, NaN gutters.
-# Requires PaperStyle.jl (for _grid_cgrad) to be included first.
+# Requires PaperStyle.jl (for _grid_cgrad and _panel_letter!) to be included first.
 #
 # `header` rows of NaN sit ABOVE the tile rows (canvas row 1 is the top of the
 # image under yflip = true), so the "t = ..." tile captions can be placed
@@ -48,6 +48,27 @@ function _mask_outline_xy(mask::AbstractMatrix{Bool}, x0::Real)
         end
     end
     return xs, ys
+end
+
+# Blank "letter row" panel: an empty, unflipped plot (no frame/grid/legend/
+# ticks, unit-square axes) that exists purely to carry a panel letter placed
+# by `_panel_letter!` (PaperStyle.jl) above content that cannot host one
+# directly. `_panel_letter!`'s yflip branch assumes the axis's own data range
+# is the plotted range with no extra padding; a strip montage's `ylims`
+# instead carry the header-band pad reserved for tile captions
+# (`_strip_panel` above), so that offset would either overlap the captions or
+# be clipped by `margin = 0mm`. Following the Fig2-Combined.jl montage
+# precedent: a slim, unflipped blank panel sits above the strip body and
+# carries the letter via the ordinary (unflipped) `_panel_letter!` path, and
+# the two are composed into one plot object via `@layout([a{h}; b])`. `letter`
+# is forwarded to `_panel_letter!` (which requires a `String`); `kwargs...`
+# let an unusual call site override the panel's geometry, though every
+# current call site uses the defaults as-is.
+function _strip_letter_row(letter::AbstractString; kwargs...)
+    row = plot(; framestyle = :none, grid = false, legend = false,
+               ticks = false, xlims = (0, 1), ylims = (0, 1), kwargs...)
+    _panel_letter!(row, String(letter))
+    return row
 end
 
 function _strip_panel(frames::Vector{<:AbstractMatrix}, labels::Vector{String};

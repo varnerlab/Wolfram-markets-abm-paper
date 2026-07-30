@@ -225,7 +225,7 @@ println("  f = 0.16:  median largest-ever $(max_ever_median[fC .== 0.16][1]), IQ
 # figures (30-60 / ~400 / >1,800).
 @assert all(40 .<= max_ever_median[fC .<= 0.13] .<= 100) "Panel C: subcritical median cluster sizes do not reproduce"
 @assert isapprox(max_ever_median[fC .== 0.145][1], 98; atol = 30) "Panel C: f=0.145 median cluster size does not reproduce"
-@assert max_ever_median[fC .== 0.16][1] > 150 "Panel C: f=0.16 median cluster size does not reproduce"
+@assert isapprox(max_ever_median[fC .== 0.16][1], 252.5; atol = 60) "Panel C: f=0.16 median cluster size does not reproduce"
 @assert all(max_ever_q25 .<= max_ever_median .<= max_ever_q75) "Panel C: median must lie within its own IQR band"
 @assert all(mean_max_q25 .<= mean_max_median .<= mean_max_q75) "Panel C: mean-largest median must lie within its own IQR band"
 

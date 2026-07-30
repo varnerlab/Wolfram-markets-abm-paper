@@ -98,28 +98,20 @@ let
     # (the birth-lineage cluster mask per tile) traces that single growing
     # domain across all four tiles.
     #
-    # Panel letter: `_panel_letter!` cannot be used directly on the strip.
-    # Its yflip branch (see PaperStyle.jl docstring) assumes the axis's data
-    # range is the plotted range with no extra padding, so its extrapolated
-    # offset lands a fixed 6% beyond `ylims`. The strip panel's `ylims` carry
-    # a large, asymmetric bottom pad (`-0.14*H` to `H+0.5`) reserved for the
-    # tile captions themselves (see StripPanels.jl `_strip_panel`), so that
-    # offset either overlaps the captions or is clipped by `margin = 0mm`
-    # (confirmed by trying it first). Following the Fig2-Combined.jl montage
-    # precedent (:59-89) instead: a slim, unflipped blank panel sits above
-    # the strip and carries the letter via the ordinary (unflipped)
-    # `_panel_letter!` path, and the two are composed into one plot object
-    # that fills the outer layout's "a" slot — exactly how Fig2-Combined
-    # assembles its own lettered montage panel.
+    # Panel letter: `_panel_letter!` cannot be used directly on the strip
+    # (its yflip branch would land the letter in the tile-caption header
+    # band instead of above the panel); `_strip_letter_row` (StripPanels.jl)
+    # builds the blank lettered row and the two are composed into one plot
+    # object that fills the outer layout's "a" slot — see its docstring for
+    # the full rationale, recovered from the Fig2-Combined.jl montage
+    # precedent (:59-89).
     frames5   = strip_dat["fig5/frames"]
     steps5    = strip_dat["fig5/steps"]
     birth5    = strip_dat["fig5/birth"]
     outlines5 = strip_dat["fig5/outlines"]
     stripA_body = _strip_panel(frames5, ["t = $(s)" for s in steps5];
                                 marks = Dict(1 => birth5), outlines = outlines5)
-    _letterA = plot(; framestyle = :none, grid = false, legend = false,
-                     ticks = false, xlims = (0, 1), ylims = (0, 1))
-    _panel_letter!(_letterA, "A")
+    _letterA = _strip_letter_row("A")
     stripA = plot(_letterA, stripA_body; layout = @layout([a{0.12h}; b]))
 
     # ── B: birth-site map (interior-only clusters; freeze + collapse) ──────
@@ -284,8 +276,8 @@ let
         # Every one of the 20 seeds, in every arm, comes back exactly zero (the
         # bars themselves are true but invisible at zero height); this panel
         # states the raw count so an empty-looking panel does not read as a
-        # rendering defect. The statistical treatment (95% Wilson upper bound
-        # on 0/20) is reported in Results prose, citing this figure.
+        # rendering defect. Results prose reports this same raw 0/20 count,
+        # citing Figure S5; no Wilson bound appears anywhere in the paper.
         annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm", 9, :black, :center))
         annotate!(p, (0.98, 1.06), text(cname, 8, :black, :right))
         push!(fig2_panels, p)

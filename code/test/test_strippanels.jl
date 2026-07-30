@@ -27,4 +27,17 @@ plt_outlined = _strip_panel(frames, ["t = 1", "t = 2", "t = 3"];
                              outlines = [mask, nothing, nothing])
 @test plt_outlined isa Plots.Plot
 
+# _strip_letter_row: a blank panel that carries only the panel-letter
+# annotation `_panel_letter!` (PaperStyle.jl) draws. Shared by the four
+# strip-anchor/corner-letter blocks (Figs-ModelB-BoundaryVsBulk.jl,
+# Figs-ModelB-BarrierLaw.jl, Figs-ModelB-BudgetToggle.jl,
+# Figs-ModelA-FiniteSize.jl) instead of each rebuilding the same blank
+# `plot(...)` + `_panel_letter!` call inline.
+row = _strip_letter_row("A")
+@test row isa Plots.Plot
+row_ann = only(row.subplots[1][:annotations])
+@test row_ann[2].str == "A"
+row_b = _strip_letter_row("B")
+@test only(row_b.subplots[1][:annotations])[2].str == "B"
+
 println("StripPanels OK")

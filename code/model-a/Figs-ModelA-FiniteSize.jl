@@ -109,8 +109,7 @@ let
     size_order = [64, 128, 512]
     size_frames = [strips["L$(L)"] for L in size_order]
 
-    corner = _blank_panel()
-    _panel_letter!(corner, "A")
+    corner = _strip_letter_row("A")
 
     panelsA = Plots.Plot[corner]
     for L in size_order
@@ -127,15 +126,29 @@ let
     # ── B: conversion probability vs f, thinned to the strip's three sizes ──
     # The stage that moves with system size is sweeping, not nucleating.
     # Direct end-labels (in each curve's own color) replace the legend box
-    # that panel A used to carry when it plotted all five sizes; with only
-    # three curves left, and all three saturating to a conversion fraction of
-    # 1 by f ≈ 0.155-0.16 (so their right ends coincide), the labels are
-    # staggered vertically in a fixed L-ascending order rather than placed
-    # exactly on the (overlapping) data points.
+    # that panel A used to carry when it plotted all five sizes. All three
+    # curves saturate to a conversion fraction of 1 by f ≈ 0.155-0.16, so
+    # their RIGHT ends coincide and a fixed vertical stagger there relies on
+    # color alone to tell them apart, and collides with every other curve's
+    # own error-bar ink in that same crowded corner.
+    #
+    # The transition itself is too narrow (f = 0.13-0.155, versus the panel's
+    # full f = 0.118-0.25 span) to hold three legible labels in place: each
+    # curve's own exclusive rising window is only 0.005-0.01 wide, an 8pt
+    # "L = nnn" label is roughly 0.02 wide, so any label sitting inside the
+    # transition necessarily oversteps into a NEIGHBOUR's window and gets cut
+    # by that curve's own line (confirmed by rendering the in-place attempt
+    # first). Labels instead sit in the wide open f > 0.16 region, where
+    # nothing is plotted below the saturated curves' own error bars
+    # (y <~ 0.84), with a thin leader (`lw = 1`, same color as its curve) back
+    # to the f at which that curve FIRST reaches a conversion fraction of 1
+    # (0.14 for L=512, 0.15 for L=128, 0.155 for L=64) — an unambiguous,
+    # curve-specific anchor rather than the shared saturated plateau.
     pB = plot(; xlabel = "Minority fraction f", ylabel = "Fraction of seeds converting",
               legend = false, xlims = (minimum(FS) - 0.012, maximum(FS) + 0.05),
               ylims = (-0.05, 1.12), _panel_kw...)
-    end_dodge = Dict(64 => 0.0, 128 => -0.10, 512 => -0.20)
+    label_anchor_f = Dict(512 => 0.14, 128 => 0.15, 64 => 0.155)
+    label_xy       = Dict(512 => (0.19, 0.66), 128 => (0.19, 0.40), 64 => (0.19, 0.14))
     for L in size_order
         ps, los, his = Float64[], Float64[], Float64[]
         for f in FS
@@ -146,14 +159,18 @@ let
         end
         plot!(pB, FS, ps, yerror = (los, his), color = Lcolor[L], lw = 1.6,
               marker = :circle, ms = 3, msc = Lcolor[L], label = "")
-        annotate!(pB, maximum(FS) + 0.008, ps[end] + end_dodge[L],
-                  text("L = $L", 8, Lcolor[L], :left))
+        lx, ly = label_xy[L]
+        plot!(pB, [label_anchor_f[L], lx - 0.006], [1.0, ly], color = Lcolor[L],
+              lw = 1.0, alpha = 0.7, label = "")
+        annotate!(pB, lx, ly, text("L = $L", 8, Lcolor[L], :left))
     end
     # Large sell clusters appear at every f and every size, including where
     # nothing converts, so what moves with L is sweeping rather than clustering.
     # This is a descriptive 100-cell threshold, NOT a certified critical
-    # nucleus: the mixed state throws up 30-60 cell fluctuations on its own and
-    # the largest chance cluster grows with the number of sites.
+    # nucleus: the mixed state throws up sell-cluster fluctuations on its own
+    # with a 20-seed median largest-ever of 57.5-90.0 cells at subcritical f
+    # (f <= 0.13; see the asserts in Figs-ModelA-Theory.jl) and the largest
+    # chance cluster grows with the number of sites.
     nuc_all = [mean(survey[survey.f .== f, :nuc_observed]) for f in FS]
     plot!(pB, FS, nuc_all, color = :black, ls = :dot, lw = 1.5, label = "")
     _panel_letter!(pB, "B")

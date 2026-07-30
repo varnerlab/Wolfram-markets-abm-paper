@@ -46,7 +46,7 @@ include(joinpath(@__DIR__, "FiniteSize-Lib.jl"))
 # ─── Campaign parameters ──────────────────────────────────────────────────
 const N_SEEDS = 20
 const T_MAX   = 100_000
-const BURN_IN = 200
+const BURN_IN = FINITE_SIZE_BURN_IN
 
 # Survey pass: wide grid. A 100-cell criterion sits well above the 30-60 cell
 # sell fluctuations of the subcritical mixed state.

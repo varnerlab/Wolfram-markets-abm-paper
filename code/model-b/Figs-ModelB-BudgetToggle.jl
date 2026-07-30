@@ -124,7 +124,7 @@ harsh_p = _signflip_p(collect(Float64.(harsh.dv)))
 seed has data at that offset (equivalent to the compute script's original
 `_aligned_mean`, but reading from the persisted long-format trajectory
 table instead of in-memory per-seed series). Shared by the edge-trace figure
-and Fig7's panels C/D."""
+and Fig7's panel B (the edge-ring trace panel is now Fig 7 panel B only)."""
 function _aligned_mean_from_traj(sub::DataFrame, valcol::Symbol, xs::AbstractRange)
     g = combine(groupby(sub[:, [:step_since_onset, valcol]], :step_since_onset),
                 valcol => mean => :m)
@@ -262,8 +262,8 @@ let
     # faith; the arms only begin to diverge from tile 2 (`+100`) onward, and
     # by `+250` the injected row is visibly ahead. `outlines` traces the
     # largest sell cluster in every frame, same convention as Fig6's strip.
-    # Panel letter via the Fig2/Fig5/Fig6 blank-row technique: `_panel_letter!`
-    # cannot be used directly on a yflip strip (see the Fig5-Nucleus.pdf block
+    # Panel letter via `_strip_letter_row` (StripPanels.jl): `_panel_letter!`
+    # cannot be used directly on a yflip strip (see that helper's docstring
     # for the full rationale).
     tile_labels = ["t_on-1", "+100", "+250", "+400"]
     strip_control = _strip_panel(strip_dat["fig7/control/frames"], tile_labels;
@@ -273,9 +273,7 @@ let
                                     outlines = strip_dat["fig7/injection/outlines"],
                                     rowlabel = "cash ×10")
     strip_pair = plot(strip_control, strip_injection; layout = @layout([a; b]))
-    _letterA = plot(; framestyle = :none, grid = false, legend = false,
-                     ticks = false, xlims = (0, 1), ylims = (0, 1))
-    _panel_letter!(_letterA, "A")
+    _letterA = _strip_letter_row("A")
     anchor = plot(_letterA, strip_pair; layout = @layout([a{0.08h}; b]))
 
     # ── B: edge-ring mechanism, injection — the sign-reversal panel (former

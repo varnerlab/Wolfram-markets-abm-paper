@@ -9,6 +9,9 @@
 
 using Statistics, Random
 
+# Campaign-wide burn-in; keep in sync with the committed CSV/JLD2 caches.
+const FINITE_SIZE_BURN_IN = 200
+
 # ─── Rule decoding (dense tables indexed by neighborhood sum c ∈ 0:8) ──────
 function decode_rule(index::Int, ncolors::Int, radius::Int)
     D = zeros(Int, (ncolors - 1) * radius + 1)
@@ -198,7 +201,7 @@ end
 # times instead of stage-crossing statistics. Called by
 # Compute-FiniteSizeStrips.jl and by code/test/test_finitesize_frames.jl.
 function run_cell_frames(L::Int, f::Float64, seed::Int, t_max::Int,
-                         capture_at::Vector{Int64}; burn_in::Int = 200)
+                         capture_at::Vector{Int64}; burn_in::Int = FINITE_SIZE_BURN_IN)
     grid   = rand(Random.MersenneTwister(1000 + seed), 0:2, L, L)
     nxt    = copy(grid)
     is_min = falses(L, L)
