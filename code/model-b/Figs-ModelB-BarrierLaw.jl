@@ -169,7 +169,30 @@ let
                    8, :black, :right))
     _panel_letter!(panelC, "C")
 
-    fig = plot(anchor, panelB, panelC; layout = @layout([a{0.46h}; b c]), size = (1160, 980))
+    # Panel A's row share and the overall canvas both grew (0.46h/980pt ->
+    # 0.60h/1260pt, following the Fig5-Nucleus.pdf precedent, commit
+    # 84d4c44) so the two stacked strip rows render at house scale (each row
+    # width-bound at full 1160pt canvas width, ~310px/tile at 110 dpi,
+    # comfortably above the 250px floor) instead of the small, centered
+    # strip pair the old 980pt-tall canvas gave them -- the region each
+    # strip subplot was allotted was far wider than tall relative to the
+    # canvas's own aspect (four tiles + header vs. two full-width tiles'
+    # worth of height), so aspect_ratio = :equal height-limited the strip
+    # and centered it with wide dead margins on both sides. 1260pt (not the
+    # 1400pt tried first) is the shortest height that keeps the tiles this
+    # large AND clears LaTeX's "Float too large for page" warning once the
+    # figure is placed at \linewidth in the paper.
+    #
+    # b/c column split is NOT 0.5/0.5: panel B's legend sits INSIDE the axes
+    # (:topright, costs no width), panel C's sits OUTSIDE (:outertopright,
+    # costs real width from C's own cell) -- an equal split under that
+    # asymmetry draws B's plot box measurably wider than C's (~64% of B's
+    # width under an even split, measured at 110 dpi). Shifting width from
+    # b to c so each cell's OWN overhead (margins + axis labels + legend) is
+    # subtracted before the split, rather than after, equalizes the two
+    # drawn axis boxes (586px vs 569px at this canvas size, within 3%)
+    # without touching either legend's position or content.
+    fig = plot(anchor, panelB, panelC; layout = @layout([a{0.60h}; b{0.410w} c{0.590w}]), size = (1160, 1260))
     _save_figure(fig, "Fig6-GrowthGating.pdf")
     @info "Saved: Fig6-GrowthGating.pdf"
 

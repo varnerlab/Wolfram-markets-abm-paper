@@ -369,7 +369,31 @@ let
     end
     _panel_letter!(pC, "C")
 
-    fig7 = plot(anchor, pB, pC; layout = @layout([a{0.46h}; b c]), size = (1160, 980))
+    # Panel A's row share and the overall canvas both grew (0.46h/980pt ->
+    # 0.60h/1260pt, mirroring the fix just applied to Fig6-GrowthGating.pdf
+    # and, before that, Fig5-Nucleus.pdf, commit 84d4c44) so the two stacked
+    # strip rows render at house scale (each row width-bound at full 1160pt
+    # canvas width, ~310px/tile at 110 dpi) instead of the small, centered
+    # pair the old 980pt-tall canvas gave them. 1260pt is the shortest
+    # height that keeps the tiles this large AND clears LaTeX's "Float too
+    # large for page" warning once the figure is placed at \linewidth.
+    #
+    # b/c column split is NOT 0.5/0.5: both legends sit :outertopright, but
+    # panel C's three arm labels carry longer stat strings ("withdrawal
+    # harsh (n=19, p=0.29)") than panel B's four state-trace labels, so an
+    # equal split under that asymmetry draws C's plot box measurably
+    # narrower than B's (~59% of B's width under an even split, measured at
+    # 110 dpi). An inside legend was tried first (Fig5's B precedent) and
+    # rejected: pC's data is three ~0.5-data-unit-wide categorical columns
+    # with no corner or gap wide enough to hold this legend's ~1.4-data-unit
+    # footprint without a paired line or point running through the text
+    # (verified by rendering pC alone with an opaque legend box and checking
+    # its pixel footprint against each arm's actual x-extent). Shifting
+    # width from b to c so each cell's OWN overhead (margins + axis labels +
+    # legend) is subtracted before the split, rather than after, equalizes
+    # the two drawn axis boxes (395px vs 403px at this canvas size, within
+    # 3%) without moving either legend or touching any data.
+    fig7 = plot(anchor, pB, pC; layout = @layout([a{0.60h}; b{0.414w} c{0.586w}]), size = (1160, 1260))
     _save_figure(fig7, "Fig7-Intervention.pdf")
 end
 
