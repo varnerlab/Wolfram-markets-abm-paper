@@ -94,7 +94,7 @@ fc = 0.145
 # `_strip_letter_row` + `@layout([a{0.08h}; b])` anchor idiom as Figs 5-7.
 # ---------------------------------------------------------------------------
 function _fig2_montage_canvas(row_frames, snap_steps::Vector{Int};
-                               gap::Int64 = 4, header::Int64 = 14, leftband::Int64 = 14)
+                               gap::Int64 = 4, header::Int64 = 30, leftband::Int64 = 30)
     n = length(snap_steps); nrows = length(row_frames)
     H, W = size(row_frames[1][snap_steps[1]])
     total_rows = header + nrows*H + (nrows - 1)*gap
@@ -112,7 +112,7 @@ end
 
 function _fig2_montage_panel(row_frames, row_labels::Vector{String},
                               snap_steps::Vector{Int}, col_labels::Vector{String};
-                              gap::Int64 = 4, header::Int64 = 14, leftband::Int64 = 14)
+                              gap::Int64 = 4, header::Int64 = 30, leftband::Int64 = 30)
     canvas, H, W = _fig2_montage_canvas(row_frames, snap_steps;
                                          gap = gap, header = header, leftband = leftband)
     total_rows, total_cols = size(canvas)
@@ -121,13 +121,17 @@ function _fig2_montage_panel(row_frames, row_labels::Vector{String},
                   framestyle = :none, background_color_inside = :white,
                   xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
                   margin = 0Plots.mm)
+    # Label anchors sit at the midpoint of their NaN band (not `0.45`, which
+    # hugged the tile edge in round 2) so the enlarged 12pt labels are
+    # centered between the letter/canvas edge and the first tile row/column,
+    # giving clear standoff on both sides.
     for (ci, lab) in enumerate(col_labels)
         cx = leftband + (ci - 1)*(W + gap) + W/2
-        annotate!(plt, cx, header*0.45, text(lab, :black, :center, 8, "helvetica"))
+        annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
     end
     for (ri, lab) in enumerate(row_labels)
         ry = header + (ri - 1)*(H + gap) + H/2
-        annotate!(plt, leftband*0.45, ry, text(lab, :black, :center, 8, "helvetica"; rotation = 90))
+        annotate!(plt, leftband*0.5, ry, text(lab, :black, :center, 12, "helvetica"; rotation = 90))
     end
     return plt
 end
@@ -165,6 +169,6 @@ _panel_letter!(pC, "C")
 # ---------------------------------------------------------------------------
 fig = plot(pA, pB, pC;
     layout = @layout([a{0.676h}; b c]),
-    size = (1160, 1400))
+    size = (1160, 1440))
 
 _save_figure(fig, "Fig2-Crossover.pdf")
