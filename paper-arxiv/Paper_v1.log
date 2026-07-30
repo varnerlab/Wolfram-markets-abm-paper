@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  30 JUL 2026 11:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  30 JUL 2026 11:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1100,11 +1100,11 @@ Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 202.
 
 
 [21 <./figs/Fig-ModelA-Theory.pdf>]
-<figs/Fig5-Nucleus.pdf, id=435, 1164.35pt x 903.375pt>
+<figs/Fig5-Nucleus.pdf, id=435, 1164.35pt x 1124.2pt>
 File: figs/Fig5-Nucleus.pdf Graphic file (type pdf)
 <use figs/Fig5-Nucleus.pdf>
 Package pdftex.def Info: figs/Fig5-Nucleus.pdf  used on input line 233.
-(pdftex.def)             Requested size: 377.60951pt x 292.9731pt.
+(pdftex.def)             Requested size: 377.60951pt x 364.58875pt.
 
 
 [22 <./figs/Fig5-Nucleus.pdf>]
@@ -1261,7 +1261,7 @@ t/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts
 urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on Paper_v1.pdf (39 pages, 2863593 bytes).
+Output written on Paper_v1.pdf (39 pages, 2865102 bytes).
 PDF statistics:
  786 PDF objects out of 1000 (max. 8388607)
  650 compressed objects within 7 object streams
