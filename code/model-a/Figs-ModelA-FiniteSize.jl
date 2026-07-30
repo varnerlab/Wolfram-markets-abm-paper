@@ -80,48 +80,80 @@ let
     size_colors = ["#9e9ac8", "#807dba", "#6a51a3", "#54278f", "#3f007d"]
     Lcolor = Dict(L => size_colors[min(i, length(size_colors))] for (i, L) in enumerate(LS))
 
-    # ── A: size-contrast market strip ───────────────────────────────────────
-    # One tile per L, each its own heatmap (the strip tiles are NOT equal
-    # shape — 64x64 vs 128x128 vs 512x512 — so _strip_canvas/_strip_panel,
-    # which assume equal-shaped frames sharing one canvas, do not apply here).
-    # Equal on-page tile size comes from the shared grid() cell, not from
-    # equal pixel counts: aspect_ratio = :equal locks each tile's own 1:1
-    # data scale, and identical zero margins keep every tile's cell the same
-    # physical size, so the granularity difference (64x64 blocky vs 512x512
-    # fine) is the only thing that visibly differs between tiles.
+    # ── A: size-contrast market strip, composed as ONE heatmap ──────────────
+    # Round 1 of this panel (see git history) drew each tile as its own
+    # heatmap subplot in a grid(2,4) with blank label cells, at equal DISPLAY
+    # size — every tile's own aspect_ratio = :equal and zero margin kept the
+    # 1:1 data scale and physical cell size the same, so the granularity
+    # difference was the only thing that visibly differed between tiles.
+    # That reasoning was sound but the layout paid Fig2-Combined.jl's
+    # identical disease: GR/Plots.jl reserves a per-subplot margin floor of
+    # order 70-90px at 110dpi around every individual subplot regardless of
+    # its own margin or cell-size settings, a floor paid three times over
+    # (plus once more per blank label cell), which left each tile only
+    # ~200x200px and forced 9pt labels.
     #
-    # Labels use the Fig2-Combined.jl blank-row/label-panel technique (a
-    # dedicated blank subplot per column, not `annotate!` on the yflip heatmap
-    # tile itself — see PaperStyle.jl's `_panel_letter!` docstring for why a
-    # relative-position annotation on a yflip tile lands on the wrong side).
-    _blank_panel() = plot(; framestyle = :none, grid = false, legend = false,
-                          ticks = false, xlims = (0, 1), ylims = (0, 1))
-    function _col_label(label::String)
-        p = _blank_panel()
-        annotate!(p, (0.5, 0.5), text(label, :black, :center, 9))
-        return p
+    # Fig2-Combined.jl solved this for its (equal-shaped) snapshot tiles by
+    # composing all of them into ONE Float64 matrix with NaN gutters and a
+    # NaN header band, then drawing the whole montage with a SINGLE heatmap
+    # call — the GR per-subplot floor above is then paid once for the whole
+    # montage, not once per tile. This panel's tiles are NOT equal shape
+    # (64x64 vs 128x128 vs 512x512), so that idiom cannot apply directly.
+    # The fix is to first upsample every frame to a common 512x512
+    # resolution by exact integer pixel replication (`kron(frame, ones(k,
+    # k))`, k = 512 / L, state values 0/1/2 preserved exactly, no
+    # interpolation) — which is visually IDENTICAL to rendering the original
+    # L x L grid at 512x512 display size, i.e. the same "equal display size"
+    # semantics round 1 used — and only then compose the three 512x512
+    # frames with the Fig2 montage idiom.
+    function _upsample_replicate(frame::AbstractMatrix{<:Integer}, target::Int64)
+        L = size(frame, 1)
+        @assert size(frame, 2) == L "expected a square frame"
+        @assert target % L == 0 "target resolution must be an integer multiple of L"
+        k = target ÷ L
+        return kron(frame, ones(Int, k, k))
     end
-    _size_tile(frame) = heatmap(frame;
-        c = _grid_cgrad(), clims = (0, 2), yflip = true, aspect_ratio = :equal,
-        axis = false, colorbar = false, framestyle = :none, margin = 0Plots.mm)
 
-    tstar      = strips["tstar"]
-    size_order = [64, 128, 512]
-    size_frames = [strips["L$(L)"] for L in size_order]
-
-    corner = _strip_letter_row("A")
-
-    panelsA = Plots.Plot[corner]
-    for L in size_order
-        push!(panelsA, _col_label("L = $L"))
+    function _finite_size_montage_canvas(frames_512::Vector{<:AbstractMatrix};
+                                          gap::Int64 = 8, header::Int64 = 40)
+        n = length(frames_512); H, W = size(frames_512[1])
+        total_rows = header + H
+        total_cols = n*W + (n - 1)*gap
+        canvas = fill(NaN, total_rows, total_cols)
+        for (i, F) in enumerate(frames_512)
+            c0 = (i - 1)*(W + gap)
+            canvas[(header+1):(header+H), (c0+1):(c0+W)] .= Float64.(F)
+        end
+        return canvas, H, W
     end
-    push!(panelsA, _blank_panel())
-    for frame in size_frames
-        push!(panelsA, _size_tile(frame))
+
+    function _finite_size_montage_panel(frames_512, labels::Vector{String};
+                                         gap::Int64 = 8, header::Int64 = 40)
+        canvas, H, W = _finite_size_montage_canvas(frames_512; gap = gap, header = header)
+        total_rows, total_cols = size(canvas)
+        plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
+                      aspect_ratio = :equal, axis = false, colorbar = false,
+                      framestyle = :none, background_color_inside = :white,
+                      xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
+                      margin = 0Plots.mm)
+        # Label anchors sit at the midpoint of the header band (matching
+        # Fig2-Combined.jl's round-3 values: 12pt, centered, standoff on both
+        # sides of the label rather than hugging the tile edge).
+        for (i, lab) in enumerate(labels)
+            cx = (i - 1)*(W + gap) + W/2
+            annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
+        end
+        return plt
     end
-    tile_w = (1.0 - 0.06) / 3
-    pA = plot(panelsA...;
-        layout = grid(2, 4; widths = [0.06, tile_w, tile_w, tile_w], heights = [0.14, 0.86]))
+
+    tstar       = strips["tstar"]
+    size_order  = [64, 128, 512]
+    size_frames = [_upsample_replicate(strips["L$(L)"], 512) for L in size_order]
+    size_labels = ["L = $L" for L in size_order]
+
+    strip_body = _finite_size_montage_panel(size_frames, size_labels)
+    _letterA   = _strip_letter_row("A")
+    pA = plot(_letterA, strip_body; layout = @layout([a{0.08h}; b]))
 
     # ── B: conversion probability vs f, thinned to the strip's three sizes ──
     # The stage that moves with system size is sweeping, not nucleating.
@@ -208,7 +240,7 @@ let
 
     @info "Fig-ModelA-FiniteSize strip panel" tstar = tstar seeds = strips["seeds"]
 
-    fig = plot(pA, pB, pC; layout = @layout([a{0.34h}; b c]), size = (1000, 900))
+    fig = plot(pA, pB, pC; layout = @layout([a{0.44h}; b c]), size = (1160, 1200))
     _save_figure(fig, "Fig-ModelA-FiniteSize.pdf")
 end
 
