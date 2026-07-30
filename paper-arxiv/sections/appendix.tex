@@ -124,7 +124,9 @@ fixed point, the negative result on which the nucleation argument rests.
 
 The Stage~2 factorial sweep crossed six factors in full, giving the design from which
 every Model~B summary statistic in this study is drawn
-(Table~\ref{tab:stage2-design}). Within that design, every run was assigned to one of
+(Table~\ref{tab:stage2-design}). Every run in the design, and every run of the targeted
+campaigns as well, advanced through the same per-step update loop
+(Algorithm~\ref{alg:modelb-step}). Within that design, every run was assigned to one of
 five candidate regimes by a classifier evaluated in strict order, each test applying
 only to runs that failed all earlier ones. A run with zero return standard deviation
 was \emph{inert}; failing that, a run was \emph{crash-prone} when its crash frequency,
@@ -137,6 +139,58 @@ so that it transfers to other run lengths. Of the $10{,}800$ runs, $6{,}589$ ($6
 were oscillatory and $4{,}211$ ($39\%$) crash-prone; no run was ever inert, plateau, or
 drift. The sell-dominated (crash-prone) regime appeared abruptly between $f = 0.15$ and
 $f = 0.20$ at every price impact $\lambda$ in the design.
+
+\begin{algorithm}[!ht]
+\caption{One Model~B time step, $\tau - 1 \to \tau$, in the order the simulation executes
+it. Desired orders fill at the standing quote $P_{\tau-1}$ against the submitting cell's
+own book, the executed imbalance $\varphi_\tau$ generates the new quote $P_\tau$, the
+moving average and volatility band follow that new quote, each active edge cell
+reclassifies against its own band, and the totalistic rule updates the strictly interior
+cells last. Orders the book cannot honor are tallied as suppressed and leave the
+submitting cell's state untouched. The disposition test on sells and the intervention
+hook on the books are guarded steps, switched on and off per campaign.}
+\label{alg:modelb-step}
+\begin{algorithmic}[1]
+\REQUIRE grid states $s_{r,c}$ and edge states $e_{i,\tau-1}$ carried from step $\tau-1$;
+books $(\mathrm{cash}_i, \mathrm{shares}_i, \bar{c}_i)$; standing quote $P_{\tau-1}$;
+moving average $\hat{S}_{\tau-1}$ and volatility $\hat{\sigma}_{\tau-1}$; band
+half-widths $k_i$; parameters $\alpha$, $\lambda$, $k$; disposition toggle
+\ENSURE grid states at $\tau$, quote $P_\tau$, $\hat{S}_\tau$, $\hat{\sigma}_\tau$, edge
+states $e_{i,\tau}$, settled books, and the step's executed and suppressed order counts
+\IF{a cash intervention is scheduled at step $\tau$}
+  \STATE apply it to every book \COMMENT{a function of $\tau$ and the books alone, taking no randomness}
+\ENDIF
+\STATE $n^{\mathrm{ex}}_{\mathrm{buy}}, n^{\mathrm{ex}}_{\mathrm{sell}}, n^{\mathrm{sup}}_{\mathrm{buy}}, n^{\mathrm{sup}}_{\mathrm{sell}} \leftarrow 0$
+\FORALL{trading cells $i$, every strictly interior cell and then every active edge cell}
+  \STATE $o_i \leftarrow +1$ for Buy, $-1$ for Sell, $0$ for Hold
+    \COMMENT{an interior cell reads $s_{r,c}$, an edge cell reads its own $e_{i,\tau-1}$ and never the grid}
+  \IF{$o_i = +1$ \textbf{and} $\mathrm{cash}_i \ge P_{\tau-1}$}
+    \STATE $\bar{c}_i \leftarrow (\bar{c}_i \, \mathrm{shares}_i + P_{\tau-1}) / (\mathrm{shares}_i + 1)$
+    \STATE $\mathrm{shares}_i \leftarrow \mathrm{shares}_i + 1$, \quad $\mathrm{cash}_i \leftarrow \mathrm{cash}_i - P_{\tau-1}$, \quad $n^{\mathrm{ex}}_{\mathrm{buy}} \leftarrow n^{\mathrm{ex}}_{\mathrm{buy}} + 1$
+  \ELSIF{$o_i = -1$ \textbf{and} $\mathrm{shares}_i \ge 1$ \textbf{and} (disposition off \textbf{or} $P_{\tau-1} > \bar{c}_i$)}
+    \STATE $\mathrm{shares}_i \leftarrow \mathrm{shares}_i - 1$, \quad $\mathrm{cash}_i \leftarrow \mathrm{cash}_i + P_{\tau-1}$, \quad $n^{\mathrm{ex}}_{\mathrm{sell}} \leftarrow n^{\mathrm{ex}}_{\mathrm{sell}} + 1$ \COMMENT{$\bar{c}_i$ unchanged}
+  \ELSIF{$o_i \neq 0$}
+    \STATE $n^{\mathrm{sup}}_{\mathrm{buy}} \leftarrow n^{\mathrm{sup}}_{\mathrm{buy}} + 1$ when $o_i = +1$, else $n^{\mathrm{sup}}_{\mathrm{sell}} \leftarrow n^{\mathrm{sup}}_{\mathrm{sell}} + 1$
+      \COMMENT{a Hold submits nothing and is tallied nowhere}
+  \ENDIF
+\ENDFOR
+\STATE $\varphi_\tau \leftarrow \bigl(n^{\mathrm{ex}}_{\mathrm{buy}} - n^{\mathrm{ex}}_{\mathrm{sell}}\bigr) / N_{\text{traders}}$, \quad $N_{\text{traders}} = N_{\text{interior}} + N_{\text{active edge}}$
+\STATE $P_\tau \leftarrow P_{\tau-1} \exp(\lambda \varphi_\tau)$ \COMMENT{log return $\lambda \varphi_\tau$}
+\STATE $\hat{S}_\tau \leftarrow \hat{S}_{\tau-1} + \alpha \bigl(P_\tau - \hat{S}_{\tau-1}\bigr)$
+\STATE $\hat{\sigma}_\tau \leftarrow \hat{\sigma}_{\tau-1} + \alpha \bigl(|P_\tau - \hat{S}_\tau| - \hat{\sigma}_{\tau-1}\bigr)$ \COMMENT{against the already updated $\hat{S}_\tau$}
+\STATE record the nominal band $\hat{S}_\tau \pm k \hat{\sigma}_\tau$
+\FORALL{active edge cells $i$}
+  \STATE $e_{i,\tau} \leftarrow 0$ if $P_\tau < \hat{S}_\tau - k_i \hat{\sigma}_\tau$, \; $2$ if $P_\tau > \hat{S}_\tau + k_i \hat{\sigma}_\tau$, \; else $1$
+  \STATE write $e_{i,\tau}$ into the cell's boundary position on the grid
+\ENDFOR
+\FORALL{strictly interior cells $(r,c)$, simultaneously}
+  \STATE $c_{r,c} \leftarrow$ sum of the four Von~Neumann neighbor states
+    \COMMENT{interior neighbors as of $\tau-1$, boundary neighbors at $e_{i,\tau}$}
+  \STATE $s_{r,c} \leftarrow \mathcal{R}(c_{r,c})$ under the rule assigned to the cell
+    \COMMENT{Rule~19286 on the minority fraction $f$, Rule~19280 elsewhere; boundary cells are never written}
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 \begin{table}[tb]
 \centering

@@ -173,7 +173,8 @@ band-spread parameter; the edge cells then evaluate Eq.~\eqref{eq:edge-state} ag
 newly generated price $P_\tau$, with the online EMA and volatility recursions of
 Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol} observing that same new price. The result is a fully
 self-contained loop: the grid's executed orders generate the price, the price drives the
-edge agents, and the edge agents inject signals back into the grid.
+edge agents, and the edge agents inject signals back into the grid
+(Algorithm~\ref{alg:modelb-step}).
 
 To probe that loop causally we expose a deterministic intervention hook, a function of the
 current step and the full collection of books, $(t, \text{books})$, invoked at the top of
