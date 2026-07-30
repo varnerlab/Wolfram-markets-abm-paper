@@ -169,18 +169,34 @@ let
     # curve's own exclusive rising window is only 0.005-0.01 wide, an 8pt
     # "L = nnn" label is roughly 0.02 wide, so any label sitting inside the
     # transition necessarily oversteps into a NEIGHBOUR's window and gets cut
-    # by that curve's own line (confirmed by rendering the in-place attempt
-    # first). Labels instead sit in the wide open f > 0.16 region, where
-    # nothing is plotted below the saturated curves' own error bars
-    # (y <~ 0.84), with a thin leader (`lw = 1`, same color as its curve) back
-    # to the f at which that curve FIRST reaches a conversion fraction of 1
-    # (0.14 for L=512, 0.15 for L=128, 0.155 for L=64) — an unambiguous,
-    # curve-specific anchor rather than the shared saturated plateau.
+    # by that curve's own line or Wilson bar (confirmed by rendering the
+    # in-place attempt first: e.g. the L=128 bar at f=0.145 reaches a
+    # conversion fraction of 0.97, which pokes through any label sitting at
+    # the L=512 curve's own half-rise height two f-steps to its left).
+    #
+    # A first round anchored labels far away instead, in the open f > 0.16
+    # region, at a fixed x and a big per-label y stagger (0.66/0.40/0.14) —
+    # but that turned the leaders into long diagonals sweeping back across
+    # the busy transition, reading as stray lines cutting through the data.
+    #
+    # This round keeps each label immediately next to its OWN curve (short
+    # leader, unambiguous ownership) by using the one strip that is
+    # guaranteed free of every curve's ink at every f: y > 1, since no
+    # conversion fraction or Wilson bound ever exceeds 1. Each label sits
+    # just above and right of the f at which its OWN curve first reaches a
+    # conversion fraction of 1 (0.14 for L=512, 0.15 for L=128, 0.155 for
+    # L=64 — the same anchors as before), so the leader is a short
+    # near-vertical stub that touches only that one point. The three anchors
+    # are only 0.005-0.015 apart, so the labels still need to be stacked at
+    # increasing heights (not just placed directly above their anchor) to
+    # keep clear of EACH OTHER, exactly as the transition's own tight
+    # spacing forced above — but now that stacking happens in guaranteed-
+    # empty space instead of on top of live data.
     pB = plot(; xlabel = "Minority fraction f", ylabel = "Fraction of seeds converting",
               legend = false, xlims = (minimum(FS) - 0.012, maximum(FS) + 0.05),
-              ylims = (-0.05, 1.12), _panel_kw...)
+              ylims = (-0.05, 1.16), _panel_kw...)
     label_anchor_f = Dict(512 => 0.14, 128 => 0.15, 64 => 0.155)
-    label_xy       = Dict(512 => (0.19, 0.66), 128 => (0.19, 0.40), 64 => (0.19, 0.14))
+    label_dy       = Dict(512 => 0.045, 128 => 0.085, 64 => 0.125)
     for L in size_order
         ps, los, his = Float64[], Float64[], Float64[]
         for f in FS
@@ -191,8 +207,9 @@ let
         end
         plot!(pB, FS, ps, yerror = (los, his), color = Lcolor[L], lw = 1.6,
               marker = :circle, ms = 3, msc = Lcolor[L], label = "")
-        lx, ly = label_xy[L]
-        plot!(pB, [label_anchor_f[L], lx - 0.006], [1.0, ly], color = Lcolor[L],
+        af = label_anchor_f[L]
+        lx, ly = af + 0.007, 1.0 + label_dy[L]
+        plot!(pB, [af, lx - 0.004], [1.0, ly], color = Lcolor[L],
               lw = 1.0, alpha = 0.7, label = "")
         annotate!(pB, lx, ly, text("L = $L", 8, Lcolor[L], :left))
     end
