@@ -20,6 +20,16 @@ end
 # Trajectory helpers (Compute.jl)
 # ---------------------------------------------------------------------------
 
+@testset "session-aware log returns exclude overnight joins" begin
+    prices   = [100.0, 101.0, 200.0, 202.0]
+    sessions = ["day1", "day1", "day2", "day2"]
+    returns  = compute_session_log_returns(prices, sessions)
+    @test returns ≈ [log(101 / 100), log(202 / 200)]
+    @test length(returns) == 2
+    @test compute_session_log_returns([100.0], ["day1"]) == Float64[]
+    @test_throws DimensionMismatch compute_session_log_returns(prices, sessions[1:3])
+end
+
 @testset "interior imbalance excludes the whole boundary" begin
     # boundary all Sell, interior all Hold → φ = 0 exactly
     grid = fill(1, 8, 8)

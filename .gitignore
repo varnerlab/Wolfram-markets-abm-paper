@@ -34,6 +34,7 @@ code/data/*.jld2
 code/data/*.csv
 !code/data/ModelB-Stage2-*.csv
 !code/data/ModelB-Nucleation-*.csv
+!code/data/ModelB-ReturnDiagnostics-Summary.csv
 !code/data/ModelA-FiniteSize*.csv
 !code/data/ModelA-Avrami*.csv
 !code/data/ModelA-OnsetTime*.csv

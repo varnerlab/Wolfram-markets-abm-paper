@@ -244,7 +244,7 @@ fc = 0.145
 pA = plot(fA, energy;
     marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[2],
     label = "energy e",
-    xlabel = "Minority fraction f", ylabel = "Energy e / entropy S1",
+    xlabel = "Minority fraction, f", ylabel = "Energy or entropy (dimensionless)",
     legend = :right, _panel_kw...)
 plot!(pA, fA, S1;
     marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[1],
@@ -258,10 +258,11 @@ _panel_letter!(pA, "A")
 pB = plot(fB, ρJ;
     marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
     label = false,
-    xlabel = "Minority fraction f", ylabel = "Spectral radius of pair map",
+    xlabel = "Minority fraction, f", ylabel = "Pair-map spectral radius",
     ylims = (0.60, 1.08), legend = false, _panel_kw...)
 hline!(pB, [1.0]; linestyle = :dash, color = _HOLD_COLOR, label = false)
-annotate!(pB, 0.25, 1.035, text("instability threshold = 1", 7, :center, _HOLD_COLOR))
+annotate!(pB, 0.25, 1.035,
+          text("instability threshold = 1", _ANNOTATION_FONTSIZE, :center, _HOLD_COLOR))
 _panel_letter!(pB, "B")
 
 # ---------------------------------------------------------------------------
@@ -272,7 +273,8 @@ _panel_letter!(pB, "B")
 pC = plot(fC, max_ever_q25;
     fillrange = max_ever_q75, fillalpha = 0.2, lw = 0,
     color = _SELL_COLOR, label = false,
-    xlabel = "Minority fraction f", ylabel = "Sell-cluster size (cells)",
+    xlabel = "Minority fraction, f", ylabel = "Sell-cluster size (cells)",
+    xticks = [0.05, 0.10, 0.15],
     yscale = :log10, legend = :topleft,
     background_color_legend = nothing, _panel_kw...)
 plot!(pC, fC, max_ever_median;
@@ -291,7 +293,7 @@ _panel_letter!(pC, "C")
 # Compose and save
 # ---------------------------------------------------------------------------
 fig = plot(pA, pB, pC;
-    layout = (1, 3), size = (960, 320),
+    layout = (1, 3), size = (900, 340),
     bottom_margin = 6Plots.mm, left_margin = 5Plots.mm, right_margin = 5Plots.mm,
     plot_title = "")
 

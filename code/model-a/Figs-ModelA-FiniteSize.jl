@@ -141,7 +141,8 @@ let
         # sides of the label rather than hugging the tile edge).
         for (i, lab) in enumerate(labels)
             cx = (i - 1)*(W + gap) + W/2
-            annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
+            annotate!(plt, cx, header*0.5,
+                      text(lab, :black, :center, _STRIP_LABEL_FONTSIZE, "helvetica"))
         end
         return plt
     end
@@ -192,7 +193,7 @@ let
     # keep clear of EACH OTHER, exactly as the transition's own tight
     # spacing forced above — but now that stacking happens in guaranteed-
     # empty space instead of on top of live data.
-    pB = plot(; xlabel = "Minority fraction f", ylabel = "Fraction of seeds converting",
+    pB = plot(; xlabel = "Minority fraction, f", ylabel = "Converting seeds (run fraction)",
               legend = false, xlims = (minimum(FS) - 0.012, maximum(FS) + 0.05),
               ylims = (-0.05, 1.16), _panel_kw...)
     label_anchor_f = Dict(512 => 0.14, 128 => 0.15, 64 => 0.155)
@@ -211,7 +212,7 @@ let
         lx, ly = af + 0.007, 1.0 + label_dy[L]
         plot!(pB, [af, lx - 0.004], [1.0, ly], color = Lcolor[L],
               lw = 1.0, alpha = 0.7, label = "")
-        annotate!(pB, lx, ly, text("L = $L", 8, Lcolor[L], :left))
+        annotate!(pB, lx, ly, text("L = $L", _ANNOTATION_FONTSIZE, Lcolor[L], :left))
     end
     # Large sell clusters appear at every f and every size, including where
     # nothing converts, so what moves with L is sweeping rather than clustering.
@@ -234,7 +235,7 @@ let
     # converged (R² ≈ 0.999 and the seed spread has collapsed); at L = 64 a
     # single sweeping domain is not a KJMA process and the fit is poor.
     n_big = mean(avrami[avrami.L .== maximum(av_ls), :avrami_n])
-    pC = plot(; xlabel = "Rescaled time Kt", ylabel = "Converted fraction",
+    pC = plot(; xlabel = "Rescaled time, Kt", ylabel = "Converted fraction, X(t)",
               legend = :bottomright, xlims = (0, 2.2), ylims = (-0.02, 1.02),
               _panel_kw...)
     fitkey = Dict((r.L, r.f, r.seed) => (r.avrami_K, r.baseline) for r in eachrow(avrami))
@@ -257,7 +258,7 @@ let
 
     @info "Fig-ModelA-FiniteSize strip panel" tstar = tstar seeds = strips["seeds"]
 
-    fig = plot(pA, pB, pC; layout = @layout([a{0.44h}; b c]), size = (1160, 1200))
+    fig = plot(pA, pB, pC; layout = @layout([a{0.44h}; b c]), size = (900, 931))
     _save_figure(fig, "Fig-ModelA-FiniteSize.pdf")
 end
 
@@ -290,7 +291,8 @@ let
 
     # ── A (former B): dispersion collapse ───────────────────────────────────
     # Uncensored cells only, so no horizon-pinned value enters a variance.
-    pA = plot(; xlabel = "Lattice size L", ylabel = "Coefficient of variation",
+    pA = plot(; xlabel = "Lattice width, L (cells)",
+              ylabel = "Conversion-time CV",
               xscale = :log10, yscale = :log10, legend = :bottomleft,
               xticks = (LS, string.(LS)), _panel_kw...)
     for (i, f) in enumerate(f_disp)
@@ -312,7 +314,8 @@ let
     _panel_letter!(pA, "A")
 
     # ── B (former C): conversion-time saturation ────────────────────────────
-    pB = plot(; xlabel = "Lattice size L", ylabel = "Median conversion time (steps)",
+    pB = plot(; xlabel = "Lattice width, L (cells)",
+              ylabel = "Median conversion time (steps)",
               xscale = :log10, yscale = :log10, legend = :topright,
               xticks = (LS, string.(LS)), _panel_kw...)
     for (i, f) in enumerate(f_disp)
@@ -329,6 +332,6 @@ let
     end
     _panel_letter!(pB, "B")
 
-    figS7 = plot(pA, pB; layout = (1, 2), size = (1000, 420))
+    figS7 = plot(pA, pB; layout = (1, 2), size = (900, 378))
     _save_figure(figS7, "FigS7-FiniteSizeDetail.pdf")
 end

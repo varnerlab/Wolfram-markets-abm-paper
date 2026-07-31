@@ -16,6 +16,14 @@ const _EDGE_COLOR = "#009E73"   # \definecolor{edgegreen}
 # Non-state series: cash levels, configurations, doses, arms. Rest of Okabe-Ito.
 const _SERIES_COLORS = ["#E69F00", "#56B4E9", "#CC79A7", "#F0E442", "#000000"]
 
+# Font sizes are set for the source PDF canvases, which are reduced to roughly
+# 0.45 of their native width in the manuscript.  These values therefore render
+# at conventional journal sizes (about 7--8 pt guides and 6 pt ticks) after
+# inclusion, rather than the 4--5 pt text produced by the earlier 9/10 pt
+# source settings.
+const _ANNOTATION_FONTSIZE = 9
+const _STRIP_LABEL_FONTSIZE = 14
+
 const _panel_kw = (
     background_color_inside = RGB(0.94, 0.94, 0.94),
     background_color_outside = :white,
@@ -24,10 +32,10 @@ const _panel_kw = (
     gridlinewidth = 0.5,
     framestyle = :box,
     fg_legend = :transparent,
-    tickfontsize = 9,
-    guidefontsize = 10,
-    legendfontsize = 8,
-    titlefontsize = 11,
+    tickfontsize = 11,
+    guidefontsize = 13,
+    legendfontsize = 10,
+    titlefontsize = 12,
     margin = 5Plots.mm,
 )
 
@@ -69,6 +77,6 @@ special-cased at every flipped call site.
 function _panel_letter!(plt, letter::String)
     flipped = plt.subplots[1][:yaxis][:flip]
     ry = flipped ? -0.06 : 1.06
-    annotate!(plt, (0.02, ry), text(letter, :black, :left, 12, "helvetica bold"))
+    annotate!(plt, (0.02, ry), text(letter, :black, :left, 14, "helvetica bold"))
     return plt
 end

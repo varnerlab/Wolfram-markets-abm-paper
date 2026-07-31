@@ -223,7 +223,20 @@ The seed sweep compares variation across configurations with variation across di
 realizations. We ran three configurations, a
 \emph{stable} regime at $f = 0.10$ with cash $1{,}000$, a \emph{freeze} regime at $f = 0.20$
 with cash $500$, and a \emph{collapse} regime at $f = 0.20$ with cash $5{,}000$, across $20$
-seeds each. The budget toggle then turns the deterministic hook into a controlled experiment.
+seeds each. For the price and return diagnostics we retained the quote and log return at
+every step of those $60$ runs. Equation~\eqref{eq:price-update} makes the identity
+$r_\tau = \ln(P_\tau/P_{\tau-1}) = \lambda\varphi_\tau$ exact, so returns are bounded by
+$|r_\tau| \leq \lambda$ and their distribution is a direct transformation of executed
+imbalance. We summarized each seed by its excess kurtosis, lag-one return autocorrelation,
+and lag-one absolute-return autocorrelation, and repeated those summaries before and from
+$t_{\mathrm{on}}$ onward whenever an onset occurred. For distribution-shape comparisons,
+returns were standardized within seed before pooling. As a descriptive benchmark, we
+computed QQQ typical-price returns separately within each of its $61$ regular trading
+sessions, thereby excluding the $60$ overnight joins between consecutive days, and
+standardized within session. Model~A was not included as a separate return series because
+its price is that same external QQQ input rather than a model output.
+
+The budget toggle then turns the deterministic hook into a controlled experiment.
 For each seed, we used the control trajectory to identify $t_{\mathrm{on}}$. In the paired
 counterfactual, every cell's cash is scaled at the start of that step by $\times 10$
 (an injection) or by $\times 0.1$ or $\times 0.01$ (two withdrawal doses). Histories are

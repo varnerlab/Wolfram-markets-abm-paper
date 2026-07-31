@@ -127,11 +127,13 @@ function _fig2_montage_panel(row_frames, row_labels::Vector{String},
     # giving clear standoff on both sides.
     for (ci, lab) in enumerate(col_labels)
         cx = leftband + (ci - 1)*(W + gap) + W/2
-        annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
+        annotate!(plt, cx, header*0.5,
+                  text(lab, :black, :center, _STRIP_LABEL_FONTSIZE, "helvetica"))
     end
     for (ri, lab) in enumerate(row_labels)
         ry = header + (ri - 1)*(H + gap) + H/2
-        annotate!(plt, leftband*0.5, ry, text(lab, :black, :center, 12, "helvetica"; rotation = 90))
+        annotate!(plt, leftband*0.5, ry,
+                  text(lab, :black, :center, _STRIP_LABEL_FONTSIZE, "helvetica"; rotation = 90))
     end
     return plt
 end
@@ -149,7 +151,7 @@ pA = plot(_letterA, strip_body; layout = @layout([a{0.08h}; b]))
 # ---------------------------------------------------------------------------
 pB = plot(f_vals, mean_sell;
     marker = :circle, ms = 3, lw = 1.5, color = _SELL_COLOR,
-    xlabel = "Minority fraction f", ylabel = "Mean sell fraction",
+    xlabel = "Minority fraction, f", ylabel = "Mean Sell-state fraction",
     legend = false, _panel_kw...)
 vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
 _panel_letter!(pB, "B")
@@ -159,7 +161,7 @@ _panel_letter!(pB, "B")
 # ---------------------------------------------------------------------------
 pC = plot(f_vals, crash_freq;
     marker = :circle, ms = 3, lw = 1.5, color = _SERIES_COLORS[5],
-    xlabel = "Minority fraction f", ylabel = "Crash frequency",
+    xlabel = "Minority fraction, f", ylabel = "Crash frequency (run fraction)",
     legend = false, _panel_kw...)
 vline!(pC, [fc]; linestyle = :dash, color = :gray50, label = false)
 _panel_letter!(pC, "C")
@@ -169,6 +171,6 @@ _panel_letter!(pC, "C")
 # ---------------------------------------------------------------------------
 fig = plot(pA, pB, pC;
     layout = @layout([a{0.676h}; b c]),
-    size = (1160, 1440))
+    size = (900, 1117))
 
 _save_figure(fig, "Fig2-Crossover.pdf")

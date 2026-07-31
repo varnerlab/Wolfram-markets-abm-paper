@@ -27,7 +27,7 @@ fc = 0.145
 # ---------------------------------------------------------------------------
 pB = plot(f_vals, max_sell;
     marker = :circle, ms = 3, lw = 1.5, color = _SELL_COLOR,
-    xlabel = "Minority fraction f", ylabel = "Peak sell fraction",
+    xlabel = "Minority fraction, f", ylabel = "Peak Sell-state fraction",
     legend = false, _panel_kw...)
 vline!(pB, [fc]; linestyle = :dash, color = :gray50, label = false)
 

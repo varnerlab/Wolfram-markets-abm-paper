@@ -14,8 +14,9 @@
 #                   LATE_WINDOW steps (Q2: stalled ≈ 0 vs still climbing > 0)
 #
 # Writes: code/data/ModelB-Nucleation-SeedSweep.csv              (one row per run)
-#         code/data/ModelB-Nucleation-SeedSweep-Trajectories.csv  (per-step maxcl
-#                                                                   trace, long format)
+#         code/data/ModelB-Nucleation-SeedSweep-Trajectories.csv  (per-step maxcl,
+#                                                                   price, and return
+#                                                                   traces, long format)
 #
 # Figures are drawn by Figs-ModelB-SeedSweep.jl (a separate, standalone script),
 # which reads ONLY the two CSVs above — so the committed figure remains
@@ -73,7 +74,7 @@ function _sell_clusters(grid::Matrix{Int64})
     return n_clust, max_sz
 end
 
-"""Run one (config, seed) and reduce to a summary row + the maxcl trajectory."""
+"""Run one (config, seed) and retain the spatial, price, and return trajectories."""
 function _run_one(cfg::NamedTuple, seed::Int)
     res    = simulate(_probe_config(f = cfg.f, cash = cfg.cash, seed = seed);
                       snapshot_steps = collect(1:STEPS), verbose = false)
@@ -102,7 +103,7 @@ function _run_one(cfg::NamedTuple, seed::Int)
             late_slope      = (maxcl[STEPS] - maxcl[STEPS - LATE_WINDOW]) / LATE_WINDOW,
             suppressed_total = sum(supp),
             suppressed_late  = sum(@view supp[(end - LATE_WINDOW + 1):end]))
-    return row, maxcl
+    return row, maxcl, res.prices[2:end], res.log_returns
 end
 
 # ---------------------------------------------------------------------------
@@ -113,10 +114,14 @@ runs = [(cfg = cfg, seed = seed) for cfg in CONFIGS for seed in SEEDS]
 
 rows  = Vector{Union{Nothing,NamedTuple}}(nothing, length(runs))
 trajs = Vector{Vector{Float64}}(undef, length(runs))
+prices = Vector{Vector{Float64}}(undef, length(runs))
+returns = Vector{Vector{Float64}}(undef, length(runs))
 Threads.@threads :dynamic for i in eachindex(runs)
-    row, maxcl = _run_one(runs[i].cfg, runs[i].seed)
-    rows[i]  = row
-    trajs[i] = maxcl
+    row, maxcl, price, ret = _run_one(runs[i].cfg, runs[i].seed)
+    rows[i]    = row
+    trajs[i]   = maxcl
+    prices[i]  = price
+    returns[i] = ret
 end
 @assert all(!isnothing, rows)
 
@@ -134,8 +139,10 @@ for cfg in CONFIGS
     @info "Summary: $(cfg.name)" ratio_at_peak = _mi(sub.ratio_at_peak) front_final = _mi(sub.front_final) late_slope_e4 = _mi(sub.late_slope .* 1e4) peak_sell = _mi(sub.peak_sell)
 end
 
-# Persist the per-step traces so the figure can be rebuilt without re-running
-# the campaign. Columns: config, seed, step, maxcluster_frac. Built by
+# Persist the per-step traces so the figures can be rebuilt without re-running
+# the campaign. Columns: config, seed, step, maxcluster_frac, price,
+# log_return. `price[t]` is the quote after step t and `log_return[t]` is
+# log(price[t]/price[t-1]); the known initial quote is P0. Built by
 # indexing `runs`/`trajs` in deterministic `eachindex` order (both were
 # filled by the threaded loop above using index assignment, not push!, so
 # this iteration order is reproducible regardless of thread scheduling).
@@ -143,7 +150,9 @@ traj_rows = NamedTuple[]
 for i in eachindex(runs)
     cfg_name, seed, maxcl = runs[i].cfg.name, runs[i].seed, trajs[i]
     for (step, v) in enumerate(maxcl)
-        push!(traj_rows, (config = cfg_name, seed = seed, step = step, maxcluster_frac = v))
+        push!(traj_rows, (config = cfg_name, seed = seed, step = step,
+                          maxcluster_frac = v, price = prices[i][step],
+                          log_return = returns[i][step]))
     end
 end
 CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-SeedSweep-Trajectories.csv"),

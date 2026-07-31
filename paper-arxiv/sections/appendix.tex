@@ -392,7 +392,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=0.85\linewidth]{figs/FigS5-SeedingDetail.pdf}
+  \includegraphics[width=0.95\linewidth]{figs/FigS5-SeedingDetail.pdf}
   \caption{Stamped-patch seeding detail across placements and configurations.
   \textbf{(A)}~Onset step per seed under each arm (an unstamped control and a
   $3 \times 3$ sell patch stamped at edge (boundary-adjacent), mid, and center
@@ -403,17 +403,14 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   exploratory, uncorrected across the six-test family and failing the Bonferroni
   threshold of $0.0083$, a lead rather than a result.
   \textbf{(B)}~The same for the collapse configuration.
-  \textbf{(C)}~Dominance rate per placement for the freeze configuration: the fraction of
-  runs in which the cluster standing largest at onset descends from the stamped patch is
-  $0/20$ in each of the three stamped placements, so the bars are drawn at zero height
-  and the panel states the count as text.
-  \textbf{(D)}~The same for the collapse configuration, also $0/20$ in each stamped placement, which
-  completes the six configuration-by-placement cells of the design.
-  \textbf{(E)}~Largest-cluster growth trajectories for a single exemplar seed under each
+  \textbf{(C)}~Largest-cluster growth trajectories for a single exemplar seed under each
   arm in the freeze configuration.
-  \textbf{(F)}~The same in the collapse configuration. Which arm reaches domain scale
+  \textbf{(D)}~The same in the collapse configuration. Which arm reaches domain scale
   first differs between the two configurations rather than tracking the stamped
-  placement, and the domain that grows is in every run one founded away from the patch.}
+  placement, and the domain that grows is in every run one founded away from the patch.
+  Across edge, mid, and center placements in both configurations, the cluster standing
+  largest at onset descended from the stamped patch in $0/20$ runs; because all six
+  outcomes were identical, they are reported here rather than plotted.}
   \label{fig:s5}
 \end{figure}
 
@@ -459,4 +456,35 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   fractions, flat in lattice size above $f \approx 0.17$. The clock the conversion runs on is
   therefore size-independent while the outcome inside a fixed window is not.}
   \label{fig:s7}
+\end{figure}
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/FigS8-ReturnDiagnostics.pdf}
+  \caption{Model~B price and return diagnostics for the canonical stable
+  ($f=0.10$, cash $1{,}000$), freeze ($f=0.20$, cash $500$), and collapse
+  ($f=0.20$, cash $5{,}000$) configurations, each over $20$ disorder seeds and
+  $1{,}000$ steps at $\lambda=0.02$.
+  \textbf{(A)}~Median log price relative to $P_0=100$, with interquartile bands.
+  The median final prices were $112.60$, $94.52$, and $119.54$, respectively;
+  the collapse path peaked at $154.19$ before receding, so the regime names refer
+  to spatial grid states rather than the direction of the price.
+  \textbf{(B)}~Empirical survival of absolute standardized log returns. Model
+  returns were standardized within seed and QQQ returns within regular trading
+  session before pooling; the QQQ curve contains $23{,}729$ within-session
+  changes from $61$ days and excludes all $60$ overnight joins. The Gaussian
+  survival is dashed. Model returns are bounded by $|r_\tau|\leq\lambda$, and no
+  power law is fitted.
+  \textbf{(C)}~Return autocorrelation through lag $50$.
+  \textbf{(D)}~Absolute-return autocorrelation over the same lags. Curves in C
+  and D are replicate medians with interquartile bands, across $20$ seeds for
+  each model configuration and $61$ sessions for QQQ. Median lag-one
+  autocorrelation was $0.83$, $0.74$, and $0.96$ for Model~B returns and $0.86$,
+  $0.75$, and $0.95$ for their absolute values, against $0.30$ and $0.20$ for
+  QQQ. Full-horizon median excess kurtosis was $33.76$, $77.03$, and $3.61$
+  against $1.72$ across QQQ sessions, but splitting at onset reduced the freeze
+  median from $49.96$ before onset to $-0.03$ afterward and the collapse median
+  from $0.02$ to $-0.13$. The finite-horizon tail shape therefore reflects
+  transients and regime mixing rather than a stationary empirical return law.}
+  \label{fig:s8}
 \end{figure}

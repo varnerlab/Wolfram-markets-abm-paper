@@ -58,12 +58,14 @@ const _CFG_COLOR = Dict("stable" => _SERIES_COLORS[5], "freeze" => _SERIES_COLOR
 
 traj_panels = Plots.Plot[]
 for cfg in CONFIGS
-    p = plot(; xlabel = "step", ylabel = "largest cluster / grid", ylims = (0, 0.8),
+    p = plot(; xlabel = "Simulation step",
+             ylabel = "Sell-cluster fraction", ylims = (0, 0.8),
              legend = false, _panel_kw...)
     for seed in seeds
         plot!(p, 1:STEPS, traj_map[(cfg, seed)], color = _CFG_COLOR[cfg], alpha = 0.35, lw = 1.0)
     end
-    annotate!(p, (0.98, 1.06), text(cfg, 8, :black, :right))
+    annotate!(p, (0.98, 1.06),
+              text(cfg, _ANNOTATION_FONTSIZE, :black, :right))
     push!(traj_panels, p)
 end
 
@@ -74,8 +76,8 @@ _jitter_rng = MersenneTwister(20260728)
 
 names_by_run = summ.config
 dist_panels  = Plots.Plot[]
-for (metric, lbl) in ((summ.ratio_at_peak, "largest cluster / total sell at peak"),
-                      (summ.front_final, "largest cluster / grid at t=$(STEPS)"))
+for (metric, lbl) in ((summ.ratio_at_peak, "Cluster share at Sell peak"),
+                      (summ.front_final, "Final cluster fraction"))
     p = plot(; ylabel = lbl, legend = false, xticks = (1:length(CONFIGS), CONFIGS), _panel_kw...)
     for (j, cfg) in enumerate(CONFIGS)
         vals = metric[names_by_run .== cfg]
@@ -94,7 +96,7 @@ for (p, letter) in zip(panels, ["A", "B", "C", "D", "E"])
 end
 
 fig = plot(panels...;
-           layout = @layout([a b c; d e]), size = (1400, 760),
+           layout = @layout([a b c; d e]), size = (1000, 543),
            left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
 _save_figure(fig, "FigS2-SeedTrajectories.pdf")
 

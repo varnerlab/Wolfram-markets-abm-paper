@@ -90,142 +90,61 @@ let
             minimum(sweep_df[sweep_df.config .!= "stable", :ratio_at_peak]) "stable band must not overlap"
 
     # ── A: birth-to-engulfment market strip (single exemplar run, seed 20) ──
-    # Four snapshots (StripFrames.jld2, `fig5/*`) trace one collapse run from
-    # a single marked founding cell (tile 1, × mark) to a dominant orange
-    # (Sell) domain — the figure's title claim made visible before any
-    # statistic is shown. `_strip_panel` (StripPanels.jl) builds the seamless
-    # heatmap montage and its own "t = <step>" tile captions; `outlines`
-    # (the birth-lineage cluster mask per tile) traces that single growing
-    # domain across all four tiles.
-    #
-    # 2x2 arrangement, ONE merged canvas (round 2 fix): round 1 (git history,
-    # commit 010dcc4) built the two tile rows as two SEPARATE `_strip_panel`
-    # heatmaps stacked via `@layout([a; b])` — visually correct top-to-bottom
-    # ordering (row 1: t = 203, 265; row 2: t = 328, 528) but each
-    # `_strip_panel` call is its own GR subplot, and GR/Plots.jl reserves a
-    # per-subplot margin floor of order 70-90px at 110dpi around every
-    # individual subplot regardless of that subplot's own `margin = 0mm`
-    # setting — the exact disease Fig2-Combined.jl's snapshot montage and
-    # Fig-ModelA-FiniteSize.jl's panel A hit and fixed the same way (see
-    # their own comments). Paid twice (once per row), that floor was the
-    # large gap the author flagged between the two tile rows.
-    #
-    # The fix follows that same precedent: compose all four frames into ONE
-    # Float64 canvas with thin NaN gutters and draw it with a SINGLE heatmap
-    # call, so the per-subplot floor is paid once for the whole panel, not
-    # once per row. Unlike Fig2's montage (one header shared by every row,
-    # since every row there shares the same column labels), this grid's two
-    # rows show DIFFERENT time steps, so each row keeps its own header band —
-    # `_fig5_2x2_canvas`/`_fig5_2x2_panel` below, local to this file
-    # (StripPanels.jl is untouched, exactly like Fig2/Fig3's own local
-    # montage helpers): [header 1 ("t = 203"/"t = 265"); tile row 1; a thin
-    # NaN row gutter; header 2 ("t = 328"/"t = 528"); tile row 2]. `header =
-    # 22` and 12pt labels keep the house strip-label convention
-    # (`_strip_canvas`'s own default, StripPanels.jl); `gap = 4` (between the
-    # two tiles in a row) and `rowgap = 4` (between the two tile rows) are
-    # both "a few cells" thin, the same idiom Fig2's snapshot montage and
-    # Fig3's finite-size montage use for their own gutters.
-    #
-    # The birth-lineage outline masks and the birth-cross mark are re-derived
-    # in this merged canvas's own coordinates: `_mask_outline_xy` (from
-    # StripPanels.jl, unmodified — it only ever offsets the COLUMN axis by a
-    # caller-supplied `x0`) is called once per tile with that tile's column
-    # offset, and the ROW offset (which a single-row `_strip_panel` call adds
-    # as one constant `header`) is generalized here to a per-tile `row_y0[i]`:
-    # row-1 tiles sit under header band 1, row-2 tiles sit under header band
-    # 2. Checked tile-by-tile against the round-1 render (the committed
-    # Fig5-Nucleus.pdf at HEAD before this change): same outline shape and
-    # position relative to its own tile's Sell(orange) cluster in all four
-    # tiles, same birth-cross cell in tile 1.
-    #
-    # Panel letter: `_panel_letter!` cannot be used directly on the strip
-    # (its yflip branch would land the letter in the tile-caption header
-    # band instead of above the panel); `_strip_letter_row` (StripPanels.jl)
-    # builds the blank lettered row and the two are composed into one plot
-    # object that fills the outer layout's "a" slot — see its docstring for
-    # the full rationale, recovered from the Fig2-Combined.jl montage
-    # precedent (:59-89).
+    # Match the compact, full-width montage idiom used by the two Model A
+    # crossover figures: all four snapshots occupy one row and one heatmap
+    # subplot. Time labels are overlaid inside their own tiles, rather than
+    # consuming a separate header band. A translucent white backing keeps
+    # each label legible over the noisy three-state lattice.
     frames5   = strip_dat["fig5/frames"]
     steps5    = strip_dat["fig5/steps"]
     birth5    = strip_dat["fig5/birth"]
     outlines5 = strip_dat["fig5/outlines"]
 
-    # `_fig5_2x2_canvas`/`_fig5_2x2_panel`: local montage helpers, deliberately
-    # NOT added to StripPanels.jl (every other call site there is a single
-    # tile ROW with one shared header; this figure alone needs a two-row grid
-    # with a header PER row, so it stays a one-off here rather than growing
-    # the shared renderer's API for a single caller).
-    function _fig5_2x2_canvas(frames::Vector{<:AbstractMatrix};
-                               gap::Int64 = 4, header::Int64 = 22, rowgap::Int64 = 4)
+    function _fig5_strip_panel(frames::Vector{<:AbstractMatrix}, labels::Vector{String};
+                                gap::Int64 = 4, mark = nothing, outlines = nothing)
+        canvas = _strip_canvas(frames; gap = gap, header = 0)
         H, W = size(frames[1])
-        row1_y0 = header                              # tile-row-1 top offset (canvas rows)
-        row2_y0 = header + H + rowgap + header         # tile-row-2 top offset (canvas rows)
-        total_rows = row2_y0 + H
-        total_cols = 2*W + gap
-        canvas = fill(NaN, total_rows, total_cols)
-        for (i, F) in enumerate(frames[1:2])
-            c0 = (i - 1)*(W + gap)
-            canvas[(row1_y0+1):(row1_y0+H), (c0+1):(c0+W)] .= Float64.(F)
-        end
-        for (i, F) in enumerate(frames[3:4])
-            c0 = (i - 1)*(W + gap)
-            canvas[(row2_y0+1):(row2_y0+H), (c0+1):(c0+W)] .= Float64.(F)
-        end
-        return canvas, H, W, row1_y0, row2_y0
-    end
-
-    function _fig5_2x2_panel(frames::Vector{<:AbstractMatrix},
-                              labels_row1::Vector{String}, labels_row2::Vector{String};
-                              gap::Int64 = 4, header::Int64 = 22, rowgap::Int64 = 4,
-                              mark = nothing, outlines = nothing)
-        canvas, H, W, row1_y0, row2_y0 =
-            _fig5_2x2_canvas(frames; gap = gap, header = header, rowgap = rowgap)
         total_rows, total_cols = size(canvas)
         plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
                       aspect_ratio = :equal, axis = false, colorbar = false,
                       framestyle = :none, background_color_inside = :white,
                       xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
-                      margin = 0Plots.mm)
-        for (i, lab) in enumerate(labels_row1)
-            cx = (i - 1)*(W + gap) + W/2
-            annotate!(plt, cx, header*0.5, text(lab, :black, :center, 12, "helvetica"))
+                      margin = 0Plots.mm, top_margin = 9Plots.mm)
+        for (i, lab) in enumerate(labels)
+            c0 = (i - 1)*(W + gap)
+            box_halfwidth = 12
+            cx = c0 + W - box_halfwidth - 2
+            plot!(plt, [cx - box_halfwidth, cx + box_halfwidth,
+                        cx + box_halfwidth, cx - box_halfwidth],
+                       [0.5, 0.5, 8.5, 8.5];
+                  seriestype = :shape, fillcolor = :white, fillalpha = 0.82,
+                  linealpha = 0, label = "")
+            annotate!(plt, cx, 4.5,
+                      text(lab, :black, :center, _STRIP_LABEL_FONTSIZE, "helvetica"))
         end
-        for (i, lab) in enumerate(labels_row2)
-            cx = (i - 1)*(W + gap) + W/2
-            annotate!(plt, cx, row2_y0 - header*0.5, text(lab, :black, :center, 12, "helvetica"))
-        end
-        row_y0 = (row1_y0, row1_y0, row2_y0, row2_y0)   # per-tile (1..4) row offset
         if mark !== nothing
             tile_i, rc = mark
-            c0 = mod(tile_i - 1, 2)*(W + gap)
-            scatter!(plt, [c0 + rc[2]], [row_y0[tile_i] + rc[1]]; marker = :xcross,
+            c0 = (tile_i - 1)*(W + gap)
+            scatter!(plt, [c0 + rc[2]], [rc[1]]; marker = :xcross,
                      markersize = 6, markercolor = :white, markerstrokecolor = :black,
                      markerstrokewidth = 1.4, label = "")
         end
         if outlines !== nothing
             for (i, m) in enumerate(outlines)
                 m === nothing && continue
-                c0     = mod(i - 1, 2)*(W + gap)
+                c0 = (i - 1)*(W + gap)
                 xs, ys = _mask_outline_xy(m, c0)
                 isempty(xs) && continue
-                plot!(plt, xs, ys .+ row_y0[i]; seriescolor = :black, linewidth = 1.2, label = "")
+                plot!(plt, xs, ys; seriescolor = :black, linewidth = 1.2, label = "")
             end
         end
         return plt
     end
 
-    # header = 13 / rowgap = 3 (defaults are 22/4): at the 2x2 scale a
-    # 22-unit band renders ~170px deep and reads as the row gap the author
-    # flagged; 13 units keeps the 12pt labels clear of the tiles while the
-    # grid stays visually tight. Fewer canvas rows also means the
-    # height-bound tiles render larger for the same panel share.
-    stripA_body = _fig5_2x2_panel(frames5,
-        ["t = $(s)" for s in steps5[1:2]], ["t = $(s)" for s in steps5[3:4]];
-        mark = (1, birth5), outlines = outlines5, header = 13, rowgap = 3)
-    _letterA = _strip_letter_row("A")
-    # Letter fraction 0.08h (not 0.12h): matches the Fig6/Fig7 strip-anchor
-    # convention and gives the body a little more of panel A's row.
-    stripA = plot(_letterA, stripA_body; layout = @layout([a{0.08h}; b]))
+    stripA_body = _fig5_strip_panel(frames5, ["t = $(s)" for s in steps5];
+                                    mark = (1, birth5), outlines = outlines5)
+    _panel_letter!(stripA_body, "A")
+    stripA = stripA_body
 
     # ── B: birth-site map (interior-only clusters; freeze + collapse) ──────
     # Legend moved INSIDE (bottom-right): row > 48 & col > 48 (the last
@@ -238,9 +157,10 @@ let
     # than panel C's undecorated box; an inside legend restores the same
     # plot-area size and shape as panel C.
     pB = plot(; xlims = (1, gridn), ylims = (1, gridn), yflip = true,
-              aspect_ratio = :equal, xlabel = "col", ylabel = "row",
+              aspect_ratio = :equal, xlabel = "Grid column",
+              ylabel = "Grid row",
               legend = :bottomright, background_color_legend = nothing,
-              foreground_color_legend = nothing, _panel_kw..., left_margin = 14.8Plots.mm)
+              foreground_color_legend = nothing, _panel_kw...)
     plot!(pB, [1, gridn, gridn, 1, 1], [1, 1, gridn, gridn, 1],
           color = :black, lw = 0.8, label = "")
     for cname in configs
@@ -267,16 +187,19 @@ let
     dists      = collect(1:length(null_pmf))
     pooled_pmf = [count(==(d), inc.birth_dist) / n_nucleated for d in dists]
     ytop       = 1.3 * maximum(vcat(pooled_pmf, null_pmf))
-    pC = plot(; xlabel = "Distance from frame (cells)", ylabel = "probability",
-              ylims = (0, ytop), legend = :topright, _panel_kw..., right_margin = 40.7Plots.mm)
+    pC = plot(; xlabel = "Birth distance (cells)",
+              ylabel = "Birth probability",
+              ylims = (0, ytop), legend = :topright, _panel_kw...,
+              top_margin = 10Plots.mm, bottom_margin = 10Plots.mm,
+              left_margin = 8Plots.mm, right_margin = 8Plots.mm)
     vspan!(pC, [0.5, 2.5], color = _HOLD_COLOR, alpha = 0.25, label = "boundary shell (d ≤ 2)")
     bar!(pC, dists, pooled_pmf, color = _SERIES_COLORS[2], fillalpha = 0.7, lw = 0.3,
          bar_width = 0.85, label = "births (n=$(n_nucleated))")
     plot!(pC, dists, null_pmf, color = :black, ls = :dash, lw = 1.6, label = "uniform null")
-    annotate!(pC, 0.55 * maximum(dists), 0.55 * ytop,
-              text(@sprintf("observed %.3f vs. null %.3f\np = %.2f (two-sided)",
+    annotate!(pC, 0.48 * maximum(dists), 0.55 * ytop,
+              text(@sprintf("boundary share\nobserved %.3f; null %.3f\np = %.2f (two-sided)",
                             pooled_boundary_frac, p_null_boundary, binom_p),
-                   8, :black, :left))
+                   _ANNOTATION_FONTSIZE, :black, :left))
     _panel_letter!(pC, "C")
 
     # Ring-attachment timing (formerly panel D, a scatter of attach-vs-birth
@@ -287,47 +210,13 @@ let
     # / `ring_attach_freeze` stay asserted above rather than being dropped
     # along with the panel.
 
-    # 2x2 rework (author choice): the canvas width stays 1160pt (unchanged
-    # from the 4-tile version) so absolute font sizes stay on the same scale
-    # as every other strip figure, but the canvas is now much taller
-    # (1160x1430, up from 1160x1120) and panel A takes most of that growth
-    # (0.8252h vs the old 0.50h) so the two 2-tile rows render as large as
-    # the float page allows. Two tiles per row, at full canvas width, are
-    # inherently HEIGHT-bound rather than width-bound (a 2-tile row's data
-    # aspect is ~132/86, about half a 4-tile row's ~268/86, so at any given
-    # row height a 2-tile row's width-matching box is narrower than the
-    # canvas) — the tiles print with blank margins left/right rather than
-    # touching the canvas edges, and row height (hence tile size) is set by
-    # how much of the canvas panel A is given, not by the canvas width.
-    # 1430pt total is an empirical ceiling, not a round number: 1520pt
-    # overflowed the float page by 15.6pt ("Float too large for page" in
-    # Paper_v1.log) once placed at 0.95\linewidth; 1430pt clears it with
-    # ~15pt of slack, matching the safety margin Fig6-GrowthGating.pdf's own
-    # two-row strip pair runs at (that figure's page is 632/648pt full).
-    # Panel A's 0.8252h share (b/c row = 250pt) is itself an empirical
-    # legibility floor, not a derived number: b/c's cell stops being close
-    # to square (b's aspect_ratio = :equal square vs c's edge-to-edge fill,
-    # same tension as the original 4-tile design's fix below) as the row
-    # shrinks, but both panels' legends and in-panel text stayed clear of
-    # the data through 250pt; at 190pt the B legend started crowding its
-    # own scatter points and at 130pt the C in-panel annotation collided
-    # with the C legend, so 250pt is the smallest row height tried that
-    # rendered cleanly at both extremes.
-    #
-    # Panel B's aspect_ratio = :equal (a spatial row/col map) forces a
-    # SQUARE plot box inside whatever cell it is given, while panel C (an
-    # ordinary bar/line panel) fills its cell edge to edge; the original
-    # 4-tile design's b/c row height (half the canvas, 560pt against a
-    # 580pt-wide cell) was tuned so the cell itself was close to square,
-    # letting C's natural fill and B's forced square coincide. The 2x2
-    # design's much smaller 250pt b/c row against the same 580pt-wide cell
-    # cannot keep that exact match (250 far from 580), so B's square now
-    # sits inside a visibly wider cell than it fills; both panels stayed
-    # legible and close enough in apparent size through visual review, but
-    # this is the one respect in which the 2x2 canvas is a looser match to
-    # the original square-cell recipe.
+    # The short top row follows the Model A crossover figures; the lower row
+    # is close to one half-canvas width tall, so B's square spatial map and
+    # C's ordinary axes occupy matching cells instead of visibly different
+    # shapes. C's small symmetric padding compensates for B's fixed square
+    # aspect, leaving the two rendered axis boxes equal in width and height.
     fig = plot(stripA, pB, pC;
-        layout = @layout([a{0.8252h}; b c]), size = (1160, 1430))
+        layout = @layout([a{0.36h}; b c]), size = (900, 714))
     _save_figure(fig, "Fig5-Nucleus.pdf")
     @info "Saved: Fig5-Nucleus.pdf"
 end
@@ -396,15 +285,18 @@ let
     end
 
     # -----------------------------------------------------------------------
-    # (row 1) paired t_on by arm; (row 2) dominance rates; (row 3) exemplar
-    # largest-cluster growth (first seed with full pairs). No in-figure
-    # titles: the config name (and, for row 3, the exemplar seed) moves to a
+    # (row 1) paired t_on by arm; (row 2) exemplar largest-cluster growth
+    # (first seed with full pairs). The six identical 0/20 dominance outcomes
+    # are reported in the caption instead of occupying two empty-looking
+    # panels. No in-figure titles: the config name (and, for row 2, the
+    # exemplar seed) moves to a
     # top-right annotation on every panel instead of depending on row/column
     # position.
     # -----------------------------------------------------------------------
     fig2_panels = Plots.Plot[]
     for cname in configs
-        p = plot(; xticks = (1:length(arms), arms), ylabel = "onset step",
+        p = plot(; xticks = (1:length(arms), arms),
+                 ylabel = "Onset time (steps)",
                  legend = false, _panel_kw...)
         for seed in seeds
             ts = [ton(cname, seed, arm) for arm in arms]
@@ -419,45 +311,32 @@ let
             scatter!(p, fill(j, nrow(sub)), sub.t_on, color = arm_color[arm],
                      markersize = 4, markerstrokewidth = 0)
         end
-        annotate!(p, (0.98, 1.06), text("$(cname) (patch s=$(s_patch))", 8, :black, :right))
-        push!(fig2_panels, p)
-    end
-    for cname in configs
-        p = plot(; xticks = (1:3, arms[2:end]), ylabel = "dominant-from-patch rate",
-                 ylims = (0, 1.05), legend = false, _panel_kw...)
-        for (j, arm) in enumerate(arms[2:end])
-            dom = seed_df[(seed_df.config .== cname) .& (seed_df.arm .== arm), :dominant_from_patch]
-            bar!(p, [j], [count(dom) / max(length(dom), 1)],
-                 color = arm_color[arm], fillalpha = 0.7, bar_width = 0.55)
-        end
-        # Every one of the 20 seeds, in every arm, comes back exactly zero (the
-        # bars themselves are true but invisible at zero height); this panel
-        # states the raw count so an empty-looking panel does not read as a
-        # rendering defect. Results prose reports this same raw 0/20 count,
-        # citing Figure S5; no Wilson bound appears anywhere in the paper.
-        annotate!(p, (0.5, 0.5), text("0/20 dominant from patch\nin every arm", 9, :black, :center))
-        annotate!(p, (0.98, 1.06), text(cname, 8, :black, :right))
+        annotate!(p, (0.98, 1.06),
+                  text("$(cname) (patch s=$(s_patch))", _ANNOTATION_FONTSIZE, :black, :right))
         push!(fig2_panels, p)
     end
     for cname in configs
         # Exemplar: the first seed whose four arms all reached onset (else first seed)
         ex = findfirst(seed -> all(arm -> !ismissing(ton(cname, seed, arm)), arms), seeds)
         ex_seed = isnothing(ex) ? seeds[1] : seeds[ex]
-        p = plot(; xlabel = "step", ylabel = "largest cluster / grid",
-                 legend = :outertopright, _panel_kw...)
+        p = plot(; xlabel = "Simulation step",
+                 ylabel = "Largest sell cluster (grid fraction)",
+                 legend = :topleft, _panel_kw...)
         for arm in arms
             plot!(p, 1:steps, trajs[(cname, ex_seed)][arm],
                   color = arm_color[arm], lw = 1.6, label = arm)
         end
-        annotate!(p, (0.98, 1.06), text("$(cname), seed $(ex_seed)", 8, :black, :right))
+        annotate!(p, (0.98, 1.06),
+                  text("$(cname), seed $(ex_seed)", _ANNOTATION_FONTSIZE, :black, :right))
         push!(fig2_panels, p)
     end
 
-    for (p, letter) in zip(fig2_panels, ["A", "B", "C", "D", "E", "F"])
+    for (p, letter) in zip(fig2_panels, ["A", "B", "C", "D"])
         _panel_letter!(p, letter)
     end
 
-    fig2 = plot(fig2_panels...; layout = (3, 2), size = (1150, 1250),
-                left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+    fig2 = plot(fig2_panels...; layout = (2, 2), size = (900, 665),
+                left_margin = 6Plots.mm, right_margin = 3Plots.mm,
+                bottom_margin = 4Plots.mm)
     _save_figure(fig2, "FigS5-SeedingDetail.pdf")
 end

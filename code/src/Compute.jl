@@ -115,6 +115,26 @@ function compute_log_returns(prices::Vector{Float64})::Vector{Float64}
 end
 
 """
+    compute_session_log_returns(prices, sessions) -> Vector{Float64}
+
+Log returns between consecutive observations that belong to the same session.
+The session labels may be dates, strings, or any values supporting equality.
+This excludes artificial overnight joins when regular-session intraday bars are
+stored as one contiguous table.
+"""
+function compute_session_log_returns(
+    prices::Vector{Float64},
+    sessions::AbstractVector,
+)::Vector{Float64}
+    length(prices) == length(sessions) ||
+        throw(DimensionMismatch("prices and sessions must have the same length"))
+    length(prices) < 2 && return Float64[]
+    returns = compute_log_returns(prices)
+    same_session = sessions[2:end] .== sessions[1:end-1]
+    return returns[same_session]
+end
+
+"""
     compute_crash_sizes(frames, threshold) → Vector{Int64}
 
 Identify crash events as contiguous time windows where the fraction of

@@ -20,13 +20,14 @@
 #      strip pair in Task 6) — the paper's intervention-asymmetry figure:
 #      (A) two onset-aligned market strips (`ModelB-StripFrames.jld2` keys
 #      `fig7/control/*` / `fig7/injection/*`, seed 16), rows "control" and
-#      "cash ×10", pre-toggle bit-identical at tile 1; (B) the edge-ring
-#      Buy/Sell mechanism under injection (former panel C, verbatim) — the
+#      "cash ×10", pre-toggle bit-identical at tile 1; (B) the ensemble
+#      price response under injection; (C) the edge-ring Buy/Sell mechanism
+#      under injection — the
 #      panel that must show the ~0.5-Buy -> ~1.0-Sell flip unmistakably;
-#      (C) paired dumbbells, one thin control->toggled segment per seed, for
+#      (D) paired dumbbells, one thin control->toggled segment per seed, for
 #      all three arms (injection, mild withdrawal, harsh withdrawal) grouped
 #      side by side. The former panels A/B (per-seed spaghetti of paired
-#      front velocities) are replaced by (C); the former panel D (edge-ring
+#      front velocities) are replaced by (D); the former edge-ring
 #      mechanism under harsh withdrawal) is dropped outright — that trace
 #      already lives in full in FigS6-ToggleDetail.pdf, so nothing is lost by
 #      not repeating it here.
@@ -51,6 +52,7 @@ const PRE = 200   # pre-onset window plotted        (must match compute script)
 
 summ = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BudgetToggle.csv"), DataFrame)
 traj = CSV.read(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BudgetToggle-Trajectories.csv"), DataFrame)
+@assert :price in propertynames(traj) "budget-toggle trajectory table lacks price; rerun Compute-ModelB-BudgetToggle.jl"
 
 # Arms are categorical (injection / mild withdrawal / harsh withdrawal), not an
 # ordinal budget quantity, so they draw from _SERIES_COLORS rather than a
@@ -124,12 +126,24 @@ harsh_p = _signflip_p(collect(Float64.(harsh.dv)))
 seed has data at that offset (equivalent to the compute script's original
 `_aligned_mean`, but reading from the persisted long-format trajectory
 table instead of in-memory per-seed series). Shared by the edge-trace figure
-and Fig7's panel B (the edge-ring trace panel is now Fig 7 panel B only)."""
+and Fig7's edge-ring trace."""
 function _aligned_mean_from_traj(sub::DataFrame, valcol::Symbol, xs::AbstractRange)
     g = combine(groupby(sub[:, [:step_since_onset, valcol]], :step_since_onset),
                 valcol => mean => :m)
     lookup = Dict(g.step_since_onset .=> g.m)
     return [get(lookup, x, NaN) for x in xs]
+end
+
+"""Median and interquartile band of `valcol` at each aligned offset."""
+function _aligned_quantiles_from_traj(sub::DataFrame, valcol::Symbol,
+                                      xs::AbstractRange)
+    g = combine(groupby(sub[:, [:step_since_onset, valcol]], :step_since_onset),
+                valcol => (x -> quantile(x, 0.25)) => :q25,
+                valcol => median => :q50,
+                valcol => (x -> quantile(x, 0.75)) => :q75)
+    lookup = Dict(r.step_since_onset => (r.q25, r.q50, r.q75) for r in eachrow(g))
+    values = [get(lookup, x, (NaN, NaN, NaN)) for x in xs]
+    return (q25 = first.(values), q50 = getindex.(values, 2), q75 = last.(values))
 end
 
 # ---------------------------------------------------------------------------
@@ -140,9 +154,8 @@ end
 # into one: 3 rows (one per direction) x 3 columns (cluster trajectory, edge
 # Buy fraction, edge Sell fraction). The paired-velocity slope-graphs from
 # the old BudgetToggle.pdf are NOT repeated here — Fig7-Intervention.pdf
-# already carries them in more detail (injection alone in panel A, both
-# withdrawal doses overlaid in panel B) — so nothing here duplicates that
-# panel's content.
+# already carries them together in its paired-velocity panel — so nothing
+# here duplicates that panel's content.
 #
 # Edge-trace panels reuse Fig7's own scheme (Buy/Sell are genuine state
 # quantities: reserved hue, solid = toggled; _HOLD_COLOR dashed = control)
@@ -158,13 +171,13 @@ let
     panels  = Plots.Plot[]
     letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
     li      = 0
-    for dir in DIRECTIONS
+    for (dir_i, dir) in enumerate(DIRECTIONS)
         dose_lbl = if dir.name == "injection"
-            "injection: cash x$(Int(dir.factor)) at onset"
+            "injection: cash x$(Int(dir.factor))"
         elseif dir.name == "withdrawal_mild"
-            "withdrawal, mild: cash x$(dir.factor) at onset"
+            "mild: cash x$(dir.factor)"
         else
-            "withdrawal, harsh: cash x$(dir.factor) at onset"
+            "harsh: cash x$(dir.factor)"
         end
 
         sub_c = traj[(traj.direction .== dir.name) .& (traj.condition .== "control"), :]
@@ -172,7 +185,9 @@ let
         seeds = sort(unique(sub_c.seed))
 
         # column 1 — full per-seed cluster trajectories, control vs toggled
-        p1 = plot(; xlabel = "steps since onset", ylabel = "largest cluster / grid",
+        xguide = dir_i == length(DIRECTIONS) ? "Steps since onset" : ""
+        p1 = plot(; xlabel = xguide, xticks = [-200, 0, 200, 400], ylabel = "",
+                  title = dir_i == 1 ? "Sell-cluster fraction" : "",
                   legend = :outertopright, _panel_kw...)
         seen_lbl = false
         for seed in seeds
@@ -185,7 +200,7 @@ let
             seen_lbl = true
         end
         vline!(p1, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-        annotate!(p1, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
+        annotate!(p1, (0.03, 0.93), text(dose_lbl, 7, :black, :left))
         li += 1; _panel_letter!(p1, letters[li])
         push!(panels, p1)
 
@@ -195,26 +210,26 @@ let
         sell_c = _aligned_mean_from_traj(sub_c, :edge_sell_frac, xs)
         sell_t = _aligned_mean_from_traj(sub_t, :edge_sell_frac, xs)
 
-        p2 = plot(; xlabel = "steps since onset", ylabel = "edge ring: Buy fraction",
+        p2 = plot(; xlabel = xguide, xticks = [-200, 0, 200, 400], ylabel = "",
+                  title = dir_i == 1 ? "Edge Buy fraction" : "",
                   ylims = (-0.02, 1.02), legend = :outertopright, _panel_kw...)
         plot!(p2, xs, buy_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "control")
         plot!(p2, xs, buy_t, color = _BUY_COLOR,  lw = 2.2, label = "toggled")
         vline!(p2, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-        annotate!(p2, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
         li += 1; _panel_letter!(p2, letters[li])
         push!(panels, p2)
 
-        p3 = plot(; xlabel = "steps since onset", ylabel = "edge ring: Sell fraction",
+        p3 = plot(; xlabel = xguide, xticks = [-200, 0, 200, 400], ylabel = "",
+                  title = dir_i == 1 ? "Edge Sell fraction" : "",
                   ylims = (-0.02, 1.02), legend = :outertopright, _panel_kw...)
         plot!(p3, xs, sell_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "control")
         plot!(p3, xs, sell_t, color = _SELL_COLOR, lw = 2.2, label = "toggled")
         vline!(p3, [0], color = :black, ls = :dash, lw = 0.8, label = "")
-        annotate!(p3, (0.98, 1.06), text(dose_lbl, 8, :black, :right))
         li += 1; _panel_letter!(p3, letters[li])
         push!(panels, p3)
     end
 
-    figS6 = plot(panels...; layout = (length(DIRECTIONS), 3), size = (1750, 1050),
+    figS6 = plot(panels...; layout = (length(DIRECTIONS), 3), size = (900, 540),
                  left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
     _save_figure(figS6, "FigS6-ToggleDetail.pdf")
 end
@@ -242,11 +257,10 @@ end
 # trace already lives in full in FigS6-ToggleDetail.pdf, so nothing is lost
 # by not repeating it here.
 #
-# No in-figure titles anywhere. Legends moved to :outertopright throughout
-# (Tasks 7-8's remedy for `_panel_kw`'s opaque inside-legend backing), and
-# every arm/factor/window value that used to live in a panel title now lives
-# in an axis label, legend entry, or annotation (see Task 9 report for the
-# title -> {label, legend, annotation} mapping).
+# No in-figure titles anywhere. Panel A uses one merged 2x4 heatmap with its
+# time and treatment labels overlaid inside the tiles. Panel B's legend sits
+# inside its unused upper-right region; panel C needs no legend because its
+# three categorical x-axis labels already identify the three arm encodings.
 # ---------------------------------------------------------------------------
 let
     xs = (-PRE):W
@@ -262,42 +276,150 @@ let
     # faith; the arms only begin to diverge from tile 2 (`+100`) onward, and
     # by `+250` the injected row is visibly ahead. `outlines` traces the
     # largest sell cluster in every frame, same convention as Fig6's strip.
-    # Panel letter via `_strip_letter_row` (StripPanels.jl): `_panel_letter!`
-    # cannot be used directly on a yflip strip (see that helper's docstring
-    # for the full rationale).
-    tile_labels = ["t_on-1", "+100", "+250", "+400"]
-    strip_control = _strip_panel(strip_dat["fig7/control/frames"], tile_labels;
-                                  outlines = strip_dat["fig7/control/outlines"],
-                                  rowlabel = "control")
-    strip_injection = _strip_panel(strip_dat["fig7/injection/frames"], tile_labels;
-                                    outlines = strip_dat["fig7/injection/outlines"],
-                                    rowlabel = "cash ×10")
-    strip_pair = plot(strip_control, strip_injection; layout = @layout([a; b]))
-    _letterA = _strip_letter_row("A")
-    anchor = plot(_letterA, strip_pair; layout = @layout([a{0.08h}; b]))
+    # The two rows are merged into one heatmap so the tiles use the complete
+    # panel width without separate header/row-label bands or nested subplot
+    # margins. Time labels sit in the upper-right of every tile, and treatment
+    # labels sit in the upper-left of each row's first tile.
+    tile_labels = ["", "+100", "+250", "+400"]
+    function _fig7_strip_pair_panel(frames_top::Vector{<:AbstractMatrix},
+                                     frames_bottom::Vector{<:AbstractMatrix},
+                                     labels::Vector{String};
+                                     outlines_top = nothing, outlines_bottom = nothing,
+                                     gap::Int64 = 4, rowgap::Int64 = 4)
+        H, W = size(frames_top[1])
+        n = length(frames_top)
+        @assert length(frames_bottom) == n == length(labels)
+        total_rows = 2H + rowgap
+        total_cols = n*W + (n - 1)*gap
+        canvas = fill(NaN, total_rows, total_cols)
+        row_y0 = (0, H + rowgap)
+        for (row_i, frames) in enumerate((frames_top, frames_bottom))
+            y0 = row_y0[row_i]
+            for (i, frame) in enumerate(frames)
+                c0 = (i - 1)*(W + gap)
+                canvas[(y0+1):(y0+H), (c0+1):(c0+W)] .= Float64.(frame)
+            end
+        end
 
-    # ── B: edge-ring mechanism, injection — the sign-reversal panel (former
+        plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
+                      aspect_ratio = :equal, axis = false, colorbar = false,
+                      framestyle = :none, background_color_inside = :white,
+                      xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
+                      margin = 0Plots.mm, top_margin = 9Plots.mm)
+
+        # These are image annotations rather than axis text: keep them compact
+        # and move the lower-row times away from the upper sell clusters.
+        time_box_halfwidth = 11
+        for (row_i, y0) in enumerate(row_y0), (i, lab) in enumerate(labels)
+            isempty(lab) && continue
+            c0 = (i - 1)*(W + gap)
+            cx = c0 + W - time_box_halfwidth - 2
+            cy = row_i == 1 ? y0 + 3.5 : y0 + H - 3.5
+            plot!(plt, [cx - time_box_halfwidth, cx + time_box_halfwidth,
+                        cx + time_box_halfwidth, cx - time_box_halfwidth],
+                       [cy - 3, cy - 3, cy + 3, cy + 3];
+                  seriestype = :shape, fillcolor = :white, fillalpha = 0.82,
+                  linealpha = 0, label = "")
+            annotate!(plt, cx, cy,
+                      text(lab, :black, :center, 9, "helvetica"))
+        end
+
+        row_box_halfwidth = 16
+        for (y0, lab) in zip(row_y0, ["control\nt_on-1", "cash x10\nt_on-1"])
+            cx = 2.5 + row_box_halfwidth
+            plot!(plt, [cx - row_box_halfwidth, cx + row_box_halfwidth,
+                        cx + row_box_halfwidth, cx - row_box_halfwidth],
+                       [y0 + 0.5, y0 + 0.5, y0 + 11.5, y0 + 11.5];
+                  seriestype = :shape, fillcolor = :white, fillalpha = 0.82,
+                  linealpha = 0, label = "")
+            annotate!(plt, cx, y0 + 6,
+                      text(lab, :black, :center, 9, "helvetica"))
+        end
+
+        for (row_i, outlines) in enumerate((outlines_top, outlines_bottom))
+            outlines === nothing && continue
+            y0 = row_y0[row_i]
+            for (i, mask) in enumerate(outlines)
+                mask === nothing && continue
+                c0 = (i - 1)*(W + gap)
+                outline_x, outline_y = _mask_outline_xy(mask, c0)
+                isempty(outline_x) && continue
+                plot!(plt, outline_x, outline_y .+ y0; seriescolor = :black,
+                      linewidth = 1.2, label = "")
+            end
+        end
+        return plt
+    end
+
+    anchor = _fig7_strip_pair_panel(
+        strip_dat["fig7/control/frames"], strip_dat["fig7/injection/frames"], tile_labels;
+        outlines_top = strip_dat["fig7/control/outlines"],
+        outlines_bottom = strip_dat["fig7/injection/outlines"])
+    _panel_letter!(anchor, "A")
+
+    # ── B: ensemble price response under injection (new panel;
     # panel C, kept verbatim; only its letter changes) ──────────────────────
     subc = traj[(traj.direction .== "injection") .& (traj.condition .== "control"), :]
     subt = traj[(traj.direction .== "injection") .& (traj.condition .== "toggled"), :]
+    joined_pre = innerjoin(subc[subc.step_since_onset .< 0,
+                                [:seed, :step_since_onset, :price]],
+                           subt[subt.step_since_onset .< 0,
+                                [:seed, :step_since_onset, :price]],
+                           on = [:seed, :step_since_onset], makeunique = true)
+    @assert all(joined_pre.price .== joined_pre.price_1) "pre-toggle price paths must coincide"
+
+    pc = _aligned_quantiles_from_traj(subc, :price, xs)
+    pt = _aligned_quantiles_from_traj(subt, :price, xs)
+    @assert isapprox(pc.q50[end], median(inj.price_ctrl_W); atol = 1e-10)
+    @assert isapprox(pt.q50[end], median(inj.price_toggle_W); atol = 1e-10)
+    pB = plot(; xlabel = "Steps since onset", ylabel = "Price (USD/share)",
+              xticks = [-200, 0, 200, 400],
+              legend = :topleft, _panel_kw...)
+    plot!(pB, xs, pc.q50; ribbon = (pc.q50 .- pc.q25, pc.q75 .- pc.q50),
+          fillalpha = 0.14, color = _SERIES_COLORS[5], lw = 2.2,
+          label = "control")
+    plot!(pB, xs, pt.q50; ribbon = (pt.q50 .- pt.q25, pt.q75 .- pt.q50),
+          fillalpha = 0.14, color = _TOG_COLOR["injection"], lw = 2.2,
+          label = "cash x10")
+    vline!(pB, [0], color = :black, ls = :dash, lw = 1.0, label = "")
+    price_span = maximum(pt.q75) - minimum(pc.q25)
+    annotate!(pB, 35, maximum(pt.q75) - 0.03price_span,
+              text("toggle", _ANNOTATION_FONTSIZE, :black, :left))
+    _panel_letter!(pB, "B")
+
+    # ── C: edge-ring mechanism, injection — the sign-reversal panel ───
     buy_c  = _aligned_mean_from_traj(subc, :edge_buy_frac,  xs)
     buy_t  = _aligned_mean_from_traj(subt, :edge_buy_frac,  xs)
     sell_c = _aligned_mean_from_traj(subc, :edge_sell_frac, xs)
     sell_t = _aligned_mean_from_traj(subt, :edge_sell_frac, xs)
-    pB = plot(; xlabel = "steps since onset", ylabel = "edge-ring state fraction",
-              ylims = (-0.02, 1.12), legend = :outertopright, _panel_kw...)
-    plot!(pB, xs, buy_c,  color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Buy (control)")
-    plot!(pB, xs, sell_c, color = _HOLD_COLOR, ls = :dash, lw = 1.8, label = "Sell (control)")
-    plot!(pB, xs, buy_t,  color = _BUY_COLOR,  lw = 2.4, label = "Buy (toggled)")
-    plot!(pB, xs, sell_t, color = _SELL_COLOR, lw = 2.4, label = "Sell (toggled)")
-    vline!(pB, [0], color = :black, ls = :dash, lw = 1.0, label = "toggle (t_on)")
-    # Top-RIGHT corner (never top-left, where _panel_letter! always draws) and
-    # right-aligned so it grows away from that corner as text is added.
-    annotate!(pB, (0.98, 1.06),
-              text("injection: cash x10 at t_on", 8, :black, :right))
-    _panel_letter!(pB, "B")
+    pC = plot(; xlabel = "Steps since onset", ylabel = "Edge-ring fraction",
+              xticks = [-200, 0, 200, 400],
+              ylims = (-0.02, 1.12), legend = false, _panel_kw...)
+    plot!(pC, xs, buy_c,  color = _BUY_COLOR,  ls = :dash, lw = 1.8,
+          alpha = 0.48, label = "")
+    plot!(pC, xs, sell_c, color = _SELL_COLOR, ls = :dash, lw = 1.8,
+          alpha = 0.48, label = "")
+    plot!(pC, xs, buy_t,  color = _BUY_COLOR,  lw = 2.4, label = "")
+    plot!(pC, xs, sell_t, color = _SELL_COLOR, lw = 2.4, label = "")
+    vline!(pC, [0], color = :black, ls = :dash, lw = 1.0, label = "")
+    # Direct keys occupy the two data-free upper corners and need no opaque
+    # legend box. Hue identifies state; line style identifies arm.
+    for (y, color, lab) in ((1.065, _BUY_COLOR, "Buy"),
+                            (0.965, _SELL_COLOR, "Sell"))
+        plot!(pC, [-185, -145], [y, y], color = color, lw = 2.4, label = "")
+        annotate!(pC, -135, y,
+                  text(lab, _ANNOTATION_FONTSIZE, :black, :left))
+    end
+    for (y, style, lab) in ((1.065, :dash, "control"),
+                            (0.965, :solid, "toggled"))
+        plot!(pC, [190, 230], [y, y], color = :black, ls = style,
+              lw = style == :dash ? 1.8 : 2.4, label = "")
+        annotate!(pC, 240, y,
+                  text(lab, _ANNOTATION_FONTSIZE, :black, :left))
+    end
+    _panel_letter!(pC, "C")
 
-    # ── C: paired dumbbell — control->toggled front velocity, all three arms
+    # ── D: paired dumbbell — control->toggled front velocity, all three arms
     # side by side ────────────────────────────────────────────────────────
     # Replaces the former panels A and B (two separate spaghetti plots, one
     # per experiment) with one categorical panel: injection at x=1, mild
@@ -312,12 +434,9 @@ let
     # precedent as `_signflip_p` above) gives the per-seed jitter a fixed,
     # reproducible seed rather than drawing on shared global RNG state.
     dumbbell_arms = (
-        (df = inj,   x = 1, color = _SELL_COLOR, alpha = 1.00,
-         label = @sprintf("injection (n=%d, %d/%d up, p=%.3f)", nrow(inj), n_accel_inj, nrow(inj), sign_test_p)),
-        (df = mild,  x = 2, color = _HOLD_COLOR, alpha = 1.00,
-         label = @sprintf("withdrawal mild (n=%d, p=%.2f)", nrow(mild), mild_p)),
-        (df = harsh, x = 3, color = _HOLD_COLOR, alpha = 0.55,
-         label = @sprintf("withdrawal harsh (n=%d, p=%.2f)", nrow(harsh), harsh_p)),
+        (df = inj,   x = 1, color = _SELL_COLOR, alpha = 1.00),
+        (df = mild,  x = 2, color = _HOLD_COLOR, alpha = 1.00),
+        (df = harsh, x = 3, color = _HOLD_COLOR, alpha = 0.55),
     )
     half_width  = 0.16   # control/toggled separation within an arm's slot
     jitter_amp  = 0.09   # per-seed jitter around that separation
@@ -326,74 +445,44 @@ let
     v_range     = maximum(all_v) - minimum(all_v)
     ytop        = maximum(all_v) + 0.18 * v_range   # room for the median annotation
 
-    pC = plot(; xticks = ([1, 2, 3], ["injection", "mild", "harsh"]),
+    pD = plot(; xticks = ([1, 2, 3], ["injection", "mild", "harsh"]),
               xlims = (0.5, 3.5), ylims = (minimum(all_v) - 0.08 * v_range, ytop + 0.16 * v_range),
-              ylabel = "front velocity x 1e4 (per step)",
-              legend = :outertopright, _panel_kw...)
+              ylabel = "Front velocity (10^-4 grid/step)",
+              legend = false, _panel_kw...)
     jrng = Xoshiro(11)
     for arm in dumbbell_arms
         for r in eachrow(arm.df)
             jit    = (rand(jrng) - 0.5) * 2 * jitter_amp
             x_ctrl = arm.x - half_width + jit
             x_tog  = arm.x + half_width + jit
-            plot!(pC, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
+            plot!(pD, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
                   color = arm.color, alpha = arm.alpha * 0.5, lw = 1.0, label = "")
-            scatter!(pC, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
+            scatter!(pD, [x_ctrl, x_tog], [r.v_ctrl, r.v_toggle] .* 1e4,
                      color = arm.color, alpha = arm.alpha, markersize = 3,
                      markerstrokewidth = 0, label = "")
         end
         med_ctrl = median(arm.df.v_ctrl)  * 1e4
         med_tog  = median(arm.df.v_toggle) * 1e4
-        # Zero-length proxy series: the one legend entry per arm (diamond
-        # glyph matches the "diamond = median" convention already used in
-        # Fig6 panel C / FigS4 panel D). Deliberately NOT drawn as a real
-        # control->toggled trend line over the per-seed cloud: median(v_ctrl)
-        # and median(v_toggle) are each arm's own marginal medians, not the
-        # median of the PAIRED per-seed difference the sign-flip test above
-        # actually tests, and for the withdrawal arms those two disagree in
-        # sign (mild's marginal medians rise 2.23->3.57, but only 8 of 19
-        # pairs individually increase and the paired-difference test is null,
-        # p = 0.67) — a bold marginal-median line would visually overstate a
-        # result the p-value says is not there. The per-seed cloud above
-        # already carries the honest paired picture; the medians are reported
-        # as plain text instead of a second, competing trend line.
-        plot!(pC, Float64[], Float64[], color = arm.color, alpha = arm.alpha,
-              lw = 3.0, marker = :diamond, markersize = 7, markerstrokewidth = 1.0,
-              markerstrokecolor = :black, label = arm.label)
+        # The categorical x-axis already names each arm, so an arm legend
+        # would duplicate those labels and steal horizontal space. Marginal
+        # medians stay as plain text rather than a bold median trend line:
+        # the paired sign-flip tests use per-seed differences, and for mild
+        # withdrawal the marginal medians and paired result disagree in sign.
         # Stacked two-line text (not a single "1.39→3.55" line): the arm
         # slots are ~1 data-unit wide and a one-line arrow label overruns
         # into the neighbouring arm's slot at any legible font size (tried
         # first; overlapped). A narrow vertical stack fits inside one slot.
-        annotate!(pC, arm.x, ytop,
-                  text(@sprintf("%.2f\n%.2f", med_ctrl, med_tog), 6, :black, :center))
+        annotate!(pD, arm.x, ytop,
+                  text(@sprintf("%.2f\n%.2f", med_ctrl, med_tog), 8, :black, :center))
     end
-    _panel_letter!(pC, "C")
+    _panel_letter!(pD, "D")
 
-    # Panel A's row share and the overall canvas both grew (0.46h/980pt ->
-    # 0.60h/1260pt, mirroring the fix just applied to Fig6-GrowthGating.pdf
-    # and, before that, Fig5-Nucleus.pdf, commit 84d4c44) so the two stacked
-    # strip rows render at house scale (each row width-bound at full 1160pt
-    # canvas width, ~310px/tile at 110 dpi) instead of the small, centered
-    # pair the old 980pt-tall canvas gave them. 1260pt is the shortest
-    # height that keeps the tiles this large AND clears LaTeX's "Float too
-    # large for page" warning once the figure is placed at \linewidth.
-    #
-    # b/c column split is NOT 0.5/0.5: both legends sit :outertopright, but
-    # panel C's three arm labels carry longer stat strings ("withdrawal
-    # harsh (n=19, p=0.29)") than panel B's four state-trace labels, so an
-    # equal split under that asymmetry draws C's plot box measurably
-    # narrower than B's (~59% of B's width under an even split, measured at
-    # 110 dpi). An inside legend was tried first (Fig5's B precedent) and
-    # rejected: pC's data is three ~0.5-data-unit-wide categorical columns
-    # with no corner or gap wide enough to hold this legend's ~1.4-data-unit
-    # footprint without a paired line or point running through the text
-    # (verified by rendering pC alone with an opaque legend box and checking
-    # its pixel footprint against each arm's actual x-extent). Shifting
-    # width from b to c so each cell's OWN overhead (margins + axis labels +
-    # legend) is subtracted before the split, rather than after, equalizes
-    # the two drawn axis boxes (395px vs 403px at this canvas size, within
-    # 3%) without moving either legend or touching any data.
-    fig7 = plot(anchor, pB, pC; layout = @layout([a{0.60h}; b{0.414w} c{0.586w}]), size = (1160, 1260))
+    # The compact merged strip uses the complete upper width, and the lower
+    # panels share an equal split because no legend occupies an external
+    # column. The wider canvas keeps all three diagnostics legible at the
+    # manuscript's full-line figure width.
+    fig7 = plot(anchor, pB, pC, pD;
+                layout = @layout([a{0.58h}; b c d]), size = (900, 760))
     _save_figure(fig7, "Fig7-Intervention.pdf")
 end
 

@@ -80,7 +80,8 @@ end
 
 function _strip_panel(frames::Vector{<:AbstractMatrix}, labels::Vector{String};
                       gap::Int64 = 4, marks = nothing, rowlabel::String = "",
-                      outlines = nothing, header::Int64 = 22, label_fontsize::Int64 = 12)
+                      outlines = nothing, header::Int64 = 22,
+                      label_fontsize::Int64 = _STRIP_LABEL_FONTSIZE)
     canvas = _strip_canvas(frames; gap = gap, header = header)
     H, W = size(frames[1]); n = length(frames)
     plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,

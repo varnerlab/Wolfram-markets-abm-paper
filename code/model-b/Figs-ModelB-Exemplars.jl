@@ -99,39 +99,44 @@ crash_res = simulate(_exemplar_config(crash_row); snapshot_steps = Int64[], verb
 
 function _price_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(; ylabel = "price", legend = legend ? :outertopright : false, _panel_kw...)
+    p = plot(; ylabel = "Price (USD/share)",
+             legend = legend ? :topright : false, _panel_kw...)
     plot!(p, 0:T, res.band_lower, fillrange = res.band_upper, fillalpha = 0.15,
           lw = 0, color = :gray, label = legend ? "EMA band" : "")
     plot!(p, 0:T, res.ema_price, color = :gray, ls = :dash, lw = 1.0,
           label = legend ? "EMA" : "")
     plot!(p, 0:T, res.prices, color = :black, lw = 1.3, label = legend ? "price" : "")
-    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
+    annotate!(p, (0.98, 1.06),
+              text(regime, _ANNOTATION_FONTSIZE, :black, :right))
     return p
 end
 
 function _pop_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(; ylabel = "state fraction", ylims = (0, 1),
-             legend = legend ? :outertopright : false, _panel_kw...)
+    p = plot(; ylabel = "Interior-state fraction", ylims = (0, 1),
+             legend = legend ? :topright : false, _panel_kw...)
     plot!(p, 0:T, res.buy_fraction, color = _BUY_COLOR, lw = 1.3,
           label = legend ? "Buy" : "")
     plot!(p, 0:T, res.hold_fraction, color = _HOLD_COLOR, lw = 1.6,
           label = legend ? "Hold" : "")
     plot!(p, 0:T, res.sell_fraction, color = _SELL_COLOR, lw = 1.3,
           label = legend ? "Sell" : "")
-    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
+    annotate!(p, (0.98, 1.06),
+              text(regime, _ANNOTATION_FONTSIZE, :black, :right))
     return p
 end
 
 function _supp_panel(res; regime = "", legend = false)
     T = STEPS
-    p = plot(; ylabel = "suppressed orders", xlabel = "step",
-             legend = legend ? :outertopright : false, _panel_kw...)
+    p = plot(; ylabel = "Suppressed orders/step",
+             xlabel = "Simulation step",
+             legend = legend ? :topright : false, _panel_kw...)
     plot!(p, 1:T, res.suppressed_buys, color = _SERIES_COLORS[1], lw = 1.2,
           label = legend ? "suppressed buys" : "")
     plot!(p, 1:T, res.suppressed_sells, color = _SERIES_COLORS[2], lw = 1.2,
           label = legend ? "suppressed sells" : "")
-    annotate!(p, (0.98, 1.06), text(regime, 8, :black, :right))
+    annotate!(p, (0.98, 1.06),
+              text(regime, _ANNOTATION_FONTSIZE, :black, :right))
     return p
 end
 
@@ -147,7 +152,10 @@ for (p, letter) in zip(panels, ["A", "B", "C", "D", "E", "F"])
     _panel_letter!(p, letter)
 end
 
-fig = plot(panels...; layout = (3, 2), size = (950, 950),
-           left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
+# Legends stay inside the right-column axes, so every cell keeps the same
+# width and the two regime columns remain directly comparable row by row.
+fig = plot(panels...; layout = (3, 2), size = (900, 900),
+           left_margin = 6Plots.mm, right_margin = 3Plots.mm,
+           bottom_margin = 4Plots.mm)
 _save_figure(fig, "FigS1-Exemplars.pdf")
 @info "Figs-ModelB-Exemplars.jl complete." osc_run = osc_row.run_id crash_run = crash_row.run_id

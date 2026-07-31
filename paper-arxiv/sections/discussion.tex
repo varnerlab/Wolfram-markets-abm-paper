@@ -120,7 +120,12 @@ single asset against an infinite-inventory market maker, and while the Model~A s
 a conversion-curve rate constant that barely depended on lattice size, it also found the
 threshold itself moving with size, so grid-size robustness of the budget results is an
 assumption and not a check, and the model is silent on cross-asset
-contagion. The agents themselves are deterministic, since the CA rules incorporate no
+contagion. The return diagnostics do not supply an empirical validation that the price
+trajectory otherwise lacks. Model~B has bounded returns, $r_\tau=\lambda\varphi_\tau$,
+and their large full-horizon excess kurtosis largely separated into transient and
+pre/post-onset components, while raw returns remained strongly autocorrelated. QQQ served
+only as an intraday descriptive benchmark, with overnight joins removed, and Model~A could
+not be an independent return benchmark because QQQ is its price input. The agents themselves are deterministic, since the CA rules incorporate no
 stochastic noise, no learning, and no adaptive strategy switching, features of real
 markets whose inclusion would enrich the dynamics at the cost of breaking the
 enumerability of the rule

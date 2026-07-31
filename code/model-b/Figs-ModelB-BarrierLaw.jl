@@ -86,22 +86,86 @@ let
     # t_on = 350, before collapse's t_on = 374). Aligning by offset rather
     # than by absolute step sidesteps both: a reader compares how far each
     # arm's nucleus has grown N steps after ITS OWN onset, not two unrelated
-    # clocks. `outlines` traces the largest sell cluster in every frame;
-    # `rowlabel` spells out the cash level driving each arm, since
-    # "freeze"/"collapse" are internal config names that never appear on the
-    # page. Panel letter via `_strip_letter_row` (StripPanels.jl):
-    # `_panel_letter!` cannot be used directly on a yflip strip (see that
-    # helper's docstring for the full rationale).
-    tile_labels = ["t_on", "+100", "+250", "+400"]
-    strip_freeze = _strip_panel(strip_dat["fig6/freeze/frames"], tile_labels;
-                                 outlines = strip_dat["fig6/freeze/outlines"],
-                                 rowlabel = "cash 500")
-    strip_collapse = _strip_panel(strip_dat["fig6/collapse/frames"], tile_labels;
-                                   outlines = strip_dat["fig6/collapse/outlines"],
-                                   rowlabel = "cash 5,000")
-    strip_pair = plot(strip_freeze, strip_collapse; layout = @layout([a; b]))
-    _letterA = _strip_letter_row("A")
-    anchor = plot(_letterA, strip_pair; layout = @layout([a{0.08h}; b]))
+    # clocks. `outlines` traces the largest sell cluster in every frame; the
+    # cash overlays identify each arm because "freeze"/"collapse" are internal
+    # config names that never appear on the page. Both rows are merged into
+    # one heatmap so GR pays its subplot
+    # margin only once. Time labels sit in the upper-right of every tile and
+    # the cash labels in the upper-left of each row's first tile; no external
+    # header or row-label bands remain.
+    tile_labels = ["", "+100", "+250", "+400"]
+    function _fig6_strip_pair_panel(frames_top::Vector{<:AbstractMatrix},
+                                     frames_bottom::Vector{<:AbstractMatrix},
+                                     labels::Vector{String};
+                                     outlines_top = nothing, outlines_bottom = nothing,
+                                     gap::Int64 = 4, rowgap::Int64 = 4)
+        H, W = size(frames_top[1])
+        n = length(frames_top)
+        @assert length(frames_bottom) == n == length(labels)
+        total_rows = 2H + rowgap
+        total_cols = n*W + (n - 1)*gap
+        canvas = fill(NaN, total_rows, total_cols)
+        row_y0 = (0, H + rowgap)
+        for (row_i, frames) in enumerate((frames_top, frames_bottom))
+            y0 = row_y0[row_i]
+            for (i, frame) in enumerate(frames)
+                c0 = (i - 1)*(W + gap)
+                canvas[(y0+1):(y0+H), (c0+1):(c0+W)] .= Float64.(frame)
+            end
+        end
+
+        plt = heatmap(canvas; c = _grid_cgrad(), clims = (0, 2), yflip = true,
+                      aspect_ratio = :equal, axis = false, colorbar = false,
+                      framestyle = :none, background_color_inside = :white,
+                      xlims = (0.5, total_cols + 0.5), ylims = (0.5, total_rows + 0.5),
+                      margin = 0Plots.mm, top_margin = 9Plots.mm)
+
+        time_box_halfwidth = 12
+        for (row_i, y0) in enumerate(row_y0), (i, lab) in enumerate(labels)
+            isempty(lab) && continue
+            c0 = (i - 1)*(W + gap)
+            cx = c0 + W - time_box_halfwidth - 2
+            plot!(plt, [cx - time_box_halfwidth, cx + time_box_halfwidth,
+                        cx + time_box_halfwidth, cx - time_box_halfwidth],
+                       [y0 + 0.5, y0 + 0.5, y0 + 8.5, y0 + 8.5];
+                  seriestype = :shape, fillcolor = :white, fillalpha = 0.82,
+                  linealpha = 0, label = "")
+            annotate!(plt, cx, y0 + 4.5,
+                      text(lab, :black, :center, _STRIP_LABEL_FONTSIZE, "helvetica"))
+        end
+
+        cash_box_halfwidth = 20
+        for (y0, lab) in zip(row_y0, ["cash 500\nt_on", "cash 5,000\nt_on"])
+            cx = 2.5 + cash_box_halfwidth
+            plot!(plt, [cx - cash_box_halfwidth, cx + cash_box_halfwidth,
+                        cx + cash_box_halfwidth, cx - cash_box_halfwidth],
+                       [y0 + 0.5, y0 + 0.5, y0 + 13.5, y0 + 13.5];
+                  seriestype = :shape, fillcolor = :white, fillalpha = 0.82,
+                  linealpha = 0, label = "")
+            annotate!(plt, cx, y0 + 7,
+                      text(lab, :black, :center, 12, "helvetica"))
+        end
+
+        for (row_i, outlines) in enumerate((outlines_top, outlines_bottom))
+            outlines === nothing && continue
+            y0 = row_y0[row_i]
+            for (i, mask) in enumerate(outlines)
+                mask === nothing && continue
+                c0 = (i - 1)*(W + gap)
+                xs, ys = _mask_outline_xy(mask, c0)
+                isempty(xs) && continue
+                plot!(plt, xs, ys .+ y0; seriescolor = :black,
+                      linewidth = 1.2, label = "")
+            end
+        end
+        return plt
+    end
+
+    anchor = _fig6_strip_pair_panel(
+        strip_dat["fig6/freeze/frames"], strip_dat["fig6/collapse/frames"], tile_labels;
+        outlines_top = strip_dat["fig6/freeze/outlines"],
+        outlines_bottom = strip_dat["fig6/collapse/outlines"])
+    _panel_letter!(anchor, "A")
 
     # ── B: Kaplan-Meier median onset time vs f, three cash levels, fitted curves ──
     # Model A reference: ln τ = 2.78 + 0.389/(f − 0.101), R² = 0.991 (Results).
@@ -111,7 +175,8 @@ let
     # axis across 15 decades and crushing the data medians.
     TAU_MAX = 3.0e4
 
-    panelB = plot(; xlabel = "f", ylabel = "median onset time (steps)", yscale = :log10,
+    panelB = plot(; xlabel = "Minority fraction, f",
+              ylabel = "Median onset time (steps)", yscale = :log10,
               ylims = (50, TAU_MAX), legend = :topright, _panel_kw...)
     fref = range(F0_REF + B_REF / (log(TAU_MAX) - A_REF), maximum(a1.f); length = 400)
     plot!(panelB, fref, exp.(A_REF .+ B_REF ./ (fref .- F0_REF)),
@@ -141,9 +206,9 @@ let
     # ── C: front velocity vs. absolute suppression, coloured by dose ───────
     # ρ, p, n, and the exclusion count previously lived in this panel's title;
     # with titles gone, they move to an in-panel text annotation instead.
-    panelC = plot(; xlabel = "suppressed buy orders / step (absolute)",
-              ylabel = "front velocity × 1e4 (fraction/step)",
-              legend = :outertopright, _panel_kw...)
+    panelC = plot(; xlabel = "Suppressed buy orders (orders/step)",
+              ylabel = "Front velocity (10^-4 grid/step)",
+              legend = :topright, _panel_kw...)
     # Two passes — every point, THEN every median diamond — rather than one
     # pass per cash group. The five medians cluster tightly, so interleaving
     # (points, diamond) per group let a later group's diamond partially cover
@@ -163,36 +228,14 @@ let
                  color = cash_color[cash], marker = :diamond, markersize = 9,
                  markerstrokewidth = 1.2, markerstrokecolor = :black, label = "")
     end
-    annotate!(panelC, (0.97, 0.95),
-              text(@sprintf("Spearman ρ = %.3f\npermutation p = %.4f\n(n = %d, excl. %d)",
-                            spearman_rho, perm_p, n_included, n_excluded),
-                   8, :black, :right))
     _panel_letter!(panelC, "C")
 
-    # Panel A's row share and the overall canvas both grew (0.46h/980pt ->
-    # 0.60h/1260pt, following the Fig5-Nucleus.pdf precedent, commit
-    # 84d4c44) so the two stacked strip rows render at house scale (each row
-    # width-bound at full 1160pt canvas width, ~310px/tile at 110 dpi,
-    # comfortably above the 250px floor) instead of the small, centered
-    # strip pair the old 980pt-tall canvas gave them -- the region each
-    # strip subplot was allotted was far wider than tall relative to the
-    # canvas's own aspect (four tiles + header vs. two full-width tiles'
-    # worth of height), so aspect_ratio = :equal height-limited the strip
-    # and centered it with wide dead margins on both sides. 1260pt (not the
-    # 1400pt tried first) is the shortest height that keeps the tiles this
-    # large AND clears LaTeX's "Float too large for page" warning once the
-    # figure is placed at \linewidth in the paper.
-    #
-    # b/c column split is NOT 0.5/0.5: panel B's legend sits INSIDE the axes
-    # (:topright, costs no width), panel C's sits OUTSIDE (:outertopright,
-    # costs real width from C's own cell) -- an equal split under that
-    # asymmetry draws B's plot box measurably wider than C's (~64% of B's
-    # width under an even split, measured at 110 dpi). Shifting width from
-    # b to c so each cell's OWN overhead (margins + axis labels + legend) is
-    # subtracted before the split, rather than after, equalizes the two
-    # drawn axis boxes (586px vs 569px at this canvas size, within 3%)
-    # without touching either legend's position or content.
-    fig = plot(anchor, panelB, panelC; layout = @layout([a{0.60h}; b{0.410w} c{0.590w}]), size = (1160, 1260))
+    # The merged strip uses the full width without header bands or nested
+    # subplot margins, making every tile larger on a shorter canvas. With
+    # both lower legends inside their axes, B and C can use an equal split
+    # and matching house margins.
+    fig = plot(anchor, panelB, panelC;
+               layout = @layout([a{0.54h}; b c]), size = (900, 916))
     _save_figure(fig, "Fig6-GrowthGating.pdf")
     @info "Saved: Fig6-GrowthGating.pdf"
 
@@ -206,7 +249,8 @@ let
     # Reuses `a1`, `cashes_a1`, `cash_color`, `fits_sorted`, `a2`, `cashes_a2`,
     # and the Model A reference constants already computed above — no refit.
     # =========================================================================
-    pS1 = plot(; xlabel = "f", ylabel = "fraction of seeds with onset (within horizon)",
+    pS1 = plot(; xlabel = "Minority fraction, f",
+               ylabel = "Onset frequency (run fraction)",
                ylims = (0, 1.05), legend = :outertopright, _panel_kw...)
     for cash in cashes_a1
         sub   = a1[a1.cash .== cash, :]
@@ -221,7 +265,8 @@ let
     fok    = fits_sorted[.!isnan.(fits_sorted.f0), :]
     xs_fit = collect(1:max(nrow(fok), 1))
 
-    pS2 = plot(; xlabel = "initial cash", ylabel = "fitted pseudo-threshold f0",
+    pS2 = plot(; xlabel = "Initial cash (USD/agent)",
+               ylabel = "Fitted pseudo-threshold, f0",
                xticks = (xs_fit, string.(Int.(fok.cash))),
                xlims = (0.5, max(nrow(fok), 1) + 0.5), legend = false, _panel_kw...)
     if nrow(fok) > 0
@@ -231,7 +276,8 @@ let
     end
     _panel_letter!(pS2, "B")
 
-    pS3 = plot(; xlabel = "initial cash", ylabel = "fitted shape coefficient B",
+    pS3 = plot(; xlabel = "Initial cash (USD/agent)",
+               ylabel = "Fitted shape coefficient, B",
                xticks = (xs_fit, string.(Int.(fok.cash))),
                xlims = (0.5, max(nrow(fok), 1) + 0.5), legend = false, _panel_kw...)
     if nrow(fok) > 0
@@ -246,7 +292,8 @@ let
     # unambiguously (log-scaled, one tick per dose), so no legend is needed
     # to track colour — the same dose is already identified twice over
     # (position and colour).
-    pS4 = plot(; xlabel = "initial cash", ylabel = "front velocity × 1e4",
+    pS4 = plot(; xlabel = "Initial cash (USD/agent)",
+               ylabel = "Front velocity (10^-4 grid/step)",
                xscale = :log10, xticks = (cashes_a2, string.(Int.(cashes_a2))),
                legend = false, _panel_kw...)
     for cash in cashes_a2
@@ -264,7 +311,7 @@ let
     # clipped against the page edge (Task 13 fix review). Extended to (2,2)
     # (Task 5) to seat the new panel D; Fig6 is built entirely above this
     # point from anchor/panelB/panelC and is untouched by this change.
-    figS4 = plot(pS1, pS2, pS3, pS4; layout = (2, 2), size = (1150, 950),
+    figS4 = plot(pS1, pS2, pS3, pS4; layout = (2, 2), size = (900, 743),
                  left_margin = 12Plots.mm, bottom_margin = 10Plots.mm, top_margin = 10Plots.mm)
     _save_figure(figS4, "FigS4-BarrierParameters.pdf")
 end

@@ -35,8 +35,9 @@
 # Writes: code/data/ModelB-Nucleation-BudgetToggle.csv              (one row per
 #                                                                      direction x seed)
 #         code/data/ModelB-Nucleation-BudgetToggle-Trajectories.csv  (onset-aligned
-#                                                                      per-step trace,
-#                                                                      long format)
+#                                                                      per-step cluster,
+#                                                                      edge-state, and
+#                                                                      price trace)
 #
 # Figures are drawn by Figs-ModelB-BudgetToggle.jl (a separate, standalone script),
 # which reads ONLY the two CSVs above — so the committed figures remain
@@ -121,7 +122,8 @@ function _run_pair(dir::NamedTuple, seed::Int)
                        edgesell_ctrl_W = NaN, edgesell_toggle_W = NaN),
                 maxcl_c = maxcl_c, maxcl_t = Float64[], t_on = t_on,
                 eb_c = Float64[], es_c = Float64[],
-                eb_t = Float64[], es_t = Float64[])
+                eb_t = Float64[], es_t = Float64[],
+                price_c = Float64[], price_t = Float64[])
     end
 
     hook = (t, books) -> (t == t_on && (books.cash .*= dir.factor); nothing)
@@ -159,7 +161,8 @@ function _run_pair(dir::NamedTuple, seed::Int)
            edgesell_ctrl_W   = mean(@view es_c[t_on:(t_on + W)]),
            edgesell_toggle_W = mean(@view es_t[t_on:(t_on + W)]))
     return (row = row, maxcl_c = maxcl_c, maxcl_t = maxcl_t, t_on = t_on,
-            eb_c = eb_c, es_c = es_c, eb_t = eb_t, es_t = es_t)
+            eb_c = eb_c, es_c = es_c, eb_t = eb_t, es_t = es_t,
+            price_c = ctrl.prices[2:end], price_t = tog.prices[2:end])
 end
 
 # ---------------------------------------------------------------------------
@@ -204,7 +207,9 @@ end
 # Persist onset-aligned per-step traces so both figures (paired trajectories +
 # edge-ring trace) can be rebuilt without re-running the campaign. Columns:
 # direction, seed, condition, step_since_onset, cluster_frac, edge_buy_frac,
-# edge_sell_frac. Only included pairs have an onset to align to; an excluded
+# edge_sell_frac, price. Price is the post-step quote at the same absolute
+# step used for the cluster and edge-state observations. Only included pairs
+# have an onset to align to; an excluded
 # pair (t_on == 0, or t_on + W > STEPS) has no toggled run and contributes no
 # trace. Range persisted per seed: (-min(PRE, t_on - 1)):W — the same
 # per-seed-clipped pre-window the paired-trajectory figure plots, and a
@@ -227,10 +232,12 @@ for i in eachindex(items)
         t = t_on + x
         push!(traj_rows, (direction = dir_name, seed = seed, condition = "control",
                            step_since_onset = x, cluster_frac = r.maxcl_c[t],
-                           edge_buy_frac = r.eb_c[t], edge_sell_frac = r.es_c[t]))
+                           edge_buy_frac = r.eb_c[t], edge_sell_frac = r.es_c[t],
+                           price = r.price_c[t]))
         push!(traj_rows, (direction = dir_name, seed = seed, condition = "toggled",
                            step_since_onset = x, cluster_frac = r.maxcl_t[t],
-                           edge_buy_frac = r.eb_t[t], edge_sell_frac = r.es_t[t]))
+                           edge_buy_frac = r.eb_t[t], edge_sell_frac = r.es_t[t],
+                           price = r.price_t[t]))
     end
 end
 CSV.write(joinpath(_PATH_TO_DATA, "ModelB-Nucleation-BudgetToggle-Trajectories.csv"),

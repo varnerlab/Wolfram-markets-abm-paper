@@ -52,6 +52,7 @@ run_figures() {
     run_julia model-a/Figs-ModelA-FiniteSize.jl
     run_julia model-b/Figs-ModelB-Exemplars.jl
     run_julia model-b/Figs-ModelB-SeedSweep.jl
+    run_julia model-b/Figs-ModelB-ReturnDiagnostics.jl
     run_julia model-b/Figs-ModelB-BarrierLaw.jl
     run_julia model-b/Figs-ModelB-BoundaryVsBulk.jl
     run_julia model-b/Figs-ModelB-BudgetToggle.jl
