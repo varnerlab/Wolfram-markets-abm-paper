@@ -110,6 +110,54 @@ These upgrade several P0s substantially and are cheaper than the review assumes:
 | C10 | L=32 small-lattice study (why it converts at LOWER f: basin structure / wrap-around interactions at 200-step burn-in scale) | small | 3 |
 | C11 | Rule-pair genericity screen (parked strategy; already on the roadmap) | medium | known |
 
+## C′. Revised compute program (2026-08-05; supersedes the C-table sizing)
+
+User directive: the audit's technical core is the priority; packaging items are
+closed or parked. Re-sizing correction, grounded in the committed campaign log
+(`FiniteSizeScaling-run.log`): the full 900-run survey (5 L × 9 f × 20 seeds,
+T=10⁵, 24 threads) took ≈93 s wall; the worst cell (L=512, f=0.13, mostly
+censored) was 31 s for 20 seeds. Model A compute is essentially free at
+referee-proof scale — the binding cost is instrumentation code and analysis, not
+CPU. The B-reanalyses are demoted to diagnostics that feed campaign design; they
+do not substitute for the campaigns. Consolidated program:
+
+**Campaign I — Model A size/horizon/kinetics (items 1, 3, 4 — the technical
+core).** Seeds 20 → 200 (500 at f½-bracketing cells); f-grid refined to
+Δf=0.0025 across the crossover per L; add L=1024; extend T to 10⁶ at censored
+large-L cells (tests "converts eventually" honestly and gives the hazard model
+its T-dependence); instrument runs to MEASURE what Avrami fitting only infers —
+domain birth-time distributions (first appearance of each surviving cluster
+lineage) and interface velocity (largest-cluster perimeter tracking); alt-IC and
+alt-burn-in arms at a subset of cells; dedicated L=32 mechanism study. Estimated
+wall time from measured throughput: single-digit hours; overnight with margin.
+Deliverables: f½(L,T) with intervals, per-area hazard test, measured
+birth/growth kinetics replacing exponent inference, fitted CV slopes.
+
+**Campaign II — Model B escape-time + intervention redesign (items 6, 9, 10, 11
++ the p=0.064 doubling).** Escape-time: horizon 2,000 → 20,000 at censored
+low-f cells (lifts the 5/6/6-point poverty to 8–10 finite medians per arm),
+seeds → 100. Toggle: crossed direction × baseline (both from cash-500 and
+cash-5000), doubled seeds, interior-only + lineage-tracked outcome metrics, and
+at least one boundary-mediation ablation arm (freeze-edge hook; force-flip
+hook). IC-robustness and 128² grid-size arms fold in here. Code work: new
+simulate hooks + interior metrics.
+
+**Campaign III — birth/patch program (items 7, 8).** Matched frozen-boundary
+simulation nulls on the same landscapes; patch dose ladder (3×3 → 9×9) ×
+randomized placements per stratum × stamp-after-burn-in arm; all-ancestor
+genealogy sensitivity.
+
+**Campaign IV — structural robustness (items 16, 18; C11).** One asynchronous
+update scheme (code work), one alternate boundary topology, rule-pair
+perturbation screen, QQQ forcing ladder (C8 arms).
+
+**Theory track (item 2, parallel):** quenched rule-type-resolved closures —
+analyst-time-bound, not CPU-bound.
+
+Order: I first (it answers the items the reviewer called the paper's weakest),
+II second, III/IV as they slot in. Prose edits that cite campaign numbers wait
+for their campaign; the rest of the A-wave can interleave.
+
 ## D. User decisions (flagged, not acted on)
 
 1. **Title / "market crash" framing (item 13).** The title is user-picked (3c8c037).
