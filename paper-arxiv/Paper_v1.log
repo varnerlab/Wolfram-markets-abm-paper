@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1053,12 +1053,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[13]) (./sections/conclusion.tex
-Underfull \vbox (badness 1237) has occurred while \output is active []
+[13]) (./sections/conclusion.tex) (./Paper_v1.bbl
+Underfull \vbox (badness 5652) has occurred while \output is active []
 
 
 
-[14]) (./Paper_v1.bbl
+[14]
 
 [15]
 
@@ -1146,7 +1146,7 @@ Package pdftex.def Info: figs/Fig7-Intervention.pdf  used on input line 160.
 
 ]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 156.
+put line 154.
 \openout5 = `Paper_v1.ttt'.
 
  (Paper_v1.ttt)
@@ -1278,7 +1278,7 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on Paper_v1.pdf (40 pages, 2877060 bytes).
+Output written on Paper_v1.pdf (40 pages, 2876625 bytes).
 PDF statistics:
  779 PDF objects out of 1000 (max. 8388607)
  647 compressed objects within 7 object streams

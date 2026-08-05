@@ -16,7 +16,6 @@ drawn afresh at minority fraction~$f$ follows the effective stochastic rule
 \end{equation}
 deterministic at every $c \neq 1$ and splitting $c = 1$ between Buy with
 probability $1-f$ and Sell with probability~$f$.
-
 The mean-field closure is that same effective rule with all spatial structure discarded:
 each agent's four neighbors are drawn independently from the global state distribution
 $(p_0, p_1, p_2)$, where $p_s$ is the fraction of agents in state~$s$ and
@@ -75,7 +74,6 @@ pair (each site conditioning on its own partner) yields the synchronous pair upd
 \end{equation}
 We symmetrized and
 renormalized $\rho'$ after every step to guard against numerical drift.
-
 We iterated the map to its fixed points, declaring convergence when the largest
 componentwise change $\max_{ab} |\rho'_{ab} - \rho_{ab}|$ fell below $10^{-12}$, and
 every trajectory reported here converged within $474$ iterations. Stability
@@ -227,7 +225,6 @@ return standard deviation, and $0.974$ for the $\varphi$ sign-flip count, leavin
 the seed at most $5.4\%$. Among the individual factors, enabling the disposition rule
 increased return standard deviation by a factor of $2.40$ on average across matched
 design cells.
-
 The crash-prone class divided into the modal freeze and a collapsing tail, the
 decomposition on which the transition analysis builds: the median crash-prone run
 had a maximum drawdown of about $5\%$ and a price minimum of $100.00$, so half the
@@ -299,7 +296,6 @@ Figure~\ref{fig:s4}) come from $2{,}000$ bootstrap resamples drawn over seeds
 within each~$f$: each resample recomputes the Kaplan--Meier medians and refits the
 barrier law, and the intervals are the $2.5$th and $97.5$th percentiles of the
 resampled parameters.
-
 Finally, the onset-rate ordering near the cliff can be read from the
 cell counts (Table~\ref{tab:censoring-counts}), and it carries the same label as in the
 main text: exploratory, reported uncorrected for multiple comparisons, a lead rather

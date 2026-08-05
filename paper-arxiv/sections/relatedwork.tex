@@ -4,11 +4,6 @@
 \label{sec:related}
 % ============================================================================
 
-Our work lies at the intersection of three research traditions: agent-based models of
-financial markets, lattice and spin models from statistical mechanics, and cellular
-automata theory. We review each strand below and identify where existing approaches
-stop short of the connection we propose.
-
 \subsection{Agent-Based Models and Stylized Facts}
 The quantitative study of financial market dynamics has been shaped by a tension between
 tractable theoretical frameworks and the empirical complexity of observed data.
@@ -45,7 +40,6 @@ Tan, and Zheng~\cite{chen2015herding} showed that multi-level herding simultaneo
 reproduces sector structure and volatility clustering. Harras and
 Sornette~\cite{harras2012noise} modeled myopic adapting agents whose local herding behavior
 inflates bubbles that eventually collapse, connecting the ABM literature to crash dynamics.
-
 On the theoretical side, Hommes~\cite{hommes2006heterogeneous} surveys heterogeneous agent
 models incorporating adaptive expectations and evolutionary strategy selection;
 LeBaron~\cite{lebaron2006agent} provides a systematic treatment of agent-based computational
@@ -96,7 +90,6 @@ markets~\cite{battiston2016complexity}. Farmer et al.~\cite{farmer2005predictive
 that even zero-intelligence agents can reproduce aspects of market microstructure when placed
 in a realistic order-book mechanism, suggesting that the structure of interaction may matter
 more than the sophistication of individual decision rules.
-
 Statistical-mechanics accounts describe crashes as collective transitions with slow
 relaxation or endogenous amplification~\cite{bouchaud2013crises}, a distinction that has
 been tested empirically in other complex systems by separating endogenous from exogenous
@@ -124,7 +117,6 @@ and spatial chaos. The classification program reveals that even deterministic,
 strictly local rules can produce dynamics ranging from trivially ordered to computationally
 universal, a property that makes CA attractive as a modeling framework wherever the goal
 is to understand how microscopic rules generate macroscopic complexity.
-
 Applications to financial markets, however, are few, and we are aware of three that apply
 CA directly to market dynamics. Wei et al.~\cite{wei2003cellular} proposed a CA model for
 securities markets
@@ -138,7 +130,6 @@ qualitatively consistent with our phase diagram, though their model uses a diffe
 framework and does not characterize the transition as a sharp phase boundary. None of these
 studies uses the full Wolfram totalistic rule framework, and none couples the CA to real
 market data or resolves the spatial structure of crash cascades.
-
 The present work embeds agent dynamics in the complete Wolfram totalistic rule space
 ($3^9$ rules), which allows systematic enumeration and comparison rather than rule design
 by hand; it couples the CA to real market data (the exogenous-price model) or a reflexive
