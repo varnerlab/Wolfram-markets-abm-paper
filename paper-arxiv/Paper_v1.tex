@@ -66,21 +66,28 @@
 \maketitle
 
 \begin{abstract}
-We study crash-like transitions in a deterministic, three-state cellular automaton on a
-two-dimensional grid. Interior agents update from their four nearest neighbors using one
-of two totalistic rules, and their mixture fraction~$f$ is the main control parameter.
-In the exogenous-price model, QQQ minute data drive a subset of boundary cells. The model shows a sharp
-finite-horizon crossover from a mixed state to a sell-dominated state. Sell domains form
-locally and spread across the grid as coherent fronts. Mean-field and pair
-approximations do not reproduce this spatial behavior. Across random initial conditions
-and rule placements, onset times follow an inverse-distance empirical curve consistent
-with a nucleation interpretation. The endogenous-price model replaces the external price
-with a feedback loop and filters desired orders through finite cash and share inventories.
-In the present experiments, budgets shift onset times less than twofold and
-instead alter post-onset domain growth. A paired cash intervention
-supports a price-to-boundary feedback mechanism, although the result is specific to the
-model's execution and market-maker assumptions. The finite rule space makes the same
-analysis possible for every totalistic rule in this model class.
+Large market declines are not always traceable to external news of comparable size, which
+raises the question of whether local interactions among traders can generate crash-like
+transitions on their own. We studied that question in a deterministic, three-state
+cellular automaton in which agents on a two-dimensional grid hold Buy, Hold, or Sell
+states and update from their four nearest neighbors under Wolfram totalistic rules. The
+interior mixed a majority rule with a contrarian rule that differs at a single
+neighborhood sum, and the contrarian fraction served as the only control parameter. In
+the exogenous-price model, boundary agents classified real QQQ minute-bar prices through
+a volatility band and injected the result into the grid. Sweeping the contrarian fraction
+produced a sharp finite-horizon crossover from a mixed state to a sell-dominated one:
+sell domains nucleated locally and spread as coherent fronts that neither a mean-field
+map nor a pair approximation reproduced, and onset times followed an inverse-distance
+empirical curve consistent with a nucleation interpretation. The endogenous-price model
+replaced the external feed with a price formed from the grid's own executed order
+imbalance and gave every agent finite cash and share inventories, so sentiment had to
+pass a budget before reaching the market. The crossover survived those budgets, onset
+times were nearly indifferent to the cash endowment, and what the endowment governed
+instead was how fast the winning domain grew after birth. A paired cash intervention
+traced that gating to the one-cell-deep boundary ring through which price information
+reenters the grid, a mechanism specific to the model's execution and market-maker
+assumptions. Because the totalistic rule space is finite and enumerable, the same
+analysis extends to every rule in this model class.
 \end{abstract}
 
 \input{sections/introduction}
