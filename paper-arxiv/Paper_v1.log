@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 16:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 16:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1081,7 +1081,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 )
 
 [18]
-<figs/Fig2-Crossover.pdf, id=389, 903.375pt x 1121.18875pt>
+<figs/Fig2-Crossover.pdf, id=392, 903.375pt x 1121.18875pt>
 File: figs/Fig2-Crossover.pdf Graphic file (type pdf)
 <use figs/Fig2-Crossover.pdf>
 Package pdftex.def Info: figs/Fig2-Crossover.pdf  used on input line 17.
@@ -1089,7 +1089,7 @@ Package pdftex.def Info: figs/Fig2-Crossover.pdf  used on input line 17.
 
 
 [19 <./figs/Fig2-Crossover.pdf>]
-<figs/Fig-ModelA-FiniteSize.pdf, id=405, 903.375pt x 934.49126pt>
+<figs/Fig-ModelA-FiniteSize.pdf, id=408, 903.375pt x 934.49126pt>
 File: figs/Fig-ModelA-FiniteSize.pdf Graphic file (type pdf)
 <use figs/Fig-ModelA-FiniteSize.pdf>
 Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 38.
@@ -1098,7 +1098,7 @@ Package pdftex.def Info: figs/Fig-ModelA-FiniteSize.pdf  used on input line 38.
 
 
 [20 <./figs/Fig-ModelA-FiniteSize.pdf>]
-<figs/Fig-ModelA-Theory.pdf, id=419, 903.375pt x 341.275pt>
+<figs/Fig-ModelA-Theory.pdf, id=422, 903.375pt x 341.275pt>
 File: figs/Fig-ModelA-Theory.pdf Graphic file (type pdf)
 <use figs/Fig-ModelA-Theory.pdf>
 Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 67.
@@ -1106,7 +1106,7 @@ Package pdftex.def Info: figs/Fig-ModelA-Theory.pdf  used on input line 67.
 
 
 [21 <./figs/Fig-ModelA-Theory.pdf>]
-<figs/Fig5-Nucleus.pdf, id=427, 903.375pt x 716.6775pt>
+<figs/Fig5-Nucleus.pdf, id=430, 903.375pt x 716.6775pt>
 File: figs/Fig5-Nucleus.pdf Graphic file (type pdf)
 <use figs/Fig5-Nucleus.pdf>
 Package pdftex.def Info: figs/Fig5-Nucleus.pdf  used on input line 98.
@@ -1114,7 +1114,7 @@ Package pdftex.def Info: figs/Fig5-Nucleus.pdf  used on input line 98.
 
 
 [22 <./figs/Fig5-Nucleus.pdf>]
-<figs/Fig6-GrowthGating.pdf, id=441, 903.375pt x 919.435pt>
+<figs/Fig6-GrowthGating.pdf, id=444, 903.375pt x 919.435pt>
 File: figs/Fig6-GrowthGating.pdf Graphic file (type pdf)
 <use figs/Fig6-GrowthGating.pdf>
 Package pdftex.def Info: figs/Fig6-GrowthGating.pdf  used on input line 125.
@@ -1122,7 +1122,7 @@ Package pdftex.def Info: figs/Fig6-GrowthGating.pdf  used on input line 125.
 
 
 [23 <./figs/Fig6-GrowthGating.pdf>]
-<figs/Fig7-Intervention.pdf, id=463, 903.375pt x 762.85pt>
+<figs/Fig7-Intervention.pdf, id=466, 903.375pt x 762.85pt>
 File: figs/Fig7-Intervention.pdf Graphic file (type pdf)
 <use figs/Fig7-Intervention.pdf>
 Package pdftex.def Info: figs/Fig7-Intervention.pdf  used on input line 160.
@@ -1166,7 +1166,7 @@ Underfull \vbox (badness 3657) has occurred while \output is active []
 
  (Paper_v1.fff)) AED endfloat: Processing end Figures and Tables
 (./Paper_v1.fff
-<figs/FigS1-Exemplars.pdf, id=562, 903.375pt x 903.375pt>
+<figs/FigS1-Exemplars.pdf, id=567, 903.375pt x 903.375pt>
 File: figs/FigS1-Exemplars.pdf Graphic file (type pdf)
 <use figs/FigS1-Exemplars.pdf>
 Package pdftex.def Info: figs/FigS1-Exemplars.pdf  used on input line 5.
@@ -1174,7 +1174,7 @@ Package pdftex.def Info: figs/FigS1-Exemplars.pdf  used on input line 5.
 
 
 [31 <./figs/FigS1-Exemplars.pdf>]
-<figs/FigS2-SeedTrajectories.pdf, id=571, 1003.75pt x 545.03625pt>
+<figs/FigS2-SeedTrajectories.pdf, id=576, 1003.75pt x 545.03625pt>
 File: figs/FigS2-SeedTrajectories.pdf Graphic file (type pdf)
 <use figs/FigS2-SeedTrajectories.pdf>
 Package pdftex.def Info: figs/FigS2-SeedTrajectories.pdf  used on input line 27
@@ -1183,7 +1183,7 @@ Package pdftex.def Info: figs/FigS2-SeedTrajectories.pdf  used on input line 27
 
 
 [32 <./figs/FigS2-SeedTrajectories.pdf>]
-<figs/FigS3-PeakSell.pdf, id=579, 481.8pt x 381.425pt>
+<figs/FigS3-PeakSell.pdf, id=584, 481.8pt x 381.425pt>
 File: figs/FigS3-PeakSell.pdf Graphic file (type pdf)
 <use figs/FigS3-PeakSell.pdf>
 Package pdftex.def Info: figs/FigS3-PeakSell.pdf  used on input line 49.
@@ -1197,7 +1197,7 @@ rac-tion $\OML/cmm/m/it/10 f$ \T1/ptm/m/n/10 (+20) for the ex-oge-nous model
 
 
 [33 <./figs/FigS3-PeakSell.pdf>]
-<figs/FigS4-BarrierParameters.pdf, id=589, 903.375pt x 745.78625pt>
+<figs/FigS4-BarrierParameters.pdf, id=594, 903.375pt x 745.78625pt>
 File: figs/FigS4-BarrierParameters.pdf Graphic file (type pdf)
 <use figs/FigS4-BarrierParameters.pdf>
 Package pdftex.def Info: figs/FigS4-BarrierParameters.pdf  used on input line 6
@@ -1206,7 +1206,7 @@ Package pdftex.def Info: figs/FigS4-BarrierParameters.pdf  used on input line 6
 
 
 [34 <./figs/FigS4-BarrierParameters.pdf>]
-<figs/FigS5-SeedingDetail.pdf, id=601, 903.375pt x 667.49374pt>
+<figs/FigS5-SeedingDetail.pdf, id=606, 903.375pt x 667.49374pt>
 File: figs/FigS5-SeedingDetail.pdf Graphic file (type pdf)
 <use figs/FigS5-SeedingDetail.pdf>
 Package pdftex.def Info: figs/FigS5-SeedingDetail.pdf  used on input line 88.
@@ -1214,7 +1214,7 @@ Package pdftex.def Info: figs/FigS5-SeedingDetail.pdf  used on input line 88.
 
 
 [35 <./figs/FigS5-SeedingDetail.pdf>]
-<figs/FigS6-ToggleDetail.pdf, id=609, 903.375pt x 542.025pt>
+<figs/FigS6-ToggleDetail.pdf, id=614, 903.375pt x 542.025pt>
 File: figs/FigS6-ToggleDetail.pdf Graphic file (type pdf)
 <use figs/FigS6-ToggleDetail.pdf>
 Package pdftex.def Info: figs/FigS6-ToggleDetail.pdf  used on input line 113.
@@ -1222,7 +1222,7 @@ Package pdftex.def Info: figs/FigS6-ToggleDetail.pdf  used on input line 113.
 
 
 [36 <./figs/FigS6-ToggleDetail.pdf>]
-<figs/FigS7-FiniteSizeDetail.pdf, id=617, 903.375pt x 379.4175pt>
+<figs/FigS7-FiniteSizeDetail.pdf, id=622, 903.375pt x 379.4175pt>
 File: figs/FigS7-FiniteSizeDetail.pdf Graphic file (type pdf)
 <use figs/FigS7-FiniteSizeDetail.pdf>
 Package pdftex.def Info: figs/FigS7-FiniteSizeDetail.pdf  used on input line 14
@@ -1231,7 +1231,7 @@ Package pdftex.def Info: figs/FigS7-FiniteSizeDetail.pdf  used on input line 14
 
 
 [37 <./figs/FigS7-FiniteSizeDetail.pdf>]
-<figs/FigS8-ReturnDiagnostics.pdf, id=626, 903.375pt x 677.53125pt>
+<figs/FigS8-ReturnDiagnostics.pdf, id=631, 903.375pt x 677.53125pt>
 File: figs/FigS8-ReturnDiagnostics.pdf Graphic file (type pdf)
 <use figs/FigS8-ReturnDiagnostics.pdf>
 Package pdftex.def Info: figs/FigS8-ReturnDiagnostics.pdf  used on input line 1
@@ -1252,10 +1252,10 @@ Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 9AD4BAD3080A024E827F4D516386D6A1;3105.
  ) 
 Here is how much of TeX's memory you used:
- 28500 strings out of 473190
- 528469 string characters out of 5715801
- 999756 words of memory out of 5000000
- 50726 multiletter control sequences out of 15000+600000
+ 28491 strings out of 473190
+ 528340 string characters out of 5715801
+ 999380 words of memory out of 5000000
+ 50717 multiletter control sequences out of 15000+600000
  621076 words of font info for 308 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,87p,4832b,993s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1281,10 +1281,10 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on Paper_v1.pdf (40 pages, 2876285 bytes).
+Output written on Paper_v1.pdf (40 pages, 2876892 bytes).
 PDF statistics:
- 779 PDF objects out of 1000 (max. 8388607)
- 647 compressed objects within 7 object streams
+ 784 PDF objects out of 1000 (max. 8388607)
+ 651 compressed objects within 7 object streams
  178 named destinations out of 1000 (max. 500000)
  59603 words of extra memory for PDF output out of 61914 (max. 10000000)
 

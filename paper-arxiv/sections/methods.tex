@@ -1,11 +1,9 @@
 % methods.tex -- Methods
 % ============================================================================
 \section{Methods}
-\label{sec:methods}
 % ============================================================================
 
 \subsection{Three-State Totalistic Cellular Automata}
-\label{sec:ca-rules}
 We consider a two-dimensional grid of $N = N_r \times N_c$ agents, each in one of three
 states: Buy~($s=0$), Hold~($s=1$), or Sell~($s=2$). At each discrete time step, every
 interior agent updates its state deterministically based on the states of its four
@@ -33,9 +31,9 @@ on the Von~Neumann neighborhood is represented exactly once.
 
 \begin{table}[tb]
 \centering
-\caption{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads
-right-to-left: digit $a_i$ gives the next state when the neighborhood
-sum index equals $i$.}
+\caption{Wolfram totalistic CA rule taxonomy. The base-3 encoding
+(Equation~\eqref{eq:rule-index}) reads right-to-left: digit $a_i$ gives
+the next state when the neighborhood sum index equals $i$.}
 \label{tab:rule-taxonomy}
 \small
 \begin{tabular}{ccll}
@@ -52,7 +50,7 @@ Rule & Base-3 encoding & Interpretation & Role \\
 Three rules are used in this study (Table~\ref{tab:rule-taxonomy}). Rule~19280 is a
 majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
 promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
-from 19280 at a single neighborhood sum, $c = 1$, the case with three Buy neighbors and
+from 19280 at a single neighborhood sum (Equation~\eqref{eq:neighborhood-sum}), $c = 1$, the case with three Buy neighbors and
 one Hold neighbor. A Rule~19280 agent responds to this configuration by
 \emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
 \emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
@@ -61,7 +59,6 @@ destabilizing one, and it is this minimal difference that drives the phase trans
 studied below.
 
 \subsection{Edge Agent Decision Model}
-\label{sec:edge-agents}
 Boundary cells serve as \emph{edge agents} that inject external information into the
 grid (Figure~\ref{fig:schematic}A, green cells). A fraction $f_e$ of boundary cells,
 selected uniformly at random with a fixed seed, are designated as edge agents. The
@@ -90,7 +87,6 @@ in technical analysis, and its simplicity is deliberate: the edge agents provide
 interpretable channel through which real market information enters the grid.
 
 \subsection{The Exogenous- and Endogenous-Price Models}
-\label{sec:models}
 In the exogenous-price model, edge agents observe real market data, namely
 one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2 through March~28,
 2024, $T = 23{,}790$ time steps). The vendor feed is no longer publicly available, so an
@@ -173,7 +169,6 @@ paired counterfactuals rely on to attribute any downstream divergence to the
 liquidity shock alone.
 
 \subsection{Simulation Protocols}
-\label{sec:protocols}
 To map the finite-horizon crossover in the exogenous model, we swept the minority
 fraction $f$ from $0.0$ to $0.50$ in
 two passes. A coarse sweep with $\Delta f = 0.05$ covered the full range; a fine-grained

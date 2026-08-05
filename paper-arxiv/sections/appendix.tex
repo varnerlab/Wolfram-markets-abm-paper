@@ -136,7 +136,7 @@ only to runs that failed all earlier ones. A run with zero return standard devia
 was \emph{inert}; failing that, a run was \emph{crash-prone} when its crash frequency,
 the fraction of steps at which the grid's Sell fraction stood at or above $0.5$,
 reached at least $1\%$ of steps, \emph{oscillatory} when the net order imbalance
-$\varphi$ changed sign at least $20$ times per $2{,}000$ steps, a \emph{plateau} when
+$\varphi$ (Equation~\eqref{eq:imbalance}) changed sign at least $20$ times per $2{,}000$ steps, a \emph{plateau} when
 its total price range stayed below $0.10\,P_0$, and a \emph{drift} otherwise. The
 sign-flip threshold is a rate, one flip per $100$ steps, stated here against the sweep's horizon
 so that it transfers to other run lengths. Of the $10{,}800$ runs, $6{,}589$ ($61\%$)
