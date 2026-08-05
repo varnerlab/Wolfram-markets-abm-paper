@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 16:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1057,7 +1057,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [13] (./sections/conclusion.tex) (./Paper_v1.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1297) has occurred while \output is active []
 
 
 
@@ -1149,7 +1149,7 @@ Package pdftex.def Info: figs/Fig7-Intervention.pdf  used on input line 160.
 
 ]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 154.
+put line 155.
 \openout5 = `Paper_v1.ttt'.
 
  (Paper_v1.ttt)
@@ -1252,11 +1252,11 @@ Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 9AD4BAD3080A024E827F4D516386D6A1;3105.
  ) 
 Here is how much of TeX's memory you used:
- 28497 strings out of 473190
- 528439 string characters out of 5715801
+ 28500 strings out of 473190
+ 528469 string characters out of 5715801
  999756 words of memory out of 5000000
  50726 multiletter control sequences out of 15000+600000
- 620851 words of font info for 306 fonts, out of 8000000 for 9000
+ 621076 words of font info for 308 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,87p,4832b,993s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
@@ -1281,7 +1281,7 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on Paper_v1.pdf (40 pages, 2876240 bytes).
+Output written on Paper_v1.pdf (40 pages, 2876285 bytes).
 PDF statistics:
  779 PDF objects out of 1000 (max. 8388607)
  647 compressed objects within 7 object streams

@@ -9,18 +9,18 @@ which they were implemented. The quenched
 rule mixture enters in its annealed form: Rules~19280 and~19286 share every entry of
 their totalistic tables except at neighborhood sum $c = 1$, where the majority rule
 outputs Buy and the contrarian rule outputs Sell, so a site whose rule assignment is
-drawn afresh at minority fraction~$f$ follows the effective stochastic rule
+drawn afresh at minority fraction~$f$ follows the effective stochastic rule given by:
 \begin{equation}
   R_f(c \to b) \;=\; (1-f)\,\mathbf{1}\!\left[\mathcal{R}_{19280}(c) = b\right]
   \;+\; f\,\mathbf{1}\!\left[\mathcal{R}_{19286}(c) = b\right],
 \end{equation}
-deterministic at every $c \neq 1$ and splitting $c = 1$ between Buy with
+which is deterministic at every $c \neq 1$ and splits $c = 1$ between Buy with
 probability $1-f$ and Sell with probability~$f$.
 The mean-field closure is that same effective rule with all spatial structure discarded:
 each agent's four neighbors are drawn independently from the global state distribution
 $(p_0, p_1, p_2)$, where $p_s$ is the fraction of agents in state~$s$ and
 $p_0 + p_1 + p_2 = 1$. The neighborhood sum $c = s_N + s_S + s_E + s_W$ is then a
-multinomial convolution of four i.i.d.\ draws,
+multinomial convolution of four i.i.d.\ draws:
 \begin{equation}
   \pi_k \;=\; \Pr(c = k) \;=\; \!\!\sum_{\substack{n_0+n_1+n_2=4 \\ n_1+2n_2=k}}\!\!
   \binom{4}{n_0,\,n_1,\,n_2}\,p_0^{n_0}\,p_1^{n_1}\,p_2^{n_2},
@@ -29,7 +29,7 @@ multinomial convolution of four i.i.d.\ draws,
 \end{equation}
 and the verified rule tables (Table~\ref{tab:rule-taxonomy}) send $c \in \{2,3\}$ to Buy,
 $c \in \{4,5\}$ to Hold, and $c \in \{0,6,7,8\}$ to Sell for both rules, leaving $c = 1$
-as the only entry on which they differ. The map is therefore
+as the only entry on which they differ. The map is therefore given by:
 \begin{align}
   p_0' &= (1-f)\,\pi_1 + \pi_2 + \pi_3, \label{eq:mf-p0} \\
   p_1' &= \pi_4 + \pi_5, \label{eq:mf-p1} \\
@@ -51,7 +51,7 @@ conditional neighbor distribution $q(s \mid a) = \rho_{as} / \rho_a$. The closur
 the local-structure ansatz of Gutowitz, Victor, and
 Knight~\cite{gutowitz1987local}: given a focal site in state~$a$, its three
 neighbors \emph{other} than the paired partner are drawn independently from
-$q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution
+$q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution:
 \begin{equation}
   \Pr(m = k \mid a) \;=\;
   \sum_{\substack{n_0 + n_1 + n_2 = 3 \\ n_1 + 2n_2 = k}}
@@ -61,13 +61,14 @@ $q(\cdot \mid a)$. Their sum~$m$ therefore follows the trinomial convolution
 \end{equation}
 and the focal site's full neighborhood sum is the partner's state plus that draw,
 $c = a' + m$, which never exceeds~$8$. Averaging the effective rule over the
-trinomial weights gives the transition kernel
+trinomial weights gives the transition kernel, the probability that a site in
+state~$a$ with paired neighbor in state~$a'$ lands in state~$b$ after one
+synchronous step:
 \begin{equation}
-  T_b(a, a') \;=\; \sum_{k=0}^{6} \Pr(m = k \mid a)\; R_f(a' + k \to b),
+  T_b(a, a') \;=\; \sum_{k=0}^{6} \Pr(m = k \mid a)\; R_f(a' + k \to b).
 \end{equation}
-the probability that a site in state~$a$ with paired neighbor in state~$a'$ lands in
-state~$b$ after one synchronous step. Substituting this kernel for both members of a
-pair (each site conditioning on its own partner) yields the synchronous pair update
+Substituting this kernel for both members of a
+pair (each site conditioning on its own partner) yields the synchronous pair update:
 \begin{equation}
   \rho'_{bb'} \;=\; \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a).
   \label{eq:pair-update}
@@ -87,7 +88,7 @@ before the map was applied. The spectral radius sat strictly below unity at ever
 value of~$f$ we sampled (twelve values from $0$ to $0.5$), declining monotonically
 from $0.95$ at $f = 0$ to $0.71$ at $f = 0.5$ (Figure~\ref{fig:theory}B).
 
-The search for correlated fixed points used initial conditions
+The search for correlated fixed points used initial conditions of the form:
 \begin{equation}
   \rho_{ab} \;=\; p_a p_b + \varepsilon \left( \delta_{ab}\, p_a - p_a p_b \right),
 \end{equation}
@@ -101,7 +102,7 @@ values of~$f$ between $0$ and $0.5$. Every trajectory converged either to the
 uncorrelated buy-dominated fixed point or to the all-Sell absorbing state, with the
 spatial mutual information between adjacent sites decaying to zero in all cases. That
 mutual information is $I = 2S_1 - S_2$, built from the single-site and pair Shannon
-entropies
+entropies given by:
 \begin{equation}
   S_1 \;=\; -\sum_{a} \rho_a \ln \rho_a,
   \qquad
