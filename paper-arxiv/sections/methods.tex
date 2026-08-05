@@ -98,9 +98,9 @@ in the base-3 encoding is the minimal perturbation that converts a stabilizing a
 destabilizing one, and it is this minimal difference that drives the phase transition
 studied below.
 
-\subsection{Model~A: Open (Boundary-Driven) Simulation}
+\subsection{The Exogenous-Price Model: Open (Boundary-Driven) Simulation}
 \label{sec:model-a}
-In Model~A, edge agents observe real market data, namely
+In the exogenous-price model, edge agents observe real market data, namely
 one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2 through March~28,
 2024, $T = 23{,}790$ time steps). The vendor feed is no longer publicly available, so an
 archival copy travels with the repository alongside its SHA-256 checksum and a record of
@@ -121,16 +121,16 @@ comprise 25\% of boundary cells ($f_e = 0.25$, yielding $255$ active edge agents
 selected with a fixed random seed for reproducibility, the EMA smoothing parameter is
 $\alpha = 1/60$ (a 60-minute window), and the band width is $k = 1.0$ standard deviations.
 
-\subsection{Model~B: Feedback-Closed (Endogenous Price) Simulation}
+\subsection{The Endogenous-Price Model: Feedback-Closed Simulation}
 \label{sec:model-b}
-In Model~B, there is no external price feed. The
+In the endogenous-price model, there is no external price feed. The
 price is generated endogenously from the grid's own collective state, and every trading
 cell, each interior agent together with each active edge agent, now carries a \emph{book}
 that gates whether its sentiment can be acted upon: a cash balance initialized to
 $\texttt{initial\_cash}$ (the sweep variable, default~$1{,}000$), a share inventory
 initialized to $10$ shares acquired at the reference cost basis $P_0 = 100$, and a running
 average cost basis that tracks the price paid across subsequent fills. Sentiment still flows
-by the same totalistic rule as in Model~A, which is what keeps the two models' interiors
+by the same totalistic rule as in the exogenous model, which is what keeps the two models' interiors
 directly comparable, but a cell now expresses that sentiment through orders: a cell in the
 Buy state submits a one-share buy order every step it remains in that state, a cell in the
 Sell state submits a one-share sell order, and a Hold cell submits nothing.
@@ -147,10 +147,10 @@ documented in the trading records of individual investors~\cite{odean1998investo
 treat it not as a modeling assumption but as a behavioral bias and hence a sweep factor,
 toggled on and off across campaigns. Every order that the book cannot honor is tallied as a
 \emph{suppressed} order rather than executed: budget constraints suppress order \emph{flow},
-never the underlying CA states. The interior uses the same update rule as Model~A, while
+never the underlying CA states. The interior uses the same update rule as the exogenous model, while
 cash and inventory throttle its market footprint. Because the market maker lies outside
-the modeled population, cash and shares are not conserved among grid agents. Model~B is
-closed with respect to price feedback, not economically closed.
+the modeled population, cash and shares are not conserved among grid agents. The endogenous
+model is closed with respect to price feedback, not economically closed.
 
 Because fills, not states, now drive the price, the imbalance is measured on executed flow
 rather than on the raw sentiment census:
@@ -199,9 +199,9 @@ time steps at which the sell fraction exceeds~$0.50$).
 Each value of~$f$ used one fixed disorder realization. The sweep therefore brackets a
 finite-horizon crossover; it does not estimate a thermodynamic critical point.
 
-\subsection{Model~B Nucleation Campaigns}
+\subsection{Nucleation Campaigns in the Endogenous Model}
 \label{sec:mb-protocols}
-The endogenous-price machinery of Model~B lets us treat a market crash as a nucleation
+The feedback loop of the endogenous model lets us treat a market crash as a nucleation
 event and interrogate it with a family of campaigns. Unless a campaign states
 otherwise, all of them share one configuration, a $64 \times 64$ grid, price impact
 $\lambda = 0.02$, nominal band half-width $k = 1$, band spread $\delta = 0.5$, the
@@ -233,7 +233,7 @@ $t_{\mathrm{on}}$ onward whenever an onset occurred. For distribution-shape comp
 returns were standardized within seed before pooling. As a descriptive benchmark, we
 computed QQQ typical-price returns separately within each of its $61$ regular trading
 sessions, thereby excluding the $60$ overnight joins between consecutive days, and
-standardized within session. Model~A was not included as a separate return series because
+standardized within session. The exogenous model was not included as a separate return series because
 its price is that same external QQQ input rather than a model output.
 
 The budget toggle then turns the deterministic hook into a controlled experiment.
@@ -285,7 +285,7 @@ is censored before onset or whose window endpoint $t_{\mathrm{on}} + 400$ would 
 horizon.
 
 Finally, to place these targeted campaigns against the model's full parameter dependence, we
-drew on a large factorial sweep whose crash statistics anchor the Model~B regime
+drew on a large factorial sweep whose crash statistics anchor the endogenous-model regime
 discussion: the full crossing of $f \in \{0,\,0.1,\,0.15,\,0.2,\,0.3\}$,
 $\lambda \in \{0.005,\,0.01,\,0.02,\,0.05\}$, $\text{cash} \in \{500,\,1{,}000,\,5{,}000\}$,
 disposition $\in \{\text{off},\,\text{on}\}$, band spread $\delta \in \{0,\,0.5,\,0.9\}$, and

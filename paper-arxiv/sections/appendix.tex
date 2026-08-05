@@ -115,7 +115,7 @@ $\rho_{ab} = \rho_a \rho_b$. The pair approximation therefore supports no correl
 fixed point, the negative result on which the nucleation argument rests.
 
 % ============================================================================
-\section{Model~B Stage~2 Factorial}
+\section{Endogenous-Model Stage~2 Factorial}
 \label{app:stage2}
 % ============================================================================
 
@@ -125,7 +125,7 @@ fixed point, the negative result on which the nucleation argument rests.
 \renewcommand{\thealgorithm}{S\arabic{algorithm}}
 
 The Stage~2 factorial sweep crossed six factors in full, giving the design from which
-every Model~B summary statistic in this study is drawn
+every endogenous-model summary statistic in this study is drawn
 (Table~\ref{tab:stage2-design}). Every run in the design, and every run of the targeted
 campaigns as well, advanced through the same per-step update loop
 (Algorithm~\ref{alg:modelb-step}). Within that design, every run was assigned to one of
@@ -143,7 +143,7 @@ drift. The sell-dominated (crash-prone) regime appeared abruptly between $f = 0.
 $f = 0.20$ at every price impact $\lambda$ in the design.
 
 \begin{algorithm}[!ht]
-\caption{One Model~B time step, $\tau - 1 \to \tau$, in the order the simulation executes
+\caption{One endogenous-model time step, $\tau - 1 \to \tau$, in the order the simulation executes
 it. Desired orders fill at the standing quote $P_{\tau-1}$ against the submitting cell's
 own book, the executed imbalance $\varphi_\tau$ generates the new quote $P_\tau$, the
 moving average and volatility band follow that new quote, each active edge cell
@@ -196,7 +196,7 @@ states $e_{i,\tau}$, settled books, and the step's executed and suppressed order
 
 \begin{table}[tb]
 \centering
-\caption{Model~B Stage~2 factorial design. The six factors are crossed in full:
+\caption{Endogenous-model Stage~2 factorial design. The six factors are crossed in full:
 $5 \times 4 \times 3 \times 2 \times 3 \times 3 = 1{,}080$ configurations, each run
 at $10$ seeds for $2{,}000$ steps ($10{,}800$ runs).}
 \label{tab:stage2-design}
@@ -314,7 +314,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS1-Exemplars.pdf}
-  \caption{Model~B regime exemplars from the Stage~2 factorial: a crash-prone run
+  \caption{Endogenous-model regime exemplars from the Stage~2 factorial: a crash-prone run
   (run 9652) and an oscillatory run (run 5916).
   \textbf{(A)}~Price, its exponential moving average, and the EMA band for the
   crash-prone exemplar, a bubble-and-collapse trajectory ($100 \to 266 \to 83$).
@@ -335,7 +335,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS2-SeedTrajectories.pdf}
-  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
+  \caption{Endogenous-model seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
   seeds per budget configuration.
   \textbf{(A)}~Largest sell cluster, expressed as a fraction of the grid, drawn step by
   step for every seed of the stable configuration ($f = 0.10$, cash $1{,}000$).
@@ -356,7 +356,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
-  \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
+  \caption{Peak sell fraction against the minority fraction~$f$ for the exogenous model
   (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep, alongside
   its mean sell fraction and crash frequency (Figure~\ref{fig:crossover}B
   and~\ref{fig:crossover}C). The dashed vertical line at $f = 0.145$ marks the midpoint of
@@ -373,9 +373,9 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   against the minority fraction~$f$ at cash $500$, $1{,}000$, and $5{,}000$: the onset
   cliff sits between $f = 0.15$ and $f = 0.18$ at every cash level.
   \textbf{(B)}~Fitted pseudo-threshold $f_0$ per cash level with $95\%$ bootstrap
-  confidence intervals; the dashed line marks the Model~A value $f_0 = 0.101$.
-  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the Model~A
-  value $B = 0.389$. The intervals overlap between tight and loose cash on both
+  confidence intervals; the dashed line marks the exogenous-model value $f_0 = 0.101$.
+  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the
+  exogenous-model value $B = 0.389$. The intervals overlap between tight and loose cash on both
   parameters. That overlap is not itself a test. The paired equivalence analysis
   reported in the text is the test, and it bounds the between-budget difference in predicted
   median onset time to within a factor of two. The resampling behind these intervals is
@@ -444,7 +444,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS7-FiniteSizeDetail.pdf}
-  \caption{Timing of the Model~A conversion across lattice sizes (Rules~19280/19286,
+  \caption{Timing of the exogenous-model conversion across lattice sizes (Rules~19280/19286,
   periodic boundaries, no price forcing, twenty disorder seeds per cell, restricted to
   the cells in which every seed converted so that no horizon-pinned value enters a
   statistic).
@@ -461,7 +461,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS8-ReturnDiagnostics.pdf}
-  \caption{Model~B price and return diagnostics for the canonical stable
+  \caption{Endogenous-model price and return diagnostics for the canonical stable
   ($f=0.10$, cash $1{,}000$), freeze ($f=0.20$, cash $500$), and collapse
   ($f=0.20$, cash $5{,}000$) configurations, each over $20$ disorder seeds and
   $1{,}000$ steps at $\lambda=0.02$.
@@ -479,7 +479,7 @@ order, $1{,}598$, $1{,}427$, and $1{,}208$ steps.
   \textbf{(D)}~Absolute-return autocorrelation over the same lags. Curves in C
   and D are replicate medians with interquartile bands, across $20$ seeds for
   each model configuration and $61$ sessions for QQQ. Median lag-one
-  autocorrelation was $0.83$, $0.74$, and $0.96$ for Model~B returns and $0.86$,
+  autocorrelation was $0.83$, $0.74$, and $0.96$ for endogenous-model returns and $0.86$,
   $0.75$, and $0.95$ for their absolute values, against $0.30$ and $0.20$ for
   QQQ. Full-horizon median excess kurtosis was $33.76$, $77.03$, and $3.61$
   against $1.72$ across QQQ sessions, but splitting at onset reduced the freeze

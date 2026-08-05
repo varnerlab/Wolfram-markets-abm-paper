@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 AUG 2026 16:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1030,6 +1030,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [6]
 
 [7]) (./sections/results.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1044,9 +1047,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [11]) (./sections/discussion.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [12]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 2556) has occurred while \output is active []
 
 
 
@@ -1183,6 +1189,12 @@ File: figs/FigS3-PeakSell.pdf Graphic file (type pdf)
 Package pdftex.def Info: figs/FigS3-PeakSell.pdf  used on input line 49.
 (pdftex.def)             Requested size: 218.61795pt x 173.0714pt.
 
+Underfull \hbox (badness 1424) in paragraph at lines 55--55
+[]\T1/ptm/m/n/10 (+20) Figure S3: |Peak sell frac-tion against the mi-nor-ity f
+rac-tion $\OML/cmm/m/it/10 f$ \T1/ptm/m/n/10 (+20) for the ex-oge-nous model
+ []
+
+
 
 [33 <./figs/FigS3-PeakSell.pdf>]
 <figs/FigS4-BarrierParameters.pdf, id=599, 903.375pt x 745.78625pt>
@@ -1237,16 +1249,16 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 814C04CF98437F6BF4798E180FEDA443;3751.
+(rerunfilecheck)             Checksum: 2B58868820C5AE347232F3CED30C7F64;3963.
  ) 
 Here is how much of TeX's memory you used:
- 28512 strings out of 473190
- 528645 string characters out of 5715801
- 999763 words of memory out of 5000000
+ 28518 strings out of 473190
+ 528690 string characters out of 5715801
+ 999945 words of memory out of 5000000
  50732 multiletter control sequences out of 15000+600000
- 621595 words of font info for 310 fonts, out of 8000000 for 9000
+ 621751 words of font info for 314 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,87p,4819b,993s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,87p,4832b,993s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -1269,7 +1281,7 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on Paper_v1.pdf (40 pages, 2877583 bytes).
+Output written on Paper_v1.pdf (40 pages, 2878729 bytes).
 PDF statistics:
  791 PDF objects out of 1000 (max. 8388607)
  659 compressed objects within 7 object streams

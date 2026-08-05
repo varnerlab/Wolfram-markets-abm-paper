@@ -15,7 +15,7 @@ can hold, and the two closures we tested make the difference concrete, since the
 retains only how many agents are selling and the second adds the correlation between
 neighbors, and neither retains the geometry a domain needs in order to have an edge. Once
 a transition has a location and a speed, its onset and its growth become separable, and
-there is no reason for the same thing to limit both. Model~B is the configuration that
+there is no reason for the same thing to limit both. The endogenous model is the configuration that
 separates them. It makes every agent pay for the orders its sentiment demands, so a budget
 can bear on one of the two without bearing on the other, and the question becomes which
 one.
@@ -79,10 +79,10 @@ is a weaker claim than no effect and the only one this design supports.
 
 Feedback between funding and market liquidity has a familiar destabilizing form, in which
 tighter funding forces sales, the sales move prices, and the price move tightens funding
-again~\cite{brunnermeier2009market}. Model~B closes a loop of similar shape and returns
+again~\cite{brunnermeier2009market}. The endogenous model closes a loop of similar shape and returns
 the opposite sign, which is instructive about where the sign comes from. In the funding
 spiral the constraint reaches the side of the book on which the forced action is selling,
-so a withdrawal is what destabilizes; in Model~B the cash constraint reaches only buying,
+so a withdrawal is what destabilizes; in the endogenous model the cash constraint reaches only buying,
 since a cell needs cash to buy but only shares to sell, so a withdrawal removes buyers and
 cannot force a sale out of anyone. The direction in which a liquidity intervention
 destabilizes thus depends on which side of the book the constraint reaches, a dependence
@@ -111,21 +111,21 @@ kind of structural quantity that the case for complexity-informed financial
 regulation~\cite{battiston2016complexity} would place on the monitoring side, and it is
 not recoverable from a price series alone.
 
-The limitations of the study bound how far these readings travel. Model~A uses one
+The limitations of the study bound how far these readings travel. The exogenous model uses one
 boundary-forcing series, QQQ one-minute bars from January~2 through March~28, 2024, and
 does not constitute empirical price validation. Robustness across instruments and market
 regimes remains to be established.
-The Model~B nucleation campaigns all ran on a single $64 \times 64$ grid trading a
-single asset against an infinite-inventory market maker, and while the Model~A sweep found
+The endogenous-model nucleation campaigns all ran on a single $64 \times 64$ grid trading a
+single asset against an infinite-inventory market maker, and while the exogenous-model sweep found
 a conversion-curve rate constant that barely depended on lattice size, it also found the
 threshold itself moving with size, so grid-size robustness of the budget results is an
 assumption and not a check, and the model is silent on cross-asset
 contagion. The return diagnostics do not supply an empirical validation that the price
-trajectory otherwise lacks. Model~B has bounded returns, $r_\tau=\lambda\varphi_\tau$,
+trajectory otherwise lacks. The endogenous model has bounded returns, $r_\tau=\lambda\varphi_\tau$,
 and their large full-horizon excess kurtosis largely separated into transient and
 pre/post-onset components, while raw returns remained strongly autocorrelated. QQQ served
-only as an intraday descriptive benchmark, with overnight joins removed, and Model~A could
-not be an independent return benchmark because QQQ is its price input. The agents themselves are deterministic, since the CA rules incorporate no
+only as an intraday descriptive benchmark, with overnight joins removed, and the exogenous
+model could not be an independent return benchmark because QQQ is its price input. The agents themselves are deterministic, since the CA rules incorporate no
 stochastic noise, no learning, and no adaptive strategy switching, features of real
 markets whose inclusion would enrich the dynamics at the cost of breaking the
 enumerability of the rule
@@ -135,7 +135,7 @@ rule types in the mean-field and pair maps, whereas the simulations fixed each
 contrarian's placement for the duration of a run, quenched disorder in the proper
 sense, and a calculation that carried that quenching through would sharpen the prediction of
 $f_0$ and connect the critical nucleus size to the combinatorics of contrarian
-clustering. And the Model~B statistics carry flags that interpretation must not
+clustering. And the endogenous-model statistics carry flags that interpretation must not
 launder: the monotone-in-cash onset rate near the cliff
 and the freeze mid-patch onset delay are exploratory,
 uncorrected observations; the injection effect stands at $14$ of $19$ seeds with a

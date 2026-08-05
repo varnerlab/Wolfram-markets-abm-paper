@@ -180,7 +180,7 @@ let
               ylims = (50, TAU_MAX), legend = :topright, _panel_kw...)
     fref = range(F0_REF + B_REF / (log(TAU_MAX) - A_REF), maximum(a1.f); length = 400)
     plot!(panelB, fref, exp.(A_REF .+ B_REF ./ (fref .- F0_REF)),
-          color = :black, ls = :dash, lw = 1.5, label = "Model A fit")
+          color = :black, ls = :dash, lw = 1.5, label = "exogenous fit")
     for cash in cashes_a1
         sub   = a1[a1.cash .== cash, :]
         fvals = sort(unique(sub.f))

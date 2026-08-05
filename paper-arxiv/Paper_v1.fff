@@ -1,9 +1,9 @@
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS1-Exemplars.pdf}
-  \caption{Model~B regime exemplars from the Stage~2 factorial: a crash-prone run
+  \caption{Endogenous-model regime exemplars from the Stage~2 factorial: a crash-prone run
   (run 9652) and an oscillatory run (run 5916).
   \textbf{(A)}~Price, its exponential moving average, and the EMA band for the
   crash-prone exemplar, a bubble-and-collapse trajectory ($100 \to 266 \to 83$).
@@ -21,11 +21,11 @@
   \label{fig:s1}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS2-SeedTrajectories.pdf}
-  \caption{Model~B seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
+  \caption{Endogenous-model seed sweep: largest-sell-cluster trajectories per seed, $20$ disorder
   seeds per budget configuration.
   \textbf{(A)}~Largest sell cluster, expressed as a fraction of the grid, drawn step by
   step for every seed of the stable configuration ($f = 0.10$, cash $1{,}000$).
@@ -43,11 +43,11 @@
   \label{fig:s2}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.55\linewidth]{figs/FigS3-PeakSell.pdf}
-  \caption{Peak sell fraction against the minority fraction~$f$ for Model~A
+  \caption{Peak sell fraction against the minority fraction~$f$ for the exogenous model
   (Rules~19280/19286, $128 \times 128$ grid, fixed seed), the third summary of the sweep, alongside
   its mean sell fraction and crash frequency (Figure~\ref{fig:crossover}B
   and~\ref{fig:crossover}C). The dashed vertical line at $f = 0.145$ marks the midpoint of
@@ -56,7 +56,7 @@
   \label{fig:s3}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS4-BarrierParameters.pdf}
@@ -65,9 +65,9 @@
   against the minority fraction~$f$ at cash $500$, $1{,}000$, and $5{,}000$: the onset
   cliff sits between $f = 0.15$ and $f = 0.18$ at every cash level.
   \textbf{(B)}~Fitted pseudo-threshold $f_0$ per cash level with $95\%$ bootstrap
-  confidence intervals; the dashed line marks the Model~A value $f_0 = 0.101$.
-  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the Model~A
-  value $B = 0.389$. The intervals overlap between tight and loose cash on both
+  confidence intervals; the dashed line marks the exogenous-model value $f_0 = 0.101$.
+  \textbf{(C)}~Fitted shape coefficient $B$ on the same footing, against the
+  exogenous-model value $B = 0.389$. The intervals overlap between tight and loose cash on both
   parameters. That overlap is not itself a test. The paired equivalence analysis
   reported in the text is the test, and it bounds the between-budget difference in predicted
   median onset time to within a factor of two. The resampling behind these intervals is
@@ -82,7 +82,7 @@
   \label{fig:s4}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS5-SeedingDetail.pdf}
@@ -107,7 +107,7 @@
   \label{fig:s5}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS6-ToggleDetail.pdf}
@@ -135,11 +135,11 @@
   \label{fig:s6}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS7-FiniteSizeDetail.pdf}
-  \caption{Timing of the Model~A conversion across lattice sizes (Rules~19280/19286,
+  \caption{Timing of the exogenous-model conversion across lattice sizes (Rules~19280/19286,
   periodic boundaries, no price forcing, twenty disorder seeds per cell, restricted to
   the cells in which every seed converted so that no horizon-pinned value enters a
   statistic).
@@ -153,11 +153,11 @@
   \label{fig:s7}
 \end{figure}
 \efloatseparator
-
+ 
 \begin{figure}[tb]
   \centering
   \includegraphics[width=0.95\linewidth]{figs/FigS8-ReturnDiagnostics.pdf}
-  \caption{Model~B price and return diagnostics for the canonical stable
+  \caption{Endogenous-model price and return diagnostics for the canonical stable
   ($f=0.10$, cash $1{,}000$), freeze ($f=0.20$, cash $500$), and collapse
   ($f=0.20$, cash $5{,}000$) configurations, each over $20$ disorder seeds and
   $1{,}000$ steps at $\lambda=0.02$.
@@ -175,7 +175,7 @@
   \textbf{(D)}~Absolute-return autocorrelation over the same lags. Curves in C
   and D are replicate medians with interquartile bands, across $20$ seeds for
   each model configuration and $61$ sessions for QQQ. Median lag-one
-  autocorrelation was $0.83$, $0.74$, and $0.96$ for Model~B returns and $0.86$,
+  autocorrelation was $0.83$, $0.74$, and $0.96$ for endogenous-model returns and $0.86$,
   $0.75$, and $0.95$ for their absolute values, against $0.30$ and $0.20$ for
   QQQ. Full-horizon median excess kurtosis was $33.76$, $77.03$, and $3.61$
   against $1.72$ across QQQ sessions, but splitting at onset reduced the freeze

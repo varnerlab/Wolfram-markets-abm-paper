@@ -2,7 +2,7 @@
  
 \begin{table}[tb]
 \centering
-\caption{Model~B Stage~2 factorial design. The six factors are crossed in full:
+\caption{Endogenous-model Stage~2 factorial design. The six factors are crossed in full:
 $5 \times 4 \times 3 \times 2 \times 3 \times 3 = 1{,}080$ configurations, each run
 at $10$ seeds for $2{,}000$ steps ($10{,}800$ runs).}
 \label{tab:stage2-design}
