@@ -32,7 +32,7 @@ The paper is built separately:
 
 ```bash
 cd paper-arxiv
-./build.sh Paper_v1
+make
 ```
 
 ## Layout
