@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 AUG 2026 14:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1016,7 +1016,7 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 [2]
 
 [3]) (./sections/methods.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1888) has occurred while \output is active []
 
 
 
@@ -1028,6 +1028,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [5]
 
 [6]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [7]) (./sections/results.tex
 
@@ -1048,13 +1051,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [11]) (./sections/discussion.tex
 
-[12]
+[12])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[13]) (./sections/conclusion.tex) (./Paper_v1.bbl
-Underfull \vbox (badness 5652) has occurred while \output is active []
+[13] (./sections/conclusion.tex) (./Paper_v1.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
@@ -1249,11 +1252,11 @@ Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 9AD4BAD3080A024E827F4D516386D6A1;3105.
  ) 
 Here is how much of TeX's memory you used:
- 28503 strings out of 473190
- 528496 string characters out of 5715801
+ 28497 strings out of 473190
+ 528439 string characters out of 5715801
  999756 words of memory out of 5000000
  50726 multiletter control sequences out of 15000+600000
- 621301 words of font info for 310 fonts, out of 8000000 for 9000
+ 620851 words of font info for 306 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,87p,4832b,993s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
@@ -1278,7 +1281,7 @@ ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on Paper_v1.pdf (40 pages, 2876625 bytes).
+Output written on Paper_v1.pdf (40 pages, 2876240 bytes).
 PDF statistics:
  779 PDF objects out of 1000 (max. 8388607)
  647 compressed objects within 7 object streams

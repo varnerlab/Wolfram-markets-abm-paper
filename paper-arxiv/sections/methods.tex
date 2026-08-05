@@ -4,12 +4,6 @@
 \label{sec:methods}
 % ============================================================================
 
-We first establish the formal ingredients of the model, the CA rule framework that governs
-interior agent dynamics with the specific rules used in this study, and the Bollinger Band
-filter that translates price signals into edge-agent states. We then describe the two
-simulation configurations and the sweep and campaign protocols used to map the crash
-transition.
-
 \subsection{Three-State Totalistic Cellular Automata}
 \label{sec:ca-rules}
 We consider a two-dimensional grid of $N = N_r \times N_c$ agents, each in one of three
@@ -73,7 +67,6 @@ grid (Figure~\ref{fig:schematic}A, green cells). A fraction $f_e$ of boundary ce
 selected uniformly at random with a fixed seed, are designated as edge agents. The
 remaining boundary cells stay fixed in the Hold state. The CA update acts only on
 strictly interior cells.
-
 Each edge agent classifies the current price $P_\tau$ relative to an exponential moving
 average (EMA) and its associated volatility band:
 \begin{align}
@@ -109,7 +102,6 @@ and volatility from Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol}, and all interior ag
 update simultaneously via their assigned CA rule. The grid is initialized to
 all-Hold ($s=1$), so that any Buy or Sell activity must originate from the boundary and
 propagate inward.
-
 For the heterogeneous (crash) model, a fraction~$f$ of interior agents are assigned
 Rule~19286 (contrarian) uniformly at random, while the remaining $1-f$ agents use
 Rule~19280 (majority), and the minority agent positions are fixed for the duration of the
@@ -130,7 +122,6 @@ by the same totalistic rule as in the exogenous model, which is what keeps the t
 directly comparable, but a cell now expresses that sentiment through orders: a cell in the
 Buy state submits a one-share buy order every step it remains in that state, a cell in the
 Sell state submits a one-share sell order, and a Hold cell submits nothing.
-
 Orders do not clear against one another. They fill at the standing quote $P_{\tau-1}$
 against an unmodeled infinite-inventory market maker in the spirit of the price-impact accounting of
 Kyle~\cite{kyle1985continuous} and the market-clearing conventions of Farmer and
@@ -171,7 +162,6 @@ Eqs.~\eqref{eq:ema}--\eqref{eq:ema-vol} observing that same new price. The resul
 self-contained loop: the grid's executed orders generate the price, the price drives the
 edge agents, and the edge agents inject signals back into the grid
 (Algorithm~\ref{alg:modelb-step}).
-
 To probe that loop causally we expose a deterministic intervention hook, a function of the
 current step and the full collection of books, $(t, \text{books})$, invoked at the top of
 step~$t$ before any orders execute, through which we implement mid-run cash shocks by
