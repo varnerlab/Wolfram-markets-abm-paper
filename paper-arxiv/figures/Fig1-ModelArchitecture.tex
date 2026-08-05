@@ -106,9 +106,6 @@
 \node[annotation, text=white, anchor=north west, inner sep=1.5pt] at (zW.north west) {$W$};
 \node[annotation, text=black!55, anchor=north west, inner sep=1.5pt] at (zE.north west) {$E$};
 \node[annotation, text=white, anchor=north west, inner sep=1.5pt] at (zS.north west) {$S$};
-\node[font=\sffamily\small, anchor=north] at (\zx,5.34)
-  {$c_{r,c}=0+2+1+2=5$};
-
 % Complete base-3 lookup. Columns are neighbor sums c=0,...,8; fill is
 % the returned state. The two rules differ only at c=1.
 \def\lx{9.68}
@@ -151,12 +148,12 @@
 % Highlight the only rule difference and the displayed stencil column.
 \draw[minorityoutline, line width=0.8pt]
   (\lx+0.5*\ls,5.77) rectangle (\lx+1.5*\ls,7.15);
-\node[annotation, anchor=north, align=center] at (\lx+1*\ls,5.70)
-  {only rule\\difference};
 \draw[draw=black!78, line width=0.85pt]
   (\lx+4.5*\ls,5.77) rectangle (\lx+5.5*\ls,7.15);
-\node[font=\sffamily\footnotesize, anchor=north, align=center]
-  at (\lx+5*\ls,5.70) {shown stencil\\$c=5\Rightarrow s'_{r,c}=1$ (\textbf{Hold})};
+
+% One interpretive line ties the stencil and lookup together.
+\node[font=\sffamily\small, anchor=north] at (10.28,5.27)
+  {$c_{r,c}=0+2+1+2=5$: both rules return Hold; only $c=1$ differs.};
 
 \end{tikzpicture}%
 }
