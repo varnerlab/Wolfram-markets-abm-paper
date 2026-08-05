@@ -69,8 +69,11 @@ trinomial weights gives the transition kernel
 the probability that a site in state~$a$ with paired neighbor in state~$a'$ lands in
 state~$b$ after one synchronous step. Substituting this kernel for both members of a
 pair (each site conditioning on its own partner) yields the synchronous pair update
-$\rho'_{bb'} = \sum_{a,a'} \rho_{aa'}\, T_b(a, a')\, T_{b'}(a', a)$ quoted as
-Equation~\eqref{eq:pair-update} of the main text. We symmetrized and
+\begin{equation}
+  \rho'_{bb'} \;=\; \sum_{a,a'} \rho_{aa'}\; T_b(a, a')\; T_{b'}(a', a).
+  \label{eq:pair-update}
+\end{equation}
+We symmetrized and
 renormalized $\rho'$ after every step to guard against numerical drift.
 
 We iterated the map to its fixed points, declaring convergence when the largest

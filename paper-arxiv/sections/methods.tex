@@ -5,9 +5,10 @@
 % ============================================================================
 
 We first establish the formal ingredients of the model, the CA rule framework that governs
-interior agent dynamics, the Bollinger Band filter that translates price signals into
-edge-agent states, and the specific rules used in this study, and then describe the two
-simulation configurations and the phase-sweep protocol used to map the crash transition.
+interior agent dynamics with the specific rules used in this study, and the Bollinger Band
+filter that translates price signals into edge-agent states. We then describe the two
+simulation configurations and the sweep and campaign protocols used to map the crash
+transition.
 
 \subsection{Three-State Totalistic Cellular Automata}
 \label{sec:ca-rules}
@@ -35,6 +36,35 @@ not a neutral label choice.
 This rule space is finite, enumerable, and
 complete: every possible deterministic, translation-invariant, totalistic update function
 on the Von~Neumann neighborhood is represented exactly once.
+
+\begin{table}[tb]
+\centering
+\caption{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads
+right-to-left: digit $a_i$ gives the next state when the neighborhood
+sum index equals $i$.}
+\label{tab:rule-taxonomy}
+\small
+\begin{tabular}{ccll}
+\toprule
+Rule & Base-3 encoding & Interpretation & Role \\
+\midrule
+6158 & $(022110002)_{3}$ & Imitation / herding & Homogeneous model; stable waves \\
+19280 & $(222110002)_{3}$ & Majority rule & 80\% crash model; herding \\
+19286 & $(222110022)_{3}$ & Contrarian & 20\% crash model; destabilizer \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three rules are used in this study (Table~\ref{tab:rule-taxonomy}). Rule~19280 is a
+majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
+promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
+from 19280 at a single neighborhood sum, $c = 1$, the case with three Buy neighbors and
+one Hold neighbor. A Rule~19280 agent responds to this configuration by
+\emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
+\emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
+in the base-3 encoding is the minimal perturbation that converts a stabilizing agent into a
+destabilizing one, and it is this minimal difference that drives the phase transition
+studied below.
 
 \subsection{Edge Agent Decision Model}
 \label{sec:edge-agents}
@@ -66,40 +96,8 @@ deviations of its moving average, the edge agent holds; when the price breaks ou
 in technical analysis, and its simplicity is deliberate: the edge agents provide a minimal,
 interpretable channel through which real market information enters the grid.
 
-\subsection{Rule Taxonomy}
-\label{sec:rule-taxonomy}
-
-\begin{table}[tb]
-\centering
-\caption{Wolfram totalistic CA rule taxonomy. Base-3 encoding reads
-right-to-left: digit $a_i$ gives the next state when the neighborhood
-sum index equals $i$.}
-\label{tab:rule-taxonomy}
-\small
-\begin{tabular}{ccll}
-\toprule
-Rule & Base-3 encoding & Interpretation & Role \\
-\midrule
-6158 & $(022110002)_{3}$ & Imitation / herding & Homogeneous model; stable waves \\
-19280 & $(222110002)_{3}$ & Majority rule & 80\% crash model; herding \\
-19286 & $(222110022)_{3}$ & Contrarian & 20\% crash model; destabilizer \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Three rules are used in this study (Table~\ref{tab:rule-taxonomy}). Rule~19280 is a
-majority/herding rule: agents tend to adopt the dominant state in their neighborhood,
-promoting coordination and spatial coherence. Rule~19286 is a contrarian rule that differs
-from 19280 at a single neighborhood sum, $c = 1$, the case with three Buy neighbors and
-one Hold neighbor. A Rule~19280 agent responds to this configuration by
-\emph{buying} ($a_1 = 0$), reinforcing the local majority; a Rule~19286 agent instead
-\emph{sells} ($a_1 = 2$), acting against the prevailing state. This single-digit difference
-in the base-3 encoding is the minimal perturbation that converts a stabilizing agent into a
-destabilizing one, and it is this minimal difference that drives the phase transition
-studied below.
-
-\subsection{The Exogenous-Price Model: Open (Boundary-Driven) Simulation}
-\label{sec:model-a}
+\subsection{The Exogenous- and Endogenous-Price Models}
+\label{sec:models}
 In the exogenous-price model, edge agents observe real market data, namely
 one-minute OHLC bars for the QQQ ETF (Invesco QQQ Trust, January~2 through March~28,
 2024, $T = 23{,}790$ time steps). The vendor feed is no longer publicly available, so an
@@ -121,8 +119,6 @@ comprise 25\% of boundary cells ($f_e = 0.25$, yielding $255$ active edge agents
 selected with a fixed random seed for reproducibility, the EMA smoothing parameter is
 $\alpha = 1/60$ (a 60-minute window), and the band width is $k = 1.0$ standard deviations.
 
-\subsection{The Endogenous-Price Model: Feedback-Closed Simulation}
-\label{sec:model-b}
 In the endogenous-price model, there is no external price feed. The
 price is generated endogenously from the grid's own collective state, and every trading
 cell, each interior agent together with each active edge agent, now carries a \emph{book}
@@ -186,9 +182,10 @@ moment of intervention. This same-seed, identical-trajectory contract is what th
 paired counterfactuals rely on to attribute any downstream divergence to the
 liquidity shock alone.
 
-\subsection{Phase Sweep Protocol}
-\label{sec:phase-sweep}
-To map the finite-horizon crossover, we swept the minority fraction $f$ from $0.0$ to $0.50$ in
+\subsection{Simulation Protocols}
+\label{sec:protocols}
+To map the finite-horizon crossover in the exogenous model, we swept the minority
+fraction $f$ from $0.0$ to $0.50$ in
 two passes. A coarse sweep with $\Delta f = 0.05$ covered the full range; a fine-grained
 sweep with $\Delta f = 0.01$ resolved the transition region $f \in [0.08, 0.22]$.
 For each value of~$f$, the full $T$-step price series drove a $128 \times 128$ grid
@@ -199,8 +196,6 @@ time steps at which the sell fraction exceeds~$0.50$).
 Each value of~$f$ used one fixed disorder realization. The sweep therefore brackets a
 finite-horizon crossover; it does not estimate a thermodynamic critical point.
 
-\subsection{Nucleation Campaigns in the Endogenous Model}
-\label{sec:mb-protocols}
 The feedback loop of the endogenous model lets us treat a market crash as a nucleation
 event and interrogate it with a family of campaigns. Unless a campaign states
 otherwise, all of them share one configuration, a $64 \times 64$ grid, price impact
@@ -235,7 +230,6 @@ computed QQQ typical-price returns separately within each of its $61$ regular tr
 sessions, thereby excluding the $60$ overnight joins between consecutive days, and
 standardized within session. The exogenous model was not included as a separate return series because
 its price is that same external QQQ input rather than a model output.
-
 The budget toggle then turns the deterministic hook into a controlled experiment.
 For each seed, we used the control trajectory to identify $t_{\mathrm{on}}$. In the paired
 counterfactual, every cell's cash is scaled at the start of that step by $\times 10$
@@ -247,7 +241,6 @@ difference quotient, the change in largest-cluster fraction between onset and
 onset$+W$ divided by $W$, rather than a fitted slope. A pair is excluded from an
 arm when its control run had no onset at all or when $t_{\mathrm{on}}$ fell too late to
 leave a full window before the horizon ($t_{\mathrm{on}} >$ horizon $- W$).
-
 The boundary-versus-bulk campaign
 asks where the winning cluster is born: we tracked the founding cell of the onset cluster and
 compared its location against the analytic null for spatially uniform births, under which the
@@ -269,11 +262,14 @@ three cash levels, a refinement pass added $f \in \{0.156,\,0.162,\,0.168,\,0.17
 at $40$ seeds. We took the escape time to be $\tau = t_{\mathrm{on}}$, right-censored at the
 $2{,}000$-step horizon and never discarded, so runs without onset still inform the
 Kaplan--Meier estimates. We fitted the empirical form
-$\ln \tilde\tau = A + B/(f - f_0)$ separately at each cash level using the finite
+\begin{equation}
+  \ln \tilde\tau \;=\; A + \frac{B}{f - f_0}
+  \label{eq:kramers}
+\end{equation}
+separately at each cash level using the finite
 Kaplan--Meier medians, with the pseudo-threshold $f_0$ left free, and obtained $95\%$
 confidence intervals on
 $(A, B, f_0)$ from $2{,}000$ bootstrap resamples of the seeds within each~$f$.
-
 A companion
 velocity--suppression dose-response holds $f = 0.20$ and extends the cash ladder with the
 levels $250$ and $2{,}000$ so that five doses are probed at $20$ seeds each. For every run we
@@ -283,7 +279,6 @@ of suppressed buy orders per step, and we tested their association by Spearman r
 with a $10{,}000$-draw permutation $p$-value, excluding and separately counting any run that
 is censored before onset or whose window endpoint $t_{\mathrm{on}} + 400$ would exceed the
 horizon.
-
 Finally, to place these targeted campaigns against the model's full parameter dependence, we
 drew on a large factorial sweep whose crash statistics anchor the endogenous-model regime
 discussion: the full crossing of $f \in \{0,\,0.1,\,0.15,\,0.2,\,0.3\}$,
