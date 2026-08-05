@@ -105,7 +105,7 @@ These upgrade several P0s substantially and are cheaper than the review assumes:
 | C5 | Matched simulation null for births (frozen/neutral boundary founders on the same landscapes) + genealogy sensitivity (all-ancestor graph vs max-overlap chain) | small | 7 |
 | C6 | Initial-condition robustness: Model B headline campaigns at 2–3 perturbation densities/compositions; finite-size at an alternate init mixture and a second burn-in (L ≤ 256 grid + spot-check 512) | medium | 1 |
 | C7 | Endogenous grid-size robustness at 128² (already on the roadmap; unchanged by this review) | medium | known |
-| C8 | QQQ forcing robustness: reset EMA/band at session opens, compare crossover | medium | 16 |
+| C8 | QQQ forcing robustness ladder (user-added 2026-08-05): (a) reset EMA/band at session opens; (b) many windows from the committed file — sliding ~20-session sub-windows (~7,800 steps, sufficient for crossover diagnostics) and session-level block bootstrap (preserves intraday structure, breaks the particular ordering); (c) surrogate arms: IAAFT/phase-randomized (preserves marginal + spectrum), GARCH(1,1) (parametric with vol clustering), and GBM as the deliberately-wrong no-stylized-facts end member. GBM is an ablation arm here, NOT a data replacement — see D4. No new data needed for any arm (fresh-calendar-windows arm dropped with the re-acquisition veto). Each arm is one sweep at 128² | medium | 16 + user Q |
 | C9 | One asynchronous update scheme + one alternate boundary topology at headline settings | medium | 18 |
 | C10 | L=32 small-lattice study (why it converts at LOWER f: basin structure / wrap-around interactions at 200-step burn-in scale) | small | 3 |
 | C11 | Rule-pair genericity screen (parked strategy; already on the roadmap) | medium | known |
@@ -128,11 +128,35 @@ These upgrade several P0s substantially and are cheaper than the review assumes:
    records REVTeX-at-acceptance. Cheap compromise: keep the current layout as canonical
    and add a Makefile target that disables endfloat for a referee-friendly PDF
    (package-option toggle). Enlarging Figs 4/S6/S7 is real figure work either way.
-4. **QQQ redistribution rights (item 23).** Legal call, not editable: the file is
-   committed under repo-wide MIT while `code/data/README.md` says the vendor's license
-   terms are unrecoverable. Options: LICENSE carve-out + third-party-data statement
-   (minimum); or remove the raw file, ship checksums + derived series, private referee
-   access. APS requires a Data Availability Statement either way (A22 drafts it).
+4. **QQQ redistribution rights (item 23; narrowed 2026-08-05, then largely
+   DEFUSED by provenance).** The file is committed under repo-wide MIT while
+   `code/data/README.md` says the vendor's license terms are unrecoverable.
+   **Key provenance fact (user, 2026-08-05): the data was never purchased** —
+   oneminutedata.com published it freely to the public (releasing more tickers
+   as pages accumulated likes) and then vanished. No purchase, no executed
+   license agreement, no recoverable terms: the usual contractual hook for
+   redistribution restrictions never existed, and factual price data itself is
+   not copyrightable in the US. Residual exposure is minimal. Plan: (1) a
+   data-license note excluding the QQQ file from the MIT grant (third-party
+   factual data the authors did not create; archival reproducibility copy);
+   (2) a Data Availability Statement stating the strong version — freely
+   published by the vendor, no license was involved, vendor defunct with no
+   archived terms, SHA-256 checksum, series cannot be re-obtained; (3) update
+   `code/data/README.md` to record the free-publication provenance (fold into
+   A22). Keeping the raw OHLCV file is now the default; the derived-P-only
+   variant is unnecessary. Re-acquisition remains vetoed and moot. **Replacing the data with a
+   fitted GBM generator was considered and rejected**: it would delete the
+   "couples the CA to real market data" differentiator (relatedwork.tex:130-132),
+   the adaptive EMA/EWMAD classifier transmits excursion/clustering structure
+   that GBM lacks by construction, and it invites the stylized-facts objection
+   with no upside. Synthetic forcing enters only as the C8(d) robustness ladder.
+   **De-identifying the data was also considered and rejected** (2026-08-05): a
+   public asset's minute-bar series is re-identifiable in seconds (the content IS
+   the identity — even affine-rescaled prices, though they'd reproduce Model A
+   exactly via band-classifier invariance, re-identify from returns), so it
+   changes nothing legally while forfeiting the "real market data" differentiator
+   and reading as evasive to referees. The labeled archival-copy carve-out
+   remains the recommendation.
 5. **Zenodo/OSF archival release with DOI (item 23).** Needs an account decision; I can
    prepare the release (pinned commit, Manifest, data dictionary, one-command rebuild).
 6. **Reduced-scope fallback** (review's closing section): a scope decision, only
