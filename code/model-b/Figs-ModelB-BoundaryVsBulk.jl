@@ -210,13 +210,15 @@ let
     # / `ring_attach_freeze` stay asserted above rather than being dropped
     # along with the panel.
 
-    # The short top row follows the Model A crossover figures; the lower row
-    # is close to one half-canvas width tall, so B's square spatial map and
-    # C's ordinary axes occupy matching cells instead of visibly different
-    # shapes. C's small symmetric padding compensates for B's fixed square
-    # aspect, leaving the two rendered axis boxes equal in width and height.
+    # Give the fixed-aspect strip enough vertical room to use the same outer
+    # width as the lower pair.  On the former 714 px canvas, the strip's
+    # equal-cell aspect ratio made it height-limited and left conspicuous
+    # white gutters on both sides even though panel A nominally occupied the
+    # full layout row.  The taller canvas adds space only to the upper row;
+    # the lower row remains effectively the same height, so B's square map
+    # and C's ordinary axes retain their matched geometry.
     fig = plot(stripA, pB, pC;
-        layout = @layout([a{0.36h}; b c]), size = (900, 714))
+        layout = @layout([a{0.42h}; b c]), size = (900, 790))
     _save_figure(fig, "Fig5-Nucleus.pdf")
     @info "Saved: Fig5-Nucleus.pdf"
 end

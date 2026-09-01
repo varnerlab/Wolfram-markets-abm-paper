@@ -109,6 +109,7 @@ end
     @test config.initial_shares == 10
     @test config.cost_basis_rule == true
     @test config.edge_band_spread == 0.5
+    @test isinf(config.market_maker_capacity)
 
     @test_throws ArgumentError build(MyModelBConfiguration,
         (number_of_rows = 32, number_of_cols = 32, steps = 0))
@@ -131,6 +132,10 @@ end
         (number_of_rows = 32, number_of_cols = 32, edge_band_spread = 1.0))
     @test_throws ArgumentError build(MyModelBConfiguration,
         (number_of_rows = 32, number_of_cols = 32, edge_band_spread = -0.1))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, market_maker_capacity = -1.0))
+    @test_throws ArgumentError build(MyModelBConfiguration,
+        (number_of_rows = 32, number_of_cols = 32, market_maker_capacity = NaN))
 end
 
 @testset "desired orders and book totals" begin
@@ -149,6 +154,21 @@ end
     books.cash[1, 1] = 1.0e9
     cash2, _ = compute_book_totals(books, edges)
     @test cash2 ≈ cash
+end
+
+@testset "explicit market-maker construction" begin
+    unlimited = build_market_maker(_test_config(), 198)
+    @test unlimited.unlimited
+    @test unlimited.cash == 0.0 && unlimited.inventory == 0
+    @test unlimited.credit_limit == Inf
+
+    finite = build_market_maker(_test_config(market_maker_capacity = 0.5), 198)
+    @test !finite.unlimited
+    @test finite.initial_inventory == 99
+    @test finite.inventory == 99
+    @test finite.min_inventory == 0 && finite.max_inventory == 198
+    @test finite.initial_cash == 99 * 100.0
+    @test finite.cash == finite.initial_cash
 end
 
 @testset "execution engine: filter and settlement" begin
@@ -220,6 +240,79 @@ end
     states = [i % 3 for i in 1:length(edges)]              # mixed 0/1/2 pattern
     _set_edge_states!(grid, edges, states)
     @test all(grid[edges[i]...] == states[i] for i in eachindex(edges))
+end
+
+@testset "finite maker offsets flow and rejects only residual imbalance" begin
+    config = _test_config(cost_basis_rule = false)
+    no_edges = Tuple{Int64,Int64}[]
+    no_states = Int64[]
+    coords = [(r, c) for r in 2:15 for c in 2:15]
+
+    # Ten buys against six sells: all six opposing pairs fill, then the maker
+    # supplies its final two shares. Only two residual buys are rejected.
+    books = build_agent_books(config)
+    grid = fill(1, 16, 16)
+    for (r, c) in coords[1:10]
+        grid[r, c] = 0
+    end
+    for (r, c) in coords[11:16]
+        grid[r, c] = 2
+    end
+    maker = MyMarketMaker(200.0, 2, 200.0, 2, 0, 4, 0.0, false)
+    counts = execute_orders!(books, grid, no_edges, no_states, 100.0;
+                             cost_basis_rule = false, market_maker = maker,
+                             seed = 91, step = 7)
+    @test counts.executed_buys == 8
+    @test counts.executed_sells == 6
+    @test counts.market_maker_rejected_buys == 2
+    @test counts.market_maker_rejected_sells == 0
+    @test counts.suppressed_buys == 0 && counts.suppressed_sells == 0
+    @test maker.inventory == 0 && maker.cash == 400.0
+
+    # The mirror image exhausts both the maker's cash and its upper inventory
+    # buffer after two residual sells.
+    books = build_agent_books(config)
+    grid = fill(1, 16, 16)
+    for (r, c) in coords[1:6]
+        grid[r, c] = 0
+    end
+    for (r, c) in coords[7:16]
+        grid[r, c] = 2
+    end
+    maker = MyMarketMaker(200.0, 2, 200.0, 2, 0, 4, 0.0, false)
+    counts = execute_orders!(books, grid, no_edges, no_states, 100.0;
+                             cost_basis_rule = false, market_maker = maker,
+                             seed = 91, step = 7)
+    @test counts.executed_buys == 6
+    @test counts.executed_sells == 8
+    @test counts.market_maker_rejected_buys == 0
+    @test counts.market_maker_rejected_sells == 2
+    @test maker.inventory == 4 && maker.cash == 0.0
+end
+
+@testset "rationing is fresh each step and reproducible across reruns" begin
+    config = _test_config(cost_basis_rule = false)
+    grid = _uniform_interior_grid(16, 16, 0)
+    no_edges = Tuple{Int64,Int64}[]
+    no_states = Int64[]
+
+    function filled_buyers(step)
+        books = build_agent_books(config)
+        maker = MyMarketMaker(400.0, 4, 400.0, 4, 0, 8, 0.0, false)
+        counts = execute_orders!(books, grid, no_edges, no_states, 100.0;
+                                 cost_basis_rule = false, market_maker = maker,
+                                 seed = 27, step = step)
+        @test counts.executed_buys == 4
+        @test counts.market_maker_rejected_buys == 192
+        return Set((r, c) for r in 2:15 for c in 2:15
+                   if books.shares[r, c] == config.initial_shares + 1)
+    end
+
+    step1a = filled_buyers(1)
+    step1b = filled_buyers(1)
+    step2 = filled_buyers(2)
+    @test step1a == step1b
+    @test step1a != step2
 end
 
 # ---------------------------------------------------------------------------
@@ -319,10 +412,99 @@ end
     @test minors(agents1) == minors(agents2)                       # seeded → identical
     @test length(minors(agents1)) == round(Int, 0.20 * 16 * 16)    # 51 of 256
 
+    # Rule-quench experiments assign the requested fraction exactly among
+    # cells that the fixed-boundary solver updates, never to inert boundary
+    # positions.
+    worldi, agentsi, _ = _build_ca_components(
+        config; rng = Xoshiro(3), minority_population = :interior,
+    )
+    minor_i = minors(agentsi)
+    @test length(minor_i) == round(Int, 0.20 * 14 * 14)             # 39 of 196
+    @test all(begin
+        r, c = worldi.states[i]
+        2 <= r <= 15 && 2 <= c <= 15
+    end for i in minor_i)
+    @test_throws ArgumentError _build_ca_components(
+        config; rng = Xoshiro(3), minority_population = :bogus,
+    )
+
     # default-rng path (Model A) still works and is homogeneous when f = 0
     world0, agents0, rule0 = _build_ca_components(_test_config(minority_fraction = 0.0))
     @test isnothing(world0) && isnothing(agents0)
     @test rule0.index == config.rule_major_index
+end
+
+@testset "direct CA step exactly matches the general solver" begin
+    grid0 = reshape(Int64[mod(i^2 + 3i, 3) for i in 1:(16 * 16)], 16, 16)
+
+    homogeneous = _test_config(minority_fraction = 0.0)
+    world_h, agents_h, rule_h = _build_ca_components(homogeneous; rng = Xoshiro(8))
+    fast = copy(grid0)
+    reference = copy(grid0)
+    for _ in 1:5
+        fast = _ca_step(fast, world_h, agents_h, rule_h)
+        reference = solve(rule_h, reference; steps = 1)[1]
+        @test fast == reference
+    end
+
+    heterogeneous = _test_config(minority_fraction = 0.20)
+    world_x, agents_x, rule_x = _build_ca_components(
+        heterogeneous; rng = Xoshiro(8), minority_population = :interior,
+    )
+    fast = copy(grid0)
+    reference = copy(grid0)
+    for _ in 1:5
+        fast = _ca_step(fast, world_x, agents_x, rule_x)
+        reference = solve(agents_x, world_x; initial = reference, steps = 1,
+                          exclude = Set{Tuple{Int64,Int64}}())[1]
+        @test fast == reference
+    end
+end
+
+@testset "delayed contrarian activation is a paired rule quench" begin
+    steps = 60
+    t_quench = 20
+    target = _test_config(
+        steps = steps, minority_fraction = 0.50,
+        cost_basis_rule = false, initial_cash = 1.0e9,
+        initial_shares = 10^6,
+    )
+    homogeneous = _test_config(
+        steps = steps, minority_fraction = 0.0,
+        cost_basis_rule = false, initial_cash = 1.0e9,
+        initial_shares = 10^6,
+    )
+    snapshots = [t_quench - 1, t_quench, steps]
+
+    treated = simulate(
+        target; snapshot_steps = snapshots,
+        minority_population = :interior,
+        rule_activation_step = t_quench, verbose = false,
+    )
+    dormant = simulate(
+        target; snapshot_steps = snapshots,
+        minority_population = :interior,
+        rule_activation_step = steps + 1, verbose = false,
+    )
+    pure_major = simulate(homogeneous; snapshot_steps = snapshots, verbose = false)
+
+    # The dormant target landscape is dynamically identical to a true f=0
+    # market, and treated/control histories coincide through the quote formed
+    # on the quench step. The CA state may diverge only after activation.
+    @test dormant.prices == pure_major.prices
+    @test dormant.sell_fraction == pure_major.sell_fraction
+    @test all(dormant.frames[t] == pure_major.frames[t] for t in snapshots)
+    @test treated.prices[1:t_quench+1] == dormant.prices[1:t_quench+1]
+    @test treated.frames[t_quench - 1] == dormant.frames[t_quench - 1]
+    @test treated.frames[steps] != dormant.frames[steps]
+
+    @test_throws ArgumentError simulate(
+        target; minority_population = :interior,
+        rule_activation_step = 0, verbose = false,
+    )
+    @test_throws ArgumentError simulate(
+        homogeneous; rule_activation_step = t_quench, verbose = false,
+    )
 end
 
 # ---------------------------------------------------------------------------
@@ -389,6 +571,21 @@ end
     @test passive_ok
 end
 
+@testset "5b. matched Hold boundary removes price-to-lattice feedback" begin
+    config = _test_config(steps = 100, λ = 0.05)
+    held = simulate(config; boundary_mode = :hold, verbose = false)
+    endogenous = simulate(config; boundary_mode = :endogenous, verbose = false)
+    n_edge = length(held.edge_coordinates)
+    @test all(held.edge_hold_count .== n_edge)
+    @test all(held.edge_buy_count .== 0) && all(held.edge_sell_count .== 0)
+    @test held.edge_switches == 0
+    @test any(held.prices .!= config.P0)  # price still records interior order flow
+    @test held.edge_coordinates == endogenous.edge_coordinates
+    @test held.edge_k == endogenous.edge_k
+    @test held.frames[0] == endogenous.frames[0]
+    @test_throws ArgumentError simulate(config; boundary_mode = :bogus, verbose = false)
+end
+
 @testset "6. all-Hold null control is stationary" begin
     config = _test_config(initial_condition = :all_hold)
     result = simulate(config; verbose = false)
@@ -433,8 +630,12 @@ end
     @test r1.executed_sells == r2.executed_sells
     @test r1.suppressed_buys == r2.suppressed_buys
     @test r1.suppressed_sells == r2.suppressed_sells
+    @test r1.market_maker_rejected_buys == r2.market_maker_rejected_buys
+    @test r1.market_maker_rejected_sells == r2.market_maker_rejected_sells
     @test r1.total_cash == r2.total_cash
     @test r1.total_shares == r2.total_shares
+    @test r1.market_maker_cash == r2.market_maker_cash
+    @test r1.market_maker_inventory == r2.market_maker_inventory
     @test r1.edge_coordinates == r2.edge_coordinates
     @test r1.edge_k == r2.edge_k
     @test r1.final_books.cash == r2.final_books.cash
@@ -470,6 +671,10 @@ end
     @test length(result.executed_sells)   == T
     @test length(result.suppressed_buys)  == T
     @test length(result.suppressed_sells) == T
+    @test length(result.market_maker_rejected_buys) == T
+    @test length(result.market_maker_rejected_sells) == T
+    @test length(result.market_maker_cash) == T + 1
+    @test length(result.market_maker_inventory) == T + 1
     @test length(result.edge_k) == length(result.edge_coordinates)
     @test haskey(result.frames, 0) && haskey(result.frames, T)
     # the price series reconstructs exactly from the recorded log returns
@@ -496,6 +701,31 @@ end
     @test all(isapprox.(diff(result.total_cash),
                         -net .* result.prices[1:end-1]; atol = 1e-6))
     @test diff(result.total_shares) == net
+    @test all(isapprox.(result.total_cash .+ result.market_maker_cash,
+                        result.total_cash[1] + result.market_maker_cash[1]; atol = 1e-6))
+    @test result.total_shares .+ result.market_maker_inventory ==
+          fill(result.total_shares[1] + result.market_maker_inventory[1],
+               length(result.total_shares))
+    @test all(result.market_maker_rejected_buys .== 0)
+    @test all(result.market_maker_rejected_sells .== 0)
+end
+
+@testset "10b. finite market-maker capacity binds and conserves the system" begin
+    config = _test_config(initial_condition = :custom, steps = 1,
+                          market_maker_capacity = 0.01,
+                          cost_basis_rule = false)
+    grid = _uniform_interior_grid(16, 16, 0)
+    result = simulate(config; initial_grid = grid, verbose = false)
+    H = round(Int, config.market_maker_capacity *
+                   (196 + length(result.edge_coordinates)))
+    @test result.executed_buys[1] == H
+    @test result.market_maker_rejected_buys[1] == 196 - H
+    @test result.final_market_maker.inventory == 0
+    @test result.market_maker_inventory == [H, 0]
+    @test result.total_cash .+ result.market_maker_cash ≈
+          fill(result.total_cash[1] + result.market_maker_cash[1], 2)
+    @test result.total_shares .+ result.market_maker_inventory ==
+          fill(result.total_shares[1] + result.market_maker_inventory[1], 2)
 end
 
 @testset "11. infinite endowments recover unconstrained flow" begin

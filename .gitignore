@@ -38,6 +38,11 @@ code/data/*.csv
 !code/data/ModelA-FiniteSize*.csv
 !code/data/ModelA-Avrami*.csv
 !code/data/ModelA-OnsetTime*.csv
+!code/data/ModelB-ReservoirQuench-Full-*.csv
+!code/data/ModelB-FiniteSizeQuench-Full-*.csv
+!code/data/ModelB-BalanceSheetQuench-Full-*.csv
+code/data/*-Checkpoints/
+tmp/pdfs/
 
 # Model A boundary forcing: retained as an archival copy of a defunct vendor's
 # output (oneminutedata.com), since the series cannot be re-obtained. Provenance

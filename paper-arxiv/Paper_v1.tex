@@ -52,7 +52,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{Nucleation and budget-gated growth of market crashes in a totalistic cellular automaton\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+\title{Rule-quench instability in a cellular-automaton market with finite dealer capacity\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
 
 \author{%
   Jeffrey D. Varner \\
@@ -66,28 +66,26 @@
 \maketitle
 
 \begin{abstract}
-Large market declines are not always traceable to external news of comparable size, which
-raises the question of whether local interactions among traders can generate crash-like
-transitions on their own. We studied that question in a deterministic, three-state
-cellular automaton in which agents on a two-dimensional grid hold Buy, Hold, or Sell
-states and update from their four nearest neighbors under Wolfram totalistic rules. The
-interior mixed a majority rule with a contrarian rule that differs at a single
-neighborhood sum, and the contrarian fraction served as the only control parameter. In
-the exogenous-price model, boundary agents classified real QQQ minute-bar prices through
-a volatility band and injected the result into the grid. Sweeping the contrarian fraction
-produced a sharp finite-horizon crossover from a mixed state to a sell-dominated one:
-sell domains nucleated locally and spread as coherent fronts that neither a mean-field
-map nor a pair approximation reproduced, and onset times followed an inverse-distance
-empirical curve consistent with a nucleation interpretation. The endogenous-price model
-replaced the external feed with a price formed from the grid's own executed order
-imbalance and gave every agent finite cash and share inventories, so sentiment had to
-pass a budget before reaching the market. The crossover survived those budgets, onset
-times were nearly indifferent to the cash endowment, and what the endowment governed
-instead was how fast the winning domain grew after birth. A paired cash intervention
-traced that gating to the one-cell-deep boundary ring through which price information
-reenters the grid, a mechanism specific to the model's execution and market-maker
-assumptions. Because the totalistic rule space is finite and enumerable, the same
-analysis extends to every rule in this model class.
+Can a local rule change destabilize a market that was stable immediately
+before the change, and how does finite counterparty capacity alter the
+outcome? We studied a deterministic cellular automaton in which agents held
+Buy, Hold, or Sell states. Two local rules differed at one neighborhood sum.
+In each paired rule quench, every site used the baseline rule for 1,000 steps.
+A preselected fraction then switched rules without resetting the lattice,
+price, adaptive boundary, trader books, or dealer. No dormant control reached
+a Sell majority. With an endogenous price boundary and an unlimited dealer,
+none of 50 runs transitioned at activated fractions 0.10 or 0.15, whereas all
+runs transitioned at 0.20 or 0.25. The transition remained when the boundary
+was held fixed. Across lattice sizes $L=32$--128, the held-boundary midpoint
+moved from $f_{50}=0.218$ to 0.166, the transition width narrowed from 0.0275
+to 0.0082, and peak ensemble susceptibility increased from 21.2 to 232.7.
+Dealer capacity changed the financial expression much more strongly than the
+spatial transition. At $f=0.20$, median drawdown increased from 0.40\% at
+$h=0.1$ to 3.92\% at $h=1$ and 25.3\% at $h=\infty$. Independent cash and
+share interventions further separated trader order eligibility from dealer
+capacity. Time-sliced lattices documented Sell-domain growth across doses and
+dealer conditions. We used those spatial and finite-size measurements without
+claiming classical nucleation or an equilibrium universality class.
 \end{abstract}
 
 \input{sections/introduction}

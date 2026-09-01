@@ -1,7 +1,7 @@
 # PaperStyle.jl
 # Single source of truth for figure style. The state colors are the Okabe-Ito
 # values already declared in paper-arxiv/Paper_v1.tex via \definecolor, so the
-# TikZ schematic (Figure 1) and every data figure share one color language.
+# manuscript and every data figure share one color language.
 # Changing a value here changes it in the paper only if the \definecolor block
 # is changed to match.
 

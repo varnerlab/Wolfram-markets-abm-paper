@@ -5,16 +5,20 @@
 # ---------------------------------------------------------------------------
 
 """
-    _build_ca_components(sim_model; rng) → (world, agents, rule_major)
+    _build_ca_components(sim_model; rng, minority_population)
+        → (world, agents, rule_major)
 
 Build the CA machinery needed for a simulation run.
 
 - Homogeneous case (minority_fraction ≈ 0): returns (nothing, nothing, rule_major).
   The fast path `solve(rule_major, grid, steps=1)` is used.
 
-- Heterogeneous case: builds MyTwoDimensionalFixedBoundaryGridWorld, assigns
-  rule_major to (1 - f) of agents and rule_minor to the remaining f, placed
-  uniformly at random using `rng`.
+- Heterogeneous case: builds MyTwoDimensionalFixedBoundaryGridWorld and assigns
+  rule_major to (1 - f) of the selected population and rule_minor to the
+  remaining f, placed uniformly at random using `rng`.  The default
+  `minority_population = :all_sites` preserves the historical implementation
+  and its RNG stream.  `:interior` assigns the requested fraction exactly
+  among cells that the fixed-boundary solver actually updates.
 
 `rng` defaults to the global RNG, so Model A call sites (which pass no rng)
 are bit-for-bit unchanged. Model B passes its seeded Xoshiro so minority
@@ -23,6 +27,7 @@ placement is reproducible from config.seed alone.
 function _build_ca_components(
     sim_model::AbstractSimulationModel;
     rng::AbstractRNG = Random.default_rng(),
+    minority_population::Symbol = :all_sites,
 )
     nrows   = sim_model.number_of_rows
     ncols   = sim_model.number_of_cols
@@ -36,6 +41,8 @@ function _build_ca_components(
         radius = radius,
     ))
 
+    minority_population in (:all_sites, :interior) ||
+        throw(ArgumentError("minority_population must be :all_sites or :interior"))
     f ≈ 0.0 && return (nothing, nothing, rule_major)
 
     rule_minor = build(MyTwoDimensionalTotalisticWolframRuleModel, (
@@ -55,13 +62,26 @@ function _build_ca_components(
         agents[i] = build(MySimpleTwoDimensionalAgentModel, world, (rule = rule_major, index = i))
     end
 
-    n_minor = round(Int, f * N)
-    visited = Set{Int64}()
-    while length(visited) < n_minor
-        j = rand(rng, 1:N)
-        if j ∉ visited
+    if minority_population == :all_sites
+        # Keep this rejection-sampling path unchanged: all existing Model A
+        # and Model B results depend on its seeded draw sequence.
+        n_minor = round(Int, f * N)
+        visited = Set{Int64}()
+        while length(visited) < n_minor
+            j = rand(rng, 1:N)
+            if j ∉ visited
+                agents[j].rule = rule_minor
+                push!(visited, j)
+            end
+        end
+    else
+        candidates = Int64[
+            world.coordinates[(r, c)]
+            for r in 2:nrows-1 for c in 2:ncols-1
+        ]
+        n_minor = round(Int, f * length(candidates))
+        for j in candidates[randperm(rng, length(candidates))[1:n_minor]]
             agents[j].rule = rule_minor
-            push!(visited, j)
         end
     end
 
@@ -83,14 +103,34 @@ function _ca_step(
     agents,
     rule_major,
 )::Array{Int64,2}
+    # Every model in this repository uses the four-site von Neumann
+    # neighborhood with uniform totalistic weights.  Its configuration index
+    # is exactly the integer sum of the four neighbor states.  Evaluating that
+    # identity directly avoids allocating a temporary vector per site and a
+    # one-step Dict of frames per market step.  The general-purpose `solve`
+    # methods remain available to the archival notebooks.
+    rule_major.radius == 4 ||
+        error("the direct CA step requires a four-neighbor totalistic rule")
+    nrows, ncols = size(grid)
+    next = copy(grid)
+
     if isnothing(world)
-        frames = solve(rule_major, grid, steps = 1)
-        return copy(frames[1])
+        decision = rule_major.rule
+        @inbounds for r in 2:nrows-1, c in 2:ncols-1
+            configuration = grid[r, c - 1] + grid[r, c + 1] +
+                            grid[r - 1, c] + grid[r + 1, c]
+            next[r, c] = decision[configuration]
+        end
     else
-        frames = solve(agents, world; initial = grid, steps = 1,
-                       exclude = Set{Tuple{Int64,Int64}}())
-        return copy(frames[1])
+        @inbounds for r in 2:nrows-1, c in 2:ncols-1
+            agent_index = (r - 1) * ncols + c
+            decision = agents[agent_index].rule.rule
+            configuration = grid[r, c - 1] + grid[r, c + 1] +
+                            grid[r - 1, c] + grid[r + 1, c]
+            next[r, c] = decision[configuration]
+        end
     end
+    return next
 end
 
 """
@@ -154,18 +194,88 @@ function _try_execute!(
     return false
 end
 
+"""Return whether one desired unit order passes the submitting agent's book."""
+@inline function _agent_order_is_eligible(
+    books::MyAgentBooks, r::Int64, c::Int64,
+    order::Int64, P::Float64, cost_basis_rule::Bool,
+)::Bool
+    if order == 1
+        return books.cash[r, c] ≥ P
+    elseif order == -1
+        return books.shares[r, c] ≥ 1 &&
+               (!cost_basis_rule || P > books.avg_cost[r, c])
+    end
+    return false
+end
+
+"""Settle an already-eligible unit order against the agent's book."""
+@inline function _settle_agent_order!(
+    books::MyAgentBooks, r::Int64, c::Int64,
+    order::Int64, P::Float64,
+)::Nothing
+    if order == 1
+        s_old = books.shares[r, c]
+        books.avg_cost[r, c] = (books.avg_cost[r, c] * s_old + P) / (s_old + 1)
+        books.shares[r, c] = s_old + 1
+        books.cash[r, c] -= P
+    elseif order == -1
+        books.shares[r, c] -= 1
+        books.cash[r, c] += P
+    else
+        throw(ArgumentError("cannot settle Hold order"))
+    end
+    return nothing
+end
+
+# Stable SplitMix64 finalizer. Rationing uses a counter-based score rather
+# than consuming the simulation RNG, so paired arms see the same priority
+# tape at the same (step, agent, side) even after their eligible sets diverge.
+@inline function _splitmix64(x::UInt64)::UInt64
+    z = x + 0x9e3779b97f4a7c15
+    z = (z ⊻ (z >> 30)) * 0xbf58476d1ce4e5b9
+    z = (z ⊻ (z >> 27)) * 0x94d049bb133111eb
+    return z ⊻ (z >> 31)
+end
+
+@inline function _rationing_score(
+    seed::Int64, step::Int64, agent_id::Int64, side::Int64,
+)::UInt64
+    x = reinterpret(UInt64, seed)
+    x ⊻= UInt64(step) * 0xd2b74407b1ce6e93
+    x ⊻= UInt64(agent_id) * 0xca5a826395121157
+    x ⊻= side == 1 ? 0x6a09e667f3bcc909 : 0xbb67ae8584caa73b
+    return _splitmix64(x)
+end
+
+"""Order eligible candidates by the shared per-step rationing tape."""
+function _rank_for_rationing!(
+    candidates::Vector{NTuple{3,Int64}},
+    seed::Int64, step::Int64, side::Int64,
+)::Vector{NTuple{3,Int64}}
+    sort!(candidates; by = x -> (_rationing_score(seed, step, x[3], side), x[3]))
+    return candidates
+end
+
 """
     execute_orders!(books, grid, edge_coordinates, edge_states, P;
                     cost_basis_rule) → NamedTuple
 
-Execution layer (spec 2026-07-16 decision 3): filter every trading cell's
-desired order through its books at the standing quote P, settling fills
-immediately. Interior orders come from grid states; edge agent i's order
-comes from edge_states[i] (its band decision e_{i,t-1}), never from the
-grid. Hold cells submit nothing and are not counted as suppressed. The grid
-is never modified — the constraint binds orders, not sentiment. Fill order
-is irrelevant: each cell trades at most one share against its own books at
-one fixed price.
+Execution layer: first filter every desired unit order through the submitting
+agent's book, then batch the eligible buys and sells at the standing quote.
+Opposing eligible flow offsets without consuming net market-maker capacity.
+The explicit maker fills the residual up to its cash/inventory limits; any
+remaining eligible orders are counted as market-maker rejections. In the
+unlimited-maker limit every eligible order fills, exactly recovering the
+historical implementation.
+
+When rationing is necessary, a new seeded priority is generated for every
+agent at every step. It changes across steps but is common to paired arms,
+because it is a stateless function of (seed, step, agent id, side).
+
+Interior orders come from grid states; edge agent i's order comes from
+edge_states[i], never from the boundary grid value. Hold cells submit
+nothing. The grid is never modified: financial constraints bind execution,
+not sentiment.
 """
 function execute_orders!(
     books::MyAgentBooks,
@@ -174,14 +284,23 @@ function execute_orders!(
     edge_states::Vector{Int64},
     P::Float64;
     cost_basis_rule::Bool = true,
-)::NamedTuple{(:executed_buys, :executed_sells, :suppressed_buys, :suppressed_sells), NTuple{4,Int64}}
+    market_maker::Union{Nothing,MyMarketMaker} = nothing,
+    seed::Int64 = 0,
+    step::Int64 = 1,
+)
     nrows, ncols = size(grid)
-    exec_b = 0; exec_s = 0; supp_b = 0; supp_s = 0
+    buyers = NTuple{3,Int64}[]
+    sellers = NTuple{3,Int64}[]
+    supp_b = 0
+    supp_s = 0
+    linear = LinearIndices(grid)
+
     for r in 2:nrows-1, c in 2:ncols-1
         order = compute_desired_order(grid[r, c])
         order == 0 && continue
-        if _try_execute!(books, r, c, order, P, cost_basis_rule)
-            order == 1 ? (exec_b += 1) : (exec_s += 1)
+        if _agent_order_is_eligible(books, r, c, order, P, cost_basis_rule)
+            candidate = (Int64(r), Int64(c), Int64(linear[r, c]))
+            order == 1 ? push!(buyers, candidate) : push!(sellers, candidate)
         else
             order == 1 ? (supp_b += 1) : (supp_s += 1)
         end
@@ -189,14 +308,62 @@ function execute_orders!(
     for (i, (r, c)) in enumerate(edge_coordinates)
         order = compute_desired_order(edge_states[i])
         order == 0 && continue
-        if _try_execute!(books, r, c, order, P, cost_basis_rule)
-            order == 1 ? (exec_b += 1) : (exec_s += 1)
+        if _agent_order_is_eligible(books, r, c, order, P, cost_basis_rule)
+            candidate = (Int64(r), Int64(c), Int64(linear[r, c]))
+            order == 1 ? push!(buyers, candidate) : push!(sellers, candidate)
         else
             order == 1 ? (supp_b += 1) : (supp_s += 1)
         end
     end
+
+    B = length(buyers)
+    S = length(sellers)
+    fill_b = B
+    fill_s = S
+    if !isnothing(market_maker) && !market_maker.unlimited
+        if B > S
+            dealer_capacity = max(0, market_maker.inventory - market_maker.min_inventory)
+            fill_b = S + min(B - S, dealer_capacity)
+        elseif S > B
+            inventory_capacity = max(0, market_maker.max_inventory - market_maker.inventory)
+            available_cash = max(0.0, market_maker.cash + market_maker.credit_limit)
+            cash_capacity = floor(Int64, available_cash / P + 1.0e-12)
+            fill_s = B + min(S - B, inventory_capacity, cash_capacity)
+        end
+    end
+
+    rejected_b = B - fill_b
+    rejected_s = S - fill_s
+    rejected_b > 0 && _rank_for_rationing!(buyers, seed, step, 1)
+    rejected_s > 0 && _rank_for_rationing!(sellers, seed, step, -1)
+
+    for i in 1:fill_b
+        r, c, _ = buyers[i]
+        _settle_agent_order!(books, r, c, 1, P)
+    end
+    for i in 1:fill_s
+        r, c, _ = sellers[i]
+        _settle_agent_order!(books, r, c, -1, P)
+    end
+
+    if !isnothing(market_maker)
+        market_maker.cash += P * (fill_b - fill_s)
+        market_maker.inventory += fill_s - fill_b
+        if !market_maker.unlimited
+            market_maker.cash ≥ -1.0e-8 - market_maker.credit_limit ||
+                error("market-maker cash limit violated")
+            market_maker.min_inventory ≤ market_maker.inventory ≤ market_maker.max_inventory ||
+                error("market-maker inventory limit violated")
+            abs(market_maker.cash) < 1.0e-10 && (market_maker.cash = 0.0)
+        end
+    end
+
+    exec_b = fill_b
+    exec_s = fill_s
     return (executed_buys = exec_b, executed_sells = exec_s,
-            suppressed_buys = supp_b, suppressed_sells = supp_s)
+            suppressed_buys = supp_b, suppressed_sells = supp_s,
+            market_maker_rejected_buys = rejected_b,
+            market_maker_rejected_sells = rejected_s)
 end
 
 # ---------------------------------------------------------------------------
@@ -283,11 +450,15 @@ end
 # ---------------------------------------------------------------------------
 
 """
-    simulate(config::MyModelBConfiguration; initial_grid, snapshot_steps, verbose)
+    simulate(config::MyModelBConfiguration; initial_grid, snapshot_steps,
+             intervention, minority_population, rule_activation_step,
+             boundary_mode, verbose)
         → MyModelBSimulationResult
 
-Run the closed-loop (Model B) simulation with per-agent budget constraints
-(spec 2026-07-16).
+Run the closed-loop (Model B) simulation with per-agent budget constraints and
+an explicit market maker. `config.market_maker_capacity = Inf` is the exact
+historical fill-all limit; finite values constrain the maker's symmetric net
+capacity per trader.
 
 Step t (t = 1..steps) transforms X_{t-1} → X_t in this exact order:
 
@@ -317,6 +488,20 @@ Arguments
                   books in place (e.g. a mid-run liquidity injection). Must
                   be deterministic in (t, books) — no RNG — or the
                   same-config ⇒ identical-output contract breaks.
+- minority_population : `:all_sites` (historical behavior) or `:interior`.
+                  The latter assigns exactly round(f*N_interior) minority
+                  rules among updateable interior cells.
+- rule_activation_step : optional delayed rule quench. When set, the sites
+                  designated by `minority_fraction` initially follow the
+                  major rule and switch to their preselected minor rule at
+                  the top of this step. Set to `steps + 1` for the paired
+                  dormant control. `nothing` preserves the historical model,
+                  in which minority rules are active from t = 0.
+- boundary_mode : `:endogenous` (default) lets the updated price classify the
+                  active edge ring. `:hold` clamps the same sampled edge sites
+                  to Hold while retaining the identical RNG stream, trader
+                  denominator, books, and fixed-boundary CA geometry. This is
+                  the matched autonomous-CA ablation.
 - verbose       : show a ProgressMeter bar (default true)
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
@@ -327,8 +512,14 @@ function simulate(
     initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
     snapshot_steps::Union{Nothing, Vector{Int64}} = nothing,
     intervention::Union{Nothing, Function} = nothing,
+    minority_population::Symbol = :all_sites,
+    rule_activation_step::Union{Nothing, Int64} = nothing,
+    boundary_mode::Symbol = :endogenous,
     verbose::Bool = true,
 )::MyModelBSimulationResult
+
+    boundary_mode in (:endogenous, :hold) ||
+        throw(ArgumentError("boundary_mode must be :endogenous or :hold"))
 
     nrows = config.number_of_rows
     ncols = config.number_of_cols
@@ -346,11 +537,36 @@ function simulate(
     edge_k           = build_edge_bands(k, config.edge_band_spread,
                                         length(edge_coordinates), rng)
     grid             = build_initial_grid(config, rng; custom_grid = initial_grid)
-    world, agents, rule_major = _build_ca_components(config; rng = rng)
+    world, agents, rule_major = _build_ca_components(
+        config; rng = rng, minority_population = minority_population,
+    )
+
+    # A delayed activation preserves one preselected quenched landscape in
+    # both arms.  The treated run restores those minor rules at the quench;
+    # the paired control uses steps+1 and therefore keeps them dormant for the
+    # full observed horizon.  State, price, bands, books, and the RNG stream
+    # are otherwise identical.
+    target_minor_indices = Int64[]
+    target_minor_rules = MyTwoDimensionalTotalisticWolframRuleModel[]
+    if !isnothing(rule_activation_step)
+        1 <= rule_activation_step <= steps + 1 ||
+            throw(ArgumentError("rule_activation_step must lie in 1:(steps + 1)"))
+        isnothing(agents) &&
+            throw(ArgumentError("delayed rule activation requires minority_fraction > 0"))
+        for (i, agent) in enumerate(agents)
+            agent.rule.index == config.rule_minor_index || continue
+            push!(target_minor_indices, i)
+            push!(target_minor_rules, agent.rule)
+            agent.rule = rule_major
+        end
+        isempty(target_minor_indices) &&
+            throw(ArgumentError("minority_fraction selected zero delayed-activation sites"))
+    end
 
     books     = build_agent_books(config)
     n_edge    = length(edge_coordinates)
     N_traders = (nrows - 2) * (ncols - 2) + n_edge
+    market_maker = build_market_maker(config, Int64(N_traders))
 
     # Output containers
     prices           = Vector{Float64}(undef, steps + 1)
@@ -370,8 +586,12 @@ function simulate(
     executed_sells   = Vector{Int64}(undef, steps)
     suppressed_buys  = Vector{Int64}(undef, steps)
     suppressed_sells = Vector{Int64}(undef, steps)
+    market_maker_rejected_buys  = Vector{Int64}(undef, steps)
+    market_maker_rejected_sells = Vector{Int64}(undef, steps)
     total_cash       = Vector{Float64}(undef, steps + 1)
     total_shares     = Vector{Int64}(undef, steps + 1)
+    market_maker_cash      = Vector{Float64}(undef, steps + 1)
+    market_maker_inventory = Vector{Int64}(undef, steps + 1)
 
     # t = 0 state
     prices[1]         = P0
@@ -381,6 +601,8 @@ function simulate(
     band_upper[1]     = P0
     buy_fraction[1], hold_fraction[1], sell_fraction[1] = compute_interior_fractions(grid)
     total_cash[1], total_shares[1] = compute_book_totals(books, edge_coordinates)
+    market_maker_cash[1] = market_maker.cash
+    market_maker_inventory[1] = market_maker.inventory
 
     # Per-agent edge states e_{i,t}; baseline e_{i,0} = Hold
     edge_now      = fill(1, n_edge)
@@ -399,19 +621,33 @@ function simulate(
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
+        # --- optional rule quench: activate the preselected contrarian sites
+        #     without changing any dynamical state or financial variable ---
+        if !isnothing(rule_activation_step) && t == rule_activation_step
+            for (i, rule) in zip(target_minor_indices, target_minor_rules)
+                agents[i].rule = rule
+            end
+        end
+
         # --- optional intervention mutates the books before this step trades ---
         isnothing(intervention) || intervention(t, books)
 
         # --- desired orders are filtered through the books and settled
         #     at the standing quote P_{t-1} ---
         counts = execute_orders!(books, grid, edge_coordinates, edge_now, prices[t];
-                                 cost_basis_rule = config.cost_basis_rule)
+                                 cost_basis_rule = config.cost_basis_rule,
+                                 market_maker = market_maker,
+                                 seed = config.seed, step = Int64(t))
         executed_buys[t]    = counts.executed_buys
         executed_sells[t]   = counts.executed_sells
         suppressed_buys[t]  = counts.suppressed_buys
         suppressed_sells[t] = counts.suppressed_sells
+        market_maker_rejected_buys[t]  = counts.market_maker_rejected_buys
+        market_maker_rejected_sells[t] = counts.market_maker_rejected_sells
         total_cash[t + 1], total_shares[t + 1] =
             compute_book_totals(books, edge_coordinates)
+        market_maker_cash[t + 1] = market_maker.cash
+        market_maker_inventory[t + 1] = market_maker.inventory
 
         # --- the EXECUTED imbalance generates the next price ---
         φ                = (counts.executed_buys - counts.executed_sells) / N_traders
@@ -428,11 +664,17 @@ function simulate(
         band_lower[t + 1]     = μ - k * σ      # nominal-k band, for plotting
         band_upper[t + 1]     = μ + k * σ
 
-        # --- per-agent edge band decisions observe the newly generated price ---
-        for i in 1:n_edge
-            e = compute_band_state(P, μ, σ, edge_k[i])
-            edge_switches += (e != edge_now[i])
-            edge_now[i]    = e
+        # --- the newly generated price either drives the edge ring or is
+        #     prevented from re-entering the lattice in the matched Hold
+        #     boundary ablation ---
+        if boundary_mode == :endogenous
+            for i in 1:n_edge
+                e = compute_band_state(P, μ, σ, edge_k[i])
+                edge_switches += (e != edge_now[i])
+                edge_now[i]    = e
+            end
+        else
+            fill!(edge_now, 1)
         end
         edge_buy_count[t]  = count(==(0), edge_now)
         edge_hold_count[t] = count(==(1), edge_now)
@@ -454,7 +696,9 @@ function simulate(
         edge_buy_count, edge_hold_count, edge_sell_count, edge_switches,
         ema_price, ema_volatility, band_lower, band_upper,
         executed_buys, executed_sells, suppressed_buys, suppressed_sells,
-        total_cash, total_shares, books,
+        market_maker_rejected_buys, market_maker_rejected_sells,
+        total_cash, total_shares, market_maker_cash, market_maker_inventory,
+        books, market_maker,
         edge_coordinates, edge_k, config,
     )
 end

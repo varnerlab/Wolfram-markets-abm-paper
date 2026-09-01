@@ -205,6 +205,7 @@ mutable struct MyModelBConfiguration <: AbstractSimulationModel
     initial_shares::Int64            # starting share inventory per trading cell
     cost_basis_rule::Bool            # sell only above average acquisition cost (disposition effect)
     edge_band_spread::Float64        # δ: k_i ~ U(k(1−δ), k(1+δ)); 0 ⇒ homogeneous bands
+    market_maker_capacity::Float64   # symmetric net capacity per trader; Inf recovers legacy execution
     MyModelBConfiguration() = new()
 end
 
@@ -223,6 +224,29 @@ struct MyAgentBooks
 end
 
 """
+    MyMarketMaker
+
+Explicit counterparty for Model B. `cash` and `inventory` are signed in the
+unlimited-reservoir limit, which permits borrowing and shorting without bound
+and exactly reproduces the historical execution convention. A constrained
+maker starts at the midpoint of `[min_inventory, max_inventory]`, with enough
+cash to absorb the same initial net number of agent sells as agent buys.
+
+The initial fields are retained so conservation and exposure can be reported
+without reconstructing the configuration that produced the ledger.
+"""
+mutable struct MyMarketMaker
+    cash::Float64
+    inventory::Int64
+    initial_cash::Float64
+    initial_inventory::Int64
+    min_inventory::Int64
+    max_inventory::Int64
+    credit_limit::Float64
+    unlimited::Bool
+end
+
+"""
     MyModelBSimulationResult
 
 Immutable container for a Model B run: sparse grid snapshots plus the COMPLETE
@@ -235,7 +259,14 @@ Transition-like series (length steps, index t = step t): log_returns
 (= λ·φ_{t-1}), net_imbalance (EXECUTED imbalance φ_{t-1}, the value that
 generated P_t), edge_buy_count/edge_hold_count/edge_sell_count (counts of
 e_{i,t} over active edge agents), executed_buys, executed_sells,
-suppressed_buys, suppressed_sells.
+suppressed_buys, suppressed_sells, market_maker_rejected_buys, and
+market_maker_rejected_sells. Suppression means the submitting agent lacked
+cash/shares (or failed the cost-basis rule); rejection means the agent was
+eligible but the finite market maker lacked counterparty capacity.
+
+market_maker_cash and market_maker_inventory are state-like series. In the
+unlimited limit they are allowed to become negative and record the borrowing
+or short position required to support the historical fill-all convention.
 
 edge_switches = Σ_i Σ_t [e_{i,t} ≠ e_{i,t-1}], baseline e_{i,0} = Hold.
 final_books holds the trading-cell balance sheets at t = steps. edge_k[i]
@@ -262,9 +293,14 @@ struct MyModelBSimulationResult
     executed_sells::Vector{Int64}
     suppressed_buys::Vector{Int64}
     suppressed_sells::Vector{Int64}
+    market_maker_rejected_buys::Vector{Int64}
+    market_maker_rejected_sells::Vector{Int64}
     total_cash::Vector{Float64}
     total_shares::Vector{Int64}
+    market_maker_cash::Vector{Float64}
+    market_maker_inventory::Vector{Int64}
     final_books::MyAgentBooks
+    final_market_maker::MyMarketMaker
     edge_coordinates::Vector{Tuple{Int64,Int64}}
     edge_k::Vector{Float64}
     config::MyModelBConfiguration

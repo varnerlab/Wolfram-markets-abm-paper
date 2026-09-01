@@ -12,11 +12,15 @@ cd "$SCRIPT_DIR"
 
 MODE="${1:-tests}"
 LOG="$SCRIPT_DIR/run_all.log"
+MARKET_ABM_THREADS="${MARKET_ABM_THREADS:-12}"
+MARKET_ABM_GC_THREADS="${MARKET_ABM_GC_THREADS:-1}"
 
 run_julia() {
     local script="$1"
-    printf '\n[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$script" | tee -a "$LOG"
-    julia --project=. "$script" 2>&1 | tee -a "$LOG"
+    shift
+    printf '\n[%s] %s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$script" "$*" | tee -a "$LOG"
+    julia --project=. -t "$MARKET_ABM_THREADS" \
+        --gcthreads="$MARKET_ABM_GC_THREADS" "$script" "$@" 2>&1 | tee -a "$LOG"
 }
 
 run_tests() {
@@ -28,34 +32,18 @@ run_tests() {
 }
 
 run_compute() {
-    run_julia model-a/Compute-ModelA.jl
-    run_julia model-a/FineSweep.jl
-    run_julia model-a/Compute-ModelA-Critical.jl
-    run_julia model-a/Compute-SpatialTheory.jl
-    run_julia model-a/Compute-NucleationFit.jl
-    run_julia model-a/Compute-FiniteSizeScaling.jl
-    run_julia model-a/Compute-FiniteSizeStrips.jl
-
-    run_julia model-b/Compute-ModelB-Stage2.jl
-    run_julia model-b/Compute-ModelB-NucleationSeeds.jl
-    run_julia model-b/Compute-ModelB-Nucleation-EscapeTime.jl
-    run_julia model-b/Compute-ModelB-BoundaryVsBulk.jl
-    run_julia model-b/Compute-ModelB-BudgetToggle.jl
-    run_julia model-b/Compute-ModelB-BudgetEquivalence.jl
-    run_julia model-b/Compute-ModelB-StripFrames.jl
+    run_julia model-b/Compute-ModelB-RuleQuench.jl --full
+    run_julia model-b/Compute-ModelB-ReservoirQuench.jl --full
+    run_julia model-b/Compute-ModelB-FiniteSizeQuench.jl --full
+    run_julia model-b/Compute-ModelB-BalanceSheetQuench.jl --full
 }
 
 run_figures() {
-    run_julia model-a/Fig2-Combined.jl
-    run_julia model-a/Fig3-PhaseDiagram.jl
-    run_julia model-a/Figs-ModelA-Theory.jl
-    run_julia model-a/Figs-ModelA-FiniteSize.jl
-    run_julia model-b/Figs-ModelB-Exemplars.jl
-    run_julia model-b/Figs-ModelB-SeedSweep.jl
-    run_julia model-b/Figs-ModelB-ReturnDiagnostics.jl
-    run_julia model-b/Figs-ModelB-BarrierLaw.jl
-    run_julia model-b/Figs-ModelB-BoundaryVsBulk.jl
-    run_julia model-b/Figs-ModelB-BudgetToggle.jl
+    run_julia model-b/Compute-ModelB-RuleQuench.jl --full --plot-only
+    run_julia model-b/Figs-ModelB-ReservoirQuench.jl
+    run_julia model-b/Figs-ModelB-MarketPanels.jl
+    run_julia model-b/Figs-ModelB-FiniteSizeQuench.jl
+    run_julia model-b/Figs-ModelB-BalanceSheetQuench.jl
 }
 
 : > "$LOG"

@@ -3,138 +3,55 @@
 \section{Related Work}
 % ============================================================================
 
-\subsection{Agent-Based Models and Stylized Facts}
-The quantitative study of financial market dynamics has been shaped by a tension between
-tractable theoretical frameworks and the empirical complexity of observed data.
-Mandelbrot~\cite{mandelbrot1963variation} demonstrated that speculative price changes
-exhibit heavy tails beyond Gaussian predictions; Fama~\cite{fama1970efficient}
-showed that raw return series display negligible linear autocorrelation, consistent with
-the efficient markets hypothesis; yet Schwert~\cite{schwert1989volatility} documented
-that the \emph{magnitude} of returns exhibits positive autocorrelation
-decaying slowly over time, so that large price changes tend to be followed by large changes
-regardless of sign, a pattern known as \emph{volatility clustering}. Bouchaud and
-Potters~\cite{bouchaud2002apparent} further documented the asymmetric response of
-volatility to positive versus negative returns (the leverage effect). Cont~\cite{cont2001empirical}
-provides a systematic review confirming these regularities across asset classes, geographic
-markets, and sampling frequencies. Collectively, leptokurtosis, the absence of return
-predictability, and volatility clustering define the benchmark against which any model of
-market dynamics must be evaluated.
+\subsection{Interaction-driven market dynamics}
 
-Agent-based models offer a bottom-up route to these stylized facts: rather than assuming
-the statistical structure of returns, they derive it from the simulated interaction of
-heterogeneous agents. The Santa Fe Artificial Stock Market~\cite{lebaron2000agent} established
-the template of adaptive traders interacting through a centralized order book. Lux and
-Marchesi~\cite{lux1999scaling} showed that a two-type fundamentalist-chartist population
-reproduces heavy tails and volatility clustering as emergent properties, a result that
-established ABMs as a credible framework for studying market dynamics. Cont and
-Bouchaud~\cite{cont2000herd} demonstrated that a simple random-graph herding structure
-alone is sufficient to generate fat-tailed return distributions, highlighting the role of
-coordination, rather than agent sophistication, in generating extreme events. The minority
-game of Challet and Zhang~\cite{challet1997minority} introduced the paradigm of
-bounded-rational agents competing via strategic coordination, a framework subsequently shown
-to produce non-Gaussian fluctuations; Farmer and Joshi~\cite{farmer2002price} demonstrated
-that standard trading strategies simultaneously deployed by many agents endogenously generate
-volatility clustering and excess kurtosis without any exogenous noise assumption; and Chen,
-Tan, and Zheng~\cite{chen2015herding} showed that multi-level herding simultaneously
-reproduces sector structure and volatility clustering. Harras and
-Sornette~\cite{harras2012noise} modeled myopic adapting agents whose local herding behavior
-inflates bubbles that eventually collapse, connecting the ABM literature to crash dynamics.
-On the theoretical side, Hommes~\cite{hommes2006heterogeneous} surveys heterogeneous agent
-models incorporating adaptive expectations and evolutionary strategy selection;
-LeBaron~\cite{lebaron2006agent} provides a systematic treatment of agent-based computational
-finance; Arthur~\cite{arthur2021complexity} argued that heterogeneous agent interactions give
-rise to phenomena (persistent disequilibrium, emergent structure, tipping
-points) inaccessible to equilibrium theory; and Farmer~\cite{farmer2025quantitative}
-demonstrated that quantitative ABMs can produce time-series predictions competitive with
-mainstream macroeconomic models. Battiston et al.~\cite{battiston2016complexity} made the
-case that complexity science and ABMs should inform financial regulation. These models share
-a limitation, however: agents interact either globally
-(mean-field coupling) or on ad hoc network topologies, making it difficult to disentangle the
-contributions of local spatial contagion from global coordination. The present work addresses
-this gap by placing agents on a regular lattice with strictly local CA rules, so that every
-cascade must propagate neighbor-by-neighbor through physical space.
+Agent-based finance explains aggregate fluctuations through interacting,
+heterogeneous decision makers rather than through a prescribed return
+process. Fundamentalist--chartist populations, herding models, minority
+games, and adaptive strategies can generate non-Gaussian fluctuations and
+volatility clustering~\cite{lux1999scaling,cont2000herd,challet1997minority,
+farmer2002price,hommes2006heterogeneous}. These models establish that simple
+individual rules can produce complex aggregate behavior. They also establish
+that interaction structure matters because global coupling, random graphs,
+and local lattices provide different routes to coordination
+~\cite{lebaron2006agent,battiston2016complexity}. Our question was narrower
+than reproducing the complete set of empirical market statistics
+~\cite{cont2001empirical}. We tested whether a specified local behavior could
+destabilize a trajectory that was stable immediately before the behavior was
+activated.
 
-\subsection{Lattice Models, Spin Models, and Phase Transitions}
-The mapping of financial agent interactions onto lattice models draws on the statistical
-mechanics tradition, where the mathematical machinery for analyzing cooperative phenomena on
-regular grids (phase transitions, critical exponents, universality classes) is well
-developed. Ising-type models map agent states (buy/sell) onto spins and impose
-nearest-neighbor coupling on a
-lattice~\cite{stauffer2000generalization,chowdhury2000statistical}. These models naturally
-capture local herding and can exhibit phase transitions between ordered (bubble/crash) and
-disordered (efficient) regimes. Bornholdt~\cite{bornholdt2001ising} introduced a
-two-dimensional Ising model with a global coupling term representing market impact, producing
-intermittent bubbles and crashes from the interplay of local herding and global frustration
-across scales. Sznajd-Weron and Weron~\cite{sznajd2002simple} proposed a one-dimensional
-opinion model for price formation in which local consensus propagates outward, demonstrating
-that even the simplest spatial rule can generate non-trivial collective dynamics. Krawiecki
-et al.~\cite{krawiecki2002volatility} showed that attractor-bubbling dynamics on a lattice
-generate volatility clustering with realistic scaling exponents. Kaizoji~\cite{kaizoji2002speculative}
-extended the Ising framework to three states (buy/hold/sell) to model speculative activity,
-which is the closest antecedent to our three-state CA formulation.
+\subsection{Lattice models and finite-size transitions}
 
-The crash literature provides the other essential ingredient. Sornette~\cite{sornette2017why}
-argued that large crashes are the culmination of cooperative herding behavior and can be
-modeled as critical points analogous to phase transitions in physical systems. The
-self-organized criticality (SOC) framework of Bak, Tang, and
-Wiesenfeld~\cite{bak1987selforganized} suggests that complex systems may naturally evolve
-toward a critical state where scale-free avalanches occur without parameter tuning, and Bak and
-Paczuski~\cite{bak1996complexity} applied this idea to economic systems. Gabaix et
-al.~\cite{gabaix2003theory} derived power-law tails from the size distribution of large
-institutional trades, providing an alternative mechanism for heavy tails that does not require
-agent heterogeneity. Scheffer et al.~\cite{scheffer2009early} proposed generic early-warning
-signals, rising autocorrelation and variance, for systems approaching a tipping point, a
-framework that has been applied to ecosystems, climate, and financial
-markets~\cite{battiston2016complexity}. Farmer et al.~\cite{farmer2005predictive} demonstrated
-that even zero-intelligence agents can reproduce aspects of market microstructure when placed
-in a realistic order-book mechanism, suggesting that the structure of interaction may matter
-more than the sophistication of individual decision rules.
-Statistical-mechanics accounts describe crashes as collective transitions with slow
-relaxation or endogenous amplification~\cite{bouchaud2013crises}, a distinction given a
-general response-function formulation for systems with
-memory~\cite{sornette2003endogenous}, and related market models study feedback between
-funding and market liquidity, the 2010 Flash Crash, circuit breakers, and anticipated
-bailouts~\cite{kirilenko2017flash,brunnermeier2009market,subrahmanyam1994circuit,farhi2012collective}.
-Our model is not a calibrated version of those settings, and it differs from an Ising
-lattice in two further ways, since we replace the single coupling constant with Wolfram
-totalistic CA rules, which provide a richer and fully enumerable space of
-$3^9 = 19{,}683$ local update functions, and we couple the lattice to an external or
-endogenous price signal through boundary agents. The external series supplies an empirical
-forcing. It does not validate the model's prices. The fixed-seed sweep shows a sharp
-finite-horizon crossover rather than a parameter-free SOC transition, and the narrower
-advantage of the construction is that the same deterministic realization can be rerun with
-and without a cash intervention.
+Statistical-mechanics models of markets represent coordination through
+interacting spins or opinions. Ising-type models combine local herding with
+global feedback, while three-state models add an inactive state
+~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
+Cellular automata (CA) provide a related but different construction. A lookup
+table replaces a Hamiltonian and temperature, so the dynamics need not obey
+detailed balance or possess an equilibrium distribution. Wolfram totalistic
+rules were useful for our experiment because their local rule space is finite
+and enumerable~\cite{wolfram1984universality,wolfram2002new,packard1985two}.
+Earlier financial CA studies found abnormal fluctuations and regime changes
+under local majority or heterogeneous rules
+~\cite{wei2003cellular,qiu2007cellular,yang2019financial}. We added a paired
+rule intervention, explicit execution constraints, a boundary control, and a
+finite-size analysis. Those additions tested causation and robustness without
+assuming an equilibrium transition.
 
-\subsection{Cellular Automata in Complex Systems and Finance}
-Wolfram~\cite{wolfram1984universality} classified one-dimensional CA into four behavioral
-classes (fixed points, periodic orbits, spatial chaos, and complex/undecidable
-dynamics) and later provided an exhaustive treatment of the
-subject~\cite{wolfram2002new}. Packard and Wolfram~\cite{packard1985two} extended this
-classification to two-dimensional totalistic rules on Von~Neumann neighborhoods,
-demonstrating rich pattern-formation dynamics including self-replication, spiral waves,
-and spatial chaos. The classification program reveals that even deterministic,
-strictly local rules can produce dynamics ranging from trivially ordered to computationally
-universal, a property that makes CA attractive as a modeling framework wherever the goal
-is to understand how microscopic rules generate macroscopic complexity.
-Applications to financial markets, however, are few, and we are aware of three that apply
-CA directly to market dynamics. Wei et al.~\cite{wei2003cellular} proposed a CA model for
-securities markets
-in which agent states evolve based on local majority rules and demonstrated qualitative
-agreement with empirical return distributions. Qiu et al.~\cite{qiu2007cellular} developed a
-CA model specifically targeting abnormal fluctuations, showing that local interaction rules
-can produce heavy-tailed returns. Yang et al.~\cite{yang2019financial} simulated financial
-markets using CA with heterogeneous update rules and showed that the ratio of contrarian to
-trend-following agents controls the transition between calm and volatile regimes, a result
-qualitatively consistent with our phase diagram, though their model uses a different rule
-framework and does not characterize the transition as a sharp phase boundary. None of these
-studies uses the full Wolfram totalistic rule framework, and none couples the CA to real
-market data or resolves the spatial structure of crash cascades.
-The present work embeds agent dynamics in the complete Wolfram totalistic rule space
-($3^9$ rules), which allows systematic enumeration and comparison rather than rule design
-by hand; it couples the CA to real market data (the exogenous-price model) or a reflexive
-price formed from the grid's own imbalance (the endogenous-price model) through boundary
-agents, bridging the gap between abstract CA dynamics and
-empirical financial time series; and it identifies a discontinuous transition once the
-contrarian fraction crosses a threshold, resolving its spatial structure as nucleation of
-sell cascades from localized seeds followed by wavefront propagation, which connects the
-CA dynamics to the tipping-point framework of Scheffer et al.~\cite{scheffer2009early}.
+\subsection{Execution, funding, and counterparty capacity}
+
+Order-flow models distinguish a desired trade from the transaction that
+reaches the market. Price-impact relations map signed executed flow to returns
+~\cite{kyle1985continuous,farmer2005predictive}. Market microstructure and
+funding-liquidity studies further explain how counterparty and balance-sheet
+constraints can amplify or stop feedback
+~\cite{brunnermeier2009market,kirilenko2017flash}. A trader cash constraint
+and a dealer inventory constraint are therefore not interchangeable. The
+first makes a buy ineligible before matching; the second rejects an eligible
+order that remains unmatched. Our dealer was intentionally simpler than a
+limit-order book. Opposing agent orders cleared first, and only their residual
+used dealer cash or inventory. This accounting placed finite dealers and the
+unlimited reservoir in one model family. Crossing dealer capacity with trader
+cash and share interventions then identified which balance sheet constrained
+each link. The interventions were model experiments, not calibrated policy
+experiments.

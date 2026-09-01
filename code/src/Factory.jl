@@ -222,6 +222,9 @@ initial_buy_fraction (0.05), initial_sell_fraction (0.05),
 edge_fraction (0.25), α (1/60), k (1.0), λ (0.01), P0 (100.0),
 minority_fraction (0.20), rule_major_index (19280), rule_minor_index (19286),
 initial_cash (1000.0), initial_shares (10), cost_basis_rule (true), edge_band_spread (0.5).
+market_maker_capacity (Inf), measured as symmetric net units per trading
+agent. `Inf` is the historical fill-all execution limit; a finite nonnegative
+value constructs an explicit capacity-constrained dealer.
 
 Validates: steps > 0; grid at least 3×3 (interior must be non-empty); all
 fractions in [0, 1]; initial_buy_fraction + initial_sell_fraction ≤ 1;
@@ -250,6 +253,7 @@ function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyMode
     model.initial_shares        = get(data, :initial_shares, 10)
     model.cost_basis_rule       = get(data, :cost_basis_rule, true)
     model.edge_band_spread      = get(data, :edge_band_spread, 0.5)
+    model.market_maker_capacity = get(data, :market_maker_capacity, Inf)
 
     model.steps > 0 ||
         throw(ArgumentError("steps must be positive (got $(model.steps))"))
@@ -277,6 +281,9 @@ function build(modeltype::Type{MyModelBConfiguration}, data::NamedTuple)::MyMode
         throw(ArgumentError("initial_shares must be ≥ 0 (got $(model.initial_shares))"))
     (0.0 ≤ model.edge_band_spread < 1.0) ||
         throw(ArgumentError("edge_band_spread must be in [0, 1) (got $(model.edge_band_spread))"))
+    (!isnan(model.market_maker_capacity) && model.market_maker_capacity ≥ 0.0) ||
+        throw(ArgumentError("market_maker_capacity must be nonnegative or Inf " *
+                            "(got $(model.market_maker_capacity))"))
     return model
 end
 
@@ -373,6 +380,39 @@ function build_agent_books(config::MyModelBConfiguration)::MyAgentBooks
         fill(config.initial_cash, nrows, ncols),
         fill(config.initial_shares, nrows, ncols),
         fill(config.P0, nrows, ncols),
+    )
+end
+
+"""
+    build_market_maker(config, n_traders) → MyMarketMaker
+
+Construct the explicit Model B counterparty. For finite per-trader capacity
+`h`, let `H = round(h*n_traders)`. The maker starts with `H` shares, inventory
+bounds `[0, 2H]`, and `H*P0` cash, so at the initial quote it can absorb the
+same net number of agent buys or sells. Opposing agent flow does not consume
+that net capacity.
+
+`h = Inf` is the exact historical limit: the ledger starts at zero and may
+borrow cash or short inventory without bound while every agent-eligible order
+fills.
+"""
+function build_market_maker(
+    config::MyModelBConfiguration,
+    n_traders::Int64,
+)::MyMarketMaker
+    n_traders > 0 || throw(ArgumentError("n_traders must be positive"))
+    if isinf(config.market_maker_capacity)
+        return MyMarketMaker(
+            0.0, 0, 0.0, 0,
+            typemin(Int64), typemax(Int64), Inf, true,
+        )
+    end
+
+    H = round(Int64, config.market_maker_capacity * n_traders)
+    return MyMarketMaker(
+        config.P0 * H, H,
+        config.P0 * H, H,
+        0, 2H, 0.0, false,
     )
 end
 

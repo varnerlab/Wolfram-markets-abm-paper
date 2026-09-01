@@ -477,12 +477,14 @@ let
     end
     _panel_letter!(pD, "D")
 
-    # The compact merged strip uses the complete upper width, and the lower
-    # panels share an equal split because no legend occupies an external
-    # column. The wider canvas keeps all three diagnostics legible at the
-    # manuscript's full-line figure width.
+    # Give the fixed-aspect 2x4 strip enough vertical room to use the same
+    # outer width as the lower three-panel row.  The former 760 px canvas
+    # made panel A height-limited, so it rendered substantially narrower than
+    # B--D despite nominally spanning the full layout row.  The added height
+    # is assigned to panel A while the lower row keeps essentially its former
+    # pixel height and legibility.
     fig7 = plot(anchor, pB, pC, pD;
-                layout = @layout([a{0.58h}; b c d]), size = (900, 760))
+                layout = @layout([a{0.63h}; b c d]), size = (900, 860))
     _save_figure(fig7, "Fig7-Intervention.pdf")
 end
 

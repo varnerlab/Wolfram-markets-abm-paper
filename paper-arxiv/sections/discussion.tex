@@ -3,152 +3,74 @@
 \section{Discussion}
 % ============================================================================
 
-We asked whether local interaction alone could carry a market from a mixed trading state
-into a sell-dominated one, and the lattice answered yes, with more structure than the
-question required. The crossover between $f = 0.14$ and $f = 0.15$ is sharp, it needs no
-noise, no learning, and no strategy switching, and above it the sell state does not arrive
-everywhere at once. It arrives somewhere first, and then it spreads. That last property is
-what makes the model worth building on a lattice at all. A transition with a location, a
-start time, and a speed is a different object from one that a population-level description
-can hold, and the two closures we tested make the difference concrete, since the first
-retains only how many agents are selling and the second adds the correlation between
-neighbors, and neither retains the geometry a domain needs in order to have an edge. Once
-a transition has a location and a speed, its onset and its growth become separable, and
-there is no reason for the same thing to limit both. The endogenous model is the configuration that
-separates them. It makes every agent pay for the orders its sentiment demands, so a budget
-can bear on one of the two without bearing on the other, and the question becomes which
-one.
+The rule quench changed the claim that could be made about the instability. A
+fixed-composition sweep can establish that two parameter settings have
+different outcomes, but it cannot establish that adding a behavior destabilizes
+a market that was stable immediately beforehand. Here, treated and dormant
+arms shared the realized lattice, books, dealer, price, adaptive bands, and
+latent target sites until activation. Their later divergence was therefore a
+causal effect of the rule switch within the model. The experiment did not
+establish that a comparable fraction of real traders would produce the same
+outcome because neither the rule pair nor $f$ was calibrated to market data.
 
-That question came back asymmetric, and the asymmetry is the mechanism this study
-proposes. Birth is cheap, and two measurements say so independently. In the unconstrained
-model the conversion curves carry a growth exponent near two, the value for a
-transformation whose sites were all present when the clock started rather than appearing
-as it ran; in the budgeted model the founding cell of the winning domain fell wherever the
-quenched disorder favored it, well into the interior and at a rate indistinguishable from
-uniform placement. Seeds are not the scarce resource, and the experiment that settled the
-point is a null with a working lever, since the stamped patches did grow for a while
-before dying, so the design could have shown a placement effect and showed none. Growth is
-where the budget acts, and it acts through exactly one channel. The interior update never
-reads a book, since sentiment propagates by the totalistic rule whether or not a cell can
-afford to act on it and budgets suppress orders rather than states, so no cash balance
-enters the automaton directly. It enters only where the model closes its loop, at the ring
-of edge cells that classify the price and feed that classification back into the grid, and
-that ring is one cell deep. A channel of that width is what allows the same boundary to be
-irrelevant to birth and decisive for growth, which otherwise reads as a contradiction. A
-nucleus is born out of a fluctuation among four interior neighbors, which the ring is too
-far away to touch, whereas a front is a moving surface that eventually reaches the ring
-and from then on counts it as a neighbor. Distance to the boundary is the wrong variable
-for birth and the right one for growth, and the model draws that line cleanly only because
-the economics has just the one way in. The dose-response locates the middle of that
-channel and carries a warning with it. We set the initial cash, but what the front
-answered to was the suppression it actually met, and the same endowment buys different
-amounts of suppression depending on where the price has already gone. The controlled
-variable is a weak proxy for the causal one, which is why a velocity ordering read off the
-cash ladder alone would have looked like no effect, and also why the onset comparison
-should be read as what it is, a comparison across the proxy rather than across the
-quantity the front responds to. Stated this way the mechanism makes predictions that could
-break it. A budget that gated sentiment rather than order flow should move the onset,
-where the present one moved it by less than a factor of two across a tenfold range in
-cash. An intervention that moved the quote and the volatility bands together, changing the
-price by as much but leaving every edge classification where it was, should do nothing,
-since on this account it is the band crossings and not the price that reach the interior.
-And a boundary frozen through onset should leave the birth statistics untouched while
-removing the gating on growth entirely.
+The held-boundary control located the main instability in the heterogeneous
+cellular automaton. Sell-majority crossings remained when price could not
+return to the lattice. Restoring the feedback loop moved probability and
+onset inside the crossover window, but the response to dealer capacity was
+not monotone. The adaptive boundary changed state when price crossed a moving
+band, so additional executed flow could alter both the sign and timing of its
+later influence. A single scalar liquidity parameter would hide that
+state-dependent feedback.
 
-The arm of the intervention that did nothing is the more informative of the two, and its
-two explanations do not travel equally far. Symmetry suggests that if adding cash speeds
-the front then taking cash away should slow it, and taking it away did not, at either
-dose. One explanation is about sign, in that only injection can reverse the boundary,
-since propping the quote above the bands turns a ring that had been buying a falling price
-into a ring selling a supported one, while withdrawal can only deepen a brake the crash
-had already engaged. The other is about bookkeeping, in that the front recruits sellers,
-selling converts inventory into cash at a counterparty that always takes the other side,
-and a crash therefore finances the very dip buyers a levy on cash was meant to remove. The
-first explanation would survive any change of counterparty convention, because it needs
-only a boundary rule with a sign that the price can flip. The second would not, being a
-direct consequence of the infinite-inventory market maker, and in an economy where cash
-was conserved among the agents a withdrawal would have nothing to be undone by. That
-difference is testable. Capping the counterparty, or conserving cash within the
-population, should restore a withdrawal effect while leaving the injection asymmetry in
-place, and a version in which neither returned would put the whole asymmetry on the sign
-explanation. We take the harsh dose as an operational check rather than as a stronger
-version of the mild one, since it bound in the model's own accounting and the front still
-did not respond, and we report the outcome as no detectable effect at either dose, which
-is a weaker claim than no effect and the only one this design supports.
+Dealer capacity had a simpler effect on price. A finite dealer left desired
+states unchanged and cleared all opposing agent flow. It truncated only the
+unmatched eligible residual. The resulting drawdown ladder followed directly
+from the amount of residual that could execute. At $h=0$, executed buys and
+sells balanced and the quote stayed fixed. At $h=\infty$, the quote absorbed
+the complete eligible imbalance. The time-sliced dealer comparison made the
+separation visible: similar Sell-domain growth occurred with almost no price
+movement at $h=0.1$ and a large drawdown at $h=\infty$. Dealer capacity was
+therefore a useful experimental control, although the dealer was not a
+realistic model of market depth.
 
-Feedback between funding and market liquidity has a familiar destabilizing form, in which
-tighter funding forces sales, the sales move prices, and the price move tightens funding
-again~\cite{brunnermeier2009market}. The endogenous model closes a loop of similar shape and returns
-the opposite sign, which is instructive about where the sign comes from. In the funding
-spiral the constraint reaches the side of the book on which the forced action is selling,
-so a withdrawal is what destabilizes; in the endogenous model the cash constraint reaches only buying,
-since a cell needs cash to buy but only shares to sell, so a withdrawal removes buyers and
-cannot force a sale out of anyone. The direction in which a liquidity intervention
-destabilizes thus depends on which side of the book the constraint reaches, a dependence
-this model illustrates rather than establishes, and one that a calibrated model with
-explicit counterparties could test properly. The circuit-breaker literature arrives at a
-comparable warning by a route unavailable to us, since a breaker can be counterproductive
-because traders anticipate it and pull their orders
-forward~\cite{subrahmanyam1994circuit}, and anticipation is precisely what deterministic
-automaton agents cannot do, just as they cannot take correlated risk in expectation of a
-rescue~\cite{farhi2012collective}. What they supply instead is a mechanical version of the
-same hazard, in which an intervention alters the state of the rule that had been damping
-the cascade. Work on the 2010 Flash Crash makes intermediation capacity and the speed at
-which it is withdrawn the object of study~\cite{kirilenko2017flash}, which is part of why
-a spatially resolved model is worth building, although nothing here is a calibrated
-account of that episode. Where the result does sit comfortably is on the endogenous side
-of the endogenous-versus-exogenous
-distinction~\cite{bouchaud2013crises,sornette2003endogenous}, since the feedback-closed
-configuration has no external input to assign the crash to. One consequence is worth
-flagging as a hypothesis rather than a finding. If what limits a crash is growth rather
-than birth, then early-warning statistics computed on an aggregate price
-series~\cite{scheffer2009early} may be watching a quantity that need not move, since the
-modal crash-prone outcome here locked the grid into a sell-dominated state while the price
-stayed close to where it began, and the observable that separated the regimes without
-overlap was spatial, the concentration of sell activity into a single domain. That is the
-kind of structural quantity that the case for complexity-informed financial
-regulation~\cite{battiston2016complexity} would place on the monitoring side, and it is
-not recoverable from a price series alone.
+The spatial evidence supported a nonequilibrium domain-growth description.
+Across doses and seeds, Sell-rich regions formed, enlarged, and merged rather
+than appearing through one synchronous relabeling. Both outcomes at
+$f=0.175$ also showed why one attractive exemplar would have been
+insufficient: a visible domain could remain below the finite-horizon majority
+threshold. The analysis did not supply the ingredients of classical
+nucleation. No free-energy barrier, thermal activation rate, surface tension,
+or critical droplet was derived. Domain growth was therefore an observed
+spatial pattern, not evidence for a nucleation mechanism.
 
-The limitations of the study bound how far these readings travel. The exogenous model uses one
-boundary-forcing series, QQQ one-minute bars from January~2 through March~28, 2024, and
-does not constitute empirical price validation. Robustness across instruments and market
-regimes remains to be established.
-The endogenous-model nucleation campaigns all ran on a single $64 \times 64$ grid trading a
-single asset against an infinite-inventory market maker, and while the exogenous-model sweep found
-a conversion-curve rate constant that barely depended on lattice size, it also found the
-threshold itself moving with size, so grid-size robustness of the budget results is an
-assumption and not a check, and the model is silent on cross-asset
-contagion. The return diagnostics do not supply an empirical validation that the price
-trajectory otherwise lacks. The endogenous model has bounded returns, $r_\tau=\lambda\varphi_\tau$,
-and their large full-horizon excess kurtosis largely separated into transient and
-pre/post-onset components, while raw returns remained strongly autocorrelated. QQQ served
-only as an intraday descriptive benchmark, with overnight joins removed, and the exogenous
-model could not be an independent return benchmark because QQQ is its price input. The agents themselves are deterministic, since the CA rules incorporate no
-stochastic noise, no learning, and no adaptive strategy switching, features of real
-markets whose inclusion would enrich the dynamics at the cost of breaking the
-enumerability of the rule
-space~\cite{farmer2002price,hommes2006heterogeneous}. On the theory side, the analytical
-hierarchy treats the contrarian disorder as annealed, averaging over
-rule types in the mean-field and pair maps, whereas the simulations fixed each
-contrarian's placement for the duration of a run, quenched disorder in the proper
-sense, and a calculation that carried that quenching through would sharpen the prediction of
-$f_0$ and connect the critical nucleus size to the combinatorics of contrarian
-clustering. And the endogenous-model statistics carry flags that interpretation must not
-launder: the monotone-in-cash onset rate near the cliff
-and the freeze mid-patch onset delay are exploratory,
-uncorrected observations; the injection effect stands at $14$ of $19$ seeds with a
-sign-test $p = 0.064$, and it is the paired design, not the count, that carries the
-causal reading; and the onset-fit comparison is power-bounded, so that overlapping
-confidence intervals do not establish parameter equality or exclude a small effect. A last
-limitation applies to any two-rule study, which is how much hangs on the two rules. The
-majority and contrarian pair studied here, differing at a single neighborhood sum, is one
-point in a finite and enumerable rule space, and that enumerability is what makes the
-question answerable at all, where models with continuous behavioral parameters cannot pose
-it in the same form. Whether the same sequence, a
-metastable attractor, a disorder-seeded nucleus, and budget-gated growth, recurs
-across other rule pairings, and whether the intervention asymmetry survives boundary
-rules other than the contrarian band, are open questions. A screen over rule pairs that
-differ at a single neighborhood sum, the same minimal perturbation studied here, would
-test the first directly, and swapping the band classifier for a momentum or threshold
-rule at the boundary would test the second.
+The finite-size measurements strengthened the spatial claim without turning
+it into an equilibrium claim. The held-boundary transition narrowed, its
+susceptibility peak increased, and its midpoint approached the same range as
+the two endogenous arms. The $L=64$ crossover was therefore not erased at
+larger sampled sizes, and dealer and boundary effects appeared mainly in the
+finite-size corrections. Establishing an asymptotic transition would require
+larger lattices, longer size-dependent horizons, denser sampling near the
+peak, and a scaling model specified before fitting. Those calculations would
+also need to distinguish a diverging correlation length from long transient
+coarsening near an absorbing state.
+
+The balance-sheet experiment separated trader eligibility from counterparty
+capacity. Trader shares determined how much sell flow could be offered, trader
+cash supplied eligible buy flow, and dealer cash and inventory limited the
+unmatched residual. Large trader inventories therefore caused an extreme
+drawdown against an unlimited dealer but mainly caused rejection against a
+constrained dealer. The exact held-boundary null further established that
+financial interventions affected lattice outcomes only through the
+price-to-boundary link. Price drawdown, Sell-state dominance, and dealer
+exhaustion should therefore remain separate reported outcomes.
+
+Several limitations bounded the study. The cellular automaton was
+deterministic conditional on its seed, updated synchronously, and used a
+regular lattice and one selected rule pair. Orders had unit size and a common
+standing quote. The model had no order book, bid--ask spread, cancellation,
+strategic dealer, risk penalty, or endogenous capacity replenishment beyond
+reversing flow. Boundary traders used one adaptive rule, and uniform
+balance-sheet multipliers were causal model interventions rather than policy
+models. Finally, the price-impact coefficient, time step, and lattice geometry
+were dimensionless and uncalibrated. The findings therefore identified
+mechanisms in a minimal dynamical system and did not forecast market crashes.

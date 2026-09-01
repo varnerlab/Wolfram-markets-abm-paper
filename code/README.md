@@ -1,6 +1,7 @@
 # Simulation and analysis code
 
-This directory contains the Julia environment for both models.
+This directory contains the Julia environment for the endogenous
+cellular-automaton market and the archived external-price prototype.
 
 ## Setup
 
@@ -10,8 +11,8 @@ Install Julia 1.9 or later, then instantiate the project:
 julia --project=code -e 'using Pkg; Pkg.instantiate()'
 ```
 
-Model A recomputation also requires the QQQ input described in
-[`data/README.md`](data/README.md).
+The revised manuscript does not require the QQQ input. It is retained only for
+the archived Model A prototype described in [`data/README.md`](data/README.md).
 
 ## Commands
 
@@ -26,7 +27,9 @@ bash code/run_all.sh all
 `tests` is the safe default. `figures` rebuilds the paper figures from existing
 derived data. `all` first runs tests, then the expensive simulations, then the
 figure scripts. The runner stops at the first failure and writes
-`code/run_all.log`.
+`code/run_all.log`. It defaults to 12 simulation threads and one garbage-
+collection thread; set `MARKET_ABM_THREADS` or `MARKET_ABM_GC_THREADS` to
+override those conservative production defaults.
 
 The paper is built separately:
 
@@ -38,12 +41,13 @@ make
 ## Layout
 
 - `src/`: shared CA types, factories, simulation, and file utilities.
-- `model-a/`: externally forced Model A computations and figures.
-- `model-b/`: feedback-closed Model B computations, interventions, tests, and
-  figures.
+- `model-a/`: archived externally forced classroom prototype.
+- `model-b/`: principal feedback-closed model, explicit-dealer experiments,
+  interventions, tests, and figures.
 - `data/`: external-input documentation and generated tabular outputs.
 - `figs/`: generated figures.
 
-Model B is feedback-closed, not economically closed: agents trade with an
-unmodeled counterparty that can absorb orders without an explicit inventory or
-cash constraint.
+Model B includes an explicit dealer ledger. The `h = Inf` limit permits dealer
+borrowing and shorting and reproduces the historical fill-all convention;
+finite `h` imposes cash and inventory bounds, and whole-system cash and shares
+are conserved outside deliberate balance-sheet interventions.
