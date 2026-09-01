@@ -85,7 +85,7 @@ indices = (display_start:STEPS) .+ 1
 p0 = treated.prices[T_PRE + 1]
 
 pE = plot(times, control.prices[indices] ./ p0;
-          color = :black, ls = :dash, lw = 1.8, label = "dormant control",
+          color = :black, ls = :dash, lw = 1.8, label = "no-switch control",
           xlabel = "Steps since activation", ylabel = "Price / activation price",
           legend = :bottomleft, _panel_kw...)
 plot!(pE, times, treated.prices[indices] ./ p0;

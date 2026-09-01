@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  1 SEP 2026 13:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  1 SEP 2026 16:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -807,44 +807,34 @@ brarydecorations.pathreplacing.code.tex))
 s/tikzlibraryfit.code.tex
 File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )
-(/usr/local/texlive/2025/texmf-dist/tex/latex/endfloat/endfloat.sty
-Package: endfloat 2019/04/15 v2.7 LaTeX2e package puts figures and tables at en
-d (jdm)
-\c@postfigure=\count337
-\efloat@postfff=\write4
-\@ef@fffopen=\count338
-\c@posttable=\count339
-\efloat@postttt=\write5
-\@ef@tttopen=\count340
-)
-\c@theorem=\count341
+\c@theorem=\count337
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count342
+\l__color_backend_stack_int=\count338
 \l__pdf_internal_box=\box71
 )
 (./Paper_v1.aux)
 \openout1 = `Paper_v1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -912,56 +902,48 @@ LaTeX Font Info:    ... okay on input line 64.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 64.
+Package hyperref Info: Link coloring ON on input line 70.
 (./Paper_v1.out) (./Paper_v1.out)
-\@outlinefile=\write6
-\openout6 = `Paper_v1.out'.
+\@outlinefile=\write4
+\openout4 = `Paper_v1.out'.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count343
+\scratchcounter=\count339
 \scratchdimen=\dimen306
 \scratchbox=\box72
-\nofMPsegments=\count344
-\nofMParguments=\count345
+\nofMPsegments=\count340
+\nofMParguments=\count341
 \everyMPshowfont=\toks53
-\MPscratchCnt=\count346
+\MPscratchCnt=\count342
 \MPscratchDim=\dimen307
-\MPnumerator=\count347
-\makeMPintoPDFobject=\count348
+\MPnumerator=\count343
+\makeMPintoPDFobject=\count344
 \everyMPtoPDFconversion=\toks54
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/grfext/grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \microtypecontext on input line 64.
-Package microtype Info: Applying patch `item' on input line 64.
-Package microtype Info: Applying patch `toc' on input line 64.
-Package microtype Info: Applying patch `eqnum' on input line 64.
-Package microtype Info: Applying patch `footnote' on input line 64.
-Package microtype Info: Applying patch `verbatim' on input line 64.
-LaTeX Info: Redefining \microtypesetup on input line 64.
+LaTeX Info: Redefining \microtypecontext on input line 70.
+Package microtype Info: Applying patch `item' on input line 70.
+Package microtype Info: Applying patch `toc' on input line 70.
+Package microtype Info: Applying patch `eqnum' on input line 70.
+Package microtype Info: Applying patch `footnote' on input line 70.
+Package microtype Info: Applying patch `verbatim' on input line 70.
+LaTeX Info: Redefining \microtypesetup on input line 70.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 64.
+LaTeX Info: Redefining \showhyphens on input line 70.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -977,7 +959,7 @@ Package caption Info: End \AtBeginDocument code.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 67.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 74.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -986,7 +968,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 67.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 74.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1008,118 +990,93 @@ Package microtype Info: Loading generic protrusion settings for font family
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 /texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
-(./sections/relatedwork.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
+(./sections/relatedwork.tex)
 
-
-
-[2]) (./sections/methods.tex
+[2] (./sections/methods.tex
 
 [3]
 
 [4]) (./sections/results.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[5]
-\openout4 = `Paper_v1.fff'.
-
- (Paper_v1.fff)
-
-[6]
-
-[7]) (./sections/discussion.tex)
-Underfull \vbox (badness 1189) has occurred while \output is active []
-
-
-
-[8] (./sections/conclusion.tex) (./Paper_v1.bbl
-
-[9])
-
-[10] (./Paper_v1.fff
-<figs/Fig1-RuleQuench.pdf, id=252, 1003.75pt x 1003.75pt>
+<figs/Fig1-RuleQuench.pdf, id=176, 1003.75pt x 1003.75pt>
 File: figs/Fig1-RuleQuench.pdf Graphic file (type pdf)
 <use figs/Fig1-RuleQuench.pdf>
-Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 3.
+Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 26.
 (pdftex.def)             Requested size: 377.60951pt x 377.6153pt.
 
 
-[11 <./figs/Fig1-RuleQuench.pdf>]
-<figs/Fig2-ReservoirQuench.pdf, id=264, 943.525pt x 732.7375pt>
+[5]
+
+[6 <./figs/Fig1-RuleQuench.pdf>]
+<figs/Fig2-ReservoirQuench.pdf, id=203, 943.525pt x 732.7375pt>
 File: figs/Fig2-ReservoirQuench.pdf Graphic file (type pdf)
 <use figs/Fig2-ReservoirQuench.pdf>
-Package pdftex.def Info: figs/Fig2-ReservoirQuench.pdf  used on input line 21.
+Package pdftex.def Info: figs/Fig2-ReservoirQuench.pdf  used on input line 79.
 (pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
 
 
-[12 <./figs/Fig2-ReservoirQuench.pdf>]
-<figs/Fig3-DoseMarketPanels.pdf, id=274, 1003.75pt x 1254.6875pt>
-File: figs/Fig3-DoseMarketPanels.pdf Graphic file (type pdf)
-<use figs/Fig3-DoseMarketPanels.pdf>
-Package pdftex.def Info: figs/Fig3-DoseMarketPanels.pdf  used on input line 37.
-
+[7 <./figs/Fig2-ReservoirQuench.pdf>]
+<figs/Fig3-FiniteSizeQuench.pdf, id=220, 943.525pt x 732.7375pt>
+File: figs/Fig3-FiniteSizeQuench.pdf Graphic file (type pdf)
+<use figs/Fig3-FiniteSizeQuench.pdf>
+Package pdftex.def Info: figs/Fig3-FiniteSizeQuench.pdf  used on input line 115
+.
+(pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
+<figs/Fig4-DoseMarketPanels.pdf, id=225, 1003.75pt x 1254.6875pt>
+File: figs/Fig4-DoseMarketPanels.pdf Graphic file (type pdf)
+<use figs/Fig4-DoseMarketPanels.pdf>
+Package pdftex.def Info: figs/Fig4-DoseMarketPanels.pdf  used on input line 153
+.
 (pdftex.def)             Requested size: 389.53358pt x 486.9139pt.
 
 
-[13 <./figs/Fig3-DoseMarketPanels.pdf>]
-<figs/Fig4-DealerMarketPanels.pdf, id=288, 1003.75pt x 1455.4375pt>
-File: figs/Fig4-DealerMarketPanels.pdf Graphic file (type pdf)
-<use figs/Fig4-DealerMarketPanels.pdf>
-Package pdftex.def Info: figs/Fig4-DealerMarketPanels.pdf  used on input line 5
-5.
+[8 <./figs/Fig3-FiniteSizeQuench.pdf>]
+
+[9 <./figs/Fig4-DoseMarketPanels.pdf>]
+<figs/Fig5-DealerMarketPanels.pdf, id=250, 1003.75pt x 1455.4375pt>
+File: figs/Fig5-DealerMarketPanels.pdf Graphic file (type pdf)
+<use figs/Fig5-DealerMarketPanels.pdf>
+Package pdftex.def Info: figs/Fig5-DealerMarketPanels.pdf  used on input line 1
+90.
 (pdftex.def)             Requested size: 389.53358pt x 564.82011pt.
-
-
-[14 <./figs/Fig4-DealerMarketPanels.pdf>]
-<figs/Fig4-FiniteSizeQuench.pdf, id=300, 943.525pt x 732.7375pt>
-File: figs/Fig4-FiniteSizeQuench.pdf Graphic file (type pdf)
-<use figs/Fig4-FiniteSizeQuench.pdf>
-Package pdftex.def Info: figs/Fig4-FiniteSizeQuench.pdf  used on input line 72.
-
-(pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
-
-
-[15 <./figs/Fig4-FiniteSizeQuench.pdf>]
-<figs/Fig5-BalanceSheetQuench.pdf, id=308, 1104.125pt x 652.4375pt>
-File: figs/Fig5-BalanceSheetQuench.pdf Graphic file (type pdf)
-<use figs/Fig5-BalanceSheetQuench.pdf>
-Package pdftex.def Info: figs/Fig5-BalanceSheetQuench.pdf  used on input line 8
-6.
+<figs/Fig6-BalanceSheetQuench.pdf, id=257, 1104.125pt x 652.4375pt>
+File: figs/Fig6-BalanceSheetQuench.pdf Graphic file (type pdf)
+<use figs/Fig6-BalanceSheetQuench.pdf>
+Package pdftex.def Info: figs/Fig6-BalanceSheetQuench.pdf  used on input line 2
+36.
 (pdftex.def)             Requested size: 393.51231pt x 232.52785pt.
-)
 
-[16 <./figs/Fig5-BalanceSheetQuench.pdf>] (./sections/appendix.tex
+
+[10]
+
+[11 <./figs/Fig5-DealerMarketPanels.pdf>]) (./sections/discussion.tex
+
+[12 <./figs/Fig6-BalanceSheetQuench.pdf>]) (./sections/conclusion.tex)
+(./Paper_v1.bbl
+
+[13])
+
+[14] (./sections/appendix.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 27.
 
 
-[17
+[15]
 
+[16])
 
-
-
-
-
-
-]
-
-[18]) AED endfloat: Processing end Figures and Tables
-
-[19] (./Paper_v1.aux)
+[17] (./Paper_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 69A52269E68D8EA8ABCB43132FCBCA87;5899.
+(rerunfilecheck)             Checksum: 4095A087E1734DCAF8AECC79211FE17B;3307.
  ) 
 Here is how much of TeX's memory you used:
- 27267 strings out of 473190
- 507524 string characters out of 5715801
- 922062 words of memory out of 5000000
- 49639 multiletter control sequences out of 15000+600000
+ 26995 strings out of 473190
+ 502947 string characters out of 5715801
+ 918881 words of memory out of 5000000
+ 49386 multiletter control sequences out of 15000+600000
  601278 words of font info for 236 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,87p,1005b,685s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1142,10 +1099,10 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on Paper_v1.pdf (19 pages, 1070091 bytes).
+Output written on Paper_v1.pdf (17 pages, 1061183 bytes).
 PDF statistics:
- 533 PDF objects out of 1000 (max. 8388607)
- 443 compressed objects within 5 object streams
- 151 named destinations out of 1000 (max. 500000)
- 37619 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 514 PDF objects out of 1000 (max. 8388607)
+ 426 compressed objects within 5 object streams
+ 143 named destinations out of 1000 (max. 500000)
+ 37563 words of extra memory for PDF output out of 42996 (max. 10000000)
 

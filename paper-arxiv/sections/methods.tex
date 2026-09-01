@@ -6,16 +6,15 @@
 \subsection{Three-state cellular automaton}
 
 Agents occupied an $L\times L$ square lattice and carried one of three states:
-Buy ($s=0$), Hold ($s=1$), or Sell ($s=2$). We refer to the synchronous local
-update as a cellular automaton (CA). Only the $(L-2)^2$ strictly interior cells
-followed the CA rule. For interior cell $i$, we calculated the sum of its four
-cardinal-neighbor states as:
+Buy ($s=0$), Hold ($s=1$), or Sell ($s=2$). We modeled the synchronous local
+update as a cellular automaton. Only the $(L-2)^2$ strictly interior cells
+followed the CA rule. For each interior cell $i$, the neighborhood sum was:
 \begin{equation}
   c_i(t)=\sum_{j\in\partial i}s_j(t)\in\{0,1,\ldots,8\}.
   \label{eq:neighborhood-sum}
 \end{equation}
-A totalistic rule maps each possible sum to one of the three states. Writing
-the nine outputs as ternary digits $a_j={\cal R}(j)$ gave the Wolfram rule
+A totalistic rule maps each possible sum to one of the three states. The nine
+outputs, written as ternary digits $a_j={\cal R}(j)$, define the Wolfram rule
 index:
 \begin{equation}
   R=\sum_{j=0}^{8}a_j3^j.
@@ -25,17 +24,17 @@ The numerical state labels therefore entered the dynamics through both the
 neighborhood sum and the rule table.
 
 We used Rule~19280, $(222110002)_3$, as the baseline and Rule~19286,
-$(222110022)_3$, as the perturbed rule. The tables differed only at
+$(222110022)_3$, as the activated rule. The tables differed only at
 $c=1$. A neighborhood with three Buy cells and one Hold cell therefore
 returned Buy under Rule~19280 and Sell under Rule~19286. We used the term
 \emph{contrarian} only for that specific local response. For each run, we
-selected a fraction $f$ of interior sites uniformly without replacement and
-kept that target set fixed. All target sites initially used Rule~19280 and
-changed to Rule~19286 only at the intervention step. The initial interior
-contained exactly 5\% Buy and 5\% Sell sites placed without replacement, with
-Hold elsewhere. Randomness entered through that initial placement, the target
-set, the active boundary sample, boundary band widths, and finite-dealer
-rationing. Conditional on the seed, the complete dynamics were deterministic.
+selected a fraction $f$ of interior sites uniformly without replacement. We
+kept this target set fixed, and its sites changed to Rule~19286 only at the
+intervention step. The initial interior contained exactly 5\% Buy and 5\% Sell
+sites placed without replacement, with Hold elsewhere. Randomness entered
+through the initial states, target sites, active boundary sample, boundary band
+widths, and finite-dealer rationing. Once these draws were fixed by the seed,
+the subsequent dynamics were deterministic.
 
 \subsection{Orders, trader books, and dealer clearing}
 
@@ -44,17 +43,18 @@ Buy state submitted one unit buy order, a Sell state submitted one unit sell
 order, and a Hold state submitted no order. Trader $i$ carried cash $w_i$,
 integer inventory $q_i$, and average acquisition cost $\bar c_i$. A buy was
 eligible when $w_i\geq P_{t-1}$, and a sell was eligible when $q_i\geq1$. We
-disabled the optional cost-basis restriction in the principal experiments, so
-average cost did not prevent a sale. We recorded an order that failed these
-tests as \emph{agent-suppressed}. Suppression changed the financial execution,
-not the trader's CA state.
+disabled the optional cost-basis restriction in the main experiments, so
+average cost did not prevent a sale. An order that failed an eligibility test
+was \emph{agent-suppressed}. Suppression prevented execution but did not change
+the trader's CA state.
 
 We let $B_t$ and $S_t$ denote the eligible buy and sell counts at the standing
 quote $P_{t-1}$. Opposing flow of size $\min(B_t,S_t)$ cleared without using
-dealer capacity. The residual went to an explicit dealer. Dealer capacity was
-an intensive quantity $h\geq0$ in net units per trader. For $N_{\rm tr}$
-traders, we set $H=\operatorname{round}(hN_{\rm tr})$. A finite dealer began
-with cash $W_0=P_0H$ and inventory $Q_0=H$, could not borrow, and satisfied
+dealer resources. An explicit dealer handled only the unmatched residual. We
+expressed dealer capacity as $h\geq0$ net units per trader. For $N_{\rm tr}$
+traders, total capacity was $H=\operatorname{round}(hN_{\rm tr})$, so larger
+$h$ supplied more dealer cash and inventory. A finite dealer began with cash
+$W_0=P_0H$ and inventory $Q_0=H$, could not borrow, and satisfied
 $0\leq Q_t\leq2H$. When buys exceeded sells, the executed counts were:
 \begin{align}
  n_t^S &= S_t, &
@@ -68,42 +68,42 @@ When sells exceeded buys, the corresponding counts were:
                  \left\lfloor\frac{W_{t-1}}{P_{t-1}}\right\rfloor\right).
  \label{eq:dealer-sell-excess}
 \end{align}
-We recorded eligible units beyond these bounds as \emph{dealer-rejected}.
-
-When the dealer rejected part of the excess side, a counter-based score keyed
-by seed, step, trader identity, and side supplied a new reproducible priority
-ordering. The time key prevented the same trader from retaining priority at
-every step. Filled orders updated trader books at $P_{t-1}$. The dealer
-received the opposite cash and share transfers, which gave its ledger update:
+Eligible units beyond these bounds were \emph{dealer-rejected}. When rationing
+was required, a counter-based score keyed by seed, step, trader identity, and
+side gave each eligible trader a reproducible priority. Including the step in
+the key prevented one trader from retaining priority over time. Filled orders
+updated trader books at $P_{t-1}$, and the opposite transfers updated the dealer
+ledger:
 \begin{align}
-  Q_t &= Q_{t-1}+n_t^S-n_t^B,\
+  Q_t &= Q_{t-1}+n_t^S-n_t^B, &
   W_t &= W_{t-1}+P_{t-1}(n_t^B-n_t^S).
   \label{eq:dealer-ledger}
 \end{align}
 Total cash and shares over traders plus dealer were conserved when no
 balance-sheet intervention occurred. The $h=\infty$ limit started from a zero
 dealer ledger, permitted borrowing and shorting, and filled every eligible
-order. It was the unlimited limit of the same clearing rule, not a separate
-execution model.
+order, whereas $h=0$ allowed only opposing trader orders to clear. Both were
+limits of the same clearing rule (Algorithm~\ref{alg:dealer-clearing}).
 
 \subsection{Price feedback and the held-boundary control}
 
-Only executed orders moved the price. We calculated normalized executed
-imbalance as:
+Only executed orders moved the price. We defined normalized executed imbalance
+as:
 \begin{equation}
   \phi_t=\frac{n_t^B-n_t^S}{N_{\rm tr}}.
   \label{eq:imbalance}
 \end{equation}
-The imbalance updated the standing quote according to:
+Positive imbalance represented net buying and raised the quote; negative
+imbalance represented net selling and lowered it. The quote update was:
 \begin{equation}
   P_t=P_{t-1}\exp(\lambda\phi_t).
   \label{eq:price-update}
 \end{equation}
-The principal experiments used $P_0=100$ and $\lambda=0.02$. Active boundary
-traders classified the new quote against an exponential moving center and an
-exponential moving absolute deviation. We updated those quantities as:
+The main experiments used $P_0=100$ and $\lambda=0.02$. Active boundary traders
+compared the new quote with an exponential moving center and an exponential
+moving absolute deviation. These reference values were updated as:
 \begin{align}
- \mu_t &= \mu_{t-1}+\alpha(P_t-\mu_{t-1}),\
+ \mu_t &= \mu_{t-1}+\alpha(P_t-\mu_{t-1}), &
  \sigma_t &= \sigma_{t-1}+\alpha(|P_t-\mu_t|-\sigma_{t-1}),
  \label{eq:adaptive-band}
 \end{align}
@@ -112,8 +112,8 @@ $k_j\sim U[k(1-\delta),k(1+\delta)]$, with $k=1$ and $\delta=0.5$. It took Buy
 below $\mu_t-k_j\sigma_t$, Sell above $\mu_t+k_j\sigma_t$, and Hold inside the
 band. One quarter of perimeter cells were active, and the rest stayed at Hold.
 
-The simulation wrote the new boundary state before it updated the interior.
-The complete feedback sequence was:
+The simulation wrote the new boundary state before updating the interior. The
+complete feedback sequence was:
 \begin{equation*}
  \text{CA state}\rightarrow\text{orders}\rightarrow\text{dealer fills}
  \rightarrow P_t\rightarrow\text{boundary state}\rightarrow\text{CA state}.
@@ -122,34 +122,36 @@ The implementation applied rule activation, any balance-sheet intervention,
 eligibility tests, clearing, settlement, price formation, boundary
 classification, and the synchronous CA update in that order
 (Algorithms~\ref{alg:model-step} and~\ref{alg:dealer-clearing}). The matched
-\emph{held-boundary} control
-retained the same initial lattice, target rule field, active edge coordinates,
-band draws, books, dealer, orders, and price calculation, but replaced every
-active boundary state with Hold before the interior update. Financial state
-continued to evolve in this arm, but it could not return to the lattice. The
-held boundary therefore isolated the autonomous spatial response.
+\emph{held-boundary} control retained the same initial lattice, target sites,
+active boundary coordinates, band draws, books, dealer, orders, and price
+calculation. Before each interior update, however, every active boundary state
+was set to Hold. Financial variables continued to evolve but could not affect
+the lattice. This control isolated the lattice dynamics from price feedback.
 
-\subsection{Paired rule-quench experiments}
+\subsection{Paired rule-switch experiments}
 
-Every principal experiment began with Rule~19280 at every interior site. The
+Every paired experiment began with Rule~19280 at every interior site. The
 system evolved for $T_{\rm pre}=1{,}000$ steps before any rule changed. At the
 top of step $T_{\rm pre}+1$, the treated arm activated Rule~19286 at the
-preselected fraction $f$; the dormant arm left the same target sites on
+preselected fraction $f$; the matched no-switch arm left those target sites on
 Rule~19280. Neither arm reset the lattice, quote, adaptive bands, trader books,
-or dealer. The two paths were identical through $X_{T_{\rm pre}}$. The next
-quote was also identical because it came from that common state, and the first
-possible difference occurred in the following interior update. We verified
-these equalities bit for bit for every pair.
+or dealer. The two paths were identical through $X_{T_{\rm pre}}$, and the next
+quote was identical because it came from that common state. The first possible
+difference occurred during the following interior update. We verified these
+equalities bit for bit for every pair.
 
 The dealer-capacity screen used $L=64$, 3,000 post-activation steps, and 50
 seeds. The fraction grid was 0.10, 0.15, 0.175, 0.185, 0.190, 0.195, 0.200,
 0.205, 0.210, 0.225, and 0.250. Dealer capacity took values 0, 0.1, 0.5, 1,
 2, 5, 10, and $\infty$ under endogenous and held boundaries. Traders began
-with cash 1,000 and 10 shares. The finite-size experiment used
-$L\in\{32,48,64,96,128\}$ and three arms: held boundary with $h=\infty$,
+with cash 1,000 and 10 shares.
+
+The finite-size experiment used $L\in\{32,48,64,96,128\}$ and three conditions:
+held boundary with $h=\infty$,
 endogenous boundary with $h=\infty$, and endogenous boundary with $h=1$. It
 sampled 12 fractions from 0.140 to 0.250 over 50 seeds. Because $h$ was defined
-per trader, absolute dealer capacity scaled with lattice size.
+per trader, absolute dealer capacity scaled with lattice size. We ran four
+production campaigns in total (Table~\ref{tab:campaigns}).
 
 The balance-sheet experiment changed trader funding and sell inventory at the
 same top-of-step event as rule activation. We multiplied current cash and
@@ -162,44 +164,51 @@ path. Under the held boundary, their full lattice paths also had to remain
 identical after the intervention. That equality supplied an exact null test
 for a direct effect of financial variables on the interior rule.
 
-\subsection{Spatial panels, outcomes, and reproducibility}
-
-We chose the time-sliced market panels from ensemble summaries before
-inspecting their lattice images. The dose atlas included a nontransitioning
-$f=0.15$ run, both outcome groups at $f=0.175$, and transitioning runs at
-$f=0.185$ and 0.20 under $h=\infty$. Within each transitioning group, we chose
-the onset nearest the subgroup median. Within each nontransitioning group, we
-chose the final Sell fraction nearest the subgroup median. The dealer atlas
-required a seed that transitioned at $h=0.1$, 1, and $\infty$ for $f=0.20$.
-Among those seeds, we minimized the summed distance from the three
-capacity-specific median onsets. Both atlases displayed the lattice at fixed
-offsets 0, 500, 1,500, and 3,000, so rows shared one clock.
+\subsection{Outcomes and statistical analysis}
 
 The order parameter $m(t)$ was the strictly interior Sell fraction. We called
 a run transitioned when $m(t)\geq0.5$ at least once after activation and
-defined onset as the first crossing. We reported transition probability,
-onset conditional on crossing, the final 500-step mean of $m(t)$, maximum
-post-activation drawdown, agent-suppression fractions, and the fraction of
-eligible orders rejected by the dealer. At fixed $(L,f,h)$, we measured
-between-seed fluctuations of the final-window mean $\bar m$ with the ensemble
-susceptibility:
+defined onset as the first such crossing. Higher $m(t)$ therefore meant that a
+larger share of the interior occupied the Sell state. We reported transition
+probability, onset conditional on crossing, the final 500-step mean of $m(t)$,
+maximum post-activation drawdown, agent-suppression fractions, and the fraction
+of eligible orders rejected by the dealer. At fixed $(L,f,h)$, the ensemble
+susceptibility measured between-seed fluctuations in the final-window mean
+$\bar m$:
 \begin{equation}
  \chi_L=(L-2)^2\left[\langle\bar m^2\rangle-
                          \langle\bar m\rangle^2\right].
  \label{eq:susceptibility}
 \end{equation}
 We linearly interpolated the sampled transition curve to estimate the
-finite-horizon midpoint $f_{50}(L)$ and the width $f_{75}(L)-f_{25}(L)$.
-These quantities described the sampled crossover and were not treated as
-equilibrium critical parameters.
+finite-horizon midpoint $f_{50}(L)$, where transition probability reached 0.5,
+and the width $f_{75}(L)-f_{25}(L)$. A smaller width indicated a sharper
+crossover. These quantities described the sampled finite-time response and
+were not treated as equilibrium critical parameters. Binomial proportions used
+95\% Wilson intervals, and continuous summaries used interquartile ranges
+unless noted otherwise.
 
-Binomial proportions used 95\% Wilson intervals, and continuous summaries
-used interquartile ranges unless noted otherwise. A seeded Xoshiro generator
-produced the setup draws. Each production cell wrote an atomic checkpoint,
-and aggregation reconstructed a fixed row order, so thread scheduling and
-restart order did not alter the results. Unit tests covered parameter
-validation, finite-dealer limits, time-varying reproducible priorities,
+\subsection{Prespecified market panels}
+
+We chose all time-sliced market panels from ensemble summaries before
+inspecting the lattice images. The activation-fraction panels included a
+nontransitioning $f=0.15$ run, both outcome groups at $f=0.175$, and
+transitioning runs at $f=0.185$ and 0.20 under $h=\infty$. Within each
+transitioning group, we chose the onset nearest the subgroup median. Within
+each nontransitioning group, we chose the final Sell fraction nearest the
+subgroup median. The dealer-capacity panels required one seed that transitioned
+at $h=0.1$, 1, and $\infty$ for $f=0.20$. Among eligible seeds, we minimized
+the summed distance from the three capacity-specific median onsets. Both sets
+of panels displayed the lattice at offsets 0, 500, 1,500, and 3,000 after
+activation, so every row used the same clock.
+
+\subsection{Reproducibility and implementation checks}
+
+A seeded Xoshiro generator produced the setup draws. Each production cell wrote
+an atomic checkpoint, and aggregation reconstructed a fixed row order. Thread
+scheduling and restart order therefore did not alter the results. Unit tests
+covered parameter validation, finite-dealer limits, time-varying priorities,
 conservation, delayed rule activation, the held-boundary control, and exact
 reproduction of the earlier fill-all path at $h=\infty$. Step-by-step tests
-also compared the optimized CA kernel with the general totalistic solver for
+also compared the optimized CA kernel with the general totalistic solver under
 homogeneous and heterogeneous rule fields.

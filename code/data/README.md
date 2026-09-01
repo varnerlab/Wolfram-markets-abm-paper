@@ -26,14 +26,14 @@ julia --project=code code/model-b/Figs-ModelB-MarketPanels.jl
   susceptibility, and quantiles used by the final figure.
 
 The market-panel script reruns only nine prespecified trajectories from the
-summary table. It produces a 20-snapshot dose atlas and a 16-snapshot matched
-dealer atlas. Rows are selected by subgroup-median rules recorded in the
+summary table. It produces 20 activation-fraction snapshots and 16 matched
+dealer-capacity snapshots. Rows are selected by subgroup-median rules recorded in the
 manuscript, not by visual inspection.
 
 The driver runs 9,600 simulations: eight capacities, two boundary modes, 50
-seeds, one reused dormant control, and eleven activated fractions per cell.
+seeds, one reused no-switch control, and eleven activated fractions per cell.
 
-### Finite-size rule quench
+### Finite-size rule switch
 
 ```bash
 julia --project=code --gcthreads=1 -t 12 code/model-b/Compute-ModelB-FiniteSizeQuench.jl --full
@@ -46,7 +46,7 @@ julia --project=code --gcthreads=1 -t 12 code/model-b/Compute-ModelB-FiniteSizeQ
   crossings and susceptibility peaks.
 
 The campaign crosses five lattice sizes, three distinct boundary/capacity
-arms, twelve target fractions, and 50 seeds, reusing one dormant control per
+arms, twelve target fractions, and 50 seeds, reusing one no-switch control per
 cell (9,750 simulations). The duplicate held-boundary capacity arm is omitted
 because the reservoir campaign verifies its exact lattice invariance to $h$.
 

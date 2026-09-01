@@ -84,9 +84,9 @@ fig = plot(panels...; layout = (2, 3), size = (1100, 650),
            left_margin = 5Plots.mm, bottom_margin = 4Plots.mm,
            right_margin = 3Plots.mm)
 output = joinpath(_PATH_TO_FIGS,
-                  MODE == "Full" ? "Fig5-BalanceSheetQuench.pdf" :
-                                   "Fig5-BalanceSheetQuench-PilotPreview.pdf")
+                  MODE == "Full" ? "Fig6-BalanceSheetQuench.pdf" :
+                                   "Fig6-BalanceSheetQuench-PilotPreview.pdf")
 savefig(fig, output)
 MODE == "Full" &&
-    cp(output, joinpath(_PATH_TO_PAPER_FIGS, "Fig5-BalanceSheetQuench.pdf"); force = true)
+    cp(output, joinpath(_PATH_TO_PAPER_FIGS, "Fig6-BalanceSheetQuench.pdf"); force = true)
 @info "Saved balance-sheet quench figure" output

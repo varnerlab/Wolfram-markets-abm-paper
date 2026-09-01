@@ -40,7 +40,7 @@ for df in groupby(held_raw, [:gridn, :target_f])
 end
 held_curve = DataFrame(held_rows)
 
-pA = plot(; xlabel = "Activated contrarian fraction, f",
+pA = plot(; xlabel = "Activated site fraction, f",
           ylabel = "Transition probability", ylims = (-0.03, 1.03),
           legend = :bottomright, _panel_kw...)
 for L in sizes
@@ -52,7 +52,7 @@ for L in sizes
           marker = :circle, ms = 2.8, lw = 1.8, label = "L=$(L)")
 end
 
-pB = plot(; xlabel = "Activated contrarian fraction, f",
+pB = plot(; xlabel = "Activated site fraction, f",
           ylabel = "Ensemble susceptibility, χₗ",
           legend = false, _panel_kw...)
 for L in sizes
@@ -98,7 +98,7 @@ for (i, p) in enumerate((pA, pB, pC, pD))
 end
 fig = plot(pA, pB, pC, pD; layout = (2, 2), size = (940, 730),
            left_margin = 6Plots.mm, bottom_margin = 4Plots.mm)
-output = joinpath(_PATH_TO_FIGS, "Fig4-FiniteSizeQuench.pdf")
+output = joinpath(_PATH_TO_FIGS, "Fig3-FiniteSizeQuench.pdf")
 savefig(fig, output)
-cp(output, joinpath(_PATH_TO_PAPER_FIGS, "Fig4-FiniteSizeQuench.pdf"); force = true)
+cp(output, joinpath(_PATH_TO_PAPER_FIGS, "Fig3-FiniteSizeQuench.pdf"); force = true)
 @info "Saved finite-size quench figure" output

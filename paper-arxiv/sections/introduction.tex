@@ -3,57 +3,51 @@
 \section{Introduction}
 % ============================================================================
 
-Interacting agents can produce large market movements without a comparably
-large external shock. Herding, imitation, and adaptive strategy models make
-that possibility explicit~\cite{lux1999scaling,cont2000herd,
-farmer2002price,hommes2006heterogeneous}. Statistical-physics models ask a
-related question: can a population-level change be organized as a transition
-controlled by interaction, noise, or composition
-~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}?
-Most parameter sweeps, however, initialize each parameter value as a separate
-run. A difference between two such ensembles does not establish that adding a
-behavior destabilizes a market that was stable immediately before the
-addition. That causal claim requires a continuous intervention and a matched
-run in which the intervention remains dormant.
+Interacting agents can amplify a local behavioral change into a large market
+movement. Herding, imitation, and adaptive-strategy models make this mechanism
+explicit~\cite{lux1999scaling,cont2000herd,
+farmer2002price,hommes2006heterogeneous}. Statistical-physics models further
+show how interaction, noise, or population composition can organize a
+market-wide transition
+~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
+Most parameter sweeps nevertheless initialize each parameter value separately.
+Such comparisons can show that two settings produce different outcomes, but
+they cannot show that a new behavior destabilized an ongoing market. That claim
+requires a mid-run intervention and a matched path in which the behavior never
+changes.
 
-Financial constraints create a separate problem. A trader may want to buy but
-lack cash, or want to sell but lack shares. An eligible order also needs a
-counterparty. Stylized price-impact models often replace the counterparty with
-an implicit reservoir that fills all orders and maps signed flow to a price
-change~\cite{kyle1985continuous,farmer2005predictive}. Under that convention,
-a trader funding shock and a change in market-making capacity can both be
-called a change in liquidity even though they act at different stages. The
-distinction matters in a feedback model because execution changes price,
-price changes the states seen by agents, and those states generate the next
-orders.
+Execution constraints pose a second question. A trader may want to buy but lack
+cash, or want to sell but lack shares. Even an eligible order requires a
+counterparty. Stylized price-impact models often represent that counterparty as
+an unlimited reservoir that fills every order and converts signed flow into a
+price change~\cite{kyle1985continuous,farmer2005predictive}. This convention
+combines two distinct constraints: trader resources determine whether an order
+can enter the market, whereas dealer resources determine whether unmatched
+flow can execute. The distinction matters when executed orders change prices
+and prices feed back into later decisions.
 
-We used a deliberately small model to separate those stages. Agents occupied
-a square lattice, held Buy, Hold, or Sell states, and updated synchronously
-from their four nearest neighbors. A three-state Wolfram totalistic rule
-specified each local update~\cite{wolfram1984universality,wolfram2002new}.
-The baseline and perturbed rules differed at one of nine neighborhood sums,
-which made the behavioral change exact. Agent states generated unit orders,
-cash and shares determined order eligibility, an explicit dealer cleared the
-unmatched residual, and executed imbalance changed the price. Adaptive
-boundary agents then returned the price signal to the lattice.
+We separated these stages in a deliberately small model. Agents occupied a
+square lattice, held Buy, Hold, or Sell states, and updated synchronously from
+their four nearest neighbors. A three-state Wolfram totalistic rule specified
+each local update~\cite{wolfram1984universality,wolfram2002new}. The baseline
+and activated rules differed at only one of nine neighborhood sums, so the
+behavioral intervention was exact. Agent states generated unit orders, cash and
+shares determined order eligibility, and an explicit dealer handled unmatched
+flow. Executed imbalance changed the price, and adaptive boundary traders
+returned that price signal to the lattice. Holding those boundary traders in
+the Hold state removed the feedback without changing the interior rules. The
+lattice also allowed us to measure Sell-domain growth and changes in the
+transition curve with system size. We treated the measured domain growth and
+size dependence as descriptions of finite-time, nonequilibrium dynamics, not as
+evidence of classical nucleation or an equilibrium universality class.
 
-The spatial model invited a statistical-physics analysis, but it did not
-justify a physical mechanism by analogy alone. A growing Sell domain can be
-measured directly. Classical nucleation would require additional evidence,
-including a free-energy barrier, thermal activation, surface tension, or a
-critical droplet. Likewise, a transition curve that sharpens with lattice
-size may support a finite-size analysis without identifying an equilibrium
-universality class. We therefore treated domain growth, crossover width,
-finite-horizon midpoint, and ensemble susceptibility as observables whose
-claims were limited by the deterministic dynamics and fixed observation time.
-
-In this study, we asked whether activating one local rule destabilized an
-already stable market and how trader and dealer balance sheets changed its
-spatial and financial expression. We compared each rule quench with a dormant
-control, repeated the experiment under endogenous and held boundaries,
-varied dealer capacity from zero to an unlimited reservoir, and crossed trader
-cash with trader inventory. Time-sliced market panels documented the spatial
-paths, while five lattice sizes tested whether the crossover survived changes
-in system size. The resulting evidence separated the rule-induced spatial
-instability from price feedback and from the capacity that converted desired
-orders into executed imbalance.
+In this study, we asked whether a mid-run switch in one local rule could
+destabilize an already stable market model and how financial constraints would
+alter the outcome. We compared every switched path with a matched no-switch
+control, removed price feedback with a held boundary, and varied both trader
+resources and dealer capacity. The rule switch produced a Sell-majority
+transition even without price feedback, and the finite-time crossover sharpened
+as the lattice grew. Dealer capacity had a larger effect on drawdown and
+rejected orders than on the spatial transition. These results separate the
+origin of the spatial instability from the financial constraints that determine
+its effect on price.

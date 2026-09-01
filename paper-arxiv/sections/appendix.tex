@@ -17,7 +17,7 @@ Algorithm~\ref{alg:dealer-clearing}.
 Orders at step $t$ came from the lattice $X_{t-1}$ and the boundary states
 $e_{i,t-1}$, settled at the standing quote $P_{t-1}$, and generated the new
 quote $P_t$. The new quote classified the boundary before the cellular
-automaton (CA) produced $X_t$. Stating the full order of operations was
+automaton produced $X_t$. Stating the full order of operations was
 necessary because changing that order would define a different model.
 
 \begin{algorithm}[!ht]
@@ -32,7 +32,7 @@ ledger; quote and band state $(P_{t-1},\mu_{t-1},\sigma_{t-1})$; rule field
 $R_i$; parameters; simulation seed
 \ENSURE lattice $X_t$; boundary states $e_i(t)$; settled books and dealer;
 quote and band state $(P_t,\mu_t,\sigma_t)$; all order counts
-\IF{$t$ is the scheduled rule-quench step}
+\IF{$t$ is the scheduled rule-switch step}
   \STATE $R_i\leftarrow19286$ for every preselected target site $i$
     \COMMENT{preserve every dynamic state variable}
 \ENDIF
@@ -97,9 +97,11 @@ $n_t^B\leftarrow B_t$; $n_t^S\leftarrow S_t$
     \COMMENT{shares that the dealer could sell}
   \STATE $n_t^B\leftarrow S_t+\min(B_t-S_t,K_t^B)$
 \ELSIF{$h<\infty$ and $S_t>B_t$}
-  \STATE $K_t^S\leftarrow\min\!\left(Q_{\max}-Q_{t-1},
+  \STATE $K_t^S\leftarrow Q_{\max}-Q_{t-1}$
+    \COMMENT{inventory space}
+  \STATE $K_t^S\leftarrow\min\!\left(K_t^S,
   \left\lfloor(W_{t-1}+C)/P_{t-1}\right\rfloor\right)$
-    \COMMENT{$C=0$ for every finite dealer in this study}
+    \COMMENT{cash limit; $C=0$ in this study}
   \STATE $n_t^S\leftarrow B_t+\min(S_t-B_t,K_t^S)$
 \ENDIF
 \STATE $r_t^B\leftarrow B_t-n_t^B$; $r_t^S\leftarrow S_t-n_t^S$
@@ -125,7 +127,7 @@ $n_t^B\leftarrow B_t$; $n_t^S\leftarrow S_t$
 
 \FloatBarrier
 
-The algorithm kept two forms of nonexecution separate. Agent suppression
+The implementation kept two forms of nonexecution separate. Agent suppression
 meant that the trader lacked cash or shares before matching. Dealer rejection
 meant that the trader was eligible but the finite dealer could not absorb the
 unmatched residual. Neither event altered the trader's CA state. This
@@ -134,7 +136,7 @@ behavioral state that generated the order.
 
 \subsection{Rationing and paired reproducibility}
 
-When dealer capacity bound, only the excess side required rationing. Each
+When dealer capacity was binding, only the excess side required rationing. Each
 eligible trader on that side received a 64-bit score from a SplitMix64
 finalizer applied to the tuple
 $(\text{seed},t,\text{trader identity},\text{side})$. We sorted orders by
@@ -146,10 +148,10 @@ consume draws from the random-number generator used to construct the lattice
 and quenched disorder. The resulting rationing was reproducible without
 giving the same traders permanent priority.
 
-For every rule-quench pair, we asserted exact equality of the frame at
+For every rule-switch pair, we asserted exact equality of the frame at
 $T_{\rm pre}$, the Sell-fraction history through that frame, the edge
 coordinates and band widths, and the price history through the quote formed
-from the common pre-quench state. For every held-boundary balance-sheet cell we
+from the common pre-switch state. For every held-boundary balance-sheet cell we
 also asserted equality of the complete Sell-fraction history and final frame
 across all nine cash--share interventions. The assertions tested that paired
 experiments differed only at the stated intervention.
@@ -181,7 +183,7 @@ dealers.
 
 The production inventory contained 30,550 simulations across the four
 campaigns (Table~\ref{tab:campaigns}). The reservoir campaign reused one
-dormant control within each $(h,\text{boundary},\text{seed})$ cell, so its
+no-switch control within each $(h,\text{boundary},\text{seed})$ cell, so its
 comma-separated value file contained one treated summary row per target
 fraction without duplicating the control. The other campaigns reconstructed a
 deterministic row order from independently checkpointed cells after threaded
@@ -199,9 +201,9 @@ matched boundary conditions were run.}
 \toprule
 Campaign & Lattice sizes & Dealer $h$ & Boundary & Seeds & Simulations \\
 \midrule
-Selected paired quench & 64 & $\infty$ & endogenous & 50 & 400 \\
+Selected paired switch & 64 & $\infty$ & endogenous & 50 & 400 \\
 Reservoir screen & 64 & $0$--$10,\infty$ & endogenous/held & 50 & 9,600 \\
-Finite-size quench & 32--128 & $1,\infty$ & three distinct arms & 50 & 9,750 \\
+Finite-size switch & 32--128 & $1,\infty$ & three conditions & 50 & 9,750 \\
 Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
 \bottomrule
 \end{tabular}

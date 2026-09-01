@@ -3,74 +3,68 @@
 \section{Discussion}
 % ============================================================================
 
-The rule quench changed the claim that could be made about the instability. A
-fixed-composition sweep can establish that two parameter settings have
-different outcomes, but it cannot establish that adding a behavior destabilizes
-a market that was stable immediately beforehand. Here, treated and dormant
-arms shared the realized lattice, books, dealer, price, adaptive bands, and
-latent target sites until activation. Their later divergence was therefore a
-causal effect of the rule switch within the model. The experiment did not
-establish that a comparable fraction of real traders would produce the same
-outcome because neither the rule pair nor $f$ was calibrated to market data.
+The paired mid-run intervention supports a stronger within-model claim than a
+standard parameter sweep. Agent-based market models have long shown that simple
+local rules can produce complex aggregate dynamics
+~\cite{lux1999scaling,cont2000herd,farmer2002price,
+hommes2006heterogeneous}. Separately initialized regimes, however, cannot show
+that adding one behavior destabilized a path that was stable immediately
+beforehand. In our experiment, the switched and no-switch paths shared the
+realized lattice, trader books, dealer, price, adaptive bands, and target sites
+until activation. Changing the rule at those sites caused the later divergence.
+This result establishes causation inside the model, not a calibrated claim that
+the same fraction of real traders would destabilize a market.
 
-The held-boundary control located the main instability in the heterogeneous
-cellular automaton. Sell-majority crossings remained when price could not
-return to the lattice. Restoring the feedback loop moved probability and
-onset inside the crossover window, but the response to dealer capacity was
-not monotone. The adaptive boundary changed state when price crossed a moving
-band, so additional executed flow could alter both the sign and timing of its
-later influence. A single scalar liquidity parameter would hide that
-state-dependent feedback.
+The held-boundary and finite-size results located the main instability in the
+heterogeneous cellular automaton. Sell-majority transitions continued when
+price could not affect the lattice, and the finite-time crossover became
+narrower as the lattice grew. Sell-rich regions further formed, enlarged, and
+merged across activation fractions and dealer conditions. Persistence under
+the held boundary, size-dependent sharpening, and domain growth support a
+nonequilibrium description of the transition. This evidence does not establish
+classical nucleation: the analysis supplied no free-energy barrier, thermal
+activation rate, surface tension, or critical droplet. Nor did five lattice
+sizes observed for 3,000 post-activation steps establish an equilibrium
+critical point. That size dependence remains a finite-time result.
+Establishing an asymptotic transition would require larger lattices, horizons
+that scale with system size, denser sampling near the transition, and a
+scaling model specified before fitting. Such an analysis would also need to
+distinguish a diverging correlation length from long transient coarsening near
+an absorbing state.
 
-Dealer capacity had a simpler effect on price. A finite dealer left desired
-states unchanged and cleared all opposing agent flow. It truncated only the
-unmatched eligible residual. The resulting drawdown ladder followed directly
-from the amount of residual that could execute. At $h=0$, executed buys and
-sells balanced and the quote stayed fixed. At $h=\infty$, the quote absorbed
-the complete eligible imbalance. The time-sliced dealer comparison made the
-separation visible: similar Sell-domain growth occurred with almost no price
-movement at $h=0.1$ and a large drawdown at $h=\infty$. Dealer capacity was
-therefore a useful experimental control, although the dealer was not a
-realistic model of market depth.
+Dealer capacity controlled the price consequences of that spatial instability.
+Order-flow models connect executed imbalance to price changes, while
+market-microstructure research emphasizes the constraints imposed by
+counterparties and their balance sheets
+~\cite{kyle1985continuous,farmer2005predictive,
+brunnermeier2009market,kirilenko2017flash}. Our dealer separated these two
+mechanisms directly. Opposing trader orders cleared without dealer resources,
+and the dealer handled only the residual. With zero capacity, executed buys and
+sells balanced and the quote stayed fixed. With unlimited capacity, every
+eligible order executed and the quote absorbed the full imbalance. Similar Sell
+domains could therefore accompany either little price movement or a large
+drawdown. The dealer was useful for this controlled comparison but was not a
+realistic model of market depth or a limit-order book.
 
-The spatial evidence supported a nonequilibrium domain-growth description.
-Across doses and seeds, Sell-rich regions formed, enlarged, and merged rather
-than appearing through one synchronous relabeling. Both outcomes at
-$f=0.175$ also showed why one attractive exemplar would have been
-insufficient: a visible domain could remain below the finite-horizon majority
-threshold. The analysis did not supply the ingredients of classical
-nucleation. No free-energy barrier, thermal activation rate, surface tension,
-or critical droplet was derived. Domain growth was therefore an observed
-spatial pattern, not evidence for a nucleation mechanism.
+The cash and inventory interventions further separated order eligibility from
+counterparty capacity. Trader inventory determined the potential sell flow,
+trader cash supplied matching buy flow, and dealer cash and inventory limited
+the unmatched residual. Multiplying trader shares by ten therefore produced an
+83.5\% median drawdown against an unlimited dealer but mostly produced
+rejected orders when the dealer was constrained. The exact held-boundary null
+showed that these financial variables changed the lattice only through price
+feedback. Transition probability, price drawdown, and dealer rejection should
+therefore be reported as distinct outcomes rather than combined in one crash
+indicator.
 
-The finite-size measurements strengthened the spatial claim without turning
-it into an equilibrium claim. The held-boundary transition narrowed, its
-susceptibility peak increased, and its midpoint approached the same range as
-the two endogenous arms. The $L=64$ crossover was therefore not erased at
-larger sampled sizes, and dealer and boundary effects appeared mainly in the
-finite-size corrections. Establishing an asymptotic transition would require
-larger lattices, longer size-dependent horizons, denser sampling near the
-peak, and a scaling model specified before fitting. Those calculations would
-also need to distinguish a diverging correlation length from long transient
-coarsening near an absorbing state.
-
-The balance-sheet experiment separated trader eligibility from counterparty
-capacity. Trader shares determined how much sell flow could be offered, trader
-cash supplied eligible buy flow, and dealer cash and inventory limited the
-unmatched residual. Large trader inventories therefore caused an extreme
-drawdown against an unlimited dealer but mainly caused rejection against a
-constrained dealer. The exact held-boundary null further established that
-financial interventions affected lattice outcomes only through the
-price-to-boundary link. Price drawdown, Sell-state dominance, and dealer
-exhaustion should therefore remain separate reported outcomes.
-
-Several limitations bounded the study. The cellular automaton was
-deterministic conditional on its seed, updated synchronously, and used a
-regular lattice and one selected rule pair. Orders had unit size and a common
-standing quote. The model had no order book, bid--ask spread, cancellation,
-strategic dealer, risk penalty, or endogenous capacity replenishment beyond
-reversing flow. Boundary traders used one adaptive rule, and uniform
-balance-sheet multipliers were causal model interventions rather than policy
-models. Finally, the price-impact coefficient, time step, and lattice geometry
-were dimensionless and uncalibrated. The findings therefore identified
-mechanisms in a minimal dynamical system and did not forecast market crashes.
+Several modeling choices limit the scope of the conclusions. The cellular
+automaton was deterministic after its random setup, updated synchronously, and
+used a regular lattice and one selected rule pair. Orders had unit size and a
+common standing quote. The model omitted an order book, bid--ask spread,
+cancellation, strategic dealer, risk penalty, and endogenous replenishment of
+dealer capacity beyond reversing flow. Boundary traders followed one adaptive
+rule, and uniform balance-sheet multipliers represented causal model
+interventions rather than policy experiments. Finally, the price-impact
+coefficient, time step, and lattice geometry were dimensionless and
+uncalibrated. The results identify mechanisms in a minimal dynamical system;
+they do not forecast market crashes.

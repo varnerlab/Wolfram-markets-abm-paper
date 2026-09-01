@@ -192,7 +192,7 @@ dose_price, dose_sell = _trajectory_panels(dose_results, dose_trace_labels, dose
 dose_figure = plot(dose_atlas, dose_price, dose_sell;
     layout = @layout([a{0.74h}; b c]), size = (1000, 1250),
     left_margin = 4Plots.mm, right_margin = 3Plots.mm, bottom_margin = 4Plots.mm)
-_save_figure(dose_figure, "Fig3-DoseMarketPanels.pdf")
+_save_figure(dose_figure, "Fig4-DoseMarketPanels.pdf")
 
 # Figure 4: one seed chosen jointly across h=0.1, 1, and Inf. Eligible seeds
 # crossed in all three endogenous arms. The selected seed minimized its summed
@@ -242,6 +242,6 @@ capacity_price, capacity_sell = _trajectory_panels(capacity_results, capacity_tr
 capacity_figure = plot(capacity_atlas, capacity_price, capacity_sell;
     layout = @layout([a{0.78h}; b c]), size = (1000, 1450),
     left_margin = 9Plots.mm, right_margin = 3Plots.mm, bottom_margin = 4Plots.mm)
-_save_figure(capacity_figure, "Fig4-DealerMarketPanels.pdf")
+_save_figure(capacity_figure, "Fig5-DealerMarketPanels.pdf")
 
 @info "Saved market-panel atlases" dose_seeds = Int64.(getproperty.(dose_rows, :seed)) capacity_seed

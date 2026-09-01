@@ -28,8 +28,6 @@
 \usepackage[section]{placeins}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit}
-% Move all figures and tables to the end, after the references
-\usepackage[nomarkers,nofiglist,notablist]{endfloat}
 
 % Colors for agent states (Wong colorblind-safe palette)
 \definecolor{buyblue}{HTML}{0072B2}
@@ -41,7 +39,10 @@
 
 \setcounter{topnumber}{2}
 \setcounter{bottomnumber}{1}
-\renewcommand{\topfraction}{0.7}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -52,7 +53,12 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{Rule-quench instability in a cellular-automaton market with finite dealer capacity\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+\title{A local rule switch destabilizes a cellular automaton market model with finite dealer capacity\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+
+\hypersetup{
+  pdftitle={A local rule switch destabilizes a cellular automaton market model with finite dealer capacity},
+  pdfauthor={Jeffrey D. Varner}
+}
 
 \author{%
   Jeffrey D. Varner \\
@@ -62,30 +68,32 @@
 }
 
 \begin{document}
+\raggedbottom
 
 \maketitle
 
 \begin{abstract}
-Can a local rule change destabilize a market that was stable immediately
-before the change, and how does finite counterparty capacity alter the
-outcome? We studied a deterministic cellular automaton in which agents held
-Buy, Hold, or Sell states. Two local rules differed at one neighborhood sum.
-In each paired rule quench, every site used the baseline rule for 1,000 steps.
-A preselected fraction then switched rules without resetting the lattice,
-price, adaptive boundary, trader books, or dealer. No dormant control reached
-a Sell majority. With an endogenous price boundary and an unlimited dealer,
-none of 50 runs transitioned at activated fractions 0.10 or 0.15, whereas all
-runs transitioned at 0.20 or 0.25. The transition remained when the boundary
-was held fixed. Across lattice sizes $L=32$--128, the held-boundary midpoint
-moved from $f_{50}=0.218$ to 0.166, the transition width narrowed from 0.0275
-to 0.0082, and peak ensemble susceptibility increased from 21.2 to 232.7.
-Dealer capacity changed the financial expression much more strongly than the
-spatial transition. At $f=0.20$, median drawdown increased from 0.40\% at
-$h=0.1$ to 3.92\% at $h=1$ and 25.3\% at $h=\infty$. Independent cash and
-share interventions further separated trader order eligibility from dealer
-capacity. Time-sliced lattices documented Sell-domain growth across doses and
-dealer conditions. We used those spatial and finite-size measurements without
-claiming classical nucleation or an equilibrium universality class.
+Can activating a new local behavior destabilize a market model that was stable
+immediately before the change? We tested this question in a deterministic
+cellular automaton whose agents held Buy, Hold, or Sell states. The baseline and
+activated rules differed at one neighborhood sum. Each paired experiment ran
+both paths under the baseline rule for 1,000 steps and then switched a
+preselected fraction of sites in one path without resetting any dynamic state.
+The matched path kept every site under the baseline rule. None of the matched
+no-switch controls reached a Sell majority. With price feedback and an unlimited dealer, switching 10\% or
+15\% of sites caused no transitions, whereas switching 20\% or 25\% caused all
+50 runs to transition. Sell-majority transitions persisted when boundary
+traders were held in the Hold state, showing that the local rule dynamics did
+not require price feedback. Across lattice sizes 32--128, the activated
+fraction associated with 50\% transition probability fell from 0.218 to 0.166,
+and the transition width narrowed from 0.0275 to 0.0082. This finite-time
+crossover sharpened with size but did not establish an equilibrium critical
+point. Dealer capacity primarily controlled the price response. At 20\%
+activation, median drawdown rose from 0.40\% with capacity of 0.1 unit per
+trader to 3.92\% with one unit per trader and 25.3\% with unlimited capacity.
+Separate cash and inventory interventions confirmed that trader eligibility
+and dealer capacity constrained different stages between a desired order and
+its effect on price.
 \end{abstract}
 
 \input{sections/introduction}
@@ -105,10 +113,6 @@ claiming classical nucleation or an equilibrium universality class.
 
 \bibliographystyle{unsrtnat}
 \bibliography{References_v1}
-
-% Flush the main-text figures and tables here, directly after the references,
-% so the appendix S-figure renumbering applies only to the appendix floats.
-\processdelayedfloats
 
 \newpage
 \appendix

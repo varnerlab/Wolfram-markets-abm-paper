@@ -85,7 +85,7 @@ line_colors = Dict(h => cgrad(:viridis, length(line_capacities), categorical = t
 
 # A: capacity-dependent transition curves against the exact held-boundary CA
 # control.  Held curves coincide across h by construction and are drawn once.
-pA = plot(; xlabel = "Activated contrarian fraction, f",
+pA = plot(; xlabel = "Activated site fraction, f",
           ylabel = "Transition probability", ylims = (-0.03, 1.03),
           legend = :bottomright, _panel_kw...)
 hold_curve = grouped[(grouped.boundary_mode .== "hold") .&
@@ -122,7 +122,7 @@ for (iy, h) in enumerate(capacity_order), (ix, f) in enumerate(fs)
 end
 lim = max(0.1, maximum(abs, delta))
 pB = heatmap(fs, 1:length(capacity_order), delta;
-             xlabel = "Activated contrarian fraction, f",
+             xlabel = "Activated site fraction, f",
              ylabel = "Dealer capacity, h",
              yticks = (1:length(capacity_order), heatmap_capacity_labels),
              ytickfontrotation = 0,

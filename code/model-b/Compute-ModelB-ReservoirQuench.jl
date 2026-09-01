@@ -226,7 +226,7 @@ capacity_colors = Dict(h => cgrad(:viridis, length(CAPACITIES), categorical = tr
 panels = Plots.Plot[]
 for boundary in ("endogenous", "hold")
     sub = grouped[grouped.boundary_mode .== boundary, :]
-    p = plot(; xlabel = "Activated contrarian fraction",
+    p = plot(; xlabel = "Activated site fraction",
              ylabel = "Transition probability",
              ylim = (-0.03, 1.03), legend = :bottomright,
              title = boundary == "endogenous" ? "Endogenous boundary" : "Held boundary",
@@ -244,7 +244,7 @@ end
 for metric in (:median_drawdown, :median_rejection_fraction)
     ylabel = metric == :median_drawdown ? "Median maximum drawdown" :
                                           "Median maker rejection fraction"
-    p = plot(; xlabel = "Activated contrarian fraction", ylabel = ylabel,
+    p = plot(; xlabel = "Activated site fraction", ylabel = ylabel,
              legend = false, _panel_kw...)
     sub = grouped[grouped.boundary_mode .== "endogenous", :]
     for h in CAPACITIES

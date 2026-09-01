@@ -227,15 +227,15 @@ control_trace = traces[(traces.target_f .== first(TARGET_FS)) .&
 price_control = _trace_quantiles(control_trace, :price_relative)
 sell_control = _trace_quantiles(control_trace, :sell_fraction)
 
-pA = plot(; xlabel = "Steps since contrarian activation", ylabel = "Price / activation price",
+pA = plot(; xlabel = "Steps since rule switch", ylabel = "Price / activation price",
           legend = :topleft, _panel_kw...)
 plot!(pA, price_control.step_since_quench, price_control.q50;
       ribbon = (price_control.q50 .- price_control.q25,
                 price_control.q75 .- price_control.q50),
       color = :black, fillalpha = 0.10, lw = 2.2, ls = :dash,
-      label = "dormant control")
+      label = "no-switch control")
 
-pB = plot(; xlabel = "Steps since contrarian activation", ylabel = "Sell fraction",
+pB = plot(; xlabel = "Steps since rule switch", ylabel = "Sell fraction",
           ylims = (0, 1), legend = false, _panel_kw...)
 plot!(pB, sell_control.step_since_quench, sell_control.q50;
       ribbon = (sell_control.q50 .- sell_control.q25,
@@ -248,7 +248,7 @@ for f in TARGET_FS
                  (traces.step_since_quench .>= -DISPLAY_PRE), :]
     pq = _trace_quantiles(sub, :price_relative)
     sq = _trace_quantiles(sub, :sell_fraction)
-    label = "activate $(Int(round(100f)))%"
+    label = "switch $(Int(round(100f)))%"
     plot!(pA, pq.step_since_quench, pq.q50;
           ribbon = (pq.q50 .- pq.q25, pq.q75 .- pq.q50),
           color = f_colors[f], fillalpha = 0.08, lw = 2.0, label = label)
@@ -323,7 +323,7 @@ function _paired_market_panel(control_frames, treated_frames)
         annotate!(panel, center, header / 2,
                   text(label, :black, :center, 11, "helvetica"))
     end
-    for (r, label) in enumerate(("dormant control", "activate 20%"))
+    for (r, label) in enumerate(("no-switch control", "switch 20%"))
         first_row = header + (r - 1) * (L + row_gap) + 1
         x0, x1 = 2, 51
         y0, y1 = first_row + 1, first_row + 10

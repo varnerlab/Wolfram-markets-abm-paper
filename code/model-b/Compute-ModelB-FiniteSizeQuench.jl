@@ -291,7 +291,7 @@ size_colors = Dict(L => cgrad(:viridis, length(GRID_SIZES), categorical = true)[
                    for (i, L) in enumerate(GRID_SIZES))
 panels = Plots.Plot[]
 for (boundary, h) in (("hold", Inf), ("endogenous", Inf), ("endogenous", 1.0))
-    p = plot(; xlabel = "Activated contrarian fraction",
+    p = plot(; xlabel = "Activated site fraction",
              ylabel = "Transition probability", ylim = (-0.03, 1.03),
              legend = :bottomright,
              title = "$(boundary), h=$(capacity_label(h))", _panel_kw...)

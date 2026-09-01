@@ -3,55 +3,41 @@
 \section{Related Work}
 % ============================================================================
 
-\subsection{Interaction-driven market dynamics}
-
 Agent-based finance explains aggregate fluctuations through interacting,
-heterogeneous decision makers rather than through a prescribed return
-process. Fundamentalist--chartist populations, herding models, minority
-games, and adaptive strategies can generate non-Gaussian fluctuations and
-volatility clustering~\cite{lux1999scaling,cont2000herd,challet1997minority,
-farmer2002price,hommes2006heterogeneous}. These models establish that simple
-individual rules can produce complex aggregate behavior. They also establish
-that interaction structure matters because global coupling, random graphs,
-and local lattices provide different routes to coordination
-~\cite{lebaron2006agent,battiston2016complexity}. Our question was narrower
-than reproducing the complete set of empirical market statistics
-~\cite{cont2001empirical}. We tested whether a specified local behavior could
-destabilize a trajectory that was stable immediately before the behavior was
-activated.
+heterogeneous decision makers rather than a prescribed return process.
+Fundamentalist--chartist populations, herding models, minority games, and
+adaptive strategies can generate non-Gaussian fluctuations and volatility
+clustering~\cite{lux1999scaling,cont2000herd,challet1997minority,
+farmer2002price,hommes2006heterogeneous}. Interaction structure also matters:
+global coupling, random graphs, and local lattices provide different routes to
+coordination~\cite{lebaron2006agent,battiston2016complexity}. These studies
+explain how simple rules can produce complex aggregate behavior. Our narrower
+question was whether activating one specified rule could destabilize an ongoing
+trajectory, not whether the model reproduced the full set of empirical market
+statistics~\cite{cont2001empirical}.
 
-\subsection{Lattice models and finite-size transitions}
-
-Statistical-mechanics models of markets represent coordination through
-interacting spins or opinions. Ising-type models combine local herding with
-global feedback, while three-state models add an inactive state
+Statistical-mechanics models represent market coordination through interacting
+spins or opinions. Ising-type models combine local herding with global feedback,
+while three-state models add an inactive state
 ~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
-Cellular automata (CA) provide a related but different construction. A lookup
-table replaces a Hamiltonian and temperature, so the dynamics need not obey
-detailed balance or possess an equilibrium distribution. Wolfram totalistic
-rules were useful for our experiment because their local rule space is finite
-and enumerable~\cite{wolfram1984universality,wolfram2002new,packard1985two}.
-Earlier financial CA studies found abnormal fluctuations and regime changes
-under local majority or heterogeneous rules
-~\cite{wei2003cellular,qiu2007cellular,yang2019financial}. We added a paired
-rule intervention, explicit execution constraints, a boundary control, and a
-finite-size analysis. Those additions tested causation and robustness without
-assuming an equilibrium transition.
+Cellular automata (CA) use a lookup table instead of a Hamiltonian and
+temperature, so they need not obey detailed balance or possess an equilibrium
+distribution. Wolfram totalistic rules are especially useful for controlled
+interventions because their local rule space is finite and enumerable
+~\cite{wolfram1984universality,wolfram2002new,packard1985two}. Earlier financial
+cellular automaton studies reported abnormal fluctuations and regime changes under local
+majority or heterogeneous rules
+~\cite{wei2003cellular,qiu2007cellular,yang2019financial}. A paired mid-run rule
+switch extends this work by testing divergence from the same realized path.
 
-\subsection{Execution, funding, and counterparty capacity}
-
-Order-flow models distinguish a desired trade from the transaction that
-reaches the market. Price-impact relations map signed executed flow to returns
-~\cite{kyle1985continuous,farmer2005predictive}. Market microstructure and
-funding-liquidity studies further explain how counterparty and balance-sheet
-constraints can amplify or stop feedback
-~\cite{brunnermeier2009market,kirilenko2017flash}. A trader cash constraint
-and a dealer inventory constraint are therefore not interchangeable. The
-first makes a buy ineligible before matching; the second rejects an eligible
-order that remains unmatched. Our dealer was intentionally simpler than a
-limit-order book. Opposing agent orders cleared first, and only their residual
-used dealer cash or inventory. This accounting placed finite dealers and the
-unlimited reservoir in one model family. Crossing dealer capacity with trader
-cash and share interventions then identified which balance sheet constrained
-each link. The interventions were model experiments, not calibrated policy
-experiments.
+Order-flow models distinguish a desired trade from the transaction that reaches
+the market, and price-impact relations map signed executed flow to returns
+~\cite{kyle1985continuous,farmer2005predictive}. Market-microstructure and
+funding-liquidity studies show how counterparty and balance-sheet constraints
+can amplify or stop this feedback
+~\cite{brunnermeier2009market,kirilenko2017flash}. Trader and dealer constraints
+act at different points: insufficient trader cash or inventory makes an order
+ineligible, whereas insufficient dealer resources prevent unmatched eligible
+flow from executing. Treating these constraints separately allowed us to test
+whether financial capacity changed the spatial instability itself or only its
+effect on prices and rejected orders.

@@ -495,7 +495,7 @@ Arguments
                   designated by `minority_fraction` initially follow the
                   major rule and switch to their preselected minor rule at
                   the top of this step. Set to `steps + 1` for the paired
-                  dormant control. `nothing` preserves the historical model,
+                  matched no-switch control. `nothing` preserves the historical model,
                   in which minority rules are active from t = 0.
 - boundary_mode : `:endogenous` (default) lets the updated price classify the
                   active edge ring. `:hold` clamps the same sampled edge sites
