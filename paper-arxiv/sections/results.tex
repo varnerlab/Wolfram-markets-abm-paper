@@ -4,8 +4,8 @@
 % ============================================================================
 
 To determine whether Rule~19286 caused the Sell-dominated state, we compared
-each switched path with a matched path that never changed rules
-(Fig.~\ref{fig:rule-quench}). The two paths were bit-identical during the
+each switched path with a matched path that never changed rules and found
+that only switched paths reached a Sell majority (Fig.~\ref{fig:rule-quench}). The two paths were bit-identical during the
 1,000-step baseline and through the first quote after activation. None of the
 50 no-switch controls reached a Sell majority in the next 3,000 steps. Switched
 runs at $f=0.10$ and 0.15 also remained mixed, whereas all 50 runs crossed the
@@ -13,9 +13,8 @@ Sell-majority threshold at $f=0.20$ and 0.25 (Fig.~\ref{fig:rule-quench}A,B).
 Median time from activation to crossing fell from 1,044.5 steps at $f=0.20$ to
 311.5 steps at $f=0.25$. These results showed that activating the local
 response could destabilize an ongoing market path and identified the interval
-that required finer sampling. The spatial trajectories made the same comparison
-visible: the representative $f=0.20$ pair, selected by the prespecified
-median-effect criterion, shared one lattice at activation, after which the
+that required finer sampling. The representative $f=0.20$ pair, selected by
+the prespecified median-effect criterion, shared one lattice at activation, after which the
 no-switch path remained mixed while the switched path formed expanding
 Sell-rich regions and ended in a Sell-dominated state
 (Fig.~\ref{fig:rule-quench}C). Because the intervention changed only the rule
@@ -44,8 +43,8 @@ show whether price feedback or dealer resources created the transition.
 
 To separate the roles of price feedback and dealer resources, we repeated the
 switch on a finer fraction grid across eight dealer capacities under both the
-endogenous and the held boundary and recorded the transition probability in
-each condition (Fig.~\ref{fig:reservoir}). Under an unlimited dealer and
+endogenous and the held boundary and found that the transition survived the
+removal of price feedback (Fig.~\ref{fig:reservoir}). Under an unlimited dealer and
 endogenous boundary, the finer screen found 14 of 50 crossings at $f=0.175$,
 43 at $f=0.185$, 46 at $f=0.190$, and 50 at every sampled fraction from
 $f=0.195$ upward (Fig.~\ref{fig:reservoir}A). Under the held-boundary control,
@@ -62,10 +61,9 @@ boundary, and at $f=0.185$ the endogenous range was 0.84--0.98, compared with
 0.70 under the held boundary (Fig.~\ref{fig:reservoir}A,B). The response was
 not monotone in dealer capacity, yet every capacity produced no transitions at
 $f\leq0.15$ and transitions in all 50 seeds at $f\geq0.20$. Price feedback
-shifted marginal outcomes but did not create the activation window.
-
-Dealer capacity had a larger and ordered effect on price
-(Fig.~\ref{fig:reservoir}). At $f=0.20$, median maximum drawdown increased from
+shifted marginal outcomes but did not create the activation window. Dealer
+capacity, by contrast, had a larger effect on price than on the transition,
+and the effect was ordered in $h$. At $f=0.20$, median maximum drawdown increased from
 zero at $h=0$ to 0.40\%, 1.98\%, 3.92\%, 7.69\%, and 18.1\% at
 $h=0.1,0.5,1,2,$ and 5, respectively, before reaching 25.3\% at $h=\infty$
 (Fig.~\ref{fig:reservoir}C). Median dealer rejection moved in the opposite
@@ -92,21 +90,21 @@ reached the price but were not the source of the spatial instability.
 \end{figure}
 
 Because the transition survived the held-boundary control, we next tested
-whether it also survived changes in system size
-(Fig.~\ref{fig:finite-size}). None of the no-switch controls transitioned at any
+whether it also survived changes in system size and found that the crossover
+sharpened as the lattice grew (Fig.~\ref{fig:finite-size}). None of the no-switch controls transitioned at any
 sampled size. Under the held boundary, the midpoint moved from $f_{50}=0.2181$
 at $L=32$ through 0.1926, 0.1777, and 0.1681 to 0.1665 at $L=128$
 (Fig.~\ref{fig:finite-size}A,C). The width $f_{75}-f_{25}$ decreased from 0.0275
-to 0.0082. Peak ensemble susceptibility increased from 21.2 to 232.7 and moved
-from $f=0.225$ to $f=0.170$ (Fig.~\ref{fig:finite-size}B,D). Over the sampled
+to 0.0082, and peak ensemble susceptibility increased from 21.2 to 232.7 while
+moving from $f=0.225$ to $f=0.170$ (Fig.~\ref{fig:finite-size}B,D). Over the sampled
 sizes and fixed time horizon, the crossover sharpened rather than disappeared.
 The two endogenous-boundary conditions followed the same size trend, with
 midpoint estimates at $L=32$ of 0.2132 for $h=\infty$ and 0.2100 for $h=1$
 against 0.2181 under the held boundary. At $L=128$, the corresponding
 estimates were 0.1655, 0.1650, and 0.1665, and
 their widths ranged from 0.0063 to 0.0082 (Fig.~\ref{fig:finite-size}C).
-Susceptibility peaks increased in every condition. Thus dealer and boundary
-effects were largest at the smaller lattices, while all three conditions had
+Susceptibility peaks increased in every condition, so dealer and boundary
+effects were largest at the smaller lattices while all three conditions had
 similar midpoints at the largest size tested. Five sizes and a fixed 3,000-step
 horizon could not establish an asymptotic transition or support a
 critical-exponent fit.
@@ -120,23 +118,26 @@ critical-exponent fit.
   500-step Sell fraction. \textbf{(C)}~Interpolated finite-horizon midpoint
   $f_{50}(L)$ for the held control and two endogenous dealer conditions.
   \textbf{(D)}~Peak susceptibility versus lattice size on logarithmic axes.
-  Lines connect sampled values; no asymptotic scaling law was fitted.}
+  Lines connect sampled values. No asymptotic scaling law was fitted.}
   \label{fig:finite-size}
 \end{figure}
 \FloatBarrier
 
 Having located the instability in the lattice rather than in price feedback, we
-next asked how individual lattices reached the Sell-dominated state
-(Fig.~\ref{fig:dose-panels}). The aggregate transition curves did not reveal
-whether a lattice changed gradually in space or switched states nearly at once.
+next asked how individual lattices reached the Sell-dominated state and found
+that every selected crossing proceeded by domain growth
+(Fig.~\ref{fig:dose-panels}). Aggregate transition probabilities did not
+distinguish gradual spatial change from a near-simultaneous switch of states.
 At $f=0.15$, the prespecified noncrossing run retained a fine mixed pattern for
 all 3,000 steps. Two runs at $f=0.175$ followed different paths: one developed a
 Sell-rich region but stayed below one-half, while the other formed a large
 connected Sell domain and crossed after 2,186 steps. The selected $f=0.185$ run
 crossed after 1,779 steps through several connected regions. The $f=0.20$ run
 crossed after 1,030 steps and ended with one dominant Sell domain
-(Fig.~\ref{fig:dose-panels}A). Price and Sell-fraction trajectories located each
-fixed snapshot in time (Fig.~\ref{fig:dose-panels}B,C). The aggregate transition
+(Fig.~\ref{fig:dose-panels}A). Price declined as the Sell fraction rose in each
+crossing run, with maximum drawdowns of 17.6\%, 23.7\%, and 25.6\% for the
+crossing runs at $f=0.175$, 0.185, and 0.20 against 5.3\% and 9.9\% for the two
+noncrossing runs (Fig.~\ref{fig:dose-panels}B,C). The aggregate transition
 probability therefore summarized a distribution of spatial paths, not a
 synchronous relabeling of the lattice. Across these selected runs the common
 pattern was domain growth rather than classical nucleation: Sell-rich regions
@@ -154,7 +155,7 @@ majority.
   (columns) at activation and after 500, 1,500, and 3,000 steps (rows). From
   left to right, the runs include a noncrossing $f=0.15$ case, both outcome
   groups at $f=0.175$, and crossing cases at $f=0.185$ and 0.20. Crossing cases
-  were nearest their subgroup median onset; noncrossing cases were nearest
+  were nearest their subgroup median onset. Noncrossing cases were nearest
   their subgroup median final Sell fraction. Seeds were 8, 5, 22, 46, and 21
   from left to right. \textbf{(B)}~Price divided by its activation value.
   \textbf{(C)}~Interior Sell fraction; the horizontal line marks the majority
@@ -165,22 +166,23 @@ majority.
 
 To compare spatial and price outcomes on one rule landscape, we followed a
 single seed that crossed at three dealer capacities and traced its lattice,
-price, and Sell fraction under each capacity and under the held boundary
-(Fig.~\ref{fig:dealer-panels}). Seed 25 was selected jointly from runs that
+price, and Sell fraction under each capacity and under the held boundary, and
+found that dealer capacity changed the price path but left the Sell-dominated
+outcome intact (Fig.~\ref{fig:dealer-panels}). Seed 25 was selected jointly from runs that
 crossed at $h=0.1$, 1, and $\infty$ by the prespecified median-onset criterion.
 All three endogenous paths formed expanding Sell domains and crossed within 88
 steps of one another, at 1,045, 1,110, and 1,022 steps, and the held-boundary
 path crossed at 1,191 steps (Fig.~\ref{fig:dealer-panels}A). Dealer capacity
 changed the detailed geometry and timing, but all four paths reached similar
 Sell-dominated final states. The corresponding price paths, by contrast,
-differed: price changed by less than one percent at $h=0.1$, fell by about four
-percent at $h=1$, and fell by about one quarter with the unlimited dealer
-(Fig.~\ref{fig:dealer-panels}B). Despite these differences, all four Sell
-fractions crossed one-half in the same broad time interval and ended between
-about 0.82 and 0.88 (Fig.~\ref{fig:dealer-panels}C). The held-boundary
+differed: maximum drawdown was 0.40\% at $h=0.1$, 3.92\% at $h=1$, and 25.8\%
+with the unlimited dealer (Fig.~\ref{fig:dealer-panels}B). Despite these
+differences, all four Sell fractions crossed one-half within 169 steps of one
+another and ended with final-window means between 0.81 and 0.87
+(Fig.~\ref{fig:dealer-panels}C). The held-boundary
 condition still calculated executions and price and removed only the return
-path from price to the lattice, so a constrained dealer could nearly eliminate
-drawdown at $f=0.20$ without preventing Sell-domain growth.
+path from price to the lattice, so a constrained dealer could reduce drawdown at
+$f=0.20$ to 0.40\% without preventing Sell-domain growth.
 
 \begin{figure}[tbp]
   \centering
@@ -199,7 +201,8 @@ drawdown at $f=0.20$ without preventing Sell-domain growth.
 \end{figure}
 
 We next asked whether trader and dealer balance sheets could change the lattice
-without price feedback (Fig.~\ref{fig:balance-sheet}). Within every
+without price feedback and found that the held-boundary lattice was invariant
+to every intervention (Fig.~\ref{fig:balance-sheet}). Within every
 held-boundary $(h,f,\text{seed})$ cell, all nine cash and share multipliers
 produced bit-identical lattice paths. Transition probability at $f=0.18$ was
 therefore 0.64 in every held-boundary financial cell. Under the endogenous
@@ -208,14 +211,15 @@ three-by-three cash--share grid and three dealer capacities
 (Fig.~\ref{fig:balance-sheet}A--C). The minimum occurred at $h=0.1$ with cash
 multiplied by 0.1 and shares by 10, and the maximum occurred at $h=1$ in the
 three cells that reduced shares tenfold or raised cash tenfold without raising
-shares. We report $f=0.18$, the sampled fraction whose held-boundary transition
+shares. We reported $f=0.18$, the sampled fraction whose held-boundary transition
 probability lay nearest one-half, and the other three fractions showed the same
 structure. The held-boundary probability was 0.22, 0.34, and 0.70 at
 $f=0.170$, 0.175, and 0.185, and the endogenous range at those fractions was
 0.08--0.52, 0.24--0.82, and 0.64--0.98. Financial variables affected the
 lattice only through executed flow, price, and the boundary response.
 
-Trader inventory produced a large drawdown only when the dealer could absorb the
+We then examined how the same interventions changed drawdown and found that
+trader inventory raised drawdown only when the dealer could absorb the
 resulting sell flow (Fig.~\ref{fig:balance-sheet}). At baseline cash and
 $h=\infty$, share multipliers 0.1, 1, and 10 produced median maximum drawdowns
 of 2.87\%, 20.1\%, and 83.5\% (Fig.~\ref{fig:balance-sheet}D). The corresponding
@@ -223,10 +227,8 @@ values were 0.040\%, 3.92\%, and 3.92\% at $h=1$, and 0.025\%, 0.399\%, and
 0.399\% at $h=0.1$ (Fig.~\ref{fig:balance-sheet}E,F). Once dealer inventory
 bound, additional eligible sells were rejected instead of increasing executed
 imbalance. Trader inventory set potential sell flow, while dealer resources
-capped the unmatched flow that reached the price.
-
-Transition probability did not increase monotonically with drawdown
-(Fig.~\ref{fig:balance-sheet}). At $h=1$ and baseline cash, the share-0.1
+capped the unmatched flow that reached the price. Transition probability,
+however, did not increase monotonically with drawdown. At $h=1$ and baseline cash, the share-0.1
 condition transitioned in 0.94 of seeds with only 0.040\% median drawdown, while
 the share-10 condition transitioned in 0.60 of seeds with 3.92\% drawdown. At
 baseline shares and $h=1$, multiplying cash by 10 reduced median drawdown from
@@ -240,7 +242,7 @@ label would combine: Sell-state dominance, price drawdown, and dealer rejection.
   \includegraphics[width=0.99\linewidth]{figs/Fig6-BalanceSheetQuench.pdf}
   \caption{Crossed trader cash and share interventions at activation under the
   endogenous boundary, with $f=0.18$ and 50 seeds. Columns correspond to dealer
-  capacities $h=\infty$, 1, and 0.1; cash multipliers run horizontally and
+  capacities $h=\infty$, 1, and 0.1. Cash multipliers run horizontally and
   share multipliers vertically. \textbf{(A--C)}~Transition probability.
   \textbf{(D--F)}~Median maximum drawdown on a common color scale. The matched
   held-boundary lattice was invariant across all nine interventions.}
