@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -98,6 +98,17 @@ Rama Cont.
   issues.
 \newblock \emph{Quantitative Finance}, 1\penalty0 (2):\penalty0 223--236, 2001.
 
+\bibitem[Chowdhury and Stauffer(1999)]{chowdhury2000statistical}
+Debashish Chowdhury and Dietrich Stauffer.
+\newblock A generalized spin model of financial markets.
+\newblock \emph{The European Physical Journal B}, 8:\penalty0 477--482, 1999.
+
+\bibitem[Sznajd-Weron and Weron(2002)]{sznajd2002simple}
+Katarzyna Sznajd-Weron and Rafal Weron.
+\newblock A simple model of price formation.
+\newblock \emph{International Journal of Modern Physics C}, 13\penalty0
+  (1):\penalty0 115--123, 2002.
+
 \bibitem[Packard and Wolfram(1985)]{packard1985two}
 Norman~H. Packard and Stephen Wolfram.
 \newblock Two-dimensional cellular automata.
@@ -121,6 +132,19 @@ Guang Yang, Yun Chen, and Ji-Ping Huang.
 \newblock \emph{Physica A: Statistical Mechanics and its Applications},
   521:\penalty0 586--594, 2019.
 
+\bibitem[Gabaix et~al.(2003)Gabaix, Gopikrishnan, Plerou, and
+  Stanley]{gabaix2003theory}
+Xavier Gabaix, Parameswaran Gopikrishnan, Vasiliki Plerou, and H~Eugene
+  Stanley.
+\newblock A theory of power-law distributions in financial market fluctuations.
+\newblock \emph{Nature}, 423:\penalty0 267--270, 2003.
+
+\bibitem[Subrahmanyam(1994)]{subrahmanyam1994circuit}
+Avanidhar Subrahmanyam.
+\newblock Circuit breakers and market volatility: A theoretical perspective.
+\newblock \emph{The Journal of Finance}, 49\penalty0 (1):\penalty0 237--254,
+  1994.
+
 \bibitem[Brunnermeier and Pedersen(2009)]{brunnermeier2009market}
 Markus~K. Brunnermeier and Lasse~Heje Pedersen.
 \newblock Market liquidity and funding liquidity.
@@ -133,5 +157,49 @@ Andrei Kirilenko, Albert~S. Kyle, Mehrdad Samadi, and Tugkan Tuzun.
 \newblock The flash crash: High-frequency trading in an electronic market.
 \newblock \emph{The Journal of Finance}, 72\penalty0 (3):\penalty0 967--998,
   2017.
+
+\bibitem[Shefrin and Statman(1985)]{shefrin1985disposition}
+Hersh Shefrin and Meir Statman.
+\newblock The disposition to sell winners too early and ride losers too long:
+  Theory and evidence.
+\newblock \emph{The Journal of Finance}, 40\penalty0 (3):\penalty0 777--790,
+  1985.
+
+\bibitem[Odean(1998)]{odean1998investors}
+Terrance Odean.
+\newblock Are investors reluctant to realize their losses?
+\newblock \emph{The Journal of Finance}, 53\penalty0 (5):\penalty0 1775--1798,
+  1998.
+
+\bibitem[Kolmogorov(1937)]{kolmogorov1937statistical}
+Andrei~N. Kolmogorov.
+\newblock On the statistical theory of the crystallization of metals.
+\newblock \emph{Izvestiya Akademii Nauk SSSR, Seriya Matematicheskaya},
+  1\penalty0 (3):\penalty0 355--359, 1937.
+
+\bibitem[Johnson and Mehl(1939)]{johnson1939reaction}
+William~A. Johnson and Robert~F. Mehl.
+\newblock Reaction kinetics in processes of nucleation and growth.
+\newblock \emph{Transactions of the American Institute of Mining and
+  Metallurgical Engineers}, 135:\penalty0 416--442, 1939.
+
+\bibitem[Avrami(1939)]{avrami1939kinetics}
+Melvin Avrami.
+\newblock Kinetics of phase change. i. general theory.
+\newblock \emph{The Journal of Chemical Physics}, 7\penalty0 (12):\penalty0
+  1103--1112, 1939.
+
+\bibitem[Kramers(1940)]{kramers1940brownian}
+Hendrik~A. Kramers.
+\newblock Brownian motion in a field of force and the diffusion model of
+  chemical reactions.
+\newblock \emph{Physica}, 7\penalty0 (4):\penalty0 284--304, 1940.
+
+\bibitem[H{\"a}nggi et~al.(1990)H{\"a}nggi, Talkner, and
+  Borkovec]{hanggi1990reaction}
+Peter H{\"a}nggi, Peter Talkner, and Michal Borkovec.
+\newblock Reaction-rate theory: Fifty years after {K}ramers.
+\newblock \emph{Reviews of Modern Physics}, 62\penalty0 (2):\penalty0 251--341,
+  1990.
 
 \end{thebibliography}

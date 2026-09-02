@@ -17,13 +17,14 @@ trajectory, not whether the model reproduced the full set of empirical market
 statistics~\cite{cont2001empirical}.
 
 Statistical-mechanics models represent market coordination through interacting
-spins or opinions. Ising-type models combine local herding with global feedback,
+spins or opinions~\cite{chowdhury2000statistical,sznajd2002simple}. Ising-type
+models combine local herding with global feedback,
 while three-state models add an inactive state
 ~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
 Cellular automata (CA) use a lookup table instead of a Hamiltonian and
 temperature, so they need not obey detailed balance or possess an equilibrium
-distribution. Wolfram totalistic rules are especially useful for controlled
-interventions because their local rule space is finite and enumerable
+distribution. Wolfram totalistic rules are suited to controlled interventions because their
+local rule space is finite and enumerable
 ~\cite{wolfram1984universality,wolfram2002new,packard1985two}. Earlier financial
 cellular automaton studies reported abnormal fluctuations and regime changes under local
 majority or heterogeneous rules
@@ -32,10 +33,11 @@ switch extends this work by testing divergence from the same realized path.
 
 Order-flow models distinguish a desired trade from the transaction that reaches
 the market, and price-impact relations map signed executed flow to returns
-~\cite{kyle1985continuous,farmer2005predictive}. Market-microstructure and
-funding-liquidity studies show how counterparty and balance-sheet constraints
-can amplify or stop this feedback
-~\cite{brunnermeier2009market,kirilenko2017flash}. Trader and dealer constraints
+~\cite{kyle1985continuous,gabaix2003theory,farmer2005predictive}.
+Market-microstructure and funding-liquidity studies show how counterparty
+constraints, balance-sheet constraints, and trading halts can amplify or stop
+this feedback
+~\cite{subrahmanyam1994circuit,brunnermeier2009market,kirilenko2017flash}. Trader and dealer constraints
 act at different points: insufficient trader cash or inventory makes an order
 ineligible, whereas insufficient dealer resources prevent unmatched eligible
 flow from executing. Treating these constraints separately allowed us to test

@@ -22,8 +22,11 @@ narrower as the lattice grew. Sell-rich regions further formed, enlarged, and
 merged across activation fractions and dealer conditions. Persistence under
 the held boundary, size-dependent sharpening, and domain growth support a
 nonequilibrium description of the transition. This evidence does not establish
-classical nucleation: the analysis supplied no free-energy barrier, thermal
-activation rate, surface tension, or critical droplet. Nor did five lattice
+classical nucleation in the sense of Johnson--Mehl--Avrami--Kolmogorov growth
+kinetics or Kramers-type thermal
+activation~\cite{kolmogorov1937statistical,johnson1939reaction,avrami1939kinetics,kramers1940brownian,hanggi1990reaction}:
+the analysis supplied no free-energy barrier, thermal activation rate, surface
+tension, or critical droplet. Nor did five lattice
 sizes observed for 3,000 post-activation steps establish an equilibrium
 critical point. That size dependence remains a finite-time result.
 Establishing an asymptotic transition would require larger lattices, horizons
@@ -33,38 +36,45 @@ distinguish a diverging correlation length from long transient coarsening near
 an absorbing state.
 
 Dealer capacity controlled the price consequences of that spatial instability.
-Order-flow models connect executed imbalance to price changes, while
+Order-flow models connect executed imbalance to price
+changes~\cite{kyle1985continuous,gabaix2003theory,farmer2005predictive}, while
 market-microstructure research emphasizes the constraints imposed by
-counterparties and their balance sheets
-~\cite{kyle1985continuous,farmer2005predictive,
-brunnermeier2009market,kirilenko2017flash}. Our dealer separated these two
-mechanisms directly. Opposing trader orders cleared without dealer resources,
-and the dealer handled only the residual. With zero capacity, executed buys and
-sells balanced and the quote stayed fixed. With unlimited capacity, every
-eligible order executed and the quote absorbed the full imbalance. Similar Sell
-domains could therefore accompany either little price movement or a large
-drawdown. The dealer was useful for this controlled comparison but was not a
-realistic model of market depth or a limit-order book.
-
-The cash and inventory interventions further separated order eligibility from
-counterparty capacity. Trader inventory determined the potential sell flow,
-trader cash supplied matching buy flow, and dealer cash and inventory limited
-the unmatched residual. Multiplying trader shares by ten therefore produced an
-83.5\% median drawdown against an unlimited dealer but mostly produced
-rejected orders when the dealer was constrained. The exact held-boundary null
-showed that these financial variables changed the lattice only through price
-feedback. Transition probability, price drawdown, and dealer rejection should
-therefore be reported as distinct outcomes rather than combined in one crash
-indicator.
+counterparties, balance sheets, and trading
+halts~\cite{subrahmanyam1994circuit,brunnermeier2009market,kirilenko2017flash}.
+Our dealer separated these two mechanisms directly, since opposing trader
+orders cleared without dealer resources and the dealer handled only the
+residual. With zero capacity, executed buys and sells balanced and the quote
+stayed fixed, whereas with unlimited capacity every eligible order executed and
+the quote absorbed the full imbalance. Similar Sell domains could therefore
+accompany either little price movement or a large drawdown. The dealer was
+useful for this controlled comparison but was not a realistic model of market
+depth or a limit-order book. The cash and inventory interventions extended this
+separation to the trader side, since trader inventory determined the potential
+sell flow, trader cash supplied matching buy flow, and dealer cash and
+inventory limited the unmatched residual. Multiplying trader shares by ten
+therefore produced an 83.5\% median drawdown against an unlimited dealer but
+mostly produced rejected orders when the dealer was constrained. The exact
+held-boundary null showed that these financial variables changed the lattice
+only through price feedback. Transition probability, price drawdown, and dealer
+rejection should therefore be reported as distinct outcomes rather than
+combined in one crash indicator.
 
 Several modeling choices limit the scope of the conclusions. The cellular
 automaton was deterministic after its random setup, updated synchronously, and
 used a regular lattice and one selected rule pair. Orders had unit size and a
-common standing quote. The model omitted an order book, bid--ask spread,
+common standing quote, and the model omitted an order book, bid--ask spread,
 cancellation, strategic dealer, risk penalty, and endogenous replenishment of
 dealer capacity beyond reversing flow. Boundary traders followed one adaptive
 rule, and uniform balance-sheet multipliers represented causal model
 interventions rather than policy experiments. Finally, the price-impact
 coefficient, time step, and lattice geometry were dimensionless and
-uncalibrated. The results identify mechanisms in a minimal dynamical system;
-they do not forecast market crashes.
+uncalibrated. The results identify mechanisms in a minimal dynamical system and
+do not forecast market crashes. Several extensions follow from the same paired
+design. The totalistic rule space is finite, so every rule that differs from
+the baseline at a single neighborhood sum can be screened with the same
+matched no-switch control, which would show whether the activation window
+found here is specific to Rule~19286 or common to a class of single-entry
+switches. Asynchronous updating, a limit-order book in place of the dealer, and
+horizons that grow with lattice size would test whether the separation between
+the spatial instability and its price consequences survives more realistic
+execution and longer observation.

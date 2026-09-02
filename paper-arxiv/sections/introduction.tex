@@ -10,15 +10,16 @@ farmer2002price,hommes2006heterogeneous}. Statistical-physics models further
 show how interaction, noise, or population composition can organize a
 market-wide transition
 ~\cite{bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
-Most parameter sweeps nevertheless initialize each parameter value separately.
+The parameter sweeps in these studies nevertheless initialize each parameter
+value separately~\cite{lux1999scaling,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative}.
 Such comparisons can show that two settings produce different outcomes, but
 they cannot show that a new behavior destabilized an ongoing market. That claim
 requires a mid-run intervention and a matched path in which the behavior never
 changes.
 
-Execution constraints pose a second question. A trader may want to buy but lack
-cash, or want to sell but lack shares. Even an eligible order requires a
-counterparty. Stylized price-impact models often represent that counterparty as
+Execution constraints pose a second question, since a trader may want to buy
+but lack cash, or want to sell but lack shares, and even an eligible order
+requires a counterparty. Stylized price-impact models often represent that counterparty as
 an unlimited reservoir that fills every order and converts signed flow into a
 price change~\cite{kyle1985continuous,farmer2005predictive}. This convention
 combines two distinct constraints: trader resources determine whether an order
@@ -28,18 +29,16 @@ and prices feed back into later decisions.
 
 We separated these stages in a deliberately small model. Agents occupied a
 square lattice, held Buy, Hold, or Sell states, and updated synchronously from
-their four nearest neighbors. A three-state Wolfram totalistic rule specified
-each local update~\cite{wolfram1984universality,wolfram2002new}. The baseline
-and activated rules differed at only one of nine neighborhood sums, so the
-behavioral intervention was exact. Agent states generated unit orders, cash and
-shares determined order eligibility, and an explicit dealer handled unmatched
-flow. Executed imbalance changed the price, and adaptive boundary traders
-returned that price signal to the lattice. Holding those boundary traders in
-the Hold state removed the feedback without changing the interior rules. The
-lattice also allowed us to measure Sell-domain growth and changes in the
-transition curve with system size. We treated the measured domain growth and
-size dependence as descriptions of finite-time, nonequilibrium dynamics, not as
-evidence of classical nucleation or an equilibrium universality class.
+their four nearest neighbors according to a three-state Wolfram totalistic
+rule~\cite{wolfram1984universality,wolfram2002new}. The baseline and activated
+rules differed at only one of nine neighborhood sums, so the behavioral
+intervention was exact. Agent states generated unit orders, cash and shares
+determined order eligibility, an explicit dealer handled unmatched flow, and
+executed imbalance changed the price, which adaptive boundary traders returned
+to the lattice. Holding those boundary traders in the Hold state removed the
+feedback without changing the interior rules, and the lattice also allowed us
+to measure Sell-domain growth and changes in the transition curve with system
+size.
 
 In this study, we asked whether a mid-run switch in one local rule could
 destabilize an already stable market model and how financial constraints would

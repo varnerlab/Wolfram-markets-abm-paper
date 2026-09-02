@@ -142,7 +142,7 @@ finalizer applied to the tuple
 $(\text{seed},t,\text{trader identity},\text{side})$. We sorted orders by
 score and used trader identity as a deterministic tie breaker. Priorities changed with $t$,
 so a trader who submitted the same order repeatedly did not retain the same
-position. Paired arms also used the same score for a given
+position. Paired paths also used the same score for a given
 $(t,i,\text{side})$ after their eligible sets diverged. The score did not
 consume draws from the random-number generator used to construct the lattice
 and quenched disorder. The resulting rationing was reproducible without
@@ -166,7 +166,7 @@ With no intervention, agent-plus-dealer cash and shares are invariants:
 Across the production reservoir and finite-size campaigns, the maximum
 absolute cash error was $2.53\times10^{-6}$ and the share error was zero. In
 the balance-sheet campaign, conservation was checked separately before and
-after the intentional intervention jump; its maximum cash error was
+after the intentional intervention jump. Its maximum cash error was
 $9.47\times10^{-7}$ and its share error was zero.
 
 Three exact limits supplied regression tests. With $h=\infty$, every
@@ -176,7 +176,7 @@ executed imbalance was zero, the price stayed fixed, and the
 endogenous-boundary lattice matched the held-boundary lattice. In the
 reservoir campaign, $h=10$ never rejected an order and reproduced the
 $h=\infty$ paths exactly. The $h=10$ equality held for the stated endowments
-and horizon; it was not a general identity between finite and unlimited
+and horizon and was not a general identity between finite and unlimited
 dealers.
 
 \subsection{Campaign inventory}

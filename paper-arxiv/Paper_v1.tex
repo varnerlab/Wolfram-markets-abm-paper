@@ -73,16 +73,17 @@
 \maketitle
 
 \begin{abstract}
-Can activating a new local behavior destabilize a market model that was stable
-immediately before the change? We tested this question in a deterministic
-cellular automaton whose agents held Buy, Hold, or Sell states. The baseline and
-activated rules differed at one neighborhood sum. Each paired experiment ran
-both paths under the baseline rule for 1,000 steps and then switched a
-preselected fraction of sites in one path without resetting any dynamic state.
-The matched path kept every site under the baseline rule. None of the matched
-no-switch controls reached a Sell majority. With price feedback and an unlimited dealer, switching 10\% or
-15\% of sites caused no transitions, whereas switching 20\% or 25\% caused all
-50 runs to transition. Sell-majority transitions persisted when boundary
+Whether activating a new local behavior can destabilize a market model that was
+stable immediately before the change is a causal question that separately
+initialized parameter sweeps cannot answer. We tested it in a deterministic
+cellular automaton whose agents held Buy, Hold, or Sell states and whose
+baseline and activated rules differed at one neighborhood sum. Each paired
+experiment ran both paths under the baseline rule for 1,000 steps and then
+switched a preselected fraction of sites in one path without resetting any
+dynamic state, while the matched path kept every site under the baseline rule.
+None of the matched no-switch controls reached a Sell majority. With price
+feedback and an unlimited dealer, switching 10\% or 15\% of sites caused no
+transitions, whereas switching 20\% or 25\% caused all 50 runs to transition. Sell-majority transitions persisted when boundary
 traders were held in the Hold state, showing that the local rule dynamics did
 not require price feedback. Across lattice sizes 32--128, the activated
 fraction associated with 50\% transition probability fell from 0.218 to 0.166,
