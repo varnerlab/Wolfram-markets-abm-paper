@@ -17,19 +17,21 @@ lattice, trader books, dealer, price, adaptive bands, and target sites until
 activation, so changing the rule at those sites caused the later divergence.
 None of the matched no-switch controls reached a Sell majority, whereas
 switching 20\% or 25\% of interior sites under an unlimited dealer drove all
-50 runs to a Sell majority and switching 10\% or 15\% drove none. The
-transitions persisted when the boundary was held, and as the lattice grew from
-32 to 128 the midpoint of the transition curve fell from 0.218 to 0.166 while
-its width fell from 0.0275 to 0.0082. Median drawdown at 20\% activation rose
+50 runs to a Sell majority and switching 10\% or 15\% drove none
+(Table~\ref{tab:paired-switch}). The transitions persisted when the boundary
+was held, and as the lattice grew from 32 to 128 the midpoint of the transition
+curve fell from 0.218 to 0.166 while its width fell from 0.0275 to 0.0082
+(Table~\ref{tab:finite-size-scaling}). Median drawdown at 20\% activation rose
 from 0.40\% at a tenth of a unit of dealer capacity per trader to 25.3\% with
-an unlimited dealer. This result establishes causation inside the model,
+an unlimited dealer (Fig.~\ref{fig:reservoir}C). This result establishes causation inside the model,
 not a calibrated claim that the same fraction of real traders would
 destabilize a market.
 
 The held-boundary and finite-size results located the main instability in the
 heterogeneous cellular automaton. Sell-majority transitions continued when
 price could not affect the lattice, and the finite-time crossover narrowed
-from a width of 0.0275 at $L=32$ to 0.0082 at $L=128$. Sell-rich regions also
+from a width of 0.0275 at $L=32$ to 0.0082 at $L=128$
+(Table~\ref{tab:finite-size-scaling}). Sell-rich regions also
 formed, enlarged, and merged across activation fractions and dealer
 conditions. Persistence under the held boundary, size-dependent sharpening,
 and domain growth support a nonequilibrium description of the
@@ -68,7 +70,8 @@ limits~\cite{braunmunzinger2018agent}. With zero capacity, executed buys and
 sells balanced and the quote stayed fixed, whereas with unlimited capacity
 every eligible order executed and the quote absorbed the full imbalance.
 Similar Sell domains could therefore accompany either a 0.40\% or a 25.8\%
-drawdown for the same seed at 20\% activation. The dealer was useful for this
+drawdown for the same seed at 20\% activation
+(Fig.~\ref{fig:dealer-panels}B). The dealer was useful for this
 controlled comparison but was not a realistic model of market depth or of a
 limit-order book~\cite{chiarella2002simulation,bouchaud2009how}. The cash and
 inventory interventions extended this separation to the trader side, since
@@ -76,9 +79,9 @@ trader inventory determined the potential sell flow, trader cash supplied
 matching buy flow, and dealer cash and inventory limited the unmatched
 residual. At 18\% activation with baseline cash, multiplying trader shares by
 ten produced an 83.5\% median drawdown against an unlimited dealer but
-drawdowns of only 3.92\% at one unit of capacity per trader and 0.40\% at a
+drawdowns of only 3.92\% at one unit of capacity per trader and 0.399\% at a
 tenth of a unit, because the dealer rejected the unmatched sells once its
-inventory bound. The exact held-boundary null showed that these financial
+inventory bound (Fig.~\ref{fig:balance-sheet}B,C). The exact held-boundary null showed that these financial
 variables changed the lattice only through price feedback. Transition
 probability, price drawdown, and dealer rejection should therefore be reported
 as distinct outcomes rather than combined in one crash indicator.

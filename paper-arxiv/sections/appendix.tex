@@ -209,6 +209,109 @@ Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
 \end{tabular}
 \end{center}
 
+Several interpolated and per-cell quantities quoted in the main text appear in
+no figure panel, so each campaign also carries a tabulated outcome summary. The
+selected paired-switch campaign produced no control crossing at any sampled
+fraction, no switched crossing at $f=0.10$ or 0.15, and crossing in every seed
+at $f=0.20$ and 0.25, where median onset fell from 1{,}044.5 to 311.5 steps
+(Table~\ref{tab:paired-switch}). We applied the majority criterion to the peak
+interior Sell fraction of each path rather than to the recorded onset, because
+the summary file writes onset zero for a path that never crossed, and we took
+median onset over crossing seeds alone, so it is undefined at the two lower
+fractions. The finite-size campaign supplies the interpolated midpoint
+$f_{50}(L)$, the width $f_{75}-f_{25}$, and the peak ensemble susceptibility
+with its location for all five sizes under the three boundary and dealer
+conditions (Table~\ref{tab:finite-size-scaling}). Linear interpolation of the
+sampled transition curve produced both the midpoint and the width, so each
+inherits the resolution of the fraction grid and describes the sampled
+finite-time response rather than an equilibrium quantity. The cash--share
+campaign supplies the corresponding fraction-by-fraction transition
+probabilities under both boundaries (Table~\ref{tab:balance-fractions}). Within
+each fraction, all 27 held-boundary cells returned one probability, which is the
+tabulated form of the exact lattice invariance that the paired assertions
+checked, whereas the 27 endogenous cells spanned the stated range. Reporting
+both columns separates the fraction dependence of the transition from the
+balance-sheet dependence that only the endogenous boundary transmits.
+
+\begin{center}
+\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Selected paired-switch campaign on a $64\times64$ lattice with an
+unlimited dealer and an endogenous boundary. Transition probability is the
+fraction of seeds whose peak interior Sell fraction reached one half after
+activation. Median onset is taken over crossing seeds and is undefined where no
+seed crossed.}
+\label{tab:paired-switch}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+ & & \multicolumn{2}{c}{Transition probability} & \\
+\cmidrule(lr){3-4}
+Fraction $f$ & Seeds & No-switch & Switched & Median onset (steps) \\
+\midrule
+0.10 & 50 & 0.00 & 0.00 & --- \\
+0.15 & 50 & 0.00 & 0.00 & --- \\
+0.20 & 50 & 0.00 & 1.00 & 1{,}044.5 \\
+0.25 & 50 & 0.00 & 1.00 & 311.5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Finite-size response over 50 seeds and 3,000 post-activation steps.
+The midpoint and the width come from linear interpolation of the sampled
+transition curve, and the susceptibility columns give the peak of $\chi_L$ and
+the fraction at which it occurred.}
+\label{tab:finite-size-scaling}
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Boundary & $h$ & $L$ & $f_{50}$ & $f_{75}-f_{25}$ & $f$ at peak & Peak $\chi_L$ \\
+\midrule
+Endogenous & $1$ & 32 & 0.2100 & 0.0240 & 0.225 & 22.8 \\
+Endogenous & $1$ & 48 & 0.1858 & 0.0155 & 0.190 & 41.3 \\
+Endogenous & $1$ & 64 & 0.1753 & 0.0081 & 0.190 & 57.9 \\
+Endogenous & $1$ & 96 & 0.1665 & 0.0097 & 0.170 & 126.5 \\
+Endogenous & $1$ & 128 & 0.1650 & 0.0063 & 0.170 & 157.2 \\
+\midrule
+Endogenous & $\infty$ & 32 & 0.2132 & 0.0256 & 0.225 & 23.9 \\
+Endogenous & $\infty$ & 48 & 0.1879 & 0.0185 & 0.190 & 52.0 \\
+Endogenous & $\infty$ & 64 & 0.1787 & 0.0093 & 0.185 & 90.3 \\
+Endogenous & $\infty$ & 96 & 0.1665 & 0.0096 & 0.170 & 173.4 \\
+Endogenous & $\infty$ & 128 & 0.1655 & 0.0063 & 0.170 & 181.8 \\
+\midrule
+Held & $\infty$ & 32 & 0.2181 & 0.0275 & 0.225 & 21.2 \\
+Held & $\infty$ & 48 & 0.1926 & 0.0191 & 0.190 & 48.6 \\
+Held & $\infty$ & 64 & 0.1777 & 0.0150 & 0.185 & 110.5 \\
+Held & $\infty$ & 96 & 0.1681 & 0.0101 & 0.170 & 163.7 \\
+Held & $\infty$ & 128 & 0.1665 & 0.0082 & 0.170 & 232.7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Transition probability in the cash--share campaign over 50 seeds. Each
+fraction contains 27 held-boundary cells, which returned one common value, and
+27 endogenous cells spanning the stated range across the three-by-three
+cash--share grid and three dealer capacities.}
+\label{tab:balance-fractions}
+\small
+\begin{tabular}{rrl}
+\toprule
+Fraction $f$ & Held boundary & Endogenous range \\
+\midrule
+0.170 & 0.22 & 0.08--0.52 \\
+0.175 & 0.34 & 0.24--0.82 \\
+0.180 & 0.64 & 0.50--0.94 \\
+0.185 & 0.70 & 0.64--0.98 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 The repository retained the earlier external-price classroom implementation
 and its archived Invesco QQQ exchange-traded fund input for provenance. No
 result from that model entered the principal analysis or figures.
