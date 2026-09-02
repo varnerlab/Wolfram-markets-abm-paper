@@ -73,28 +73,33 @@
 \maketitle
 
 \begin{abstract}
-Whether activating a new local behavior can destabilize a market model that was
+Whether activating a new local behavior can destabilize a market that was
 stable immediately before the change is a causal question that separately
-initialized parameter sweeps cannot answer. We tested it in a deterministic
-cellular automaton whose agents held Buy, Hold, or Sell states and whose
-baseline and activated rules differed at one neighborhood sum. Each paired
-experiment ran both paths under the baseline rule for 1,000 steps and then
-switched a preselected fraction of sites in one path without resetting any
-dynamic state, while the matched path kept every site under the baseline rule.
-None of the matched no-switch controls reached a Sell majority. With price
-feedback and an unlimited dealer, switching 10\% or 15\% of sites caused no
-transitions, whereas switching 20\% or 25\% caused all 50 runs to transition. Sell-majority transitions persisted when boundary
-traders were held in the Hold state, showing that the local rule dynamics did
-not require price feedback. Across lattice sizes 32--128, the activated
-fraction associated with 50\% transition probability fell from 0.218 to 0.166,
-and the transition width narrowed from 0.0275 to 0.0082. This finite-time
-crossover sharpened with size but did not establish an equilibrium critical
-point. Dealer capacity primarily controlled the price response. At 20\%
-activation, median drawdown rose from 0.40\% with capacity of 0.1 unit per
-trader to 3.92\% with one unit per trader and 25.3\% with unlimited capacity.
-Separate cash and inventory interventions confirmed that trader eligibility
-and dealer capacity constrained different stages between a desired order and
-its effect on price.
+initialized parameter sweeps cannot answer. Execution poses a second gap,
+because most interaction models compress the path from a desired trade to a
+price change into a single stage. We addressed both in a deterministic
+cellular automaton whose agents held Buy, Hold, or Sell states on a lattice
+and updated from their nearest neighbors under a totalistic rule, with the
+baseline and activated rules differing at exactly one neighborhood sum. Each
+paired experiment evolved two identical paths under the baseline rule, then
+switched a preselected fraction of interior sites in one path without
+resetting any dynamic state, while the matched path continued unchanged. Agent
+states generated unit orders, trader cash and inventory decided eligibility,
+an explicit dealer absorbed unmatched flow up to a capacity set per trader and
+rejected the rest, and executed imbalance moved the price, which re-entered
+the lattice through traders on the perimeter. Holding those perimeter traders
+inactive removed price feedback without changing the interior rules or the
+financial bookkeeping. No matched control reached a Sell majority, whereas
+switched paths converted the lattice above a narrow band of activated
+fractions, and the transitions persisted once price feedback was removed,
+which located the instability in the local rule dynamics rather than in
+prices. Enlarging the lattice sharpened the crossover without establishing an
+equilibrium critical point over the sampled sizes and horizon. Dealer capacity
+instead governed how strongly the imbalance moved the price, and separate cash
+and inventory interventions distinguished trader eligibility from dealer
+capacity as constraints on different stages between a desired order and its
+effect on price. An unlimited counterparty is therefore a consequential
+modeling assumption rather than a neutral execution convention.
 \end{abstract}
 
 \input{sections/introduction}
