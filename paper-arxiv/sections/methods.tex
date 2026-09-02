@@ -146,31 +146,28 @@ sites on Rule~19280, and neither path reset the lattice, quote, adaptive
 bands, trader books, or dealer. Because the two paths were identical through
 the full lattice state $X_{T_{\rm pre}}$ and the next quote came from that
 common state, the first possible difference occurred during the following
-interior update. We verified these pre-switch equalities bit for bit for
-every pair.
-
-We ran four production campaigns (Table~\ref{tab:campaigns}), and every
-campaign used 3,000 post-activation steps, 50 seeds, and traders that began
-with cash 1,000 and 10 shares. The selected paired-switch campaign used $L=64$,
-an unlimited dealer, an endogenous boundary, and $f\in\{0.10,0.15,0.20,0.25\}$.
-The dealer-capacity screen kept $L=64$, sampled the fraction grid 0.10, 0.15,
-0.175, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210, 0.225, and 0.250, and took
-dealer capacity values 0, 0.1, 0.5, 1, 2, 5, 10, and $\infty$ under endogenous
-and held boundaries. The finite-size experiment used $L\in\{32,48,64,96,128\}$,
-sampled 12 fractions from 0.140 to 0.250, and ran three conditions: a held
-boundary with $h=\infty$, an endogenous boundary with $h=\infty$, and an
-endogenous boundary with $h=1$. Because $h$ was defined per trader, absolute
-dealer capacity scaled with lattice size. The balance-sheet experiment changed
-trader funding and sell inventory at the same top-of-step event as rule
-activation by multiplying current cash and current shares independently by
-$g_w,g_q\in\{0.1,1,10\}$ and rounding shares to integers. The full $3\times3$
-design was crossed with $f\in\{0.170,0.175,0.180,0.185\}$,
-$h\in\{0.1,1,\infty\}$, and both boundary conditions. All nine interventions
-within a $(f,h,\text{boundary},\text{seed})$ cell shared an identical
-pre-intervention path, and under the held boundary their full lattice paths
-also had to remain identical after the intervention. That equality supplied an
-exact null test for a direct effect of financial variables on the interior
-rule.
+interior update, and we verified these pre-switch equalities bit for bit for
+every pair. Four production campaigns used this protocol
+(Table~\ref{tab:campaigns}), each with 3,000 post-activation steps, 50 seeds,
+and traders that began with cash 1,000 and 10 shares. The selected
+paired-switch campaign used $L=64$, an unlimited dealer, an endogenous
+boundary, and $f\in\{0.10,0.15,0.20,0.25\}$. The dealer-capacity screen kept
+$L=64$, sampled the fraction grid 0.10, 0.15, 0.175, 0.185, 0.190, 0.195,
+0.200, 0.205, 0.210, 0.225, and 0.250, and took dealer capacities 0, 0.1, 0.5,
+1, 2, 5, 10, and $\infty$ under both boundaries. The finite-size experiment
+used $L\in\{32,48,64,96,128\}$ with 12 fractions from 0.140 to 0.250 under a
+held boundary with $h=\infty$ and endogenous boundaries with $h=\infty$ and
+$h=1$, so absolute dealer capacity, defined per trader, scaled with lattice
+size. The balance-sheet experiment multiplied current cash and current shares
+independently by $g_w,g_q\in\{0.1,1,10\}$ at the same top-of-step event as
+rule activation, rounded
+shares to integers, and crossed the nine multiplier pairs with
+$f\in\{0.170,0.175,0.180,0.185\}$, $h\in\{0.1,1,\infty\}$, and both
+boundaries. All nine interventions within a $(f,h,\text{boundary},\text{seed})$
+cell shared an identical pre-intervention path, and under the held boundary
+their full lattice paths also had to remain identical afterward, which
+supplied an exact null test for a direct effect of financial variables on the
+interior rule.
 
 All simulations ran in Julia 1.12 with the package environment pinned by the
 repository manifest, using 12 simulation threads and one garbage-collection
@@ -178,11 +175,10 @@ thread. A seeded Xoshiro generator~\cite{blackman2021scrambled} produced the
 setup draws, the finite-size and balance-sheet campaigns wrote an atomic
 checkpoint per cell and resumed from it, and aggregation reconstructed a fixed
 row order, so thread scheduling and restart order did not alter the results.
-Unit tests covered parameter validation, finite-dealer
-limits, time-varying priorities, conservation, delayed rule activation, the
-held-boundary control, and the unlimited-dealer limit, in which every
-eligible order executes.
-Step-by-step tests also compared the optimized CA kernel with the general
+Unit tests covered parameter validation, finite-dealer limits, time-varying
+priorities, conservation, delayed rule activation, the held-boundary control,
+and the unlimited-dealer limit in which every eligible order executes, and
+step-by-step tests compared the optimized CA kernel with the general
 totalistic solver under homogeneous and heterogeneous rule fields. The code,
 environment manifest, derived data, and figure scripts are available at
 \url{https://github.com/varnerlab/Wolfram-markets-abm-paper}.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 15:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 16:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -998,7 +998,7 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 [4]
 
 [5]) (./sections/results.tex
-<figs/Fig1-RuleQuench.pdf, id=272, 1003.75pt x 1003.75pt>
+<figs/Fig1-RuleQuench.pdf, id=273, 1003.75pt x 1003.75pt>
 File: figs/Fig1-RuleQuench.pdf Graphic file (type pdf)
 <use figs/Fig1-RuleQuench.pdf>
 Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 27.
@@ -1114,7 +1114,7 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on Paper_v1.pdf (25 pages, 1104286 bytes).
+Output written on Paper_v1.pdf (25 pages, 1104172 bytes).
 PDF statistics:
  763 PDF objects out of 1000 (max. 8388607)
  665 compressed objects within 7 object streams
