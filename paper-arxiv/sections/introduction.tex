@@ -25,16 +25,25 @@ Agent-based models of financial markets generate such episodes from the
 interaction of heterogeneous participants rather than from a return process
 prescribed in
 advance~\cite{lebaron2000agent,lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,farmer2009economy,bookstaber2017agent,arthur2021complexity,farmer2025quantitative,axtell2025agent}.
-Herding, imitation, and adaptive-strategy models make the amplification
-mechanism explicit, since a local change in behavior spreads through neighbors
+Fundamentalist and chartist populations, minority games, and adaptive
+strategies in these models reproduce the heavy tails and volatility clustering
+of the empirical
+record~\cite{lux1999scaling,challet1997minority,farmer2002price,hommes2006heterogeneous}.
+Herding and imitation models make the amplification mechanism explicit, since a local change in behavior spreads through neighbors
 or through a shared price signal until it moves the
 aggregate~\cite{kirman1993ants,brock1998heterogeneous,lux1999scaling,lebaron1999time,cont2000herd,lux2000volatility,farmer2002price,harras2012noise,chen2015herding}.
 Statistical-physics models represent the same coordination through interacting
 spins or opinions and show how coupling strength, noise, or population
 composition can organize a market-wide
-transition~\cite{bak1997price,chowdhury2000statistical,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative,kaizoji2002dynamics,sznajd2002simple,takaishi2005simulations,sornette2006importance,zhou2007selforganizing,castellano2009statistical,sornette2014physics}.
-In each of these models, a sweep over a coupling, noise, or population
-parameter identifies the settings that produce a transition. The sweeps
+transition~\cite{bak1997price,chowdhury2000statistical,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative,sznajd2002simple,sornette2006importance,zhou2007selforganizing,castellano2009statistical,sornette2014physics},
+and three-state variants add an inactive state between buying and
+selling~\cite{kaizoji2002dynamics,takaishi2005simulations}. Interaction
+structure shapes the route to coordination in all of these models, because
+global coupling, random graphs, and local lattices propagate a behavioral
+change
+differently~\cite{lebaron2006agent,battiston2016complexity,alfarano2009network}.
+A sweep over a coupling, noise, or population parameter then identifies the
+settings that produce a transition. The sweeps
 nevertheless initialize each parameter value
 separately~\cite{lux1999scaling,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative},
 so they can show that two settings differ but cannot show that a new behavior
@@ -50,7 +59,9 @@ unperturbed copy of the same
 lattice~\cite{kauffman1969metabolic,derrida1986phase,derrida1987dynamical,stanley1987dynamics,grassberger1995damage,hinrichsen2000nonequilibrium}.
 The first question of this study was therefore whether activating one local
 rule in the middle of a run could destabilize a market model that was stable
-immediately before the change.
+immediately before the change, which is a narrower question than whether the
+model reproduces the full set of empirical market
+statistics~\cite{cont2001empirical}.
 
 Execution constraints pose a second gap, because the path from a desired trade
 to a price change passes through stages that most interaction models compress

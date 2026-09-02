@@ -206,6 +206,24 @@ Robert~L. Axtell and J.~Doyne Farmer.
   197--287, 2025.
 \newblock \doi{10.1257/jel.20221319}.
 
+\bibitem[Lux and Marchesi(1999)]{lux1999scaling}
+Thomas Lux and Michele Marchesi.
+\newblock Scaling and criticality in a stochastic multi-agent model of a
+  financial market.
+\newblock \emph{Nature}, 397:\penalty0 498--500, 1999.
+
+\bibitem[Challet and Zhang(1997)]{challet1997minority}
+D.~Challet and Y.-C. Zhang.
+\newblock Emergence of cooperation and organization in an evolutionary game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  246:\penalty0 407--418, 1997.
+
+\bibitem[Farmer and Joshi(2002)]{farmer2002price}
+J.~Doyne Farmer and Shareen Joshi.
+\newblock The price dynamics of common trading strategies.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 49\penalty0
+  (2):\penalty0 149--171, 2002.
+
 \bibitem[Kirman(1993)]{kirman1993ants}
 A.~Kirman.
 \newblock Ants, rationality, and recruitment.
@@ -220,12 +238,6 @@ William~A. Brock and Cars~H. Hommes.
 \newblock \emph{Journal of Economic Dynamics and Control}, 22\penalty0
   (8-9):\penalty0 1235--1274, 1998.
 \newblock \doi{10.1016/s0165-1889(98)00011-6}.
-
-\bibitem[Lux and Marchesi(1999)]{lux1999scaling}
-Thomas Lux and Michele Marchesi.
-\newblock Scaling and criticality in a stochastic multi-agent model of a
-  financial market.
-\newblock \emph{Nature}, 397:\penalty0 498--500, 1999.
 
 \bibitem[LeBaron et~al.(1999)LeBaron, Arthur, and Palmer]{lebaron1999time}
 Blake LeBaron, W.~Brian Arthur, and Richard Palmer.
@@ -247,12 +259,6 @@ Thomas Lux and Michele Marchesi.
 \newblock \emph{International Journal of Theoretical and Applied Finance},
   3\penalty0 (4):\penalty0 675--702, 2000.
 \newblock \doi{10.1142/s0219024900000826}.
-
-\bibitem[Farmer and Joshi(2002)]{farmer2002price}
-J.~Doyne Farmer and Shareen Joshi.
-\newblock The price dynamics of common trading strategies.
-\newblock \emph{Journal of Economic Behavior \& Organization}, 49\penalty0
-  (2):\penalty0 149--171, 2002.
 
 \bibitem[Harras and Sornette(2012)]{harras2012noise}
 Georges Harras and Didier Sornette.
@@ -298,27 +304,11 @@ Taisei Kaizoji.
 \newblock \emph{Physica A: Statistical Mechanics and its Applications},
   287:\penalty0 493--506, 2000.
 
-\bibitem[Kaizoji et~al.(2002)Kaizoji, Bornholdt, and
-  Fujiwara]{kaizoji2002dynamics}
-Taisei Kaizoji, Stefan Bornholdt, and Yoshi Fujiwara.
-\newblock Dynamics of price and trading volume in a spin model of stock markets
-  with heterogeneous agents.
-\newblock \emph{Physica A: Statistical Mechanics and its Applications},
-  316\penalty0 (1-4):\penalty0 441--452, 2002.
-\newblock \doi{10.1016/s0378-4371(02)01216-5}.
-
 \bibitem[Sznajd-Weron and Weron(2002)]{sznajd2002simple}
 Katarzyna Sznajd-Weron and Rafal Weron.
 \newblock A simple model of price formation.
 \newblock \emph{International Journal of Modern Physics C}, 13\penalty0
   (1):\penalty0 115--123, 2002.
-
-\bibitem[Takaishi(2005)]{takaishi2005simulations}
-Tetsuya Takaishi.
-\newblock Simulations of financial markets in a {Potts}-like model.
-\newblock \emph{International Journal of Modern Physics C}, 16\penalty0
-  (08):\penalty0 1311--1317, 2005.
-\newblock \doi{10.1142/s0129183105007923}.
 
 \bibitem[Sornette and Zhou(2006)]{sornette2006importance}
 Didier Sornette and Wei-Xing Zhou.
@@ -350,6 +340,38 @@ Didier Sornette.
 \newblock \emph{Reports on Progress in Physics}, 77\penalty0 (6):\penalty0
   062001, 2014.
 \newblock \doi{10.1088/0034-4885/77/6/062001}.
+
+\bibitem[Kaizoji et~al.(2002)Kaizoji, Bornholdt, and
+  Fujiwara]{kaizoji2002dynamics}
+Taisei Kaizoji, Stefan Bornholdt, and Yoshi Fujiwara.
+\newblock Dynamics of price and trading volume in a spin model of stock markets
+  with heterogeneous agents.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  316\penalty0 (1-4):\penalty0 441--452, 2002.
+\newblock \doi{10.1016/s0378-4371(02)01216-5}.
+
+\bibitem[Takaishi(2005)]{takaishi2005simulations}
+Tetsuya Takaishi.
+\newblock Simulations of financial markets in a {Potts}-like model.
+\newblock \emph{International Journal of Modern Physics C}, 16\penalty0
+  (08):\penalty0 1311--1317, 2005.
+\newblock \doi{10.1142/s0129183105007923}.
+
+\bibitem[Battiston et~al.(2016)Battiston, Farmer, Flache, Garlaschelli,
+  Haldane, Heesterbeek, Hommes, Jaeger, May, and
+  Scheffer]{battiston2016complexity}
+Stefano Battiston, J~Doyne Farmer, Andreas Flache, Diego Garlaschelli, Andrew~G
+  Haldane, Hans Heesterbeek, Cars Hommes, Carlo Jaeger, Robert May, and Marten
+  Scheffer.
+\newblock Complexity theory and financial regulation.
+\newblock \emph{Science}, 351\penalty0 (6275):\penalty0 818--819, 2016.
+
+\bibitem[Alfarano and Milakovi{\'c}(2009)]{alfarano2009network}
+Simone Alfarano and Mishael Milakovi{\'c}.
+\newblock Network structure and {N}-dependence in agent-based herding models.
+\newblock \emph{Journal of Economic Dynamics and Control}, 33\penalty0
+  (1):\penalty0 78--92, 2009.
+\newblock \doi{10.1016/j.jedc.2008.05.003}.
 
 \bibitem[Rubin(1974)]{rubin1974estimating}
 Donald~B. Rubin.
@@ -901,13 +923,6 @@ E.~Egenter, T.~Lux, and D.~Stauffer.
   268\penalty0 (1-2):\penalty0 250--256, 1999.
 \newblock \doi{10.1016/s0378-4371(99)00059-x}.
 
-\bibitem[Alfarano and Milakovi{\'c}(2009)]{alfarano2009network}
-Simone Alfarano and Mishael Milakovi{\'c}.
-\newblock Network structure and {N}-dependence in agent-based herding models.
-\newblock \emph{Journal of Economic Dynamics and Control}, 33\penalty0
-  (1):\penalty0 78--92, 2009.
-\newblock \doi{10.1016/j.jedc.2008.05.003}.
-
 \bibitem[Alfi et~al.(2009)Alfi, Cristelli, Pietronero, and
   Zaccaria]{alfi2009mechanisms}
 V.~Alfi, M.~Cristelli, L.~Pietronero, and A.~Zaccaria.
@@ -923,21 +938,6 @@ David~P. Landau and Kurt Binder.
 \newblock Cambridge University Press, Cambridge, 5 edition, 2021.
 \newblock ISBN 9781108490146.
 \newblock \doi{10.1017/9781108780346}.
-
-\bibitem[Challet and Zhang(1997)]{challet1997minority}
-D.~Challet and Y.-C. Zhang.
-\newblock Emergence of cooperation and organization in an evolutionary game.
-\newblock \emph{Physica A: Statistical Mechanics and its Applications},
-  246:\penalty0 407--418, 1997.
-
-\bibitem[Battiston et~al.(2016)Battiston, Farmer, Flache, Garlaschelli,
-  Haldane, Heesterbeek, Hommes, Jaeger, May, and
-  Scheffer]{battiston2016complexity}
-Stefano Battiston, J~Doyne Farmer, Andreas Flache, Diego Garlaschelli, Andrew~G
-  Haldane, Hans Heesterbeek, Cars Hommes, Carlo Jaeger, Robert May, and Marten
-  Scheffer.
-\newblock Complexity theory and financial regulation.
-\newblock \emph{Science}, 351\penalty0 (6275):\penalty0 818--819, 2016.
 
 \bibitem[Shefrin and Statman(1985)]{shefrin1985disposition}
 Hersh Shefrin and Meir Statman.

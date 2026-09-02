@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 14:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 14:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -991,14 +991,14 @@ Package microtype Info: Loading generic protrusion settings for font family
 al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 /texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 
-[2]) (./sections/relatedwork.tex)
+[2]) (./sections/methods.tex
 
-[3] (./sections/methods.tex
+[3]
 
 [4]
 
 [5]) (./sections/results.tex
-<figs/Fig1-RuleQuench.pdf, id=294, 1003.75pt x 1003.75pt>
+<figs/Fig1-RuleQuench.pdf, id=287, 1003.75pt x 1003.75pt>
 File: figs/Fig1-RuleQuench.pdf Graphic file (type pdf)
 <use figs/Fig1-RuleQuench.pdf>
 Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 28.
@@ -1008,21 +1008,21 @@ Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 28.
 [6]
 
 [7 <./figs/Fig1-RuleQuench.pdf>]
-<figs/Fig2-ReservoirQuench.pdf, id=320, 943.525pt x 732.7375pt>
+<figs/Fig2-ReservoirQuench.pdf, id=312, 943.525pt x 732.7375pt>
 File: figs/Fig2-ReservoirQuench.pdf Graphic file (type pdf)
 <use figs/Fig2-ReservoirQuench.pdf>
 Package pdftex.def Info: figs/Fig2-ReservoirQuench.pdf  used on input line 81.
 (pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
-
-
-[8 <./figs/Fig2-ReservoirQuench.pdf>]
-<figs/Fig3-FiniteSizeQuench.pdf, id=335, 943.525pt x 732.7375pt>
+<figs/Fig3-FiniteSizeQuench.pdf, id=317, 943.525pt x 732.7375pt>
 File: figs/Fig3-FiniteSizeQuench.pdf Graphic file (type pdf)
 <use figs/Fig3-FiniteSizeQuench.pdf>
 Package pdftex.def Info: figs/Fig3-FiniteSizeQuench.pdf  used on input line 116
 .
 (pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
-<figs/Fig4-DoseMarketPanels.pdf, id=339, 1003.75pt x 1254.6875pt>
+
+
+[8 <./figs/Fig2-ReservoirQuench.pdf>]
+<figs/Fig4-DoseMarketPanels.pdf, id=331, 1003.75pt x 1254.6875pt>
 File: figs/Fig4-DoseMarketPanels.pdf Graphic file (type pdf)
 <use figs/Fig4-DoseMarketPanels.pdf>
 Package pdftex.def Info: figs/Fig4-DoseMarketPanels.pdf  used on input line 150
@@ -1033,13 +1033,13 @@ Package pdftex.def Info: figs/Fig4-DoseMarketPanels.pdf  used on input line 150
 [9 <./figs/Fig3-FiniteSizeQuench.pdf>]
 
 [10 <./figs/Fig4-DoseMarketPanels.pdf>]
-<figs/Fig5-DealerMarketPanels.pdf, id=364, 1003.75pt x 1455.4375pt>
+<figs/Fig5-DealerMarketPanels.pdf, id=356, 1003.75pt x 1455.4375pt>
 File: figs/Fig5-DealerMarketPanels.pdf Graphic file (type pdf)
 <use figs/Fig5-DealerMarketPanels.pdf>
 Package pdftex.def Info: figs/Fig5-DealerMarketPanels.pdf  used on input line 1
 87.
 (pdftex.def)             Requested size: 389.53358pt x 564.82011pt.
-<figs/Fig6-BalanceSheetQuench.pdf, id=371, 1104.125pt x 652.4375pt>
+<figs/Fig6-BalanceSheetQuench.pdf, id=363, 1104.125pt x 652.4375pt>
 File: figs/Fig6-BalanceSheetQuench.pdf Graphic file (type pdf)
 <use figs/Fig6-BalanceSheetQuench.pdf>
 Package pdftex.def Info: figs/Fig6-BalanceSheetQuench.pdf  used on input line 2
@@ -1083,16 +1083,16 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 4095A087E1734DCAF8AECC79211FE17B;3307.
+(rerunfilecheck)             Checksum: 9FF36630F6B9F84CB9AC65FB89AE4F7C;3199.
  ) 
 Here is how much of TeX's memory you used:
- 27542 strings out of 473190
- 516113 string characters out of 5715801
- 923837 words of memory out of 5000000
- 49742 multiletter control sequences out of 15000+600000
+ 27532 strings out of 473190
+ 515867 string characters out of 5715801
+ 923836 words of memory out of 5000000
+ 49736 multiletter control sequences out of 15000+600000
  606228 words of font info for 280 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,87p,1005b,814s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,11n,87p,1005b,812s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
@@ -1112,10 +1112,10 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on Paper_v1.pdf (24 pages, 1099126 bytes).
+Output written on Paper_v1.pdf (24 pages, 1097001 bytes).
 PDF statistics:
- 752 PDF objects out of 1000 (max. 8388607)
- 655 compressed objects within 7 object streams
- 268 named destinations out of 1000 (max. 500000)
- 37563 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 743 PDF objects out of 1000 (max. 8388607)
+ 646 compressed objects within 7 object streams
+ 267 named destinations out of 1000 (max. 500000)
+ 37555 words of extra memory for PDF output out of 42996 (max. 10000000)
 
