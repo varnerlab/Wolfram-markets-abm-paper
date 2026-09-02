@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 16:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2026 17:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1039,12 +1039,12 @@ File: figs/Fig5-DealerMarketPanels.pdf Graphic file (type pdf)
 Package pdftex.def Info: figs/Fig5-DealerMarketPanels.pdf  used on input line 1
 89.
 (pdftex.def)             Requested size: 389.53358pt x 564.82011pt.
-<figs/Fig6-BalanceSheetQuench.pdf, id=349, 1104.125pt x 652.4375pt>
+<figs/Fig6-BalanceSheetQuench.pdf, id=351, 1104.125pt x 803.0pt>
 File: figs/Fig6-BalanceSheetQuench.pdf Graphic file (type pdf)
 <use figs/Fig6-BalanceSheetQuench.pdf>
 Package pdftex.def Info: figs/Fig6-BalanceSheetQuench.pdf  used on input line 2
-42.
-(pdftex.def)             Requested size: 393.51231pt x 232.52785pt.
+43.
+(pdftex.def)             Requested size: 393.51231pt x 286.18813pt.
 
 
 [11]
@@ -1088,13 +1088,13 @@ Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
 (rerunfilecheck)             Checksum: C23B3BB1C6A3F12A428FC94FBE0F24FE;2851.
  ) 
 Here is how much of TeX's memory you used:
- 27540 strings out of 473190
- 516060 string characters out of 5715801
- 923934 words of memory out of 5000000
+ 27546 strings out of 473190
+ 516114 string characters out of 5715801
+ 924411 words of memory out of 5000000
  49740 multiletter control sequences out of 15000+600000
- 606453 words of font info for 282 fonts, out of 8000000 for 9000
+ 606707 words of font info for 286 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,87p,1005b,840s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,11n,87p,1082b,832s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
@@ -1114,10 +1114,10 @@ e/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on Paper_v1.pdf (25 pages, 1104172 bytes).
+Output written on Paper_v1.pdf (25 pages, 1117189 bytes).
 PDF statistics:
- 763 PDF objects out of 1000 (max. 8388607)
- 665 compressed objects within 7 object streams
+ 753 PDF objects out of 1000 (max. 8388607)
+ 667 compressed objects within 7 object streams
  268 named destinations out of 1000 (max. 500000)
  37539 words of extra memory for PDF output out of 42996 (max. 10000000)
 
