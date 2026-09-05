@@ -502,6 +502,12 @@ Arguments
                   to Hold while retaining the identical RNG stream, trader
                   denominator, books, and fixed-boundary CA geometry. This is
                   the matched autonomous-CA ablation.
+- activation_action : `:rule` switches target rules; `:sell_pulse` instead
+                  writes Sell once at the same targets before orders, retaining
+                  the baseline rule. Requires delayed activation.
+- fixed_band_step : freeze the boundary decision deviation at its value just
+                  before this step; the center and diagnostic deviation continue
+                  updating. The pre-intervention path is unchanged.
 - verbose       : show a ProgressMeter bar (default true)
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
@@ -515,11 +521,19 @@ function simulate(
     minority_population::Symbol = :all_sites,
     rule_activation_step::Union{Nothing, Int64} = nothing,
     boundary_mode::Symbol = :endogenous,
+    activation_action::Symbol = :rule,
+    fixed_band_step::Union{Nothing, Int64} = nothing,
     verbose::Bool = true,
 )::MyModelBSimulationResult
 
     boundary_mode in (:endogenous, :hold) ||
         throw(ArgumentError("boundary_mode must be :endogenous or :hold"))
+    activation_action in (:rule, :sell_pulse) ||
+        throw(ArgumentError("activation_action must be :rule or :sell_pulse"))
+    activation_action == :sell_pulse && isnothing(rule_activation_step) &&
+        throw(ArgumentError("sell_pulse requires rule_activation_step"))
+    isnothing(fixed_band_step) || 1 <= fixed_band_step <= config.steps ||
+        throw(ArgumentError("fixed_band_step must lie in 1:steps"))
 
     nrows = config.number_of_rows
     ncols = config.number_of_cols
@@ -618,14 +632,23 @@ function simulate(
 
     μ = P0
     σ = 0.0
+    frozen_deviation = 0.0
     prog = verbose ? Progress(steps; desc = "Model B: ") : nothing
 
     for t in 1:steps
+        if !isnothing(fixed_band_step) && t == fixed_band_step
+            frozen_deviation = σ
+        end
         # --- optional rule quench: activate the preselected contrarian sites
         #     without changing any dynamical state or financial variable ---
         if !isnothing(rule_activation_step) && t == rule_activation_step
             for (i, rule) in zip(target_minor_indices, target_minor_rules)
-                agents[i].rule = rule
+                if activation_action == :rule
+                    agents[i].rule = rule
+                else
+                    r, c = world.states[i]
+                    grid[r, c] = 2
+                end
             end
         end
 
@@ -661,15 +684,17 @@ function simulate(
         σ = σ + α * (abs(P - μ) - σ)
         ema_price[t + 1]      = μ
         ema_volatility[t + 1] = σ
-        band_lower[t + 1]     = μ - k * σ      # nominal-k band, for plotting
-        band_upper[t + 1]     = μ + k * σ
+        decision_deviation = !isnothing(fixed_band_step) && t >= fixed_band_step ?
+                             frozen_deviation : σ
+        band_lower[t + 1]     = μ - k * decision_deviation
+        band_upper[t + 1]     = μ + k * decision_deviation
 
         # --- the newly generated price either drives the edge ring or is
         #     prevented from re-entering the lattice in the matched Hold
         #     boundary ablation ---
         if boundary_mode == :endogenous
             for i in 1:n_edge
-                e = compute_band_state(P, μ, σ, edge_k[i])
+                e = compute_band_state(P, μ, decision_deviation, edge_k[i])
                 edge_switches += (e != edge_now[i])
                 edge_now[i]    = e
             end

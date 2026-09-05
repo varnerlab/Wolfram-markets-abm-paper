@@ -177,7 +177,10 @@ endogenous-boundary lattice matched the held-boundary lattice. In the
 reservoir campaign, $h=10$ never rejected an order and reproduced the
 $h=\infty$ paths exactly. The $h=10$ equality held for the stated endowments
 and horizon and was not a general identity between finite and unlimited
-dealers.
+dealers. A longer horizon, larger trader endowments, or a different
+flow history could make this dealer's cash or inventory bind, breaking the
+equality; it is an observed equality for this campaign rather than a general
+identity between finite and unlimited capacity.
 
 \subsection{Campaign inventory}
 
@@ -220,8 +223,9 @@ the summary file writes onset zero for a path that never crossed, and we took
 median onset over crossing seeds alone, so it is undefined at the two lower
 fractions. The finite-size campaign supplies the interpolated midpoint
 $f_{50}(L)$, the width $f_{75}-f_{25}$, and the peak ensemble susceptibility
-with its location for all five sizes under the three boundary and dealer
-conditions (Table~\ref{tab:finite-size-scaling}). Linear interpolation of the
+for all five sizes under the three boundary and dealer
+conditions (Table~\ref{tab:finite-size-scaling}); sampled peak locations
+appear in Table~\ref{tab:revision-fits}. Linear interpolation of the
 sampled transition curve produced both the midpoint and the width, so each
 inherits the resolution of the fraction grid and describes the sampled
 finite-time response rather than an equilibrium quantity. The cash--share
@@ -260,35 +264,7 @@ Fraction $f$ & Seeds & No-switch & Switched & Median onset (steps) \\
 \begin{center}
 \centering
 \captionsetup{type=table,hypcap=false}
-\caption{Finite-size response over 50 seeds and 3,000 post-activation steps.
-The midpoint and the width come from linear interpolation of the sampled
-transition curve, and the susceptibility columns give the peak of $\chi_L$ and
-the fraction at which it occurred.}
-\label{tab:finite-size-scaling}
-\small
-\begin{tabular}{llrrrrr}
-\toprule
-Boundary & $h$ & $L$ & $f_{50}$ & $f_{75}-f_{25}$ & $f$ at peak & Peak $\chi_L$ \\
-\midrule
-Endogenous & $1$ & 32 & 0.2100 & 0.0240 & 0.225 & 22.8 \\
-Endogenous & $1$ & 48 & 0.1858 & 0.0155 & 0.190 & 41.3 \\
-Endogenous & $1$ & 64 & 0.1753 & 0.0081 & 0.190 & 57.9 \\
-Endogenous & $1$ & 96 & 0.1665 & 0.0097 & 0.170 & 126.5 \\
-Endogenous & $1$ & 128 & 0.1650 & 0.0063 & 0.170 & 157.2 \\
-\midrule
-Endogenous & $\infty$ & 32 & 0.2132 & 0.0256 & 0.225 & 23.9 \\
-Endogenous & $\infty$ & 48 & 0.1879 & 0.0185 & 0.190 & 52.0 \\
-Endogenous & $\infty$ & 64 & 0.1787 & 0.0093 & 0.185 & 90.3 \\
-Endogenous & $\infty$ & 96 & 0.1665 & 0.0096 & 0.170 & 173.4 \\
-Endogenous & $\infty$ & 128 & 0.1655 & 0.0063 & 0.170 & 181.8 \\
-\midrule
-Held & $\infty$ & 32 & 0.2181 & 0.0275 & 0.225 & 21.2 \\
-Held & $\infty$ & 48 & 0.1926 & 0.0191 & 0.190 & 48.6 \\
-Held & $\infty$ & 64 & 0.1777 & 0.0150 & 0.185 & 110.5 \\
-Held & $\infty$ & 96 & 0.1681 & 0.0101 & 0.170 & 163.7 \\
-Held & $\infty$ & 128 & 0.1665 & 0.0082 & 0.170 & 232.7 \\
-\bottomrule
-\end{tabular}
+\input{sections/finite-size-table}
 \end{center}
 
 \begin{center}
@@ -315,3 +291,5 @@ Fraction $f$ & Held boundary & Endogenous range \\
 The repository retained the earlier external-price classroom implementation
 and its archived Invesco QQQ exchange-traded fund input for provenance. No
 result from that model entered the principal analysis or figures.
+
+\input{sections/revision-controls}

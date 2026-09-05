@@ -1,4 +1,4 @@
-\begin{thebibliography}{141}
+\begin{thebibliography}{132}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -373,36 +373,6 @@ Simone Alfarano and Mishael Milakovi{\'c}.
   (1):\penalty0 78--92, 2009.
 \newblock \doi{10.1016/j.jedc.2008.05.003}.
 
-\bibitem[Rubin(1974)]{rubin1974estimating}
-Donald~B. Rubin.
-\newblock Estimating causal effects of treatments in randomized and
-  nonrandomized studies.
-\newblock \emph{Journal of Educational Psychology}, 66\penalty0 (5):\penalty0
-  688--701, 1974.
-\newblock \doi{10.1037/h0037350}.
-
-\bibitem[Holland(1986)]{holland1986statistics}
-Paul~W. Holland.
-\newblock Statistics and causal inference.
-\newblock \emph{Journal of the American Statistical Association}, 81\penalty0
-  (396):\penalty0 945--960, 1986.
-\newblock \doi{10.1080/01621459.1986.10478354}.
-
-\bibitem[Pearl(2009)]{pearl2009causality}
-Judea Pearl.
-\newblock \emph{Causality: models, reasoning, and inference}.
-\newblock Cambridge University Press, Cambridge, 2 edition, 2009.
-\newblock ISBN 9780521895606.
-\newblock \doi{10.1017/CBO9780511803161}.
-
-\bibitem[Kleijnen(1975)]{kleijnen1975antithetic}
-Jack P.~C. Kleijnen.
-\newblock Antithetic variates, common random numbers and optimal computer time
-  allocation in simulation.
-\newblock \emph{Management Science}, 21\penalty0 (10):\penalty0 1176--1185,
-  1975.
-\newblock \doi{10.1287/mnsc.21.10.1176}.
-
 \bibitem[Glasserman and Yao(1992)]{glasserman1992guidelines}
 Paul Glasserman and David~D. Yao.
 \newblock Some guidelines and guarantees for common random numbers.
@@ -414,50 +384,6 @@ Averill~M. Law.
 \newblock \emph{Simulation modeling and analysis}.
 \newblock McGraw-Hill Education, New York, 5 edition, 2015.
 \newblock ISBN 9780073401324.
-
-\bibitem[Kauffman(1969)]{kauffman1969metabolic}
-S.~A. Kauffman.
-\newblock Metabolic stability and epigenesis in randomly constructed genetic
-  nets.
-\newblock \emph{Journal of Theoretical Biology}, 22\penalty0 (3):\penalty0
-  437--467, 1969.
-\newblock \doi{10.1016/0022-5193(69)90015-0}.
-
-\bibitem[Derrida and Stauffer(1986)]{derrida1986phase}
-B.~Derrida and D.~Stauffer.
-\newblock Phase transitions in two-dimensional {Kauffman} cellular automata.
-\newblock \emph{Europhysics Letters}, 2\penalty0 (10):\penalty0 739--745, 1986.
-\newblock \doi{10.1209/0295-5075/2/10/001}.
-
-\bibitem[Derrida and Weisbuch(1987)]{derrida1987dynamical}
-B.~Derrida and G.~Weisbuch.
-\newblock Dynamical phase transitions in 3-dimensional spin glasses.
-\newblock \emph{Europhysics Letters}, 4\penalty0 (6):\penalty0 657--662, 1987.
-\newblock \doi{10.1209/0295-5075/4/6/004}.
-
-\bibitem[Stanley et~al.(1987)Stanley, Stauffer, Kert{\'e}sz, and
-  Herrmann]{stanley1987dynamics}
-H.~Eugene Stanley, Dietrich Stauffer, J{\'a}nos Kert{\'e}sz, and Hans~J.
-  Herrmann.
-\newblock Dynamics of spreading phenomena in two-dimensional {Ising} models.
-\newblock \emph{Physical Review Letters}, 59\penalty0 (20):\penalty0
-  2326--2328, 1987.
-\newblock \doi{10.1103/PhysRevLett.59.2326}.
-
-\bibitem[Grassberger(1995)]{grassberger1995damage}
-Peter Grassberger.
-\newblock Are damage spreading transitions generically in the universality
-  class of directed percolation?
-\newblock \emph{Journal of Statistical Physics}, 79\penalty0 (1-2):\penalty0
-  13--23, 1995.
-\newblock \doi{10.1007/BF02179381}.
-
-\bibitem[Hinrichsen(2000)]{hinrichsen2000nonequilibrium}
-Haye Hinrichsen.
-\newblock Non-equilibrium critical phenomena and phase transitions into
-  absorbing states.
-\newblock \emph{Advances in Physics}, 49\penalty0 (7):\penalty0 815--958, 2000.
-\newblock \doi{10.1080/00018730050198152}.
 
 \bibitem[Miller(1977)]{miller1977risk}
 Edward~M. Miller.
@@ -965,6 +891,13 @@ Edwin~B. Wilson.
 \newblock \emph{Journal of the American Statistical Association}, 22\penalty0
   (158):\penalty0 209--212, 1927.
 \newblock \doi{10.1080/01621459.1927.10502953}.
+
+\bibitem[Hinrichsen(2000)]{hinrichsen2000nonequilibrium}
+Haye Hinrichsen.
+\newblock Non-equilibrium critical phenomena and phase transitions into
+  absorbing states.
+\newblock \emph{Advances in Physics}, 49\penalty0 (7):\penalty0 815--958, 2000.
+\newblock \doi{10.1080/00018730050198152}.
 
 \bibitem[Kolmogorov(1937)]{kolmogorov1937statistical}
 Andrei~N. Kolmogorov.

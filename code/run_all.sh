@@ -27,6 +27,7 @@ run_tests() {
     run_julia model-a/Test-EdgeFraction.jl
     run_julia model-a/Test-FiniteSizeScaling.jl
     run_julia model-b/Test-ModelB.jl
+    run_julia revision/Test-Revision.jl
     run_julia model-b/Test-EscapeTime.jl
     run_julia model-b/Test-BoundaryVsBulk.jl
 }
@@ -38,8 +39,22 @@ run_compute() {
     run_julia model-b/Compute-ModelB-BalanceSheetQuench.jl --full
 }
 
+run_revision() {
+    run_julia revision/Test-Revision.jl
+    run_julia revision/Compute-Controls.jl
+    run_julia revision/Compute-Refinement.jl
+    run_julia revision/Compute-Horizons.jl
+    python3 revision/Analyze-Revision.py
+    python3 revision/Write-Revision-Tables.py
+    python3 revision/Check-Revision-Data.py
+}
+
 run_figures() {
     run_julia model-b/Compute-ModelB-RuleQuench.jl --full --plot-only
+    python3 revision/Analyze-Revision.py
+    python3 revision/Write-Revision-Tables.py
+    python3 revision/Check-Revision-Data.py
+    run_julia model-b/Tables-ModelB-Supplement.jl
     run_julia model-b/Figs-ModelB-ReservoirQuench.jl
     run_julia model-b/Figs-ModelB-MarketPanels.jl
     run_julia model-b/Figs-ModelB-FiniteSizeQuench.jl
@@ -51,16 +66,20 @@ case "$MODE" in
     tests)
         run_tests
         ;;
+    revision)
+        run_revision
+        ;;
     figures)
         run_figures
         ;;
     all)
         run_tests
         run_compute
+        run_revision
         run_figures
         ;;
     *)
-        echo "Usage: bash code/run_all.sh {tests|figures|all}" >&2
+        echo "Usage: bash code/run_all.sh {tests|revision|figures|all}" >&2
         exit 2
         ;;
 esac

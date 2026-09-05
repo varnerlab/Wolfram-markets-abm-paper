@@ -1,0 +1,204 @@
+\subsection{Review-motivated controls and sensitivity analyses}
+\label{sec:revision-controls}
+
+These follow-up experiments retain the original initialization and 1,000-step
+baseline. Unless specified otherwise, they use $L=64$, $\lambda=0.02$,
+$h=\infty$, and 3,000 post-intervention steps. Every new rule or pulse arm
+is paired with a dormant baseline arm, with pre-intervention lattice and
+Sell histories checked exactly; financial arms additionally check the price
+prehistory. Held-boundary experiments that need only lattice observables use
+an allocation-free kernel with the production setup draws and rule tables.
+Tests match its full Sell history and final grid to the market simulator;
+1,800 overlapping archived seed/fraction outcomes also agree. This exact
+reduction does not supply financial observables.
+
+\paragraph{Matched transient perturbation and rule screen.}
+At activation, the pulse arm writes Sell once at exactly the sites selected
+for the rule switch, before orders execute, and subsequently keeps Rule~19280
+everywhere. This changes a state rather than a response table, so its first
+post-intervention quote can differ immediately. Fractions match the target
+site count, not the number of states actually changed: sites already in Sell
+remain Sell. The persistent switch instead leaves the first quote unchanged.
+For $f=0.15,0.20,0.25$, under both held and endogenous boundaries, no pulse
+reached a Sell majority in 50 seeds (0/50; Wilson upper bound 0.071).
+Persistent Rule~19286 activation yielded 0/50, 50/50, and 50/50,
+respectively (the Wilson lower bound for 50/50 is 0.929).
+These controls distinguish the persistent rule mechanism from this matched
+transient perturbation; they do not rule out every possible state perturbation.
+
+The exploratory rule screen changes each of the nine entries to both
+alternative outputs, covering all 18 single-entry neighbors of Rule~19280.
+It uses 20 seeds at each of the same three fractions under both boundaries
+(Table~\ref{tab:revision-rules}). Outcomes vary with the changed entry and its
+output; additional transition-producing variants show that $c=1$ is not the
+only effective entry. With 20 seeds, an observed 0/20 has Wilson upper bound
+0.161 and 20/20 has lower bound 0.839. The screen is descriptive, does not
+adjust for multiple comparisons, and does not establish a universal class of
+activation thresholds.
+\begin{center}
+\captionsetup{type=table,hypcap=false}
+\caption{Single-entry neighbors of Rule~19280. Each probability pair is held / endogenous boundary over 20 seeds; the intervention is persistent. The output labels are Buy $=0$, Hold $=1$, Sell $=2$.}
+\label{tab:revision-rules}
+\small
+\begin{tabular}{rrrrrr}
+\toprule
+Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$ \\
+\midrule
+0 & 2 $\to$ 0 & 19278 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+0 & 2 $\to$ 1 & 19279 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+1 & 0 $\to$ 1 & 19283 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+1 & 0 $\to$ 2 & 19286 & 0.00 / 0.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+2 & 0 $\to$ 1 & 19289 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+2 & 0 $\to$ 2 & 19298 & 0.95 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+3 & 0 $\to$ 1 & 19307 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+3 & 0 $\to$ 2 & 19334 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+4 & 1 $\to$ 0 & 19199 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+4 & 1 $\to$ 2 & 19361 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+5 & 1 $\to$ 0 & 19037 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+5 & 1 $\to$ 2 & 19523 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+6 & 2 $\to$ 0 & 17822 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+6 & 2 $\to$ 1 & 18551 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+7 & 2 $\to$ 0 & 14906 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+7 & 2 $\to$ 1 & 17093 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+8 & 2 $\to$ 0 & 6158 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+8 & 2 $\to$ 1 & 12719 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Frozen band and non-monotone dealer response.}
+The fixed-band control freezes the decision deviation at its value immediately
+before activation, retaining each trader's $k_j$ and continuing to update the
+moving center. Thus the absolute half-width $k_j\sigma_{1000}$ is constant
+within each path, while the diagnostic deviation still evolves. Each frozen
+arm retains its adaptive arm's exact prehistory. Frozen widths vary across
+seeds and capacities; this is a test of post-switch adaptation, not a test
+with a common absolute width imposed on every market.
+At $f=0.175$, the $h=0.1$ minus $h=\infty$ transition contrast changes from
+0.38 under adaptation to -0.02 with frozen widths.
+The paired difference of these contrasts is 0.40
+(95\% seed-bootstrap interval [0.16, 0.64]). The low-capacity advantage
+therefore depends on adaptive feedback in this control, but the frozen
+capacity response remains non-monotone and its individual probabilities have
+wide intervals. Boundary Sell occupancy also changes
+(Table~\ref{tab:revision-band}); this supports a feedback-mediated
+interpretation without isolating a unique microscopic cause.
+\begin{center}
+\captionsetup{type=table,hypcap=false}
+\caption{Band-deviation control at $f=0.175$ over 50 seeds. Probability brackets are 95\% Wilson intervals. Boundary Sell occupancy is the mean fraction of active boundary traders in Sell over post-switch steps and seeds.}
+\label{tab:revision-band}
+\small
+\begin{tabular}{rllll}
+\toprule
+$h$ & Adaptive $p$ [95\% CI] & Frozen $p$ [95\% CI] & Adaptive Sell & Frozen Sell \\
+\midrule
+0 & 0.34 [0.22, 0.48] & 0.34 [0.22, 0.48] & 0.000 & 0.000 \\
+0.1 & 0.66 [0.52, 0.78] & 0.50 [0.37, 0.63] & 0.154 & 0.038 \\
+0.5 & 0.56 [0.42, 0.69] & 0.30 [0.19, 0.44] & 0.158 & 0.045 \\
+1 & 0.48 [0.35, 0.61] & 0.42 [0.29, 0.56] & 0.142 & 0.058 \\
+2 & 0.30 [0.19, 0.44] & 0.56 [0.42, 0.69] & 0.096 & 0.107 \\
+5 & 0.30 [0.19, 0.44] & 0.52 [0.39, 0.65] & 0.136 & 0.271 \\
+10 & 0.28 [0.17, 0.42] & 0.52 [0.39, 0.65] & 0.113 & 0.189 \\
+$\infty$ & 0.28 [0.17, 0.42] & 0.52 [0.39, 0.65] & 0.113 & 0.189 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Price-impact sensitivity.}
+At $f=0.20$, $\lambda\in\{0.005,0.02,0.05\}$ spans a decade and
+$h\in\{0.1,1,\infty\}$ spans three execution regimes. All 50 seeds transition
+in every cell. Median drawdown remains ordered in $h$ for each coefficient,
+but varies substantially with $\lambda$ (Table~\ref{tab:revision-impact}).
+This supports the reported ordering within this range, while showing that the
+price magnitudes are not calibrated or invariant to the impact choice.
+\begin{center}
+\captionsetup{type=table,hypcap=false}
+\caption{Price-impact sweep at $f=0.20$ under the endogenous boundary, 50 seeds per cell. Drawdown is a percentage; rejection is the fraction of post-switch eligible orders rejected.}
+\label{tab:revision-impact}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$h$ & $\lambda$ & Transition $p$ & Median drawdown (\%) & Median rejection \\
+\midrule
+0.1 & 0.005 & 1.00 & 0.10 & 0.507 \\
+0.1 & 0.020 & 1.00 & 0.40 & 0.506 \\
+0.1 & 0.050 & 1.00 & 0.99 & 0.520 \\
+1 & 0.005 & 1.00 & 1.00 & 0.441 \\
+1 & 0.020 & 1.00 & 3.92 & 0.412 \\
+1 & 0.050 & 1.00 & 9.52 & 0.395 \\
+$\infty$ & 0.005 & 1.00 & 7.10 & 0.000 \\
+$\infty$ & 0.020 & 1.00 & 25.26 & 0.000 \\
+$\infty$ & 0.050 & 1.00 & 49.56 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Horizon scaling and transition criterion.}
+Held-boundary checks use 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended
+to 0.300 at $L=32$ to bracket the short-horizon response. At the endpoint
+sizes we compare the original 3,000 steps with
+$T_{\rm post}=3000(L/64)^z$ for $z=1,2$: 1,500 and 750 steps at $L=32$,
+and 6,000 and 12,000 at $L=128$. Both scalings preserve the ordering of
+endpoint midpoints. At $L=64$, increasing the horizon from 3,000 to 9,000
+steps moves the majority midpoint from about 0.178 to 0.167.
+The longer endpoint runs likewise continue to move the curve, so these data
+do not establish horizon convergence.
+
+Changing the crossing criterion to 0.4 or 0.6 shifts the numerical midpoint
+but retains the endpoint size ordering and downward drift with horizon
+(Table~\ref{tab:revision-horizons}). For $L=64$ and 3,000 steps, the midpoints
+are approximately 0.173, 0.178, and 0.186 for the three criteria. Robustness
+therefore applies to the qualitative response, not to a threshold-independent
+numerical activation fraction. The final 500-step mean is not presumed to have
+equilibrated at any size.
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Held-boundary horizon and threshold sensitivity, 50 seeds. Entries are interpolated $f_{50}$ [95\% seed-bootstrap interval] for each crossing criterion. The horizon grids are independent of adaptive refinement, so their interpolated values can differ slightly from Table~\ref{tab:finite-size-scaling}.}
+\label{tab:revision-horizons}
+\footnotesize
+\begin{tabular}{rrlll}
+\toprule
+$L$ & Post-switch steps & Criterion 0.4 & Criterion 0.5 & Criterion 0.6 \\
+\midrule
+32 & 750 & 0.236 [0.228, 0.238] & 0.249 [0.245, 0.255] & 0.266 [0.260, 0.270] \\
+32 & 1{,}500 & 0.216 [0.210, 0.220] & 0.230 [0.228, 0.234] & 0.245 [0.238, 0.250] \\
+32 & 3{,}000 & 0.207 [0.205, 0.210] & 0.219 [0.210, 0.225] & 0.229 [0.226, 0.232] \\
+64 & 3{,}000 & 0.172 [0.169, 0.176] & 0.178 [0.176, 0.180] & 0.186 [0.180, 0.188] \\
+64 & 9{,}000 & 0.165 [0.163, 0.167] & 0.167 [0.165, 0.168] & 0.171 [0.169, 0.175] \\
+128 & 3{,}000 & 0.163 [0.162, 0.164] & 0.167 [0.165, 0.168] & 0.169 [0.168, 0.171] \\
+128 & 6{,}000 & 0.154 [0.153, 0.156] & 0.157 [0.156, 0.158] & 0.159 [0.158, 0.160] \\
+128 & 12{,}000 & 0.150 [0.148, 0.151] & 0.152 [0.150, 0.153] & 0.153 [0.152, 0.155] \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\paragraph{Baseline characterization and long no-switch paths.}
+In the 50 endogenous unlimited-dealer seeds, the mean interior Sell fraction
+was 0.2494 over steps 501--750 and
+0.2503 over steps 751--1,000. In the latter
+window, the median within-seed return standard deviation was
+$0.0003$; the median within-seed 1st and 99th
+percentiles were $-0.00068$ and
+$0.00066$. The mean zero-return fraction was
+0.006. These characterize the pre-switch
+ensemble, not an empirical calibration or a proof of stationarity. We do not
+assert that its return distribution matches the calm regime of a published
+market model.
+
+Ten no-switch seeds under each boundary were followed for 100,000 additional
+steps, with no majority crossing (0/10 per boundary; Wilson upper bound
+0.278 for the ensemble event probability). These are the first ten seeds of
+the production ensemble and constitute an extension, not independent
+replication. The finite record excludes a majority transition in these paths
+over this interval; it does not establish global stability or distinguish
+all possible long transients from attractors.
+
+\paragraph{Fit and grid uncertainty.}
+Table~\ref{tab:revision-fits} supplements empirical interpolation with a
+monotone logistic fit. Standard errors and intervals resample whole seeds,
+including the selection of the sampled susceptibility maximum. Neither method
+removes discretization error, adaptive-grid selection uncertainty, or
+finite-horizon dependence. No susceptibility exponent is estimated.
+\input{sections/revision-fits-table}

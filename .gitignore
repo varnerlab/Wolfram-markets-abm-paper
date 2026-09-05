@@ -52,3 +52,14 @@ tmp/pdfs/
 # LaTeX build-state files (the refreshed PDF and bibliography remain tracked)
 paper-arxiv/*.fdb_latexmk
 paper-arxiv/*.fls
+
+# Seed-level artifacts required by the arXiv paper and revision controls.
+!code/data/ModelB-RuleQuench-Full-*.csv
+!code/data/ModelB-RuleQuench-Full-Exemplar.jld2
+!code/data/ModelB-Revision-*.csv
+
+# Python analysis bytecode.
+__pycache__/
+
+# Transient output from the isolated arXiv compilation check.
+output/arxiv/clean-build.log

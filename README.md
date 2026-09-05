@@ -16,3 +16,7 @@ bash code/run_all.sh all
 figures from committed production CSVs. `all` reruns the production campaigns
 before rebuilding figures. See [`code/data/README.md`](code/data/README.md) for
 the campaign inventory and data provenance.
+
+The peer-review follow-up is documented in [peer-review-response.md](peer-review-response.md).
+Run `bash code/run_all.sh revision` to reproduce its added controls; see
+[code/revision/README.md](code/revision/README.md) for the complete protocol.

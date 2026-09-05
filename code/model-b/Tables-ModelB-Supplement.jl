@@ -7,7 +7,7 @@ include(joinpath(@__DIR__, "Include.jl"))
 using Printf
 
 const RULE_PATH    = joinpath(_PATH_TO_DATA, "ModelB-RuleQuench-Full-Summary.csv")
-const SCALING_PATH = joinpath(_PATH_TO_DATA, "ModelB-FiniteSizeQuench-Full-Scaling.csv")
+const SCALING_PATH = joinpath(_PATH_TO_DATA, "ModelB-Revision-FiniteSize-Scaling.csv")
 const BALANCE_PATH = joinpath(_PATH_TO_DATA, "ModelB-BalanceSheetQuench-Full-Grouped.csv")
 all(isfile, (RULE_PATH, SCALING_PATH, BALANCE_PATH)) ||
     error("missing full campaign outputs")
@@ -37,7 +37,9 @@ s2 = DataFrame(s2_rows)
 # The widths appear in no figure panel, so this table is their only home.
 s3 = sort(select(scaling, :boundary_mode, :market_maker_capacity, :gridn,
                  :f50, :transition_width, :susceptibility_peak_f,
-                 :susceptibility_peak),
+                 :susceptibility_peak, :interior_points, :f50_lo, :f50_hi,
+                 :transition_width_lo, :transition_width_hi,
+                 :susceptibility_peak_lo, :susceptibility_peak_hi),
           [:boundary_mode, :market_maker_capacity, :gridn])
 
 s4_rows = NamedTuple[]
@@ -86,8 +88,9 @@ end
 println("\n% Table S3 rows")
 for r in eachrow(s3)
     println("$(_cond(r.boundary_mode)) & \$$(_cap(r.market_maker_capacity))\$ & " *
-            "$(r.gridn) & $(_f4(r.f50)) & $(_f4(r.transition_width)) & " *
-            "$(_f3(r.susceptibility_peak_f)) & $(_chi(r.susceptibility_peak)) \\\\")
+            "$(r.gridn) & $(r.interior_points) & $(_f3(r.f50)) [$(_f3(r.f50_lo)), $(_f3(r.f50_hi))] & " *
+            "$(_f3(r.transition_width)) [$(_f3(r.transition_width_lo)), $(_f3(r.transition_width_hi))] & " *
+            "$(_chi(r.susceptibility_peak)) [$(_chi(r.susceptibility_peak_lo)), $(_chi(r.susceptibility_peak_hi))] \\\\")
 end
 
 println("\n% Table S4 rows")

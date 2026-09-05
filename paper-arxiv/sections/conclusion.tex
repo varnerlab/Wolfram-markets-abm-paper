@@ -1,15 +1,20 @@
 % conclusion.tex -- Conclusion
-% ============================================================================
 \section{Conclusion}
-% ============================================================================
 
-Switching one local response destabilized market-model paths that remained
-stable under the baseline rule. The matched no-switch paths established this
-causal effect within the model, while the held boundary and finite-size
-experiments showed that the spatial transition did not depend on price
-feedback. Dealer capacity instead determined how strongly the resulting order
-imbalance changed the price or produced rejected orders. Trader cash, trader
-inventory, and dealer resources constrained different stages of execution.
-Sell-state dominance, price drawdown, and dealer exhaustion can therefore move
-separately, and an unlimited counterparty should be treated as a consequential
-modeling assumption rather than a neutral execution convention.
+Persistent local rule activation produced a finite-time Sell-majority
+transition from realized baseline paths. The matched pulse control did not
+reproduce the effect, and a single-entry rule screen showed both additional
+transition-producing changes and changes with no majority response at the
+tested fractions. Refined fraction grids, bootstrap intervals, and horizon
+checks delimit this conclusion; they do not establish an equilibrium critical
+point or asymptotic stability of the baseline.
+
+The second question concerns transmission to price. A held boundary showed
+that the spatial transition can occur without price feedback, while the
+endogenous boundary allowed dealer capacity to alter transition probability
+non-monotonically. Trader resources determine eligibility, dealer resources
+limit execution of unmatched flow, and the executed imbalance determines the
+quote. These distinct stages permit similar Sell-state dominance to accompany
+very different drawdowns. In this model, an unlimited counterparty is a
+consequential execution assumption whose effects can be measured separately
+from the local behavioral instability.

@@ -3,7 +3,7 @@
 \section{Results}
 % ============================================================================
 
-To determine whether Rule~19286 caused the Sell-dominated state, we compared
+To measure the response to activating Rule~19286, we compared
 each switched path with a matched path that never changed rules and found
 that only switched paths reached a Sell majority (Fig.~\ref{fig:rule-quench}). The two paths were bit-identical during the
 1,000-step baseline and through the first quote after activation. None of the
@@ -17,10 +17,11 @@ that required finer sampling. The representative $f=0.20$ pair, selected by
 the prespecified median-effect criterion, shared one lattice at activation, after which the
 no-switch path remained mixed while the switched path formed expanding
 Sell-rich regions and ended in a Sell-dominated state
-(Fig.~\ref{fig:rule-quench}C). Because the intervention changed only the rule
-at the selected sites, the later divergence was caused by Rule~19286 within
-this model. This comparison established causation within the model but did not
-show whether price feedback or dealer resources created the transition.
+(Fig.~\ref{fig:rule-quench}C). This matched comparison measured the response from a common realized state.
+Its deterministic construction attributes any difference to the switch, while
+the dose response establishes how often that difference becomes a majority
+transition. The controls below distinguish sustained rule activation from a
+transient perturbation and separate lattice dynamics from price feedback.
 
 \begin{figure}[tbp]
   \centering
@@ -41,6 +42,16 @@ show whether price feedback or dealer resources created the transition.
 \end{figure}
 \FloatBarrier
 
+A matched one-time Sell pulse at the same target sites produced no majority
+crossings at $f=0.15,0.20,0.25$ under either boundary in 50 seeds, whereas
+persistent Rule~19286 activation produced 50/50 crossings at the two larger
+fractions. In the 20-seed screen of all 18 single-entry neighbors, six rules
+(including Rule~19286) produced 20/20 crossings at $f=0.20$ under both
+boundaries, and the other twelve produced none
+(Table~\ref{tab:revision-rules}). Thus persistent activation mattered for this
+matched comparison, and the response was entry-dependent rather than unique
+to the selected pair.
+
 To separate the roles of price feedback and dealer resources, we repeated the
 switch on a finer fraction grid across eight dealer capacities under both the
 endogenous and the held boundary and found that the transition survived the
@@ -54,16 +65,16 @@ to 0.70 at 0.185, 0.90 at 0.190, 0.98 at 0.195, and 1.00 at 0.20, so the
 transition did not require price feedback. For each $(f,\text{seed})$ pair,
 the held-boundary lattice path was exactly invariant to dealer capacity even
 though executions, prices, and dealer ledgers differed. Restoring the
-endogenous boundary, by contrast, shifted outcomes only within the same narrow
+endogenous boundary, by contrast, shifted outcomes within the sampled
 activation window: at $f=0.175$, transition probability ranged from 0.28 with
 an unlimited dealer to 0.66 at $h=0.1$, compared with 0.34 under the held
 boundary, and at $f=0.185$ the endogenous range was 0.84--0.98, compared with
 0.70 under the held boundary (Fig.~\ref{fig:reservoir}A,B). The response was
 not monotone in dealer capacity, yet every capacity produced no transitions at
-$f\leq0.15$ and transitions in all 50 seeds at $f\geq0.20$. Price feedback
-shifted marginal outcomes but did not create the activation window. Dealer
-capacity, by contrast, had a larger effect on price than on the transition,
-and the effect was ordered in $h$. At $f=0.20$, median maximum drawdown increased from
+$f\leq0.15$ and transitions in all 50 seeds at $f\geq0.20$. The change from 0.28 to 0.66 is 38 percentage points, or a factor of about
+2.4, so feedback had a substantial effect on transition probability near the
+window. The spatial and financial effects should be assessed separately:
+at the main activation fraction, the drawdown effect was ordered in $h$. At $f=0.20$, median maximum drawdown increased from
 zero at $h=0$ to 0.40\%, 1.98\%, 3.92\%, 7.69\%, and 18.1\% at
 $h=0.1,0.5,1,2,$ and 5, respectively, before reaching 25.3\% at $h=\infty$
 (Fig.~\ref{fig:reservoir}C). Median dealer rejection moved in the opposite
@@ -73,6 +84,11 @@ the stated endowments and horizon. At $h=0$, only matched flow executed, the
 price remained fixed, and the endogenous-boundary lattice reproduced the
 held-boundary lattice. Dealer resources therefore determined how much net flow
 reached the price but were not the source of the spatial instability.
+Freezing the pre-switch boundary deviation changed the $h=0.1$ versus
+unlimited transition contrast from 0.38 to $-0.02$ at $f=0.175$
+(Table~\ref{tab:revision-band}), implicating adaptive feedback in that
+low-capacity advantage. A decade-wide impact sweep retained the drawdown
+ordering at $f=0.20$ (Table~\ref{tab:revision-impact}).
 
 \begin{figure}[tbp]
   \centering
@@ -84,32 +100,12 @@ reached the price but were not the source of the spatial instability.
   endogenous and held-boundary transition probabilities across the complete
   capacity range. \textbf{(C)}~Median maximum drawdown at $f=0.20$; bands mark
   the interquartile range. \textbf{(D)}~Median fraction of agent-eligible orders
-  rejected by the dealer at $f=0.20$. Capacity $h=10$ is omitted because it
-  coincided exactly with $h=\infty$ in this campaign.}
+  rejected by the dealer at $f=0.20$. Capacity $h=10$ is shown as a dashed overlay in (A) and as an explicit
+  capacity level in (B--D); it coincided exactly with $h=\infty$.}
   \label{fig:reservoir}
 \end{figure}
 
-Because the transition survived the held-boundary control, we next tested
-whether it also survived changes in system size and found that the crossover
-sharpened as the lattice grew (Fig.~\ref{fig:finite-size}). None of the no-switch controls transitioned at any
-sampled size. Under the held boundary, the midpoint moved from $f_{50}=0.2181$
-at $L=32$ through 0.1926, 0.1777, and 0.1681 to 0.1665 at $L=128$
-(Fig.~\ref{fig:finite-size}A,C). The width $f_{75}-f_{25}$ decreased from 0.0275
-to 0.0082 (Table~\ref{tab:finite-size-scaling}), and peak ensemble
-susceptibility increased from 21.2 to 232.7 while moving from $f=0.225$ to
-$f=0.170$ (Fig.~\ref{fig:finite-size}B,D). Over the sampled
-sizes and fixed time horizon, the crossover sharpened rather than disappeared.
-The two endogenous-boundary conditions followed the same size trend, with
-midpoint estimates at $L=32$ of 0.2132 for $h=\infty$ and 0.2100 for $h=1$
-against 0.2181 under the held boundary. At $L=128$, the corresponding
-estimates were 0.1655, 0.1650, and 0.1665, and
-their widths ranged from 0.0063 to 0.0082
-(Fig.~\ref{fig:finite-size}C and Table~\ref{tab:finite-size-scaling}).
-Susceptibility peaks increased in every condition, so dealer and boundary
-effects were largest at the smaller lattices while all three conditions had
-similar midpoints at the largest size tested. Five sizes and a fixed 3,000-step
-horizon could not establish an asymptotic transition or support a
-critical-exponent fit.
+\input{sections/finite-size-results}
 
 \begin{figure}[tbp]
   \centering
@@ -117,10 +113,12 @@ critical-exponent fit.
   \caption{Finite-size response of the paired rule switch over 50 seeds.
   \textbf{(A)}~Held-boundary transition probability; bands are 95\% Wilson
   intervals. \textbf{(B)}~Held-boundary ensemble susceptibility of the final
-  500-step Sell fraction. \textbf{(C)}~Interpolated finite-horizon midpoint
+  500-step mean Sell fraction. \textbf{(C)}~Interpolated finite-horizon midpoint
   $f_{50}(L)$ for the held control and two endogenous dealer conditions.
-  \textbf{(D)}~Peak susceptibility versus lattice size on logarithmic axes.
-  Lines connect sampled values. No asymptotic scaling law was fitted.}
+  \textbf{(D)}~Peak susceptibility versus lattice size on linear axes.
+  Error bars in (C,D) are 95\% seed-bootstrap intervals. Solid lines connect
+  sampled values; dashed curves in (A) are logistic fits. No asymptotic
+  scaling law was fitted.}
   \label{fig:finite-size}
 \end{figure}
 \FloatBarrier
@@ -164,10 +162,9 @@ majority.
   threshold. Vertical guides mark the four snapshots.}
   \label{fig:dose-panels}
 \end{figure}
-\FloatBarrier
 
 To compare spatial and price outcomes on one rule landscape, we followed a
-single seed that crossed at three dealer capacities and traced its lattice,
+single illustrative seed that crossed at three dealer capacities and traced its lattice,
 price, and Sell fraction under each capacity and under the held boundary, and
 found that dealer capacity changed the price path but left the Sell-dominated
 outcome intact (Fig.~\ref{fig:dealer-panels}). Seed 25 was selected jointly from runs that
@@ -188,7 +185,7 @@ $f=0.20$ to 0.40\% without preventing Sell-domain growth.
 
 \begin{figure}[tbp]
   \centering
-  \includegraphics[width=0.98\linewidth]{figs/Fig5-DealerMarketPanels.pdf}
+  \includegraphics[width=0.96\linewidth]{figs/Fig5-DealerMarketPanels.pdf}
   \caption{Time-sliced markets for one matched seed at $f=0.20$.
   \textbf{(A)}~Lattices for four conditions (columns) at activation and after
   500, 1,500, and 3,000 steps (rows). The columns contain endogenous dealers
@@ -198,7 +195,7 @@ $f=0.20$ to 0.40\% without preventing Sell-domain growth.
   three conditions. Rows use common elapsed times. \textbf{(B)}~Price divided
   by its activation value. \textbf{(C)}~Interior Sell fraction. The held
   boundary prevented price from changing the lattice but did not prevent price
-  from being calculated.}
+  from being calculated. The single seed illustrates trajectories; ensemble evidence is in Fig.~\ref{fig:reservoir}.}
   \label{fig:dealer-panels}
 \end{figure}
 

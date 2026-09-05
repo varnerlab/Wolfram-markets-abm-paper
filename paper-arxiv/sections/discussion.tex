@@ -3,34 +3,23 @@
 \section{Discussion}
 % ============================================================================
 
-The paired mid-run intervention supports a stronger within-model claim than a
-standard parameter sweep. Agent-based market models have long shown that simple
-local rules can produce complex aggregate
-dynamics~\cite{lux1999scaling,cont2000herd,farmer2002price,hommes2006heterogeneous,lebaron2006agent}.
-Separately initialized regimes, however, cannot show that adding one behavior
-destabilized a path that was stable immediately beforehand, for the same
-reason that a treatment effect requires a matched counterfactual and a paired
-simulation comparison requires common random
-numbers~\cite{rubin1974estimating,holland1986statistics,kleijnen1975antithetic,glasserman1992guidelines}.
-In our experiment, the switched and no-switch paths shared the realized
-lattice, trader books, dealer, price, adaptive bands, and target sites until
-activation, so changing the rule at those sites caused the later divergence.
-None of the matched no-switch controls reached a Sell majority, whereas
-switching 20\% or 25\% of interior sites under an unlimited dealer drove all
-50 runs to a Sell majority and switching 10\% or 15\% drove none
-(Table~\ref{tab:paired-switch}). The transitions persisted when the boundary
-was held, and as the lattice grew from 32 to 128 the midpoint of the transition
-curve fell from 0.218 to 0.166 while its width fell from 0.0275 to 0.0082
-(Table~\ref{tab:finite-size-scaling}). Median drawdown at 20\% activation rose
-from 0.40\% at a tenth of a unit of dealer capacity per trader to 25.3\% with
-an unlimited dealer (Fig.~\ref{fig:reservoir}C). This result establishes causation inside the model,
-not a calibrated claim that the same fraction of real traders would
-destabilize a market.
+The principal result is a finite-time response to persistent local
+behavioral change, together with a separation of the stages that transmit
+that response to price. The deterministic matched design fixes attribution
+by construction; the substantive measurements are the transition curve,
+onset, and financial consequences. A one-time Sell pulse at the same sites
+produced no majority transitions in the tested 50-seed controls, whereas the
+persistent Rule~19286 switch did. The 20-seed screen found other
+transition-producing single-entry changes, but also many that produced no
+majority transition (Appendix~\ref{sec:revision-controls}). The result is
+therefore neither unique to $c=1$ nor generic to every entry of this baseline.
+It does not imply that an arbitrary behavioral perturbation, or the same
+fraction of real traders, would destabilize a market.
 
 The held-boundary and finite-size results located the main instability in the
 heterogeneous cellular automaton. Sell-majority transitions continued when
-price could not affect the lattice, and the finite-time crossover narrowed
-from a width of 0.0275 at $L=32$ to 0.0082 at $L=128$
+price could not affect the lattice, and refined-grid estimates with bootstrap intervals supported a narrower
+finite-time crossover at $L=128$ than at $L=32$
 (Table~\ref{tab:finite-size-scaling}). Sell-rich regions also
 formed, enlarged, and merged across activation fractions and dealer
 conditions. Persistence under the held boundary, size-dependent sharpening,
@@ -47,8 +36,8 @@ the analysis supplied no free-energy barrier, thermal activation rate, surface
 tension, or critical droplet. Nor did five lattice sizes observed for 3,000
 post-activation steps establish an equilibrium critical point. That size
 dependence remains a finite-time result. Establishing an asymptotic transition
-would require lattices larger than 128, horizons that scale with system size,
-denser sampling near the transition, and a scaling model specified before
+would require lattices larger than 128, horizon convergence beyond the size-scaled checks reported here,
+further grid refinement, and a scaling model specified before
 fitting~\cite{binder1981finite,landau2021guide}. Such an analysis would also
 need to distinguish a diverging correlation length~\cite{fisher1972scaling}
 from long transient coarsening near an absorbing
@@ -86,22 +75,40 @@ variables changed the lattice only through price feedback. Transition
 probability, price drawdown, and dealer rejection should therefore be reported
 as distinct outcomes rather than combined in one crash indicator.
 
+The non-monotone transition probability under price feedback is an effect of
+substantive size: at $f=0.175$, $h=0.1$ increased probability by 38 percentage
+points relative to an unlimited dealer. Freezing each path's boundary
+deviation at its pre-switch value removed this low-capacity advantage in the
+point estimates, while leaving other non-monotone differences. This control
+implicates adaptive boundary normalization in the particular advantage,
+without establishing a unique mechanism or a monotone response under all
+fixed bands. The moving center, trader books, and dealer ledger still evolve;
+frozen widths also differ across seeds and capacities because they inherit
+the realized pre-switch deviation. The price-impact sweep addresses a separate
+issue: the ordering of drawdowns is a model result, whereas their numerical
+magnitudes depend on the uncalibrated impact coefficient.
+
 Several modeling choices limit the scope of the conclusions. The cellular
 automaton was deterministic after its random setup, updated synchronously, and
-used a regular lattice and one selected rule pair. Orders had unit size and a
+used a regular lattice and one baseline rule. The supplementary rule screen
+extends the intervention beyond one pair, but retains that baseline. The
+scalar totalistic score conflates distinct neighbor compositions; its
+interpretation is a minimal aggregate response, and robustness to arbitrary
+composition-based rules remains untested. Orders had unit size and a
 common standing quote, and the model omitted an order book, bid--ask spread,
 cancellation, strategic dealer, risk penalty, and endogenous replenishment of
-dealer capacity beyond reversing flow. Boundary traders followed one adaptive
-rule, and uniform balance-sheet multipliers represented causal model
+dealer capacity beyond reversing flow. The main boundary specification used an adaptive
+rule, with a frozen-deviation sensitivity control, and uniform balance-sheet multipliers represented causal model
 interventions rather than policy experiments. Finally, the price-impact
 coefficient, time step, and lattice geometry were dimensionless and
 uncalibrated. The results identify mechanisms in a minimal dynamical system and
-do not forecast market crashes. Several extensions follow from the same paired
-design. The totalistic rule space is finite~\cite{wolfram1984universality}, so
-every rule that differs from the baseline at a single neighborhood sum can be
-screened with the same matched no-switch control, which would show whether the
-activation window found here is specific to Rule~19286 or common to a class of
-single-entry switches. Asynchronous updating, a limit-order book in place of
-the dealer, and horizons that grow with lattice size would test whether the
-separation between the spatial instability and its price consequences survives
-more realistic execution and longer observation.
+do not forecast market crashes. Asynchronous updating and a limit-order book in place of the dealer would
+test whether the stage separation survives different behavioral timing and
+execution rules. No-switch trajectories observed for 100,000 additional
+steps constrain the baseline's behavior over that interval; they do not
+prove global stability, identify every attractor, or locate a basin boundary.
+The final 500-step window is an outcome summary, not a demonstrated
+stationary distribution. Similarly, the initial 1,000 steps define a common
+warm-up interval rather than a proof of equilibration. Absolute dealer
+capacity scales with trader count in the finite-size design; a
+fixed-absolute-capacity size series has not been run.

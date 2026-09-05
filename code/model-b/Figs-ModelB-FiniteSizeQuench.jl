@@ -3,9 +3,9 @@
 
 include(joinpath(@__DIR__, "Include.jl"))
 
-const SUMMARY_PATH = joinpath(_PATH_TO_DATA, "ModelB-FiniteSizeQuench-Full-Summary.csv")
-const GROUPED_PATH = joinpath(_PATH_TO_DATA, "ModelB-FiniteSizeQuench-Full-Grouped.csv")
-const SCALING_PATH = joinpath(_PATH_TO_DATA, "ModelB-FiniteSizeQuench-Full-Scaling.csv")
+const SUMMARY_PATH = joinpath(_PATH_TO_DATA, "ModelB-Revision-FiniteSize-Summary.csv")
+const GROUPED_PATH = joinpath(_PATH_TO_DATA, "ModelB-Revision-FiniteSize-Grouped.csv")
+const SCALING_PATH = joinpath(_PATH_TO_DATA, "ModelB-Revision-FiniteSize-Scaling.csv")
 all(isfile, (SUMMARY_PATH, GROUPED_PATH, SCALING_PATH)) ||
     error("missing full finite-size outputs")
 
@@ -50,6 +50,11 @@ for L in sizes
           ribbon = (sub.p .- sub.lo, sub.hi .- sub.p),
           color = size_colors[L], fillalpha = 0.055,
           marker = :circle, ms = 2.8, lw = 1.8, label = "L=$(L)")
+    fit = only(eachrow(scaling[(scaling.boundary_mode .== "hold") .&
+                              (scaling.gridn .== L), :]))
+    fs = range(minimum(sub.target_f), maximum(sub.target_f); length=200)
+    probability = 1.0 ./ (1.0 .+ exp.(-(fit.logistic_a .+ fit.logistic_b .* (fs .- 0.18) ./ 0.01)))
+    plot!(pA, fs, probability; color=size_colors[L], ls=:dash, lw=1.2, label="")
 end
 
 pB = plot(; xlabel = "Activated site fraction, f",
@@ -77,7 +82,7 @@ conditions = [
 pC = plot(; xlabel = "Inverse lattice size, 1/L", ylabel = "f₅₀(L)",
           legend = :best, _panel_kw...)
 pD = plot(; xlabel = "Lattice size, L", ylabel = "Peak susceptibility",
-          xscale = :log10, yscale = :log10, legend = :best, _panel_kw...)
+          legend = :best, _panel_kw...)
 for cond in conditions
     sub = scaling[(scaling.boundary_mode .== cond.boundary) .&
                   ((isinf(cond.h) .& isinf.(scaling.market_maker_capacity)) .|
@@ -85,10 +90,14 @@ for cond in conditions
     sort!(sub, :gridn)
     finite_crossing = isfinite.(sub.f50)
     plot!(pC, 1.0 ./ sub.gridn[finite_crossing], sub.f50[finite_crossing];
+          yerror = (sub.f50[finite_crossing] .- sub.f50_lo[finite_crossing],
+                    sub.f50_hi[finite_crossing] .- sub.f50[finite_crossing]),
           color = cond.color, marker = cond.marker, ms = 4, lw = 1.8,
           label = cond.label)
     positive_peak = sub.susceptibility_peak .> 0
     plot!(pD, sub.gridn[positive_peak], sub.susceptibility_peak[positive_peak];
+          yerror = (sub.susceptibility_peak[positive_peak] .- sub.susceptibility_peak_lo[positive_peak],
+                    sub.susceptibility_peak_hi[positive_peak] .- sub.susceptibility_peak[positive_peak]),
           color = cond.color, marker = cond.marker, ms = 4, lw = 1.8,
           label = cond.label)
 end

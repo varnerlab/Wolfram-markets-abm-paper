@@ -76,9 +76,9 @@ sort!(h0_hold, [:target_f, :seed])
 @assert h0_endogenous.treated_final_sell_mean == h0_hold.treated_final_sell_mean
 @assert all(iszero, h0_endogenous.treated_maximum_drawdown)
 
-capacity_order = [0.0, 0.1, 0.5, 1.0, 2.0, 5.0, Inf]
-capacity_labels = ["0", "0.1", "0.5", "1", "2", "5", "∞"]
-heatmap_capacity_labels = ["0", "0.1", "0.5", "1", "2", "5", "Inf"]
+capacity_order = [0.0, 0.1, 0.5, 1.0, 2.0, 5.0, 10.0, Inf]
+capacity_labels = ["0", "0.1", "0.5", "1", "2", "5", "10", "∞"]
+heatmap_capacity_labels = ["0", "0.1", "0.5", "1", "2", "5", "10", "Inf"]
 line_capacities = [0.1, 1.0, Inf]
 line_colors = Dict(h => cgrad(:viridis, length(line_capacities), categorical = true)[i]
                    for (i, h) in enumerate(line_capacities))
@@ -107,6 +107,13 @@ for h in line_capacities
           color = line_colors[h], fillalpha = 0.045, lw = 1.8,
           marker = :circle, ms = 2.8, label = "endogenous, h=$(hlabel)")
 end
+
+# The finite h=10 path coincides with the unlimited path in this campaign.
+# A dashed overlay makes the checked equality visible.
+h10_curve = sort(grouped[(grouped.boundary_mode .== "endogenous") .&
+                         (grouped.market_maker_capacity .== 10.0), :], :target_f)
+plot!(pA, h10_curve.target_f, h10_curve.transition_probability;
+      color=:black, ls=:dash, lw=1.0, label="endogenous, h=10")
 
 # B: the change attributable to closing the price-boundary feedback loop.
 fs = sort(unique(grouped.target_f))

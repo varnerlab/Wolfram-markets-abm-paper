@@ -42,26 +42,16 @@ structure shapes the route to coordination in all of these models, because
 global coupling, random graphs, and local lattices propagate a behavioral
 change
 differently~\cite{lebaron2006agent,battiston2016complexity,alfarano2009network}.
-A sweep over a coupling, noise, or population parameter then identifies the
-settings that produce a transition. The sweeps
-nevertheless initialize each parameter value
-separately~\cite{lux1999scaling,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative},
-so they can show that two settings differ but cannot show that a new behavior
-destabilized a market that was stable immediately before the behavior
-appeared. That causal claim requires an intervention on a running path and a
-matched path in which the behavior never changes. The same logic defines a
-treatment effect in potential-outcome
-methods~\cite{rubin1974estimating,holland1986statistics,pearl2009causality},
-motivates common random numbers in paired comparisons of stochastic
-simulations~\cite{kleijnen1975antithetic,glasserman1992guidelines,law2015simulation},
-and underlies damage-spreading studies that follow a perturbed and an
-unperturbed copy of the same
-lattice~\cite{kauffman1969metabolic,derrida1986phase,derrida1987dynamical,stanley1987dynamics,grassberger1995damage,hinrichsen2000nonequilibrium}.
-The first question of this study was therefore whether activating one local
-rule in the middle of a run could destabilize a market model that was stable
-immediately before the change, which is a narrower question than whether the
-model reproduces the full set of empirical market
-statistics~\cite{cont2001empirical}.
+Parameter sweeps map the regimes a model can exhibit. A switch during an
+ongoing trajectory instead measures its response to a change from a realized
+state. We use matched trajectories, sharing setup randomness as in paired
+simulation comparisons~\cite{glasserman1992guidelines,law2015simulation}, to
+measure the response as a function of the fraction of sites whose rule changes.
+Conditional on the setup, both paths are deterministic: attribution follows
+from the intervention protocol, whereas the transition probability, onset,
+and magnitude of the response require measurement across initial conditions.
+The first question is therefore which local changes, at what fractions,
+produce a Sell-majority transition during a stated observation window.
 
 Execution constraints pose a second gap, because the path from a desired trade
 to a price change passes through stages that most interaction models compress
@@ -147,21 +137,21 @@ preselected fraction of interior sites in one path without resetting any
 dynamic state, while the matched path kept every site under the baseline rule.
 We repeated the design under a held boundary that removed price feedback,
 across lattice sizes from 32 to 128, across dealer capacities from zero to
-unlimited, and under separate cash and inventory interventions. None of the
+unlimited, and under separate cash and inventory interventions. Within 3,000 post-switch steps, none of the
 matched no-switch controls reached a Sell majority, whereas switching 20\% or
 25\% of sites under price feedback and an unlimited dealer drove all 50 runs
 to a Sell majority and switching 10\% or 15\% drove none
 (Table~\ref{tab:paired-switch}). The transitions
 persisted when the boundary was held, so the instability originated in the
-local rule dynamics rather than in price feedback. As the lattice grew, the
-switched fraction associated with a 50\% transition probability fell from
-0.218 to 0.166 and the transition width narrowed from 0.0275 to 0.0082
-(Table~\ref{tab:finite-size-scaling}), a sharpening with size that did not by
-itself establish an equilibrium critical point. Dealer capacity had a larger effect on drawdown and rejected orders than
-on the spatial transition: at 20\% activation, median drawdown rose from
+local rule dynamics rather than in price feedback. The finite-size response was evaluated on adaptively refined grids with
+bootstrap intervals and explicit horizon checks
+(Table~\ref{tab:finite-size-scaling}). Dealer capacity also affected the
+spatial transition through feedback, including a non-monotone response near
+the transition window. Its financial effect was substantial:
+at 20\% activation, median drawdown rose from
 0.40\% with a tenth of a unit of capacity per trader to 3.92\% with one unit
 and 25.3\% with unlimited capacity (Fig.~\ref{fig:reservoir}C). These results separate the origin of the
 spatial instability, which lay in the lattice, from the financial constraints
-that determined its effect on price. They also show that a paired mid-run
-switch can attribute a market-wide transition to one local behavioral change
-in a way that separately initialized sweeps cannot.
+that determined its effect on price. Matched Sell pulses and a screen of all single-entry rule neighbors test
+whether this response requires persistent behavioral change and how far it
+extends beyond the selected pair.

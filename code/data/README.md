@@ -110,3 +110,16 @@ Files beginning `ModelA-`, `ModelB-Stage2-`, or `ModelB-Nucleation-` belong to
 the superseded fixed-composition and onset-aligned analyses. They remain in
 the repository for provenance but do not support the revised paper's main
 claims.
+
+## Review follow-up and paired-switch source files
+
+`ModelB-RuleQuench-Full-Summary.csv`, `-Trajectories.csv`, and `-Exemplar.jld2`
+are included explicitly. They reproduce Table S2 and Figure 1. Regenerate them
+with `julia --project=code code/model-b/Compute-ModelB-RuleQuench.jl --full`.
+
+The new `ModelB-Revision-*.csv` files contain all seed-level controls, refined
+finite-size outcomes, and horizon checks, plus generated grouped/bootstrap
+summaries. `ModelB-Revision-FiniteSize-*` supersedes the original finite-size
+files for Figure 3 and Table S3; the original files remain as provenance.
+See [the revision protocol](../revision/README.md) for commands, sample sizes,
+checkpoint behavior, statistical definitions, and the Python environment.
