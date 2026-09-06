@@ -1,38 +1,37 @@
 \subsection{Additional controls and sensitivity analyses}
 \label{app:revision-controls}
 
-We varied the persistence of the intervention, the boundary response,
+We compared a one-time decision change with a lasting change in the
+rule used for later decisions. We also varied the response to price
 and the observation window to identify which parts of the model
-supported the transition. These controls were added in response to
+supported widespread selling. These controls were added in response to
 review and retained the original initialization and 1,000-step baseline.
 Unless specified otherwise, they used $L=64$, $\lambda=0.02$,
-$h=\infty$, and 3,000 post-intervention steps. Each new rule or pulse
-arm had a matched arm that retained the baseline rule. We required
+$h=\infty$, and 3,000 post-intervention steps. Each simulation with a new rule or a one-time instruction to sell was
+paired with a simulation that kept the original rule. We required
 exact pre-intervention agreement of their lattice and Sell histories,
-and checked the price prehistory for financial arms. Held-boundary
-experiments needing only lattice observables used an allocation-free
-kernel with the production setup draws and rule tables. Tests matched
+and checked the price prehistory for financial arms. Comparisons that kept edge traders in Hold and measured only decisions
+used a faster implementation that updated decisions without calculating
+trades or prices, using the same starting markets and decision rules. Tests matched
 its full Sell history and final grid to the market simulator, and
-1,800 overlapping archived seed/fraction outcomes also agreed. The
-reduced kernel reproduced the local dynamics when prices could not
-feed back, but did not calculate financial observables.
+1,800 overlapping archived seed/fraction outcomes also agreed. This implementation reproduced decisions when prices could not
+influence traders, but did not calculate financial outcomes.
 
-\paragraph{Matched transient perturbation and rule screen.}
-The matched pulse placed targeted traders in Sell once while leaving
-their subsequent response rule unchanged
+\paragraph{A one-time decision to sell and alternative decision rules.}
+We set the selected traders to Sell once while keeping their rule for
+later decisions unchanged
 (Supplementary Table~\ref{tab:revision-pulse}). At activation, we wrote
 Sell at the rule-switch target sites before orders executed and retained
-Rule~19280 everywhere. The pulse could therefore change the first quote,
-whereas persistent activation preserved that quote and changed later
-local updates. Fractions matched the number of targeted sites; sites
+Rule~19280 everywhere. This one-time change could therefore affect the first price after the
+intervention, whereas assigning a new rule preserved that price and
+changed later decisions. Fractions matched the number of targeted sites; sites
 already in Sell did not change state. For $f=0.15,0.20,0.25$ under both
 boundaries, no pulse reached a majority in 50 seeds (0/50; Wilson
 upper bound 0.071). Persistent Rule~19286 activation yielded 0/50,
 50/50, and 50/50, respectively. The Wilson lower bound for 50/50
-was 0.929. A one-time increase in Sell occupancy at these targets
-was thus insufficient to reproduce the collective response to a
-lasting rule change. The comparison applied to this matched pulse;
-other choices of state perturbation could have different outcomes.
+was 0.929. Directing these traders to sell once therefore did not reproduce the
+majorities caused by a lasting change in their decision rule. This comparison applied to the selected traders and timing; changing
+decisions once in a different way could have different outcomes.
 
 The rule screen tested all 18 ways to change one entry of Rule~19280
 (Supplementary Table~\ref{tab:revision-rules}). Each of the nine
@@ -51,48 +50,47 @@ was descriptive and used no adjustment for multiple comparisons.
 An observed 0/20 had a Wilson upper bound of 0.161, and 20/20 had
 a lower bound of 0.839. The screen identified other rules capable
 of producing majorities over the tested window without defining
-a universal class of activation thresholds.
+a general rule for when a majority would form.
 
-\paragraph{Frozen band and non-monotone dealer response.}
-Boundary decision widths changed as the quote moved, allowing the
-same price departure to elicit different trader responses over time
-(Supplementary Table~\ref{tab:revision-band}). We removed this adaptation
-by freezing each path's decision deviation immediately before activation.
+\paragraph{Fixing the width of the price range in which edge traders chose Hold.}
+The price range within which edge traders chose Hold changed as recent
+prices became more or less variable, allowing the same departure from
+the reference price to produce different decisions over time
+(Supplementary Table~\ref{tab:revision-band}). We held the width of this range fixed at its value immediately before
+the rule change.
 Traders retained their $k_j$ values and the moving center continued to
 update. The half-width $k_j\sigma_{1000}$ then stayed constant within
-a path, although the diagnostic deviation still evolved. Each frozen
-arm shared its adaptive arm's exact prehistory, so widths could differ
-across seeds and capacities. At $f=0.175$, the $h=0.1$ minus
-$h=\infty$ majority contrast changed from 0.38 with adaptation
-to -0.02 with frozen widths. The paired difference of these
-contrasts was 0.40, with a 95\% seed-bootstrap interval
+a path, although we continued calculating recent price variation for comparison. Each run with a fixed width shared the same history as its comparison
+with an adjusting width, so the fixed values could differ across
+starting markets and capacities. At $f=0.175$, the difference in majority probability between $h=0.1$ and $h=\infty$ changed from 0.38 with adaptation
+to -0.02 with frozen widths. The difference between the adjusting-width and fixed-width
+comparisons was 0.40, with a 95\% seed-bootstrap interval
 of [0.16, 0.64]. Removing width adaptation therefore removed
-the low-capacity advantage in the point estimates. Boundary Sell
-occupancy also changed, but the frozen capacity response remained
-non-monotone and individual probability intervals were wide. Width
-adaptation contributed to the observed advantage without isolating
-a unique microscopic cause of the entire capacity response.
+the low-capacity advantage in the point estimates. The fraction of edge traders in Sell also changed. Even with the width
+fixed, increasing capacity did not consistently raise or lower majority
+probability, and individual probability intervals were wide. Adjusting
+the width contributed to the smaller dealer's advantage but did not
+explain every effect of capacity on majority probability.
 
 \paragraph{Price-impact sensitivity.}
-The price-impact coefficient set the quote change produced by a given
-executed imbalance (Supplementary Table~\ref{tab:revision-impact}).
+The price-impact coefficient determined how strongly the price changed
+when completed trader buys and sells differed (Supplementary Table~\ref{tab:revision-impact}).
 At $f=0.20$, we varied $\lambda$ over $\{0.005,0.02,0.05\}$ and
 capacity over $h\in\{0.1,1,\infty\}$. A smaller coefficient reduced
-the immediate price movement from a given imbalance. Under the endogenous
-boundary, the changed quote also entered the decision bands that set
-perimeter states. All 50 seeds transitioned in every cell. Median
+the immediate price movement from a given imbalance. When edge traders were active, the changed price also affected the
+ranges they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
 drawdown increased with capacity at each coefficient, although its
 magnitude changed by a factor of seven to ten across the coefficient
 range. Dealer resources thus
 limited the price decline across a decade of impact choices, while
-collective selling persisted at this activation fraction throughout
+widespread selling persisted at this activation fraction throughout
 the sweep. These uncalibrated coefficients describe model sensitivity;
 they do not convert the simulated drawdowns into estimates for an
-empirical market. Both the amount of eligible flow the dealer could
-absorb and the impact assigned to filled imbalance determined the
-financial magnitude of the transition.
+empirical market. Both the number of unmatched orders the dealer could fill and the
+price change assigned to those trades determined the size of the
+price decline.
 
-\paragraph{Horizon scaling and transition criterion.}
+\paragraph{Observation time and the fraction of traders required to sell.}
 A longer observation window gave the altered local dynamics more time
 to reach the selected Sell fraction
 (Supplementary Table~\ref{tab:revision-horizons}). Held-boundary checks
@@ -121,16 +119,16 @@ latter window, the median within-seed return standard deviation was
 $0.0003$, and the median within-seed
 1st and 99th percentiles were $-0.00068$
 and $0.00066$. The mean zero-return
-fraction was 0.006. These summaries
-characterized the starting ensemble without establishing stationarity
-or empirical calibration. We extended the first ten production seeds
+fraction was 0.006. These summaries described the starting markets without showing that
+their statistical properties had stopped changing or matched an
+observed market. We extended the first ten production seeds
 under each boundary for 100,000 additional no-switch steps. None
 crossed a majority (0/10 per boundary; Wilson upper bound 0.278
 for the ensemble event probability). The extension followed existing
 seeds and was not an independent replication. It showed that those
 paths remained below a majority over that longer interval, while
-leaving global stability and the distinction between long transients
-and attractors unresolved.
+leaving global stability and the distinction between temporary patterns and patterns that would persist indefinitely
+unresolved.
 
 \paragraph{Fit and grid uncertainty.}
 A monotone logistic curve supplied a second estimate of transition

@@ -9,22 +9,22 @@
 
 \subsection{One complete simulation step}
 
-The standing trader states generated orders before the new quote
-could change those states
-(Algorithm~\ref{alg:model-step}). Orders passed through eligibility,
-clearing, and settlement before generating a new quote
+Traders' current Buy, Hold, or Sell decisions generated orders before
+the new quote could influence their next decisions
+(Algorithm~\ref{alg:model-step}). We checked whether traders had the required cash or shares, matched
+orders, and completed trades before calculating a new price
 (Algorithm~\ref{alg:dealer-clearing}).
 Orders at step $t$ came from the lattice $X_{t-1}$ and stored boundary
-states $e_{i,t-1}$. They settled at the standing quote $P_{t-1}$ before
-executed imbalance generated $P_t$. Boundary traders then classified the
-new quote, setting the perimeter states used to produce $X_t$.
+states $e_{i,t-1}$. Trades completed at the current price $P_{t-1}$ before the difference
+between completed buys and sells generated $P_t$. Edge traders then
+used this price to decide whether to buy, hold, or sell, and their
+decisions influenced interior traders when calculating $X_t$.
 Rule activation occurred before this sequence without changing the current
-state. A balance-sheet intervention, when scheduled, changed trader
-resources before eligibility was evaluated. This timing explains why a
+state. When we intentionally changed trader cash or shares, we did so before
+checking whether orders had the resources needed to complete. This timing explains why a
 rule switch leaves the first post-switch quote unchanged, whereas a
-financial intervention can affect it immediately. The held-boundary
-control retained the same sequence but replaced boundary classification
-with Hold. Under either boundary, a shortage of resources could stop an order
+financial intervention can affect it immediately. The comparison with edge traders kept in Hold used the same sequence
+but prevented these traders from responding to price. Under either boundary, a shortage of resources could stop an order
 without changing the trader's cellular-automaton state. We recorded
 orders excluded by trader resources as agent suppression and eligible
 orders left unfilled by the dealer as dealer rejection. Neighboring
@@ -32,7 +32,7 @@ traders continued to respond to the stored Buy, Hold, or Sell state
 even when the associated order did not execute.
 
 \begin{algorithm}[!ht]
-\caption{One endogenous-market step, $t-1\rightarrow t$, in simulation order.
+\caption{One market step with edge traders responding to price, $t-1\rightarrow t$, in simulation order.
 Orders came from the old interior and boundary states, settled at the old
 quote, and generated the new quote. The new quote set the boundary before the
 interior cellular automaton update.}
@@ -78,7 +78,7 @@ $P_{t-1}$
 
 \begin{algorithm}[!ht]
 \caption{Order eligibility, dealer clearing, rationing, and settlement at
-$P_{t-1}$. The finite dealer filled only the unmatched residual. The
+$P_{t-1}$. The finite dealer filled only orders that other traders did not match. The
 $h=\infty$ branch filled every eligible order.}
 \label{alg:dealer-clearing}
 \begin{algorithmic}[1]
@@ -140,8 +140,9 @@ $n_t^B\leftarrow B_t$; $n_t^S\leftarrow S_t$
 
 \subsection{Rationing and paired reproducibility}
 
-When eligible buys and sells differed, the dealer rationed the excess
-side if its resources could not absorb all unmatched orders.
+When buy and sell orders backed by trader resources differed, the
+dealer limited the remaining trades if it lacked the resources to
+complete them all.
 Each eligible trader on that side received a 64-bit score from a
 SplitMix64 finalizer applied to
 $(\text{seed},t,\text{trader identity},\text{side})$.
@@ -153,9 +154,9 @@ Scoring did not consume draws from the generator used to initialize the
 lattice and target sites. For each pair, we checked the frame at
 $T_{\rm pre}$, its preceding Sell history, the boundary coordinates and
 band multipliers, and the price history through the first post-switch
-quote. Held-boundary balance-sheet cells additionally required exact
-agreement of the full Sell history and final frame across all nine
-interventions. Exact pre-switch agreement ensured that a pair reached activation
+quote. For cash and share comparisons with edge traders kept in Hold, we
+also required the full Sell history and final grid to match exactly
+across all nine changes to trader resources. Exact pre-switch agreement ensured that a pair reached activation
 with the same history. Exact post-switch agreement across held-boundary
 financial interventions ensured that trader resources affected execution
 without entering the local rule update.
@@ -168,29 +169,30 @@ when no intervention occurred:
  \sum_i w_i(t)+W_t &= \sum_i w_i(0)+W_0,\\
  \sum_i q_i(t)+Q_t &= \sum_i q_i(0)+Q_0.
 \end{align}
-The maximum absolute cash error across the production reservoir and
-finite-size campaigns was $2.53\times10^{-6}$; the share error was zero.
-In the balance-sheet campaign, checks were applied separately before
+The maximum absolute cash error across the production dealer-capacity and grid-size simulations was $2.53\times10^{-6}$; the share error was zero.
+In the cash and share comparisons, checks were applied separately before
 and after the intentional resource change. Its maximum cash error was
 $9.47\times10^{-7}$, again with zero share error. Three limiting cases
 also supplied regression checks. Unlimited capacity filled every eligible
-order and reproduced the earlier fill-all implementation. Zero capacity
-allowed only balanced trader flow, giving a fixed price and identical
-endogenous and held-boundary lattice paths. Capacity $h=10$ never
-rejected an order in the reservoir campaign and matched the unlimited
+order and reproduced the earlier fill-all implementation. Zero capacity allowed only trades between traders, giving equal
+numbers of completed buys and sells and a fixed price. Interior
+decisions were then identical whether edge traders used the price or
+were kept in Hold. Capacity $h=10$ never
+rejected an order in the dealer-capacity simulations and matched the unlimited
 path. That last equality applies to the stated endowments and horizon.
-A different flow history, larger trader holdings, or longer observation
-could cause this finite dealer's cash or inventory limits to bind.
+A different sequence of buy and sell orders, larger trader holdings,
+or longer observation could cause this dealer to run out of cash or
+reach its limit on shares.
 
-\subsection{Campaign inventory}
+\subsection{Simulation design and reproducibility}
 
-We used four production campaigns to measure activation, dealer capacity,
-lattice size, and trader resources, totaling 30,550 simulations
+We used four main sets of simulations to measure the effects of rule
+adoption, dealer capacity, grid size, and trader resources, totaling 30,550 simulations
 (Supplementary Table~\ref{tab:campaigns}). Each used 50 seeds and 3,000 post-activation
 steps as fixed campaign settings. Pilot and full modes recorded how the experiments were developed.
 The seed count and horizon were fixed campaign settings, without a
 prospective power calculation or independent preregistration of the horizon. With 50 seeds, a probability near one-half has a binomial
-standard error of about 0.07. The reservoir campaign reused one no-switch
+standard error of about 0.07. The dealer-capacity simulations reused one no-switch
 control within each $(h,\text{boundary},\text{seed})$ cell. Its comma-separated value (CSV) file
 therefore stored the control metrics with each treated summary row rather
 than as a separate trajectory for every fraction. Checkpointed campaigns
@@ -200,7 +202,7 @@ avoided repeating an identical simulation for each activation fraction.
 
 The selected paired-switch campaign used $L=64$, an unlimited dealer,
 and an endogenous boundary at $f=0.10,0.15,0.20,0.25$.
-The reservoir screen used the same lattice size at fractions
+The dealer-capacity comparison used the same lattice size at fractions
 0.10, 0.15, 0.175, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210, 0.225,
 and 0.250. It crossed these fractions with capacities
 $h=0,0.1,0.5,1,2,5,10,\infty$ under both boundaries.
@@ -215,8 +217,8 @@ throughout; a fixed-absolute-capacity size series was not run.
 The supplementary controls below retain this initialization while varying
 the stated intervention, parameter, or observation window.
 
-Reproducing a market path required both the seeded setup and the
-specified update order. We ran the simulations in Julia 1.12 with the
+Reproducing a simulated market required the same random-number seed
+for the starting conditions and the same order of calculations. We ran the simulations in Julia 1.12 with the
 environment pinned by the repository manifest. Original campaigns used 12 simulation threads and one
 garbage-collection thread; supplementary campaigns used four or eight
 simulation threads and one garbage-collection thread.
@@ -236,8 +238,8 @@ implementation and its archived Invesco QQQ exchange-traded fund input
 for provenance. No result from that model entered the principal analysis
 or figures.
 
-Majority probability and onset described whether collective selling
-occurred and how long it took. We used these summaries to compare
+Majority probability measured how often at least half the interior
+traders decided to sell, and onset measured how long that took. We used these summaries to compare
 activation fractions, lattice sizes, and trader resources. In the selected switch campaign, transition status was
 evaluated from peak Sell fraction because the stored onset used zero
 for a path with no crossing. Median onset was therefore undefined at
@@ -250,9 +252,10 @@ an interpolated optimum (Supplementary Table~\ref{tab:revision-fits}). In the
 financial campaign, all 27 held-boundary conditions returned one
 transition probability at each fraction. The 27 endogenous conditions
 spanned a range of probabilities (Supplementary Table~\ref{tab:balance-fractions}).
-The shared held-boundary probability came from local rule dynamics
-at the given fraction. The endogenous range included the additional
-influence of prices on boundary states. Each probability counted
+When edge traders stayed in Hold, majority probability depended on
+neighbors' decisions at the given fraction of rule adoption. Allowing
+edge traders to respond to price added the influence of price changes
+on later decisions. Each probability counted
 crossings within its stated observation window, and each interpolated
 midpoint depended on the fractions sampled around that crossing.
 

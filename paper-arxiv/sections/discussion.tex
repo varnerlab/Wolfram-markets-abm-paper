@@ -1,104 +1,106 @@
 % discussion.tex -- Discussion
 \section{Discussion}
 
-Two results organize this study. A persistent change in how traders
-responded to their neighbors was sufficient to move the modeled market
-from mixed behavior to a Sell majority, and what that majority did to
-the price was decided at execution rather than on the lattice. The
-altered rule remained in place when a targeted trader left Sell,
-allowing the new response to act whenever its neighborhood input
-recurred, whereas a matched one-time Sell pulse changed only the
-current state and produced no majority crossings in the tested 50-seed
-controls. Persistent Rule~19286 activation produced crossings in every
-seed at the two larger fractions, and several other single-entry
-changes also produced majorities, although most screened rules did not.
-Collective selling therefore depended on the response being changed as
-well as on the fraction of traders adopting it. Because paired paths
-shared the same realized market state, their later divergence followed
-the intervention by construction. The measured transition curve
-supplied the additional result: it described how often that local
-change spread to a majority and how the outcome depended on the
-activation fraction.
+Changes in investor decision rules generated market instability, while
+available trading resources determined whether the shift toward selling
+accompanied a small decline or a price crash. When enough traders received a
+new rule for responding to their neighbors, a majority entered Sell even
+though the remaining traders kept their original rules. The new rule
+remained in place when a selected trader stopped selling, so the changed
+response applied whenever the same combination of neighboring decisions
+occurred again. Asking those traders to sell once changed only their current
+decision and produced no majority in the 50 runs tested for each condition.
+Keeping Rule~19286 in use produced a majority in every run at the two larger
+fractions, and several other changes to a single response also produced
+majorities, although most rules tested did not. Widespread selling therefore
+depended on which response changed as well as on how many traders received
+the new rule. Comparing markets with identical histories isolated the effect
+of the rule change. Repeating that comparison across starting markets then
+measured how often a majority formed at each fraction of traders given the
+new rule.
 
-The local rule dynamics could sustain the transition without a price
-signal. Holding boundary traders inactive left the interior free to
-evolve under neighbor interactions alone, and Sell majorities still
-developed. In the displayed crossing trajectories, Sell-rich regions
-formed, enlarged, and merged, which connected the local responses to
-the aggregate Sell fraction in the way that evolving spatial patterns
-do in other nonequilibrium lattice
-systems~\cite{hinrichsen2000nonequilibrium,bray1994theory}. The
-dependence on activation fraction resembled the spread found in
-threshold-contagion and bootstrap-percolation
-models~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp},
-where a seeded fraction likewise separates local from global spread.
-Because the majority grew out of finite domains, its location depended
-on the size of the lattice and on the time allowed. The response
-narrowed between the smallest and largest lattices on the refined
-grids, yet its midpoint continued to fall as the observation window
-increased, so the measured activation fraction was a property of both
-size and time. Establishing an asymptotic transition would require
-horizon convergence and a specified scaling
-model~\cite{binder1981finite,landau2021guide}. The spatial evidence
-also stops short of classical nucleation, since no free-energy barrier,
-activation rate, surface tension, or critical droplet was identified.
-The observed mechanism was growth and merger of Sell-rich domains over
-finite times.
+Market instability could develop through neighboring traders' decisions
+without traders responding to a price change. Keeping traders at the edge in
+Hold removed the influence of price on decisions inside the grid, yet Sell
+majorities still developed. In the displayed runs that reached a majority,
+groups of sellers formed, enlarged, and joined together. Local decisions
+thus produced growing spatial patterns, as occurs in other models of
+interacting sites away from
+equilibrium~\cite{hinrichsen2000nonequilibrium,bray1994theory}. The
+dependence on the fraction of traders given the new rule resembled models in
+which the size of an initially changed group determines whether a change
+spreads across a
+population~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp}.
+The fraction needed for a majority depended on both the number of
+interacting traders and the time allowed. On larger grids, the probability
+rose from low to high over a narrower range of rule adoption, but allowing
+more time continued to lower the fraction at which half the runs reached a
+majority. We therefore did not identify a threshold that would remain fixed
+in larger markets or longer runs. Establishing such a limit would require
+the estimates to stop changing with observation time and a mathematical
+model for their dependence on grid
+size~\cite{binder1981finite,landau2021guide}. The growing groups suggested an analogy with droplets forming in a
+phase change, but their appearance did not establish the physical
+mechanism of classical nucleation. We did not identify an energy
+barrier, a formation rate, surface tension, or a critical group size
+that separated growth from decay.
 
-A Sell state generated a desired order, but trader and dealer resources
-determined whether that order could move the price. Trader holdings
-first limited order eligibility, opposing eligible orders then cleared
-against one another, and the dealer absorbed only the unmatched flow
-that remained, up to its cash and inventory bounds. Those bounds
-connect this model to inventory-based accounts of
-intermediation~\cite{garman1976market,stoll1978supply,ho1981optimal,braunmunzinger2018agent},
-and only the imbalance in filled orders entered the price-impact
-relation~\cite{kyle1985continuous,farmer2005predictive,bouchaud2009how}.
-At zero dealer capacity, balanced execution left the quote fixed,
-whereas unlimited capacity allowed every eligible order to execute. The
-same illustrated seed consequently reached a Sell majority with either
-a 0.40\% or a 25.8\% drawdown. At 18\% activation with baseline cash,
-tenfold trader shares produced an 83.5\% median drawdown against the
-unlimited dealer, but finite capacity limited the corresponding
-drawdowns to 3.92\% or 0.399\%. More shares made additional selling
-eligible, but additional unmatched selling lowered the quote only while
-the dealer could continue buying. A lattice full of sellers therefore
-lowered the price only as far as someone was able to buy.
+The link between market instability and a price crash depended on whether
+investors could carry out their decisions. Traders first needed cash to buy
+or shares to sell, after which buy and sell orders were matched between
+traders. The dealer completed remaining orders only while its cash and share
+limits allowed. These limits connect the model to accounts of how dealer
+holdings affect
+trading~\cite{garman1976market,stoll1978supply,ho1981optimal,braunmunzinger2018agent}.
+Only the difference between completed trader buys and sells changed the
+price~\cite{kyle1985continuous,farmer2005predictive,bouchaud2009how}.
+Without dealer capacity, equal numbers of completed buys and sells left the
+price fixed, whereas unlimited capacity allowed every order backed by trader
+resources to complete. Runs from the same illustrated starting market
+consequently reached a Sell majority with either a 0.40\% or a 25.8\% drawdown (Fig.~\ref{fig:dealer-panels}). At 18\% rule adoption with the original cash holdings, tenfold
+trader shares produced an 83.5\% median drawdown against the unlimited
+dealer, but limited capacity held the corresponding drawdowns to 3.92\% or 0.399\% (Fig.~\ref{fig:balance-sheet}). More shares allowed traders to place more sell orders, but selling
+beyond what other traders bought lowered the price only while the dealer
+could continue buying. A market dominated by sellers therefore did not
+determine the severity of the crash on its own, because the price fell only
+as far as someone was able to buy.
 
-Price feedback allowed the execution constraint to influence the spread
-of selling as well as its financial consequence. Near the activation
-window, capacity $h=0.1$ raised majority probability by 38 percentage
-points relative to the unlimited dealer. The quote determined boundary
-trader states through a moving center and an adaptive decision width,
-and freezing each path's width at its pre-switch value removed the
-low-capacity advantage in the point estimates, linking that advantage
-to adaptation after the switch. Frozen widths still differed across
-seeds and capacities, the moving center and financial accounts
-continued to evolve, and other non-monotone capacity differences
-remained, so width adaptation did not explain the entire capacity
-response. The impact sweep placed a further bound on the price
-interpretation: drawdowns remained ordered in capacity across a decade
-of impact coefficients, but their magnitudes changed by a factor of
-seven to ten. Thus, limiting execution could reduce drawdown while
-price feedback increased the probability of a Sell majority. The two
-outcomes measured different consequences of the same resource
-constraint, and a single crash indicator would have combined them.
+Completed trades changed the price, which could then influence later
+decisions through the traders at the edge of the grid. At $f=0.175$, capacity $h=0.1$ raised majority probability by 38 percentage points relative to the unlimited dealer (Fig.~\ref{fig:reservoir}). Edge traders compared the price with a moving reference and adjusted
+the size of the departure that would trigger buying or selling. Keeping this
+required departure fixed at its value before the rule change removed the
+smaller dealer's advantage in the estimated probabilities, linking the advantage to traders adjusting their responses to price (Supplementary Table~\ref{tab:revision-band}). The reference price
+still changed, as did trader and dealer holdings, and the fixed departures
+still differed across starting markets and capacities. Increasing capacity
+also continued to produce both increases and decreases in majority
+probability, so this adjustment did not explain the entire effect of dealer
+capacity. Changing how strongly trades moved the price gave another limit on
+the interpretation: larger dealers still produced larger drawdowns across a
+tenfold range of price-impact coefficients, but drawdown magnitudes changed by a factor of seven to ten (Supplementary Table~\ref{tab:revision-impact}). Limiting completed trades could therefore
+reduce drawdown while the resulting price changes made a Sell majority more
+likely. The two outcomes measured how many traders decided to sell and how
+far completed trades lowered the price. A Sell majority alone was
+insufficient to identify a price crash.
 
-Several modeling choices limit how far these conclusions extend.
-Traders updated synchronously on a regular lattice using one baseline
-rule, and the totalistic score assigned the same response to distinct
-neighbor compositions, so the rule screen did not test arbitrary
-composition-based responses. Unit orders settled at a common quote,
-and the dealer had no strategic quoting policy, risk penalty, or source
-of replenishment beyond reversing flow. These assumptions made the
-financial constraints explicit but supplied neither an order book nor
-an empirical calibration of market depth, price impact, or time.
-Ten no-switch seeds under each boundary remained below a Sell majority
-for 100,000 additional steps, which extended the observed baseline
-persistence without proving global stability, and neither the
-1,000-step warm-up nor the final 500-step summary established a
-stationary distribution. Asynchronous updates, other interaction rules,
-and an order book would allow the same question to be examined under
-different assumptions: whether a persistent local response can spread
-through the market, and how available resources limit the resulting
-price decline.
+Several modeling choices limit how far these conclusions extend. Traders
+followed assigned decision rules rather than learning a strategy or choosing
+one to maximize returns. They updated together on a regular grid using one
+original rule, and different combinations of neighboring decisions could
+have the same sum and therefore produce the same response. Testing changes
+to this lookup table did not cover all possible ways to respond to
+neighboring traders. Each order requested one share at a common price, and
+the dealer had no strategy for setting prices or managing risk. It could
+replenish cash only by selling shares and replenish shares only by buying
+them. The model included resource limits but no record of outstanding orders
+at different prices, and its price response and time steps were not
+calibrated to an observed market. Its simulated crashes therefore did not
+predict the timing or magnitude of actual market crashes. Ten runs with the original decision rule in each condition, with edge
+traders either responding to price or kept in Hold, remained below a Sell majority for 100,000 additional steps (Appendix~\ref{app:revision-controls}). This
+extended the observed persistence of mixed decisions without establishing
+that it would continue indefinitely, and neither the 1,000-step initial
+period nor the final 500-step average established that the distribution of
+market states had stopped changing. Updating traders at different times,
+using other decision rules, or adding an order book would allow the same
+question to be examined under different assumptions: how investor decisions
+destabilize a market, and what determines whether that instability
+accompanies a crash.

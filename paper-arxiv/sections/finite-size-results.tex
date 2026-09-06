@@ -1,27 +1,32 @@
-Because the majority grew out of finite Sell-rich regions, its location
-on the activation axis could depend on the size of the lattice and on
-how long each run was observed. We repeated the held-boundary switch at
-five lattice sizes on refined fraction grids and found that larger
-lattices reached a majority at lower activation fractions and over a
-narrower crossover (Fig.~\ref{fig:finite-size}). At 3,000 steps under
-the held boundary, the midpoint fell from $f_{50}=0.216$ at
-$L=32$ to 0.166 at $L=128$, and the width decreased from
-0.023 [0.018, 0.027] to 0.008 [0.004, 0.010], where
-brackets give 95\% seed-bootstrap intervals
+The fraction of traders needing the new rule could depend on how many
+traders interacted and how much time their decisions had to influence
+one another. We changed the rule at five grid sizes while keeping edge
+traders in Hold, and found that larger markets needed a smaller fraction
+of traders to receive the new rule for a majority to form
+(Fig.~\ref{fig:finite-size}). We tested additional fractions near the
+rise in majority probability to measure its position and width. After
+3,000 steps, the fraction at which half the runs reached a majority,
+$f_{50}$, fell from 0.216 at $L=32$ to 0.166 at
+$L=128$. The additional fraction needed to raise majority probability
+from 0.25 to 0.75 decreased from 0.023 [0.018, 0.027] to
+0.008 [0.004, 0.010], with brackets giving 95\% confidence
+intervals obtained by resampling the starting markets
 (Fig.~\ref{fig:finite-size}A,C; Supplementary Table~\ref{tab:finite-size-scaling}).
-Peak susceptibility, the seed-to-seed variance of the final-window Sell
-fraction scaled by the number of interior sites, increased from
+We also measured variation between runs by multiplying the variance of
+the final mean Sell fraction by the number of interior traders. The maximum value of this measure, susceptibility, rose from
 21.2 to 241.2 over the
-same range (Fig.~\ref{fig:finite-size}B,D). Refined grids resolved each
-crossover, and logistic fits under a monotone curve assumption placed
-each midpoint within 0.004 of its interpolated value, while the fitted
-widths were narrower under the held boundary
-(Supplementary Table~\ref{tab:revision-fits}).
-Observation time also mattered: extending the $L=64$ window from 3,000
-to 9,000 steps lowered the majority midpoint from about 0.178 to 0.167,
-and size-scaled windows and alternative Sell-fraction criteria retained
-the endpoint size ordering while longer runs continued to shift the
-midpoint (Supplementary Table~\ref{tab:revision-horizons}). The sharper
-response on larger lattices therefore described a finite-time crossover
-whose location depended on the observation horizon, and we did not
-treat it as an asymptotic threshold.
+same sizes (Fig.~\ref{fig:finite-size}B,D). Fitting smooth curves that
+required probability to increase with rule adoption placed each
+midpoint within 0.004 of the estimate from interpolation between tested
+fractions, although the fitted widths were narrower when edge traders
+stayed in Hold (Supplementary Table~\ref{tab:revision-fits}). Allowing
+more time also changed the result: extending the $L=64$ runs from 3,000
+to 9,000 steps lowered the fraction needed for half the runs to reach a
+majority from about 0.178 to 0.167. The larger of the two endpoint grids still needed a lower fraction
+when we adjusted observation time with grid size or changed the Sell
+fraction required to count a transition, but the estimated midpoints
+kept moving in longer runs
+(Supplementary Table~\ref{tab:revision-horizons}). The sharper rise in
+majority probability on larger grids therefore described the markets
+over the time observed; it did not establish a threshold that would
+remain fixed as observation time increased.

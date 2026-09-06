@@ -28,6 +28,23 @@ not "residual flow was constrained by intermediary balance-sheet limits."
 Write "a lattice full of sellers lowered the price only as far as someone
 was able to buy," not "price impact was bounded by counterparty absorption."
 
+### Plain-English check
+
+The author explicitly requested a manuscript-wide removal of internal jargon.
+Name the action and comparison rather than writing "repeated the experiment."
+Describe selected edge traders as traders who use price changes to decide
+whether to buy, hold, or sell; do not call them "price-responsive traders."
+Explain that keeping them in Hold prevents price changes from influencing
+later decisions. Use "grid," "starting market," "completed trades," and
+"fraction of traders given the new rule" in narrative passages. Reserve
+"lattice," "seed," "eligibility," and "activation fraction" for definitions,
+mathematical notation, and compact labels where needed. Translate conditions
+such as "held boundary" and "endogenous boundary" into what the edge traders
+do. Avoid "activation window," "principal fraction," "eligible flow," and
+"unmatched residual." Explain a statistical quantity through what it measures
+before naming it. Simplify vocabulary without breaking developed paragraphs
+into short pieces or changing the measured outcomes.
+
 ## What the Paper Is
 
 One three-state cellular automaton market (Buy 0, Hold 1, Sell 2; von Neumann
@@ -42,9 +59,29 @@ the unmatched flow that can execute. Four production campaigns, 30,550
 simulations, 50 seeds each, plus the supplementary controls added in the
 peer-review revision.
 
-The two-part thesis, in the order every section follows: whether selling
-spreads is decided on the lattice; how far the price falls is decided at
-execution.
+The central theme is investor decision-making, market instability, and
+market crashes: how a change in some traders' decision rules shifts a market
+toward selling, and how available resources determine the resulting price
+decline. Use plain terms such as "market dominated by sellers" in place of
+"collective selling." Instability describes the observed shift from mixed
+decisions to a Sell majority after a rule change; it does not assert formal
+or infinite-time instability. A price crash is a large simulated price
+decline, measured by drawdown. Do not rename Sell-majority probability
+"crash probability," introduce an unmeasured crash threshold, or imply
+empirical calibration. The author explicitly requested this framing, which
+supersedes the earlier blanket ban on "crash" in prose. Use purpose-first
+openings in plain market language, then introduce rule numbers and other
+technical details where they explain the experiment. Preserve developed,
+connected paragraphs. Describe the agents as traders when explaining the
+model, and use investors for the broader question. A Sell state represents
+a current decision, not a permanent sell-only strategy. The changed rule is
+assigned only to the selected traders; decisions to sell can spread while
+other traders retain their original rules. Do not imply learning, optimizing
+returns, or endogenous adoption of new rules.
+
+The two-part thesis, in the order every section follows: interacting decision
+rules can destabilize trading; execution determines whether the resulting
+selling accompanies a small price decline or a simulated crash.
 
 ### Terminology
 
@@ -56,7 +93,7 @@ execution.
 | held boundary / endogenous boundary | exogenous model, endogenous model | one model, two boundary conditions |
 | dealer, dealer capacity `h` | market maker (in prose) | code and CSV columns say `market_maker` |
 | agent suppression / dealer rejection | | the two stages at which a desired order fails |
-| Sell majority, transition, onset, crossing | crash, escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation |
+| Sell majority, transition, onset, crossing | escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation; crash refers to the price decline, not this crossing |
 | growth and merger of Sell-rich domains, finite-time crossover | classical nucleation, critical point, asymptotic threshold | the paper explicitly disclaims these |
 | Model (singular) | Model A, Model B | directory names `code/model-a`, `code/model-b` are historical |
 
@@ -112,15 +149,14 @@ Supporting controls are integrated into these paragraphs and detailed in the
 appendix; never add a paragraph per control.
 
 **Discussion.** No subsections or headings. Opens with a plain thesis
-sentence ("Two results organize this study."). Then: the persistent local
+sentence connecting investor decisions to market instability and price declines. Then: the persistent local
 change and what the paired design attributes; the lattice mechanism, size
 and time, and the nucleation disclaimer; trader and dealer resources; price
 feedback and the non-monotone capacity response; limitations last. Each
 paragraph cites the relevant theory or microstructure literature.
 
-**Conclusion.** One paragraph. Ends on the plain consequence ("Many traders
-could remain in Sell after the dealer exhausted its ability to buy their
-shares.").
+**Conclusion.** One paragraph. Ends on the plain consequence: traders can continue deciding to sell
+after the dealer exhausts its ability to buy their shares.
 
 **Abstract.** One paragraph, about 300 words, qualitative: problem,
 approach, design, insight, implication. Zero computed numbers. Do not
@@ -179,9 +215,8 @@ show. Concretely:
    through the price signal that boundary traders fed back into the
    lattice.").
 2. The lead: an action clause AND a number-free generic observation, ending
-   with a citation of the WHOLE figure or table: "To separate the two
-   routes, we repeated the switch ... under a held boundary ... and we found
-   that the transition survived removal of the price signal
+   with a citation of the WHOLE figure or table: "We changed the decision rule for selected interior traders while
+   keeping edge traders in Hold and found that a Sell majority still formed
    (Fig.~\ref{fig:reservoir})." Both halves are required; a lead that only
    states the action fails, and so does one that only states the finding.
 3. Follow-up sentences carry the specific values, per-condition breakdowns,

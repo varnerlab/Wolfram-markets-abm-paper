@@ -3,87 +3,82 @@
 
 During the October 1987 market decline, portfolio insurance concentrated
 selling across participating traders~\cite{shiller1988portfolio,grossman1988analysis}.
-The forced unwind of leveraged funds transmitted losses across
+Forced sales by funds that had borrowed to invest spread losses across
 quantitative equity strategies in August 2007~\cite{khandani2011what}.
-Such episodes motivate a common modeling question: how can a change in
-the behavior of some traders become a market-wide event? Agent-based
+Such episodes motivate a common modeling question: how can changes in
+some investors' decision rules destabilize a market and contribute to
+a crash? Agent-based
 models address collective behavior through imitation, strategy adaptation,
 and responses to a shared price~\cite{lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,axtell2025agent}.
 Herding models describe how individual decisions produce collective
 activity~\cite{kirman1993ants,cont2000herd,lux1999scaling}, while lattice
 models restrict influence to neighboring traders~\cite{bornholdt2001ising,bartolozzi2004stochastic,qiu2007cellular}.
-These interactions can generate large fluctuations and clustered
+These interactions can generate large fluctuations and periods of sustained
 volatility, two features of financial returns~\cite{cont2001empirical}.
-However, reproducing aggregate fluctuations does not by itself explain
-how an established pattern of trading responds when part of the
-population changes its behavior. The size of the changed group matters,
-but so does the nature of the change. A temporary increase in selling
+However, reproducing market-wide fluctuations does not by itself explain
+how the decisions of an interacting population change when some
+investors begin using a different rule to decide whether to buy, hold,
+or sell. Both the size of the changed group and the nature of the change matter. A temporary increase in selling
 and a persistent change in how traders respond to their neighbors need
 not produce the same collective outcome.
 
-A cellular automaton makes that distinction concrete, because it gives
-each trader an explicit local decision rule. Traders occupy Buy, Hold, or
-Sell states on a square lattice and update from their four nearest
-neighbors, and a totalistic rule assigns the next state from the sum of
-those neighbor states~\cite{wolfram1984universality,packard1985two,wolfram2002new}.
-Local interactions of this kind have been used to generate market
-fluctuations and regime changes~\cite{wei2003cellular,bartolozzi2004stochastic,fan2009effect,atman2012influence}.
-The lookup table makes a persistent behavioral change precise: one
-response can change while the remaining entries stay fixed. A one-time
-Sell pulse changes only the current configuration, whereas changing the
-rule changes the response whenever the affected neighborhood recurs, and
-the altered response remains in place even after a trader leaves the
-Sell state. Following matched trajectories from the same realized
-lattice allows the effect of that persistent change to be measured
-against continued baseline
-behavior~\cite{glasserman1992guidelines,law2015simulation}.
-The question is then how many traders must adopt the changed rule
-before local selling grows into a Sell majority, and whether that
-majority can develop without feedback from the market price.
+A cellular automaton represents investors as traders arranged on a square
+grid, with each trader deciding whether to buy, hold, or sell from the
+decisions of nearby traders. Each trader uses a lookup table to convert the
+sum of its four neighbors' numbered decisions into its next decision, a
+construction known as a totalistic
+rule~\cite{wolfram1984universality,packard1985two,wolfram2002new}. Such
+models have been used to generate market fluctuations and changes in market
+behavior~\cite{wei2003cellular,bartolozzi2004stochastic,fan2009effect,atman2012influence}.
+One table entry can change while the other responses stay fixed. Asking a trader to sell once changes its current decision, whereas
+changing the rule changes how it responds whenever the same neighbor sum
+occurs again. The new rule remains in use even after the trader stops
+selling. Starting two markets from the same history, then changing the rule
+in only one, allows the effect of that change to be measured against
+continued use of the original
+rule~\cite{glasserman1992guidelines,law2015simulation}. The question is how
+many traders must receive the new rule before at least half of the interior
+traders decide to sell, which we call a Sell majority, and whether this
+instability can develop without traders responding to price changes.
 
-Whether a Sell majority forms is one question. What it does to the price
-is a second question, and the answer depends on the resources available
-to execute the resulting orders. A trader needs shares to sell or cash
-to buy, and an eligible order needs a counterparty. Dealer inventory and
-capital therefore constrain the unmatched flow that can
-execute~\cite{garman1976market,stoll1978supply,ho1981optimal,madhavan2000market,adrian2017dealer}.
-Price-impact models connect that executed flow to changes in the
-quote~\cite{kyle1985continuous,hasbrouck1991measuring,farmer2005predictive,bouchaud2009how}.
-Agent-based markets have incorporated finite endowments, order books,
-leverage limits, and dealers with constrained balance
-sheets~\cite{raberto2001agent,chiarella2002simulation,thurner2012leverage,braunmunzinger2018agent}.
-For a lattice market, separating desired trades from executed orders
-allows a Sell-dominated state to coexist with a limited price decline.
-The execution constraint also matters when traders respond to the price,
-because restricting unmatched flow changes the quote and therefore
-changes the signal used in subsequent decisions. Dealer capacity can
-then influence both the spread of selling and its financial
-consequences. An unlimited dealer can absorb all eligible unmatched
-flow, whereas a finite dealer may reach its cash or inventory limit
-while many traders remain in Sell.
+A market dominated by sellers and a market price crash are different
+outcomes. Their connection depends partly on the resources needed to trade. A trader needs shares to sell or cash to
+buy, and completing a trade requires someone willing and able to take the
+other side. Dealers can complete orders that other traders do not match, but
+their cash and share holdings limit how much they can buy and
+sell~\cite{garman1976market,stoll1978supply,ho1981optimal,madhavan2000market,adrian2017dealer}.
+Price-impact models describe how completed trades change the
+price~\cite{kyle1985continuous,hasbrouck1991measuring,farmer2005predictive,bouchaud2009how}.
+Agent-based markets have included limited trader resources, records of
+outstanding buy and sell orders, borrowing limits, and dealers with limited
+cash and
+shares~\cite{raberto2001agent,chiarella2002simulation,thurner2012leverage,braunmunzinger2018agent}.
+In the grid model, traders can keep deciding to sell even when they cannot
+complete a sale, allowing instability in decisions to develop without a
+price crash. Limits on completed trades also change the price that informs later decisions. Dealer capacity can therefore affect both selling decisions and prices. An unlimited dealer can complete every order
+backed by trader resources, whereas a limited dealer may run out of cash or
+reach its limit on share holdings while many traders still want to sell.
 
-In this study, we used a three-state cellular automaton market to
-determine how a persistent change in one local response produced
-collective selling and how dealer capacity shaped the resulting price
-decline. We followed paired trajectories from a common market history
-and changed one rule entry at a selected fraction of interior sites,
-and we repeated the design under a held boundary that kept perimeter
-traders inactive, which removed price feedback while preserving order
-execution and financial accounts. Persistent activation at 20\% or 25\%
-of sites produced a Sell majority in all 50 seeds within 3,000 steps
-under an unlimited dealer with price feedback, whereas activation at
-10\% or 15\% produced none (Supplementary Table~\ref{tab:paired-switch}).
-A matched one-time Sell pulse did not reproduce the transition, while
-several other single-entry rule changes did. The transition survived
-removal of price feedback, so the instability lived in the lattice,
-although its measured location depended on lattice size and observation
-time (Supplementary Table~\ref{tab:finite-size-scaling}). With feedback
-active, dealer capacity changed majority probability non-monotonically
-near the activation window. Greater capacity increased drawdown at 20\%
-activation, and separate cash and inventory interventions identified the
-resources that limited execution. Similar Sell-dominated lattices
-therefore accompanied median drawdowns from below 1\% to above 25\%,
-depending on how much of the desired selling could execute
-(Fig.~\ref{fig:reservoir}). Collective selling and a large price decline
-were separate outcomes in this model, and the second required a dealer
-able to keep buying.
+In this study, we used a three-state cellular automaton market to determine how changes in investor decision rules caused market instability and price declines. We compared markets with
+the same history, then changed one response in the decision rule of selected
+interior traders. To test whether price changes were needed for a majority
+to form, we kept traders along the edge of the grid in Hold instead of
+letting them decide from the price. With these edge traders active and an
+unlimited dealer, changing the rule for 20\% or 25\% of interior traders
+produced a Sell majority in all 50 runs within 3,000 steps, whereas changing
+it for 10\% or 15\% produced none (Supplementary
+Table~\ref{tab:paired-switch}). Asking the same traders to sell once did not
+produce a majority, while several other changes to a single response in the
+rule did. Majorities also formed with edge traders kept in Hold, showing
+that decisions based on neighbors alone could sustain widespread selling.
+The fraction that needed the new rule nevertheless depended on grid size and
+observation time (Supplementary Table~\ref{tab:finite-size-scaling}). When
+edge traders responded to price, greater dealer capacity did not
+consistently make a Sell majority more likely, but it did increase drawdown
+at 20\% rule adoption. Changing trader cash and shares separately identified
+the resources that limited completed trades. Similar markets dominated by
+sellers accompanied median drawdowns from below 1\% to above 25\%, depending
+on how much selling could be completed (Fig.~\ref{fig:reservoir}). Investor
+decisions could therefore create market instability without a price crash,
+because unmatched selling lowered the price only while the dealer could keep
+buying.

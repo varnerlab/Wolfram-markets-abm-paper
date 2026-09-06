@@ -100,7 +100,7 @@ a substitute for inspecting arXiv's generated preview.
 - All 15 refined curves met the five-interior-point criterion after 2,400
   additional seed-level runs; every bootstrap replicate bracketed its crossings.
 - Revision data checks passed, including agreement with 1,800 archived outcomes.
-- The 25-page manuscript compiled without LaTeX warnings, unresolved references,
+- The 28-page manuscript compiled without LaTeX warnings, unresolved references,
   or overfull boxes; all pages and revised figures were visually inspected.
 - The house-style pass checked developed narrative paragraphs, the required
   closing Introduction paragraph, opening evidence citations in all six Results
@@ -127,3 +127,25 @@ To rebuild and verify the upload archive:
 make -C paper-arxiv
 python3 paper-arxiv/package_arxiv.py --verify
 ```
+
+The narrative pass connected investor decision rules, market instability, and
+price crashes throughout the manuscript. Instability describes the shift toward
+a Sell majority after the rule change; a price crash describes a large simulated
+price decline measured through drawdown. The text distinguishes these outcomes
+without introducing a binary crash threshold. Developed paragraphs, numerical
+evidence, and model definitions were preserved. Independent reviews checked that
+the wording did not imply permanent Sell states, learning, or rule adoption
+outside the selected traders, and that crash language referred to price declines;
+identified wording issues were corrected and rechecked.
+
+
+The plain-English pass revised the abstract, Introduction, Methods, Results,
+Discussion, Conclusion, captions, and supplementary prose. It names each
+comparison directly and explains how selected traders at the edge use prices
+to make decisions. Computational shorthand was replaced with descriptions of
+trader decisions, available cash and shares, and completed trades. Formal terms
+needed for equations and figure labels remain defined in the Methods. The pass
+retained four Introduction paragraphs and six developed Results paragraphs.
+Independent reviews checked the meaning of the revised language and confirmed
+that the equations, algorithms, numerical evidence, and literature citations
+were preserved; the identified ambiguities were resolved and rechecked.

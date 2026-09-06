@@ -6,18 +6,19 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Production campaign design. ``Endogenous/held'' indicates that both
-matched boundary conditions were run.}
+\caption{Design of the four main sets of simulations. ``Endogenous'' means
+edge traders responded to price; ``held'' means they stayed in Hold.
+``Endogenous/held'' indicates that both conditions were tested.}
 \label{tab:campaigns}
 \small
 \begin{tabular}{llllrr}
 \toprule
 Campaign & Lattice sizes & Dealer $h$ & Boundary & Seeds & Simulations \\
 \midrule
-Selected paired switch & 64 & $\infty$ & endogenous & 50 & 400 \\
-Reservoir screen & 64 & $0$--$10,\infty$ & endogenous/held & 50 & 9,600 \\
-Finite-size switch & 32--128 & $1,\infty$ & three conditions & 50 & 9,750 \\
-Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
+Rule change & 64 & $\infty$ & endogenous & 50 & 400 \\
+Dealer capacity & 64 & $0$--$10,\infty$ & endogenous/held & 50 & 9,600 \\
+Grid size & 32--128 & $1,\infty$ & three conditions & 50 & 9,750 \\
+Cash and shares & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
 \bottomrule
 \end{tabular}
 \end{minipage}
@@ -27,11 +28,12 @@ Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
 \begin{minipage}{\linewidth}
 \centering
 \captionsetup{type=table,hypcap=false}
-\caption{Selected paired-switch campaign on a $64\times64$ lattice with an
-unlimited dealer and an endogenous boundary. Transition probability is the
-fraction of seeds whose peak interior Sell fraction reached one half after
-activation. Median onset is taken over crossing seeds and is undefined where no
-seed crossed.}
+\caption{Comparison of changed and unchanged decision rules on a $64\times64$
+grid with an unlimited dealer and edge traders responding to price.
+Transition probability is the fraction of runs in which at least half
+of the interior traders decided to sell after the rule change. Median
+onset is the median time to reach this condition among runs that did
+so; it is undefined where no run reached a majority.}
 \label{tab:paired-switch}
 \small
 \begin{tabular}{rrrrr}
@@ -60,10 +62,11 @@ Fraction $f$ & Seeds & No-switch & Switched & Median onset (steps) \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Transition probability in the cash--share campaign over 50 seeds. Each
-fraction contains 27 held-boundary cells, which returned one common value, and
-27 endogenous cells spanning the stated range across the three-by-three
-cash--share grid and three dealer capacities.}
+\caption{Probability of a Sell majority after changes in trader cash and shares,
+over 50 starting markets. Each fraction includes 27 combinations of
+cash, shares, and dealer capacity. Keeping edge traders in Hold gave
+the same probability for all combinations; allowing them to respond to
+price gave the stated range.}
 \label{tab:balance-fractions}
 \small
 \begin{tabular}{rrl}
