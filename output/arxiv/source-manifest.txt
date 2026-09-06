@@ -11,6 +11,7 @@ neurips_2026.sty
 sections/appendix.tex
 sections/conclusion.tex
 sections/discussion.tex
+sections/figures.tex
 sections/finite-size-results.tex
 sections/finite-size-table.tex
 sections/introduction.tex
@@ -18,3 +19,5 @@ sections/methods.tex
 sections/results.tex
 sections/revision-controls.tex
 sections/revision-fits-table.tex
+sections/revision-tables.tex
+sections/tables.tex

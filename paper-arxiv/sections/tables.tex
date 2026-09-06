@@ -1,0 +1,82 @@
+% tables.tex -- All tables collected after the references
+\section*{Tables}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Production campaign design. ``Endogenous/held'' indicates that both
+matched boundary conditions were run.}
+\label{tab:campaigns}
+\small
+\begin{tabular}{llllrr}
+\toprule
+Campaign & Lattice sizes & Dealer $h$ & Boundary & Seeds & Simulations \\
+\midrule
+Selected paired switch & 64 & $\infty$ & endogenous & 50 & 400 \\
+Reservoir screen & 64 & $0$--$10,\infty$ & endogenous/held & 50 & 9,600 \\
+Finite-size switch & 32--128 & $1,\infty$ & three conditions & 50 & 9,750 \\
+Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Selected paired-switch campaign on a $64\times64$ lattice with an
+unlimited dealer and an endogenous boundary. Transition probability is the
+fraction of seeds whose peak interior Sell fraction reached one half after
+activation. Median onset is taken over crossing seeds and is undefined where no
+seed crossed.}
+\label{tab:paired-switch}
+\small
+\begin{tabular}{rrrrr}
+\toprule
+ & & \multicolumn{2}{c}{Transition probability} & \\
+\cmidrule(lr){3-4}
+Fraction $f$ & Seeds & No-switch & Switched & Median onset (steps) \\
+\midrule
+0.10 & 50 & 0.00 & 0.00 & Undefined \\
+0.15 & 50 & 0.00 & 0.00 & Undefined \\
+0.20 & 50 & 0.00 & 1.00 & 1{,}044.5 \\
+0.25 & 50 & 0.00 & 1.00 & 311.5 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\captionsetup{type=table,hypcap=false}
+\input{sections/finite-size-table}
+\end{minipage}
+\end{center}
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Transition probability in the cash--share campaign over 50 seeds. Each
+fraction contains 27 held-boundary cells, which returned one common value, and
+27 endogenous cells spanning the stated range across the three-by-three
+cash--share grid and three dealer capacities.}
+\label{tab:balance-fractions}
+\small
+\begin{tabular}{rrl}
+\toprule
+Fraction $f$ & Held boundary & Endogenous range \\
+\midrule
+0.170 & 0.22 & 0.08--0.52 \\
+0.175 & 0.34 & 0.24--0.82 \\
+0.180 & 0.64 & 0.50--0.94 \\
+0.185 & 0.70 & 0.64--0.98 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+\input{sections/revision-tables}

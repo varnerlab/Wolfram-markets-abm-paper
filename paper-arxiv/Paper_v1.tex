@@ -69,32 +69,38 @@
 
 \begin{document}
 \raggedbottom
+% Keep paragraph openings and endings together across page and display breaks.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
 
 \maketitle
 
 \begin{abstract}
-How much local behavioral change is needed to produce a Sell-dominated
-state, and how do execution constraints shape its price consequences? We
-studied these questions in a deterministic three-state cellular automaton
-market. After a common baseline history, a preselected fraction of interior
-traders changed one entry of their local response table, while a matched
-no-switch path continued from the same realized state. Persistent activation
-produced a finite-time transition window that survived removal of price
-feedback; a one-time Sell pulse at the same sites did not reproduce it.
-Screening all single-entry neighbors of the baseline found additional
-transition-producing rules, alongside changes that produced no majority
-transition at the tested fractions. Adaptive fraction-grid refinement and
-seed-bootstrap intervals quantified the size-dependent response, with
-longer-horizon checks separating the reported finite-time crossover from
-claims about asymptotic stability. Trader cash and inventory determined order
-eligibility, an explicit dealer filled unmatched flow within its resource
-limits, and executed imbalance moved the price. Dealer capacity changed
-transition probability non-monotonically when prices fed back through boundary
-traders, while strongly ordering drawdown at the main activation fraction.
-These results distinguish local behavioral amplification, trader eligibility,
-and dealer execution capacity as separate stages in this model. Their
-separation allows the effects of the unlimited-counterparty assumption to be
-measured within a simulation, without calibrating the model to real-market crashes.
+A change in how traders respond to their neighbors can spread through
+a market, but its price consequence depends on whether the resulting
+orders execute. We developed a three-state cellular automaton market
+to examine this connection with explicit trader holdings and dealer
+capacity. Paired trajectories shared the same realized market state
+until a fraction of interior traders changed one entry of their local
+response rule. Persistent activation produced Sell majorities above a
+window of activation fractions. A one-time Sell pulse at the same sites
+produced no majority crossings at the tested fractions, while several
+other single-entry rule changes did. Holding boundary traders inactive
+preserved the transition, showing that local interactions could sustain
+collective selling without price feedback. Larger lattices had a sharper
+response on refined fraction grids, although the midpoint continued to
+shift with the observation horizon. Dealer capacity changed majority
+probability non-monotonically when prices fed back through boundary
+traders. Greater capacity increased drawdown at the main activation
+fraction across the tested price-impact coefficients. Cash and share
+interventions traced the price consequence to order eligibility and
+execution: trader holdings limited available flow, dealer resources
+bounded unmatched fills, and executed imbalance changed the quote.
+Similar Sell majorities could therefore accompany price declines that
+differed by more than an order of magnitude. An unlimited dealer allowed all eligible selling to execute,
+while finite capacity could limit the decline despite persistent
+Sell-state dominance.
 \end{abstract}
 
 \input{sections/introduction}
@@ -110,10 +116,18 @@ measured within a simulation, without calibrating the model to real-market crash
 % ============================================================================
 % Add acknowledgments and funding information here before submission, if applicable.
 
+\clearpage
 \bibliographystyle{unsrtnat}
 \bibliography{References_v1}
 
-\newpage
+% End matter order: references, tables, figures, supplementary information.
+\clearpage
+\input{sections/tables}
+
+\clearpage
+\input{sections/figures}
+
+\clearpage
 \appendix
 
 \input{sections/appendix}

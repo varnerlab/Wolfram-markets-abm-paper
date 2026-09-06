@@ -1,114 +1,104 @@
 % discussion.tex -- Discussion
-% ============================================================================
 \section{Discussion}
-% ============================================================================
 
-The principal result is a finite-time response to persistent local
-behavioral change, together with a separation of the stages that transmit
-that response to price. The deterministic matched design fixes attribution
-by construction; the substantive measurements are the transition curve,
-onset, and financial consequences. A one-time Sell pulse at the same sites
-produced no majority transitions in the tested 50-seed controls, whereas the
-persistent Rule~19286 switch did. The 20-seed screen found other
-transition-producing single-entry changes, but also many that produced no
-majority transition (Appendix~\ref{sec:revision-controls}). The result is
-therefore neither unique to $c=1$ nor generic to every entry of this baseline.
-It does not imply that an arbitrary behavioral perturbation, or the same
-fraction of real traders, would destabilize a market.
+Two results organize this study. A persistent change in how traders
+responded to their neighbors was sufficient to move the modeled market
+from mixed behavior to a Sell majority, and what that majority did to
+the price was decided at execution rather than on the lattice. The
+altered rule remained in place when a targeted trader left Sell,
+allowing the new response to act whenever its neighborhood input
+recurred, whereas a matched one-time Sell pulse changed only the
+current state and produced no majority crossings in the tested 50-seed
+controls. Persistent Rule~19286 activation produced crossings in every
+seed at the two larger fractions, and several other single-entry
+changes also produced majorities, although most screened rules did not.
+Collective selling therefore depended on the response being changed as
+well as on the fraction of traders adopting it. Because paired paths
+shared the same realized market state, their later divergence followed
+the intervention by construction. The measured transition curve
+supplied the additional result: it described how often that local
+change spread to a majority and how the outcome depended on the
+activation fraction.
 
-The held-boundary and finite-size results located the main instability in the
-heterogeneous cellular automaton. Sell-majority transitions continued when
-price could not affect the lattice, and refined-grid estimates with bootstrap intervals supported a narrower
-finite-time crossover at $L=128$ than at $L=32$
-(Table~\ref{tab:finite-size-scaling}). Sell-rich regions also
-formed, enlarged, and merged across activation fractions and dealer
-conditions. Persistence under the held boundary, size-dependent sharpening,
-and domain growth support a nonequilibrium description of the
-transition~\cite{hinrichsen2000nonequilibrium}. The size-dependent activation
-window also resembles the threshold in seeded fraction that separates local
-from global spread in threshold-contagion and bootstrap-percolation models,
-where the finite-lattice threshold likewise drifts with system
-size~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp}.
-This evidence does not establish classical nucleation in the sense of
-Johnson--Mehl--Avrami--Kolmogorov growth kinetics or Kramers-type thermal
-activation~\cite{kolmogorov1937statistical,johnson1939reaction,avrami1939kinetics,kramers1940brownian,hanggi1990reaction}:
-the analysis supplied no free-energy barrier, thermal activation rate, surface
-tension, or critical droplet. Nor did five lattice sizes observed for 3,000
-post-activation steps establish an equilibrium critical point. That size
-dependence remains a finite-time result. Establishing an asymptotic transition
-would require lattices larger than 128, horizon convergence beyond the size-scaled checks reported here,
-further grid refinement, and a scaling model specified before
-fitting~\cite{binder1981finite,landau2021guide}. Such an analysis would also
-need to distinguish a diverging correlation length~\cite{fisher1972scaling}
-from long transient coarsening near an absorbing
-state~\cite{bray1994theory,spirin2001fate,hinrichsen2000nonequilibrium}.
+The local rule dynamics could sustain the transition without a price
+signal. Holding boundary traders inactive left the interior free to
+evolve under neighbor interactions alone, and Sell majorities still
+developed. In the displayed crossing trajectories, Sell-rich regions
+formed, enlarged, and merged, which connected the local responses to
+the aggregate Sell fraction in the way that evolving spatial patterns
+do in other nonequilibrium lattice
+systems~\cite{hinrichsen2000nonequilibrium,bray1994theory}. The
+dependence on activation fraction resembled the spread found in
+threshold-contagion and bootstrap-percolation
+models~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp},
+where a seeded fraction likewise separates local from global spread.
+Because the majority grew out of finite domains, its location depended
+on the size of the lattice and on the time allowed. The response
+narrowed between the smallest and largest lattices on the refined
+grids, yet its midpoint continued to fall as the observation window
+increased, so the measured activation fraction was a property of both
+size and time. Establishing an asymptotic transition would require
+horizon convergence and a specified scaling
+model~\cite{binder1981finite,landau2021guide}. The spatial evidence
+also stops short of classical nucleation, since no free-energy barrier,
+activation rate, surface tension, or critical droplet was identified.
+The observed mechanism was growth and merger of Sell-rich domains over
+finite times.
 
-Dealer capacity controlled the price consequences of that spatial instability.
-Order-flow models connect executed imbalance to price
-changes~\cite{kyle1985continuous,gabaix2003theory,farmer2005predictive},
-dealer-inventory models bound the imbalance a market maker absorbs before its
-quotes
-move~\cite{garman1976market,stoll1978supply,amihud1980dealership,ho1981optimal,grossman1988liquidity,adrian2017dealer},
-and market-microstructure research emphasizes the constraints imposed by
-counterparties, balance sheets, and trading
-halts~\cite{subrahmanyam1994circuit,brunnermeier2009market,kirilenko2017flash}.
-Our dealer separated these mechanisms directly, since opposing trader orders
-cleared without dealer resources and the dealer handled only the residual, as
-in an earlier agent-based market whose dealers carried balance-sheet
-limits~\cite{braunmunzinger2018agent}. With zero capacity, executed buys and
-sells balanced and the quote stayed fixed, whereas with unlimited capacity
-every eligible order executed and the quote absorbed the full imbalance.
-Similar Sell domains could therefore accompany either a 0.40\% or a 25.8\%
-drawdown for the same seed at 20\% activation
-(Fig.~\ref{fig:dealer-panels}B). The dealer was useful for this
-controlled comparison but was not a realistic model of market depth or of a
-limit-order book~\cite{chiarella2002simulation,bouchaud2009how}. The cash and
-inventory interventions extended this separation to the trader side, since
-trader inventory determined the potential sell flow, trader cash supplied
-matching buy flow, and dealer cash and inventory limited the unmatched
-residual. At 18\% activation with baseline cash, multiplying trader shares by
-ten produced an 83.5\% median drawdown against an unlimited dealer but
-drawdowns of only 3.92\% at one unit of capacity per trader and 0.399\% at a
-tenth of a unit, because the dealer rejected the unmatched sells once its
-inventory bound (Fig.~\ref{fig:balance-sheet}B,C). The exact held-boundary null showed that these financial
-variables changed the lattice only through price feedback. Transition
-probability, price drawdown, and dealer rejection should therefore be reported
-as distinct outcomes rather than combined in one crash indicator.
+A Sell state generated a desired order, but trader and dealer resources
+determined whether that order could move the price. Trader holdings
+first limited order eligibility, opposing eligible orders then cleared
+against one another, and the dealer absorbed only the unmatched flow
+that remained, up to its cash and inventory bounds. Those bounds
+connect this model to inventory-based accounts of
+intermediation~\cite{garman1976market,stoll1978supply,ho1981optimal,braunmunzinger2018agent},
+and only the imbalance in filled orders entered the price-impact
+relation~\cite{kyle1985continuous,farmer2005predictive,bouchaud2009how}.
+At zero dealer capacity, balanced execution left the quote fixed,
+whereas unlimited capacity allowed every eligible order to execute. The
+same illustrated seed consequently reached a Sell majority with either
+a 0.40\% or a 25.8\% drawdown. At 18\% activation with baseline cash,
+tenfold trader shares produced an 83.5\% median drawdown against the
+unlimited dealer, but finite capacity limited the corresponding
+drawdowns to 3.92\% or 0.399\%. More shares made additional selling
+eligible, but additional unmatched selling lowered the quote only while
+the dealer could continue buying. A lattice full of sellers therefore
+lowered the price only as far as someone was able to buy.
 
-The non-monotone transition probability under price feedback is an effect of
-substantive size: at $f=0.175$, $h=0.1$ increased probability by 38 percentage
-points relative to an unlimited dealer. Freezing each path's boundary
-deviation at its pre-switch value removed this low-capacity advantage in the
-point estimates, while leaving other non-monotone differences. This control
-implicates adaptive boundary normalization in the particular advantage,
-without establishing a unique mechanism or a monotone response under all
-fixed bands. The moving center, trader books, and dealer ledger still evolve;
-frozen widths also differ across seeds and capacities because they inherit
-the realized pre-switch deviation. The price-impact sweep addresses a separate
-issue: the ordering of drawdowns is a model result, whereas their numerical
-magnitudes depend on the uncalibrated impact coefficient.
+Price feedback allowed the execution constraint to influence the spread
+of selling as well as its financial consequence. Near the activation
+window, capacity $h=0.1$ raised majority probability by 38 percentage
+points relative to the unlimited dealer. The quote determined boundary
+trader states through a moving center and an adaptive decision width,
+and freezing each path's width at its pre-switch value removed the
+low-capacity advantage in the point estimates, linking that advantage
+to adaptation after the switch. Frozen widths still differed across
+seeds and capacities, the moving center and financial accounts
+continued to evolve, and other non-monotone capacity differences
+remained, so width adaptation did not explain the entire capacity
+response. The impact sweep placed a further bound on the price
+interpretation: drawdowns remained ordered in capacity across a decade
+of impact coefficients, but their magnitudes changed by a factor of
+seven to ten. Thus, limiting execution could reduce drawdown while
+price feedback increased the probability of a Sell majority. The two
+outcomes measured different consequences of the same resource
+constraint, and a single crash indicator would have combined them.
 
-Several modeling choices limit the scope of the conclusions. The cellular
-automaton was deterministic after its random setup, updated synchronously, and
-used a regular lattice and one baseline rule. The supplementary rule screen
-extends the intervention beyond one pair, but retains that baseline. The
-scalar totalistic score conflates distinct neighbor compositions; its
-interpretation is a minimal aggregate response, and robustness to arbitrary
-composition-based rules remains untested. Orders had unit size and a
-common standing quote, and the model omitted an order book, bid--ask spread,
-cancellation, strategic dealer, risk penalty, and endogenous replenishment of
-dealer capacity beyond reversing flow. The main boundary specification used an adaptive
-rule, with a frozen-deviation sensitivity control, and uniform balance-sheet multipliers represented causal model
-interventions rather than policy experiments. Finally, the price-impact
-coefficient, time step, and lattice geometry were dimensionless and
-uncalibrated. The results identify mechanisms in a minimal dynamical system and
-do not forecast market crashes. Asynchronous updating and a limit-order book in place of the dealer would
-test whether the stage separation survives different behavioral timing and
-execution rules. No-switch trajectories observed for 100,000 additional
-steps constrain the baseline's behavior over that interval; they do not
-prove global stability, identify every attractor, or locate a basin boundary.
-The final 500-step window is an outcome summary, not a demonstrated
-stationary distribution. Similarly, the initial 1,000 steps define a common
-warm-up interval rather than a proof of equilibration. Absolute dealer
-capacity scales with trader count in the finite-size design; a
-fixed-absolute-capacity size series has not been run.
+Several modeling choices limit how far these conclusions extend.
+Traders updated synchronously on a regular lattice using one baseline
+rule, and the totalistic score assigned the same response to distinct
+neighbor compositions, so the rule screen did not test arbitrary
+composition-based responses. Unit orders settled at a common quote,
+and the dealer had no strategic quoting policy, risk penalty, or source
+of replenishment beyond reversing flow. These assumptions made the
+financial constraints explicit but supplied neither an order book nor
+an empirical calibration of market depth, price impact, or time.
+Ten no-switch seeds under each boundary remained below a Sell majority
+for 100,000 additional steps, which extended the observed baseline
+persistence without proving global stability, and neither the
+1,000-step warm-up nor the final 500-step summary established a
+stationary distribution. Asynchronous updates, other interaction rules,
+and an order book would allow the same question to be examined under
+different assumptions: whether a persistent local response can spread
+through the market, and how available resources limit the resulting
+price decline.

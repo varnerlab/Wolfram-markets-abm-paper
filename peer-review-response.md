@@ -34,7 +34,7 @@ Numbers below correspond to the review's 21-item consolidated list.
 
 | Item | Resolution | Evidence or manuscript location |
 |---|---|---|
-| 1. Matched null interventions | Added matched Sell pulses and all alternative single-entry changes. | Appendix review controls; `ModelB-Revision-pulse.csv`, `-screen.csv`. |
+| 1. Matched null interventions | Added matched Sell pulses and all alternative single-entry changes. | Supplementary pulse and rule tables; `ModelB-Revision-pulse.csv`, `-screen.csv`. |
 | 2. Single-entry rule screen | All 18 neighbors, both boundaries, three fractions, 20 seeds. Exploratory uncertainty is explicit. | Supplementary rule table; `Compute-Controls.jl screen`. |
 | 3. Adaptive grid refinement | Original 50 seeds retained; bisect intervals until every one of 15 curves has at least five sampled fractions with 0.05 < p < 0.95. | Figure 3, Table S3; `Compute-Refinement.jl`. |
 | 4. Bootstrap intervals | 2,000 whole-seed resamples across fractions; intervals for f25/f50/f75, width, susceptibility peak and its sampled location. Reported precision reduced. | Methods, Table S3, refined scaling CSV. |
@@ -53,7 +53,7 @@ Numbers below correspond to the review's 21-item consolidated list.
 | 17. Missing Table S2 source | Added explicit ignore exceptions for the full paired-switch summary, trajectories, and exemplar, with regeneration command. | `.gitignore`, `code/data/README.md`. |
 | 18. h=10 display | Added a dashed Figure 2A overlay and explicit h=10 level in panels B–D. | Figure 2 and plotting script. |
 | 19. Interior-point counts | Added n_int to Table S3. Susceptibility peak location is explicitly a sampled grid value. | Table S3 and supplementary fit table. |
-| 20. Advance selection | Did not invent preregistration or a power calculation. Documented fixed campaign constants, existing pilot/full modes, and lack of a prospective record. | Methods. |
+| 20. Advance selection | Did not invent preregistration or a power calculation. Documented fixed campaign constants, existing pilot/full modes, and lack of a prospective record. | Appendix campaign inventory. |
 | 21. Single-seed illustration | Explicitly labeled the Figure 5 trajectory as an illustration and pointed to ensemble evidence. | Figure 5 caption. |
 
 ## Limits and questions not converted into unsupported claims
@@ -100,9 +100,24 @@ a substitute for inspecting arXiv's generated preview.
 - All 15 refined curves met the five-interior-point criterion after 2,400
   additional seed-level runs; every bootstrap replicate bracketed its crossings.
 - Revision data checks passed, including agreement with 1,800 archived outcomes.
-- The 29-page manuscript compiled without LaTeX warnings, unresolved references,
+- The 25-page manuscript compiled without LaTeX warnings, unresolved references,
   or overfull boxes; all pages and revised figures were visually inspected.
-- The 20-file source archive compiled in an isolated temporary directory and
+- The house-style pass checked developed narrative paragraphs, the required
+  closing Introduction paragraph, opening evidence citations in all six Results
+  paragraphs, complete equation introductions, and coverage of all figure,
+  table, and algorithm references. The pulse table was generated from the
+  existing summaries; the previously reported numerical tables were preserved.
+- The author-voice pass revised the abstract, Methods, Results, Discussion,
+  Conclusion, and supplementary narrative using the supplied reference papers.
+  Developed paragraphs and opening Results citations were retained. Equations,
+  algorithms, numerical tables, and literature citations were unchanged by this pass.
+- The Results were consolidated from twelve to six developed paragraphs, reducing
+  narrative length by about half. Control details remain in the supplement; all
+  figure and table citations were retained.
+- All ten tables now follow the references, followed by the six figures and
+  then supplementary methods and validation. Numbering, captions, and narrative
+  citations were preserved; captions remain with their tables or figures.
+- The 23-file source archive compiled in an isolated temporary directory and
   reproduced the manuscript's extracted PDF text exactly. Its checksum and
   validation result are in `output/arxiv/validation.json`.
 

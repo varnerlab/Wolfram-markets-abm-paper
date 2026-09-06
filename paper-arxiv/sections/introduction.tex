@@ -1,157 +1,89 @@
 % introduction.tex -- Introduction
-% ============================================================================
 \section{Introduction}
-% ============================================================================
 
-Large price movements arrive more often than a Gaussian return process
-predicts, and volatility clusters in time, so that a calm market can turn
-turbulent within a few
-sessions~\cite{mandelbrot1963variation,fama1965behavior,engle1982autoregressive,bollerslev1986generalized,schwert1989volatility,mantegna1995scaling,gopikrishnan1999scaling,cont2001empirical}.
-Some of the largest movements have followed a change in the behavior of a
-subset of participants rather than a change in fundamentals. Portfolio
-insurers were a minority of institutions whose rule-driven selling concentrated
-in the October 1987 decline~\cite{shiller1988portfolio,grossman1988analysis},
-and the forced unwind of a few leveraged funds moved the entire quantitative
-equity sector in August 2007~\cite{khandani2011what}. A single large automated
-sell program, amplified by the response of other traders, produced the 2010
-Flash Crash~\cite{kirilenko2017flash,easley2011microstructure,menkveld2019flash},
-and retail buying coordinated on social media moved individual stocks in
-2021~\cite{pedersen2022game}. Financial constraints can also turn a local sale
-into a market-wide decline, because forced sales lower prices, lower prices
-shrink the funding and wealth of other holders, and the shrinkage forces
-further
-sales~\cite{coval2007asset,kyle2001contagion,brunnermeier2009market,adrian2010liquidity,shleifer2011fire}.
-Agent-based models of financial markets generate such episodes from the
-interaction of heterogeneous participants rather than from a return process
-prescribed in
-advance~\cite{lebaron2000agent,lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,farmer2009economy,bookstaber2017agent,arthur2021complexity,farmer2025quantitative,axtell2025agent}.
-Fundamentalist and chartist populations, minority games, and adaptive
-strategies in these models reproduce the heavy tails and volatility clustering
-of the empirical
-record~\cite{lux1999scaling,challet1997minority,farmer2002price,hommes2006heterogeneous}.
-Herding and imitation models make the amplification mechanism explicit, since a local change in behavior spreads through neighbors
-or through a shared price signal until it moves the
-aggregate~\cite{kirman1993ants,brock1998heterogeneous,lux1999scaling,lebaron1999time,cont2000herd,lux2000volatility,farmer2002price,harras2012noise,chen2015herding}.
-Statistical-physics models represent the same coordination through interacting
-spins or opinions and show how coupling strength, noise, or population
-composition can organize a market-wide
-transition~\cite{bak1997price,chowdhury2000statistical,bornholdt2001ising,krawiecki2002volatility,kaizoji2002speculative,sznajd2002simple,sornette2006importance,zhou2007selforganizing,castellano2009statistical,sornette2014physics},
-and three-state variants add an inactive state between buying and
-selling~\cite{kaizoji2002dynamics,takaishi2005simulations}. Interaction
-structure shapes the route to coordination in all of these models, because
-global coupling, random graphs, and local lattices propagate a behavioral
-change
-differently~\cite{lebaron2006agent,battiston2016complexity,alfarano2009network}.
-Parameter sweeps map the regimes a model can exhibit. A switch during an
-ongoing trajectory instead measures its response to a change from a realized
-state. We use matched trajectories, sharing setup randomness as in paired
-simulation comparisons~\cite{glasserman1992guidelines,law2015simulation}, to
-measure the response as a function of the fraction of sites whose rule changes.
-Conditional on the setup, both paths are deterministic: attribution follows
-from the intervention protocol, whereas the transition probability, onset,
-and magnitude of the response require measurement across initial conditions.
-The first question is therefore which local changes, at what fractions,
-produce a Sell-majority transition during a stated observation window.
+During the October 1987 market decline, portfolio insurance concentrated
+selling across participating traders~\cite{shiller1988portfolio,grossman1988analysis}.
+The forced unwind of leveraged funds transmitted losses across
+quantitative equity strategies in August 2007~\cite{khandani2011what}.
+Such episodes motivate a common modeling question: how can a change in
+the behavior of some traders become a market-wide event? Agent-based
+models address collective behavior through imitation, strategy adaptation,
+and responses to a shared price~\cite{lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,axtell2025agent}.
+Herding models describe how individual decisions produce collective
+activity~\cite{kirman1993ants,cont2000herd,lux1999scaling}, while lattice
+models restrict influence to neighboring traders~\cite{bornholdt2001ising,bartolozzi2004stochastic,qiu2007cellular}.
+These interactions can generate large fluctuations and clustered
+volatility, two features of financial returns~\cite{cont2001empirical}.
+However, reproducing aggregate fluctuations does not by itself explain
+how an established pattern of trading responds when part of the
+population changes its behavior. The size of the changed group matters,
+but so does the nature of the change. A temporary increase in selling
+and a persistent change in how traders respond to their neighbors need
+not produce the same collective outcome.
 
-Execution constraints pose a second gap, because the path from a desired trade
-to a price change passes through stages that most interaction models compress
-into one. A trader may want to buy but lack cash, or want to sell but lack
-shares, and constraints on short selling of this kind are known to bias prices
-and slow their adjustment to bad
-news~\cite{miller1977risk,diamond1987constraints}. Even an eligible order
-requires a counterparty. Market-microstructure theory makes that counterparty
-explicit as a dealer whose inventory and capital limit how much unmatched flow
-the dealer absorbs before quotes move or liquidity is
-withdrawn~\cite{garman1976market,stoll1978supply,amihud1980dealership,ho1981optimal,glosten1985bid,madhavan2000market}.
-In the classical treatment of immediacy, liquidity depends on the number of
-market makers standing ready to absorb an imbalance, and the immediate price
-move after a liquidity shock scales inversely with that
-capacity~\cite{grossman1988liquidity}. Later work ties liquidity to
-market-maker inventories and to the capital and balance-sheet capacity of
-intermediaries~\cite{comertonforde2010time,he2013intermediary,hendershott2014price,adrian2017dealer,bao2018volcker,vissingjorgensen2021treasury}.
-Price-impact studies map signed executed flow to
-returns~\cite{kyle1985continuous,hasbrouck1991measuring,lillo2003master,gabaix2003theory,bouchaud2004fluctuations,farmer2005predictive,bouchaud2009how},
-and stylized models of this kind often represent the counterparty as an
-unlimited reservoir that fills every order and converts signed flow directly
-into a price change~\cite{kyle1985continuous,farmer2005predictive}. This
-convention combines two distinct constraints: trader resources determine
-whether an order can enter the market, whereas dealer resources determine
-whether unmatched flow can execute. The distinction matters whenever prices
-feed back into behavior, because a counterparty that stops absorbing flow, an
-intermediary whose balance sheet is full, or a trading halt can each amplify
-or interrupt the loop from executed orders to prices and from prices to later
-decisions~\cite{greenwald1991transactional,subrahmanyam1994circuit,brunnermeier2009market,thurner2012leverage,kirilenko2017flash,chen2024dark}.
-Agent-based markets have carried finite cash and share
-endowments~\cite{raberto2001agent}, order-book
-clearing~\cite{chiarella2002simulation}, leverage
-limits~\cite{thurner2012leverage}, and dealers with balance-sheet
-limits~\cite{braunmunzinger2018agent}, and lattice interaction models have
-included trade frictions~\cite{iori2002microsimulation}. Whether a limited
-dealer changes a spatial instability itself, or only its effect on prices and
-rejected orders, was the second question of this study.
+A cellular automaton makes that distinction concrete, because it gives
+each trader an explicit local decision rule. Traders occupy Buy, Hold, or
+Sell states on a square lattice and update from their four nearest
+neighbors, and a totalistic rule assigns the next state from the sum of
+those neighbor states~\cite{wolfram1984universality,packard1985two,wolfram2002new}.
+Local interactions of this kind have been used to generate market
+fluctuations and regime changes~\cite{wei2003cellular,bartolozzi2004stochastic,fan2009effect,atman2012influence}.
+The lookup table makes a persistent behavioral change precise: one
+response can change while the remaining entries stay fixed. A one-time
+Sell pulse changes only the current configuration, whereas changing the
+rule changes the response whenever the affected neighborhood recurs, and
+the altered response remains in place even after a trader leaves the
+Sell state. Following matched trajectories from the same realized
+lattice allows the effect of that persistent change to be measured
+against continued baseline
+behavior~\cite{glasserman1992guidelines,law2015simulation}.
+The question is then how many traders must adopt the changed rule
+before local selling grows into a Sell majority, and whether that
+majority can develop without feedback from the market price.
 
-We separated these stages in a deliberately small model. Agents occupied a
-square lattice, held Buy, Hold, or Sell states, and updated synchronously from
-their four nearest neighbors according to a three-state Wolfram totalistic
-rule, in which the next state depends only on the sum of the neighborhood
-states~\cite{wolfram1983statistical,wolfram1984universality,wolfram1984cellular,vichniac1984simulating,packard1985two,wolfram2002new,rollier2025comprehensive}.
-Because a cellular automaton is specified by a lookup table rather than by an
-energy function and a temperature, it carries no equilibrium distribution, and
-its finite rule space can be enumerated so that one table entry can be changed
-while every other entry stays
-fixed~\cite{wolfram1983statistical,domany1984equivalence,toffoli1987cellular,gutowitz1987local,langton1990computation,chopard1998cellular,ilachinski2001cellular,dennunzio2012nonuniform,bhattacharjee2020survey}.
-Cellular automata have modeled markets before, and local majority or
-heterogeneous rules in those models produced abnormal fluctuations and regime
-changes~\cite{wei2003cellular,bartolozzi2004stochastic,qiu2007cellular,fan2009effect,atman2012influence}.
-The paired mid-run switch used here differs from that work by following a
-switched path and an unswitched path from the same realized state. Here the
-baseline and activated rules differed at only one of nine neighborhood sums,
-so the intervention changed a single entry of the lookup table. Agent states
-generated unit orders, cash and shares determined whether each order was
-eligible, an explicit dealer absorbed unmatched flow up to a capacity set per
-trader and rejected the rest, and executed imbalance changed the price. The
-price re-entered the lattice through traders on the lattice perimeter, whose
-states tracked the quote against an adaptive band, so that a price move could
-recruit new Buy or Sell states at the edge. Holding those perimeter traders in
-the Hold state removed the feedback without changing the interior rules or the
-financial bookkeeping. Switching a random fraction of sites and asking whether
-the whole lattice converts is structurally the question that threshold models
-of collective behavior and bootstrap percolation
-pose~\cite{granovetter1978threshold,chalupa1979bootstrap,adler1991bootstrap,morris2000contagion,watts2002simple,centola2007complex,morris2017bootstrap}.
-In those models a sharp threshold in the seeded fraction separates local from
-global spread, and the threshold on a finite lattice drifts with its
-size~\cite{aizenman1988metastability,holroyd2003sharp,bollobas2015monotone}.
-The lattice therefore also let us measure the growth of contiguous Sell
-regions directly, a quantity that phase-ordering studies track on
-lattices~\cite{bray1994theory,spirin2001fate}. It further let us follow how the
-curve of transition probability against switched fraction changed with system
-size, which is the standard finite-size test for separating a sharpening
-crossover from an equilibrium critical
-point~\cite{fisher1972scaling,binder1981finite,egenter1999finite,alfarano2009network,alfi2009mechanisms,landau2021guide}.
+Whether a Sell majority forms is one question. What it does to the price
+is a second question, and the answer depends on the resources available
+to execute the resulting orders. A trader needs shares to sell or cash
+to buy, and an eligible order needs a counterparty. Dealer inventory and
+capital therefore constrain the unmatched flow that can
+execute~\cite{garman1976market,stoll1978supply,ho1981optimal,madhavan2000market,adrian2017dealer}.
+Price-impact models connect that executed flow to changes in the
+quote~\cite{kyle1985continuous,hasbrouck1991measuring,farmer2005predictive,bouchaud2009how}.
+Agent-based markets have incorporated finite endowments, order books,
+leverage limits, and dealers with constrained balance
+sheets~\cite{raberto2001agent,chiarella2002simulation,thurner2012leverage,braunmunzinger2018agent}.
+For a lattice market, separating desired trades from executed orders
+allows a Sell-dominated state to coexist with a limited price decline.
+The execution constraint also matters when traders respond to the price,
+because restricting unmatched flow changes the quote and therefore
+changes the signal used in subsequent decisions. Dealer capacity can
+then influence both the spread of selling and its financial
+consequences. An unlimited dealer can absorb all eligible unmatched
+flow, whereas a finite dealer may reach its cash or inventory limit
+while many traders remain in Sell.
 
-In this study, we asked whether a mid-run switch in one local rule could
-destabilize a market model that was stable immediately before the switch, and
-how financial constraints would alter the outcome. Each paired experiment ran
-two paths under the baseline rule for 1,000 steps and then switched a
-preselected fraction of interior sites in one path without resetting any
-dynamic state, while the matched path kept every site under the baseline rule.
-We repeated the design under a held boundary that removed price feedback,
-across lattice sizes from 32 to 128, across dealer capacities from zero to
-unlimited, and under separate cash and inventory interventions. Within 3,000 post-switch steps, none of the
-matched no-switch controls reached a Sell majority, whereas switching 20\% or
-25\% of sites under price feedback and an unlimited dealer drove all 50 runs
-to a Sell majority and switching 10\% or 15\% drove none
-(Table~\ref{tab:paired-switch}). The transitions
-persisted when the boundary was held, so the instability originated in the
-local rule dynamics rather than in price feedback. The finite-size response was evaluated on adaptively refined grids with
-bootstrap intervals and explicit horizon checks
-(Table~\ref{tab:finite-size-scaling}). Dealer capacity also affected the
-spatial transition through feedback, including a non-monotone response near
-the transition window. Its financial effect was substantial:
-at 20\% activation, median drawdown rose from
-0.40\% with a tenth of a unit of capacity per trader to 3.92\% with one unit
-and 25.3\% with unlimited capacity (Fig.~\ref{fig:reservoir}C). These results separate the origin of the
-spatial instability, which lay in the lattice, from the financial constraints
-that determined its effect on price. Matched Sell pulses and a screen of all single-entry rule neighbors test
-whether this response requires persistent behavioral change and how far it
-extends beyond the selected pair.
+In this study, we used a three-state cellular automaton market to
+determine how a persistent change in one local response produced
+collective selling and how dealer capacity shaped the resulting price
+decline. We followed paired trajectories from a common market history
+and changed one rule entry at a selected fraction of interior sites,
+and we repeated the design under a held boundary that kept perimeter
+traders inactive, which removed price feedback while preserving order
+execution and financial accounts. Persistent activation at 20\% or 25\%
+of sites produced a Sell majority in all 50 seeds within 3,000 steps
+under an unlimited dealer with price feedback, whereas activation at
+10\% or 15\% produced none (Supplementary Table~\ref{tab:paired-switch}).
+A matched one-time Sell pulse did not reproduce the transition, while
+several other single-entry rule changes did. The transition survived
+removal of price feedback, so the instability lived in the lattice,
+although its measured location depended on lattice size and observation
+time (Supplementary Table~\ref{tab:finite-size-scaling}). With feedback
+active, dealer capacity changed majority probability non-monotonically
+near the activation window. Greater capacity increased drawdown at 20\%
+activation, and separate cash and inventory interventions identified the
+resources that limited execution. Similar Sell-dominated lattices
+therefore accompanied median drawdowns from below 1\% to above 25\%,
+depending on how much of the desired selling could execute
+(Fig.~\ref{fig:reservoir}). Collective selling and a large price decline
+were separate outcomes in this model, and the second required a dealer
+able to keep buying.

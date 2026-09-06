@@ -6,19 +6,30 @@
 
 \setcounter{algorithm}{0}
 \renewcommand{\thealgorithm}{S\arabic{algorithm}}
-\setcounter{table}{0}
-\renewcommand{\thetable}{S\arabic{table}}
 
 \subsection{One complete simulation step}
 
-Every campaign used the complete update in Algorithm~\ref{alg:model-step},
-with order clearing and settlement defined in
-Algorithm~\ref{alg:dealer-clearing}.
-Orders at step $t$ came from the lattice $X_{t-1}$ and the boundary states
-$e_{i,t-1}$, settled at the standing quote $P_{t-1}$, and generated the new
-quote $P_t$. The new quote classified the boundary before the cellular
-automaton produced $X_t$. Stating the full order of operations was
-necessary because changing that order would define a different model.
+The standing trader states generated orders before the new quote
+could change those states
+(Algorithm~\ref{alg:model-step}). Orders passed through eligibility,
+clearing, and settlement before generating a new quote
+(Algorithm~\ref{alg:dealer-clearing}).
+Orders at step $t$ came from the lattice $X_{t-1}$ and stored boundary
+states $e_{i,t-1}$. They settled at the standing quote $P_{t-1}$ before
+executed imbalance generated $P_t$. Boundary traders then classified the
+new quote, setting the perimeter states used to produce $X_t$.
+Rule activation occurred before this sequence without changing the current
+state. A balance-sheet intervention, when scheduled, changed trader
+resources before eligibility was evaluated. This timing explains why a
+rule switch leaves the first post-switch quote unchanged, whereas a
+financial intervention can affect it immediately. The held-boundary
+control retained the same sequence but replaced boundary classification
+with Hold. Under either boundary, a shortage of resources could stop an order
+without changing the trader's cellular-automaton state. We recorded
+orders excluded by trader resources as agent suppression and eligible
+orders left unfilled by the dealer as dealer rejection. Neighboring
+traders continued to respond to the stored Buy, Hold, or Sell state
+even when the associated order did not execute.
 
 \begin{algorithm}[!ht]
 \caption{One endogenous-market step, $t-1\rightarrow t$, in simulation order.
@@ -127,169 +138,122 @@ $n_t^B\leftarrow B_t$; $n_t^S\leftarrow S_t$
 
 \FloatBarrier
 
-The implementation kept two forms of nonexecution separate. Agent suppression
-meant that the trader lacked cash or shares before matching. Dealer rejection
-meant that the trader was eligible but the finite dealer could not absorb the
-unmatched residual. Neither event altered the trader's CA state. This
-distinction prevented a financial constraint from silently rewriting the
-behavioral state that generated the order.
-
 \subsection{Rationing and paired reproducibility}
 
-When dealer capacity was binding, only the excess side required rationing. Each
-eligible trader on that side received a 64-bit score from a SplitMix64
-finalizer applied to the tuple
-$(\text{seed},t,\text{trader identity},\text{side})$. We sorted orders by
-score and used trader identity as a deterministic tie breaker. Priorities changed with $t$,
-so a trader who submitted the same order repeatedly did not retain the same
-position. Paired paths also used the same score for a given
-$(t,i,\text{side})$ after their eligible sets diverged. The score did not
-consume draws from the random-number generator used to construct the lattice
-and quenched disorder. The resulting rationing was reproducible without
-giving the same traders permanent priority.
-
-For every rule-switch pair, we asserted exact equality of the frame at
-$T_{\rm pre}$, the Sell-fraction history through that frame, the edge
-coordinates and band widths, and the price history through the quote formed
-from the common pre-switch state. For every held-boundary balance-sheet cell we
-also asserted equality of the complete Sell-fraction history and final frame
-across all nine cash--share interventions. The assertions tested that paired
-experiments differed only at the stated intervention.
+When eligible buys and sells differed, the dealer rationed the excess
+side if its resources could not absorb all unmatched orders.
+Each eligible trader on that side received a 64-bit score from a
+SplitMix64 finalizer applied to
+$(\text{seed},t,\text{trader identity},\text{side})$.
+Orders were sorted by score, using trader identity to break ties
+reproducibly. The dependence on $t$ prevented a trader from retaining the
+same priority across repeated orders. Paired paths used the same score
+for a given $(t,i,\text{side})$ even after their eligible sets diverged.
+Scoring did not consume draws from the generator used to initialize the
+lattice and target sites. For each pair, we checked the frame at
+$T_{\rm pre}$, its preceding Sell history, the boundary coordinates and
+band multipliers, and the price history through the first post-switch
+quote. Held-boundary balance-sheet cells additionally required exact
+agreement of the full Sell history and final frame across all nine
+interventions. Exact pre-switch agreement ensured that a pair reached activation
+with the same history. Exact post-switch agreement across held-boundary
+financial interventions ensured that trader resources affected execution
+without entering the local rule update.
 
 \subsection{Conservation and limiting cases}
 
-With no intervention, agent-plus-dealer cash and shares are invariants:
+Settlement conserved total cash and shares across traders and dealer
+when no intervention occurred:
 \begin{align}
  \sum_i w_i(t)+W_t &= \sum_i w_i(0)+W_0,\\
  \sum_i q_i(t)+Q_t &= \sum_i q_i(0)+Q_0.
 \end{align}
-Across the production reservoir and finite-size campaigns, the maximum
-absolute cash error was $2.53\times10^{-6}$ and the share error was zero. In
-the balance-sheet campaign, conservation was checked separately before and
-after the intentional intervention jump. Its maximum cash error was
-$9.47\times10^{-7}$ and its share error was zero.
-
-Three exact limits supplied regression tests. With $h=\infty$, every
-agent-eligible order filled, and the complete path reproduced the earlier
-fill-all implementation. With $h=0$, only opposing agent orders cleared,
-executed imbalance was zero, the price stayed fixed, and the
-endogenous-boundary lattice matched the held-boundary lattice. In the
-reservoir campaign, $h=10$ never rejected an order and reproduced the
-$h=\infty$ paths exactly. The $h=10$ equality held for the stated endowments
-and horizon and was not a general identity between finite and unlimited
-dealers. A longer horizon, larger trader endowments, or a different
-flow history could make this dealer's cash or inventory bind, breaking the
-equality; it is an observed equality for this campaign rather than a general
-identity between finite and unlimited capacity.
+The maximum absolute cash error across the production reservoir and
+finite-size campaigns was $2.53\times10^{-6}$; the share error was zero.
+In the balance-sheet campaign, checks were applied separately before
+and after the intentional resource change. Its maximum cash error was
+$9.47\times10^{-7}$, again with zero share error. Three limiting cases
+also supplied regression checks. Unlimited capacity filled every eligible
+order and reproduced the earlier fill-all implementation. Zero capacity
+allowed only balanced trader flow, giving a fixed price and identical
+endogenous and held-boundary lattice paths. Capacity $h=10$ never
+rejected an order in the reservoir campaign and matched the unlimited
+path. That last equality applies to the stated endowments and horizon.
+A different flow history, larger trader holdings, or longer observation
+could cause this finite dealer's cash or inventory limits to bind.
 
 \subsection{Campaign inventory}
 
-The production inventory contained 30,550 simulations across the four
-campaigns (Table~\ref{tab:campaigns}). The reservoir campaign reused one
-no-switch control within each $(h,\text{boundary},\text{seed})$ cell, so its
-comma-separated value file contained one treated summary row per target
-fraction without duplicating the control. The other campaigns reconstructed a
-deterministic row order from independently checkpointed cells after threaded
-computation. This organization made a resumed threaded run reproduce the same
-tables as an uninterrupted run.
+We used four production campaigns to measure activation, dealer capacity,
+lattice size, and trader resources, totaling 30,550 simulations
+(Supplementary Table~\ref{tab:campaigns}). Each used 50 seeds and 3,000 post-activation
+steps as fixed campaign settings. Pilot and full modes recorded how the experiments were developed.
+The seed count and horizon were fixed campaign settings, without a
+prospective power calculation or independent preregistration of the horizon. With 50 seeds, a probability near one-half has a binomial
+standard error of about 0.07. The reservoir campaign reused one no-switch
+control within each $(h,\text{boundary},\text{seed})$ cell. Its comma-separated value (CSV) file
+therefore stored the control metrics with each treated summary row rather
+than as a separate trajectory for every fraction. Checkpointed campaigns
+reconstructed a fixed row order after threaded computation. A resumed campaign therefore retained the same control comparisons
+and row order as an uninterrupted run. Reusing the no-switch path
+avoided repeating an identical simulation for each activation fraction.
 
-\begin{center}
-\centering
-\captionsetup{type=table,hypcap=false}
-\caption{Production campaign design. ``Endogenous/held'' indicates that both
-matched boundary conditions were run.}
-\label{tab:campaigns}
-\small
-\begin{tabular}{llllrr}
-\toprule
-Campaign & Lattice sizes & Dealer $h$ & Boundary & Seeds & Simulations \\
-\midrule
-Selected paired switch & 64 & $\infty$ & endogenous & 50 & 400 \\
-Reservoir screen & 64 & $0$--$10,\infty$ & endogenous/held & 50 & 9,600 \\
-Finite-size switch & 32--128 & $1,\infty$ & three conditions & 50 & 9,750 \\
-Cash--share factorial & 64 & $0.1,1,\infty$ & endogenous/held & 50 & 10,800 \\
-\bottomrule
-\end{tabular}
-\end{center}
+The selected paired-switch campaign used $L=64$, an unlimited dealer,
+and an endogenous boundary at $f=0.10,0.15,0.20,0.25$.
+The reservoir screen used the same lattice size at fractions
+0.10, 0.15, 0.175, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210, 0.225,
+and 0.250. It crossed these fractions with capacities
+$h=0,0.1,0.5,1,2,5,10,\infty$ under both boundaries.
+The original finite-size grid used fractions
+0.140, 0.150, 0.160, 0.170, 0.175, 0.180, 0.185, 0.190, 0.200, 0.210,
+0.225, and 0.250 at $L=32,48,64,96,128$.
+Its three conditions were a held boundary with $h=\infty$ and endogenous
+boundaries with $h=1$ or $\infty$. The cash--share campaign crossed nine
+multiplier pairs with $f=0.170,0.175,0.180,0.185$ and
+$h=0.1,1,\infty$ under both boundaries. Capacity was defined per trader
+throughout; a fixed-absolute-capacity size series was not run.
+The supplementary controls below retain this initialization while varying
+the stated intervention, parameter, or observation window.
 
-Several interpolated and per-cell quantities quoted in the main text appear in
-no figure panel, so each campaign also carries a tabulated outcome summary. The
-selected paired-switch campaign produced no control crossing at any sampled
-fraction, no switched crossing at $f=0.10$ or 0.15, and crossing in every seed
-at $f=0.20$ and 0.25, where median onset fell from 1{,}044.5 to 311.5 steps
-(Table~\ref{tab:paired-switch}). We applied the majority criterion to the peak
-interior Sell fraction of each path rather than to the recorded onset, because
-the summary file writes onset zero for a path that never crossed, and we took
-median onset over crossing seeds alone, so it is undefined at the two lower
-fractions. The finite-size campaign supplies the interpolated midpoint
-$f_{50}(L)$, the width $f_{75}-f_{25}$, and the peak ensemble susceptibility
-for all five sizes under the three boundary and dealer
-conditions (Table~\ref{tab:finite-size-scaling}); sampled peak locations
-appear in Table~\ref{tab:revision-fits}. Linear interpolation of the
-sampled transition curve produced both the midpoint and the width, so each
-inherits the resolution of the fraction grid and describes the sampled
-finite-time response rather than an equilibrium quantity. The cash--share
-campaign supplies the corresponding fraction-by-fraction transition
-probabilities under both boundaries (Table~\ref{tab:balance-fractions}). Within
-each fraction, all 27 held-boundary cells returned one probability, which is the
-tabulated form of the exact lattice invariance that the paired assertions
-checked, whereas the 27 endogenous cells spanned the stated range. Reporting
-both columns separates the fraction dependence of the transition from the
-balance-sheet dependence that only the endogenous boundary transmits.
+Reproducing a market path required both the seeded setup and the
+specified update order. We ran the simulations in Julia 1.12 with the
+environment pinned by the repository manifest. Original campaigns used 12 simulation threads and one
+garbage-collection thread; supplementary campaigns used four or eight
+simulation threads and one garbage-collection thread.
+A seeded Xoshiro generator~\cite{blackman2021scrambled} supplied the setup
+draws. Finite-size and balance-sheet campaigns wrote atomic checkpoints,
+then aggregated them in a deterministic order. Tests covered parameter
+validation, dealer limits, conservation, delayed activation, boundary
+controls, and time-varying priorities. Stepwise comparisons checked the
+optimized lattice kernel against the general totalistic solver under both
+homogeneous and heterogeneous rule fields. Bootstrap analysis and generated
+LaTeX tables used Python, with package versions recorded in
+\texttt{code/revision/requirements.txt}. Source code, environment manifests,
+derived data, and figure scripts are available at
+\url{https://github.com/varnerlab/Wolfram-markets-abm-paper}.
+The repository also retains the earlier external-price classroom
+implementation and its archived Invesco QQQ exchange-traded fund input
+for provenance. No result from that model entered the principal analysis
+or figures.
 
-\begin{center}
-\centering
-\captionsetup{type=table,hypcap=false}
-\caption{Selected paired-switch campaign on a $64\times64$ lattice with an
-unlimited dealer and an endogenous boundary. Transition probability is the
-fraction of seeds whose peak interior Sell fraction reached one half after
-activation. Median onset is taken over crossing seeds and is undefined where no
-seed crossed.}
-\label{tab:paired-switch}
-\small
-\begin{tabular}{rrrrr}
-\toprule
- & & \multicolumn{2}{c}{Transition probability} & \\
-\cmidrule(lr){3-4}
-Fraction $f$ & Seeds & No-switch & Switched & Median onset (steps) \\
-\midrule
-0.10 & 50 & 0.00 & 0.00 & --- \\
-0.15 & 50 & 0.00 & 0.00 & --- \\
-0.20 & 50 & 0.00 & 1.00 & 1{,}044.5 \\
-0.25 & 50 & 0.00 & 1.00 & 311.5 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\begin{center}
-\centering
-\captionsetup{type=table,hypcap=false}
-\input{sections/finite-size-table}
-\end{center}
-
-\begin{center}
-\centering
-\captionsetup{type=table,hypcap=false}
-\caption{Transition probability in the cash--share campaign over 50 seeds. Each
-fraction contains 27 held-boundary cells, which returned one common value, and
-27 endogenous cells spanning the stated range across the three-by-three
-cash--share grid and three dealer capacities.}
-\label{tab:balance-fractions}
-\small
-\begin{tabular}{rrl}
-\toprule
-Fraction $f$ & Held boundary & Endogenous range \\
-\midrule
-0.170 & 0.22 & 0.08--0.52 \\
-0.175 & 0.34 & 0.24--0.82 \\
-0.180 & 0.64 & 0.50--0.94 \\
-0.185 & 0.70 & 0.64--0.98 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-The repository retained the earlier external-price classroom implementation
-and its archived Invesco QQQ exchange-traded fund input for provenance. No
-result from that model entered the principal analysis or figures.
+Majority probability and onset described whether collective selling
+occurred and how long it took. We used these summaries to compare
+activation fractions, lattice sizes, and trader resources. In the selected switch campaign, transition status was
+evaluated from peak Sell fraction because the stored onset used zero
+for a path with no crossing. Median onset was therefore undefined at
+the two lower fractions, where no switched seed transitioned
+(Supplementary Table~\ref{tab:paired-switch}). The refined size comparisons used
+midpoints, widths, and susceptibility maxima calculated over each
+sampled fraction grid (Supplementary Table~\ref{tab:finite-size-scaling}). The
+susceptibility peak location remained a sampled fraction rather than
+an interpolated optimum (Supplementary Table~\ref{tab:revision-fits}). In the
+financial campaign, all 27 held-boundary conditions returned one
+transition probability at each fraction. The 27 endogenous conditions
+spanned a range of probabilities (Supplementary Table~\ref{tab:balance-fractions}).
+The shared held-boundary probability came from local rule dynamics
+at the given fraction. The endogenous range included the additional
+influence of prices on boundary states. Each probability counted
+crossings within its stated observation window, and each interpolated
+midpoint depended on the fractions sampled around that crossing.
 
 \input{sections/revision-controls}

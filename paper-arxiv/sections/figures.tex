@@ -1,0 +1,131 @@
+% figures.tex -- Figures collected after the tables
+\section*{Figures}
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.95\linewidth]{figs/Fig1-RuleQuench.pdf}
+  \caption{A paired mid-run rule switch separated initially identical market
+  paths. Fifty seeds were run on a $64\times64$ lattice for 1,000 baseline steps
+  and 3,000 post-activation steps. The no-switch path retained the same target
+  sites but kept their baseline rules. \textbf{(A)}~Median price divided by its
+  value at activation; bands mark the interquartile range.
+  \textbf{(B)}~Median interior Sell fraction; the horizontal line marks the
+  majority threshold. \textbf{(C)}~Time-sliced lattices for seed 12, the
+  $f=0.20$ pair nearest the median switched-control difference in peak Sell
+  fraction. Blue, gray, and orange cells denote Buy, Hold, and Sell. The rows
+  show the no-switch and switched paths from their common activation state
+  through 3,000 steps. All paired paths coincided before the vertical
+  activation line.}
+  \label{fig:rule-quench}
+\end{minipage}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.97\linewidth]{figs/Fig2-ReservoirQuench.pdf}
+  \caption{Rule activation across dealer capacities. \textbf{(A)}~Transition
+  probability under the held boundary and selected endogenous dealer conditions;
+  bands are 95\% Wilson intervals over 50 seeds. The held boundary kept active
+  boundary traders in the Hold state. \textbf{(B)}~Difference between
+  endogenous and held-boundary transition probabilities across the complete
+  capacity range. \textbf{(C)}~Median maximum drawdown at $f=0.20$; bands mark
+  the interquartile range. \textbf{(D)}~Median fraction of agent-eligible orders
+  rejected by the dealer at $f=0.20$. Capacity $h=10$ is shown as a dashed overlay in (A) and as an explicit
+  capacity level in (B--D); it coincided exactly with $h=\infty$.}
+  \label{fig:reservoir}
+\end{minipage}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.97\linewidth]{figs/Fig3-FiniteSizeQuench.pdf}
+  \caption{Finite-size response of the paired rule switch over 50 seeds.
+  \textbf{(A)}~Held-boundary transition probability; bands are 95\% Wilson
+  intervals. \textbf{(B)}~Held-boundary ensemble susceptibility of the final
+  500-step mean Sell fraction. \textbf{(C)}~Interpolated finite-horizon midpoint
+  $f_{50}(L)$ for the held control and two endogenous dealer conditions.
+  \textbf{(D)}~Peak susceptibility versus lattice size on linear axes.
+  Error bars in (C,D) are 95\% seed-bootstrap intervals. Solid lines connect
+  sampled values; dashed curves in (A) are logistic fits. No asymptotic
+  scaling law was fitted.}
+  \label{fig:finite-size}
+\end{minipage}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.98\linewidth]{figs/Fig4-DoseMarketPanels.pdf}
+  \caption{Prespecified time-sliced markets across the activation-fraction
+  crossover under an endogenous boundary and unlimited dealer. Blue, gray, and
+  orange cells denote Buy, Hold, and Sell. \textbf{(A)}~Lattices for five runs
+  (columns) at activation and after 500, 1,500, and 3,000 steps (rows). From
+  left to right, the runs include a noncrossing $f=0.15$ case, both outcome
+  groups at $f=0.175$, and crossing cases at $f=0.185$ and 0.20. Crossing cases
+  were nearest their subgroup median onset. Noncrossing cases were nearest
+  their subgroup median final Sell fraction. Seeds were 8, 5, 22, 46, and 21
+  from left to right. \textbf{(B)}~Price divided by its activation value.
+  \textbf{(C)}~Interior Sell fraction; the horizontal line marks the majority
+  threshold. Vertical guides mark the four snapshots.}
+  \label{fig:dose-panels}
+\end{minipage}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.96\linewidth]{figs/Fig5-DealerMarketPanels.pdf}
+  \caption{Time-sliced markets for one matched seed at $f=0.20$.
+  \textbf{(A)}~Lattices for four conditions (columns) at activation and after
+  500, 1,500, and 3,000 steps (rows). The columns contain endogenous dealers
+  with $h=0.1$, $h=1$, and $h=\infty$, followed by the held-boundary control
+  with $h=\infty$. Seed 25 minimized the summed distance from the three
+  endogenous capacity-specific median onsets among seeds that crossed in all
+  three conditions. Rows use common elapsed times. \textbf{(B)}~Price divided
+  by its activation value. \textbf{(C)}~Interior Sell fraction. The held
+  boundary prevented price from changing the lattice but did not prevent price
+  from being calculated. The single seed illustrates trajectories; the
+  capacity comparison supplies ensemble evidence (Fig.~\ref{fig:reservoir}).}
+  \label{fig:dealer-panels}
+\end{minipage}
+\end{center}
+
+\clearpage
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionsetup{type=figure,hypcap=false}
+  \centering
+  \includegraphics[width=0.99\linewidth]{figs/Fig6-BalanceSheetQuench.pdf}
+  \caption{Crossed trader cash and share interventions at activation under the
+  endogenous boundary, with $f=0.18$ and 50 seeds. In panels A to C the nine
+  intervention cells are grouped by cash multiplier with the share multiplier
+  on the axis, and each series is one dealer capacity.
+  \textbf{(A)}~Transition probability. The dashed line and band give the
+  held-boundary value and its 95\% Wilson interval, which were identical in
+  all nine cells because the held-boundary lattice was invariant to every
+  intervention. \textbf{(B)}~Median maximum drawdown on a logarithmic axis.
+  Medians of exactly zero are drawn at the axis floor with open markers.
+  \textbf{(C)}~Median fraction of agent-eligible orders rejected by the
+  dealer. \textbf{(D)}~Transition probability against median maximum drawdown
+  for all 27 endogenous cells, on the same logarithmic axis and with zero
+  medians drawn as in B, with the held-boundary reference repeated.}
+  \label{fig:balance-sheet}
+\end{minipage}
+\end{center}

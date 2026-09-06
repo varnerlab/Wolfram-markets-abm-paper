@@ -1,204 +1,396 @@
-# Manuscript House Style
+# House Style: Wolfram Markets Manuscript
 
-This guide records the writing and revision style developed for this paper. Apply it to all
-new manuscript text and all text added in response to reviewers. Do not rewrite established
-text solely for style unless the author asks for a broader language pass.
+This guide records the writing, structure, and verification conventions for
+*Local rule activation and dealer capacity in a cellular automaton market*
+(`paper-arxiv/Paper_v1.tex`). Apply it to every prose edit, every response to
+review, and every generated section. Where this guide and a generic template
+disagree, this guide wins. Where this guide and the author's `review-section`
+skill disagree, the skill wins and this guide should be updated.
+
+`Paper_v1.tex` is the arXiv preprint; the `neurips_2026` class in `[preprint]`
+mode is deliberate. A journal version will be built later from the same
+`sections/*.tex` sources, so journal-specific formatting never goes into
+`Paper_v1.tex`.
 
 ## Core Principle
 
-Use simple, plain, direct English. Technical ideas should remain technically exact, but the
-reader should not have to decode the prose before understanding the science.
+Plain, direct, dense English. Technical claims stay exact, but the reader
+should not decode the prose before understanding the science. The author is a
+chemical engineer, not a statistical physicist: analogies from fracture,
+boiling, and nucleation land, bare stat-mech vocabulary does not. Define every
+borrowed term in market language on first use or avoid it. Prefer
+interpretable quantities (steps, percentages, probabilities, ratios) over
+fitted constants. Show the evidence rather than assert it.
 
 Prefer concrete verbs and nouns over abstract or pseudo-technical phrasing.
+Write "the dealer rejected the unmatched sells that exceeded its capacity,"
+not "residual flow was constrained by intermediary balance-sheet limits."
+Write "a lattice full of sellers lowered the price only as far as someone
+was able to buy," not "price impact was bounded by counterparty absorption."
 
-- Write “the inverse temperature affects retrieval and direct sampling in different ways,”
-  not “the inverse temperature affects two related but distinct objects.”
-- Write “we compared four sampling procedures,” not “we constructed a four-rung sampler
-  ladder.”
-- Write “the samples lay farther from the curve,” not “off-manifold error increased,” unless
-  the formal term is needed and immediately defined.
+## What the Paper Is
 
-## Build the Scientific Story
+One three-state cellular automaton market (Buy 0, Hold 1, Sell 2; von Neumann
+neighborhood; totalistic rules, 3^9 of them). Rule 19280 is the baseline;
+Rule 19286 differs at exactly one neighbor sum, c = 1, where 19280 returns Buy
+and 19286 returns Sell. The intervention is a paired mid-run rule switch at a
+fraction f of interior sites after 1,000 baseline steps, with no reset of any
+dynamic state; the matched arm keeps every site on the baseline rule. The
+held-boundary control removes price feedback by holding boundary traders at
+Hold. Dealer capacity h (net units per trader, 0 to 10 and unlimited) limits
+the unmatched flow that can execute. Four production campaigns, 30,550
+simulations, 50 seeds each, plus the supplementary controls added in the
+peer-review revision.
 
-Every analysis should guide the reader through five questions:
+The two-part thesis, in the order every section follows: whether selling
+spreads is decided on the lattice; how far the price falls is decided at
+execution.
 
-1. Why did we perform the analysis?
-2. What specific question or hypothesis did it test?
-3. What did we compare or calculate?
-4. What happened?
-5. What can and cannot be concluded?
+### Terminology
 
-Do not introduce a metric without explaining why it answers the question. Do not report a
-result before giving the reader enough context to interpret it. Add a short transition when
-the text moves to a new biological or technical question.
+| Use in prose | Never use in prose | Notes |
+|---|---|---|
+| rule switch, rule activation, persistent activation | quench, contrarian activation | "Quench" survives only in filenames, LaTeX labels, and Julia |
+| no-switch control, matched control | dormant control | |
+| activation fraction, activation-fraction snapshots | dose, dose atlas, activated fraction | `f` in math |
+| held boundary / endogenous boundary | exogenous model, endogenous model | one model, two boundary conditions |
+| dealer, dealer capacity `h` | market maker (in prose) | code and CSV columns say `market_maker` |
+| agent suppression / dealer rejection | | the two stages at which a desired order fails |
+| Sell majority, transition, onset, crossing | crash, escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation |
+| growth and merger of Sell-rich domains, finite-time crossover | classical nucleation, critical point, asymptotic threshold | the paper explicitly disclaims these |
+| Model (singular) | Model A, Model B | directory names `code/model-a`, `code/model-b` are historical |
 
-## Sentences and Terminology
+The one sanctioned use of "contrarian" is the Methods sentence that scopes
+it. "Quenched disorder" in the appendix is the physics sense and stays.
 
-- Keep sentences direct and reasonably short.
-- Do not use vague backward references such as “this behavior,” “these results,” “those
-  properties,” or “the former” when the reader must recover the meaning from an earlier
-  sentence or paragraph. Name the specific behavior, result, or property instead. A
-  demonstrative is acceptable only when it modifies a concrete noun with one clear,
-  immediately preceding antecedent. Paragraph openings should state their subject directly
-  and remain understandable if the preceding paragraph is revised or moved. Repeat a key
-  term when repetition makes the linkage more explicit and the prose less brittle.
-- Do not begin a sentence with an acronym. For example, use “Stochastic attention
-  nevertheless...” rather than “SA nevertheless....”
-- Define every acronym at first use. Write the full term first, followed by the acronym in
-  parentheses. Apply this rule separately to the abstract, main manuscript, supplement, and
-  any caption or table note that must stand on its own. Do not assume that a definition in
-  one of these locations carries into another. Ticker symbols and mathematical notation are
-  not acronyms, but identify ticker symbols at first use.
-- Do not use em dashes. Use a comma, colon, parentheses, or a new sentence.
-- Use technical terms only when they add precision. Define them at first use in language a
-  biomedical reader can follow.
-- Avoid inflated transitions and claims such as “critically,” “remarkably,” “intrinsic,”
-  “machinery,” “harness,” or “substantive answer” when a direct statement will do.
-- Avoid metaphors for technical workflows unless they make the method easier to understand.
-- Define all unfamiliar metrics on first use, including what higher or lower values mean.
-- Prefer “test,” “analysis,” or “comparison” over “attack” for membership inference unless
-  discussing the formal literature term.
-- Use “profiles” or “patients” consistently and do not call generated profiles independent
-  clinical observations.
+## Structure
 
-## Equations and Mathematical Transitions
+Order: Introduction, Methods, Results, Discussion, Conclusion, References,
+Tables, Figures, Appendix. All floats are collected after the references
+(`sections/tables.tex`, then `sections/figures.tex`), each group starting on
+a new page. There is no Related Work section; the Introduction carries every
+prior-work citation.
 
-- Introduce every displayed equation with a complete sentence that says what the equation
-  gives, defines, or shows, and end the sentence with a colon.
-- Do not lead into a displayed equation with a dangling phrase or comma. For example, write
-  “Completing the square in each exponent gives the expression:” before the equation.
-- When displayed equations occur in sequence, connect them with a short sentence that
-  explains how the second follows from the first.
+**Introduction.** At most four paragraphs, wide to narrow, densely cited
+(cite clusters of 6 to 12 keys are welcome in the first three). P1: empirical
+record and named episodes, the modeling literature, the gap. P2: the model
+family and why a lookup table makes a persistent behavioral change precise.
+P3: execution constraints, the second question. P4 begins "In this study,"
+gives the study-level question, then approach, principal evidence,
+interpretation, and a one-sentence thesis. P4 carries the headline numbers
+and cites where they live (the abstract is number-free, so the Introduction
+is the first place a number appears and it must point to a table or figure).
+No subsections, no headings.
 
-## Figures, Tables, and Algorithms
+**Methods.** Subsections allowed, `\subsubsection` never. Every symbol is
+defined in prose before its display equation; no post-equation "where"
+clauses. Every prose-to-equation transition ends in a colon with a varied
+connector ("is given by:", "according to:", "the executed counts were:").
+Setup, notation, and protocol belong here, not in a standalone section.
+Procedural paragraphs may run 70 to 130 words, but a subsection holds three
+or four dense paragraphs organized by protocol family, never one stub per
+campaign. Software versions, seeds, thread counts, and the repository are
+reproducibility details and stay. Hardware, CPU, memory, and wall-clock
+numbers are benchmarking and are out of scope; never propose adding them.
 
-- Cite every main-text figure and table in the Results at the point where its evidence is
-  first reported or interpreted. A reference in the Methods, caption, or Discussion does not
-  replace the Results citation.
-- Cite each algorithm in the Methods sentence that summarizes the corresponding procedure.
-- Place figure, table, and algorithm references inline, preferably as parenthetical references
-  at the end of the sentence or clause they support. Do not make a figure, table, or algorithm
-  the subject of a sentence, as in “Figure 2 shows,” “Table 3 reports,” or “Algorithm 1 puts
-  these steps together.” Do not use a detached “see Figure,” “see Table,” or “see Algorithm”
-  sentence.
-- Use `Fig.~\ref{fig:label}` for one figure, `Figs.~\ref{fig:first}--\ref{fig:last}` for
-  multiple figures, `Table~\ref{tab:label}` for a table, and
-  `Algorithm~\ref{alg:label}` for an algorithm. Use “Supplementary Fig.” and
-  “Supplementary Table” for supplementary items.
-- Identify the relevant panel inline when a claim depends on one panel, for example
-  `(Fig.~\ref{fig:label}A)`.
-- Build each Results passage in this order: explain the question, state what was compared or
-  calculated, report the finding with its inline figure or table reference, and interpret what
-  the finding does and does not show.
-- Before considering the manuscript complete, inventory every `fig:`, `sfig:`, `tab:`,
-  `stab:`, and `alg:` label and confirm that it is cited in the appropriate Results or Methods
-  passage. Flag orphaned floats, Results claims without supporting references, and figures or
-  tables cited only in Methods, captions, or Discussion.
+**Results.** Six developed paragraphs, no subsections, no `\paragraph{}`
+headings, past tense throughout. Fixed order, matching the abstract,
+Introduction P4, and Discussion:
 
-## Project-Specific Technical Language
+1. Paired switch, matched Sell pulse, single-entry rule screen (Fig. 1,
+   Tables S1, S2, S5, S6).
+2. Held boundary: the transition survives removal of price feedback
+   (Fig. 2A,B).
+3. Finite size and horizon (Fig. 3, Tables S3, S9, S10). This paragraph is
+   `\input{sections/finite-size-results}` and is GENERATED (see below).
+4. Domain growth in the prespecified time-sliced runs (Fig. 4).
+5. Dealer capacity: probability versus drawdown, frozen band, impact sweep,
+   matched seed (Fig. 2C,D, Fig. 5, Tables S7, S8).
+6. Cash and share interventions (Fig. 6, Table S4).
 
-- Stochastic attention was not fit to the cohort. Patient profiles were stored as columns of
-  the memory matrix used during sampling. Use “constructed the memory matrix,” “stored,” or
-  “used during sampling.”
-- Baseline models may be described as fit or estimated when that is what was done.
-- Distinguish the Hopfield retrieval update from the corresponding sampling distribution.
-  For the unit-normalized memories used here, multiplicity weights set the component
-  probabilities and inverse temperature sets the spread around the selected profile.
-- Generating 100 subgroup profiles does not create 100 independent patients or add clinical
-  evidence beyond the source cohort.
-- The source data were de-identified. The membership-inference test asked whether an
-  already-known de-identified profile had been included in the memory matrix. It did not
-  identify a person or reconstruct an unknown patient.
-- Distinguish what was demonstrated from what was not tested. Use “was consistent with” when
-  the analysis did not establish causation.
-- Do not present future work as a promise. State the current limitation and, when useful, the
-  type of method that could address it.
+Supporting controls are integrated into these paragraphs and detailed in the
+appendix; never add a paragraph per control.
 
-## Tense
+**Discussion.** No subsections or headings. Opens with a plain thesis
+sentence ("Two results organize this study."). Then: the persistent local
+change and what the paired design attributes; the lattice mechanism, size
+and time, and the nucleation disclaimer; trader and dealer resources; price
+feedback and the non-monotone capacity response; limitations last. Each
+paragraph cites the relevant theory or microstructure literature.
 
-- Results describing completed analyses and observed findings must be in the past tense.
-- Methods describing what was done should normally be in the past tense.
-- Mathematical definitions and general properties may use the present tense.
-- Discussion statements about the study’s findings should remain appropriately bounded and
-  should not shift into stronger present-tense claims than the results support.
+**Conclusion.** One paragraph. Ends on the plain consequence ("Many traders
+could remain in Sell after the dealer exhausted its ability to buy their
+shares.").
 
-## Paragraphs and Flow
+**Abstract.** One paragraph, about 300 words, qualitative: problem,
+approach, design, insight, implication. Zero computed numbers. Do not
+reintroduce magnitudes here.
 
-- Aim for paragraphs similar in length to the Results section, usually about 100 to 200 words.
-- Merge adjacent short paragraphs when they answer the same question.
-- Split a long paragraph when it contains more than one scientific purpose.
-- Each narrative paragraph should have one central job and should open by stating the
-  question, problem, purpose, or inference that motivates what follows. A literal question is
-  not required. The reader should understand why the paragraph exists before encountering
-  procedural detail.
-- Prefer “To test out-of-sample generalization without refitting or look-ahead bias, we froze
-  all fitted parameters...” over the chronology-only opening “We then froze all fitted
-  parameters....”
-- Avoid openings such as “We then,” “Next,” “We also,” or “With the model calibrated” when
-  they merely report sequence. Replace them with the scientific reason for the next action.
-  Captions, administrative statements, and other required boilerplate may retain their
-  functional openings.
-- Close each narrative paragraph by answering its opening question, stating the implication
-  of the evidence, or explaining why the next paragraph is needed. A paragraph should not
-  simply stop after a list of procedures, metrics, or parameter values. Definitional and
-  derivation paragraphs may instead close with the property or result they establish.
-- Make adjacent paragraphs form an argument: the conclusion of one should supply the reason
-  for the next. Use an explicit bridge when that relationship would otherwise be unclear.
-- End the Introduction with a paragraph that begins ``In this study, ...`` and gives the
-  study-level question or objective before summarizing the approach, principal evidence,
-  contribution, and scope. This final paragraph should tell the reader what the paper does
-  and establish the structure of the argument that follows.
-- Prevent widows and orphans in the compiled manuscript: do not leave the first line of a
-  paragraph alone at the bottom of a page or its final line alone at the top. Recheck the
-  complete PDF after any prose or float change because pagination can move the problem.
-- Preserve necessary detail, but move implementation detail to Methods or the Supplement
-  when it interrupts the main narrative.
-- End the Discussion with its limitations paragraph. Place computational scaling and other
-  methodological scope considerations before that final paragraph.
+**Appendix.** Supplementary methods and validation: one complete step and
+the two algorithms, rationing and paired reproducibility, conservation and
+limiting cases, campaign inventory, then the generated controls subsection
+(`app:revision-controls`). Tables S1 to S10 live in `tables.tex`,
+`finite-size-table.tex`, `revision-tables.tex`, and `revision-fits-table.tex`.
 
-## Claims and Limitations
+## Paragraphs and Sentences
 
-- State the strongest claim supported by the analysis, but no stronger.
-- A non-significant test does not establish equivalence.
-- Reproducing a small training cohort is not the same as recovering its population.
-- Mechanistic agreement for one modeled system does not validate unmodeled biological
-  features.
-- A generated point lying outside a convex hull does not by itself show implausible
-  extrapolation in a sparse, high-dimensional cohort.
-- Synthetic generation without a formal privacy mechanism is not anonymization and does not
-  provide differential privacy.
+The calibration exemplar is `~/Desktop/papers/Kompala-Model-LP-Paper`.
+Measure, do not eyeball:
 
-## Reviewer Revisions
+- Results and Discussion paragraphs: 150 to 480 words, typically 180 to 310.
+  Introduction paragraphs: 150 to 370. Nothing under 6 sentences in Results
+  or Discussion; roadmap stubs merge into the paragraph that follows. A
+  structural edit must merge paragraphs in the same pass, never later.
+- Sentence length: median about 25 words, p90 about 48, commas per sentence
+  about 1. Flag comma-chained sentences over 60 to 70 words as split
+  candidates even when grammatical. Split only true run-ons.
+- **The "robotic" signature** (author, 2026-09-06): a section whose sentence
+  median has dropped below about 20 words reads as a string of short
+  declaratives even when every sentence is correct. The fix is not fancier
+  words. It is (a) one plain question or purpose sentence to open each
+  paragraph, (b) subordinating choppy pairs with "whereas", "because", "so",
+  "which", (c) one plain consequence sentence to close each paragraph, and
+  (d) a one-sentence bridge whenever the next paragraph's reason is not
+  obvious. Check the medians before and after.
+- Flowing, dense prose; punctuation earns its place. A semicolon or colon
+  stays only when it separates list items with internal commas or introduces
+  a genuine list or elaboration. As a default connector between two clauses
+  that could stand alone, replace it with a period.
+- Each paragraph has one job, opens by stating it, and closes by answering
+  it or by supplying the reason for the next paragraph. Adjacent paragraphs
+  form an argument.
+- No vague backward references ("this behavior", "these results", "the
+  former") when the reader must recover the antecedent. Name the thing.
+  Repeat a key term rather than pronoun it.
+- Do not begin a sentence with an acronym. Define every acronym at first use
+  separately in the abstract, main text, supplement, and any caption that
+  must stand alone.
+- Place qualifications beside the claims they limit. Do not end every
+  paragraph with a formulaic scope disclaimer.
 
-- Preserve the reviewer color macros: `\rone{...}`, `\rtwo{...}`, and `\rboth{...}`.
-- Change only reviewer-added text unless the author explicitly approves edits to legacy
-  prose.
-- Keep the response-to-reviewers document aligned with the manuscript. It should explain
-  what changed using the same interpretation and terminology as the paper.
-- A response should answer the reviewer directly, then summarize the evidence and identify
-  the manuscript location.
+## Results Paragraph Template
 
-## Repository Workflow
+Every Results paragraph follows: question or purpose, what was compared or
+calculated, the finding with its inline reference, what it does and does not
+show. Concretely:
 
-For every manuscript revision:
+1. An optional opening sentence that states the question in plain terms
+   ("A Sell majority could spread through neighbor responses alone or
+   through the price signal that boundary traders fed back into the
+   lattice.").
+2. The lead: an action clause AND a number-free generic observation, ending
+   with a citation of the WHOLE figure or table: "To separate the two
+   routes, we repeated the switch ... under a held boundary ... and we found
+   that the transition survived removal of the price signal
+   (Fig.~\ref{fig:reservoir})." Both halves are required; a lead that only
+   states the action fails, and so does one that only states the finding.
+3. Follow-up sentences carry the specific values, per-condition breakdowns,
+   and the panel references (`Fig.~\ref{fig:reservoir}A,B`).
+4. A closing sentence that states the consequence in plain language,
+   bounded to what was tested.
 
-1. Make the same textual change in `paper/` and `arxiv/`.
-2. Update `peer-review-feedback/response-to-reviewers.md` when the change responds to a
-   reviewer.
-3. Preserve unrelated author edits.
-4. Compile the manuscript and supplement with `make all` from `paper/`.
-5. Run `git diff --check`.
-6. Check the LaTeX logs for undefined references, overfull text, and other warnings.
-7. Inspect the rendered passage when a change could affect layout or paragraph flow.
+Design parameters (four fractions, eight capacities, five sizes, multipliers
+0.1, 1, or 10) may appear in the lead. Result numbers (percentages, per-row
+values, outcome ranges) may not. Write "in-sample" and "out-of-sample" in
+full in a lead. Panel-only citations belong in body sentences, never in the
+lead. Transition leads ("Having located the instability in the lattice, we
+asked ...") follow the same template.
+
+## Zero-Tolerance Gates
+
+Run these before declaring any section clean. Line-wrapped LaTeX hides hits
+from a naive grep, so de-wrap first where shown. Every hit is a violation
+unless it is on the allow-list.
+
+```bash
+cd paper-arxiv
+# 1. Section self-references: NONE anywhere. Appendix~\ref{app:...}, Fig., Table, Eq., Algorithm refs are fine.
+grep -nE '(\\(ref|Cref|cref|autoref|nameref)\{sec:|§\\?ref|Section~\\ref|Sec\.~\\ref|\\S\\ref)' sections/*.tex Paper_v1.tex
+grep -nE '(§[ ~]?[0-9]|Section[ ~][0-9]|Sec\.[ ~][0-9])' sections/*.tex Paper_v1.tex
+# 2. Lists and headings in narrative sections.
+grep -nE '\\begin\{(itemize|enumerate)\}|\\item\b|subsubsection' sections/*.tex
+grep -nE '\\(subsection|paragraph)\{' sections/introduction.tex sections/results.tex sections/finite-size-results.tex sections/discussion.tex sections/conclusion.tex
+# 3. Figure or table as grammatical subject, including indirect forms.
+grep -nE '(Fig\.|Figure|Table|panel)s?~?\\?(ref\{[^}]*\})?[A-D]?,?[A-D]? ?(show|report|summari|illustrat|display|present|establish|confirm|demonstrat|indicat|reveal)|As shown in|as shown in' sections/*.tex
+# 4. Em and en dashes in prose (numeric ranges 32--128 and compounds cash--share, A--C are fine).
+grep -nE '—|–|[a-zA-Z] ?--- ?[a-zA-Z]' sections/*.tex
+# 5. Vague intensifiers on a comparative (read each hit; see allow-list).
+for f in sections/*.tex Paper_v1.tex; do tr '\n' ' ' < $f | grep -oE '\b(far|much|substantially|substantial|considerably|vastly|dramatically|markedly|greatly|very|highly|particularly|sharply|strongly) [a-z]+' | sed "s|^|$f: |"; tr '\n' ' ' < $f | grep -oE '\bwell (below|above|within|short|beyond|under|over)\b' | sed "s|^|$f: |"; done
+# 6. Promotional or editorializing words.
+grep -niE 'more than (an?|just|merely) |not (a mere|just|simply|only) |most (reveal|strik|notab|import)|strikingl|remarkabl|elegan|compellin|powerful|(unavoidabl|inevitabl)|illuminat|critically|importantly|notably|interestingly' sections/*.tex
+# 7. Terminology regressions (de-wrapped).
+for f in sections/*.tex Paper_v1.tex; do tr '\n' ' ' < $f | grep -oiE 'dormant|dose atlas|contrarian activation|activated fraction|market maker' | sed "s|^|$f: |"; done | grep -v 'fig:\|Quench.pdf'
+# 8. Results leads: print each paragraph's first line and check it by hand.
+for f in sections/results.tex sections/finite-size-results.tex; do awk '/^%/{next} /^\\(section|input)/{next} /^[[:space:]]*$/{n=1;next} {if(n){print FILENAME":"NR": "$0;n=0}} BEGIN{n=1}' $f; done
+```
+
+Intensifier allow-list: portion quantifiers ("how much", "as much as",
+"much of"), idioms ("how far", "as far as"), compound "well-" adjectives,
+softening hedges ("broadly similar", "without substantially affecting"),
+"an order of magnitude", and threshold-defined terms. Everything else on a
+comparative is deleted and the nearby number carries the size.
+
+Also enforced: Results in past tense; captions may use a band, line, row, or
+column as a subject; no `\FloatBarrier` after Figs. 2 and 5 in any inline
+layout (it costs a page).
+
+## Numbers, Claims, and Limits
+
+- Every computed number in the body cites a figure or table. The only
+  exempt numerals are historical dates in Introduction P1 and rule indices.
+  Panel citations must point to the panel that actually carries the value
+  (widths and midpoints are Fig. 3A,C; susceptibility 3B,D; drawdown 2C;
+  rejection 2D; Fig. 6 is A probability, B drawdown, C rejection, D
+  scatter). Widths, median onsets, and off-f=0.18 balance-sheet
+  probabilities live only in Tables S3, S2, and S4, so cite the table.
+- Verify against the data, not against memory or the previous draft. Sources:
+  `code/data/ModelB-ReservoirQuench-Full-{Summary,Derived,Grouped}.csv`,
+  `ModelB-BalanceSheetQuench-Full-Grouped.csv`,
+  `ModelB-Revision-{FiniteSize-Scaling,Horizons-Scaling,Controls-Grouped,band,impact,pulse,screen,long}.csv`.
+  Boundary is `endogenous`/`hold`; capacity is `Inf` for unlimited;
+  drawdowns are stored as fractions. `/opt/homebrew/bin/python3` has a
+  working pandas; the Anaconda python does not.
+- Give the number instead of the adjective. "Very different price declines"
+  becomes "drawdowns from below 1% to above 25%" or "differed by more than
+  an order of magnitude."
+- Wilson 95% intervals for proportions; medians and interquartile ranges for
+  continuous summaries; seed-bootstrap intervals (2,000 whole-seed
+  replicates) for midpoints, widths, and susceptibility peaks; all
+  conditional on the refined grid and the 3,000-step horizon.
+- Measurement windows differ and must be stated: production campaigns
+  compute dealer rejection over the full run including the 1,000 baseline
+  steps; the supplementary controls use post-activation orders only.
+  Drawdown is post-activation in both.
+- Claims the paper does NOT make and must not drift into: classical
+  nucleation (no free-energy barrier, activation rate, surface tension, or
+  critical droplet); an asymptotic or equilibrium threshold (the crossover is
+  finite-time and its midpoint drifts with horizon); stationarity of the
+  baseline or of the final window; global stability from the 100,000-step
+  no-switch runs; a unique mechanism for the non-monotone capacity response
+  (the frozen band implicates width adaptation without isolating it);
+  empirical calibration of impact, depth, or time; generality beyond the
+  totalistic rule class; relative importance of response identity versus
+  activated fraction (both mattered; neither was ranked).
+- Bound closing sentences to what was tested ("Within the tested
+  interventions ...", "Each displayed transition ..."). A single pulse
+  control does not establish a general requirement; five displayed runs do
+  not establish the ensemble mechanism.
+- State the strongest claim the evidence supports, and no stronger. A
+  matched null with zero crossings is bounded by its Wilson upper limit,
+  not a proof of impossibility.
+
+## Figures, Tables, Algorithms, and Equations
+
+- Citation forms: `Fig.~\ref{fig:x}`, `Figs.~\ref{fig:a}--\ref{fig:b}`,
+  `Supplementary Table~\ref{tab:x}`, `Algorithm~\ref{alg:x}`,
+  `Eq.~\ref{eq:x}`, `Appendix~\ref{app:x}`. Always parenthetical at the end
+  of the clause they support. Never "see Fig."
+- Cite every main-text figure and table in Results where its evidence is
+  first reported; Methods, captions, and Discussion do not substitute. Cite
+  each algorithm in the Methods sentence that summarizes it. Before calling
+  the manuscript complete, inventory every `fig:`, `tab:`, `alg:`, `eq:`
+  label and confirm it is cited.
+- Figure numbering follows the order in `sections/figures.tex`. Filenames
+  `paper-arxiv/figs/Fig<N>-<Descriptor>.pdf` must carry the rendered number;
+  a rename touches the PDFs in BOTH `paper-arxiv/figs/` and `code/figs/`
+  (both tracked, use `git mv`), the hardcoded filename in the generator
+  under `code/model-b/`, and the `\includegraphics` path in `figures.tex`.
+  About 30 unreferenced PDFs from retired campaigns still sit in `figs/` and
+  reuse these prefixes; check `figures.tex` before trusting a `FigN-` name.
+- `code/src/PaperStyle.jl` is a contract (palette, `_panel_kw`,
+  `_panel_letter!`); per-figure margins and legends go in the figure
+  assembly, never in the module. When a figure "shows nothing", check the
+  colour and axis scaling against the data range before touching layout.
+- Prespecified panel selection (nearest subgroup median onset for crossing
+  runs, nearest median final Sell fraction otherwise; seed 25 for the dealer
+  panels) is stated in Methods and must not be described as illustrative
+  choice.
+- Equations: define every symbol in prose first; introduce with a complete
+  sentence ending in a colon; connect sequential equations with a sentence
+  that says how the second follows.
+
+## Citations and Bibliography
+
+- `~\cite{key}` with the tilde; group as `~\cite{a,b,c}`. natbib loads with
+  `numbers, sort&compress`, so brackets are numeric and sorted.
+- Dense in Introduction and Discussion, moderate in Methods, light in
+  Results. Every factual claim about prior work is cited.
+- Every entry in `References_v1.bib` is Crossref-verified from this machine
+  (discover with `works?query.bibliographic=`, confirm with `works/<DOI>`,
+  pull BibTeX with the `application/x-bibtex` transform; books by ISBN on the
+  publisher page). Never add a reference from memory. An entry that cannot
+  be confirmed is dropped, not kept. Key format `lastnameYEARfirstword`,
+  journal names spelled out, `doi` always present, sentence-case titles with
+  braces only on proper nouns, no nested braces deeper than one level. A
+  Crossref year or venue mismatch is a false alarm when it matched a reprint
+  or working-paper version. `make` must show zero BibTeX warnings.
+
+## Files, Generation, and Build
+
+- Sources: `paper-arxiv/Paper_v1.tex` (preamble, abstract, `\input`s),
+  `paper-arxiv/sections/*.tex`, `paper-arxiv/References_v1.bib`. Code under
+  `code/` (Julia; run from the repo root as
+  `julia --project=code code/<dir>/<script>.jl`).
+- **Generated files, never hand-edited:** `sections/finite-size-results.tex`,
+  `finite-size-table.tex`, `revision-tables.tex`, `revision-fits-table.tex`,
+  `revision-controls.tex`. Edit the template strings in
+  `code/revision/Write-Revision-Tables.py` and rerun
+  `/opt/homebrew/bin/python3 code/revision/Write-Revision-Tables.py` from the
+  repo root. The generator substitutes numbers from the revision CSVs; a
+  hand edit is overwritten on the next run. Labels in generated text use the
+  `app:` prefix.
+- Build with `make` inside `paper-arxiv/` (latexmk). After any prose or
+  float change: check `Paper_v1.log` for warnings, undefined references, and
+  overfull boxes (expect none); confirm the page count with `pdfinfo`;
+  render the changed pages with `pdftoppm -r 60 -f N -l M -png` and look at
+  them for widows, orphans, and paragraph breaks (club and widow penalties
+  are set to 10000 but pagination still moves).
+- Then `python3 paper-arxiv/package_arxiv.py --verify` to rebuild
+  `output/arxiv/` and confirm a clean isolated compile with identical PDF
+  text, and `cp paper-arxiv/Paper_v1.pdf output/pdf/Wolfram-markets-revised.pdf`
+  (the packager does not refresh that copy).
+- `git diff --check` before finishing. Commit only when the author asks.
+- `code/data/*.csv` is gitignored with explicit exceptions; the Table S2
+  source and the trajectories are force-added. Check that any new derived
+  CSV a table depends on is tracked.
+
+## Review Workflow
+
+1. Run `/review-section` on the changed sections (it carries the full
+   checklist and output format) and fix everything it flags.
+2. After a fix pass, run an independent read-only Codex check without being
+   asked. From the repo root:
+
+   ```bash
+   codex exec -s read-only --ephemeral -c 'notify=[]' -C "$PWD" - > out.md 2>&1 <<'EOF'
+   <focused prompt: numbers vs CSVs, unsupported claims, internal consistency, house style, flow;
+    reply as file:line — problem — fix, "none" per category>
+   EOF
+   L=$(grep -nE '^codex$' out.md | tail -1 | cut -d: -f1); tail -n +$L out.md
+   ```
+
+   Verify each Codex claim against the source before applying it; it has
+   caught code-versus-prose mismatches (rounded seeding, checkpoint scope,
+   the rejection window) that self-review missed, and it has also over-read
+   the lead-sentence rule. Apply what holds, reject with a reason what does
+   not, then run a short RESOLVED / NOT RESOLVED re-check.
+3. When a change responds to a reviewer, update `peer-review-response.md`
+   with the same interpretation and terminology as the paper, and name the
+   manuscript location.
+4. Do not present future work as a promise. State the limitation and, when
+   useful, the kind of method that could address it.
 
 ## Final Read-Aloud Test
 
 Before considering revised prose complete, ask:
 
-- Would a biomedical reader understand why this analysis was performed?
-- Is every technical term necessary and explained?
-- Does each sentence say exactly what happened?
-- Is any claim stronger than the evidence?
-- Could the same idea be stated more simply without losing precision?
-
-If the answer to the last question is yes, simplify it.
+- Would a chemical engineer who has not read the Methods understand why this
+  analysis was performed and what the result means for a market?
+- Is every technical term necessary, and defined in market language?
+- Does each sentence say exactly what happened, in the past tense, bounded
+  to what was tested?
+- Is any claim stronger than the evidence, or does any number lack a
+  figure or table?
+- Does the paragraph open with its question and close with its consequence?
+- Could the same idea be stated more simply without losing precision? If
+  yes, simplify it.
