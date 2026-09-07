@@ -10,7 +10,7 @@ Unless specified otherwise, they used $L=64$, $\lambda=0.02$,
 $h=\infty$, and 3,000 post-intervention steps. Each simulation with a new rule or a one-time instruction to sell was
 paired with a simulation that kept the original rule. We required
 exact pre-intervention agreement of their lattice and Sell histories,
-and checked the price prehistory for financial arms. Comparisons that kept edge traders in Hold and measured only decisions
+and checked the price prehistory for financial arms. Comparisons that kept the technical traders in Hold and measured only decisions
 used a faster implementation that updated decisions without calculating
 trades or prices, using the same starting markets and decision rules. Tests matched
 its full Sell history and final grid to the market simulator, and
@@ -25,8 +25,8 @@ Sell at the rule-switch target sites before orders executed and retained
 Rule~19280 everywhere. This one-time change could therefore affect the first price after the
 intervention, whereas assigning a new rule preserved that price and
 changed later decisions. Fractions matched the number of targeted sites; sites
-already in Sell did not change state. For $f=0.15,0.20,0.25$ under both
-boundaries, no pulse reached a majority in 50 seeds (0/50; Wilson
+already in Sell did not change state. For $f=0.15,0.20,0.25$ with the
+technical traders active or held, no pulse reached a majority in 50 seeds (0/50; Wilson
 upper bound 0.071). Persistent Rule~19286 activation yielded 0/50,
 50/50, and 50/50, respectively. The Wilson lower bound for 50/50
 was 0.929. Directing these traders to sell once therefore did not reproduce the
@@ -36,9 +36,9 @@ decisions once in a different way could have different outcomes.
 The rule screen tested all 18 ways to change one entry of Rule~19280
 (Supplementary Table~\ref{tab:revision-rules}). Each of the nine
 neighbor sums had two alternative outputs. We activated each resulting
-rule at the same three fractions using 20 seeds under both boundaries.
-At $f=0.20$, six rules produced majority crossings in all 20 seeds
-under each boundary, while the other twelve produced none. Effective
+rule at the same three fractions using 20 seeds with the technical traders
+active or held. At $f=0.20$, six rules produced majority crossings in all 20 seeds
+under each condition, while the other twelve produced none. Effective
 changes included entries $c=2,3,4,5$ as well as the selected $c=1$
 change. Every change that replaced a Buy or Hold response with Sell at
 a neighbor sum from one to five produced a majority, as did the change
@@ -52,9 +52,9 @@ a lower bound of 0.839. The screen identified other rules capable
 of producing majorities over the tested window without defining
 a general rule for when a majority would form.
 
-\paragraph{Fixing the width of the price range in which edge traders chose Hold.}
-The price range within which edge traders chose Hold changed as recent
-prices became more or less variable, allowing the same departure from
+\paragraph{Fixing the width of the technical traders' band.}
+The band within which the technical traders chose Hold widened or narrowed as
+recent prices became more or less variable, allowing the same departure from
 the reference price to produce different decisions over time
 (Supplementary Table~\ref{tab:revision-band}). We held the width of this range fixed at its value immediately before
 the rule change.
@@ -66,7 +66,7 @@ starting markets and capacities. At $f=0.175$, the difference in majority probab
 to -0.02 with frozen widths. The difference between the adjusting-width and fixed-width
 comparisons was 0.40, with a 95\% seed-bootstrap interval
 of [0.16, 0.64]. Removing width adaptation therefore removed
-the low-capacity advantage in the point estimates. The fraction of edge traders in Sell also changed. Even with the width
+the low-capacity advantage in the point estimates. The fraction of technical traders in Sell also changed. Even with the width
 fixed, increasing capacity did not consistently raise or lower majority
 probability, and individual probability intervals were wide. Adjusting
 the width contributed to the smaller dealer's advantage but did not
@@ -77,8 +77,8 @@ The price-impact coefficient determined how strongly the price changed
 when completed trader buys and sells differed (Supplementary Table~\ref{tab:revision-impact}).
 At $f=0.20$, we varied $\lambda$ over $\{0.005,0.02,0.05\}$ and
 capacity over $h\in\{0.1,1,\infty\}$. A smaller coefficient reduced
-the immediate price movement from a given imbalance. When edge traders were active, the changed price also affected the
-ranges they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
+the immediate price movement from a given imbalance. When the technical traders were active, the changed price also affected the
+bands they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
 drawdown increased with capacity at each coefficient, although its
 magnitude changed by a factor of seven to ten across the coefficient
 range. Dealer resources thus
@@ -93,8 +93,8 @@ price decline.
 \paragraph{Observation time and the fraction of traders required to sell.}
 A longer observation window gave the altered local dynamics more time
 to reach the selected Sell fraction
-(Supplementary Table~\ref{tab:revision-horizons}). Held-boundary checks
-used 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended to 0.300 at
+(Supplementary Table~\ref{tab:revision-horizons}). Checks with the
+technical traders held used 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended to 0.300 at
 $L=32$ to bracket the short-horizon response. We compared the original
 3,000 steps with $T_{\rm post}=3000(L/64)^z$ for $z=1,2$ at the
 endpoint sizes. These windows were 1,500 and 750 steps at $L=32$,
@@ -111,8 +111,8 @@ nor the final 500-step mean established equilibration at any size.
 
 \paragraph{Baseline characterization and long no-switch paths.}
 The pre-switch paths remained mixed, with similar mean Sell occupancy
-in the two windows preceding activation. Across 50 endogenous
-unlimited-dealer seeds, the mean interior Sell fraction was
+in the two windows preceding activation. Across 50 unlimited-dealer
+seeds with the technical traders active, the mean interior Sell fraction was
 0.2494 over steps 501--750 and
 0.2503 over steps 751--1,000. In the
 latter window, the median within-seed return standard deviation was
@@ -122,8 +122,8 @@ and $0.00066$. The mean zero-return
 fraction was 0.006. These summaries described the starting markets without showing that
 their statistical properties had stopped changing or matched an
 observed market. We extended the first ten production seeds
-under each boundary for 100,000 additional no-switch steps. None
-crossed a majority (0/10 per boundary; Wilson upper bound 0.278
+under each technical-trader condition for 100,000 additional no-switch steps. None
+crossed a majority (0/10 per condition; Wilson upper bound 0.278
 for the ensemble event probability). The extension followed existing
 seeds and was not an independent replication. It showed that those
 paths remained below a majority over that longer interval, while

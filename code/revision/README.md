@@ -76,3 +76,39 @@ comparison correction.
 `Write-Revision-Tables.py` produces the main finite-size results paragraph and
 supplementary LaTeX directly from these files. Edit its templates rather than
 hand-editing the generated snippets.
+
+
+### Extended price and decision histories for Fig. 4
+
+`Compute-MarketPanel-Horizons.jl` extends the five illustrated markets and all
+50 original f=0.150 starting markets to 10,000 steps after the rule change,
+with an unlimited dealer and edge traders responding to price. Each of the
+54 distinct starting conditions has a matched no-switch run. The script checks
+3,000-step summaries against the original reservoir data, reproduces the full
+original price and Sell histories for the five examples, and checks financial
+conservation. This is an extension of existing runs, not a new independent
+sample. Versioned checkpoints permit resumption; change the cache version if
+the protocol changes.
+
+```sh
+julia --project=code --threads=4 code/revision/Compute-MarketPanel-Horizons.jl
+/opt/homebrew/bin/python3 code/revision/Plot-MarketPanel-Horizons.py
+```
+
+The resulting `ModelB-Revision-MarketPanel-Horizons*.csv` files contain full-step
+summary measurements at 3,000, 5,000, and 10,000 steps and trajectories sampled
+every ten steps. Onset times are measured from every simulation step, not from
+the thinned trajectories. The diagnostic PDF and PNG are written under
+`output/pdf/`, with a numerical report in `output/analysis/`. These diagnostics
+do not overwrite the manuscript figures.
+
+The manuscript Fig. 4 retains those same five examples and now extends to
+10,000 steps. Regenerate it after the summary CSV with:
+
+```sh
+julia --project=code code/model-b/Figs-ModelB-MarketPanels.jl --fig4-only
+/opt/homebrew/bin/python3 code/revision/Write-Revision-Tables.py
+```
+
+The second command also writes Supplementary Table S11 from the extended
+horizon summaries. Figure 5 retains its original observation period.

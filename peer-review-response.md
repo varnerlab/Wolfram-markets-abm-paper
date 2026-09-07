@@ -114,10 +114,10 @@ a substitute for inspecting arXiv's generated preview.
 - The Results were consolidated from twelve to six developed paragraphs, reducing
   narrative length by about half. Control details remain in the supplement; all
   figure and table citations were retained.
-- All ten tables now follow the references, followed by the six figures and
+- All eleven tables now follow the references, followed by the six figures and
   then supplementary methods and validation. Numbering, captions, and narrative
   citations were preserved; captions remain with their tables or figures.
-- The 23-file source archive compiled in an isolated temporary directory and
+- The 24-file source archive compiled in an isolated temporary directory and
   reproduced the manuscript's extracted PDF text exactly. Its checksum and
   validation result are in `output/arxiv/validation.json`.
 
@@ -149,3 +149,24 @@ retained four Introduction paragraphs and six developed Results paragraphs.
 Independent reviews checked the meaning of the revised language and confirmed
 that the equations, algorithms, numerical evidence, and literature citations
 were preserved; the identified ambiguities were resolved and rechecked.
+
+
+Figure 1 now shows the complete original and changed decision rules using
+four-neighbor block diagrams, with the sole Buy-to-Sell response change
+highlighted. These diagrams replace the two summary curves. The paired
+snapshots retain their original starting market and observation times.
+The caption explains representative neighbor arrangements and excludes the
+center trader from the rule input. Results citations now direct numerical
+comparisons across all starting markets to Table S2.
+
+
+Figure 4 now follows the same five originally selected markets for 10,000
+steps after the rule change. The original 3,000-step endpoint remains marked.
+One f=0.175 example reaches a Sell majority only at step 4,117, while the
+displayed f=0.150 example remains mixed through 10,000 steps. Extending all
+50 original f=0.150 markets finds two late majorities and none in their
+matched original-rule controls. Table S11 records the longer-run decision
+and price outcomes. Results, Discussion, Methods, and the appendix now
+distinguish the original observation window from the extension; these
+observations do not constitute an independent sample or establish indefinite
+stability.

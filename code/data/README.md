@@ -14,6 +14,7 @@ All commands below are run from the repository root.
 ```bash
 julia --project=code --gcthreads=1 -t 12 code/model-b/Compute-ModelB-ReservoirQuench.jl --full
 julia --project=code code/model-b/Figs-ModelB-ReservoirQuench.jl
+julia --project=code --threads=4 code/revision/Compute-MarketPanel-Horizons.jl
 julia --project=code code/model-b/Figs-ModelB-MarketPanels.jl
 ```
 
@@ -26,9 +27,11 @@ julia --project=code code/model-b/Figs-ModelB-MarketPanels.jl
   susceptibility, and quantiles used by the final figure.
 
 The market-panel script reruns only nine prespecified trajectories from the
-summary table. It produces 20 activation-fraction snapshots and 16 matched
-dealer-capacity snapshots. Rows are selected by subgroup-median rules recorded in the
-manuscript, not by visual inspection.
+summary table. It produces 25 snapshots across rule-adoption fractions through
+10,000 steps and 16 matched dealer-capacity snapshots through 3,000 steps.
+Rows are selected using the original 3,000-step subgroup-median rules recorded
+in the manuscript, before inspecting images. The extended examples are checked
+against `ModelB-Revision-MarketPanel-Horizons.csv`, which also supplies Table S11.
 
 The driver runs 9,600 simulations: eight capacities, two boundary modes, 50
 seeds, one reused no-switch control, and eleven activated fractions per cell.

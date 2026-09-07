@@ -20,7 +20,7 @@ measured how often a majority formed at each fraction of traders given the
 new rule.
 
 Market instability could develop through neighboring traders' decisions
-without traders responding to a price change. Keeping traders at the edge in
+without traders responding to a price change. Keeping the technical traders in
 Hold removed the influence of price on decisions inside the grid, yet Sell
 majorities still developed. In the displayed runs that reached a majority,
 groups of sellers formed, enlarged, and joined together. Local decisions
@@ -35,7 +35,11 @@ The fraction needed for a majority depended on both the number of
 interacting traders and the time allowed. On larger grids, the probability
 rose from low to high over a narrower range of rule adoption, but allowing
 more time continued to lower the fraction at which half the runs reached a
-majority. We therefore did not identify a threshold that would remain fixed
+majority. Extending the displayed markets also showed that a market without
+a Sell majority at the original endpoint could later develop one alongside
+a large price decline (Fig.~\ref{fig:dose-panels}). The persistence of mixed
+decisions over a shorter period therefore did not establish lasting price
+stability. We did not identify a threshold that would remain fixed
 in larger markets or longer runs. Establishing such a limit would require
 the estimates to stop changing with observation time and a mathematical
 model for their dependence on grid
@@ -66,10 +70,10 @@ determine the severity of the crash on its own, because the price fell only
 as far as someone was able to buy.
 
 Completed trades changed the price, which could then influence later
-decisions through the traders at the edge of the grid. At $f=0.175$, capacity $h=0.1$ raised majority probability by 38 percentage points relative to the unlimited dealer (Fig.~\ref{fig:reservoir}). Edge traders compared the price with a moving reference and adjusted
-the size of the departure that would trigger buying or selling. Keeping this
+decisions through the technical traders. At $f=0.175$, capacity $h=0.1$ raised majority probability by 38 percentage points relative to the unlimited dealer (Fig.~\ref{fig:reservoir}). The technical traders compared the price with a moving average and adjusted
+the width of the band that triggered buying or selling. Keeping this
 required departure fixed at its value before the rule change removed the
-smaller dealer's advantage in the estimated probabilities, linking the advantage to traders adjusting their responses to price (Supplementary Table~\ref{tab:revision-band}). The reference price
+smaller dealer's advantage in the estimated probabilities, linking the advantage to the technical traders adjusting their bands (Supplementary Table~\ref{tab:revision-band}). The reference price
 still changed, as did trader and dealer holdings, and the fixed departures
 still differed across starting markets and capacities. Increasing capacity
 also continued to produce both increases and decreases in majority
@@ -88,14 +92,16 @@ one to maximize returns. They updated together on a regular grid using one
 original rule, and different combinations of neighboring decisions could
 have the same sum and therefore produce the same response. Testing changes
 to this lookup table did not cover all possible ways to respond to
-neighboring traders. Each order requested one share at a common price, and
+neighboring traders. The technical traders followed one contrarian band
+rule and occupied only the edge of the grid, so trend-following rules and
+technical traders inside the grid were not examined. Each order requested one share at a common price, and
 the dealer had no strategy for setting prices or managing risk. It could
 replenish cash only by selling shares and replenish shares only by buying
 them. The model included resource limits but no record of outstanding orders
 at different prices, and its price response and time steps were not
 calibrated to an observed market. Its simulated crashes therefore did not
-predict the timing or magnitude of actual market crashes. Ten runs with the original decision rule in each condition, with edge
-traders either responding to price or kept in Hold, remained below a Sell majority for 100,000 additional steps (Appendix~\ref{app:revision-controls}). This
+predict the timing or magnitude of actual market crashes. Ten runs with the original decision rule in each condition, with the
+technical traders either active or kept in Hold, remained below a Sell majority for 100,000 additional steps (Appendix~\ref{app:revision-controls}). This
 extended the observed persistence of mixed decisions without establishing
 that it would continue indefinitely, and neither the 1,000-step initial
 period nor the final 500-step average established that the distribution of

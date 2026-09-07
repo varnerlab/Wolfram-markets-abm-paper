@@ -15,6 +15,7 @@ sections/figures.tex
 sections/finite-size-results.tex
 sections/finite-size-table.tex
 sections/introduction.tex
+sections/market-panel-horizons-table.tex
 sections/methods.tex
 sections/results.tex
 sections/revision-controls.tex

@@ -95,7 +95,7 @@ plot!(pA, hold_curve.target_f, hold_curve.transition_probability;
       ribbon = (hold_curve.transition_probability .- hold_curve.transition_lo,
                 hold_curve.transition_hi .- hold_curve.transition_probability),
       color = :black, fillalpha = 0.08, ls = :dash, lw = 2.2,
-      marker = :circle, ms = 3, label = "held boundary")
+      marker = :circle, ms = 3, label = "held")
 for h in line_capacities
     sub = grouped[(grouped.boundary_mode .== "endogenous") .&
                   (grouped.market_maker_capacity .== h), :]
@@ -105,7 +105,7 @@ for h in line_capacities
           ribbon = (sub.transition_probability .- sub.transition_lo,
                     sub.transition_hi .- sub.transition_probability),
           color = line_colors[h], fillalpha = 0.045, lw = 1.8,
-          marker = :circle, ms = 2.8, label = "endogenous, h=$(hlabel)")
+          marker = :circle, ms = 2.8, label = "active, h=$(hlabel)")
 end
 
 # The finite h=10 path coincides with the unlimited path in this campaign.
@@ -113,7 +113,7 @@ end
 h10_curve = sort(grouped[(grouped.boundary_mode .== "endogenous") .&
                          (grouped.market_maker_capacity .== 10.0), :], :target_f)
 plot!(pA, h10_curve.target_f, h10_curve.transition_probability;
-      color=:black, ls=:dash, lw=1.0, label="endogenous, h=10")
+      color=:black, ls=:dash, lw=1.0, label="active, h=10")
 
 # B: the change attributable to closing the price-boundary feedback loop.
 fs = sort(unique(grouped.target_f))
@@ -144,8 +144,8 @@ function _capacity_panel(metric::Symbol, q25::Symbol, q75::Symbol, ylabel::Strin
              xticks = (1:length(capacity_order), capacity_labels),
              legend = :best, _panel_kw...)
     for (boundary, color, ls, label) in
-        (("endogenous", _SERIES_COLORS[1], :solid, "endogenous boundary"),
-         ("hold", _SERIES_COLORS[3], :dash, "held boundary"))
+        (("endogenous", _SERIES_COLORS[1], :solid, "active"),
+         ("hold", _SERIES_COLORS[3], :dash, "held"))
         sub = grouped[(grouped.boundary_mode .== boundary) .&
                       (grouped.target_f .== f_plot) .&
                       in.(grouped.market_maker_capacity, Ref(capacity_order)), :]

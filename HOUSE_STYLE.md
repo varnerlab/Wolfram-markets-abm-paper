@@ -32,15 +32,19 @@ was able to buy," not "price impact was bounded by counterparty absorption."
 
 The author explicitly requested a manuscript-wide removal of internal jargon.
 Name the action and comparison rather than writing "repeated the experiment."
-Describe selected edge traders as traders who use price changes to decide
-whether to buy, hold, or sell; do not call them "price-responsive traders."
+The selected edge traders are "technical traders" (author decision,
+2026-09-07): they follow a contrarian Bollinger-band rule on the price, buying
+below a band around the moving average and selling above it. Define the rule
+once in Methods, keep "along the edge of the grid" at that definition, and do
+not call them "price-responsive traders," "edge traders," or "expert traders."
 Explain that keeping them in Hold prevents price changes from influencing
 later decisions. Use "grid," "starting market," "completed trades," and
 "fraction of traders given the new rule" in narrative passages. Reserve
 "lattice," "seed," "eligibility," and "activation fraction" for definitions,
-mathematical notation, and compact labels where needed. Translate conditions
-such as "held boundary" and "endogenous boundary" into what the edge traders
-do. Avoid "activation window," "principal fraction," "eligible flow," and
+mathematical notation, and compact labels where needed. The two conditions are
+"technical traders held" and "technical traders active"; figure legends and
+table cells abbreviate them to "held" and "active." "Held boundary" and
+"endogenous boundary" survive only in code, CSV columns, and Julia scripts. Avoid "activation window," "principal fraction," "eligible flow," and
 "unmatched residual." Explain a statistical quantity through what it measures
 before naming it. Simplify vocabulary without breaking developed paragraphs
 into short pieces or changing the measured outcomes.
@@ -53,7 +57,7 @@ Rule 19286 differs at exactly one neighbor sum, c = 1, where 19280 returns Buy
 and 19286 returns Sell. The intervention is a paired mid-run rule switch at a
 fraction f of interior sites after 1,000 baseline steps, with no reset of any
 dynamic state; the matched arm keeps every site on the baseline rule. The
-held-boundary control removes price feedback by holding boundary traders at
+held control removes price feedback by keeping the technical traders at
 Hold. Dealer capacity h (net units per trader, 0 to 10 and unlimited) limits
 the unmatched flow that can execute. Four production campaigns, 30,550
 simulations, 50 seeds each, plus the supplementary controls added in the
@@ -90,7 +94,7 @@ selling accompanies a small price decline or a simulated crash.
 | rule switch, rule activation, persistent activation | quench, contrarian activation | "Quench" survives only in filenames, LaTeX labels, and Julia |
 | no-switch control, matched control | dormant control | |
 | activation fraction, activation-fraction snapshots | dose, dose atlas, activated fraction | `f` in math |
-| held boundary / endogenous boundary | exogenous model, endogenous model | one model, two boundary conditions |
+| technical traders held / technical traders active (legends: held / active) | held boundary, endogenous boundary, edge traders, exogenous model, endogenous model | one model, two technical-trader conditions; `hold`/`endogenous` survive in code and CSV columns |
 | dealer, dealer capacity `h` | market maker (in prose) | code and CSV columns say `market_maker` |
 | agent suppression / dealer rejection | | the two stages at which a desired order fails |
 | Sell majority, transition, onset, crossing | escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation; crash refers to the price decline, not this crossing |
@@ -134,13 +138,15 @@ numbers are benchmarking and are out of scope; never propose adding them.
 headings, past tense throughout. Fixed order, matching the abstract,
 Introduction P4, and Discussion:
 
-1. Paired switch, matched Sell pulse, single-entry rule screen (Fig. 1,
-   Tables S1, S2, S5, S6).
-2. Held boundary: the transition survives removal of price feedback
+1. Rule diagrams and paired snapshots (Fig. 1A--C), paired switch,
+   matched Sell pulse, and single-entry rule screen (Tables S1, S2, S5, S6).
+2. Technical traders held: the transition survives removal of price feedback
    (Fig. 2A,B).
 3. Finite size and horizon (Fig. 3, Tables S3, S9, S10). This paragraph is
    `\input{sections/finite-size-results}` and is GENERATED (see below).
-4. Domain growth in the prespecified time-sliced runs (Fig. 4).
+4. Growing groups of sellers in the same five examples extended to 10,000
+   steps, plus delayed transitions among all 50 original f=0.150 starts
+   (Fig. 4, Table S11). Selection remains based on the original 3,000 steps.
 5. Dealer capacity: probability versus drawdown, frozen band, impact sweep,
    matched seed (Fig. 2C,D, Fig. 5, Tables S7, S8).
 6. Cash and share interventions (Fig. 6, Table S4).
@@ -165,8 +171,9 @@ reintroduce magnitudes here.
 **Appendix.** Supplementary methods and validation: one complete step and
 the two algorithms, rationing and paired reproducibility, conservation and
 limiting cases, campaign inventory, then the generated controls subsection
-(`app:revision-controls`). Tables S1 to S10 live in `tables.tex`,
-`finite-size-table.tex`, `revision-tables.tex`, and `revision-fits-table.tex`.
+(`app:revision-controls`). Tables S1 to S11 live in `tables.tex`,
+`finite-size-table.tex`, `revision-tables.tex`, `revision-fits-table.tex`,
+and `market-panel-horizons-table.tex`.
 
 ## Paragraphs and Sentences
 
@@ -212,11 +219,11 @@ show. Concretely:
 
 1. An optional opening sentence that states the question in plain terms
    ("A Sell majority could spread through neighbor responses alone or
-   through the price signal that boundary traders fed back into the
+   through the price signal that the technical traders fed back into the
    lattice.").
 2. The lead: an action clause AND a number-free generic observation, ending
    with a citation of the WHOLE figure or table: "We changed the decision rule for selected interior traders while
-   keeping edge traders in Hold and found that a Sell majority still formed
+   keeping the technical traders in Hold and found that a Sell majority still formed
    (Fig.~\ref{fig:reservoir})." Both halves are required; a lead that only
    states the action fails, and so does one that only states the finding.
 3. Follow-up sentences carry the specific values, per-condition breakdowns,
@@ -282,7 +289,8 @@ layout (it costs a page).
   `code/data/ModelB-ReservoirQuench-Full-{Summary,Derived,Grouped}.csv`,
   `ModelB-BalanceSheetQuench-Full-Grouped.csv`,
   `ModelB-Revision-{FiniteSize-Scaling,Horizons-Scaling,Controls-Grouped,band,impact,pulse,screen,long}.csv`.
-  Boundary is `endogenous`/`hold`; capacity is `Inf` for unlimited;
+  The CSV `boundary` column is `endogenous`/`hold` (prose: technical traders
+  active/held); capacity is `Inf` for unlimited;
   drawdowns are stored as fractions. `/opt/homebrew/bin/python3` has a
   working pandas; the Anaconda python does not.
 - Give the number instead of the adjective. "Very different price declines"
@@ -368,7 +376,7 @@ layout (it costs a page).
   `julia --project=code code/<dir>/<script>.jl`).
 - **Generated files, never hand-edited:** `sections/finite-size-results.tex`,
   `finite-size-table.tex`, `revision-tables.tex`, `revision-fits-table.tex`,
-  `revision-controls.tex`. Edit the template strings in
+  `revision-controls.tex`, `market-panel-horizons-table.tex`. Edit the template strings in
   `code/revision/Write-Revision-Tables.py` and rerun
   `/opt/homebrew/bin/python3 code/revision/Write-Revision-Tables.py` from the
   repo root. The generator substitutes numbers from the revision CSVs; a
@@ -429,3 +437,11 @@ Before considering revised prose complete, ask:
 - Does the paragraph open with its question and close with its consequence?
 - Could the same idea be stated more simply without losing precision? If
   yes, simplify it.
+
+
+Figure 1 shows both complete rule diagrams (A: Rule 19280; B: Rule 19286)
+and paired market snapshots (C). Each four-neighbor diagram represents one
+sum, with the center excluded from the input. The highlighted sum of one
+is the only changed response, Buy to Sell. Figure 1 no longer contains
+price or Sell-fraction curves. Cite Table S2 for the comparison over all
+starting markets and onset values; Fig. 1C shows the selected example only.

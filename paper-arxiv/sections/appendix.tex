@@ -16,15 +16,15 @@ orders, and completed trades before calculating a new price
 (Algorithm~\ref{alg:dealer-clearing}).
 Orders at step $t$ came from the lattice $X_{t-1}$ and stored boundary
 states $e_{i,t-1}$. Trades completed at the current price $P_{t-1}$ before the difference
-between completed buys and sells generated $P_t$. Edge traders then
+between completed buys and sells generated $P_t$. The technical traders then
 used this price to decide whether to buy, hold, or sell, and their
 decisions influenced interior traders when calculating $X_t$.
 Rule activation occurred before this sequence without changing the current
 state. When we intentionally changed trader cash or shares, we did so before
 checking whether orders had the resources needed to complete. This timing explains why a
 rule switch leaves the first post-switch quote unchanged, whereas a
-financial intervention can affect it immediately. The comparison with edge traders kept in Hold used the same sequence
-but prevented these traders from responding to price. Under either boundary, a shortage of resources could stop an order
+financial intervention can affect it immediately. The comparison with the technical traders kept in Hold used the same sequence
+but prevented them from responding to price. Under either condition, a shortage of resources could stop an order
 without changing the trader's cellular-automaton state. We recorded
 orders excluded by trader resources as agent suppression and eligible
 orders left unfilled by the dealer as dealer rejection. Neighboring
@@ -32,7 +32,7 @@ traders continued to respond to the stored Buy, Hold, or Sell state
 even when the associated order did not execute.
 
 \begin{algorithm}[!ht]
-\caption{One market step with edge traders responding to price, $t-1\rightarrow t$, in simulation order.
+\caption{One market step with the technical traders active, $t-1\rightarrow t$, in simulation order.
 Orders came from the old interior and boundary states, settled at the old
 quote, and generated the new quote. The new quote set the boundary before the
 interior cellular automaton update.}
@@ -59,15 +59,15 @@ $P_{t-1}$
 \STATE $P_t\leftarrow P_{t-1}\exp(\lambda\phi_t)$
 \STATE $\mu_t\leftarrow\mu_{t-1}+\alpha(P_t-\mu_{t-1})$
 \STATE $\sigma_t\leftarrow\sigma_{t-1}+\alpha(|P_t-\mu_t|-\sigma_{t-1})$
-\IF{boundary mode is endogenous}
-  \FORALL{active boundary traders $i$}
+\IF{technical traders are active}
+  \FORALL{technical traders $i$}
     \STATE $e_i(t)\leftarrow0$ if $P_t<\mu_t-k_i\sigma_t$; $2$ if
     $P_t>\mu_t+k_i\sigma_t$; $1$ otherwise
   \ENDFOR
 \ELSE
-  \STATE $e_i(t)\leftarrow1$ for every active boundary trader $i$
+  \STATE $e_i(t)\leftarrow1$ for every technical trader $i$
 \ENDIF
-\STATE write $e_i(t)$ to active boundary sites; leave passive sites at Hold
+\STATE write $e_i(t)$ to the technical traders' sites; leave the other edge sites at Hold
 \FORALL{strictly interior sites $i$, simultaneously}
   \STATE $c_i(t)\leftarrow\sum_{j\in\partial i}s_j$ using old interior states
   and new boundary states
@@ -88,9 +88,9 @@ cost-basis toggle; seed and step $t$
 \ENSURE settled books and dealer; executed counts $(n_t^B,n_t^S)$; agent
 suppression $(u_t^B,u_t^S)$; dealer rejection $(r_t^B,r_t^S)$
 \STATE $\mathcal{B},\mathcal{S}\leftarrow\varnothing$; $u_t^B,u_t^S\leftarrow0$
-\FORALL{interior traders, followed by active-boundary traders $i$}
+\FORALL{interior traders, followed by technical traders $i$}
   \STATE $o_i\leftarrow +1$ for Buy, $-1$ for Sell, and $0$ for Hold
-    \COMMENT{an edge trader reads its stored boundary state}
+    \COMMENT{a technical trader reads its stored boundary state}
   \IF{$o_i=+1$ and $w_i\geq P_{t-1}$}
     \STATE append $i$ to $\mathcal{B}$
   \ELSIF{$o_i=-1$, $q_i\geq1$, and the cost-basis test passes}
@@ -152,13 +152,13 @@ same priority across repeated orders. Paired paths used the same score
 for a given $(t,i,\text{side})$ even after their eligible sets diverged.
 Scoring did not consume draws from the generator used to initialize the
 lattice and target sites. For each pair, we checked the frame at
-$T_{\rm pre}$, its preceding Sell history, the boundary coordinates and
-band multipliers, and the price history through the first post-switch
-quote. For cash and share comparisons with edge traders kept in Hold, we
-also required the full Sell history and final grid to match exactly
+$T_{\rm pre}$, its preceding Sell history, the technical traders' coordinates
+and band multipliers, and the price history through the first post-switch
+quote. For cash and share comparisons with the technical traders kept in Hold,
+we also required the full Sell history and final grid to match exactly
 across all nine changes to trader resources. Exact pre-switch agreement ensured that a pair reached activation
-with the same history. Exact post-switch agreement across held-boundary
-financial interventions ensured that trader resources affected execution
+with the same history. Exact post-switch agreement across financial
+interventions with the technical traders held ensured that trader resources affected execution
 without entering the local rule update.
 
 \subsection{Conservation and limiting cases}
@@ -176,8 +176,8 @@ $9.47\times10^{-7}$, again with zero share error. Three limiting cases
 also supplied regression checks. Unlimited capacity filled every eligible
 order and reproduced the earlier fill-all implementation. Zero capacity allowed only trades between traders, giving equal
 numbers of completed buys and sells and a fixed price. Interior
-decisions were then identical whether edge traders used the price or
-were kept in Hold. Capacity $h=10$ never
+decisions were then identical whether the technical traders were active or
+kept in Hold. Capacity $h=10$ never
 rejected an order in the dealer-capacity simulations and matched the unlimited
 path. That last equality applies to the stated endowments and horizon.
 A different sequence of buy and sell orders, larger trader holdings,
@@ -193,7 +193,7 @@ steps as fixed campaign settings. Pilot and full modes recorded how the experime
 The seed count and horizon were fixed campaign settings, without a
 prospective power calculation or independent preregistration of the horizon. With 50 seeds, a probability near one-half has a binomial
 standard error of about 0.07. The dealer-capacity simulations reused one no-switch
-control within each $(h,\text{boundary},\text{seed})$ cell. Its comma-separated value (CSV) file
+control within each $(h,\text{technical traders},\text{seed})$ cell. Its comma-separated value (CSV) file
 therefore stored the control metrics with each treated summary row rather
 than as a separate trajectory for every fraction. Checkpointed campaigns
 reconstructed a fixed row order after threaded computation. A resumed campaign therefore retained the same control comparisons
@@ -201,18 +201,18 @@ and row order as an uninterrupted run. Reusing the no-switch path
 avoided repeating an identical simulation for each activation fraction.
 
 The selected paired-switch campaign used $L=64$, an unlimited dealer,
-and an endogenous boundary at $f=0.10,0.15,0.20,0.25$.
+and active technical traders at $f=0.10,0.15,0.20,0.25$.
 The dealer-capacity comparison used the same lattice size at fractions
 0.10, 0.15, 0.175, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210, 0.225,
 and 0.250. It crossed these fractions with capacities
-$h=0,0.1,0.5,1,2,5,10,\infty$ under both boundaries.
+$h=0,0.1,0.5,1,2,5,10,\infty$ under both technical-trader conditions.
 The original finite-size grid used fractions
 0.140, 0.150, 0.160, 0.170, 0.175, 0.180, 0.185, 0.190, 0.200, 0.210,
 0.225, and 0.250 at $L=32,48,64,96,128$.
-Its three conditions were a held boundary with $h=\infty$ and endogenous
-boundaries with $h=1$ or $\infty$. The cash--share campaign crossed nine
+Its three conditions were the technical traders held with $h=\infty$ and
+active with $h=1$ or $\infty$. The cash--share campaign crossed nine
 multiplier pairs with $f=0.170,0.175,0.180,0.185$ and
-$h=0.1,1,\infty$ under both boundaries. Capacity was defined per trader
+$h=0.1,1,\infty$ under both technical-trader conditions. Capacity was defined per trader
 throughout; a fixed-absolute-capacity size series was not run.
 The supplementary controls below retain this initialization while varying
 the stated intervention, parameter, or observation window.
@@ -225,7 +225,7 @@ simulation threads and one garbage-collection thread.
 A seeded Xoshiro generator~\cite{blackman2021scrambled} supplied the setup
 draws. Finite-size and balance-sheet campaigns wrote atomic checkpoints,
 then aggregated them in a deterministic order. Tests covered parameter
-validation, dealer limits, conservation, delayed activation, boundary
+validation, dealer limits, conservation, delayed activation, technical-trader
 controls, and time-varying priorities. Stepwise comparisons checked the
 optimized lattice kernel against the general totalistic solver under both
 homogeneous and heterogeneous rule fields. Bootstrap analysis and generated
@@ -249,14 +249,34 @@ midpoints, widths, and susceptibility maxima calculated over each
 sampled fraction grid (Supplementary Table~\ref{tab:finite-size-scaling}). The
 susceptibility peak location remained a sampled fraction rather than
 an interpolated optimum (Supplementary Table~\ref{tab:revision-fits}). In the
-financial campaign, all 27 held-boundary conditions returned one
-transition probability at each fraction. The 27 endogenous conditions
+financial campaign, all 27 conditions with the technical traders held returned
+one majority probability at each fraction. The 27 conditions with them active
 spanned a range of probabilities (Supplementary Table~\ref{tab:balance-fractions}).
-When edge traders stayed in Hold, majority probability depended on
+When the technical traders stayed in Hold, majority probability depended on
 neighbors' decisions at the given fraction of rule adoption. Allowing
-edge traders to respond to price added the influence of price changes
+the technical traders to respond to price added the influence of price changes
 on later decisions. Each probability counted
 crossings within its stated observation window, and each interpolated
 midpoint depended on the fractions sampled around that crossing.
+
+To check whether the displayed markets changed beyond the original
+observation period, we extended the five displayed examples and all 50
+original $f=0.150$ starting markets to 10,000 steps after the rule change
+(Fig.~\ref{fig:dose-panels}; Supplementary Table~\ref{tab:market-panel-horizons}). The displayed
+$f=0.150$ market belonged to that set, giving 54 distinct conditions, each
+with a matched run that retained the original rule. These 108 simulations
+used the same $64\times64$ grid, 1,000 initial steps, trader resources,
+unlimited dealer, and active technical traders as their original
+runs. They extended existing observations rather than providing independent
+replications, and the examples were not reselected using the longer results.
+We measured first passage to a Sell majority and maximum drawdown at every
+step, then summarized outcomes at 3,000, 5,000, and 10,000 steps. Final Sell
+fractions averaged the last 500 steps of each window. Archived trajectories
+retained every tenth step, while the plotted histories retained every
+step (Fig.~\ref{fig:dose-panels}). All 54 paired conditions reproduced their archived 3,000-step summary
+measurements. Separate comparisons for the five displayed markets reproduced
+the full original price and Sell-fraction histories and the final grid.
+Checks also verified identical histories before the rule change and
+conservation of cash and shares throughout the extended simulations.
 
 \input{sections/revision-controls}

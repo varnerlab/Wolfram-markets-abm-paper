@@ -30,7 +30,7 @@ def finite_tables():
         if previous is not None and condition!=previous:
             rows.append(r'\midrule'); fits.append(r'\midrule')
         previous=condition
-        lead=f'{"Held" if r.boundary_mode=="hold" else "Endog."} & {cap(r.market_maker_capacity)} & {int(r.gridn)}'
+        lead=f'{"Held" if r.boundary_mode=="hold" else "Active"} & {cap(r.market_maker_capacity)} & {int(r.gridn)}'
         rows.append(f'{lead} & {int(r.interior_points)} & {ci(r,"f50")} & {ci(r,"transition_width")} & {ci(r,"susceptibility_peak",1)}')
         fits.append(f'{lead} & {r.logistic_f50:.3f} ({r.logistic_f50_se:.4f}) & {r.logistic_width:.3f} ({r.logistic_width_se:.4f}) & {r.susceptibility_peak_f:.3f}')
     t=table('Effect of grid size over 50 starting markets and 3,000 steps after the rule change. '
@@ -38,7 +38,7 @@ def finite_tables():
             'with $0.05<\\hat p<0.95$. Crossings use linear interpolation. The susceptibility '
             'maximum is over the sampled grid, and its interval includes reselection of that '
             'maximum within each bootstrap replicate. Intervals condition on the refined grid.',
-            'tab:finite-size-scaling',r'Boundary & $h$ & $L$ & $n_{\rm int}$ & $f_{50}$ [95\% CI] & Width [95\% CI] & Peak $\chi_L$ [95\% CI]',
+            'tab:finite-size-scaling',r'Technical traders & $h$ & $L$ & $n_{\rm int}$ & $f_{50}$ [95\% CI] & Width [95\% CI] & Peak $\chi_L$ [95\% CI]',
             rows,'llrrlll',r'\footnotesize\setlength{\tabcolsep}{3pt}',keep=False)
     # The existing appendix supplies the center/caption wrapper for Table S3.
     t=t[t.index(r'\caption'):t.rindex(r'\end{center}')]
@@ -47,13 +47,13 @@ def finite_tables():
         'Parentheses give seed-bootstrap standard errors (SE), not binomial standard errors treating '
         'fractions as independent. The last column is the location of the empirical susceptibility '
         'maximum: it is a sampled fraction with local grid resolution, not an interpolated optimum.',
-        'tab:revision-fits',r'Boundary & $h$ & $L$ & Logistic $f_{50}$ (SE) & Logistic width (SE) & $f$ at peak',
+        'tab:revision-fits',r'Technical traders & $h$ & $L$ & Logistic $f_{50}$ (SE) & Logistic width (SE) & $f$ at peak',
         fits,'llrlll'))
     held=df[df.boundary_mode=='hold'].sort_values('gridn')
     low,high=held.iloc[0],held.iloc[-1]
     text=rf'''The fraction of traders needing the new rule could depend on how many
 traders interacted and how much time their decisions had to influence
-one another. We changed the rule at five grid sizes while keeping edge
+one another. We changed the rule at five grid sizes while keeping the technical
 traders in Hold, and found that larger markets needed a smaller fraction
 of traders to receive the new rule for a majority to form
 (Fig.~\ref{{fig:finite-size}}). We tested additional fractions near the
@@ -71,7 +71,7 @@ the final mean Sell fraction by the number of interior traders. The maximum valu
 same sizes (Fig.~\ref{{fig:finite-size}}B,D). Fitting smooth curves that
 required probability to increase with rule adoption placed each
 midpoint within 0.004 of the estimate from interpolation between tested
-fractions, although the fitted widths were narrower when edge traders
+fractions, although the fitted widths were narrower when the technical traders
 stayed in Hold (Supplementary Table~\ref{{tab:revision-fits}}). Allowing
 more time also changed the result: extending the $L=64$ runs from 3,000
 to 9,000 steps lowered the fraction needed for half the runs to reach a
@@ -114,7 +114,7 @@ Unless specified otherwise, they used $L=64$, $\lambda=0.02$,
 $h=\infty$, and 3,000 post-intervention steps. Each simulation with a new rule or a one-time instruction to sell was
 paired with a simulation that kept the original rule. We required
 exact pre-intervention agreement of their lattice and Sell histories,
-and checked the price prehistory for financial arms. Comparisons that kept edge traders in Hold and measured only decisions
+and checked the price prehistory for financial arms. Comparisons that kept the technical traders in Hold and measured only decisions
 used a faster implementation that updated decisions without calculating
 trades or prices, using the same starting markets and decision rules. Tests matched
 its full Sell history and final grid to the market simulator, and
@@ -129,8 +129,8 @@ Sell at the rule-switch target sites before orders executed and retained
 Rule~19280 everywhere. This one-time change could therefore affect the first price after the
 intervention, whereas assigning a new rule preserved that price and
 changed later decisions. Fractions matched the number of targeted sites; sites
-already in Sell did not change state. For $f=0.15,0.20,0.25$ under both
-boundaries, no pulse reached a majority in 50 seeds (0/50; Wilson
+already in Sell did not change state. For $f=0.15,0.20,0.25$ with the
+technical traders active or held, no pulse reached a majority in 50 seeds (0/50; Wilson
 upper bound 0.071). Persistent Rule~19286 activation yielded 0/50,
 50/50, and 50/50, respectively. The Wilson lower bound for 50/50
 was 0.929. Directing these traders to sell once therefore did not reproduce the
@@ -140,9 +140,9 @@ decisions once in a different way could have different outcomes.
 The rule screen tested all 18 ways to change one entry of Rule~19280
 (Supplementary Table~\ref{tab:revision-rules}). Each of the nine
 neighbor sums had two alternative outputs. We activated each resulting
-rule at the same three fractions using 20 seeds under both boundaries.
-At $f=0.20$, six rules produced majority crossings in all 20 seeds
-under each boundary, while the other twelve produced none. Effective
+rule at the same three fractions using 20 seeds with the technical traders
+active or held. At $f=0.20$, six rules produced majority crossings in all 20 seeds
+under each condition, while the other twelve produced none. Effective
 changes included entries $c=2,3,4,5$ as well as the selected $c=1$
 change. Every change that replaced a Buy or Hold response with Sell at
 a neighbor sum from one to five produced a majority, as did the change
@@ -162,18 +162,18 @@ a general rule for when a majority would form.
         arms = group.set_index('action')
         transient, persistent = arms.loc['sell_pulse'], arms.loc['rule']
         pulse_rows.append(
-            f'{"Held" if boundary == "hold" else "Endogenous"} & {fraction:.2f} & '
+            f'{"Held" if boundary == "hold" else "Active"} & {fraction:.2f} & '
             f'{int(transient.seeds)} & {ci(transient,"p",2)} & {ci(persistent,"p",2)}')
     pulse_table = table(
         'Asking selected traders to sell once (Sell pulse) versus keeping Rule~19286 in use. '
         'Both comparisons used the same traders and 3,000 steps after the change. '
         'Entries are majority probabilities with 95\\% Wilson intervals; '
-        'the dealer was unlimited under both boundary conditions.',
+        'the dealer was unlimited under both technical-trader conditions.',
         'tab:revision-pulse',
-        r'Boundary & $f$ & Seeds & Sell pulse & Persistent rule', pulse_rows, 'lrrll')
+        r'Technical traders & $f$ & Seeds & Sell pulse & Persistent rule', pulse_rows, 'lrrll')
     text = text.replace('\nThe rule screen tested', '\n'+pulse_table+'\nThe rule screen tested')
-    text+=table('All changes to one response in Rule~19280. Each probability pair is '
-                'edge traders kept in Hold / responding to price over 20 starting markets; the changed rule remained in use. '
+    text+=table('All changes to one response in Rule~19280. Each entry gives the majority probability '
+                'with the technical traders held / active over 20 starting markets; the changed rule remained in use. '
                 'The output labels are Buy $=0$, Hold $=1$, Sell $=2$.',
                 'tab:revision-rules',r'Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$',rows,'rrrrrr',r'\footnotesize')
     band=df[df.campaign=='fixed_band']
@@ -188,9 +188,9 @@ a general rule for when a majority would form.
     rng=np.random.default_rng(20260905); idx=rng.integers(0,50,(2000,50))
     difference=(a-f).to_numpy(); lo,hi=np.quantile(difference[idx].mean(1),[.025,.975])
     text+=rf'''
-\paragraph{{Fixing the width of the price range in which edge traders chose Hold.}}
-The price range within which edge traders chose Hold changed as recent
-prices became more or less variable, allowing the same departure from
+\paragraph{{Fixing the width of the technical traders' band.}}
+The band within which the technical traders chose Hold widened or narrowed as
+recent prices became more or less variable, allowing the same departure from
 the reference price to produce different decisions over time
 (Supplementary Table~\ref{{tab:revision-band}}). We held the width of this range fixed at its value immediately before
 the rule change.
@@ -202,7 +202,7 @@ starting markets and capacities. At $f=0.175$, the difference in majority probab
 to {f.mean():.2f} with frozen widths. The difference between the adjusting-width and fixed-width
 comparisons was {difference.mean():.2f}, with a 95\% seed-bootstrap interval
 of [{lo:.2f}, {hi:.2f}]. Removing width adaptation therefore removed
-the low-capacity advantage in the point estimates. The fraction of edge traders in Sell also changed. Even with the width
+the low-capacity advantage in the point estimates. The fraction of technical traders in Sell also changed. Even with the width
 fixed, increasing capacity did not consistently raise or lower majority
 probability, and individual probability intervals were wide. Adjusting
 the width contributed to the smaller dealer's advantage but did not
@@ -210,7 +210,7 @@ explain every effect of capacity on majority probability.
 '''
     text+=table('Adjusting versus fixed widths of the Hold range at $f=0.175$ over 50 starting markets. Probability brackets '
                 'are 95\\% Wilson confidence intervals (CI). Sell is the mean fraction '
-                'of active edge traders in Sell, averaged over steps after the rule change and starting markets.',
+                'of technical traders in Sell, averaged over steps after the rule change and starting markets.',
                 'tab:revision-band',r'$h$ & Adaptive $p$ [95\% CI] & Frozen $p$ [95\% CI] & Adaptive Sell & Frozen Sell',rows,'rllll')
     imp=df[df.campaign=='price_impact'];rows=[]
     for _,r in imp.iterrows():
@@ -221,8 +221,8 @@ The price-impact coefficient determined how strongly the price changed
 when completed trader buys and sells differed (Supplementary Table~\ref{tab:revision-impact}).
 At $f=0.20$, we varied $\lambda$ over $\{0.005,0.02,0.05\}$ and
 capacity over $h\in\{0.1,1,\infty\}$. A smaller coefficient reduced
-the immediate price movement from a given imbalance. When edge traders were active, the changed price also affected the
-ranges they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
+the immediate price movement from a given imbalance. When the technical traders were active, the changed price also affected the
+bands they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
 drawdown increased with capacity at each coefficient, although its
 magnitude changed by a factor of seven to ten across the coefficient
 range. Dealer resources thus
@@ -234,7 +234,7 @@ empirical market. Both the number of unmatched orders the dealer could fill and 
 price change assigned to those trades determined the size of the
 price decline.
 '''
-    text+=table('Changes in how strongly trades affected price at $f=0.20$, with edge traders responding to price, '
+    text+=table('Changes in how strongly trades affected price at $f=0.20$, with the technical traders active, '
                 '50 seeds per cell. Drawdown is a percentage; rejection is the '
                 'fraction of post-switch eligible orders rejected.',
                 'tab:revision-impact',r'$h$ & $\lambda$ & Transition $p$ & Median drawdown (\%) & Median rejection',rows,'rrrrr')
@@ -246,8 +246,8 @@ price decline.
 \paragraph{Observation time and the fraction of traders required to sell.}
 A longer observation window gave the altered local dynamics more time
 to reach the selected Sell fraction
-(Supplementary Table~\ref{tab:revision-horizons}). Held-boundary checks
-used 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended to 0.300 at
+(Supplementary Table~\ref{tab:revision-horizons}). Checks with the
+technical traders held used 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended to 0.300 at
 $L=32$ to bracket the short-horizon response. We compared the original
 3,000 steps with $T_{\rm post}=3000(L/64)^z$ for $z=1,2$ at the
 endpoint sizes. These windows were 1,500 and 750 steps at $L=32$,
@@ -262,7 +262,7 @@ The qualitative size response persisted, but the numerical midpoint
 depended on both the criterion and horizon. Neither these comparisons
 nor the final 500-step mean established equilibration at any size.
 '''
-    text+=table('Changes in observation time and the required Sell fraction, with edge traders kept in Hold, over 50 starting markets. Entries are '
+    text+=table('Changes in observation time and the required Sell fraction, with the technical traders kept in Hold, over 50 starting markets. Entries are '
                 'interpolated $f_{50}$ [95\\% seed-bootstrap interval] for each crossing '
                 'criterion. The horizon grids are independent of adaptive refinement, '
                 'so their interpolated values can differ slightly from Supplementary Table~\\ref{tab:finite-size-scaling}.',
@@ -272,8 +272,8 @@ nor the final 500-step mean established equilibration at any size.
     text+=rf'''
 \paragraph{{Baseline characterization and long no-switch paths.}}
 The pre-switch paths remained mixed, with similar mean Sell occupancy
-in the two windows preceding activation. Across 50 endogenous
-unlimited-dealer seeds, the mean interior Sell fraction was
+in the two windows preceding activation. Across 50 unlimited-dealer
+seeds with the technical traders active, the mean interior Sell fraction was
 {baseline.pre_sell_early.mean():.4f} over steps 501--750 and
 {baseline.pre_sell_late.mean():.4f} over steps 751--1,000. In the
 latter window, the median within-seed return standard deviation was
@@ -283,8 +283,8 @@ and ${baseline.pre_return_q99.median():.2g}$. The mean zero-return
 fraction was {baseline.pre_zero_returns.mean():.3f}. These summaries described the starting markets without showing that
 their statistical properties had stopped changing or matched an
 observed market. We extended the first ten production seeds
-under each boundary for 100,000 additional no-switch steps. None
-crossed a majority (0/10 per boundary; Wilson upper bound 0.278
+under each technical-trader condition for 100,000 additional no-switch steps. None
+crossed a majority (0/10 per condition; Wilson upper bound 0.278
 for the ensemble event probability). The extension followed existing
 seeds and was not an independent replication. It showed that those
 paths remained below a majority over that longer interval, while
@@ -321,6 +321,40 @@ these finite-size summaries.
     (S/'revision-tables.tex').write_text('\n\n'.join(tables) + '\n\n' + fits_input + '\n')
     (S/'revision-controls.tex').write_text(re.sub(r'\n{3,}', '\n\n', text).rstrip() + '\n')
 
+def market_panel_horizon_table():
+    df = pd.read_csv(D/'ModelB-Revision-MarketPanel-Horizons.csv')
+    cases = [(0.150,8),(0.175,5),(0.175,22),(0.185,46),(0.200,21)]
+    rows = [r'\multicolumn{7}{l}{\textbf{A. Same five examples as Fig.~\ref{fig:dose-panels}}}',
+            r'$f$ & Seed & First majority & \shortstack{Drawdown\\3,000 steps} & \shortstack{Drawdown\\10,000 steps} & \shortstack{Price change\\10,000 steps} & Final Sell']
+    for f,seed in cases:
+        sub = df[(np.isclose(df.f,f)) & (df.seed==seed) & (df.condition=='changed')].set_index('post')
+        a,b = sub.loc[3000],sub.loc[10000]
+        onset = f'{int(b.onset):,}' if b.onset else 'None'
+        rows.append(f'{f:.3f} & {seed} & {onset} & {100*a.maximum_drawdown:.2f} & '
+                    f'{100*b.maximum_drawdown:.2f} & {100*b.price_change:.2f} & {b.final_sell_mean:.3f}')
+    rows += [r'\midrule',r'\multicolumn{7}{l}{\textbf{B. All 50 starting markets at $f=0.150$}}',
+             r'\multicolumn{2}{l}{Decision rule} & Steps & Majorities / 50 & \shortstack{Median\\drawdown} & \shortstack{Worst\\drawdown} & \shortstack{Median\\price change}']
+    for condition,label in [('changed','New rule at 15\\%'),('control','Original rule')]:
+        for post in (3000,5000,10000):
+            sub=df[np.isclose(df.f,.15)&(df.condition==condition)&(df.post==post)]
+            assert len(sub)==50
+            rows.append(r'\multicolumn{2}{l}{'+label+'} & '+f'{post:,} & {int(sub.transitioned.sum())}/50 & '
+                        f'{100*sub.maximum_drawdown.median():.2f} & {100*sub.maximum_drawdown.max():.2f} & '
+                        f'{100*sub.price_change.median():.2f}')
+    caption = ('Longer observation with an unlimited dealer and active technical traders. '
+               'Times are steps after the rule change, following 1,000 initial steps. Drawdowns and '
+               'price changes are percentages; price changes are relative to the price when the rule changed. '
+               'Final Sell is the mean fraction over the last 500 of 10,000 steps. None means no Sell '
+               'majority by 10,000 steps. Panel A retains the examples selected using the original '
+               '3,000-step results. Panel B extends all original $f=0.150$ starting markets and their '
+               'matched controls. These are extensions of existing runs, not independent replications.')
+    result = table(caption,'tab:market-panel-horizons','',rows,'lrrrrrr',
+                   small=r'\footnotesize\setlength{\tabcolsep}{2.5pt}')
+    result = result.replace(r'\toprule'+'\n'+r' \\'+'\n'+r'\midrule',r'\toprule')
+    (S/'market-panel-horizons-table.tex').write_text(result)
+
+
 if __name__=='__main__':
     finite_tables()
     controls_tables()
+    market_panel_horizon_table()

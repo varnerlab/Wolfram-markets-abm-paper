@@ -1,16 +1,16 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Asking selected traders to sell once (Sell pulse) versus keeping Rule~19286 in use. Both comparisons used the same traders and 3,000 steps after the change. Entries are majority probabilities with 95\% Wilson intervals; the dealer was unlimited under both boundary conditions.}
+\caption{Asking selected traders to sell once (Sell pulse) versus keeping Rule~19286 in use. Both comparisons used the same traders and 3,000 steps after the change. Entries are majority probabilities with 95\% Wilson intervals; the dealer was unlimited under both technical-trader conditions.}
 \label{tab:revision-pulse}
 \small
 \begin{tabular}{lrrll}
 \toprule
-Boundary & $f$ & Seeds & Sell pulse & Persistent rule \\
+Technical traders & $f$ & Seeds & Sell pulse & Persistent rule \\
 \midrule
-Endogenous & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
-Endogenous & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
-Endogenous & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+Active & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
+Active & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+Active & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
 Held & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
 Held & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
 Held & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
@@ -22,7 +22,7 @@ Held & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{All changes to one response in Rule~19280. Each probability pair is edge traders kept in Hold / responding to price over 20 starting markets; the changed rule remained in use. The output labels are Buy $=0$, Hold $=1$, Sell $=2$.}
+\caption{All changes to one response in Rule~19280. Each entry gives the majority probability with the technical traders held / active over 20 starting markets; the changed rule remained in use. The output labels are Buy $=0$, Hold $=1$, Sell $=2$.}
 \label{tab:revision-rules}
 \footnotesize
 \begin{tabular}{rrrrrr}
@@ -55,7 +55,7 @@ Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$ \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Adjusting versus fixed widths of the Hold range at $f=0.175$ over 50 starting markets. Probability brackets are 95\% Wilson confidence intervals (CI). Sell is the mean fraction of active edge traders in Sell, averaged over steps after the rule change and starting markets.}
+\caption{Adjusting versus fixed widths of the Hold range at $f=0.175$ over 50 starting markets. Probability brackets are 95\% Wilson confidence intervals (CI). Sell is the mean fraction of technical traders in Sell, averaged over steps after the rule change and starting markets.}
 \label{tab:revision-band}
 \small
 \begin{tabular}{rllll}
@@ -78,7 +78,7 @@ $\infty$ & 0.28 [0.17, 0.42] & 0.52 [0.39, 0.65] & 0.113 & 0.189 \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Changes in how strongly trades affected price at $f=0.20$, with edge traders responding to price, 50 seeds per cell. Drawdown is a percentage; rejection is the fraction of post-switch eligible orders rejected.}
+\caption{Changes in how strongly trades affected price at $f=0.20$, with the technical traders active, 50 seeds per cell. Drawdown is a percentage; rejection is the fraction of post-switch eligible orders rejected.}
 \label{tab:revision-impact}
 \small
 \begin{tabular}{rrrrr}
@@ -102,7 +102,7 @@ $\infty$ & 0.050 & 1.00 & 49.56 & 0.000 \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Changes in observation time and the required Sell fraction, with edge traders kept in Hold, over 50 starting markets. Entries are interpolated $f_{50}$ [95\% seed-bootstrap interval] for each crossing criterion. The horizon grids are independent of adaptive refinement, so their interpolated values can differ slightly from Supplementary Table~\ref{tab:finite-size-scaling}.}
+\caption{Changes in observation time and the required Sell fraction, with the technical traders kept in Hold, over 50 starting markets. Entries are interpolated $f_{50}$ [95\% seed-bootstrap interval] for each crossing criterion. The horizon grids are independent of adaptive refinement, so their interpolated values can differ slightly from Supplementary Table~\ref{tab:finite-size-scaling}.}
 \label{tab:revision-horizons}
 \footnotesize
 \begin{tabular}{rrlll}

@@ -72,11 +72,11 @@ end
 
 conditions = [
     (boundary = "hold", h = Inf, color = :black, marker = :circle,
-     label = "held boundary"),
+     label = "held"),
     (boundary = "endogenous", h = Inf, color = _SERIES_COLORS[1], marker = :square,
-     label = "endogenous, h=∞"),
+     label = "active, h=∞"),
     (boundary = "endogenous", h = 1.0, color = _SERIES_COLORS[3], marker = :diamond,
-     label = "endogenous, h=1"),
+     label = "active, h=1"),
 ]
 
 pC = plot(; xlabel = "Inverse lattice size, 1/L", ylabel = "f₅₀(L)",

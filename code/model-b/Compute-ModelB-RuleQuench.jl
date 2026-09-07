@@ -44,7 +44,6 @@ const STEPS = T_PRE + T_POST
 const SEEDS = SMOKE ? collect(1:2) : FULL ? collect(1:50) : collect(1:12)
 const TARGET_FS = SMOKE ? [0.20] : [0.10, 0.15, 0.20, 0.25]
 const TRACE_STRIDE = SMOKE ? 1 : 5
-const DISPLAY_PRE = min(T_PRE, 500)
 
 # Canonical endogenous-model settings.  The paired intervention changes only
 # the active rule labels; it does not inject cash, reset books, or alter price.
@@ -204,67 +203,79 @@ for f in TARGET_FS
     @info "Rule-quench summary" target_f=f n=nrow(sub) median_pre_abs_log_change=median(abs.(sub.pre_price_log_change)) median_pre_return_std=median(sub.pre_return_std) max_pre_sell=maximum(sub.pre_sell_max) treated_onsets=count(>(0), sub.treated_onset) control_onsets=count(>(0), sub.control_onset) median_delta_sell_peak=median(sub.delta_sell_peak) median_delta_drawdown=median(sub.delta_max_drawdown)
 end
 
-# Diagnostic figure: one common dormant-control curve and one treated curve
-# per target fraction. Curves are replicate medians with interquartile bands.
-xs = sort(unique(traces.step_since_quench))
-f_colors = Dict(f => _SERIES_COLORS[mod1(i, length(_SERIES_COLORS))]
-                for (i, f) in enumerate(TARGET_FS))
+# Display both complete rules using the same decoder as the simulation.
+# One four-neighbor example represents each sum; the center is not an input.
+function _rule_diagram(rule_index::Int, letter::String, heading::String)
+    model = build(MyTwoDimensionalTotalisticWolframRuleModel,
+                  (index = rule_index, colors = 3, radius = 4))
+    panel = plot(; xlims = (0, 1000), ylims = (0, 230),
+        aspect_ratio = :equal, axis = false, legend = false,
+        framestyle = :none, widen = false, margin = 0Plots.mm,
+        background_color_inside = :white, background_color_outside = :white)
+    colors = (_BUY_COLOR, _HOLD_COLOR, _SELL_COLOR)
+    names = ("Buy", "Hold", "Sell")
 
-function _trace_quantiles(sub::DataFrame, value::Symbol)
-    grouped = combine(
-        groupby(sub[:, [:step_since_quench, value]], :step_since_quench),
-        value => (x -> quantile(x, 0.25)) => :q25,
-        value => median => :q50,
-        value => (x -> quantile(x, 0.75)) => :q75,
-    )
-    sort!(grouped, :step_since_quench)
-    return grouped
+    function square!(x, y, color; size = 26, outline = "#555555")
+        half = size / 2
+        plot!(panel, Shape([x-half, x+half, x+half, x-half],
+                           [y-half, y-half, y+half, y+half]);
+              color = color, linecolor = outline, linewidth = 0.5, label = "")
+    end
+
+    annotate!(panel, 12, 214, text(letter, :black, :left, 16, "helvetica bold"))
+    annotate!(panel, 48, 214, text(heading, :black, :left, 15, "helvetica bold"))
+    if letter == "A"
+        for state in 0:2
+            x = 650 + 110state
+            square!(x, 214, colors[state+1]; size = 18)
+            annotate!(panel, x+14, 214,
+                      text("$(names[state+1]) = $(state)", :black, :left, 12, "helvetica"))
+        end
+    else
+        annotate!(panel, 630, 214,
+                  text("Only the outlined response changes", :black, :left, 12, "helvetica"))
+    end
+
+    annotate!(panel, 12, 184, text("Neighbor sum", :black, :left, 11, "helvetica"))
+    annotate!(panel, 12, 130, text("Neighbors", :black, :left, 11, "helvetica"))
+    annotate!(panel, 12, 45, text("Next decision", :black, :left, 11, "helvetica"))
+    for c in 0:8
+        x = 165 + 96c
+        if c == 1
+            plot!(panel, Shape([x-44, x+44, x+44, x-44], [0,0,197,197]);
+                  color = "#FFF4D6", linecolor = :black, linewidth = 1.1,
+                  linestyle = :dash, label = "")
+        end
+        annotate!(panel, x, 184, text(string(c), :black, :center, 12, "helvetica"))
+        base, remainder = divrem(c, 4)
+        neighbors = [base + (i <= remainder) for i in 1:4]
+        @assert sum(neighbors) == c && all(0 .<= neighbors .<= 2)
+        for ((dx,dy),state) in zip(((0,1),(-1,0),(1,0),(0,-1)), neighbors)
+            square!(x+26dx, 130+26dy, colors[state+1])
+        end
+        # The hollow center marks the trader; its old state does not enter c.
+        square!(x, 130, :white; outline = "#777777")
+        plot!(panel, [x,x], [84,66]; color = :black, linewidth = 0.9,
+              arrow = true, label = "")
+        output = model.rule[c]
+        square!(x, 45, colors[output+1]; size = 28)
+        annotate!(panel, x, 15, text(names[output+1], :black, :center, 11, "helvetica"))
+    end
+    return panel
 end
 
-control_trace = traces[(traces.target_f .== first(TARGET_FS)) .&
-                       (traces.condition .== "control") .&
-                       (traces.step_since_quench .>= -DISPLAY_PRE), :]
-price_control = _trace_quantiles(control_trace, :price_relative)
-sell_control = _trace_quantiles(control_trace, :sell_fraction)
-
-pA = plot(; xlabel = "Steps since rule switch", ylabel = "Price / activation price",
-          legend = :topleft, _panel_kw...)
-plot!(pA, price_control.step_since_quench, price_control.q50;
-      ribbon = (price_control.q50 .- price_control.q25,
-                price_control.q75 .- price_control.q50),
-      color = :black, fillalpha = 0.10, lw = 2.2, ls = :dash,
-      label = "no-switch control")
-
-pB = plot(; xlabel = "Steps since rule switch", ylabel = "Sell fraction",
-          ylims = (0, 1), legend = false, _panel_kw...)
-plot!(pB, sell_control.step_since_quench, sell_control.q50;
-      ribbon = (sell_control.q50 .- sell_control.q25,
-                sell_control.q75 .- sell_control.q50),
-      color = :black, fillalpha = 0.10, lw = 2.2, ls = :dash, label = "")
-
-for f in TARGET_FS
-    sub = traces[(traces.target_f .== f) .&
-                 (traces.condition .== "treated") .&
-                 (traces.step_since_quench .>= -DISPLAY_PRE), :]
-    pq = _trace_quantiles(sub, :price_relative)
-    sq = _trace_quantiles(sub, :sell_fraction)
-    label = "switch $(Int(round(100f)))%"
-    plot!(pA, pq.step_since_quench, pq.q50;
-          ribbon = (pq.q50 .- pq.q25, pq.q75 .- pq.q50),
-          color = f_colors[f], fillalpha = 0.08, lw = 2.0, label = label)
-    plot!(pB, sq.step_since_quench, sq.q50;
-          ribbon = (sq.q50 .- sq.q25, sq.q75 .- sq.q50),
-          color = f_colors[f], fillalpha = 0.08, lw = 2.0, label = "")
-end
-vline!(pA, [0], color = :black, lw = 1.0, ls = :dot, label = "")
-vline!(pB, [0], color = :black, lw = 1.0, ls = :dot, label = "")
-hline!(pB, [0.5], color = :black, lw = 0.9, ls = :dash, label = "")
-_panel_letter!(pA, "A")
-_panel_letter!(pB, "B")
+original_rule = build(MyTwoDimensionalTotalisticWolframRuleModel,
+                      (index = 19280, colors = 3, radius = 4))
+changed_rule = build(MyTwoDimensionalTotalisticWolframRuleModel,
+                     (index = 19286, colors = 3, radius = 4))
+@assert [c for c in 0:8 if original_rule.rule[c] != changed_rule.rule[c]] == [1]
+@assert original_rule.rule[1] == 0 && changed_rule.rule[1] == 2
+pA = _rule_diagram(19280, "A", "Original decision rule: 19280")
+pB = _rule_diagram(19286, "B", "New decision rule: 19286")
 
 # Select one f=0.20 pair nearest the median treated-control peak-Sell effect.
-# This deterministic representative supplies spatial context; A and B carry
-# the ensemble result.
+# This deterministic representative shows the market outcome; the numerical
+# comparison over all starting markets remains in Supplementary Table S2.
 f_exemplar = 0.20 in TARGET_FS ? 0.20 : first(TARGET_FS)
 ex_sub = summary[summary.target_f .== f_exemplar, :]
 med_effect = median(ex_sub.delta_sell_peak)
@@ -288,61 +299,45 @@ end
 function _paired_market_panel(control_frames, treated_frames)
     offsets = Int64[0, 100, 400, T_POST]
     L = GRIDN
-    header = 16
-    row_gap = 4
-    col_gap = 5
-    nrows = 2
-    ncols = length(offsets)
-    height = header + nrows * L + (nrows - 1) * row_gap
-    width = ncols * L + (ncols - 1) * col_gap
+    header = 22
+    left_label = 38
+    row_gap = 8
+    col_gap = 6
+    height = header + 2L + row_gap
+    width = left_label + length(offsets)*L + (length(offsets)-1)*col_gap
     canvas = fill(NaN, height, width)
-
     for (r, frames) in enumerate((control_frames, treated_frames))
-        first_row = header + (r - 1) * (L + row_gap) + 1
-        last_row = first_row + L - 1
+        first_row = header + (r-1)*(L+row_gap) + 1
         for (c, offset) in enumerate(offsets)
-            first_col = (c - 1) * (L + col_gap) + 1
-            last_col = first_col + L - 1
+            first_col = left_label + (c-1)*(L+col_gap) + 1
             step = T_PRE + offset
             haskey(frames, step) || error("exemplar frame missing at step $(step)")
-            canvas[first_row:last_row, first_col:last_col] .= frames[step]
+            canvas[first_row:first_row+L-1, first_col:first_col+L-1] .= frames[step]
         end
     end
-
     panel = heatmap(canvas;
-        c = _grid_cgrad(), clims = (0, 2), colorbar = false,
+        c = _grid_cgrad(), clims = (0,2), colorbar = false,
         axis = false, yflip = true, aspect_ratio = :equal,
-        xlims = (0.5, width + 0.5), ylims = (0.5, height + 0.5),
+        xlims = (0.5,width+0.5), ylims = (0.5,height+0.5),
         widen = false, framestyle = :none, margin = 0Plots.mm,
         background_color_inside = :white)
-
-    for (c, offset) in enumerate(offsets)
-        first_col = (c - 1) * (L + col_gap) + 1
-        center = first_col + (L - 1) / 2
-        label = offset == 0 ? "activation" : "+$(offset) steps"
-        annotate!(panel, center, header / 2,
-                  text(label, :black, :center, 11, "helvetica"))
+    annotate!(panel, 4, 5, text("C", :black, :left, 16, "helvetica bold"))
+    for (c,offset) in enumerate(offsets)
+        center = left_label + (c-1)*(L+col_gap) + (L+1)/2
+        label = offset == 0 ? "Rule assigned" : "+$(offset) steps"
+        annotate!(panel, center, 16, text(label, :black, :center, 12, "helvetica"))
     end
-    for (r, label) in enumerate(("no-switch control", "switch 20%"))
-        first_row = header + (r - 1) * (L + row_gap) + 1
-        x0, x1 = 2, 51
-        y0, y1 = first_row + 1, first_row + 10
-        plot!(panel, Shape([x0, x1, x1, x0], [y0, y0, y1, y1]);
-              color = :white, linecolor = :transparent, fillalpha = 0.82,
-              label = "")
-        annotate!(panel, x0 + 2, (y0 + y1) / 2,
-                  text(label, :black, :left, 9, "helvetica"))
+    for (r,label) in enumerate(("Original rule\nunchanged", "New rule\nat 20%"))
+        center = header + (r-1)*(L+row_gap) + (L+1)/2
+        annotate!(panel, 4, center, text(label, :black, :left, 11, "helvetica"))
     end
-    annotate!(panel, 3, header / 2,
-              text("C", :black, :left, 14, "helvetica bold"))
     return panel
 end
 
 pC = _paired_market_panel(control_frames, treated_frames)
 fig = plot(pA, pB, pC;
-           layout = @layout([a b; c{0.58h}]), size = (1000, 1000),
-           left_margin = 7Plots.mm, right_margin = 3Plots.mm,
-           bottom_margin = 4Plots.mm)
+           layout = @layout([a{0.25h}; b{0.25h}; c{0.50h}]),
+           size = (1100, 1080), margin = 2Plots.mm)
 figure_path = joinpath(_PATH_TO_FIGS, "Fig-$(stem).pdf")
 savefig(fig, figure_path)
 if FULL

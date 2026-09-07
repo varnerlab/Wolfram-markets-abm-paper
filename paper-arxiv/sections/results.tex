@@ -4,12 +4,14 @@
 To explore how investor decisions could destabilize a market, we changed how
 some traders responded to their neighbors and found that a majority entered
 the Sell state only when enough traders adopted the new decision rule
-(Fig.~\ref{fig:rule-quench}). We compared each market with an otherwise
+(Fig.~\ref{fig:rule-quench}; Supplementary Table~\ref{tab:paired-switch}). We compared each market with an otherwise
 identical market where traders continued to use their original decision
-rules. The new rule, Rule~19286, changed one decision from Buy to Sell, and
-we assigned it to four different fractions of traders inside the grid. We
-used a $64\times64$ grid with an unlimited dealer and traders along its edge
-who decided whether to buy, hold, or sell from changes in the price
+rules. The new rule, Rule~19286, changed the response to three neighbors buying
+and one holding from Buy to Sell, while keeping every other response
+unchanged (Fig.~\ref{fig:rule-quench}A,B). We assigned it to four different
+fractions of traders inside the grid. We
+used a $64\times64$ grid with an unlimited dealer and technical traders along
+its edge who decided whether to buy, hold, or sell from the price
 (Supplementary Table~\ref{tab:campaigns}). Each pair of markets had the same
 1,000-step history and the same price immediately after we assigned the new
 rule. They first differed when the selected traders next decided how to act
@@ -19,14 +21,14 @@ same was true when we changed the rule for a fraction $f=0.10$ or 0.15 of
 interior traders, whereas changing it for $f=0.20$ or 0.25 produced a
 majority in every run. The median time to reach a majority fell from 1,044.5
 to 311.5 steps between the two larger fractions
-(Fig.~\ref{fig:rule-quench}B; Supplementary Table~\ref{tab:paired-switch}).
+(Supplementary Table~\ref{tab:paired-switch}).
 In the representative $f=0.20$ pair, groups of sellers expanded across the
 grid after the rule change while decisions in the comparison market remained
 mixed (Fig.~\ref{fig:rule-quench}C). We also tested whether a temporary
 decision to sell had the same effect as changing the rule for later
 decisions. Setting the same selected traders to Sell once, while keeping
 their original rule, produced no majority at $f=0.15$, 0.20, or 0.25,
-whether or not traders at the edge responded to price (Supplementary
+whether the technical traders were active or kept in Hold (Supplementary
 Table~\ref{tab:revision-pulse}). Of all 18 ways to change a single response
 in the original rule, Rule~19280, six produced a majority at $f=0.20$ and
 the other twelve did not (Supplementary Table~\ref{tab:revision-rules}).
@@ -34,12 +36,12 @@ Within these tests, the shift to a market dominated by sellers depended on
 how many traders changed their decision rule, which decision changed, and
 whether the new rule remained in use.
 
-Traders inside the grid decided from their neighbors' actions, while traders
-along its edge used the price and could therefore pass the effects of a
-price change to their neighbors. To determine whether a Sell majority could
+Traders inside the grid decided from their neighbors' actions, while the
+technical traders along its edge decided from the price and could therefore
+pass the effects of a price change to their neighbors. To determine whether a Sell majority could
 form without that influence, we changed the decision rule for selected
-interior traders while keeping all traders at the edge in Hold, and found
-that a majority still formed (Fig.~\ref{fig:reservoir}). With the edge
+interior traders while keeping the technical traders in Hold, and found
+that a majority still formed (Fig.~\ref{fig:reservoir}). With the technical
 traders unable to buy or sell, the fraction of runs reaching a majority rose
 from 0.34 at $f=0.175$ to 0.70 at 0.185 and 1.00 at 0.20
 (Fig.~\ref{fig:reservoir}A). Changing dealer capacity left the entire
@@ -47,8 +49,8 @@ sequence of interior decisions unchanged for each starting market and
 fraction $f$, even though completed trades, prices, and dealer holdings
 differed. Prices could still change after trades, but no trader could use those
 prices to change a decision. Responses to neighboring traders were therefore
-sufficient to sustain widespread selling. Allowing traders at the edge to
-respond to price again changed how often a majority formed only among
+sufficient to sustain widespread selling. Allowing the technical traders to
+trade on the price again changed how often a majority formed only among
 fractions where some runs reached a majority and others did not
 (Fig.~\ref{fig:reservoir}A,B). With these traders active and an unlimited
 dealer, 14 of 50 runs reached a majority at $f=0.175$, 43 did so at 0.185,
@@ -62,44 +64,50 @@ decline.
 
 \input{sections/finite-size-results}
 
-The frequency of a Sell majority across runs did not reveal how traders'
-decisions developed within an individual market. To determine whether
-selling spread through neighboring traders or appeared across the market at
-once, we followed decisions at successive times and found that each
-displayed majority developed as groups of sellers grew and joined together
-(Fig.~\ref{fig:dose-panels}). We selected these runs from their summary
-measurements before inspecting any images, choosing examples with typical
-times to a majority or typical final Sell fractions for their outcome group.
-At $f=0.15$, the run without a majority retained a mixture of decisions
-across the grid for all 3,000 steps. The two $f=0.175$ runs followed
-different paths: one formed a group of sellers but stayed below one-half,
-while the other developed a large connected group and reached a majority
-after 2,186 steps. The $f=0.185$ run reached a majority after 1,779 steps
-through several connected groups, and the $f=0.20$ run did so after 1,030
-steps and ended with one dominant group of sellers
-(Fig.~\ref{fig:dose-panels}A). Price declined as the fraction of sellers
-rose in each run that reached a majority. Maximum drawdowns were 17.6\%,
-23.7\%, and 25.6\% at $f=0.175$, 0.185, and 0.20, compared with 5.3\% and
-9.9\% for the two runs without a majority (Fig.~\ref{fig:dose-panels}B,C).
-The number, shape, and timing of the groups varied across starting markets.
-The $f=0.175$ run that never reached a majority also formed a visible group
-of sellers, so the appearance of such a group did not guarantee a majority
-within the time observed. In each displayed transition, local decisions
-formed growing groups of sellers rather than a single market-wide decision
-to sell. The probability measured across runs described how often those
-interacting decisions produced a majority.
+To determine how changes in investor decisions developed into market
+instability, we followed five selected markets beyond the original
+observation period and found that groups of sellers continued to grow
+(Fig.~\ref{fig:dose-panels}). We retained five examples selected from their
+original 3,000-step results before inspecting any images, then extended each
+to 10,000 steps after the rule change. The displayed $f=0.15$ market retained
+a mixture of decisions throughout this longer period. Its price remained
+roughly steady after an initial decline, with maximum drawdown increasing
+only from 5.3\% to 5.4\% (Supplementary
+Table~\ref{tab:market-panel-horizons}). The two $f=0.175$ markets both
+reached a Sell majority, but at different times. One reached a majority
+after 2,186 steps; the other remained below one-half at the original endpoint
+and reached a majority after 4,117 steps. The $f=0.185$ and $f=0.20$ markets
+reached a majority after 1,779 and 1,030 steps, respectively
+(Fig.~\ref{fig:dose-panels}A,C). In each of these four markets, groups of
+sellers enlarged and joined as the price declined. In the later $f=0.175$
+transition, maximum drawdown grew from 9.9\% at 3,000 steps to 25.6\% at
+10,000 steps. The other three markets ended with drawdowns of 26.5\%,
+26.3\%, and 26.4\% (Supplementary Table~\ref{tab:market-panel-horizons}).
+A market that had not reached a Sell majority by the original endpoint
+could therefore develop a majority and a large price decline when observed
+for longer. We also extended all 50 original $f=0.15$ starting markets and
+their matched controls. Two markets with the new rule reached a majority
+by 10,000 steps, compared with none at 3,000 steps, while all controls
+remained below a majority. Median maximum drawdown in the changed-rule
+markets rose from 4.9\% to 5.5\%, but the largest increased from 9.3\% to
+24.5\% (Supplementary Table~\ref{tab:market-panel-horizons}). The displayed
+$f=0.15$ example thus illustrated persistent mixed decisions over this
+period, while other starting markets at the same fraction developed delayed
+instability. The growing groups connected individual decisions to a market
+dominated by sellers, and the longer observations showed that delayed
+market instability could accompany a large price decline.
 
 A decision to sell could influence neighboring traders without finding a
 buyer, so a market dominated by sellers did not necessarily undergo a price
 crash. We varied the dealer's ability to buy and sell across eight
-capacities while allowing traders at the edge to respond to price, and found
+capacities with the technical traders active, and found
 that greater capacity increased the price decline but did not consistently
 increase the probability of a Sell majority (Fig.~\ref{fig:reservoir}). At
 $f=0.175$, the probability was 0.66 with capacity $h=0.1$ and 0.28 with
 unlimited capacity, a difference of 38 percentage points in favor of the
-smaller dealer (Fig.~\ref{fig:reservoir}A,B). The edge traders normally
-adjusted how large a departure from their reference price would trigger a
-decision to buy or sell. Keeping that required departure fixed at its value
+smaller dealer (Fig.~\ref{fig:reservoir}A,B). The technical traders normally
+adjusted the width of their band, the departure from the reference price
+that triggered a decision to buy or sell. Keeping that required departure fixed at its value
 before the rule change changed the probability difference from 0.38 to
 $-0.02$. This linked the smaller dealer's advantage to traders adjusting
 their responses to price, although other increases and decreases in
@@ -121,7 +129,7 @@ separated selling decisions from price declines. At $f=0.20$, the market
 initialized with seed 25 reached a majority at $h=0.1$, 1, and $\infty$
 within 88 steps of one another. The mean Sell fraction over the final 500
 steps lay between 0.81 and 0.87 in these three runs and in the comparison
-with edge traders kept in Hold, yet maximum drawdown rose from 0.40\% at
+with the technical traders kept in Hold, yet maximum drawdown rose from 0.40\% at
 $h=0.1$ to 3.92\% at $h=1$ and 25.8\% with unlimited capacity
 (Fig.~\ref{fig:dealer-panels}). Similar instability in decisions thus
 accompanied both a small decline and a simulated price crash. Dealer
@@ -133,13 +141,13 @@ a decision to buy, even when their decision rules called for those actions.
 To distinguish the effects of trader resources from the dealer's ability to
 complete their orders, we multiplied trader cash and shares independently by
 0.1, 1, or 10 when we changed the rule, and found that holdings changed
-majority probability only when traders could respond to price
+majority probability only when the technical traders were active
 (Fig.~\ref{fig:balance-sheet}). We tested these changes at three dealer
-capacities, both with traders at the edge responding to price and with those
-traders kept in Hold. At $f=0.18$, all nine combinations of cash and shares
-produced identical interior decisions when edge traders stayed in Hold, with
-a majority probability of 0.64 across dealer capacities. When edge traders
-responded to price, probabilities ranged from 0.50 to 0.94, and the other
+capacities, both with the technical traders active and with them kept in
+Hold. At $f=0.18$, all nine combinations of cash and shares
+produced identical interior decisions when the technical traders stayed in Hold, with
+a majority probability of 0.64 across dealer capacities. When the technical traders
+were active, probabilities ranged from 0.50 to 0.94, and the other
 tested fractions showed the same dependence on whether these traders were
 active (Fig.~\ref{fig:balance-sheet}A; Supplementary
 Table~\ref{tab:balance-fractions}). Holdings determined whether traders
@@ -156,8 +164,8 @@ follow drawdown (Fig.~\ref{fig:balance-sheet}D). At $h=1$ with the original
 share holdings, tenfold cash reduced median drawdown from 3.92\% to 0.089\%
 while raising majority probability from 0.78 to 0.94. The extra cash allowed
 more traders to buy, so they bought shares that would otherwise have needed
-the dealer as a buyer, while the changed price also influenced decisions at
-the edge. Trader and dealer resources therefore determined whether a market
+the dealer as a buyer, while the changed price also influenced the technical
+traders' decisions. Trader and dealer resources therefore determined whether a market
 dominated by sellers experienced a limited decline or a large price crash.
 The decision to sell and the resources needed to complete the sale
 contributed separately to the market outcome.

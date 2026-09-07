@@ -100,7 +100,7 @@ function _cell_series!(p, metric::Symbol; transform = identity, floor = nothing,
             open = floor === nothing ? falses(3) : (ys .<= 0)
             ys_draw = floor === nothing ? ys : max.(ys, floor)
             plot!(p, xs, ys_draw; color = color, lw = 1.8,
-                  label = (label_series && first_group) ? "endogenous, h=$(_hlabel(h))" : "")
+                  label = (label_series && first_group) ? "active, h=$(_hlabel(h))" : "")
             closed = .!open
             any(closed) && scatter!(p, xs[closed], ys_draw[closed]; color = color,
                                     marker = :circle, ms = 4.5, markerstrokewidth = 0,
@@ -128,7 +128,7 @@ pA = plot(; xlabel = "Share multiplier", ylabel = "Transition probability",
           legend = :bottomright, _panel_kw...)
 hspan!(pA, [held_lo, held_hi]; color = :black, alpha = 0.08, label = "")
 hline!(pA, [held_p]; color = :black, ls = :dash, lw = 2.2,
-       label = "held boundary (all cells)")
+       label = "held (all cells)")
 _cell_series!(pA, :transition_probability)
 _group_labels!(pA, 1.03)
 
