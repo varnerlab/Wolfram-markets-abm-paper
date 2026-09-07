@@ -10,14 +10,28 @@ some investors' decision rules destabilize a market and contribute to
 a crash? Agent-based
 models address collective behavior through imitation, strategy adaptation,
 and responses to a shared price~\cite{lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,axtell2025agent}.
+In the minority game, every trader reads the same record of past outcomes
+and switches among strategies scored on that record, so traders interact
+only through the market outcome~\cite{challet1997minority,challet2000modeling}.
+In the Santa Fe artificial stock market, traders learn forecasting rules
+from a shared price and dividend~\cite{lebaron1999time}; adding technical
+rules to a trader's repertoire was a dominant strategy that lowered wealth
+and raised volatility for all~\cite{joshi1999technical,joshi2002financial},
+and how much technical trading emerged depended on details of the learning
+algorithm~\cite{ehrentreich2006technical}.
 Many of these models include technical traders, who decide from the recent
 history of the price, alongside traders who follow fundamental value or the
 opinions of others~\cite{brock1998heterogeneous,lux1999scaling,hommes2006heterogeneous}.
 Herding models describe how individual decisions produce collective
 activity~\cite{kirman1993ants,cont2000herd,lux1999scaling}, while lattice
-models restrict influence to neighboring traders~\cite{bornholdt2001ising,bartolozzi2004stochastic,qiu2007cellular}.
+models restrict influence to neighboring traders, each of whom imitates its
+neighbors with some probability or responds to a spin coupling at a set
+temperature~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance}.
 These interactions can generate large fluctuations and periods of sustained
 volatility, two features of financial returns~\cite{cont2001empirical}.
+In each of these models a change in behavior enters through learning or
+through a parameter applied to the whole market, and the effect of the price
+on decisions is not separated from the effect of other traders.
 However, reproducing market-wide fluctuations does not by itself explain
 how the decisions of an interacting population change when some
 investors begin using a different rule to decide whether to buy, hold,
@@ -29,17 +43,28 @@ A cellular automaton represents investors as traders arranged on a square
 grid, with each trader deciding whether to buy, hold, or sell from the
 decisions of nearby traders. Each trader uses a lookup table to convert the
 sum of its four neighbors' numbered decisions into its next decision, a
-totalistic rule~\cite{wolfram1984universality,packard1985two,wolfram2002new}. Such
-models have been used to generate market fluctuations and changes in market
-behavior~\cite{wei2003cellular,bartolozzi2004stochastic,fan2009effect,atman2012influence}.
-One table entry can change while the other responses stay fixed. Asking a trader to sell once changes its current decision, whereas
+totalistic rule~\cite{wolfram1984universality,packard1985two,wolfram2002new}.
+Wolfram's own market model placed buying and selling entities on a line,
+each responding to its two neighbors under a fixed rule, and took the
+running difference between buyers and sellers as the
+price~\cite{wolfram2002new}. A recent model in which thirty-two agents
+followed rules inspired by Rule~110, kept balance sheets, and set the price
+from the counts of buy and sell positions produced series with the
+statistics of real assets~\cite{valsan2022on}. Two-dimensional
+cellular-automaton markets have instead used stochastic rules, typically a
+probability that a trader imitates its neighbors, and varied that
+probability or a market-wide factor to change market
+behavior~\cite{wei2003cellular,bartolozzi2004stochastic,qiu2007cellular,fan2009effect,atman2012influence}.
+The model studied here uses a deterministic table drawn from the complete
+set of totalistic rules, so one table entry can change while the other
+responses stay fixed. Asking a trader to sell once changes its current decision, whereas
 changing the rule changes how it responds whenever the same neighbor sum
 occurs again. The new rule remains in use even after the trader stops
 selling. Starting two markets from the same history, then changing the rule
 in only one, allows the effect of that change to be measured against
 continued use of the original
 rule~\cite{glasserman1992guidelines,law2015simulation}.
-In the model studied here, the traders along the edge of the grid are
+In this model, the traders along the edge of the grid are
 technical traders: they buy when the price falls below a band around its
 recent average and sell when it rises above that band, and they are the only
 traders whose decisions depend on the price. The question is how

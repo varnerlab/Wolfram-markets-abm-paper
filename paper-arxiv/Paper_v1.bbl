@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{58}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -56,6 +56,49 @@ Robert~L. Axtell and J.~Doyne Farmer.
   197--287, 2025.
 \newblock \doi{10.1257/jel.20221319}.
 
+\bibitem[Challet and Zhang(1997)]{challet1997minority}
+D.~Challet and Y.-C. Zhang.
+\newblock Emergence of cooperation and organization in an evolutionary game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  246:\penalty0 407--418, 1997.
+
+\bibitem[Challet et~al.(2000)Challet, Marsili, and Zhang]{challet2000modeling}
+Damien Challet, Matteo Marsili, and Yi-Cheng Zhang.
+\newblock Modeling market mechanism with minority game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  276\penalty0 (1-2):\penalty0 284--315, 2000.
+\newblock \doi{10.1016/S0378-4371(99)00446-X}.
+
+\bibitem[LeBaron et~al.(1999)LeBaron, Arthur, and Palmer]{lebaron1999time}
+Blake LeBaron, W.~Brian Arthur, and Richard Palmer.
+\newblock Time series properties of an artificial stock market.
+\newblock \emph{Journal of Economic Dynamics and Control}, 23\penalty0
+  (9-10):\penalty0 1487--1516, 1999.
+\newblock \doi{10.1016/s0165-1889(98)00081-5}.
+
+\bibitem[Joshi et~al.(1999)Joshi, Parker, and Bedau]{joshi1999technical}
+Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
+\newblock Technical trading creates a prisoner's dilemma: results from an
+  agent-based model.
+\newblock Working Paper 98-12-115, Santa Fe Institute, 1999.
+\newblock Also in Proceedings of Computational Finance CF99, New York
+  University.
+
+\bibitem[Joshi et~al.(2002)Joshi, Parker, and Bedau]{joshi2002financial}
+Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
+\newblock Financial markets can be at sub-optimal equilibria.
+\newblock \emph{Computational Economics}, 19\penalty0 (1):\penalty0 5--23,
+  2002.
+\newblock \doi{10.1023/A:1014988805326}.
+
+\bibitem[Ehrentreich(2006)]{ehrentreich2006technical}
+Norman Ehrentreich.
+\newblock Technical trading in the {Santa Fe Institute Artificial Stock Market}
+  revisited.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 61\penalty0
+  (4):\penalty0 599--616, 2006.
+\newblock \doi{10.1016/j.jebo.2004.07.022}.
+
 \bibitem[Brock and Hommes(1998)]{brock1998heterogeneous}
 William~A. Brock and Cars~H. Hommes.
 \newblock Heterogeneous beliefs and routes to chaos in a simple asset pricing
@@ -90,6 +133,14 @@ Stefan Bornholdt.
 \newblock \emph{International Journal of Modern Physics C}, 12\penalty0
   (5):\penalty0 667--674, 2001.
 
+\bibitem[Iori(2002)]{iori2002microsimulation}
+Giulia Iori.
+\newblock A microsimulation of traders activity in the stock market: the role
+  of heterogeneity, agents' interactions and trade frictions.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 49\penalty0
+  (2):\penalty0 269--285, 2002.
+\newblock \doi{10.1016/s0167-2681(01)00164-0}.
+
 \bibitem[Bartolozzi and Thomas(2004)]{bartolozzi2004stochastic}
 M.~Bartolozzi and A.~W. Thomas.
 \newblock Stochastic cellular automata model for stock market dynamics.
@@ -102,6 +153,14 @@ G.~Qiu, D.~Kandhai, and P.~M.~A. Sloot.
   automata.
 \newblock \emph{Physical Review E}, 75\penalty0 (4):\penalty0 046116, 2007.
 \newblock \doi{10.1103/PhysRevE.75.046116}.
+
+\bibitem[Sornette and Zhou(2006)]{sornette2006importance}
+Didier Sornette and Wei-Xing Zhou.
+\newblock Importance of positive feedbacks and overconfidence in a
+  self-fulfilling ising model of financial markets.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  370\penalty0 (2):\penalty0 704--726, 2006.
+\newblock \doi{10.1016/j.physa.2006.02.022}.
 
 \bibitem[Cont(2001)]{cont2001empirical}
 Rama Cont.
@@ -123,6 +182,13 @@ Norman~H. Packard and Stephen Wolfram.
 Stephen Wolfram.
 \newblock \emph{A New Kind of Science}.
 \newblock Wolfram Media, 2002.
+
+\bibitem[V{\^a}lsan et~al.(2022)V{\^a}lsan, Druic{\u a}, and
+  Eisenstat]{valsan2022on}
+C{\u a}lin V{\^a}lsan, Elena Druic{\u a}, and Eric Eisenstat.
+\newblock On deep-fake stock prices and why investor behavior might not matter.
+\newblock \emph{Algorithms}, 15\penalty0 (12):\penalty0 475, 2022.
+\newblock \doi{10.3390/a15120475}.
 
 \bibitem[Wei et~al.(2003)Wei, Ying, Fan, and Wang]{wei2003cellular}
 Yi-ming Wei, Shang-jun Ying, Ying Fan, and Bing-Hong Wang.

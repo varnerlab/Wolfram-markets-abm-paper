@@ -86,6 +86,46 @@ likely. The two outcomes measured how many traders decided to sell and how
 far completed trades lowered the price. A Sell majority alone was
 insufficient to identify a price crash.
 
+The model differed from established agent-based markets in where traders
+interacted and in what was changed. In the minority game, every trader reads
+the same record of past outcomes, keeps a score for each of its strategies,
+and uses the one that would have done best, so traders interact only through
+the market outcome and the main control parameter is the number of
+distinguishable histories relative to the number of
+traders~\cite{challet1997minority,challet2000modeling}. In the Santa Fe
+artificial stock market, traders learn forecasting rules from a shared price
+and dividend~\cite{lebaron1999time}; adding technical rules to a trader's
+repertoire was a dominant strategy that lowered wealth and raised volatility
+for all~\cite{joshi1999technical}, and the rate at which traders revised
+their rules settled at an equilibrium that left earnings below what slower
+revision would have produced~\cite{joshi2002financial}. Models with
+chartists and fundamentalists let traders move between the two groups at
+rates set by recent profits or by the opinions of
+others~\cite{lux1999scaling,brock1998heterogeneous,kirman1993ants}. Lattice
+and cellular-automaton markets restricted influence to neighbors, but each
+trader imitated its neighbors with some probability or responded to a spin
+coupling at a set temperature, and the traders who used the price were
+spread through the
+grid~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance,fan2009effect,atman2012influence}.
+Wolfram's one-dimensional market and a later model built on Rule~110 used
+deterministic rules and set the price from the numbers of buyers and
+sellers~\cite{wolfram2002new,valsan2022on}. In each of these models a change
+in behavior entered through learning or through a parameter applied to the
+whole market, and its effect was read from the statistics of returns. Here
+every trader kept a fixed rule, the intervention changed one entry of the
+rule table for a chosen fraction of traders, and the outcome was compared
+with a market that shared the same history. Only the technical traders on
+the edge decided from the price, so the same rule change could be tested
+with those traders active and held. Orders needed cash or shares and were
+completed by other traders or by a dealer with limited holdings, so a Sell
+majority and a price crash were measured separately. These choices gave up
+the learning and strategic behavior of established models in exchange for a
+rule space that can be enumerated and an intervention that can be repeated
+exactly. The questions answered were correspondingly narrower: not whether
+technical trading emerges or whether the market becomes efficient, but how
+many traders had to change a rule before the population tipped, and whether
+that tip required the price.
+
 Several modeling choices limit how far these conclusions extend. Traders
 followed assigned decision rules rather than learning a strategy or choosing
 one to maximize returns. They updated together on a regular grid using one
