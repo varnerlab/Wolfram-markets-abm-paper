@@ -42,11 +42,12 @@ rule~\cite{glasserman1992guidelines,law2015simulation}.
 In the model studied here, the traders along the edge of the grid are
 technical traders: they buy when the price falls below a band around its
 recent average and sell when it rises above that band, and they are the only
-route by which the price influences decisions. The question is how
+traders whose decisions depend on the price. The question is how
 many traders must receive the new rule before at least half of the interior
 traders decide to sell, which we call a Sell majority, and whether this
 instability can develop when the technical traders are kept in Hold, so that
-no decision responds to the price.
+trades still complete and the price still moves, but no decision responds to
+it.
 
 A market dominated by sellers and a market price crash are different
 outcomes. Their connection depends partly on the resources needed to trade. A trader needs shares to sell or cash to
@@ -70,7 +71,8 @@ In this study, we used a three-state cellular automaton market to determine how 
 the same history, then changed one response in the decision rule of selected
 interior traders. To test whether price changes were needed for a majority
 to form, we kept the technical traders in Hold instead of letting them
-trade on the price. With the technical traders active and an
+trade on the price, so that trades still completed and the price still moved
+while no decision responded to it. With the technical traders active and an
 unlimited dealer, changing the rule for 20\% or 25\% of interior traders
 produced a Sell majority in all 50 runs within 3,000 steps, whereas changing
 it for 10\% or 15\% produced none (Supplementary

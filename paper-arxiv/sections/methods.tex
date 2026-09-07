@@ -5,11 +5,13 @@
 
 We represented investors on an $L\times L$ square lattice. Traders
 inside the lattice decided whether to buy, hold,
-or sell by observing their immediate neighbors' decisions. Selected traders
-along the edge were technical traders, who decided from the price alone:
+or sell by observing their immediate neighbors' decisions. On the other hand, selected traders
+along the edge of the lattice were technical traders, who decided to buy, sell or hold
+from the observed price alone:
 each bought when the price fell below a band around its recent average and
-sold when the price rose above that band. Keeping the technical traders in
-Hold removed the influence of price on decisions. Buy ($s=0$), Hold ($s=1$), and Sell
+sold when the price rose above that band. All traders bought and sold at
+the market price, but only the technical traders used the observed price to
+decide whether to buy, hold, or sell. Buy ($s=0$), Hold ($s=1$), and Sell
 ($s=2$) represented the resulting decisions, and the local rule specified
 which decision a trader made for a given neighbor configuration. Only the $(L-2)^2$ interior
 cells followed the cellular-automaton rule. All interior traders updated together from their four nearest
