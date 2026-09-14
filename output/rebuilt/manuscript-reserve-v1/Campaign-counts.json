@@ -1,0 +1,16 @@
+{
+  "fixed_simulations": 45910,
+  "by_family": {
+    "rule": 400,
+    "dealer": 9600,
+    "size": 9750,
+    "balance": 10800,
+    "screen": 4320,
+    "pulse": 1200,
+    "band": 1600,
+    "depth": 300,
+    "long": 40,
+    "horizons": 7900
+  },
+  "additional": "Adaptive refinement, numerically selected extended trajectories, figure histories, and validation runs have separate manifests or execution records."
+}

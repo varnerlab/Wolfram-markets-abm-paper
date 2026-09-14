@@ -1,0 +1,51 @@
+┌ Info: Balance-sheet rule-quench campaign
+│   mode = "Full"
+│   grid = 64
+│   pre = 1000
+│   post = 3000
+│   target_fs = 4-element Vector{Float64}: …
+│   capacities = 3-element Vector{Float64}: …
+│   cash_factors = 3-element Vector{Float64}: …
+│   share_factors = 3-element Vector{Float64}: …
+│   seeds = 50
+│   cells = 300
+│   resumed_cells = 0
+│   pending_cells = 300
+│   simulations = 10800
+└   threads = 12
+┌ Info: Balance-sheet progress
+│   completed = 30
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 60
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 90
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 120
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 150
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 180
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 210
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 240
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 270
+└   total = 300
+┌ Info: Balance-sheet progress
+│   completed = 300
+└   total = 300
+┌ Info: Balance-sheet rule-quench complete
+│   summary = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-BalanceSheetQuench-Full-Summary.csv"
+│   grouped = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-BalanceSheetQuench-Full-Grouped.csv"
+│   contrasts = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-BalanceSheetQuench-Full-Contrasts.csv"
+│   figure = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../figs/Fig-ModelB-BalanceSheetQuench-Full.pdf"
+└   rows = 10800

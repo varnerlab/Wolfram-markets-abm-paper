@@ -1,4 +1,4 @@
-\begin{thebibliography}{58}
+\begin{thebibliography}{59}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -317,6 +317,16 @@ Karen Braun-Munzinger, Zijun Liu, and Arthur~E. Turrell.
 \newblock \emph{Quantitative Finance}, 18\penalty0 (4):\penalty0 591--608,
   2018.
 \newblock \doi{10.1080/14697688.2017.1380310}.
+
+\bibitem[Angeris et~al.(2022)Angeris, Agrawal, Evans, Chitra, and
+  Boyd]{angeris2022constant}
+Guillermo Angeris, Akshay Agrawal, Alex Evans, Tarun Chitra, and Stephen Boyd.
+\newblock Constant function market makers: Multi-asset trades via convex
+  optimization.
+\newblock In Duc~A. Tran, My~T. Thai, and Bhaskar Krishnamachari, editors,
+  \emph{Handbook on Blockchain}, volume 194 of \emph{Springer Optimization and
+  Its Applications}, pages 415--444. Springer, Cham, 2022.
+\newblock \doi{10.1007/978-3-031-07535-3_13}.
 
 \bibitem[Shefrin and Statman(1985)]{shefrin1985disposition}
 Hersh Shefrin and Meir Statman.

@@ -1,0 +1,5 @@
+┌ Info: Transmission analysis complete
+│   stage = "smoke"
+│   runs = 52
+│   pilot_replays = 0
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-v1-smoke"

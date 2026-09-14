@@ -1,0 +1,32 @@
+┌ Info: Paired contrarian-rule quench
+│   mode = "Smoke"
+│   grid = 16
+│   pre = 20
+│   post = 40
+│   pairs = 2
+└   threads = 4
+┌ Info: Rule-quench summary
+│   target_f = 0.2
+│   n = 2
+│   median_pre_abs_log_change = 0.07953209369122113
+│   median_pre_return_std = 0.0021781028149735903
+│   max_pre_sell = 0.29591836734693877
+│   treated_onsets = 0
+│   control_onsets = 0
+│   median_delta_sell_peak = 0.06887755102040818
+└   median_delta_drawdown = 0.01429028613706107
+ERROR: LoadError: exemplar frame missing at step 120
+Stacktrace:
+ [1] error(s::String)
+   @ Base ./error.jl:44
+ [2] _paired_market_panel(control_frames::Dict{Int64, Matrix{Int64}}, treated_frames::Dict{Int64, Matrix{Int64}})
+   @ Main ~/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/Compute-ModelB-RuleQuench.jl:315
+ [3] top-level scope
+   @ ~/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/Compute-ModelB-RuleQuench.jl:338
+ [4] include(mod::Module, _path::String)
+   @ Base ./Base.jl:306
+ [5] exec_options(opts::Base.JLOptions)
+   @ Base ./client.jl:317
+ [6] _start()
+   @ Base ./client.jl:550
+in expression starting at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/Compute-ModelB-RuleQuench.jl:338

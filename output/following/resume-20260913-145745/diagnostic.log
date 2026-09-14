@@ -1,0 +1,1212 @@
+
+[2026-09-13T15:10:30-04:00] /Users/jdv27/.juliaup/bin/julia --project=code --startup-file=no --threads=12 --gcthreads=1 code/following/Compute-Following-Controls.jl diagnostic-confirmation --sensitivities
+┌ Info: Following diagnostics
+│   stage = "diagnostic-confirmation"
+│   jobs = 72000
+└   blocks = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 2
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 11
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 7
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 10
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 1
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 8
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 4
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 9
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 5
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 3
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 12
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 6
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 13
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 16
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 15
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 18
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 17
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 19
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 21
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 22
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 20
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 14
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 23
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 24
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 26
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 25
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 27
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 28
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 29
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 30
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 31
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 32
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 33
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 34
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 35
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 36
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 37
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 38
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 39
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 40
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 41
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 42
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 43
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 44
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 45
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 46
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 47
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 48
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 49
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 50
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 51
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 52
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 53
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 54
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 55
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 56
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 57
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 58
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 59
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 60
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 61
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 62
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 63
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 64
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 65
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 66
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 67
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 68
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 69
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 70
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 71
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 72
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 73
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 74
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 75
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 76
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 77
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 78
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 79
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 80
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 81
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 82
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 83
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 84
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 85
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 86
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 87
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 88
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 89
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 90
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 91
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 92
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 93
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 94
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 95
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 96
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 97
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 98
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 99
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 100
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 101
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 102
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 103
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 104
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 105
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 106
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 107
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 108
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 109
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 110
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 111
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 112
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 113
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 114
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 115
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 116
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 117
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 118
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 119
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 120
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 121
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 122
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 123
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 124
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 125
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 126
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 127
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 128
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 129
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 130
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 131
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 132
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 133
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 134
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 135
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 136
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 137
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 138
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 139
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 140
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 141
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 142
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 143
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 144
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 145
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 146
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 147
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 148
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 149
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 150
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 151
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 152
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 153
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 154
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 155
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 156
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 157
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 158
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 159
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 160
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 161
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 162
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 163
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 164
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 165
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 166
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 167
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 168
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 169
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 170
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 171
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 172
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 173
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 174
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 175
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 176
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 177
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 178
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 179
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 180
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 181
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 182
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 183
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 184
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 185
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 186
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 187
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 188
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 189
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 190
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 191
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 192
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 193
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 194
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 195
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 196
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 197
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 198
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 199
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 200
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 201
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 202
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 203
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 204
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 205
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 206
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 207
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 208
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 209
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 210
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 211
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 212
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 213
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 214
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 215
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 216
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 217
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 218
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 219
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 220
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 221
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 222
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 223
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 224
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 225
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 226
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 227
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 228
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 229
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 230
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 231
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 232
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 233
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 234
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 235
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 236
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 237
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 238
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 239
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 240
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 241
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 242
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 243
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 244
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 245
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 246
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 247
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 248
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 249
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 250
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 251
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 252
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 253
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 254
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 255
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 256
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 257
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 258
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 259
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 260
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 261
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 262
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 263
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 264
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 265
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 266
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 267
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 268
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 269
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 270
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 271
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 272
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 273
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 274
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 275
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 276
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 277
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 278
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 279
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 280
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 281
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 282
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 283
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 284
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 285
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 286
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 287
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 288
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 289
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 290
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 291
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 292
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 293
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 294
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 295
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 296
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 297
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 298
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 299
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 300
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 301
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 302
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 303
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 304
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 305
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 306
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 307
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 308
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 309
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 310
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 311
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 312
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 313
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 314
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 315
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 316
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 317
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 318
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 319
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 320
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 321
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 322
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 323
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 324
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 325
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 326
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 327
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 328
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 329
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 330
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 331
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 332
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 333
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 334
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 335
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 336
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 337
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 338
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 339
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 340
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 341
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 342
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 343
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 344
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 345
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 346
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 347
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 348
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 349
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 350
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 351
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 352
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 353
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 354
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 355
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 356
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 357
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 358
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 359
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 360
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 361
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 362
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 363
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 364
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 365
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 366
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 367
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 368
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 369
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 370
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 371
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 372
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 373
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 374
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 375
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 376
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 377
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 378
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 379
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 380
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 381
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 382
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 383
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 384
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 385
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 386
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 387
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 388
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 389
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 390
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 391
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 392
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 393
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 394
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 395
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 396
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 397
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 398
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 399
+└   total = 400
+┌ Info: Diagnostic blocks completed
+│   completed = 400
+└   total = 400
+
+[2026-09-13T16:43:24-04:00] /Users/jdv27/.juliaup/bin/julia --project=code --startup-file=no --threads=1 --gcthreads=1 code/following/Analyze-Following-Controls.jl diagnostic-confirmation
+┌ Info: Following diagnostic analysis complete
+│   stage = "diagnostic-confirmation"
+│   matched = 6400
+└   masked = 3200

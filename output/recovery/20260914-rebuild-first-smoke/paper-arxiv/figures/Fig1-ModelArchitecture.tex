@@ -1,0 +1,159 @@
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  x=1cm,y=1cm,
+  every node/.style={font=\sffamily\footnotesize},
+  panelletter/.style={font=\sffamily\large\bfseries,
+                      anchor=base west},
+  sectionlabel/.style={font=\sffamily\small,
+                       anchor=west},
+  annotation/.style={font=\sffamily\scriptsize},
+  cell/.style={minimum size=5.1mm, draw=white, line width=0.45pt, inner sep=0pt},
+  buycell/.style={cell, fill=buyblue},
+  holdcell/.style={cell, fill=holdgray},
+  sellcell/.style={cell, fill=sellorange},
+  edgecell/.style={cell, fill=edgegreen},
+  minorityoutline/.style={draw=black!88, line width=0.65pt,
+                           dash pattern=on 1.4pt off 1.0pt},
+  zcell/.style={minimum size=9.2mm, draw=white, line width=0.55pt,
+                inner sep=0pt, font=\sffamily\small},
+  lookupcell/.style={minimum width=6.0mm, minimum height=6.4mm,
+                     draw=white, line width=0.45pt, inner sep=0pt,
+                     font=\sffamily\footnotesize},
+]
+
+% -------------------------------------------------------------------------
+% A. Spatial lattice
+% -------------------------------------------------------------------------
+\node[panelletter] at (0.00,8.78) {A};
+
+\def\gx{0.39}
+\def\gy{3.70}
+\def\gs{0.51}
+\foreach \r in {0,...,8} {
+  \foreach \c in {0,...,8} {
+    \pgfmathsetmacro{\xpos}{\gx+\c*\gs}
+    \pgfmathsetmacro{\ypos}{\gy+\r*\gs}
+    \ifnum\r=0
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\r=8
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\c=0
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else\ifnum\c=8
+      \node[edgecell] (g\r\c) at (\xpos,\ypos) {};
+    \else
+      \pgfmathparse{int(mod(3*\r*\r+5*\c*\c+7*\r*\c+11*\r+13*\c+2,9))}
+      \ifnum\pgfmathresult<3
+        \node[buycell] (g\r\c) at (\xpos,\ypos) {};
+      \else\ifnum\pgfmathresult<6
+        \node[holdcell] (g\r\c) at (\xpos,\ypos) {};
+      \else
+        \node[sellcell] (g\r\c) at (\xpos,\ypos) {};
+      \fi\fi
+      \pgfmathparse{int(mod(5*\r*\r+3*\c*\c+7*\r*\c+\r+2*\c+1,11))}
+      \ifnum\pgfmathresult<2
+        \draw[minorityoutline]
+          (g\r\c.south west) rectangle (g\r\c.north east);
+      \fi
+    \fi\fi\fi\fi
+  }
+}
+
+% Selected cell and its four cardinal neighbors. Their colors match B exactly:
+% N=Buy (0), W=Sell (2), E=Hold (1), S=Sell (2).
+\node[cell, fill=hlyellow, draw=black, line width=0.9pt]
+  at (\gx+5*\gs,\gy+4*\gs) {};
+\node[buycell, draw=black, line width=0.7pt]
+  at (\gx+5*\gs,\gy+5*\gs) {};
+\node[sellcell, draw=black, line width=0.7pt]
+  at (\gx+4*\gs,\gy+4*\gs) {};
+\node[holdcell, draw=black, line width=0.7pt]
+  at (\gx+6*\gs,\gy+4*\gs) {};
+\node[sellcell, draw=black, line width=0.7pt]
+  at (\gx+5*\gs,\gy+3*\gs) {};
+
+% Orthogonal keys: fill encodes state, outline encodes agent role.
+\node[sectionlabel] at (0.12,3.08) {State};
+\fill[buyblue] (1.05,2.96) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (1.34,3.065) {Buy};
+\fill[holdgray] (2.05,2.96) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (2.34,3.065) {Hold};
+\fill[sellorange] (3.14,2.96) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (3.43,3.065) {Sell};
+
+\node[sectionlabel] at (0.12,2.65) {Role};
+\fill[edgegreen] (1.05,2.53) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (1.34,2.635) {edge};
+\draw[minorityoutline] (2.05,2.53) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (2.34,2.635) {minority};
+\draw[black!38, line width=0.45pt] (3.55,2.53) rectangle +(0.21,0.21);
+\node[annotation, anchor=west] at (3.84,2.635) {majority};
+
+% -------------------------------------------------------------------------
+% B. Local update shown declaratively: neighborhood and complete rule lookup.
+% -------------------------------------------------------------------------
+\node[panelletter] at (5.55,8.78) {B};
+
+\def\zx{6.78}
+\def\zy{6.63}
+\def\zs{0.84}
+\node[zcell, fill=buyblue, text=white] (zN) at (\zx,\zy+\zs) {0};
+\node[zcell, fill=sellorange, text=white] (zW) at (\zx-\zs,\zy) {2};
+\node[zcell, fill=hlyellow, draw=black, line width=0.85pt] (zC) at (\zx,\zy) {?};
+\node[zcell, fill=holdgray, text=black!75] (zE) at (\zx+\zs,\zy) {1};
+\node[zcell, fill=sellorange, text=white] (zS) at (\zx,\zy-\zs) {2};
+\node[annotation, text=white, anchor=north west, inner sep=1.5pt] at (zN.north west) {$N$};
+\node[annotation, text=white, anchor=north west, inner sep=1.5pt] at (zW.north west) {$W$};
+\node[annotation, text=black!55, anchor=north west, inner sep=1.5pt] at (zE.north west) {$E$};
+\node[annotation, text=white, anchor=north west, inner sep=1.5pt] at (zS.north west) {$S$};
+% Complete base-3 lookup. Columns are neighbor sums c=0,...,8; fill is
+% the returned state. The two rules differ only at c=1.
+\def\lx{9.68}
+\def\ls{0.59}
+\node[annotation, anchor=east] at (9.41,7.39) {$c$};
+\foreach \c in {0,...,8} {
+  \node[annotation, anchor=center] at (\lx+\c*\ls,7.39) {\c};
+}
+\node[annotation, anchor=east, align=right] at (9.41,6.81)
+  {majority\\19280};
+\node[annotation, anchor=east, align=right] at (9.41,6.13)
+  {minority\\19286};
+
+% Rule 19280: [2,0,0,0,1,1,2,2,2].
+\node[lookupcell, fill=sellorange, text=white] at (\lx+0*\ls,6.81) {2};
+\foreach \c in {1,2,3} {
+  \node[lookupcell, fill=buyblue, text=white] at (\lx+\c*\ls,6.81) {0};
+}
+\foreach \c in {4,5} {
+  \node[lookupcell, fill=holdgray, text=black!78] at (\lx+\c*\ls,6.81) {1};
+}
+\foreach \c in {6,7,8} {
+  \node[lookupcell, fill=sellorange, text=white] at (\lx+\c*\ls,6.81) {2};
+}
+
+% Rule 19286: [2,2,0,0,1,1,2,2,2].
+\foreach \c in {0,1} {
+  \node[lookupcell, fill=sellorange, text=white] at (\lx+\c*\ls,6.13) {2};
+}
+\foreach \c in {2,3} {
+  \node[lookupcell, fill=buyblue, text=white] at (\lx+\c*\ls,6.13) {0};
+}
+\foreach \c in {4,5} {
+  \node[lookupcell, fill=holdgray, text=black!78] at (\lx+\c*\ls,6.13) {1};
+}
+\foreach \c in {6,7,8} {
+  \node[lookupcell, fill=sellorange, text=white] at (\lx+\c*\ls,6.13) {2};
+}
+
+% Highlight the only rule difference and the displayed stencil column.
+\draw[minorityoutline, line width=0.8pt]
+  (\lx+0.5*\ls,5.77) rectangle (\lx+1.5*\ls,7.15);
+\draw[draw=black!78, line width=0.85pt]
+  (\lx+4.5*\ls,5.77) rectangle (\lx+5.5*\ls,7.15);
+
+% One interpretive line ties the stencil and lookup together.
+\node[font=\sffamily\small, anchor=north] at (10.28,5.27)
+  {$c_{r,c}=0+2+1+2=5$: both rules return Hold; only $c=1$ differs.};
+
+\end{tikzpicture}%
+}

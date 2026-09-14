@@ -1,0 +1,128 @@
+┌ Info: Reserve survival campaign
+│   stage = "full"
+│   runs = 1600
+└   blocks = 400
+┌ Info: Reserve blocks saved
+│   completed = 10
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 20
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 30
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 40
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 50
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 60
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 70
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 80
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 90
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 100
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 110
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 120
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 130
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 140
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 150
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 160
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 170
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 180
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 190
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 200
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 210
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 220
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 230
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 240
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 250
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 260
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 270
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 280
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 290
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 300
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 310
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 320
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 330
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 340
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 350
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 360
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 370
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 380
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 390
+└   total = 400
+┌ Info: Reserve blocks saved
+│   completed = 400
+└   total = 400
+┌ Info: Reserve survival complete
+│   stage = "full"
+│   runs = 1600
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/reserve-v2-full"

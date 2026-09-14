@@ -1,0 +1,3 @@
+gridn,seed,target_f,market_maker_capacity,boundary_mode,t_pre,t_post,control_transitioned,control_onset,transitioned,treated_onset,final_sell_mean,final_sell_second_moment,temporal_susceptibility,maximum_drawdown,maker_rejection_fraction,cash_conservation_error,share_conservation_error
+24,1,0.2,100.0,endogenous,20,40,false,0,false,0,0.25557851239669416,0.06589692473191723,0.27904958677685954,0.003973094882503414,0.0,1.862645149230957e-9,0
+24,1,0.25,100.0,endogenous,20,40,false,0,false,0,0.27587809917355377,0.07663378952940372,0.25413094008264453,0.014436394200526559,0.0,1.862645149230957e-9,0

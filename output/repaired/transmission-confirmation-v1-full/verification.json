@@ -1,0 +1,15 @@
+{
+  "verified_utc": "2026-09-14T16:40:26.871210+00:00",
+  "runs": 5200,
+  "blocks": 400,
+  "markets": 50,
+  "held_mask_identities": 800,
+  "identical_masked_advice": 1600,
+  "withdrawal_prefix_identities": 1600,
+  "prior_files_checked": 38,
+  "prior_seed_overlap": 0,
+  "prior_starting_fingerprint_overlap": 0,
+  "source_digest": "961c3f5bdddbf5e9e98e83ef2c394df5b3641b7d4b3978553bb1735a4df1e5cc",
+  "summary_digest": "1bc63506d3efe30bd0698ea9c7e05af1fd29a95c86c2d8fc5901fa44eb9e1a28",
+  "primary_confirmed": true
+}

@@ -1,0 +1,28 @@
+{
+  "status": "smoke_only",
+  "confirmed": null,
+  "nominal_family_level": 0.95,
+  "adjustment": "Bonferroni, two endpoints",
+  "endpoints": [
+    {
+      "endpoint": "continuous_cash_advantage",
+      "estimate": 0.04315571776574423,
+      "lower": 0.04315571776574423,
+      "upper": 0.04315571776574423,
+      "markets": 1,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": true
+    },
+    {
+      "endpoint": "continuous_minus_mask",
+      "estimate": -0.02998871071961795,
+      "lower": -0.02998871071961795,
+      "upper": -0.02998871071961795,
+      "markets": 1,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": false
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+OK
+Test Summary:                                 | Pass  Total  Time
+fresh confirmation preserves the pilot design |    8      8  0.9s
+Test Summary:                                | Pass  Total  Time
+confirmation threading and checkpoint resume |    8      8  7.3s
+Test Summary:                                          | Pass  Total  Time
+frozen campaign rejects altered metadata and manifests |    3      3  0.6s
+Freshness audit passed: 38 prior files, 122 prior seeds; /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-smoke
+┌ Info: Fresh-market transmission confirmation
+│   runs = 52
+│   blocks = 4
+└   smoke = true
+┌ Info: Confirmation simulations complete
+│   runs = 52
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-smoke"
+{
+  "status": "smoke_only",
+  "confirmed": null,
+  "nominal_family_level": 0.95,
+  "adjustment": "Bonferroni, two endpoints",
+  "endpoints": [
+    {
+      "endpoint": "continuous_cash_advantage",
+      "estimate": 0.04315571776574423,
+      "lower": 0.04315571776574423,
+      "upper": 0.04315571776574423,
+      "markets": 1,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": true
+    },
+    {
+      "endpoint": "continuous_minus_mask",
+      "estimate": -0.02998871071961795,
+      "lower": -0.02998871071961795,
+      "upper": -0.02998871071961795,
+      "markets": 1,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": false
+    }
+  ]
+}
+{
+  "verified_utc": "2026-09-14T16:32:42.011769+00:00",
+  "runs": 52,
+  "blocks": 4,
+  "markets": 1,
+  "held_mask_identities": 8,
+  "identical_masked_advice": 16,
+  "withdrawal_prefix_identities": 16,
+  "prior_files_checked": 38,
+  "prior_seed_overlap": 0,
+  "prior_starting_fingerprint_overlap": 0,
+  "source_digest": "961c3f5bdddbf5e9e98e83ef2c394df5b3641b7d4b3978553bb1735a4df1e5cc",
+  "summary_digest": "d6fd211464025536c15b99f6f9a0a5fdcabae04984626c0447caabf474e9221d",
+  "primary_confirmed": null
+}
+Matplotlib is building the font cache; this may take a moment.
+/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-smoke/confirmation-controls.png
+Freshness audit passed: 38 prior files, 122 prior seeds; /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-full
+┌ Info: Fresh-market transmission confirmation
+│   runs = 5200
+│   blocks = 400
+└   smoke = false
+┌ Info: Confirmation blocks saved
+│   completed = 10
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 20
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 30
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 40
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 50
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 60
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 70
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 80
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 90
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 100
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 110
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 120
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 130
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 140
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 150
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 160
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 170
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 180
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 190
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 200
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 210
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 220
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 230
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 240
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 250
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 260
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 270
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 280
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 290
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 300
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 310
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 320
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 330
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 340
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 350
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 360
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 370
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 380
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 390
+└   total = 400
+┌ Info: Confirmation blocks saved
+│   completed = 400
+└   total = 400
+┌ Info: Confirmation simulations complete
+│   runs = 5200
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-full"
+{
+  "status": "evaluated",
+  "confirmed": true,
+  "nominal_family_level": 0.95,
+  "adjustment": "Bonferroni, two endpoints",
+  "endpoints": [
+    {
+      "endpoint": "continuous_cash_advantage",
+      "estimate": 0.26706252609837555,
+      "lower": 0.2542541614148224,
+      "upper": 0.28061983621387243,
+      "markets": 50,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": true
+    },
+    {
+      "endpoint": "continuous_minus_mask",
+      "estimate": 0.23817855524075518,
+      "lower": 0.22303807470130255,
+      "upper": 0.2529932511861462,
+      "markets": 50,
+      "valid_bootstraps": 10000,
+      "interval_level": 0.975,
+      "positive_lower_limit": true
+    }
+  ]
+}
+{
+  "verified_utc": "2026-09-14T16:40:26.871210+00:00",
+  "runs": 5200,
+  "blocks": 400,
+  "markets": 50,
+  "held_mask_identities": 800,
+  "identical_masked_advice": 1600,
+  "withdrawal_prefix_identities": 1600,
+  "prior_files_checked": 38,
+  "prior_seed_overlap": 0,
+  "prior_starting_fingerprint_overlap": 0,
+  "source_digest": "961c3f5bdddbf5e9e98e83ef2c394df5b3641b7d4b3978553bb1735a4df1e5cc",
+  "summary_digest": "1bc63506d3efe30bd0698ea9c7e05af1fd29a95c86c2d8fc5901fa44eb9e1a28",
+  "primary_confirmed": true
+}
+/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-full/confirmation-controls.png

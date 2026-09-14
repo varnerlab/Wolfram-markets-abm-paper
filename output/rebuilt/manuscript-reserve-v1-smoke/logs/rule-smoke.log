@@ -1,0 +1,34 @@
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.clipboard [-4960]
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.find [-4960]
+2026-09-14 13:06:33.859 gksqt[26366:34616239] Error received in message reply handler: Connection invalid
+2026-09-14 13:06:33.859 gksqt[26366:34616241] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-09-14 13:06:33.874 gksqt[26366:34616239] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+no screens available, assuming 24-bit color
+GKSserver: Failed to listen to port 8410
+connect: Operation not permitted
+GKS: the graphics window could not be opened because no connection to the GKS Qt driver could be established. Please check all Qt warnings to determine whether (or why) 'gksqt' could not be started.
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+┌ Info: Paired contrarian-rule quench
+│   mode = "Smoke"
+│   grid = 16
+│   pre = 20
+│   post = 40
+│   pairs = 2
+└   threads = 4
+┌ Info: Rule-quench summary
+│   target_f = 0.2
+│   n = 2
+│   median_pre_abs_log_change = 0.07953209369122113
+│   median_pre_return_std = 0.0021781028149735903
+│   max_pre_sell = 0.29591836734693877
+│   treated_onsets = 0
+│   control_onsets = 0
+│   median_delta_sell_peak = 0.06887755102040818
+└   median_delta_drawdown = 0.01429028613706107
+┌ Info: Rule-quench campaign complete
+│   mode = "Smoke"
+│   summary_rows = 2
+│   trajectory_rows = 244
+└   exemplar_seed = 1

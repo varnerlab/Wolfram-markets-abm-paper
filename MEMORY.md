@@ -1,5 +1,34 @@
 # Project Memory: Wolfram Markets ABM Paper
 
+## Current status: 14 September 2026
+
+The complete corrected manuscript rebuild is finalized and installed in
+`paper-arxiv/`. The shareable PDF is `output/pdf/Wolfram-markets-revised.pdf`
+(29 pages, six figures, eleven tables). The model uses finite constant-product
+reserve clearing. The old standing-quote financial conclusions below are
+historical and must not be reused.
+
+The isolated study is `output/rebuilt/manuscript-reserve-v1/`. Its execution
+ledger contains 51,056 completed full simulations, including validation.
+`Status.json` records completed computation; `Verification.json`, `Build.json`,
+`Visual-Review.json`, and `Completion.json` record verification, installation,
+all-page review, and the final archive. See `ASSESSMENT.md` for findings and
+`WORKING-NOTES.md` for recovery history. No simulations need restarting.
+
+Every retained experiment, including held financial conditions, was rerun
+without historical cache inputs. No previous financial result is a required
+outcome. Shallow positive reserves accompanied large total drawdowns; the
+paired no-switch comparisons are needed to attribute the rule effect.
+The held decision results match historical decision outcomes exactly, but
+were newly computed with full financial bookkeeping.
+
+Use `code/rebuild/README.md` for reproduction. Generated Results, tables,
+captions, and validation text must be changed through their generators.
+Follow `HOUSE_STYLE.md` for manuscript work. The work is uncommitted; commit
+only when the author asks.
+
+## Historical project notes (superseded)
+
 ## Project Overview
 Agent-based model of financial markets using 2D Wolfram cellular automaton (CA) rules to simulate 3-state (buy/hold/sell) agent behavior. Based on CHEME-5660 week-15/L15a lecture.
 

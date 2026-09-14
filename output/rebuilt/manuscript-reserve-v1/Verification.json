@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "postprocessing_sources": 12,
+    "scheduling_equivalence": 480,
+    "frozen_sources": 132,
+    "historical_inputs": 0,
+    "reserve-tests": 6028,
+    "rebuild-tests": 79,
+    "balance_manifest_simulations": 10800,
+    "controls_manifest_simulations": 7460,
+    "dealer_manifest_simulations": 9600,
+    "horizons_manifest_simulations": 7900,
+    "rule_manifest_simulations": 400,
+    "size_manifest_simulations": 9750,
+    "refinement_manifest_simulations": 5000,
+    "extended_manifest_simulations": 113,
+    "ModelB-ReservoirQuench-Full-Summary.csv_rows": 8800,
+    "ModelB-FiniteSizeQuench-Full-Summary.csv_rows": 9000,
+    "ModelB-BalanceSheetQuench-Full-Summary.csv_rows": 10800,
+    "ModelB-RuleQuench-Full-Summary.csv_rows": 200,
+    "ModelB-Revision-screen.csv_rows": 2160,
+    "screen_job_combinations": 2160,
+    "ModelB-Revision-pulse.csv_rows": 600,
+    "pulse_job_combinations": 600,
+    "ModelB-Revision-band.csv_rows": 800,
+    "band_job_combinations": 800,
+    "ModelB-Revision-impact.csv_rows": 150,
+    "impact_job_combinations": 150,
+    "ModelB-Revision-long.csv_rows": 20,
+    "long_job_combinations": 20,
+    "ModelB-Revision-FiniteSize-Summary.csv_rows": 11500,
+    "ModelB-Revision-Horizons.csv_rows": 10700,
+    "ModelB-Revision-MarketPanel-Horizons.csv_rows": 324,
+    "figure4_selection": [
+      [
+        0.15,
+        2
+      ],
+      [
+        0.175,
+        15
+      ],
+      [
+        0.175,
+        41
+      ],
+      [
+        0.185,
+        5
+      ],
+      [
+        0.2,
+        38
+      ]
+    ],
+    "figure_history_simulations": 9,
+    "figure5_seed": 2,
+    "held_dealer_invariance": 550,
+    "zero_depth_invariance": 550,
+    "dealer_max_cash_error": 5.513429641723633e-07,
+    "size_max_cash_error": 3.3974647521972656e-06,
+    "balance_resource_combinations": 10800,
+    "held_balance_invariance": 200,
+    "balance_max_cash_error": 6.780028343200684e-07,
+    "independently_recomputed_held_overlap": 1800,
+    "ModelB-Revision-FiniteSize-Scaling.csv_rows": 15
+  },
+  "incomplete": [],
+  "refinement": {
+    "minimum_interior_points": 5,
+    "unbracketed_midpoints": 0,
+    "minimum_valid_bootstrap_fraction": 1.0
+  },
+  "total_completed_simulations": 51056,
+  "phase_counts": {
+    "rebuild-tests": 24,
+    "rule": 400,
+    "dealer": 9600,
+    "size": 9750,
+    "balance": 10800,
+    "controls": 7460,
+    "refinement": 5000,
+    "horizons": 7900,
+    "extended": 113,
+    "figures4and5": 9
+  },
+  "state": "verified",
+  "figure_sha256": {
+    "Fig1-RuleQuench": "6aa09f8b34f3569b8a08a512ad73605bf918b5046acd999f6dc027eb51a7afea",
+    "Fig2-ReservoirQuench": "06d90e3fd6256b6d497b61a3c17ef84607f436a82d962f17080912c61c69ef59",
+    "Fig3-FiniteSizeQuench": "093476b4d0201813c155f7bfc4c55c4b301cee199aa938118c892a3cdccd9428",
+    "Fig4-DoseMarketPanels": "299932129abe22702cdc0b5ba1cab47ac42f9bf29b333d143570c725ebc4c02d",
+    "Fig5-DealerMarketPanels": "0d01a45ad4ca393f0611b9075a239319ca6eb56f4bd762666d3e8bed6bcfa216",
+    "Fig6-BalanceSheetQuench": "479eff1b6ed9cea2b6382b9ef6c684da7af714124bea03714feb7bdff4da9b34"
+  }
+}

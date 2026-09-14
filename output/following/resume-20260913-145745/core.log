@@ -1,0 +1,917 @@
+
+[2026-09-13T15:10:30-04:00] /Users/jdv27/.juliaup/bin/julia --project=code --startup-file=no --threads=12 --gcthreads=1 code/following/Compute-Following.jl confirmation
+┌ Info: Following campaign
+│   stage = "confirmation"
+│   jobs = 33900
+└   blocks = 300
+┌ Info: Following blocks completed
+│   completed = 1
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 2
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 3
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 4
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 5
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 6
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 7
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 8
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 9
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 10
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 11
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 12
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 13
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 14
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 15
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 16
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 17
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 18
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 19
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 20
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 21
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 22
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 23
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 24
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 25
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 26
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 27
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 28
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 29
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 30
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 31
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 32
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 33
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 34
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 35
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 36
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 37
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 38
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 39
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 40
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 41
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 42
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 43
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 44
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 45
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 46
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 47
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 48
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 49
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 50
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 51
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 52
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 53
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 54
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 55
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 56
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 57
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 58
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 59
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 60
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 61
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 62
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 63
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 64
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 65
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 66
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 67
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 68
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 69
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 70
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 71
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 72
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 73
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 74
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 75
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 76
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 77
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 78
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 79
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 80
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 81
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 82
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 83
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 84
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 85
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 86
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 87
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 88
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 89
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 90
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 91
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 92
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 93
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 94
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 95
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 96
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 97
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 98
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 99
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 100
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 101
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 102
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 103
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 104
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 105
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 106
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 107
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 108
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 109
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 110
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 111
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 112
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 113
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 114
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 115
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 116
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 117
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 118
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 119
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 120
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 121
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 122
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 123
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 124
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 125
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 126
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 127
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 128
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 129
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 130
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 131
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 132
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 133
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 134
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 135
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 136
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 137
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 138
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 139
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 140
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 141
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 142
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 143
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 144
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 145
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 146
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 147
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 148
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 149
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 150
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 151
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 152
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 153
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 154
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 155
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 156
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 157
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 158
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 159
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 160
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 161
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 162
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 163
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 164
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 165
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 166
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 167
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 168
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 169
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 170
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 171
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 172
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 173
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 174
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 175
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 176
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 177
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 178
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 179
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 180
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 181
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 182
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 183
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 184
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 185
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 186
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 187
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 188
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 189
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 190
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 191
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 192
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 193
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 194
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 195
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 196
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 197
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 198
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 199
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 200
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 201
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 202
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 203
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 204
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 205
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 206
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 207
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 208
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 209
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 210
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 211
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 212
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 213
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 214
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 215
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 216
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 217
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 218
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 219
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 220
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 221
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 222
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 223
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 224
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 225
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 226
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 227
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 228
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 229
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 230
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 231
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 232
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 233
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 234
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 235
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 236
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 237
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 238
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 239
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 240
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 241
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 242
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 243
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 244
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 245
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 246
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 247
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 248
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 249
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 250
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 251
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 252
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 253
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 254
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 255
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 256
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 257
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 258
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 259
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 260
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 261
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 262
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 263
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 264
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 265
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 266
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 267
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 268
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 269
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 270
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 271
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 272
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 273
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 274
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 275
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 276
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 277
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 278
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 279
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 280
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 281
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 282
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 283
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 284
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 285
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 286
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 287
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 288
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 289
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 290
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 291
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 292
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 293
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 294
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 295
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 296
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 297
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 298
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 299
+└   total = 300
+┌ Info: Following blocks completed
+│   completed = 300
+└   total = 300
+┌ Info: Following campaign complete
+│   stage = "confirmation"
+└   rows = 33900
+
+[2026-09-13T15:53:49-04:00] /Users/jdv27/.juliaup/bin/julia --project=code --startup-file=no --threads=1 --gcthreads=1 code/following/Analyze-Following.jl confirmation
+┌ Info: Following analysis complete
+│   stage = "confirmation"
+│   grouped = 2016
+└   contrasts = 576
+
+[2026-09-13T15:53:59-04:00] /Users/jdv27/.juliaup/bin/julia --project=code --startup-file=no --threads=1 --gcthreads=1 code/following/Figs-Following.jl confirmation

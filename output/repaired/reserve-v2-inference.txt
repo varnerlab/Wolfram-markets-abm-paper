@@ -1,0 +1,118 @@
+MethodInstance for Core.kwcall(::@NamedTuple{market_maker::MyMarketMaker}, ::typeof(execute_reserve_orders!), ::MyAgentBooks, ::Matrix{Int64}, ::Vector{Tuple{Int64, Int64}}, ::Vector{Int64}, ::Float64)
+  from kwcall(::NamedTuple, ::typeof(execute_reserve_orders!), books::MyAgentBooks, grid::Matrix{Int64}, edges::Vector{Tuple{Int64, Int64}}, states::Vector{Int64}, last_price::Float64) @ Main ~/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:20
+Arguments
+  _::Core.Const(Core.kwcall)
+  @_2::@NamedTuple{market_maker::MyMarketMaker}
+  @_3::Core.Const(Main.execute_reserve_orders!)
+  books::MyAgentBooks
+  grid::Matrix{Int64}
+  edges::Vector{Tuple{Int64, Int64}}
+  states::Vector{Int64}
+  last_price::Float64
+Locals
+  @_9::UNION{NOTHING, BOOL, INT64, MYMARKETMAKER}
+  market_maker::MyMarketMaker
+  cost_basis_rule::Bool
+  seed::Int64
+  step::Int64
+  trace::Nothing
+Body::@NamedTuple{executed_buys::Int64, executed_sells::Int64, suppressed_buys::Int64, suppressed_sells::Int64, market_maker_rejected_buys::Int64, market_maker_rejected_sells::Int64, execution_price::Float64, next_price::Float64}
+1 ──       Core.NewvarNode(:(@_9))
+│    %2  = Core.isdefined(@_2, :market_maker)::Core.Const(true)
+└───       goto #6 if not %2
+2 ── %4  = Core.getfield(@_2, :market_maker)::MyMarketMaker
+│    %5  = Main.MyMarketMaker::Core.Const(MyMarketMaker)
+│    %6  = (%4 isa %5)::Core.Const(true)
+└───       goto #4 if not %6
+3 ──       goto #5
+4 ──       Core.Const(:(Main.MyMarketMaker))
+│          Core.Const(:(%new(Core.TypeError, Symbol("keyword argument"), :market_maker, %9, %4)))
+└───       Core.Const(:(Core.throw(%10)))
+5 ┄─       (@_9 = %4)
+└───       goto #7
+6 ──       Core.Const(:(Core.UndefKeywordError(:market_maker)))
+└───       Core.Const(:(@_9 = Core.throw(%14)))
+7 ┄─ %16 = @_9::MyMarketMaker
+│          (market_maker = %16)
+│    %18 = Core.isdefined(@_2, :cost_basis_rule)::Core.Const(false)
+└───       goto #9 if not %18
+8 ──       Core.Const(:(Core.getfield(@_2, :cost_basis_rule)))
+│          Core.Const(:(Main.Bool))
+│          Core.Const(:(%20 isa %21))
+│          Core.Const(:(goto %25 if not %22))
+│          Core.Const(:(goto %28))
+│          Core.Const(:(Main.Bool))
+│          Core.Const(:(%new(Core.TypeError, Symbol("keyword argument"), :cost_basis_rule, %25, %20)))
+│          Core.Const(:(Core.throw(%26)))
+│          Core.Const(:(@_9 = %20))
+└───       Core.Const(:(goto %31))
+9 ┄─       (@_9 = false)
+│    %31 = @_9::Core.Const(false)
+│          (cost_basis_rule = %31)
+│    %33 = Core.isdefined(@_2, :seed)::Core.Const(false)
+└───       goto #11 if not %33
+10 ─       Core.Const(:(Core.getfield(@_2, :seed)))
+│          Core.Const(:(Main.Int64))
+│          Core.Const(:(%35 isa %36))
+│          Core.Const(:(goto %40 if not %37))
+│          Core.Const(:(goto %43))
+│          Core.Const(:(Main.Int64))
+│          Core.Const(:(%new(Core.TypeError, Symbol("keyword argument"), :seed, %40, %35)))
+│          Core.Const(:(Core.throw(%41)))
+│          Core.Const(:(@_9 = %35))
+└───       Core.Const(:(goto %46))
+11 ┄       (@_9 = 0)
+│    %46 = @_9::Core.Const(0)
+│          (seed = %46)
+│    %48 = Core.isdefined(@_2, :step)::Core.Const(false)
+└───       goto #13 if not %48
+12 ─       Core.Const(:(Core.getfield(@_2, :step)))
+│          Core.Const(:(Main.Int64))
+│          Core.Const(:(%50 isa %51))
+│          Core.Const(:(goto %55 if not %52))
+│          Core.Const(:(goto %58))
+│          Core.Const(:(Main.Int64))
+│          Core.Const(:(%new(Core.TypeError, Symbol("keyword argument"), :step, %55, %50)))
+│          Core.Const(:(Core.throw(%56)))
+│          Core.Const(:(@_9 = %50))
+└───       Core.Const(:(goto %61))
+13 ┄       (@_9 = 1)
+│    %61 = @_9::Core.Const(1)
+│          (step = %61)
+│    %63 = Core.isdefined(@_2, :trace)::Core.Const(false)
+└───       goto #15 if not %63
+14 ─       Core.Const(:(Core.getfield(@_2, :trace)))
+│          Core.Const(:(Main.Union))
+│          Core.Const(:(Main.Nothing))
+│          Core.Const(:(Main.MyOrderTrace))
+│          Core.Const(:(Core.apply_type(%66, %67, %68)))
+│          Core.Const(:(%65 isa %69))
+│          Core.Const(:(goto %73 if not %70))
+│          Core.Const(:(goto %79))
+│          Core.Const(:(Main.Union))
+│          Core.Const(:(Main.Nothing))
+│          Core.Const(:(Main.MyOrderTrace))
+│          Core.Const(:(Core.apply_type(%73, %74, %75)))
+│          Core.Const(:(%new(Core.TypeError, Symbol("keyword argument"), :trace, %76, %65)))
+│          Core.Const(:(Core.throw(%77)))
+│          Core.Const(:(@_9 = %65))
+└───       Core.Const(:(goto %82))
+15 ┄       (@_9 = Main.nothing)
+│    %82 = @_9::Core.Const(nothing)
+│          (trace = %82)
+│    %84 = Base.keys(@_2)::Core.Const((:market_maker,))
+│    %85 = (:market_maker, :cost_basis_rule, :seed, :step, :trace)::Core.Const((:market_maker, :cost_basis_rule, :seed, :step, :trace))
+│    %86 = Base.diff_names(%84, %85)::Core.Const(())
+│    %87 = Base.isempty(%86)::Core.Const(true)
+└───       goto #17 if not %87
+16 ─       goto #18
+17 ─       Core.Const(:(Base.kwerr(@_2, @_3, books, grid, edges, states, last_price)))
+18 ┄ %91 = Main.:(var"#execute_reserve_orders!#15")::Core.Const(Main.var"#execute_reserve_orders!#15")
+│    %92 = market_maker::MyMarketMaker
+│    %93 = cost_basis_rule::Core.Const(false)
+│    %94 = seed::Core.Const(0)
+│    %95 = step::Core.Const(1)
+│    %96 = trace::Core.Const(nothing)
+│    %97 = (%91)(%92, %93, %94, %95, %96, @_3, books, grid, edges, states, last_price)::@NamedTuple{executed_buys::Int64, executed_sells::Int64, suppressed_buys::Int64, suppressed_sells::Int64, market_maker_rejected_buys::Int64, market_maker_rejected_sells::Int64, execution_price::Float64, next_price::Float64}
+└───       return %97
+

@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-09-14T16:31:34.347350+00:00",
+  "source_digest": "9e8c217870bcb420d11cfc94dd0b0d6200fe961afce39de0333319fc8f982fb8",
+  "summary_digest": "d6fd211464025536c15b99f6f9a0a5fdcabae04984626c0447caabf474e9221d",
+  "artifacts": {
+    "Grouped.csv": "9d020fee6ad0b17646d66e94ddaa552f9a38b637bd76832ad36b8fa6fe918e00",
+    "Contrasts.csv": "c9e2acbbf008981d7fe7d85f82a907aca12f8a89d4742a75cbfc4890d9e44173",
+    "Source-contrasts.csv": "b31cda77bcdf4364d353e639a5f618b1169acf8a1a121f20f7eebbd0b075cf49",
+    "Primary-markets.csv": "bec4eb295024dac04053399eaae312a1dec1607fde6e782daafd605e99ba610f",
+    "Primary-bootstrap.csv": "58392895a49cdeff212262b139ccdd365d425119c7bbd2028a44618e7e23c467",
+    "Primary.json": "58930b4742102a36172d7e2331b8dbc5bcb59fd4c7bf78c2e45f58310b1ca35d",
+    "report.md": "5047f544ce183d66caf2aa36f26b852f04b71b9a2ddcaf7f76ad96ebef941f74"
+  }
+}

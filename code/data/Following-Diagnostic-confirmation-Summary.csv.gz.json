@@ -1,0 +1,9 @@
+{
+  "source": "Following-Diagnostic-confirmation-Summary.csv",
+  "source_bytes": 111401161,
+  "source_sha256": "267fa56873889db9017e3c346b8e10c0939d8d2ca0ca802fd79c7a5f8a9534fb",
+  "archive": "Following-Diagnostic-confirmation-Summary.csv.gz",
+  "archive_bytes": 36765672,
+  "archive_sha256": "a7ee0334f97d8326e7a3dc209da69a6f09184cdb03e16f931224b5c9b48c68ea",
+  "lossless_round_trip_verified": true
+}

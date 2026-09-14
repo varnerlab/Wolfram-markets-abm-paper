@@ -1,0 +1,4 @@
+julia_version = "1.12.7"
+source_digest = "718abeb0485bc3fcec1effba40d53703d65ddcc9b25f5aa33503e66f819c3be0"
+script_digest = "efd420941eb9c190efc198ac277b1a269e1020b694fbcf46ec5842f6589cb896"
+cases = 64

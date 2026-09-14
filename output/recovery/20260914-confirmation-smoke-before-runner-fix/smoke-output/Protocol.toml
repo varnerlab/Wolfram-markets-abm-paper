@@ -1,0 +1,17 @@
+primary_interval_level = 0.975
+markets = 1
+julia_version = "1.12.7"
+bootstrap_seed = 2026091401
+freshness_digest = "9b51f35a976fd03cbb82f4cc0817c154420275cd0a1b2631c78bb018e05b7b6d"
+specification_digest = "9e8a5c88a909570bfda2889ff250c6ee115fdc37796b94c832924b93fd5e00fe"
+version = "transmission-confirmation-v1"
+manifest_digest = "ac0e3e2d8a258919b75542f2b34a2ecd6f2f9f0dcf0b96bc9750172371543176"
+source_digest = "9e8c217870bcb420d11cfc94dd0b0d6200fe961afce39de0333319fc8f982fb8"
+blocks = 4
+stage = "smoke"
+python_environment_digest = "ad8bddf9f56024af227c731b3854a026d32f950aafdcb6675e6843a397fc2d7d"
+environment_digest = "c7c715217530b2475a4ac638d4d21285085480cba19ec523051e888a6619cf4c"
+created_utc = "2026-09-14T16:31:14.846"
+pilot_engine_digest = "b10677ec94a807918f4975812fcb550c3858e26f8aea6db252979f26bbddc7a5"
+bootstrap_resamples = 10000
+runs = 52

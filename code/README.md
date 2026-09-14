@@ -1,53 +1,46 @@
 # Simulation and analysis code
 
-This directory contains the Julia environment for the endogenous
-cellular-automaton market and the archived external-price prototype.
+The current manuscript uses reserve clearing. Its complete executed source
+snapshot is `output/rebuilt/manuscript-reserve-v1/code/`; reproduce it through
+[rebuild/README.md](rebuild/README.md). Every retained condition was rerun
+with full financial histories, including held technical traders.
 
-## Setup
+The shared simulator supports both the corrected `clearing=:reserve`
+mechanism and historical `clearing=:legacy`. Historical callers retain
+their original default. The corrected manuscript wrapper explicitly selects
+reserve clearing and checks conservation, resources, prices, and execution
+provenance for every simulation.
 
-Install Julia 1.9 or later, then instantiate the project:
+## Environment and reproduction
 
-```bash
+The production run used Julia 1.12.7 with twelve simulation threads and one
+garbage-collection thread. The recorded checkpoint scheduler requires Julia
+1.11 or later. Julia package versions are pinned in `Project.toml` and
+`Manifest.toml`; Python versions are recorded in the study's
+`Runtime-Environment.json`.
+
+```sh
 julia --project=code -e 'using Pkg; Pkg.instantiate()'
+bash code/run_all.sh repaired-tests
 ```
 
-The revised manuscript does not require the QQQ input. It is retained only for
-the archived Model A prototype described in [`data/README.md`](data/README.md).
-
-## Commands
-
-From the repository root:
-
-```bash
-bash code/run_all.sh tests
-bash code/run_all.sh figures
-bash code/run_all.sh all
-```
-
-`tests` is the safe default. `figures` rebuilds the paper figures from existing
-derived data. `all` first runs tests, then the expensive simulations, then the
-figure scripts. The runner stops at the first failure and writes
-`code/run_all.log`. It defaults to 12 simulation threads and one garbage-
-collection thread; set `MARKET_ABM_THREADS` or `MARKET_ABM_GC_THREADS` to
-override those conservative production defaults.
-
-The paper is built separately:
-
-```bash
-cd paper-arxiv
-make
-```
+Use `code/rebuild/ColdClone.py` to create another empty-data copy of the
+executed study, then its `Run.py` and postprocessing commands. The current
+PDF can be compiled separately with `make -C paper-arxiv`. Neither the
+corrected manuscript nor its simulations require the archived QQQ input.
 
 ## Layout
 
-- `src/`: shared CA types, factories, simulation, and file utilities.
-- `model-a/`: archived externally forced classroom prototype.
-- `model-b/`: principal feedback-closed model, explicit-dealer experiments,
-  interventions, tests, and figures.
-- `data/`: external-input documentation and generated tabular outputs.
-- `figs/`: generated figures.
+- `src/`: shared decision rules, financial simulator, reserve clearing, and utilities.
+- `rebuild/`: clean-study preparation, execution, verification, figures, and manuscript generation.
+- `repaired/`: repair checks and separate advice-transmission studies.
+- `model-b/` and `revision/`: historical standing-quote experiment drivers; the adapted corrected copies live in the executed snapshot.
+- `following/`: historical advice experiments, superseded by their reserve-model versions.
+- `model-a/`: archived external-price prototype.
+- `data/`: historical summaries and input documentation; current manuscript data live in the isolated study.
+- `figs/`: generated figures, including the six installed corrected manuscript figures.
 
-Model B includes an explicit dealer ledger. The `h = Inf` limit permits dealer
-borrowing and shorting and reproduces the historical fill-all convention;
-finite `h` imposes cash and inventory bounds, and whole-system cash and shares
-are conserved outside deliberate balance-sheet interventions.
+The historical `all`, `figures`, and `revision` runner modes are blocked
+after the corrected manuscript is installed. They would otherwise copy
+historical tables and figures over the corrected outputs. This restriction
+does not remove the historical source or data.

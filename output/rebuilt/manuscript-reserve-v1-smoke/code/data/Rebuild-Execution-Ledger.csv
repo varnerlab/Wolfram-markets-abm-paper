@@ -1,0 +1,5 @@
+completed_utc,phase,seed,L,steps,h,f,rule,activation_step,boundary,action,fixed_band,resource_intervention,final_grid_sha256
+2026-09-14T17:06:30.640,test,1,16,60,100.0,0.2,19286,21,endogenous,rule,nothing,false,29d5e54c4292adc41a317d7b342bca1be0d584ba087962f564d57046affa35a1
+2026-09-14T17:06:30.643,test,2,16,60,100.0,0.2,19286,21,endogenous,rule,nothing,false,3c23f09e654c53a7701efcb8d8328bd3043f62a10cabe79901e127b1d863ddc5
+2026-09-14T17:06:30.643,test,1,16,60,100.0,0.2,19286,61,endogenous,rule,nothing,false,66456374e327c0e6f138e1d1260cbb96e9e9155036c45bf824ca1fbecdf7d4a9
+2026-09-14T17:06:30.643,test,2,16,60,100.0,0.2,19286,61,endogenous,rule,nothing,false,a7d1143ebe93a8848b7abb7f52e4950cd7314aa0879427676dbbc6ecda379fd6

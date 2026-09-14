@@ -1,0 +1,128 @@
+┌ Info: Revision control campaign
+│   name = "screen"
+│   jobs = 2160
+└   threads = 12
+┌ Info: ModelB-Revision-screen
+│   completed = 100
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 200
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 300
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 400
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 500
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 600
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 700
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 800
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 900
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1000
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1100
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1200
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1300
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1400
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1500
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1600
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1700
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1800
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 1900
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 2000
+└   total = 2160
+┌ Info: ModelB-Revision-screen
+│   completed = 2100
+└   total = 2160
+┌ Info: Revision control campaign
+│   name = "pulse"
+│   jobs = 600
+└   threads = 12
+┌ Info: ModelB-Revision-pulse
+│   completed = 100
+└   total = 600
+┌ Info: ModelB-Revision-pulse
+│   completed = 200
+└   total = 600
+┌ Info: ModelB-Revision-pulse
+│   completed = 300
+└   total = 600
+┌ Info: ModelB-Revision-pulse
+│   completed = 400
+└   total = 600
+┌ Info: ModelB-Revision-pulse
+│   completed = 500
+└   total = 600
+┌ Info: ModelB-Revision-pulse
+│   completed = 600
+└   total = 600
+┌ Info: Revision control campaign
+│   name = "band"
+│   jobs = 800
+└   threads = 12
+┌ Info: ModelB-Revision-band
+│   completed = 100
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 200
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 300
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 400
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 500
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 600
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 700
+└   total = 800
+┌ Info: ModelB-Revision-band
+│   completed = 800
+└   total = 800
+┌ Info: Revision control campaign
+│   name = "impact"
+│   jobs = 150
+└   threads = 12
+┌ Info: ModelB-Revision-impact
+│   completed = 100
+└   total = 150
+┌ Info: Revision control campaign
+│   name = "long"
+│   jobs = 20
+└   threads = 12

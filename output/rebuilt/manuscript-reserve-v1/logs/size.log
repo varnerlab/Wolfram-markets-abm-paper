@@ -1,0 +1,49 @@
+┌ Info: Finite-size rule-quench campaign
+│   mode = "Full"
+│   sizes = 5-element Vector{Int64}: …
+│   pre = 1000
+│   post = 3000
+│   target_fs = 12-element Vector{Float64}: …
+│   conditions = 3-element Vector{@NamedTuple{capacity::Float64, boundary_mode::Symbol}}: …
+│   seeds = 50
+│   cells = 750
+│   resumed_cells = 0
+│   pending_cells = 750
+│   simulations = 9750
+└   threads = 12
+┌ Info: Finite-size progress
+│   completed = 75
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 150
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 225
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 300
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 375
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 450
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 525
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 600
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 675
+└   total = 750
+┌ Info: Finite-size progress
+│   completed = 750
+└   total = 750
+┌ Info: Finite-size rule-quench complete
+│   summary = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-FiniteSizeQuench-Full-Summary.csv"
+│   grouped = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-FiniteSizeQuench-Full-Grouped.csv"
+│   scaling = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../data/ModelB-FiniteSizeQuench-Full-Scaling.csv"
+│   figure = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1/code/model-b/../figs/Fig-ModelB-FiniteSizeQuench-Full.pdf"
+└   rows = 9000

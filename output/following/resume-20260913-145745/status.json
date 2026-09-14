@@ -1,0 +1,46 @@
+{
+  "started": "2026-09-13T15:10:30-04:00",
+  "supervisor_pid": 8053,
+  "snapshot": "/private/tmp/wolfram-following-recovery-20260913-145745/saved-work.tar.gz",
+  "state": "complete",
+  "campaigns": {
+    "core": {
+      "state": "complete",
+      "step": 2,
+      "command": [
+        "/Users/jdv27/.juliaup/bin/julia",
+        "--project=code",
+        "--startup-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "code/following/Figs-Following.jl",
+        "confirmation"
+      ],
+      "pid": 15053,
+      "log": "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/following/resume-20260913-145745/core.log",
+      "saved_blocks": 300,
+      "exit_code": 0,
+      "finished": "2026-09-13T15:54:09-04:00"
+    },
+    "diagnostic": {
+      "state": "complete",
+      "step": 1,
+      "command": [
+        "/Users/jdv27/.juliaup/bin/julia",
+        "--project=code",
+        "--startup-file=no",
+        "--threads=1",
+        "--gcthreads=1",
+        "code/following/Analyze-Following-Controls.jl",
+        "diagnostic-confirmation"
+      ],
+      "pid": 27516,
+      "log": "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/following/resume-20260913-145745/diagnostic.log",
+      "saved_blocks": 400,
+      "exit_code": 0,
+      "finished": "2026-09-13T16:43:39-04:00"
+    }
+  },
+  "updated": "2026-09-13T16:43:39-04:00",
+  "finished": "2026-09-13T16:43:39-04:00"
+}

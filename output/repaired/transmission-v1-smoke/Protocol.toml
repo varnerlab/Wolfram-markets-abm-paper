@@ -1,0 +1,7 @@
+julia_version = "1.12.7"
+source_digest = "b10677ec94a807918f4975812fcb550c3858e26f8aea6db252979f26bbddc7a5"
+created_utc = "2026-09-14T16:03:59.628"
+environment_digest = "c7c715217530b2475a4ac638d4d21285085480cba19ec523051e888a6619cf4c"
+specification_digest = "38722a2169cd426f18426a57589e5dad59585a230ce73d1a302b9829e84c5c94"
+version = "transmission-v1"
+manifest_digest = "1beb4330569d46c43f87f5f9d91d18bcd8cee435d3905f44044fdaf3e599c348"

@@ -1,0 +1,5 @@
+┌ Info: Transmission analysis complete
+│   stage = "pilot"
+│   runs = 1040
+│   pilot_replays = 320
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-v1-pilot"

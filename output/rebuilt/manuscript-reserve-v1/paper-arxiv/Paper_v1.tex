@@ -1,0 +1,139 @@
+\documentclass{article}
+
+% Pass numbered, compressed citations to natbib
+\PassOptionsToPackage{numbers, sort&compress}{natbib}
+% before loading neurips_2026
+
+\usepackage[preprint]{neurips_2026}
+% Options:
+%  \usepackage[main]{neurips_2026}          % Main Track (double-blind)
+%  \usepackage[preprint]{neurips_2026}      % arXiv / preprint
+%  \usepackage[main, final]{neurips_2026}   % Camera-ready
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[colorlinks=true,linkcolor={blue!70!black},citecolor={blue!70!black},urlcolor={blue!70!black},hypertexnames=false]{hyperref}
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{colortbl}       % \cellcolor in tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{graphicx}       % includegraphics
+\usepackage{subcaption}     % subfigures with (a), (b) labels
+\usepackage{amsmath,amssymb,amsthm} % math
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit}
+
+% Colors for agent states (Wong colorblind-safe palette)
+\definecolor{buyblue}{HTML}{0072B2}
+\definecolor{holdgray}{HTML}{AAAAAA}
+\definecolor{sellorange}{HTML}{D55E00}
+\definecolor{edgegreen}{HTML}{009E73}
+\definecolor{lightbg}{HTML}{F0F0F0}
+\definecolor{hlyellow}{HTML}{F0E442}
+
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Local rule activation and dealer capacity in a cellular automaton market\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+
+\hypersetup{
+  pdftitle={Local rule activation and dealer capacity in a cellular automaton market},
+  pdfauthor={Jeffrey D. Varner}
+}
+
+\author{%
+  Jeffrey D. Varner \\
+  R.F. Smith School of Chemical and Biomolecular Engineering\\
+  Cornell University, Ithaca, NY 14850 \\
+  \texttt{jdv27@cornell.edu} \\
+}
+
+\begin{document}
+\raggedbottom
+% Keep paragraph openings and endings together across page and display breaks.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\maketitle
+
+\begin{abstract}
+Changes in investor decisions can spread through a market, but the resulting
+price decline depends on how trades execute. We developed a market model
+in which traders inside a grid decided whether to buy, hold, or sell from
+their neighbors' decisions, while technical traders at selected perimeter
+sites responded to price. Paired markets shared the same history before
+selected traders in one market received a persistent change in their
+local decision rule. The comparison market retained its original rule.
+A majority decided to sell when enough traders received the new response,
+even though the remaining traders kept their original rules. Holding the
+technical traders prevented price changes from entering later decisions,
+yet majorities still formed, establishing that neighbor responses could
+produce widespread selling. Comparisons across market sizes and observation
+periods located a finite-time crossover whose position continued to depend
+on the time observed. To connect decisions to prices, we cleared unit
+orders against a dealer whose finite cash and share reserves retained a
+constant product. The batch execution price and resulting marginal quote
+were both determined by those reserves, preventing an isolated round trip
+that restored dealer inventory from extracting its cash. Shallow positive
+reserves accompanied severe declines while rejecting few orders backed by
+trader resources. Zero reserves instead permitted only opposing trader
+orders at a fixed price. Shallow markets also had large drawdowns without
+the rule switch, making matched financial comparisons necessary for
+attribution. Changing trader cash and shares affected interior decisions
+only when technical traders could respond to the resulting prices.
+The model separated the spread of selling decisions from the severity of
+a simulated crash. Limited trading resources did not generally protect
+against severe declines, because their financial consequences depended on
+the mechanism linking execution to price.
+\end{abstract}
+
+\input{sections/introduction}
+
+\input{sections/methods}
+
+\input{sections/results}
+
+\input{sections/discussion}
+
+\input{sections/conclusion}
+
+% ============================================================================
+% Add acknowledgments and funding information here before submission, if applicable.
+
+\clearpage
+\bibliographystyle{unsrtnat}
+\bibliography{References_v1}
+
+% End matter order: references, tables, figures, supplementary information.
+\clearpage
+\input{sections/tables}
+
+\clearpage
+\input{sections/figures}
+
+\clearpage
+\appendix
+
+\input{sections/appendix}
+
+\end{document}

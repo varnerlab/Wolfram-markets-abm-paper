@@ -1,0 +1,124 @@
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{A one-time instruction to sell versus a persistent rule change at the same targeted traders. Both conditions used $h=100$, 3,000 post-intervention steps, and matched no-switch controls. Entries are majority probabilities with 95\% Wilson intervals.}
+\label{tab:revision-pulse}
+\small
+\begin{tabular}{lrrll}
+\toprule
+Technical traders & $f$ & Seeds & Sell pulse & Persistent rule \\
+\midrule
+Active & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
+Active & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+Active & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+Held & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
+Held & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+Held & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{All single-response changes to Rule~19280 with $h=100$. Each entry gives majority probability with technical traders held / active over 20 starting markets and 3,000 post-switch steps. Outputs are Buy $=0$, Hold $=1$, and Sell $=2$. This descriptive screen used no multiplicity adjustment.}
+\label{tab:revision-rules}
+\footnotesize
+\begin{tabular}{rrrrrr}
+\toprule
+Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$ \\
+\midrule
+0 & 2 $\to$ 0 & 19278 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+0 & 2 $\to$ 1 & 19279 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+1 & 0 $\to$ 1 & 19283 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+1 & 0 $\to$ 2 & 19286 & 0.00 / 0.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+2 & 0 $\to$ 1 & 19289 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+2 & 0 $\to$ 2 & 19298 & 0.95 / 0.95 & 1.00 / 1.00 & 1.00 / 1.00 \\
+3 & 0 $\to$ 1 & 19307 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+3 & 0 $\to$ 2 & 19334 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+4 & 1 $\to$ 0 & 19199 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+4 & 1 $\to$ 2 & 19361 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+5 & 1 $\to$ 0 & 19037 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+5 & 1 $\to$ 2 & 19523 & 1.00 / 1.00 & 1.00 / 1.00 & 1.00 / 1.00 \\
+6 & 2 $\to$ 0 & 17822 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+6 & 2 $\to$ 1 & 18551 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+7 & 2 $\to$ 0 & 14906 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+7 & 2 $\to$ 1 & 17093 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+8 & 2 $\to$ 0 & 6158 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+8 & 2 $\to$ 1 & 12719 & 0.00 / 0.00 & 0.00 / 0.00 & 0.00 / 0.00 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Adjusting versus fixed Hold-band widths at $f=0.175$ over 50 starting markets. Brackets in the rows give 95\% Wilson confidence intervals (CI). Sell is the mean fraction of technical traders in Sell over post-switch steps and starting markets. The moving center continued to update. The $h=0.1$ minus $h=100$ probability difference was -0.06 with adaptive widths and -0.26 with frozen widths. Their paired difference was 0.20, with a 95\% interval [-0.08, 0.50] from 2,000 whole-market bootstrap samples.}
+\label{tab:revision-band}
+\small
+\begin{tabular}{rllll}
+\toprule
+$h$ & Adaptive $p$ [95\% CI] & Frozen $p$ [95\% CI] & Adaptive Sell & Frozen Sell \\
+\midrule
+0 & 0.34 [0.22, 0.48] & 0.34 [0.22, 0.48] & 0.000 & 0.000 \\
+0.1 & 0.44 [0.31, 0.58] & 0.22 [0.13, 0.35] & 0.139 & 0.044 \\
+0.5 & 0.36 [0.24, 0.50] & 0.38 [0.26, 0.52] & 0.123 & 0.081 \\
+1 & 0.36 [0.24, 0.50] & 0.40 [0.28, 0.54] & 0.128 & 0.086 \\
+2 & 0.44 [0.31, 0.58] & 0.40 [0.28, 0.54] & 0.117 & 0.094 \\
+5 & 0.38 [0.26, 0.52] & 0.36 [0.24, 0.50] & 0.116 & 0.140 \\
+10 & 0.40 [0.28, 0.54] & 0.38 [0.26, 0.52] & 0.125 & 0.163 \\
+100 & 0.50 [0.37, 0.63] & 0.48 [0.35, 0.61] & 0.103 & 0.168 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Additional reserve-depth comparisons at $f=0.20$ with active technical traders and 50 starting markets over 3,000 post-switch steps. The initial log-price slope per normalized net purchase is approximately $2/h$; this is implied by the reserve curve, not a separate price-impact coefficient. Depth changes funding and price sensitivity together. Drawdown is a percentage, and rejection uses post-switch eligible orders. Probability brackets are 95\% Wilson intervals.}
+\label{tab:revision-impact}
+\small
+\begin{tabular}{rrlrr}
+\toprule
+$h$ & Initial slope $2/h$ & Majority probability & Median drawdown (\%) & Rejection \\
+\midrule
+40 & 0.050 & 1.00 [0.93, 1.00] & 48.62 & $1.41\times10^{-6}$ \\
+100 & 0.020 & 1.00 [0.93, 1.00] & 25.15 & $6.04\times10^{-7}$ \\
+400 & 0.005 & 1.00 [0.93, 1.00] & 7.08 & $2.82\times10^{-7}$ \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Observation time and the required Sell fraction with technical traders held and $h=100$. Entries are interpolated $f_{50}$ with 95\% whole-market bootstrap intervals over 50 starting markets. The fraction grid is independent of adaptive refinement. Undefined denotes an unbracketed crossing; intervals use available bracketed samples.}
+\label{tab:revision-horizons}
+\footnotesize
+\begin{tabular}{rrlll}
+\toprule
+$L$ & Post-switch steps & Criterion 0.4 & Criterion 0.5 & Criterion 0.6 \\
+\midrule
+32 & 750 & 0.236 [0.228, 0.238] & 0.249 [0.245, 0.255] & 0.266 [0.260, 0.270] \\
+32 & 1{,}500 & 0.216 [0.210, 0.220] & 0.230 [0.228, 0.234] & 0.245 [0.238, 0.250] \\
+32 & 3{,}000 & 0.207 [0.205, 0.210] & 0.219 [0.210, 0.225] & 0.229 [0.226, 0.232] \\
+64 & 3{,}000 & 0.172 [0.169, 0.176] & 0.178 [0.176, 0.180] & 0.186 [0.180, 0.188] \\
+64 & 9{,}000 & 0.165 [0.163, 0.167] & 0.167 [0.165, 0.168] & 0.171 [0.169, 0.175] \\
+128 & 3{,}000 & 0.163 [0.162, 0.164] & 0.167 [0.165, 0.168] & 0.169 [0.168, 0.171] \\
+128 & 6{,}000 & 0.154 [0.153, 0.156] & 0.157 [0.156, 0.158] & 0.159 [0.158, 0.160] \\
+128 & 12{,}000 & 0.150 [0.148, 0.151] & 0.152 [0.150, 0.153] & 0.153 [0.152, 0.155] \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+\input{sections/revision-fits-table}

@@ -1,0 +1,4 @@
+Test Summary:                                                 | Pass  Total  Time
+paired reserve following and identical liquidation conditions |   49     49  0.5s
+Test Summary:                                                         | Pass  Total  Time
+threaded pilot blocks reproduce serial rows and checkpoint identities |   10     10  4.2s

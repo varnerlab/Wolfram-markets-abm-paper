@@ -1,0 +1,17 @@
+{
+  "purpose": "Old/new diagnostic only; no historical manuscript inputs",
+  "curves": 5,
+  "maximum_absolute_differences": {
+    "f50": 0.0,
+    "transition_width": 0.0,
+    "susceptibility_peak": 0.0,
+    "f50_lo": 0.0,
+    "f50_hi": 0.0,
+    "transition_width_lo": 0.0,
+    "transition_width_hi": 0.0,
+    "susceptibility_peak_lo": 0.0,
+    "susceptibility_peak_hi": 0.0
+  },
+  "old_sha256": "0e1114121631c010fa49322f8644551e6ab26101e6b46c60583a116e9d578c05",
+  "new_sha256": "b4c53c065c214372ddf700716bacb82821aa2551eab97709fe1b6ef3506384c5"
+}

@@ -1,0 +1,11 @@
+{
+  "purpose": "Explicit old-versus-new comparison, outside manuscript inputs",
+  "paired_held_conditions": 3000,
+  "identical_transition_flags": true,
+  "identical_onsets": true,
+  "max_final_mean_difference": 0.0,
+  "old_source": "code/data/ModelB-FiniteSizeQuench-Full-Summary.csv",
+  "new_source": "output/rebuilt/manuscript-reserve-v1/code/data/ModelB-FiniteSizeQuench-Full-Summary.csv",
+  "old_sha256": "fb88b192d052ef9a87543f12c5b00a996ab9589f83fa9d2e56791db445ada748",
+  "new_sha256": "738f6de45b1db2f5a1371d2c9bfab4c1559fe0d701fcf858a8f5d3e41324cfb6"
+}

@@ -1,0 +1,7 @@
+┌ Info: Fresh-market transmission confirmation
+│   runs = 52
+│   blocks = 4
+└   smoke = true
+┌ Info: Confirmation simulations complete
+│   runs = 52
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-confirmation-v1-smoke"

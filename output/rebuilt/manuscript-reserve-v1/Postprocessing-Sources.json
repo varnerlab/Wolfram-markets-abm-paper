@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-09-14T20:28:23.044585+00:00",
+  "scope": "Separately versioned manuscript postprocessing; frozen production sources unchanged.",
+  "files": {
+    "code/rebuild/AmendScheduling.py": "7268af958fbda14e0dc337b7e96de1add189ac8663bedeed70e359f76ca4e8a2",
+    "code/rebuild/Archive.py": "bd6a3df0fd76a49cff12812eec9c9af6aacc479317fc131adc75c5e0b8c055d1",
+    "code/rebuild/Build.py": "2089b28b89364cf82614974b2b7bb4221faad88ade9f1170dca3026f0f1940aa",
+    "code/rebuild/ColdClone.py": "41a131dad47b7feace420e7141cdb121679d53132a959377b7e2aab4c36298a0",
+    "code/rebuild/FinalizeFigures.py": "0e41a6ab6f36c9eb58623b65ef2fa0bbdcd36177046d24ff1423a07881e0b94e",
+    "code/rebuild/README.md": "f675878f6e2fe092491742290f551a56edc2df2544ba305b0f26df73a57e1e02",
+    "code/rebuild/Test-Scheduling.jl": "e8c0f695546a9306e5080371b76ed681136626be018ca7c92a48ef875b77030b",
+    "code/rebuild/Verify.py": "576521c631e82b2120fe18aa645b96e92e67340e08867b7b21887d8cda43e9c9",
+    "code/rebuild/WriteAssessment.py": "a904d3b544705e813d17cd8a2b1f3d51d439044b36e4f750ab77652b9030eee1",
+    "code/rebuild/WriteCaptions.py": "99efa6ccc74732dc47bc4369c1727d7ab565d6f6f62749e1dfc96ceca5adca24",
+    "code/rebuild/WriteManuscriptTables.py": "441c3af66467067b028cf7fa50c2ba729a6cb18f702314ff7fbf0da390f22774",
+    "code/rebuild/WriteResults.py": "11685bfd4514a2cabc6371775366a8c1a18ec38f61413949af062c6cfe13cfa7"
+  }
+}

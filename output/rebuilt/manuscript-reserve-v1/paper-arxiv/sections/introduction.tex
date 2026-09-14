@@ -1,0 +1,117 @@
+% introduction.tex -- Introduction
+\section{Introduction}
+
+During the October 1987 market decline, portfolio insurance concentrated
+selling across participating traders~\cite{shiller1988portfolio,grossman1988analysis}.
+Forced sales by funds that had borrowed to invest spread losses across
+quantitative equity strategies in August 2007~\cite{khandani2011what}.
+Such episodes motivate a common modeling question: how can changes in
+some investors' decision rules destabilize a market and contribute to
+a crash? Agent-based
+models address collective behavior through imitation, strategy adaptation,
+and responses to a shared price~\cite{lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,axtell2025agent}.
+In the minority game, every trader reads the same record of past outcomes
+and switches among strategies scored on that record, so traders interact
+only through the market outcome~\cite{challet1997minority,challet2000modeling}.
+In the Santa Fe artificial stock market, traders learn forecasting rules
+from a shared price and dividend~\cite{lebaron1999time}; adding technical
+rules to a trader's repertoire was a dominant strategy that lowered wealth
+and raised volatility for all~\cite{joshi1999technical,joshi2002financial},
+and how much technical trading emerged depended on details of the learning
+algorithm~\cite{ehrentreich2006technical}.
+Many of these models include technical traders, who decide from the recent
+history of the price, alongside traders who follow fundamental value or the
+opinions of others~\cite{brock1998heterogeneous,lux1999scaling,hommes2006heterogeneous}.
+Herding models describe how individual decisions produce collective
+activity~\cite{kirman1993ants,cont2000herd,lux1999scaling}, while lattice
+models encode local interactions through stochastic imitation or spin-like
+responses, sometimes alongside market-wide
+signals~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance}.
+These interactions can generate large fluctuations and periods of sustained
+volatility, two features of financial returns~\cite{cont2001empirical}.
+These approaches explain fluctuations through several forms of interaction,
+but their aggregate return statistics do not by themselves separate the
+effects of a persistent local rule change from feedback through price.
+Both the size of the changed group and the nature of the change matter. A temporary increase in selling
+and a persistent change in how traders respond to their neighbors need
+not produce the same collective outcome.
+
+A cellular automaton represents investors as traders arranged on a square
+grid, with each trader deciding whether to buy, hold, or sell from the
+decisions of nearby traders. Each trader uses a lookup table to convert the
+sum of its four neighbors' numbered decisions into its next decision, a
+totalistic rule~\cite{wolfram1984universality,packard1985two,wolfram2002new}.
+Wolfram's own market model placed buying and selling entities on a line,
+each responding to its two neighbors under a fixed rule, and took the
+running difference between buyers and sellers as the
+price~\cite{wolfram2002new}. A recent model in which thirty-two agents
+followed rules inspired by Rule~110, kept balance sheets, and set the price
+from the counts of buy and sell positions produced series with the
+statistics of real assets~\cite{valsan2022on}. Two-dimensional
+cellular-automaton markets have instead used stochastic rules, typically a
+probability that a trader imitates its neighbors, and varied that
+probability or a market-wide factor to change market
+behavior~\cite{wei2003cellular,bartolozzi2004stochastic,qiu2007cellular,fan2009effect,atman2012influence}.
+The model studied here uses a deterministic table drawn from the complete
+set of totalistic rules, so one table entry can change while the other
+responses stay fixed. Asking a trader to sell once changes its current decision, whereas
+changing the rule changes how it responds whenever the same neighbor sum
+occurs again. The new rule remains in use even after the trader stops
+selling. Starting two markets from the same history, then changing the rule
+in only one, allows the effect of that change to be measured against
+continued use of the original
+rule~\cite{glasserman1992guidelines,law2015simulation}.
+In this model, selected traders along the edge of the grid are
+technical traders: they buy when the price falls below a band around its
+recent average and sell when it rises above that band, and they are the only
+traders whose decisions depend on the price. The question is how
+many traders must receive the new rule before at least half of the interior
+traders decide to sell, which we call a Sell majority, and whether this
+instability can develop when the technical traders are kept in Hold, so that
+trades still complete and the price still moves, but no decision responds to
+it.
+
+A market dominated by sellers and a market price crash are different
+outcomes. Their connection depends partly on the resources needed to trade. A trader needs shares to sell or cash to
+buy, and completing a trade requires someone willing and able to take the
+other side. Dealers can complete orders that other traders do not match, but
+their cash and share holdings limit how much they can buy and
+sell~\cite{garman1976market,stoll1978supply,ho1981optimal,madhavan2000market,adrian2017dealer}.
+Price-impact models describe how completed trades change the
+price~\cite{kyle1985continuous,hasbrouck1991measuring,farmer2005predictive,bouchaud2009how}.
+Agent-based markets have included limited trader resources, records of
+outstanding buy and sell orders, borrowing limits, and dealers with limited
+cash and
+shares~\cite{raberto2001agent,chiarella2002simulation,thurner2012leverage,braunmunzinger2018agent}.
+In the grid model, traders can keep deciding to sell even when they cannot
+complete a sale, allowing instability in decisions to develop without a
+price crash. Limits on completed trades also change the price that informs later decisions. Dealer capacity can therefore affect both selling decisions and prices. We coupled execution and price through a dealer whose finite cash and
+share reserves retained a constant product, following the reserve-based
+approach of constant-function markets~\cite{angeris2022constant}.
+Each batch used a common execution price consistent with its net trade,
+and the final reserve ratio set the next marginal quote. This construction
+tied price movements to actual transfers and prevented an isolated round
+trip that restored dealer inventory from extracting its cash. It also
+made reserve depth determine both available funding and price sensitivity,
+so a smaller dealer need not protect the market from a large decline.
+The relevant comparison was how a given pattern of decisions traded
+against different reserves, and how the resulting prices influenced
+later decisions.
+
+In this study, we used a three-state cellular automaton market to examine
+how changes in investor decision rules produced market instability and
+how trading resources connected those decisions to price declines.
+We compared markets with a common history, then changed one response in
+the lookup table of selected interior traders while preserving the
+comparison market's rule. Keeping technical traders in Hold allowed the
+same intervention to be studied without feedback from price, while still
+calculating trades and financial outcomes. A one-time instruction to sell
+and a screen of other single-response changes tested which features of
+the intervention mattered. Comparisons across grid sizes and observation
+periods assessed whether the fraction needed for a Sell majority depended
+on the extent and duration of interaction. We also varied dealer reserves
+and changed trader cash and shares separately to identify their effects
+on completed orders, majority formation, and drawdown. The paired design
+therefore addressed two linked questions: whether a persistent change in
+local decisions could spread through neighboring traders, and how the
+execution mechanism determined the accompanying price decline.

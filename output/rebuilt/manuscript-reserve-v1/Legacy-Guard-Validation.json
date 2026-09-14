@@ -1,0 +1,10 @@
+{
+  "state": "passed",
+  "exit_codes": {
+    "all": 2,
+    "figures": 2,
+    "revision": 2
+  },
+  "historical_log_unchanged": true,
+  "guard_uses_completion_record_after_rebuild": true
+}

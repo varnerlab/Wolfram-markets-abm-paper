@@ -1,0 +1,12 @@
+{
+  "figure1_seed": 14,
+  "figure4_seeds": [
+    2,
+    15,
+    41,
+    5,
+    38
+  ],
+  "figure5_seed": 2,
+  "figure4_delayed_crossings": 1
+}

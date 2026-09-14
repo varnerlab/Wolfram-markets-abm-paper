@@ -1,0 +1,115 @@
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.clipboard [-4960]
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.find [-4960]
+2026-09-14 13:04:11.037 gksqt[25772:34612165] Error received in message reply handler: Connection invalid
+2026-09-14 13:04:11.037 gksqt[25772:34612166] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-09-14 13:04:11.054 gksqt[25772:34612165] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+no screens available, assuming 24-bit color
+GKSserver: Failed to listen to port 8410
+connect: Operation not permitted
+GKS: the graphics window could not be opened because no connection to the GKS Qt driver could be established. Please check all Qt warnings to determine whether (or why) 'gksqt' could not be started.
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+┌ Info: Reservoir rule-quench screen
+│   mode = "Smoke"
+│   grid = 16
+│   pre = 20
+│   post = 40
+│   capacities = 2-element Vector{Float64}: …
+│   target_fs = 2-element Vector{Float64}: …
+│   seeds = 2
+│   cells = 8
+└   threads = 4
+┌ Info: Reservoir progress
+│   completed = 4
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 1
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 3
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 2
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 5
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 6
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 7
+└   total = 8
+┌ Info: Reservoir progress
+│   completed = 8
+└   total = 8
+┌ Info: Reservoir cell
+│   boundary = "endogenous"
+│   h = 0.0
+│   f = 0.15
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.0
+└   rejection = 0.3603176522046169
+┌ Info: Reservoir cell
+│   boundary = "endogenous"
+│   h = 0.0
+│   f = 0.25
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.0
+└   rejection = 0.32521558222848373
+┌ Info: Reservoir cell
+│   boundary = "endogenous"
+│   h = 100.0
+│   f = 0.15
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.0038081166001768807
+└   rejection = 0.0
+┌ Info: Reservoir cell
+│   boundary = "endogenous"
+│   h = 100.0
+│   f = 0.25
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.031166654070373723
+└   rejection = 0.0
+┌ Info: Reservoir cell
+│   boundary = "hold"
+│   h = 0.0
+│   f = 0.15
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.0
+└   rejection = 0.3603176522046169
+┌ Info: Reservoir cell
+│   boundary = "hold"
+│   h = 0.0
+│   f = 0.25
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.0
+└   rejection = 0.32521558222848373
+┌ Info: Reservoir cell
+│   boundary = "hold"
+│   h = 100.0
+│   f = 0.15
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.002670598029352711
+└   rejection = 0.0
+┌ Info: Reservoir cell
+│   boundary = "hold"
+│   h = 100.0
+│   f = 0.25
+│   probability = 0.0
+│   onset = NaN
+│   drawdown = 0.011104069428716168
+└   rejection = 0.0
+┌ Info: Reservoir rule-quench complete
+│   summary = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../data/ModelB-ReservoirQuench-Smoke-Summary.csv"
+│   grouped = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../data/ModelB-ReservoirQuench-Smoke-Grouped.csv"
+│   figure = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../figs/Fig-ModelB-ReservoirQuench-Smoke.pdf"
+└   rows = 16

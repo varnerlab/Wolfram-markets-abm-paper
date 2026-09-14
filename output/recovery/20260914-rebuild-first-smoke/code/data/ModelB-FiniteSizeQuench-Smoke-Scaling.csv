@@ -1,0 +1,7 @@
+boundary_mode,market_maker_capacity,gridn,f25,f50,f75,transition_width,susceptibility_peak_f,susceptibility_peak
+endogenous,1.0,16,NaN,NaN,NaN,NaN,0.25,0.005759725765306062
+endogenous,1.0,24,NaN,NaN,NaN,NaN,0.2,0.0005426782024811616
+endogenous,100.0,16,NaN,NaN,NaN,NaN,0.25,0.2617418686224459
+endogenous,100.0,24,NaN,NaN,NaN,NaN,0.25,0.1453515624999948
+hold,100.0,16,NaN,NaN,NaN,NaN,0.2,0.045918367346937605
+hold,100.0,24,NaN,NaN,NaN,NaN,0.25,0.05886137654958018

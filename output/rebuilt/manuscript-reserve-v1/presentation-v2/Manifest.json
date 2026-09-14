@@ -1,0 +1,29 @@
+[
+  {
+    "reason": "Separate color-bar labels and expose positive-depth rejection rates on a logarithmic axis; all displayed lower quartiles are positive.",
+    "original_source": "code/model-b/Figs-ModelB-ReservoirQuench.jl",
+    "original_sha256": "8bbfbe5a0f07d7e1c841b542d7d08d755b258f6f56feb1b8d5b6b3ba9bd5659a",
+    "revised_source": "presentation-v2/Figs-Reservoir.jl",
+    "revised_sha256": "469af6aad66ed07a2fad46042ea21cbba6e760340316cafab8ae4de32a4da531",
+    "simulation_changes": false,
+    "metric_changes": false
+  },
+  {
+    "reason": "Add breathing room above the panel letters; all curves, axes, and uncertainty intervals are unchanged.",
+    "original_source": "code/model-b/Figs-ModelB-FiniteSizeQuench.jl",
+    "original_sha256": "e20457c9fb4ce214c3e04339e10ad34dc65777087fe9c08092136ea38f36862e",
+    "revised_source": "presentation-v2/Figs-FiniteSize.jl",
+    "revised_sha256": "62f40c141bbea7efda3665a7425bff316f2f67fe4e49a65da1032977a6d586a4",
+    "simulation_changes": false,
+    "metric_changes": false
+  },
+  {
+    "reason": "Show the full probability domain, positive rejection rates on a logarithmic axis, and positive drawdowns over their observed range. No zero medians occur and no observations are clipped.",
+    "original_source": "code/model-b/Figs-ModelB-BalanceSheetQuench.jl",
+    "original_sha256": "fc0b3d7f82bb7495a67fe283c90620903ff7504f841d55c404d468342b737ed4",
+    "revised_source": "presentation-v2/Figs-BalanceSheet.jl",
+    "revised_sha256": "665abb0352fa2388ff1a68cc783f3ff3b99dc88bdf3e3ebc1bb0ba7f67047638",
+    "simulation_changes": false,
+    "metric_changes": false
+  }
+]

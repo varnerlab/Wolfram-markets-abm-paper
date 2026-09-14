@@ -1,32 +1,28 @@
-The fraction of traders needing the new rule could depend on how many
-traders interacted and how much time their decisions had to influence
-one another. We changed the rule at five grid sizes while keeping the technical
-traders in Hold, and found that larger markets needed a smaller fraction
-of traders to receive the new rule for a majority to form
-(Fig.~\ref{fig:finite-size}). We tested additional fractions near the
-rise in majority probability to measure its position and width. After
-3,000 steps, the fraction at which half the runs reached a majority,
-$f_{50}$, fell from 0.216 at $L=32$ to 0.166 at
-$L=128$. The additional fraction needed to raise majority probability
-from 0.25 to 0.75 decreased from 0.023 [0.018, 0.027] to
-0.008 [0.004, 0.010], with brackets giving 95\% confidence
-intervals obtained by resampling the starting markets
-(Fig.~\ref{fig:finite-size}A,C; Supplementary Table~\ref{tab:finite-size-scaling}).
-We also measured variation between runs by multiplying the variance of
-the final mean Sell fraction by the number of interior traders. The maximum value of this measure, susceptibility, rose from
-21.2 to 241.2 over the
-same sizes (Fig.~\ref{fig:finite-size}B,D). Fitting smooth curves that
-required probability to increase with rule adoption placed each
-midpoint within 0.004 of the estimate from interpolation between tested
-fractions, although the fitted widths were narrower when the technical traders
-stayed in Hold (Supplementary Table~\ref{tab:revision-fits}). Allowing
-more time also changed the result: extending the $L=64$ runs from 3,000
-to 9,000 steps lowered the fraction needed for half the runs to reach a
-majority from about 0.178 to 0.167. The larger of the two endpoint grids still needed a lower fraction
-when we adjusted observation time with grid size or changed the Sell
-fraction required to count a transition, but the estimated midpoints
-kept moving in longer runs
-(Supplementary Table~\ref{tab:revision-horizons}). The sharper rise in
-majority probability on larger grids therefore described the markets
-over the time observed; it did not establish a threshold that would
-remain fixed as observation time increased.
+To determine how the spread of selling depended on the number of
+interacting traders, we compared grid sizes with technical traders held
+and found a sharper majority response on larger grids
+(Fig.~\ref{fig:finite-size}). We refined the fractions near each
+response while retaining the same starting markets. At the original
+3,000-step horizon, the interpolated fraction at which half the markets
+reached a majority, $f_{50}$, changed from 0.216 at $L=32$ to
+0.166 at $L=128$. The width separating majority probabilities
+of 0.25 and 0.75 changed from 0.023 [0.018, 0.027] to
+0.008 [0.004, 0.010], with brackets giving 95\% intervals from
+resampling whole starting markets (Fig.~\ref{fig:finite-size}A,C;
+Supplementary Table~\ref{tab:finite-size-scaling}). Variation in the
+final mean Sell fraction also changed: its variance multiplied by the
+number of interior traders, the susceptibility, had sampled maxima of
+21.2 and 241.2 at the
+endpoint sizes (Fig.~\ref{fig:finite-size}B,D). Across all size and
+feedback conditions, the largest absolute difference between logistic
+and interpolated midpoints was 0.0035, indicating the sensitivity
+of the estimate to the imposed curve shape
+(Supplementary Tables~\ref{tab:finite-size-scaling} and~\ref{tab:revision-fits}). Observation time
+remained consequential. At $L=64$, extending the held markets from
+3,000 to 9,000 steps changed the majority midpoint from
+0.178 to 0.167; alternative
+Sell thresholds and size-dependent horizons were measured separately
+(Supplementary Table~\ref{tab:revision-horizons}). The size response
+therefore described a crossover within the observation window, while
+the continued movement with time prevented its interpretation as a
+fixed threshold for indefinitely long runs.

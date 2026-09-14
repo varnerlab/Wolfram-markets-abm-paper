@@ -1,0 +1,5 @@
+target_f,seeds,control_p,treated_p,median_onset
+0.1,50,0.0,0.0,NaN
+0.15,50,0.0,0.0,NaN
+0.2,50,0.0,1.0,1070.0
+0.25,50,0.0,1.0,311.5

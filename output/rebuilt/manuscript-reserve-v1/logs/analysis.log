@@ -1,0 +1,15 @@
+('endogenous', 1.0, 32) interior points: 9 midpoint: 0.212
+('endogenous', 1.0, 48) interior points: 6 midpoint: 0.186
+('endogenous', 1.0, 64) interior points: 9 midpoint: 0.177
+('endogenous', 1.0, 96) interior points: 5 midpoint: 0.168
+('endogenous', 1.0, 128) interior points: 7 midpoint: 0.167
+('endogenous', 100.0, 32) interior points: 6 midpoint: 0.214
+('endogenous', 100.0, 48) interior points: 5 midpoint: 0.186
+('endogenous', 100.0, 64) interior points: 5 midpoint: 0.175
+('endogenous', 100.0, 96) interior points: 5 midpoint: 0.168
+('endogenous', 100.0, 128) interior points: 6 midpoint: 0.166
+('hold', 100.0, 32) interior points: 5 midpoint: 0.216
+('hold', 100.0, 48) interior points: 5 midpoint: 0.193
+('hold', 100.0, 64) interior points: 5 midpoint: 0.178
+('hold', 100.0, 96) interior points: 5 midpoint: 0.168
+('hold', 100.0, 128) interior points: 7 midpoint: 0.166

@@ -1,0 +1,6 @@
+{
+  "python_version": "3.14.2",
+  "numpy_version": "1.26.4",
+  "bootstrap_generator": "numpy.random.PCG64",
+  "bootstrap_seed": 2026091401
+}

@@ -1,0 +1,113 @@
+┌ Info: Adaptive refinement
+│   iteration = 1
+└   runs = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 100
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 200
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 300
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 400
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 500
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 600
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 700
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 800
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 900
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1000
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1100
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1200
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1300
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1400
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1500
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1600
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1700
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1800
+└   total = 1900
+┌ Info: ModelB-Revision-Refinement-Round1
+│   completed = 1900
+└   total = 1900
+┌ Info: Adaptive refinement
+│   iteration = 2
+└   runs = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 100
+└   total = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 200
+└   total = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 300
+└   total = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 400
+└   total = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 500
+└   total = 600
+┌ Info: ModelB-Revision-Refinement-Round2
+│   completed = 600
+└   total = 600
+┌ Info: Refinement interior fractions
+└   count = 9
+┌ Info: Refinement interior fractions
+└   count = 6
+┌ Info: Refinement interior fractions
+└   count = 9
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 7
+┌ Info: Refinement interior fractions
+└   count = 6
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 6
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 5
+┌ Info: Refinement interior fractions
+└   count = 7
+┌ Info: Refinement complete
+└   rows = 11500

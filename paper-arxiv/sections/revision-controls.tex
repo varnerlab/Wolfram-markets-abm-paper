@@ -1,150 +1,92 @@
 \subsection{Additional controls and sensitivity analyses}
 \label{app:revision-controls}
 
-We compared a one-time decision change with a lasting change in the
-rule used for later decisions. We also varied the response to price
-and the observation window to identify which parts of the model
-supported widespread selling. These controls were added in response to
-review and retained the original initialization and 1,000-step baseline.
-Unless specified otherwise, they used $L=64$, $\lambda=0.02$,
-$h=\infty$, and 3,000 post-intervention steps. Each simulation with a new rule or a one-time instruction to sell was
-paired with a simulation that kept the original rule. We required
-exact pre-intervention agreement of their lattice and Sell histories,
-and checked the price prehistory for financial arms. Comparisons that kept the technical traders in Hold and measured only decisions
-used a faster implementation that updated decisions without calculating
-trades or prices, using the same starting markets and decision rules. Tests matched
-its full Sell history and final grid to the market simulator, and
-1,800 overlapping archived seed/fraction outcomes also agreed. This implementation reproduced decisions when prices could not
-influence traders, but did not calculate financial outcomes.
+The supplementary controls used the same initialization and baseline as
+the main comparisons, with $L=64$, $h=100$, and 3,000 post-intervention
+steps unless otherwise specified. Every treated path had a newly
+simulated no-switch comparison. Held conditions calculated full
+financial histories as well as decisions. A Sell pulse wrote Sell
+at the target sites immediately before the first post-baseline orders,
+while retaining the baseline rule for later updates. Sites already in
+Sell were unchanged. A persistent intervention instead changed the
+selected rule without overwriting decisions, so its first price remained
+identical to the no-switch price. These paired interventions compared
+the same target fractions and starting markets under both feedback
+conditions (Supplementary Table~\ref{tab:revision-pulse}). The rule
+screen activated all eighteen ways of changing one response in the
+baseline lookup table, using twenty starting markets per condition
+and three target fractions. Each screen entry was descriptive rather
+than a separate confirmatory hypothesis test
+(Supplementary Table~\ref{tab:revision-rules}).
 
-\paragraph{A one-time decision to sell and alternative decision rules.}
-We set the selected traders to Sell once while keeping their rule for
-later decisions unchanged
-(Supplementary Table~\ref{tab:revision-pulse}). At activation, we wrote
-Sell at the rule-switch target sites before orders executed and retained
-Rule~19280 everywhere. This one-time change could therefore affect the first price after the
-intervention, whereas assigning a new rule preserved that price and
-changed later decisions. Fractions matched the number of targeted sites; sites
-already in Sell did not change state. For $f=0.15,0.20,0.25$ with the
-technical traders active or held, no pulse reached a majority in 50 seeds (0/50; Wilson
-upper bound 0.071). Persistent Rule~19286 activation yielded 0/50,
-50/50, and 50/50, respectively. The Wilson lower bound for 50/50
-was 0.929. Directing these traders to sell once therefore did not reproduce the
-majorities caused by a lasting change in their decision rule. This comparison applied to the selected traders and timing; changing
-decisions once in a different way could have different outcomes.
+The band control froze the recent-departure scale at its value immediately
+before activation, while each technical trader retained its multiplier
+and the reference price continued to update. Adaptive and frozen paths
+shared their complete pre-switch histories. The frozen widths could
+therefore differ across capacities and starting markets. At $f=0.175$,
+the estimated majority-probability difference between $h=0.1$ and
+$h=100$ was -0.06 with adaptive widths and -0.26 with
+frozen widths. Subtracting those two differences gave
+0.20, with a 95\% whole-market bootstrap interval of
+[-0.08, 0.50] (Supplementary Table~\ref{tab:revision-band}).
+This comparison changed width adaptation while retaining the response
+to departures from a moving reference price. It therefore tested one
+part of the price feedback rather than removing technical trading.
 
-The rule screen tested all 18 ways to change one entry of Rule~19280
-(Supplementary Table~\ref{tab:revision-rules}). Each of the nine
-neighbor sums had two alternative outputs. We activated each resulting
-rule at the same three fractions using 20 seeds with the technical traders
-active or held. At $f=0.20$, six rules produced majority crossings in all 20 seeds
-under each condition, while the other twelve produced none. Effective
-changes included entries $c=2,3,4,5$ as well as the selected $c=1$
-change. Every change that replaced a Buy or Hold response with Sell at
-a neighbor sum from one to five produced a majority, as did the change
-from Buy to Hold at a sum of three; the same Buy-to-Hold change at a
-sum of one or two, every change that moved a response away from Sell,
-and every change at a sum of six or more produced none. The input being altered and its replacement output therefore
-mattered even when the number of changed entries was fixed. The screen
-was descriptive and used no adjustment for multiple comparisons.
-An observed 0/20 had a Wilson upper bound of 0.161, and 20/20 had
-a lower bound of 0.839. The screen identified other rules capable
-of producing majorities over the tested window without defining
-a general rule for when a majority would form.
+Additional depth comparisons used $h=40,100,400$ at $f=0.20$ with
+active technical traders (Supplementary Table~\ref{tab:revision-impact}).
+For the reserve curve, differentiating log price with respect to
+normalized net trader purchases at initialization gives $2N_{\rm tr}/H$,
+approximately $2/h$. The chosen depths therefore spanned initial slopes
+0.05, 0.02, and 0.005. No independent exponential impact coefficient
+was varied: changing depth also changed dealer funding. These
+comparisons replaced an impact-coefficient sweep belonging to the
+superseded standing-quote model. They measured sensitivity within the
+corrected mechanism and did not hold available reserves fixed while
+changing price sensitivity. Neither the quote nor the time step was
+calibrated to an observed market.
 
-\paragraph{Fixing the width of the technical traders' band.}
-The band within which the technical traders chose Hold widened or narrowed as
-recent prices became more or less variable, allowing the same departure from
-the reference price to produce different decisions over time
-(Supplementary Table~\ref{tab:revision-band}). We held the width of this range fixed at its value immediately before
-the rule change.
-Traders retained their $k_j$ values and the moving center continued to
-update. The half-width $k_j\sigma_{1000}$ then stayed constant within
-a path, although we continued calculating recent price variation for comparison. Each run with a fixed width shared the same history as its comparison
-with an adjusting width, so the fixed values could differ across
-starting markets and capacities. At $f=0.175$, the difference in majority probability between $h=0.1$ and $h=\infty$ changed from 0.38 with adaptation
-to -0.02 with frozen widths. The difference between the adjusting-width and fixed-width
-comparisons was 0.40, with a 95\% seed-bootstrap interval
-of [0.16, 0.64]. Removing width adaptation therefore removed
-the low-capacity advantage in the point estimates. The fraction of technical traders in Sell also changed. Even with the width
-fixed, increasing capacity did not consistently raise or lower majority
-probability, and individual probability intervals were wide. Adjusting
-the width contributed to the smaller dealer's advantage but did not
-explain every effect of capacity on majority probability.
+The horizon campaign used fifty starting markets at fractions
+0.140, 0.145, through 0.250, extending to 0.300 for $L=32$ to bracket
+short-horizon responses. Held technical traders prevented financial
+feedback throughout. Endpoint comparisons used the original 3,000 steps
+and size-dependent windows $3000(L/64)^z$ for $z=1,2$, alongside longer
+observations. Majority criteria of 0.4, 0.5, and 0.6 were extracted
+from each history. Interpolation and bootstrap intervals were calculated
+separately for every size, horizon, and criterion
+(Supplementary Table~\ref{tab:revision-horizons}). The no-switch
+extension followed ten starting markets per feedback condition for
+100,000 additional steps. The observed outcomes were active technical traders: 0/10 majorities, 95\% Wilson interval [0.000, 0.278]; held technical traders: 0/10 majorities, 95\% Wilson interval [0.000, 0.278].
+These extensions reused starting markets and did not constitute
+independent replications. The observed crossing frequencies described
+the stated interval without establishing behavior at indefinitely long
+times.
 
-\paragraph{Price-impact sensitivity.}
-The price-impact coefficient determined how strongly the price changed
-when completed trader buys and sells differed (Supplementary Table~\ref{tab:revision-impact}).
-At $f=0.20$, we varied $\lambda$ over $\{0.005,0.02,0.05\}$ and
-capacity over $h\in\{0.1,1,\infty\}$. A smaller coefficient reduced
-the immediate price movement from a given imbalance. When the technical traders were active, the changed price also affected the
-bands they used to decide whether to buy, hold, or sell. All 50 runs reached a Sell majority in every tested combination. Median
-drawdown increased with capacity at each coefficient, although its
-magnitude changed by a factor of seven to ten across the coefficient
-range. Dealer resources thus
-limited the price decline across a decade of impact choices, while
-widespread selling persisted at this activation fraction throughout
-the sweep. These uncalibrated coefficients describe model sensitivity;
-they do not convert the simulated drawdowns into estimates for an
-empirical market. Both the number of unmatched orders the dealer could fill and the
-price change assigned to those trades determined the size of the
-price decline.
+We also characterized the shared pre-switch histories at $h=100$ with
+active technical traders. Across the fifty starting markets, mean
+interior Sell fractions were 0.2494 over
+steps 501--750 and 0.2504 over steps
+751--1,000. In the latter interval, the median within-market log-return
+standard deviation was 0.000323, and
+median within-market first and ninety-ninth percentiles were
+-0.000730 and
+0.000729. The mean fraction of exactly
+zero computed log returns was 0.007.
+These summaries described the starting markets without establishing
+stationarity or matching a calibrated empirical return distribution.
+The post-switch no-change comparisons separately measured baseline
+financial variation across dealer depths
+(Supplementary Table~\ref{tab:paired-switch}).
 
-\paragraph{Observation time and the fraction of traders required to sell.}
-A longer observation window gave the altered local dynamics more time
-to reach the selected Sell fraction
-(Supplementary Table~\ref{tab:revision-horizons}). Checks with the
-technical traders held used 50 seeds on $f=0.140,0.145,\ldots,0.250$, extended to 0.300 at
-$L=32$ to bracket the short-horizon response. We compared the original
-3,000 steps with $T_{\rm post}=3000(L/64)^z$ for $z=1,2$ at the
-endpoint sizes. These windows were 1,500 and 750 steps at $L=32$,
-and 6,000 and 12,000 at $L=128$. Both scalings preserved the ordering
-of endpoint midpoints. At $L=64$, increasing the horizon from 3,000
-to 9,000 steps lowered the majority midpoint from about 0.178 to 0.167.
-Longer endpoint runs likewise continued to move the curve. Changing
-the crossing criterion to 0.4 or 0.6 retained the endpoint ordering
-and downward drift with time. At $L=64$ and 3,000 steps, the three
-criteria gave midpoints of approximately 0.172, 0.178, and 0.186.
-The qualitative size response persisted, but the numerical midpoint
-depended on both the criterion and horizon. Neither these comparisons
-nor the final 500-step mean established equilibration at any size.
-
-\paragraph{Baseline characterization and long no-switch paths.}
-The pre-switch paths remained mixed, with similar mean Sell occupancy
-in the two windows preceding activation. Across 50 unlimited-dealer
-seeds with the technical traders active, the mean interior Sell fraction was
-0.2494 over steps 501--750 and
-0.2503 over steps 751--1,000. In the
-latter window, the median within-seed return standard deviation was
-$0.0003$, and the median within-seed
-1st and 99th percentiles were $-0.00068$
-and $0.00066$. The mean zero-return
-fraction was 0.006. These summaries described the starting markets without showing that
-their statistical properties had stopped changing or matched an
-observed market. We extended the first ten production seeds
-under each technical-trader condition for 100,000 additional no-switch steps. None
-crossed a majority (0/10 per condition; Wilson upper bound 0.278
-for the ensemble event probability). The extension followed existing
-seeds and was not an independent replication. It showed that those
-paths remained below a majority over that longer interval, while
-leaving global stability and the distinction between temporary patterns and patterns that would persist indefinitely
-unresolved.
-
-\paragraph{Fit and grid uncertainty.}
-A monotone logistic curve supplied a second estimate of transition
-midpoint and width alongside empirical interpolation
-(Supplementary Table~\ref{tab:revision-fits}). Interpolation used
-the first upward crossing of each target probability and allowed
-local decreases in the sampled curve. The logistic fit imposed a
-monotone response as a working shape model. Both analyses used 2,000
-bootstrap replicates that resampled whole seeds across fractions.
-Keeping each seed together preserved the dependence arising from
-shared initialization, so standard errors reflected seed variation
-without treating fractions as independent observations. Each
-susceptibility replicate reselected the maximum over the sampled grid.
-Its location remained a sampled fraction with finite local resolution.
-The resulting intervals measured uncertainty conditional on the refined
-grid and observation horizon. They did not account for discretization
-error, adaptive-grid selection uncertainty, or changes caused by
-extending the horizon. No susceptibility exponent was estimated from
-these finite-size summaries.
+The refined finite-size analysis resampled entire starting markets across
+fractions in 2,000 bootstrap replicates. The empirical estimate used the
+first upward crossing and allowed local decreases in probability, while
+the logistic fit imposed a smooth increasing response
+(Supplementary Table~\ref{tab:revision-fits}). Each replicate reselected
+the susceptibility maximum over the sampled grid. Consequently,
+intervals included variation in which sampled fraction supplied that
+maximum, but not interpolation bias, uncertainty from selecting the
+refinement grid, or changes from observing for longer. The recorded
+valid-bootstrap fraction identified samples in which the requested
+crossings remained bracketed. No susceptibility exponent or
+infinite-size limit was fitted.

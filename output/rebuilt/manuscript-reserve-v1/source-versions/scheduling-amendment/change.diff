@@ -1,0 +1,11 @@
+--- code/revision/Revision-Lib.jl (before)
++++ code/revision/Revision-Lib.jl (after)
+@@ -97,7 +97,7 @@
+     mkpath(dir)
+     paths = [joinpath(dir, "$(i).csv") for i in eachindex(jobs)]
+     done = Threads.Atomic{Int}(0)
+-    Threads.@threads :dynamic for i in eachindex(jobs)
++    Threads.@threads :greedy for i in eachindex(jobs)
+         path = paths[i]
+         if isfile(path)
+             cached = CSV.read(path, DataFrame)

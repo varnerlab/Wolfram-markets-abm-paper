@@ -1,4 +1,5 @@
 # Simulate.jl — Model A and Model B simulation loops
+include(joinpath(@__DIR__, "ReserveClearing.jl"))
 
 # ---------------------------------------------------------------------------
 # Internal helpers
@@ -287,8 +288,15 @@ function execute_orders!(
     market_maker::Union{Nothing,MyMarketMaker} = nothing,
     seed::Int64 = 0,
     step::Int64 = 1,
+    trace::Union{Nothing,MyOrderTrace} = nothing,
 )
     nrows, ncols = size(grid)
+    if !isnothing(trace)
+        for buffer in (trace.desired, trace.eligible, trace.filled)
+            size(buffer) == size(grid) || throw(DimensionMismatch("order trace and grid sizes differ"))
+            fill!(buffer, 0)
+        end
+    end
     buyers = NTuple{3,Int64}[]
     sellers = NTuple{3,Int64}[]
     supp_b = 0
@@ -297,8 +305,10 @@ function execute_orders!(
 
     for r in 2:nrows-1, c in 2:ncols-1
         order = compute_desired_order(grid[r, c])
+        isnothing(trace) || (trace.desired[r, c] = order)
         order == 0 && continue
         if _agent_order_is_eligible(books, r, c, order, P, cost_basis_rule)
+            isnothing(trace) || (trace.eligible[r, c] = order)
             candidate = (Int64(r), Int64(c), Int64(linear[r, c]))
             order == 1 ? push!(buyers, candidate) : push!(sellers, candidate)
         else
@@ -307,8 +317,10 @@ function execute_orders!(
     end
     for (i, (r, c)) in enumerate(edge_coordinates)
         order = compute_desired_order(edge_states[i])
+        isnothing(trace) || (trace.desired[r, c] = order)
         order == 0 && continue
         if _agent_order_is_eligible(books, r, c, order, P, cost_basis_rule)
+            isnothing(trace) || (trace.eligible[r, c] = order)
             candidate = (Int64(r), Int64(c), Int64(linear[r, c]))
             order == 1 ? push!(buyers, candidate) : push!(sellers, candidate)
         else
@@ -340,10 +352,12 @@ function execute_orders!(
     for i in 1:fill_b
         r, c, _ = buyers[i]
         _settle_agent_order!(books, r, c, 1, P)
+        isnothing(trace) || (trace.filled[r, c] = 1)
     end
     for i in 1:fill_s
         r, c, _ = sellers[i]
         _settle_agent_order!(books, r, c, -1, P)
+        isnothing(trace) || (trace.filled[r, c] = -1)
     end
 
     if !isnothing(market_maker)
@@ -445,6 +459,13 @@ function simulate(
     return MySimulationResult(frames, price_data, net_imbal, edge_states)
 end
 
+market_trace(::AbstractMarketObserver) = nothing
+market_initialize!(::AbstractMarketObserver, config, grid, books, edges, dealer) = nothing
+market_before_step!(::AbstractMarketObserver, t, grid, books, price, mu, sigma, dealer) = nothing
+market_after_execution!(::AbstractMarketObserver, t, grid, books, price, counts, dealer) = nothing
+market_ca_step(::AbstractMarketObserver, t, grid, world, agents, major) =
+    _ca_step(grid, world, agents, major)
+
 # ---------------------------------------------------------------------------
 # Model B — closed simulation (endogenous price → edge agents → price)
 # ---------------------------------------------------------------------------
@@ -509,6 +530,13 @@ Arguments
                   before this step; the center and diagnostic deviation continue
                   updating. The pre-intervention path is unchanged.
 - verbose       : show a ProgressMeter bar (default true)
+- observer      : optional decision/measurement observer. It runs before orders
+                  and after settlement/repricing; legacy state histories still
+                  describe the end-of-step local update.
+- clearing      : `:legacy` reproduces the archived standing-quote model, which
+                  permits profitable round trips. `:reserve` uses a finite
+                  constant-product dealer, actual-price eligibility, and the
+                  final reserve ratio as price; lambda does not apply.
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
 conventions (state-like: steps+1; transition-like: steps).
@@ -523,8 +551,12 @@ function simulate(
     boundary_mode::Symbol = :endogenous,
     activation_action::Symbol = :rule,
     fixed_band_step::Union{Nothing, Int64} = nothing,
+    observer::Union{Nothing,AbstractMarketObserver} = nothing,
+    clearing::Symbol = :legacy,
     verbose::Bool = true,
 )::MyModelBSimulationResult
+
+    clearing in (:legacy,:reserve) || throw(ArgumentError("unknown clearing mechanism"))
 
     boundary_mode in (:endogenous, :hold) ||
         throw(ArgumentError("boundary_mode must be :endogenous or :hold"))
@@ -580,7 +612,11 @@ function simulate(
     books     = build_agent_books(config)
     n_edge    = length(edge_coordinates)
     N_traders = (nrows - 2) * (ncols - 2) + n_edge
-    market_maker = build_market_maker(config, Int64(N_traders))
+    market_maker = clearing==:reserve ? build_reserve_dealer(config,Int64(N_traders)) :
+                                       build_market_maker(config,Int64(N_traders))
+    isnothing(observer) || market_initialize!(observer, config, grid, books,
+                                             edge_coordinates, market_maker)
+    order_trace = isnothing(observer) ? nothing : market_trace(observer)
 
     # Output containers
     prices           = Vector{Float64}(undef, steps + 1)
@@ -654,13 +690,16 @@ function simulate(
 
         # --- optional intervention mutates the books before this step trades ---
         isnothing(intervention) || intervention(t, books)
+        isnothing(observer) || market_before_step!(observer, t, grid, books,
+                                                   prices[t], μ, σ, market_maker)
 
         # --- desired orders are filtered through the books and settled
         #     at the standing quote P_{t-1} ---
-        counts = execute_orders!(books, grid, edge_coordinates, edge_now, prices[t];
+        execute = clearing==:reserve ? execute_reserve_orders! : execute_orders!
+        counts = execute(books, grid, edge_coordinates, edge_now, prices[t];
                                  cost_basis_rule = config.cost_basis_rule,
                                  market_maker = market_maker,
-                                 seed = config.seed, step = Int64(t))
+                                 seed = config.seed, step = Int64(t), trace = order_trace)
         executed_buys[t]    = counts.executed_buys
         executed_sells[t]   = counts.executed_sells
         suppressed_buys[t]  = counts.suppressed_buys
@@ -675,9 +714,11 @@ function simulate(
         # --- the EXECUTED imbalance generates the next price ---
         φ                = (counts.executed_buys - counts.executed_sells) / N_traders
         net_imbalance[t] = φ
-        P                = prices[t] * exp(λ * φ)
+        P                = clearing==:reserve ? counts.next_price : prices[t] * exp(λ * φ)
         prices[t + 1]    = P
-        log_returns[t]   = λ * φ
+        log_returns[t]   = clearing==:reserve ? log(P/prices[t]) : λ * φ
+        isnothing(observer) || market_after_execution!(observer, t, grid, books,
+                                                       P, counts, market_maker)
 
         # --- online EMA / volatility observe the NEW price ---
         μ = μ + α * (P - μ)
@@ -707,7 +748,8 @@ function simulate(
         _set_edge_states!(grid, edge_coordinates, edge_now)
 
         # --- CA updates the interior grid ---
-        grid = _ca_step(grid, world, agents, rule_major)
+        grid = isnothing(observer) ? _ca_step(grid, world, agents, rule_major) :
+               market_ca_step(observer, t, grid, world, agents, rule_major)
         buy_fraction[t + 1], hold_fraction[t + 1], sell_fraction[t + 1] =
             compute_interior_fractions(grid)
 

@@ -1,0 +1,56 @@
+{
+  "updated_utc": "2026-09-14T16:43:27.935274+00:00",
+  "active_campaigns": [],
+  "assessment": "ASSESSMENT.md",
+  "verification": "verification.json",
+  "reserve-v1-full": {
+    "status": "superseded_retained",
+    "saved_blocks": 400,
+    "total_blocks": 400,
+    "summary_ready": true,
+    "planned_runs": 1600
+  },
+  "following-reserve-v1-pilot": {
+    "status": "superseded_retained",
+    "saved_blocks": 14,
+    "total_blocks": 80,
+    "summary_ready": false,
+    "planned_runs": 880
+  },
+  "reserve-v2-full": {
+    "status": "complete_verified",
+    "saved_blocks": 400,
+    "total_blocks": 400,
+    "summary_ready": true,
+    "planned_runs": 1600
+  },
+  "following-reserve-v2-pilot": {
+    "status": "complete_verified",
+    "saved_blocks": 80,
+    "total_blocks": 80,
+    "summary_ready": true,
+    "planned_runs": 880
+  },
+  "transmission-v1-pilot": {
+    "status": "complete_verified",
+    "saved_blocks": 80,
+    "total_blocks": 80,
+    "summary_ready": true,
+    "planned_runs": 1040,
+    "assessment": "transmission-v1-pilot/ASSESSMENT.md",
+    "verification": "transmission-v1-pilot/verification.json"
+  },
+  "transmission-confirmation-v1-full": {
+    "status": "complete_verified",
+    "saved_blocks": 400,
+    "total_blocks": 400,
+    "summary_ready": true,
+    "planned_runs": 5200,
+    "protocol": "../../docs/superpowers/specs/2026-09-14-reserve-transmission-confirmation.md",
+    "assessment": "transmission-confirmation-v1-full/ASSESSMENT.md",
+    "verification": "transmission-confirmation-v1-full/verification.json",
+    "primary_confirmed": true,
+    "markets": 50
+  },
+  "latest_assessment": "transmission-confirmation-v1-full/ASSESSMENT.md"
+}

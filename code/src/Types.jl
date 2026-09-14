@@ -223,6 +223,20 @@ struct MyAgentBooks
     avg_cost::Matrix{Float64}
 end
 
+"""Optional per-trader order records: +1 buy, -1 sell, 0 no order/fill."""
+struct MyOrderTrace
+    desired::Matrix{Int8}
+    eligible::Matrix{Int8}
+    filled::Matrix{Int8}
+end
+
+MyOrderTrace(nrows::Integer, ncols::Integer) =
+    MyOrderTrace(zeros(Int8, nrows, ncols), zeros(Int8, nrows, ncols),
+                 zeros(Int8, nrows, ncols))
+
+"""An optional observer may supply decisions and collect financial diagnostics."""
+abstract type AbstractMarketObserver end
+
 """
     MyMarketMaker
 
@@ -256,7 +270,7 @@ State-like series (length steps+1, index 1 = t=0): prices, ema_price,
 ema_volatility, band_lower, band_upper (nominal-k band, for plotting),
 buy_fraction, hold_fraction, sell_fraction, total_cash, total_shares.
 Transition-like series (length steps, index t = step t): log_returns
-(= λ·φ_{t-1}), net_imbalance (EXECUTED imbalance φ_{t-1}, the value that
+(= λ·φ_{t-1} only under legacy clearing), net_imbalance (EXECUTED imbalance φ_{t-1}, the value that
 generated P_t), edge_buy_count/edge_hold_count/edge_sell_count (counts of
 e_{i,t} over active edge agents), executed_buys, executed_sells,
 suppressed_buys, suppressed_sells, market_maker_rejected_buys, and

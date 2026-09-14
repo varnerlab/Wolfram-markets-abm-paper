@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-09-14T16:40:23.271383+00:00",
+  "source_digest": "961c3f5bdddbf5e9e98e83ef2c394df5b3641b7d4b3978553bb1735a4df1e5cc",
+  "summary_digest": "1bc63506d3efe30bd0698ea9c7e05af1fd29a95c86c2d8fc5901fa44eb9e1a28",
+  "artifacts": {
+    "Grouped.csv": "06ae571d80f64c912c5ad7bf8ee53d55a004257505993f8f60c777c90625d128",
+    "Contrasts.csv": "332f8f5d374b405d5db114bf20853a5364993c0b20acb01df871ff238eec40d0",
+    "Source-contrasts.csv": "cb2d822fd62035511e83e56e701a88ed3c885100a69e58793a8c9d503855329b",
+    "Primary-markets.csv": "47fb75910bfe81f391f6b6d5e5b5ca7c090e20ae5d52af38fa079a87631d47b1",
+    "Primary-bootstrap.csv": "8f4d702e67a2db6ce3f09cc4b7c8c961dda912297eda18b763b11753845a0453",
+    "Primary.json": "0ac0a10387df27c58330c801ca8824844b899371f00c2aa6dc2d5cf3ef68c87e",
+    "report.md": "030b71111c2f7476577adaade08bc04f383cd960017125756dd345f038d738f9"
+  }
+}

@@ -1,0 +1,152 @@
+% discussion.tex -- Discussion
+\section{Discussion}
+
+Changes in investor decision rules generated market instability, while
+available trading resources determined whether the shift toward selling
+accompanied a small decline or a price crash. When enough traders received a
+new rule for responding to their neighbors, a majority entered Sell even
+though the remaining traders kept their original rules. The new rule
+remained in place when a selected trader stopped selling, so the changed
+response applied whenever the same combination of neighboring decisions
+occurred again. Asking those traders to sell once changed only their current
+decision and produced no majority in the 50 runs tested for each condition.
+Keeping Rule~19286 in use produced a majority in every run at the two larger
+fractions, and several other changes to a single response also produced
+majorities, although most rules tested did not. Widespread selling therefore
+depended on which response changed as well as on how many traders received
+the new rule. Comparing markets with identical histories isolated the effect
+of the rule change. Repeating that comparison across starting markets then
+measured how often a majority formed at each fraction of traders given the
+new rule.
+
+Market instability could develop through neighboring traders' decisions
+without traders responding to a price change. Keeping the technical traders in
+Hold removed the influence of price on decisions inside the grid, yet Sell
+majorities still developed. In the displayed runs that reached a majority,
+groups of sellers formed, enlarged, and joined together. Local decisions
+thus produced growing spatial patterns, as occurs in other models of
+interacting sites away from
+equilibrium~\cite{hinrichsen2000nonequilibrium,bray1994theory}. The
+dependence on the fraction of traders given the new rule resembled models in
+which the size of an initially changed group determines whether a change
+spreads across a
+population~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp}.
+The fraction needed for a majority depended on both the number of
+interacting traders and the time allowed. On larger grids, the probability
+rose from low to high over a narrower range of rule adoption, but allowing
+more time continued to lower the fraction at which half the runs reached a
+majority. Extending the displayed markets also showed that a market without
+a Sell majority at the original endpoint could later develop one alongside
+a large price decline (Fig.~\ref{fig:dose-panels}). The persistence of mixed
+decisions over a shorter period therefore did not establish lasting price
+stability. We did not identify a threshold that would remain fixed
+in larger markets or longer runs. Establishing such a limit would require
+the estimates to stop changing with observation time and a mathematical
+model for their dependence on grid
+size~\cite{binder1981finite,landau2021guide}. The growing groups suggested an analogy with droplets forming in a
+phase change, but their appearance did not establish the physical
+mechanism of classical nucleation. We did not identify an energy
+barrier, a formation rate, surface tension, or a critical group size
+that separated growth from decay.
+
+The link between market instability and a price crash depended on whether
+investors could carry out their decisions. Traders first needed cash to buy
+or shares to sell, after which buy and sell orders were matched between
+traders. The dealer completed remaining orders only while its cash and share
+limits allowed. These limits connect the model to accounts of how dealer
+holdings affect
+trading~\cite{garman1976market,stoll1978supply,ho1981optimal,braunmunzinger2018agent}.
+Only the difference between completed trader buys and sells changed the
+price~\cite{kyle1985continuous,farmer2005predictive,bouchaud2009how}.
+Without dealer capacity, equal numbers of completed buys and sells left the
+price fixed, whereas unlimited capacity allowed every order backed by trader
+resources to complete. Runs from the same illustrated starting market
+consequently reached a Sell majority with either a 0.40\% or a 25.8\% drawdown (Fig.~\ref{fig:dealer-panels}). At 18\% rule adoption with the original cash holdings, tenfold
+trader shares produced an 83.5\% median drawdown against the unlimited
+dealer, but limited capacity held the corresponding drawdowns to 3.92\% or 0.399\% (Fig.~\ref{fig:balance-sheet}). More shares allowed traders to place more sell orders, but selling
+beyond what other traders bought lowered the price only while the dealer
+could continue buying. A market dominated by sellers therefore did not
+determine the severity of the crash on its own, because the price fell only
+as far as someone was able to buy.
+
+Completed trades changed the price, which could then influence later
+decisions through the technical traders. At $f=0.175$, capacity $h=0.1$ raised majority probability by 38 percentage points relative to the unlimited dealer (Fig.~\ref{fig:reservoir}). The technical traders compared the price with a moving average and adjusted
+the width of the band that triggered buying or selling. Keeping this
+required departure fixed at its value before the rule change removed the
+smaller dealer's advantage in the estimated probabilities, linking the advantage to the technical traders adjusting their bands (Supplementary Table~\ref{tab:revision-band}). The reference price
+still changed, as did trader and dealer holdings, and the fixed departures
+still differed across starting markets and capacities. Increasing capacity
+also continued to produce both increases and decreases in majority
+probability, so this adjustment did not explain the entire effect of dealer
+capacity. Changing how strongly trades moved the price gave another limit on
+the interpretation: larger dealers still produced larger drawdowns across a
+tenfold range of price-impact coefficients, but drawdown magnitudes changed by a factor of seven to ten (Supplementary Table~\ref{tab:revision-impact}). Limiting completed trades could therefore
+reduce drawdown while the resulting price changes made a Sell majority more
+likely. The two outcomes measured how many traders decided to sell and how
+far completed trades lowered the price. A Sell majority alone was
+insufficient to identify a price crash.
+
+The model differed from established agent-based markets in where traders
+interacted and in what was changed. In the minority game, every trader reads
+the same record of past outcomes, keeps a score for each of its strategies,
+and uses the one that would have done best, so traders interact only through
+the market outcome and the main control parameter is the number of
+distinguishable histories relative to the number of
+traders~\cite{challet1997minority,challet2000modeling}. In the Santa Fe
+artificial stock market, traders learn forecasting rules from a shared price
+and dividend~\cite{lebaron1999time}; adding technical rules to a trader's
+repertoire was a dominant strategy that lowered wealth and raised volatility
+for all~\cite{joshi1999technical}, and the rate at which traders revised
+their rules settled at an equilibrium that left earnings below what slower
+revision would have produced~\cite{joshi2002financial}. Models with
+chartists and fundamentalists let traders move between the two groups at
+rates set by recent profits or by the opinions of
+others~\cite{lux1999scaling,brock1998heterogeneous,kirman1993ants}. Lattice
+and cellular-automaton markets restricted influence to neighbors, but each
+trader imitated its neighbors with some probability or responded to a spin
+coupling at a set temperature, and the traders who used the price were
+spread through the
+grid~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance,fan2009effect,atman2012influence}.
+Wolfram's one-dimensional market and a later model built on Rule~110 used
+deterministic rules and set the price from the numbers of buyers and
+sellers~\cite{wolfram2002new,valsan2022on}. In each of these models a change
+in behavior entered through learning or through a parameter applied to the
+whole market, and its effect was read from the statistics of returns. Here
+every trader kept a fixed rule, the intervention changed one entry of the
+rule table for a chosen fraction of traders, and the outcome was compared
+with a market that shared the same history. Only the technical traders on
+the edge decided from the price, so the same rule change could be tested
+with those traders active and held. Orders needed cash or shares and were
+completed by other traders or by a dealer with limited holdings, so a Sell
+majority and a price crash were measured separately. These choices gave up
+the learning and strategic behavior of established models in exchange for a
+rule space that can be enumerated and an intervention that can be repeated
+exactly. The questions answered were correspondingly narrower: not whether
+technical trading emerges or whether the market becomes efficient, but how
+many traders had to change a rule before the population tipped, and whether
+that tip required the price.
+
+Several modeling choices limit how far these conclusions extend. Traders
+followed assigned decision rules rather than learning a strategy or choosing
+one to maximize returns. They updated together on a regular grid using one
+original rule, and different combinations of neighboring decisions could
+have the same sum and therefore produce the same response. Testing changes
+to this lookup table did not cover all possible ways to respond to
+neighboring traders. The technical traders followed one contrarian band
+rule and occupied only the edge of the grid, so trend-following rules and
+technical traders inside the grid were not examined. Each order requested one share at a common price, and
+the dealer had no strategy for setting prices or managing risk. It could
+replenish cash only by selling shares and replenish shares only by buying
+them. The model included resource limits but no record of outstanding orders
+at different prices, and its price response and time steps were not
+calibrated to an observed market. Its simulated crashes therefore did not
+predict the timing or magnitude of actual market crashes. Ten runs with the original decision rule in each condition, with the
+technical traders either active or kept in Hold, remained below a Sell majority for 100,000 additional steps (Appendix~\ref{app:revision-controls}). This
+extended the observed persistence of mixed decisions without establishing
+that it would continue indefinitely, and neither the 1,000-step initial
+period nor the final 500-step average established that the distribution of
+market states had stopped changing. Updating traders at different times,
+using other decision rules, or adding an order book would allow the same
+question to be examined under different assumptions: how investor decisions
+destabilize a market, and what determines whether that instability
+accompanies a crash.

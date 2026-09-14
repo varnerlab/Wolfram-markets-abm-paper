@@ -1,0 +1,14 @@
+{
+  "verified_utc": "2026-09-14T16:08:02.835610+00:00",
+  "runs": 52,
+  "blocks": 4,
+  "markets": 1,
+  "pilot_replays": 0,
+  "held_mask_identities": 8,
+  "identical_masked_advice": 16,
+  "withdrawal_prefix_identities": 16,
+  "maximum_dealer_cash_difference": 2.0954757928848267e-09,
+  "maximum_total_trader_cash_difference": 3.8198777474462986e-10,
+  "source_digest": "b10677ec94a807918f4975812fcb550c3858e26f8aea6db252979f26bbddc7a5",
+  "summary_digest": "8d63898e49d6bb4e01a56ace9c66630809337d023b6526760c88efdb594bcf26"
+}

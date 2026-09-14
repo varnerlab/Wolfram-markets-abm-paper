@@ -1,0 +1,15 @@
+{
+  "state": "complete",
+  "completed_utc": "2026-09-14T20:31:41.699805+00:00",
+  "ledger_simulations": 51056,
+  "verification_sha256": "113f49689cd59d0229201efd7844554ec9ae4011e427dbe2afae2000b05a3b8a",
+  "build_sha256": "7b0a54291e7d47b08779f93bb72c7cbd4744a9e247c8a19c4353c1cec55693dd",
+  "artifact_manifest_sha256": "b39145159073d8d624c8de6fa16e9275be756536af8295f39fa12a06cd027e1a",
+  "staged_pdf_sha256": "b32eeb8d6caa37b1fe678603a689c8d7f0993035ffc9f9bf4fddbc637fd75d17",
+  "installed": true,
+  "archive": "manuscript-reserve-v1-source-and-results.tar.gz",
+  "archive_sha256": "5c78bbfe3b3ce54f0c10616604055326c83e16a758f05ae3e8759a9646bfceb6",
+  "archive_bytes": 15669131,
+  "archived_files": 309,
+  "restart_checkpoints_in_archive": false
+}

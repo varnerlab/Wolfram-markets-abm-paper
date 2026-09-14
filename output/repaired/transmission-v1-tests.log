@@ -1,0 +1,6 @@
+Test Summary:                                                          | Pass  Total  Time
+mask keeps submitted advice orders and removes held local transmission |   68     68  0.4s
+Test Summary:                                                         | Pass  Total  Time
+detailed exit matches prior liquidation and accounts for every trader |   40     40  0.1s
+Test Summary:                                                      | Pass  Total  Time
+complete controls reproduce serial execution and checkpoint resume |   12     12  4.8s

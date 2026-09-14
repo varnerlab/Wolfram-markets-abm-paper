@@ -1,0 +1,7 @@
+julia_version = "1.12.7"
+git_revision = "a03ac52257599ff7c6b22cc078a543ec217dcd4c"
+source_digest = "bb315ebe14ef13687bce559bfda08633ef72502c30f7e2522511e4c1e324f5a9"
+created_utc = "2026-09-13T18:23:17.835"
+environment_digest = "c7c715217530b2475a4ac638d4d21285085480cba19ec523051e888a6619cf4c"
+manifest_digest = "0a6b56b26780ff2133c81d5617f6f9c246288ed13d504faec777ec0ff4e4fcdb"
+protocol_version = "following-v1"

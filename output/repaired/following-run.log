@@ -1,0 +1,82 @@
+
+[90645] signal 2: Interrupt: 2
+in expression starting at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:97
+_setindex! at ./array.jl:991 [inlined]
+setindex! at ./array.jl:986 [inlined]
+market_after_execution! at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/FollowingMetrics.jl:56
+unknown function (ip: 0x11a511197) at (unknown file)
+#simulate#41 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:720
+simulate at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:544 [inlined]
+#run_following#95 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:183 [inlined]
+run_following at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:181
+unknown function (ip: 0x11a3985c3) at (unknown file)
+reserve_following_block at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:50
+macro expansion at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:86 [inlined]
+#compute_reserve_following##8 at ./threadingconstructs.jl:279
+#compute_reserve_following##6 at ./threadingconstructs.jl:246 [inlined]
+#threading_run##0 at ./threadingconstructs.jl:178
+unknown function (ip: 0x119f48137) at (unknown file)
+jl_apply at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/julia.h:2394 [inlined]
+start_task at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/task.c:1253
+unknown function (ip: 0x0) at (unknown file)
+sig_match_fast at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/gf.c:4045 [inlined]
+jl_lookup_generic_ at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/gf.c:4126 [inlined]
+ijl_apply_generic at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/gf.c:4210
+#23 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:57
+#_bool##0 at ./reduce.jl:1054 [inlined]
+MappingRF at ./reduce.jl:92 [inlined]
+_foldl_impl at ./reduce.jl:54 [inlined]
+foldl_impl at ./reduce.jl:40 [inlined]
+mapfoldl_impl at ./reduce.jl:36 [inlined]
+_mapreduce_dim at ./reducedim.jl:331 [inlined]
+#mapreduce#750 at ./reducedim.jl:326 [inlined]
+mapreduce at ./reducedim.jl:326 [inlined]
+#_sum#760 at ./reducedim.jl:984 [inlined]
+_sum at ./reducedim.jl:984 [inlined]
+#sum#758 at ./reducedim.jl:980 [inlined]
+sum at ./reducedim.jl:980 [inlined]
+_simple_count at ./reduce.jl:1085 [inlined]
+_count at ./reducedim.jl:411 [inlined]
+#count#754 at ./reducedim.jl:409 [inlined]
+count at ./reducedim.jl:409 [inlined]
+excess at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:57
+unknown function (ip: 0x119f90527) at (unknown file)
+#execute_reserve_orders!#15 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:70
+execute_reserve_orders! at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:20 [inlined]
+#simulate#41 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:699
+simulate at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:544 [inlined]
+#run_following#95 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:183 [inlined]
+run_following at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:181
+unknown function (ip: 0x11a3985c3) at (unknown file)
+reserve_following_block at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:50
+macro expansion at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:86 [inlined]
+#compute_reserve_following##8 at ./threadingconstructs.jl:279
+#compute_reserve_following##6 at ./threadingconstructs.jl:246 [inlined]
+#threading_run##0 at ./threadingconstructs.jl:178
+unknown function (ip: 0x119f48137) at (unknown file)
+jl_apply at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/julia.h:2394 [inlined]
+start_task at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/task.c:1253
+unknown function (ip: 0x0) at (unknown file)
+== at ./promotion.jl:637 [inlined]
+iterate at ./range.jl:921 [inlined]
+#execute_reserve_orders!#15 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:49
+execute_reserve_orders! at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/ReserveClearing.jl:20 [inlined]
+#simulate#41 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:699
+simulate at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/src/Simulate.jl:544 [inlined]
+#run_following#95 at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:183 [inlined]
+run_following at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/following/Following-Lib.jl:181
+unknown function (ip: 0x11a3985c3) at (unknown file)
+reserve_following_block at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:50
+macro expansion at /Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/code/repaired/Compute-Following-Pilot.jl:86 [inlined]
+#compute_reserve_following##8 at ./threadingconstructs.jl:279
+#compute_reserve_following##6 at ./threadingconstructs.jl:246 [inlined]
+#threading_run##0 at ./threadingconstructs.jl:178
+unknown function (ip: 0x119f48137) at (unknown file)
+jl_apply at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/julia.h:2394 [inlined]
+start_task at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-R17H3W25T9.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-R17H3W25T9-1/julialang/julia-ci/src/task.c:1253
+unknown function (ip: 0x0) at (unknown file)
+_platform_memmove at /usr/lib/system/libsystem_platform.dylib (unknown line)
+unknown function (ip: 0x0) at (unknown file)
+__psynch_cvwait at /usr/lib/system/libsystem_kernel.dylib (unknown line)
+unknown function (ip: 0x0) at (unknown file)
+Allocations: 15805064871 (Pool: 15805064010; Big: 861); GC: 10878

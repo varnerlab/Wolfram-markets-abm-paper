@@ -1,5 +1,15 @@
 # House Style: Wolfram Markets Manuscript
 
+**Model status, 14 September 2026:** the corrected manuscript uses finite
+constant-product reserve clearing. The complete clean rerun is recorded in
+[the rebuild workflow](code/rebuild/README.md) and
+[its protocol](docs/superpowers/specs/2026-09-14-clean-manuscript-rerun.md).
+The corrected manuscript is installed, with 51,056 completed simulation
+records, six regenerated figures, and eleven tables. All 29 PDF pages were
+visually reviewed; the source package passed an isolated compile. Earlier
+standing-quote financial conclusions are archived and must not be restored.
+The language conventions below apply to the corrected model.
+
 This guide records the writing, structure, and verification conventions for
 *Local rule activation and dealer capacity in a cellular automaton market*
 (`paper-arxiv/Paper_v1.tex`). Apply it to every prose edit, every response to
@@ -23,10 +33,10 @@ interpretable quantities (steps, percentages, probabilities, ratios) over
 fitted constants. Show the evidence rather than assert it.
 
 Prefer concrete verbs and nouns over abstract or pseudo-technical phrasing.
-Write "the dealer rejected the unmatched sells that exceeded its capacity,"
+Write "the dealer rejected orders that could not clear at the selected price,"
 not "residual flow was constrained by intermediary balance-sheet limits."
-Write "a lattice full of sellers lowered the price only as far as someone
-was able to buy," not "price impact was bounded by counterparty absorption."
+Explain how the reserve curve changes the price of completed trades. Do not
+use the archived claim that a small dealer mechanically contains a crash.
 
 ### Plain-English check
 
@@ -58,10 +68,13 @@ and 19286 returns Sell. The intervention is a paired mid-run rule switch at a
 fraction f of interior sites after 1,000 baseline steps, with no reset of any
 dynamic state; the matched arm keeps every site on the baseline rule. The
 held control removes price feedback by keeping the technical traders at
-Hold. Dealer capacity h (net units per trader, 0 to 10 and unlimited) limits
-the unmatched flow that can execute. Four production campaigns, 30,550
-simulations, 50 seeds each, plus the supplementary controls added in the
-peer-review revision.
+Hold. Dealer capacity h specifies initial reserve shares per trader; the
+constant-product curve determines the common execution price and next
+marginal quote. Depth changes both funding and price sensitivity. Four
+main campaigns contain 30,550 simulations, with 50 starting markets per
+condition. The complete fixed design contains 45,910 simulations before
+adaptive refinement and selected trajectory reruns. Every retained held
+condition is recomputed with full financial bookkeeping.
 
 The central theme is investor decision-making, market instability, and
 market crashes: how a change in some traders' decision rules shifts a market
@@ -116,11 +129,9 @@ prior-work citation.
 (cite clusters of 6 to 12 keys are welcome in the first three). P1: empirical
 record and named episodes, the modeling literature, the gap. P2: the model
 family and why a lookup table makes a persistent behavioral change precise.
-P3: execution constraints, the second question. P4 begins "In this study,"
-gives the study-level question, then approach, principal evidence,
-interpretation, and a one-sentence thesis. P4 carries the headline numbers
-and cites where they live (the abstract is number-free, so the Introduction
-is the first place a number appears and it must point to a table or figure).
+P3: execution and reserve pricing, the second question. P4 begins "In this
+study," and states the study question and approach. Keep results out of
+this closing Introduction paragraph; numerical findings belong in Results.
 No subsections, no headings.
 
 **Methods.** Subsections allowed, `\subsubsection` never. Every symbol is
@@ -147,8 +158,9 @@ Introduction P4, and Discussion:
 4. Growing groups of sellers in the same five examples extended to 10,000
    steps, plus delayed transitions among all 50 original f=0.150 starts
    (Fig. 4, Table S11). Selection remains based on the original 3,000 steps.
-5. Dealer capacity: probability versus drawdown, frozen band, impact sweep,
-   matched seed (Fig. 2C,D, Fig. 5, Tables S7, S8).
+5. Dealer depth: probability versus drawdown, matched no-switch drawdowns,
+   frozen band, additional reserve depths, and the selected starting market
+   (Fig. 2C,D, Fig. 5, Tables S2, S7, S8).
 6. Cash and share interventions (Fig. 6, Table S4).
 
 Supporting controls are integrated into these paragraphs and detailed in the
@@ -161,8 +173,9 @@ and time, and the nucleation disclaimer; trader and dealer resources; price
 feedback and the non-monotone capacity response; limitations last. Each
 paragraph cites the relevant theory or microstructure literature.
 
-**Conclusion.** One paragraph. Ends on the plain consequence: traders can continue deciding to sell
-after the dealer exhausts its ability to buy their shares.
+**Conclusion.** One paragraph. End on the supported consequence: the
+financial effect of widespread selling depends on how resources enter
+execution and price formation. Do not restore the small-dealer crash ceiling.
 
 **Abstract.** One paragraph, about 300 words, qualitative: problem,
 approach, design, insight, implication. Zero computed numbers. Do not
@@ -285,13 +298,17 @@ layout (it costs a page).
   rejection 2D; Fig. 6 is A probability, B drawdown, C rejection, D
   scatter). Widths, median onsets, and off-f=0.18 balance-sheet
   probabilities live only in Tables S3, S2, and S4, so cite the table.
+  Paired drawdown increments belong to Table S2; total switched-market
+  drawdown in Figure 2C is not itself an intervention effect.
 - Verify against the data, not against memory or the previous draft. Sources:
-  `code/data/ModelB-ReservoirQuench-Full-{Summary,Derived,Grouped}.csv`,
+  Within `output/rebuilt/manuscript-reserve-v1/code/data/`:
+  `ModelB-ReservoirQuench-Full-{Summary,Derived,Grouped}.csv`,
   `ModelB-BalanceSheetQuench-Full-Grouped.csv`,
   `ModelB-Revision-{FiniteSize-Scaling,Horizons-Scaling,Controls-Grouped,band,impact,pulse,screen,long}.csv`.
   The CSV `boundary` column is `endogenous`/`hold` (prose: technical traders
-  active/held); capacity is `Inf` for unlimited;
-  drawdowns are stored as fractions. `/opt/homebrew/bin/python3` has a
+  active/held); the deep reserve comparison is finite `h=100`;
+  drawdowns are stored as fractions. Historical `Inf` outputs are not inputs
+  to the corrected manuscript. `/opt/homebrew/bin/python3` has a
   working pandas; the Anaconda python does not.
 - Give the number instead of the adjective. "Very different price declines"
   becomes "drawdowns from below 1% to above 25%" or "differed by more than
@@ -300,17 +317,17 @@ layout (it costs a page).
   continuous summaries; seed-bootstrap intervals (2,000 whole-seed
   replicates) for midpoints, widths, and susceptibility peaks; all
   conditional on the refined grid and the 3,000-step horizon.
-- Measurement windows differ and must be stated: production campaigns
-  compute dealer rejection over the full run including the 1,000 baseline
-  steps; the supplementary controls use post-activation orders only.
-  Drawdown is post-activation in both.
+- Measurement windows must be stated: the corrected campaigns
+  use post-activation orders for completed counts, suppression, and
+  rejection in every campaign. The drawdown window includes the quote at
+  activation; majority detection starts with the first updated state afterward.
 - Claims the paper does NOT make and must not drift into: classical
   nucleation (no free-energy barrier, activation rate, surface tension, or
   critical droplet); an asymptotic or equilibrium threshold (the crossover is
   finite-time and its midpoint drifts with horizon); stationarity of the
   baseline or of the final window; global stability from the 100,000-step
   no-switch runs; a unique mechanism for the non-monotone capacity response
-  (the frozen band implicates width adaptation without isolating it);
+  (the frozen band tests width adaptation while preserving other feedback);
   empirical calibration of impact, depth, or time; generality beyond the
   totalistic rule class; relative importance of response identity versus
   activated fraction (both mattered; neither was ranked).
@@ -345,9 +362,9 @@ layout (it costs a page).
   assembly, never in the module. When a figure "shows nothing", check the
   colour and axis scaling against the data range before touching layout.
 - Prespecified panel selection (nearest subgroup median onset for crossing
-  runs, nearest median final Sell fraction otherwise; seed 25 for the dealer
-  panels) is stated in Methods and must not be described as illustrative
-  choice.
+  runs, nearest median final Sell fraction otherwise, with seed breaking
+  ties) is stated in Methods. Recompute the selected seeds from the new
+  summaries; do not retain a historical seed because it was plotted before.
 - Equations: define every symbol in prose first; introduce with a complete
   sentence ending in a colon; connect sequential equations with a sentence
   that says how the second follows.
@@ -374,14 +391,13 @@ layout (it costs a page).
   `paper-arxiv/sections/*.tex`, `paper-arxiv/References_v1.bib`. Code under
   `code/` (Julia; run from the repo root as
   `julia --project=code code/<dir>/<script>.jl`).
-- **Generated files, never hand-edited:** `sections/finite-size-results.tex`,
-  `finite-size-table.tex`, `revision-tables.tex`, `revision-fits-table.tex`,
-  `revision-controls.tex`, `market-panel-horizons-table.tex`. Edit the template strings in
-  `code/revision/Write-Revision-Tables.py` and rerun
-  `/opt/homebrew/bin/python3 code/revision/Write-Revision-Tables.py` from the
-  repo root. The generator substitutes numbers from the revision CSVs; a
-  hand edit is overwritten on the next run. Labels in generated text use the
-  `app:` prefix.
+- **Generated files, never hand-edited:** Results, captions, all table files,
+  `finite-size-results.tex`, `revision-controls.tex`, and
+  `rebuild-validation.tex`. Edit the corresponding templates in
+  `code/rebuild/WriteResults.py`, `WriteCaptions.py`,
+  `WriteManuscriptTables.py`, and `Verify.py`, then regenerate from the
+  isolated corrected outputs. The old revision writer includes archived
+  financial interpretations and must not generate the corrected manuscript.
 - Build with `make` inside `paper-arxiv/` (latexmk). After any prose or
   float change: check `Paper_v1.log` for warnings, undefined references, and
   overfull boxes (expect none); confirm the page count with `pdfinfo`;
@@ -393,9 +409,11 @@ layout (it costs a page).
   text, and `cp paper-arxiv/Paper_v1.pdf output/pdf/Wolfram-markets-revised.pdf`
   (the packager does not refresh that copy).
 - `git diff --check` before finishing. Commit only when the author asks.
-- `code/data/*.csv` is gitignored with explicit exceptions; the Table S2
-  source and the trajectories are force-added. Check that any new derived
-  CSV a table depends on is tracked.
+- Current manuscript inputs are in
+  `output/rebuilt/manuscript-reserve-v1/code/data/`; root `code/data/` retains
+  historical summaries. Restart checkpoints are ignored. When the author
+  requests a commit, include the canonical summaries, manifests, executed
+  source, and verification records needed to reproduce the manuscript.
 
 ## Review Workflow
 

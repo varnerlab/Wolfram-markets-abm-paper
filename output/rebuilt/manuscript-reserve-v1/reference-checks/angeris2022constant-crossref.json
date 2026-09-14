@@ -1,0 +1,644 @@
+{
+  "status": "ok",
+  "message-type": "work",
+  "message-version": "1.0.0",
+  "message": {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          8,
+          17
+        ]
+      ],
+      "date-time": "2026-08-17T15:00:50Z",
+      "timestamp": 1786978850465,
+      "version": "build-2736575974"
+    },
+    "publisher-location": "Cham",
+    "reference-count": 60,
+    "publisher": "Springer International Publishing",
+    "isbn-type": [
+      {
+        "value": "9783031075346",
+        "type": "print"
+      },
+      {
+        "value": "9783031075353",
+        "type": "electronic"
+      }
+    ],
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2022-01-01T00:00:00Z",
+          "timestamp": 1640995200000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.springer.com/tdm"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              1
+            ]
+          ],
+          "date-time": "2022-01-01T00:00:00Z",
+          "timestamp": 1640995200000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "https://www.springer.com/tdm"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "link.springer.com"
+      ],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [],
+    "published-print": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "DOI": "10.1007/978-3-031-07535-3_13",
+    "type": "book-chapter",
+    "created": {
+      "date-parts": [
+        [
+          2022,
+          11,
+          3
+        ]
+      ],
+      "date-time": "2022-11-03T20:40:30Z",
+      "timestamp": 1667508030000
+    },
+    "page": "415-444",
+    "update-policy": "https://doi.org/10.1007/springer_crossmark_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 23,
+    "title": [
+      "Constant Function Market Makers: Multi-asset Trades via Convex Optimization"
+    ],
+    "prefix": "10.1007",
+    "author": [
+      {
+        "given": "Guillermo",
+        "family": "Angeris",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Akshay",
+        "family": "Agrawal",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Alex",
+        "family": "Evans",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Tarun",
+        "family": "Chitra",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Stephen",
+        "family": "Boyd",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "297",
+    "published-online": {
+      "date-parts": [
+        [
+          2022,
+          11,
+          4
+        ]
+      ]
+    },
+    "reference": [
+      {
+        "key": "13_CR1",
+        "unstructured": "Aave. https://aave.com, 2021"
+      },
+      {
+        "key": "13_CR2",
+        "unstructured": "Akshay Agrawal, Stephen Boyd, Deepak Narayanan, Fiodar Kazhamiaka, and Matei Zaharia. Allocation of fungible resources via a fast, scalable price discovery method. arXiv preprintarXiv:2104.00282, 2021"
+      },
+      {
+        "key": "13_CR3",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Guillermo Angeris and Tarun Chitra. Improved price oracles: Constant function market makers. In Proceedings of the 2nd ACM Conference on Advances in Financial Technologies, pages 80\u201391, New York NY USA, October 2020. ACM",
+        "DOI": "10.1145/3419614.3423251"
+      },
+      {
+        "key": "13_CR4",
+        "unstructured": "Guillermo Angeris, Alex Evans, and Tarun Chitra. When does the tail wag the dog? Curvature and market making. arXiv preprint arXiv:2012.08040, 2020"
+      },
+      {
+        "key": "13_CR5",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Guillermo Angeris, Alex Evans, and Tarun Chitra. A note on privacy in constant function market makers. arXiv preprint arXiv:2103.01193, 2021",
+        "DOI": "10.2139/ssrn.3636514"
+      },
+      {
+        "key": "13_CR6",
+        "unstructured": "Guillermo Angeris, Alex Evans, and Tarun Chitra. Replicating market makers. arXiv preprint arXiv:2103.14769, 2021"
+      },
+      {
+        "key": "13_CR7",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Jun Aoyagi and Yuki Ito. Liquidity implications of constant product market makers. Available at SSRN 3808755, 2021",
+        "DOI": "10.2139/ssrn.3808755"
+      },
+      {
+        "key": "13_CR8",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Guillermo Angeris, Hsien-Tang Kao, Rei Chiang, Charlie Noyes, and Tarun Chitra. An analysis of Uniswap markets. Cryptoeconomic Systems, November 2020",
+        "DOI": "10.21428/58320208.c9738e64"
+      },
+      {
+        "key": "13_CR9",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Jun Aoyagi. Liquidity provision by automated market makers. Available at SSRN 3674178, 2020",
+        "DOI": "10.2139/ssrn.3674178"
+      },
+      {
+        "key": "13_CR10",
+        "unstructured": "MOSEK ApS. MOSEK Optimizer API for Python 9.1.5. https://docs.mosek.com/9.1/pythonapi/index.html, 2019"
+      },
+      {
+        "issue": "2",
+        "key": "13_CR11",
+        "doi-asserted-by": "publisher",
+        "first-page": "2827",
+        "DOI": "10.1364/OE.415052",
+        "volume": "29",
+        "author": "G Angeris",
+        "year": "2021",
+        "unstructured": "Angeris, G., Vu\u010dkovi\u0107, J., Boyd, S.: Heuristic methods and performance bounds for photonic design. Optics Express 29(2), 2827 (2021)",
+        "journal-title": "Optics Express"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR12",
+        "doi-asserted-by": "publisher",
+        "first-page": "42",
+        "DOI": "10.1080/23307706.2017.1397554",
+        "volume": "5",
+        "author": "A Agrawal",
+        "year": "2018",
+        "unstructured": "Agrawal, A., Verschueren, R., Diamond, S., Boyd, S.: A rewriting system for convex optimization problems. Journal of Control and Decision 5(1), 42\u201360 (2018)",
+        "journal-title": "Journal of Control and Decision"
+      },
+      {
+        "key": "13_CR13",
+        "unstructured": "Hayden Adams, Noah Zinsmeister, Moody Salem, River Keefer, and Dan Robinson. Uniswap v3 core. Technical report, 2021"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR14",
+        "doi-asserted-by": "publisher",
+        "first-page": "1",
+        "DOI": "10.1561/2400000023",
+        "volume": "3",
+        "author": "S Boyd",
+        "year": "2017",
+        "unstructured": "Boyd, S., Busseti, E., Diamond, S., Kahn, R., Koh, K., Nystrup, P., Speth, J.: Multi-period trading via convex optimization. Foundations and Trends in Optimization 3(1), 1\u201376 (2017)",
+        "journal-title": "Foundations and Trends in Optimization"
+      },
+      {
+        "key": "13_CR15",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Stephen Boyd, Seung-Jean Kim, Dinesh Patil, and Mark Horowitz. Digital circuit optimization via geometric programming. Operations Research, 53(6), 2005",
+        "DOI": "10.1287/opre.1050.0254"
+      },
+      {
+        "key": "13_CR16",
+        "unstructured": "Lars Blackmore. Autonomous precision landing of space rockets. The BRIDGE, 26(4), 2016"
+      },
+      {
+        "key": "13_CR17",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Stephen Boyd, Neal Parikh, Eric Chu, Borja Peleato, and Jonathan Eckstein. Distributed optimization and statistical learning via the alternating direction method of multipliers. Foundations and Trends\u00ae in Machine learning, 3(1):1\u2013122, 2011",
+        "DOI": "10.1561/2200000016"
+      },
+      {
+        "key": "13_CR18",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Goran Banjac, Bartolomeo Stellato, Nicholas Moehle, Paul Goulart, Alberto Bemporad, and Stephen Boyd. Embedded code generation using the OSQP solver. In IEEE Conference on Decision and Control, 2017",
+        "DOI": "10.1109/CDC.2017.8263928"
+      },
+      {
+        "key": "13_CR19",
+        "unstructured": "Vitalik Buterin. Ethereum: A next-generation smart contract and decentralized application platform, 2013"
+      },
+      {
+        "key": "13_CR20",
+        "unstructured": "Vitalik Buterin. On path independence (2017). https://vitalik.ca/general/2017/06/22/marketmakers.html"
+      },
+      {
+        "key": "13_CR21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1017/CBO9780511804441",
+        "volume-title": "Convex Optimization",
+        "author": "S Boyd",
+        "year": "2004",
+        "unstructured": "Boyd, S., Vandenberghe, L.: Convex Optimization. Cambridge University Press, Cambridge, UK; New York (2004)"
+      },
+      {
+        "key": "13_CR22",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Tarun Chitra, Guillermo Angeris, Alex Evans, and Hsien-Tang Kao. A note on borrowing constant function market maker shares. 2021",
+        "DOI": "10.1145/3560832.3564260"
+      },
+      {
+        "key": "13_CR23",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Yiling Chen, Lance Fortnow, Nicolas Lambert, David Pennock, and Jennifer Wortman. Complexity of combinatorial market makers. In Proceedings of the 9th ACM Conference on Electronic Commerce, pages 190\u2013199, 2008",
+        "DOI": "10.1145/1386790.1386822"
+      },
+      {
+        "key": "13_CR24",
+        "unstructured": "Compound. https://compound.finance, 2021"
+      },
+      {
+        "key": "13_CR25",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Eric Chu, Neal Parikh, Alexander Domahidi, and Stephen Boyd. Code generation for embedded second-order cone programming. In European Control Conference, pages 1547\u20131552. IEEE, 2013",
+        "DOI": "10.23919/ECC.2013.6669712"
+      },
+      {
+        "key": "13_CR26",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Gerard Cornuejols and Reha T\u00fct\u00fcnc\u00fc. Optimization Methods in Finance. Cambridge University Press, 2006",
+        "DOI": "10.1017/CBO9780511753886"
+      },
+      {
+        "issue": "83",
+        "key": "13_CR27",
+        "first-page": "1",
+        "volume": "17",
+        "author": "S Diamond",
+        "year": "2016",
+        "unstructured": "Diamond, S., Boyd, S.: CVXPY: A Python-embedded modeling language for convex optimization. Journal of Machine Learning Research 17(83), 1\u20135 (2016)",
+        "journal-title": "Journal of Machine Learning Research"
+      },
+      {
+        "key": "13_CR28",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Alexander Domahidi, Eric Chu, and Stephen Boyd. ECOS: An SOCP solver for embedded systems. In 2013 European Control Conference (ECC), pages 3071\u20133076, Zurich, July 2013. IEEE",
+        "DOI": "10.23919/ECC.2013.6669541"
+      },
+      {
+        "issue": "2",
+        "key": "13_CR29",
+        "doi-asserted-by": "publisher",
+        "first-page": "295",
+        "DOI": "10.1137/15M1020575",
+        "volume": "59",
+        "author": "I Dunning",
+        "year": "2017",
+        "unstructured": "Dunning, I., Huchette, J., Lubin, M.: JuMP: A modeling language for mathematical optimization. SIAM review 59(2), 295\u2013320 (2017)",
+        "journal-title": "SIAM review"
+      },
+      {
+        "key": "13_CR30",
+        "unstructured": "dydx. https://dydx.exchange, 2021"
+      },
+      {
+        "key": "13_CR31",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Alex Evans, Guillermo Angeris, and Tarun Chitra. Optimal fees for geometric mean market makers. arXiv preprint arXiv:2104.00446, 2021",
+        "DOI": "10.1007/978-3-662-63958-0_6"
+      },
+      {
+        "key": "13_CR32",
+        "unstructured": "Michael Egorov. StableSwap - efficient mechanism for Stablecoin liquidity. page\u00a06, 2019"
+      },
+      {
+        "key": "13_CR33",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Alex Evans. Liquidity provider returns in geometric mean markets. arXiv preprint arXiv:2006.08806, 2020",
+        "DOI": "10.21428/58320208.56ddae1b"
+      },
+      {
+        "key": "13_CR34",
+        "unstructured": "Jerome Friedman, Trevor Hastie, and Robert Tibshirani. The Elements of Statistical Learning, volume\u00a01. Springer Series in Statistics, 2001"
+      },
+      {
+        "key": "13_CR35",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Michael Garstka, Mark Cannon, and Paul Goulart. COSMO: A conic operator splitting method for large convex problems. In 2019 18th European Control Conference (ECC), pages 1951\u20131956, Naples, Italy, June 2019. IEEE",
+        "DOI": "10.23919/ECC.2019.8796161"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR36",
+        "doi-asserted-by": "publisher",
+        "first-page": "107",
+        "DOI": "10.1023/A:1022058209073",
+        "volume": "5",
+        "author": "R Hanson",
+        "year": "2003",
+        "unstructured": "Hanson, R.: Combinatorial information market design. Information Systems Frontiers 5(1), 107\u2013119 (2003)",
+        "journal-title": "Information Systems Frontiers"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR37",
+        "doi-asserted-by": "publisher",
+        "first-page": "1",
+        "DOI": "10.1109/43.905671",
+        "volume": "20",
+        "author": "M Hershenson",
+        "year": "2001",
+        "unstructured": "Hershenson, M., Boyd, S., Lee, T.: Optimal design of a CMOS op-amp via geometric programming. IEEE Transactions on Computer-aided design of integrated circuits and systems 20(1), 1\u201321 (2001)",
+        "journal-title": "IEEE Transactions on Computer-aided design of integrated circuits and systems"
+      },
+      {
+        "issue": "6",
+        "key": "13_CR38",
+        "doi-asserted-by": "publisher",
+        "first-page": "1297",
+        "DOI": "10.1080/00207179.2013.875224",
+        "volume": "87",
+        "author": "T Lipp",
+        "year": "2014",
+        "unstructured": "Lipp, T., Boyd, S.: Minimum-time speed optimisation over a fixed path. International Journal of Control 87(6), 1297\u20131311 (2014)",
+        "journal-title": "International Journal of Control"
+      },
+      {
+        "key": "13_CR39",
+        "unstructured": "Alan Lu. Building a decentralized exchange in Ethereum. https://blog.gnosis.pm/building-a-decentralized-exchange-in-ethereum-eea4e7452d6e, 2017"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR40",
+        "first-page": "77",
+        "volume": "7",
+        "author": "H Markowitz",
+        "year": "1952",
+        "unstructured": "Markowitz, H.: Portfolio selection. The. Journal of Finance 7(1), 77\u201391 (1952)",
+        "journal-title": "Journal of Finance"
+      },
+      {
+        "issue": "1",
+        "key": "13_CR41",
+        "doi-asserted-by": "publisher",
+        "first-page": "1",
+        "DOI": "10.1007/s11081-011-9176-9",
+        "volume": "13",
+        "author": "J Mattingley",
+        "year": "2012",
+        "unstructured": "Mattingley, J., Boyd, S.: CVXGEN: A code generator for embedded convex optimization. Optimization and Engineering 13(1), 1\u201327 (2012)",
+        "journal-title": "Optimization and Engineering"
+      },
+      {
+        "key": "13_CR42",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Nicholas Moehle, Enzo Busseti, Stephen Boyd, and Matt Wytock. Dynamic energy management. arXiv preprint arXiv:1903.06230, 2019",
+        "DOI": "10.1007/978-3-030-22788-3_4"
+      },
+      {
+        "key": "13_CR43",
+        "unstructured": "Fernando Martinelli and Nikolai Mushegian. Balancer: A non-custodial portfolio manager, liquidity provider, and price sensor. 2019"
+      },
+      {
+        "key": "13_CR44",
+        "unstructured": "Satoshi Nakamoto. Bitcoin: A peer-to-peer electronic cash system, 2008"
+      },
+      {
+        "issue": "3",
+        "key": "13_CR45",
+        "doi-asserted-by": "publisher",
+        "first-page": "1042",
+        "DOI": "10.1007/s10957-016-0892-3",
+        "volume": "169",
+        "author": "B O\u2019Donoghue",
+        "year": "2016",
+        "unstructured": "O\u2019Donoghue, B., Chu, E., Parikh, N., Boyd, S.: Conic optimization via operator splitting and homogeneous self-dual embedding. Journal of Optimization Theory and Applications 169(3), 1042\u20131068 (2016)",
+        "journal-title": "Journal of Optimization Theory and Applications"
+      },
+      {
+        "key": "13_CR46",
+        "volume-title": "and William Vetterling",
+        "author": "W Press",
+        "year": "1992",
+        "unstructured": "Press, W., Teukolsky, S., Flannery, B.: and William Vetterling. The Art of Scientific Computing. Cambridge University Press, Numerical Recipes (1992)"
+      },
+      {
+        "key": "13_CR47",
+        "unstructured": "Ernest Ryu and Stephen Boyd. A primer on monotone operator methods. Applied Computational Math, 2016"
+      },
+      {
+        "key": "13_CR48",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Gregory Stewart and Francesco Borrelli. A predictive control framework for industrial turbodiesel engine control. In IEEE Conference on Decision and Control (CDC), pages 5704\u20135711, 2008",
+        "DOI": "10.1109/CDC.2008.4739384"
+      },
+      {
+        "key": "13_CR49",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Bartolomeo Stellato, Goran Banjac, Paul Goulart, Alberto Bemporad, and Stephen Boyd. OSQP: An operator splitting solver for quadratic programs. Mathematical Programming Computation, February 2020",
+        "DOI": "10.1007/s12532-020-00179-2"
+      },
+      {
+        "key": "13_CR50",
+        "unstructured": "Sushi. The SushiSwap project, 2020"
+      },
+      {
+        "key": "13_CR51",
+        "unstructured": "Nick Szabo. Smart contracts. Extropy: Journal of Transhumanist Thought, 16, 1995"
+      },
+      {
+        "key": "13_CR52",
+        "unstructured": "Martin Tassy and David White. Growth rate of a liquidity provider\u2019s wealth in $$xy= c$$ automated market makers, 2020"
+      },
+      {
+        "key": "13_CR53",
+        "unstructured": "UMA project. https://umaproject.org, 2021"
+      },
+      {
+        "issue": "4",
+        "key": "13_CR54",
+        "doi-asserted-by": "publisher",
+        "first-page": "939",
+        "DOI": "10.1109/TCST.2010.2056371",
+        "volume": "19",
+        "author": "Y Wang",
+        "year": "2010",
+        "unstructured": "Wang, Y., Boyd, S.: Fast evaluation of quadratic control-Lyapunov policy. IEEE Transactions on Control Systems Technology 19(4), 939\u2013946 (2010)",
+        "journal-title": "IEEE Transactions on Control Systems Technology"
+      },
+      {
+        "key": "13_CR55",
+        "doi-asserted-by": "crossref",
+        "unstructured": "Ye\u00a0Wang, Yan Chen, Shuiguang Deng, and Roger Wattenhofer. Cyclic arbitrage in decentralized exchange markets. Available at SSRN 3834535, 2021",
+        "DOI": "10.2139/ssrn.3834535"
+      },
+      {
+        "issue": "327",
+        "key": "13_CR56",
+        "doi-asserted-by": "publisher",
+        "first-page": "1073",
+        "DOI": "10.1080/01621459.1969.10501037",
+        "volume": "64",
+        "author": "R Winkler",
+        "year": "1969",
+        "unstructured": "Winkler, R.: Scoring rules and the evaluation of probability assessors. Journal of the American Statistical Association 64(327), 1073\u20131078 (1969)",
+        "journal-title": "Journal of the American Statistical Association"
+      },
+      {
+        "key": "13_CR57",
+        "unstructured": "Gavin Wood. Ethereum: A secure decentralised generalised transaction ledger, 2014"
+      },
+      {
+        "key": "13_CR58",
+        "unstructured": "Gavin Wood. Polkadot: Vision for a heterogeneous multi-chain framework, 2016"
+      },
+      {
+        "key": "13_CR59",
+        "unstructured": "Anatoly Yakovenko. Solana: A new architecture for a high performance blockchain, 2018"
+      },
+      {
+        "key": "13_CR60",
+        "unstructured": "Yi\u00a0Zhang, Xiaohong Chen, and Daejun Park. Formal specification of constant product ($$xy=k$$) market maker model and implementation. 2018"
+      }
+    ],
+    "container-title": [
+      "Springer Optimization and Its Applications",
+      "Handbook on Blockchain"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://link.springer.com/content/pdf/10.1007/978-3-031-07535-3_13",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2023,
+          3,
+          10
+        ]
+      ],
+      "date-time": "2023-03-10T22:03:59Z",
+      "timestamp": 1678485839000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://link.springer.com/10.1007/978-3-031-07535-3_13"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "ISBN": [
+      "9783031075346",
+      "9783031075353"
+    ],
+    "references-count": 60,
+    "URL": "https://doi.org/10.1007/978-3-031-07535-3_13",
+    "relation": {},
+    "ISSN": [
+      "1931-6828",
+      "1931-6836"
+    ],
+    "issn-type": [
+      {
+        "value": "1931-6828",
+        "type": "print"
+      },
+      {
+        "value": "1931-6836",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "4 November 2022",
+        "order": 1,
+        "name": "first_online",
+        "label": "First Online",
+        "group": {
+          "name": "ChapterHistory",
+          "label": "Chapter History"
+        }
+      }
+    ]
+  }
+}

@@ -77,32 +77,34 @@
 \maketitle
 
 \begin{abstract}
-Changes in investor decisions can destabilize a market, but a shift toward
-selling need not produce a price crash. We developed a market model in which
-traders inside a grid decided whether to buy, hold, or sell from their
-neighbors' decisions, while technical traders along its edge decided from
-the price alone. We compared markets with identical
-histories, then changed how selected traders in one market responded to
-their neighbors while leaving the comparison market unchanged. A majority
-decided to sell when enough traders received the new rule, even though the
-remaining traders kept their original rules. Setting the selected traders
-to Sell once without changing their rule for later decisions did not produce a
-majority, while several other changes to a single response did. A majority
-still formed when the technical traders were kept in Hold, showing that
-responses to neighboring traders could sustain widespread selling on their
-own. Markets with more interacting traders shifted toward a
-majority over a narrower range of rule adoption, but the fraction needed
-continued to change with the time observed. The dealer's capacity to buy and
-sell affected how often a majority formed when the technical traders were
-active, although greater capacity did not consistently make a majority more likely.
-Greater capacity did increase price declines in the comparison where a majority formed at every dealer capacity, even when we changed how strongly trades affected prices. Varying
-cash and share holdings explained this difference: traders needed resources
-to place orders, and the dealer needed resources to complete orders that
-other traders could not match. Similar Sell majorities could therefore
-accompany both small price declines and simulated crashes. The model
-connected investor decisions to market instability while showing how limited
-dealer resources could contain the price decline even when most traders
-continued deciding to sell.
+Changes in investor decisions can spread through a market, but the resulting
+price decline depends on how trades execute. We developed a market model
+in which traders inside a grid decided whether to buy, hold, or sell from
+their neighbors' decisions, while technical traders at selected perimeter
+sites responded to price. Paired markets shared the same history before
+selected traders in one market received a persistent change in their
+local decision rule. The comparison market retained its original rule.
+A majority decided to sell when enough traders received the new response,
+even though the remaining traders kept their original rules. Holding the
+technical traders prevented price changes from entering later decisions,
+yet majorities still formed, establishing that neighbor responses could
+produce widespread selling. Comparisons across market sizes and observation
+periods located a finite-time crossover whose position continued to depend
+on the time observed. To connect decisions to prices, we cleared unit
+orders against a dealer whose finite cash and share reserves retained a
+constant product. The batch execution price and resulting marginal quote
+were both determined by those reserves, preventing an isolated round trip
+that restored dealer inventory from extracting its cash. Shallow positive
+reserves accompanied severe declines while rejecting few orders backed by
+trader resources. Zero reserves instead permitted only opposing trader
+orders at a fixed price. Shallow markets also had large drawdowns without
+the rule switch, making matched financial comparisons necessary for
+attribution. Changing trader cash and shares affected interior decisions
+only when technical traders could respond to the resulting prices.
+The model separated the spread of selling decisions from the severity of
+a simulated crash. Limited trading resources did not generally protect
+against severe declines, because their financial consequences depended on
+the mechanism linking execution to price.
 \end{abstract}
 
 \input{sections/introduction}

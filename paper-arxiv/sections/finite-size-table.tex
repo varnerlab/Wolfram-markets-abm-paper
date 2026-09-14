@@ -1,27 +1,31 @@
+\begin{center}
+\begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Effect of grid size over 50 starting markets and 3,000 steps after the rule change. Brackets give 95\% confidence intervals (CI) from seed resampling. $n_{\rm int}$ counts fractions with $0.05<\hat p<0.95$. Crossings use linear interpolation. The susceptibility maximum is over the sampled grid, and its interval includes reselection of that maximum within each bootstrap replicate. Intervals condition on the refined grid.}
+\caption{Grid-size comparisons over 50 starting markets and 3,000 post-switch steps. Brackets give 95\% confidence intervals (CI) from 2,000 whole-market bootstrap samples. $n_{\rm int}$ counts fractions with $0.05<\hat p<0.95$. Crossings use first upward linear interpolation. Susceptibility maxima are selected over the sampled grid, including reselection in each bootstrap sample. Undefined denotes an unbracketed crossing; intervals use available bracketed samples.}
 \label{tab:finite-size-scaling}
 \footnotesize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{llrrlll}
 \toprule
 Technical traders & $h$ & $L$ & $n_{\rm int}$ & $f_{50}$ [95\% CI] & Width [95\% CI] & Peak $\chi_L$ [95\% CI] \\
 \midrule
-Active & 1 & 32 & 8 & 0.210 [0.207, 0.218] & 0.024 [0.018, 0.031] & 23.6 [19.4, 30.0] \\
-Active & 1 & 48 & 5 & 0.186 [0.182, 0.188] & 0.016 [0.010, 0.020] & 41.3 [32.5, 56.2] \\
-Active & 1 & 64 & 8 & 0.178 [0.172, 0.178] & 0.009 [0.007, 0.011] & 70.1 [56.1, 91.8] \\
-Active & 1 & 96 & 6 & 0.166 [0.164, 0.168] & 0.010 [0.007, 0.012] & 126.5 [104.2, 163.7] \\
-Active & 1 & 128 & 5 & 0.165 [0.164, 0.166] & 0.006 [0.005, 0.007] & 191.4 [154.7, 261.0] \\
+Active & 1 & 32 & 9 & 0.212 [0.208, 0.217] & 0.020 [0.014, 0.028] & 26.3 [22.2, 34.4] \\
+Active & 1 & 48 & 6 & 0.186 [0.184, 0.188] & 0.011 [0.008, 0.019] & 54.6 [41.3, 69.9] \\
+Active & 1 & 64 & 9 & 0.177 [0.175, 0.180] & 0.008 [0.007, 0.013] & 85.9 [79.9, 114.6] \\
+Active & 1 & 96 & 5 & 0.168 [0.167, 0.169] & 0.005 [0.004, 0.007] & 143.2 [127.4, 202.5] \\
+Active & 1 & 128 & 7 & 0.167 [0.165, 0.168] & 0.007 [0.005, 0.009] & 219.8 [198.5, 300.9] \\
 \midrule
-Active & $\infty$ & 32 & 8 & 0.212 [0.208, 0.215] & 0.023 [0.011, 0.030] & 23.9 [18.5, 31.7] \\
-Active & $\infty$ & 48 & 6 & 0.188 [0.179, 0.192] & 0.019 [0.016, 0.021] & 52.0 [42.7, 67.5] \\
-Active & $\infty$ & 64 & 5 & 0.179 [0.177, 0.181] & 0.009 [0.006, 0.014] & 90.3 [78.2, 121.0] \\
-Active & $\infty$ & 96 & 5 & 0.168 [0.166, 0.169] & 0.010 [0.005, 0.012] & 173.4 [136.1, 230.6] \\
-Active & $\infty$ & 128 & 7 & 0.165 [0.164, 0.167] & 0.007 [0.005, 0.008] & 262.5 [226.5, 338.3] \\
+Active & 100 & 32 & 6 & 0.214 [0.210, 0.218] & 0.020 [0.012, 0.028] & 25.7 [22.2, 33.9] \\
+Active & 100 & 48 & 5 & 0.186 [0.184, 0.188] & 0.011 [0.008, 0.022] & 51.2 [38.6, 65.3] \\
+Active & 100 & 64 & 5 & 0.175 [0.174, 0.180] & 0.011 [0.009, 0.014] & 88.5 [72.2, 124.2] \\
+Active & 100 & 96 & 5 & 0.169 [0.165, 0.171] & 0.009 [0.007, 0.011] & 132.5 [119.7, 178.7] \\
+Active & 100 & 128 & 6 & 0.166 [0.165, 0.168] & 0.007 [0.005, 0.009] & 230.0 [199.8, 302.8] \\
 \midrule
-Held & $\infty$ & 32 & 5 & 0.216 [0.211, 0.224] & 0.023 [0.018, 0.027] & 21.2 [16.5, 27.2] \\
-Held & $\infty$ & 48 & 5 & 0.193 [0.184, 0.195] & 0.019 [0.016, 0.022] & 48.6 [40.3, 65.3] \\
-Held & $\infty$ & 64 & 5 & 0.178 [0.176, 0.180] & 0.015 [0.008, 0.019] & 110.5 [78.5, 138.5] \\
-Held & $\infty$ & 96 & 5 & 0.168 [0.167, 0.170] & 0.009 [0.006, 0.012] & 168.7 [137.6, 221.0] \\
-Held & $\infty$ & 128 & 7 & 0.166 [0.165, 0.167] & 0.008 [0.004, 0.010] & 241.2 [202.6, 326.0] \\
+Held & 100 & 32 & 5 & 0.216 [0.211, 0.224] & 0.023 [0.018, 0.027] & 21.2 [16.5, 27.2] \\
+Held & 100 & 48 & 5 & 0.193 [0.184, 0.195] & 0.019 [0.016, 0.022] & 48.6 [40.3, 65.3] \\
+Held & 100 & 64 & 5 & 0.178 [0.176, 0.180] & 0.015 [0.008, 0.019] & 110.5 [78.5, 138.5] \\
+Held & 100 & 96 & 5 & 0.168 [0.167, 0.170] & 0.009 [0.006, 0.012] & 168.7 [137.6, 221.0] \\
+Held & 100 & 128 & 7 & 0.166 [0.165, 0.167] & 0.008 [0.004, 0.010] & 241.2 [202.6, 326.0] \\
 \bottomrule
 \end{tabular}
+\end{minipage}
+\end{center}

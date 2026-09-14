@@ -1,0 +1,49 @@
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.clipboard [-4960]
+PasteBoard: Error creating pasteboard: com.apple.pasteboard.find [-4960]
+2026-09-14 13:04:40.542 gksqt[25903:34612966] Connection Invalid error for service com.apple.hiservices-xpcservice.
+2026-09-14 13:04:40.542 gksqt[25903:34612961] Error received in message reply handler: Connection invalid
+2026-09-14 13:04:40.557 gksqt[25903:34612961] Failure on line 688 in function id scheduleApplicationNotification(LSNotificationCode, NSWorkspaceNotificationCenter *): noErr == _LSModifyNotification(notificationID, 1, &code, 0, NULL, NULL, NULL)
+no screens available, assuming 24-bit color
+GKSserver: Failed to listen to port 8410
+connect: Operation not permitted
+GKS: the graphics window could not be opened because no connection to the GKS Qt driver could be established. Please check all Qt warnings to determine whether (or why) 'gksqt' could not be started.
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+┌ Info: Finite-size rule-quench campaign
+│   mode = "Smoke"
+│   sizes = 2-element Vector{Int64}: …
+│   pre = 20
+│   post = 40
+│   target_fs = 2-element Vector{Float64}: …
+│   conditions = 3-element Vector{@NamedTuple{capacity::Float64, boundary_mode::Symbol}}: …
+│   seeds = 2
+│   cells = 12
+│   resumed_cells = 0
+│   pending_cells = 12
+│   simulations = 36
+└   threads = 4
+┌ Info: Finite-size progress
+│   completed = 2
+└   total = 12
+┌ Info: Finite-size progress
+│   completed = 6
+└   total = 12
+┌ Info: Finite-size progress
+│   completed = 4
+└   total = 12
+┌ Info: Finite-size progress
+│   completed = 8
+└   total = 12
+┌ Info: Finite-size progress
+│   completed = 10
+└   total = 12
+┌ Info: Finite-size progress
+│   completed = 12
+└   total = 12
+┌ Info: Finite-size rule-quench complete
+│   summary = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../data/ModelB-FiniteSizeQuench-Smoke-Summary.csv"
+│   grouped = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../data/ModelB-FiniteSizeQuench-Smoke-Grouped.csv"
+│   scaling = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../data/ModelB-FiniteSizeQuench-Smoke-Scaling.csv"
+│   figure = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/rebuilt/manuscript-reserve-v1-smoke/code/model-b/../figs/Fig-ModelB-FiniteSizeQuench-Smoke.pdf"
+└   rows = 24

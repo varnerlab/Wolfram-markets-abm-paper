@@ -1,0 +1,6 @@
+julia_version = "1.12.7"
+source_digest = "d659b92b95f6720c5765436755321924482943e8b536d4f27e910c6930cb8bad"
+created_utc = "2026-09-14T15:22:22.722"
+environment_digest = "c7c715217530b2475a4ac638d4d21285085480cba19ec523051e888a6619cf4c"
+version = "reserve-v2"
+manifest_digest = "aa69a724acf5add138f594a15b63f9a2823cd54d7049eaf2013257c17b164136"

@@ -1,0 +1,22 @@
+{
+  "verified_utc": "2026-09-14T16:13:25.149538+00:00",
+  "campaigns": {
+    "reserve-v2-full": {
+      "runs": 1600,
+      "blocks": 400,
+      "source_digest": "d659b92b95f6720c5765436755321924482943e8b536d4f27e910c6930cb8bad",
+      "summary_sha256": "e6aafd575b4070da75a3155afc4a3a2d31bdca8fbbd71928309b009c7d7c0e05"
+    },
+    "following-reserve-v2-pilot": {
+      "runs": 880,
+      "blocks": 80,
+      "source_digest": "25d7b200dddbada87f3683dc6c8607a2533cb2e1e8791245e30c6e9f208cb922",
+      "summary_sha256": "6ca73898ef30d5d563b37f73c4be79c6a65dc9637459de0fc0bff5c68ab81c37"
+    }
+  },
+  "identical_prior_version_blocks": {
+    "reserve-v1-full_to_reserve-v2-full": 400,
+    "following-reserve-v1-pilot_to_following-reserve-v2-pilot": 14
+  },
+  "round_trip_cases": 64
+}

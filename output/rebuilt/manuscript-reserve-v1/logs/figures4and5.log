@@ -1,0 +1,10 @@
+[ Info: Saved: Fig4-DoseMarketPanels.pdf
+[ Info: Saved: Fig5-DealerMarketPanels.pdf
+┌ Info: Saved market-panel atlases
+│   dose_seeds =
+│    5-element Vector{Int64}:
+│      2
+│     15
+│      ⋮
+│     38
+└   capacity_seed = 2

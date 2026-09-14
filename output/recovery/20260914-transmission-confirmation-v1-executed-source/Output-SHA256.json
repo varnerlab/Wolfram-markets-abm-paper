@@ -1,0 +1,20 @@
+{
+  "output/repaired/transmission-confirmation-v1-full/Source-contrasts.csv": "cb2d822fd62035511e83e56e701a88ed3c885100a69e58793a8c9d503855329b",
+  "output/repaired/transmission-confirmation-v1-full/Summary.csv": "1bc63506d3efe30bd0698ea9c7e05af1fd29a95c86c2d8fc5901fa44eb9e1a28",
+  "output/repaired/transmission-confirmation-v1-full/Primary-bootstrap.csv": "8f4d702e67a2db6ce3f09cc4b7c8c961dda912297eda18b763b11753845a0453",
+  "output/repaired/transmission-confirmation-v1-full/confirmation-controls.svg": "d21a6d0f557d3fdfbccc097622b78b52d973a6a132ba00da6a2d5f671194af05",
+  "output/repaired/transmission-confirmation-v1-full/Protocol.toml": "92fda2bd3b63154d437547eaf908faa6730ed7fda1342cfb1b84ba2972e169f1",
+  "output/repaired/transmission-confirmation-v1-full/Primary-markets.csv": "47fb75910bfe81f391f6b6d5e5b5ca7c090e20ae5d52af38fa079a87631d47b1",
+  "output/repaired/transmission-confirmation-v1-full/report.md": "030b71111c2f7476577adaade08bc04f383cd960017125756dd345f038d738f9",
+  "output/repaired/transmission-confirmation-v1-full/confirmation-controls.png": "1c2448f960fec5c813afce964ef45906ee8485966fd6a0220107dddbd6a8c65c",
+  "output/repaired/transmission-confirmation-v1-full/Primary.json": "0ac0a10387df27c58330c801ca8824844b899371f00c2aa6dc2d5cf3ef68c87e",
+  "output/repaired/transmission-confirmation-v1-full/Freshness.json": "086d379cfe0998f255bbca7a9ca9379b5ecf09e7e33289eda4aac80879afdc88",
+  "output/repaired/transmission-confirmation-v1-full/Frozen-files.toml": "df47b902a0badd24b12230edcfc482d6cb5f63f03183b46ecfd4b26df2214c03",
+  "output/repaired/transmission-confirmation-v1-full/Grouped.csv": "06ae571d80f64c912c5ad7bf8ee53d55a004257505993f8f60c777c90625d128",
+  "output/repaired/transmission-confirmation-v1-full/ASSESSMENT.md": "54a5fc30e7bc6199fe1fd6b13b7da4b2b1c7d0f8a0c6779ff10b305d8e0e2927",
+  "output/repaired/transmission-confirmation-v1-full/Manifest.csv": "298463dd5ffd05a4bcdc55ce4c5d5d8ccdafa08bc91b7cd3dfade7aba578fd3c",
+  "output/repaired/transmission-confirmation-v1-full/Contrasts.csv": "332f8f5d374b405d5db114bf20853a5364993c0b20acb01df871ff238eec40d0",
+  "output/repaired/transmission-confirmation-v1-full/Analysis.json": "62fcfbb08d1d4c5a370e01130573003ffd0f7d6e990c2e131d72040fba3a5ea3",
+  "output/repaired/transmission-confirmation-v1-full/verification.json": "52af0ebcdbfb797862b0f00c9132459e1dc92c10f11c5aa33024fb5b8b7deff0",
+  "output/repaired/transmission-confirmation-v1-full/Environment.json": "ad8bddf9f56024af227c731b3854a026d32f950aafdcb6675e6843a397fc2d7d"
+}

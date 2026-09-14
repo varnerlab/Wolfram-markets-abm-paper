@@ -1,0 +1,56 @@
+┌ Info: Reserve transmission controls
+│   stage = "pilot"
+│   runs = 1040
+└   blocks = 80
+┌ Info: Transmission blocks saved
+│   completed = 10
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 5
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 15
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 20
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 25
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 30
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 35
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 40
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 45
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 50
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 55
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 60
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 65
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 70
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 75
+└   total = 80
+┌ Info: Transmission blocks saved
+│   completed = 80
+└   total = 80
+┌ Info: Transmission campaign complete
+│   stage = "pilot"
+│   runs = 1040
+└   output = "/Users/jdv27/Desktop/julia_work/Wolfram-markets-abm-paper/output/repaired/transmission-v1-pilot"

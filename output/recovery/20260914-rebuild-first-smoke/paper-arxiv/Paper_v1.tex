@@ -1,0 +1,137 @@
+\documentclass{article}
+
+% Pass numbered, compressed citations to natbib
+\PassOptionsToPackage{numbers, sort&compress}{natbib}
+% before loading neurips_2026
+
+\usepackage[preprint]{neurips_2026}
+% Options:
+%  \usepackage[main]{neurips_2026}          % Main Track (double-blind)
+%  \usepackage[preprint]{neurips_2026}      % arXiv / preprint
+%  \usepackage[main, final]{neurips_2026}   % Camera-ready
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[colorlinks=true,linkcolor={blue!70!black},citecolor={blue!70!black},urlcolor={blue!70!black},hypertexnames=false]{hyperref}
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{colortbl}       % \cellcolor in tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{graphicx}       % includegraphics
+\usepackage{subcaption}     % subfigures with (a), (b) labels
+\usepackage{amsmath,amssymb,amsthm} % math
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[section]{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit}
+
+% Colors for agent states (Wong colorblind-safe palette)
+\definecolor{buyblue}{HTML}{0072B2}
+\definecolor{holdgray}{HTML}{AAAAAA}
+\definecolor{sellorange}{HTML}{D55E00}
+\definecolor{edgegreen}{HTML}{009E73}
+\definecolor{lightbg}{HTML}{F0F0F0}
+\definecolor{hlyellow}{HTML}{F0E442}
+
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Local rule activation and dealer capacity in a cellular automaton market\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+
+\hypersetup{
+  pdftitle={Local rule activation and dealer capacity in a cellular automaton market},
+  pdfauthor={Jeffrey D. Varner}
+}
+
+\author{%
+  Jeffrey D. Varner \\
+  R.F. Smith School of Chemical and Biomolecular Engineering\\
+  Cornell University, Ithaca, NY 14850 \\
+  \texttt{jdv27@cornell.edu} \\
+}
+
+\begin{document}
+\raggedbottom
+% Keep paragraph openings and endings together across page and display breaks.
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\maketitle
+
+\begin{abstract}
+Changes in investor decisions can destabilize a market, but a shift toward
+selling need not produce a price crash. We developed a market model in which
+traders inside a grid decided whether to buy, hold, or sell from their
+neighbors' decisions, while technical traders along its edge decided from
+the price alone. We compared markets with identical
+histories, then changed how selected traders in one market responded to
+their neighbors while leaving the comparison market unchanged. A majority
+decided to sell when enough traders received the new rule, even though the
+remaining traders kept their original rules. Setting the selected traders
+to Sell once without changing their rule for later decisions did not produce a
+majority, while several other changes to a single response did. A majority
+still formed when the technical traders were kept in Hold, showing that
+responses to neighboring traders could sustain widespread selling on their
+own. Markets with more interacting traders shifted toward a
+majority over a narrower range of rule adoption, but the fraction needed
+continued to change with the time observed. The dealer's capacity to buy and
+sell affected how often a majority formed when the technical traders were
+active, although greater capacity did not consistently make a majority more likely.
+Greater capacity did increase price declines in the comparison where a majority formed at every dealer capacity, even when we changed how strongly trades affected prices. Varying
+cash and share holdings explained this difference: traders needed resources
+to place orders, and the dealer needed resources to complete orders that
+other traders could not match. Similar Sell majorities could therefore
+accompany both small price declines and simulated crashes. The model
+connected investor decisions to market instability while showing how limited
+dealer resources could contain the price decline even when most traders
+continued deciding to sell.
+\end{abstract}
+
+\input{sections/introduction}
+
+\input{sections/methods}
+
+\input{sections/results}
+
+\input{sections/discussion}
+
+\input{sections/conclusion}
+
+% ============================================================================
+% Add acknowledgments and funding information here before submission, if applicable.
+
+\clearpage
+\bibliographystyle{unsrtnat}
+\bibliography{References_v1}
+
+% End matter order: references, tables, figures, supplementary information.
+\clearpage
+\input{sections/tables}
+
+\clearpage
+\input{sections/figures}
+
+\clearpage
+\appendix
+
+\input{sections/appendix}
+
+\end{document}

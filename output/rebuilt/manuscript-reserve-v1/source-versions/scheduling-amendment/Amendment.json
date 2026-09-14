@@ -1,0 +1,22 @@
+{
+  "timestamp_utc": "2026-09-14T18:03:04.477006+00:00",
+  "kind": "scheduling_only",
+  "affected_source": "code/revision/Revision-Lib.jl",
+  "before_sha256": "24ad4312186dc9b6562cbe30bcc93ebd3c3f242e3403e1e5edcaaab0015cde9b",
+  "after_sha256": "28ea968e5c1b006f96db187af187987ab9fc916c335f6c78ed7f4b9d0cbe5f3d",
+  "active_phase_unchanged": "size",
+  "effective_phases": [
+    "controls",
+    "refinement",
+    "horizons",
+    "extended"
+  ],
+  "numerical_simulator_unchanged": true,
+  "parameters_unchanged": true,
+  "job_manifest_unchanged": true,
+  "analysis_unchanged": true,
+  "validation_checks": 480,
+  "validation_sha256": "795944c1bbb434189366bb0bbf00afcf90ba65324c5973b68d1a0e191b270b22",
+  "archived_versions": "source-versions/scheduling-amendment",
+  "reason": "Large-grid jobs have unequal cost; workers now take the next complete job instead of retaining contiguous job blocks."
+}

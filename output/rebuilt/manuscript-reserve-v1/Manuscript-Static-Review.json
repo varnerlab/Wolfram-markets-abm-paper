@@ -1,0 +1,32 @@
+{
+  "reviewed_utc": "2026-09-14T20:29:32.466109+00:00",
+  "state": "passed",
+  "labels": 29,
+  "unreferenced": [],
+  "unknown_references": [],
+  "hits": {
+    "section_self_references": [],
+    "lists_or_subsubsections": [],
+    "prose_dashes": [],
+    "promotional": [],
+    "terminology": []
+  },
+  "tex_sha256": {
+    "Paper_v1.tex": "d84d2350fbbc42cc3bf3b28d6a0096239b4061e4bbd7e8de005408a4906fe40d",
+    "sections/appendix.tex": "c1a9af31a0c0fbc15e6a89a16558f5d42dc3153b75f6328f3e6249d68929b390",
+    "sections/conclusion.tex": "776f6319b38ff93006187a9953ef35bf464a8dcfebefdc4c1950ed4c03935896",
+    "sections/discussion.tex": "605f4202848b1027936b54cb59992c8eaab72b9f452898a08988ccb064f0eb93",
+    "sections/figures.tex": "0131d8482f0308264400abb7ad285749711f1731a32abe49cc43232c7cb3f718",
+    "sections/finite-size-results.tex": "8568df5fc9b472c9131634fa0a0a85b2fca8a4d616c66e70796e7f056b6db851",
+    "sections/finite-size-table.tex": "06142e8021cccbfb272643d1d5d8068551a577a7b0de57b596a2c2b654349823",
+    "sections/introduction.tex": "3a36826fa03431e84320aa1c549c22685978077ce70797ebd4ff7f1e1b4e81a0",
+    "sections/market-panel-horizons-table.tex": "de1bb459ec86bc0162e97305de335c7830171ccb0caf6e7cbe0acc95c6ec4d83",
+    "sections/methods.tex": "f7729c8bd4671670c72132fd21e8a182abc761d337a5cf6247265c5d13b598e4",
+    "sections/rebuild-validation.tex": "50fe2fdcec94def6b2759309a33b721e7c8dd92f327a4ffec07aaeae3045b1c6",
+    "sections/results.tex": "13ef66f640357239c7d1923f92b2a491609f9ab6d69e65fb4bdae0d97be3f0fd",
+    "sections/revision-controls.tex": "2f2fb69c9b488110f07c8c1d0477f7c35651872756540f527460942999b0e93a",
+    "sections/revision-fits-table.tex": "b9a4d1dbba85d7837b91fd29309aeadacb3b9bd41537d239d2fe5764f5366fd9",
+    "sections/revision-tables.tex": "00280e249769e100ba95fd4cbb4ad90ecb04c80a60cd52d4e4a845524da8992b",
+    "sections/tables.tex": "f24aae93abfa1da266e579c5474e0d297535af4eb3cbd223b021c4ddae197969"
+  }
+}

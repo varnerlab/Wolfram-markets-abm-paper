@@ -1,0 +1,9 @@
+{
+  "code/data/ModelB-Revision-FiniteSize-Grouped.csv": true,
+  "code/data/ModelB-Revision-FiniteSize-Scaling.csv": true,
+  "code/data/ModelB-Revision-Controls-Grouped.csv": true,
+  "code/data/ModelB-TableS2-PairedSwitch.csv": true,
+  "code/data/ModelB-TableS3-FiniteSize.csv": true,
+  "code/data/ModelB-TableS4-BalanceSheetFractions.csv": true,
+  "code/data/Rebuild-Dealer-Paired-Drawdown.csv": true
+}
