@@ -1,117 +1,137 @@
 % introduction.tex -- Introduction
 \section{Introduction}
 
-During the October 1987 market decline, portfolio insurance concentrated
-selling across participating traders~\cite{shiller1988portfolio,grossman1988analysis}.
-Forced sales by funds that had borrowed to invest spread losses across
-quantitative equity strategies in August 2007~\cite{khandani2011what}.
-Such episodes motivate a common modeling question: how can changes in
-some investors' decision rules destabilize a market and contribute to
-a crash? Agent-based
-models address collective behavior through imitation, strategy adaptation,
-and responses to a shared price~\cite{lebaron2006agent,hommes2006heterogeneous,samanidou2007agent,axtell2025agent}.
-In the minority game, every trader reads the same record of past outcomes
-and switches among strategies scored on that record, so traders interact
-only through the market outcome~\cite{challet1997minority,challet2000modeling}.
-In the Santa Fe artificial stock market, traders learn forecasting rules
-from a shared price and dividend~\cite{lebaron1999time}; adding technical
-rules to a trader's repertoire was a dominant strategy that lowered wealth
-and raised volatility for all~\cite{joshi1999technical,joshi2002financial},
-and how much technical trading emerged depended on details of the learning
-algorithm~\cite{ehrentreich2006technical}.
-Many of these models include technical traders, who decide from the recent
-history of the price, alongside traders who follow fundamental value or the
-opinions of others~\cite{brock1998heterogeneous,lux1999scaling,hommes2006heterogeneous}.
-Herding models describe how individual decisions produce collective
-activity~\cite{kirman1993ants,cont2000herd,lux1999scaling}, while lattice
-models encode local interactions through stochastic imitation or spin-like
-responses, sometimes alongside market-wide
-signals~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance}.
-These interactions can generate large fluctuations and periods of sustained
-volatility, two features of financial returns~\cite{cont2001empirical}.
-These approaches explain fluctuations through several forms of interaction,
-but their aggregate return statistics do not by themselves separate the
-effects of a persistent local rule change from feedback through price.
-Both the size of the changed group and the nature of the change matter. A temporary increase in selling
-and a persistent change in how traders respond to their neighbors need
-not produce the same collective outcome.
+Financial markets are the collective outcome of human interactions.
+They reflect both our ingenuity and our failings. In its 2011 report on
+the 2008 financial crisis, the Financial Crisis Inquiry Commission
+paraphrased Shakespeare: ``the fault lies not in the stars, but in us''~\cite[p.~xvii]{fcic2011financial}.
+In markets for traded financial assets
+such as stocks, investors make decisions with different information,
+expectations, and financial resources. They respond to prices and to the
+actions of others when deciding whether to buy, hold, or sell. An investor's
+decision to sell can prompt others to do the same. Sellers need buyers who
+are willing and able to purchase their assets. The prices buyers will pay
+reflect their views of the assets' value and the funds they can commit to
+the purchase. If sellers cannot find buyers at the current price, they may
+accept lower prices to complete their sales. The resulting price changes
+can then influence investors' later decisions. Under what conditions can
+a change in the behavior of some investors lead to widespread selling,
+and when does that selling produce a market crash?
 
-A cellular automaton represents investors as traders arranged on a square
-grid, with each trader deciding whether to buy, hold, or sell from the
-decisions of nearby traders. Each trader uses a lookup table to convert the
-sum of its four neighbors' numbered decisions into its next decision, a
-totalistic rule~\cite{wolfram1984universality,packard1985two,wolfram2002new}.
-Wolfram's own market model placed buying and selling entities on a line,
-each responding to its two neighbors under a fixed rule, and took the
-running difference between buyers and sellers as the
-price~\cite{wolfram2002new}. A recent model in which thirty-two agents
-followed rules inspired by Rule~110, kept balance sheets, and set the price
-from the counts of buy and sell positions produced series with the
-statistics of real assets~\cite{valsan2022on}. Two-dimensional
-cellular-automaton markets have instead used stochastic rules, typically a
-probability that a trader imitates its neighbors, and varied that
-probability or a market-wide factor to change market
-behavior~\cite{wei2003cellular,bartolozzi2004stochastic,qiu2007cellular,fan2009effect,atman2012influence}.
-The model studied here uses a deterministic table drawn from the complete
-set of totalistic rules, so one table entry can change while the other
-responses stay fixed. Asking a trader to sell once changes its current decision, whereas
-changing the rule changes how it responds whenever the same neighbor sum
-occurs again. The new rule remains in use even after the trader stops
-selling. Starting two markets from the same history, then changing the rule
-in only one, allows the effect of that change to be measured against
-continued use of the original
-rule~\cite{glasserman1992guidelines,law2015simulation}.
-In this model, selected traders along the edge of the grid are
-technical traders: they buy when the price falls below a band around its
-recent average and sell when it rises above that band, and they are the only
-traders whose decisions depend on the price. The question is how
-many traders must receive the new rule before at least half of the interior
-traders decide to sell, which we call a Sell majority, and whether this
-instability can develop when the technical traders are kept in Hold, so that
-trades still complete and the price still moves, but no decision responds to
-it.
+Agent-based models study how individual trading decisions and interactions
+among investors produce market behavior. This literature includes many
+approaches to learning, imitation, and price
+formation~\cite{samanidou2007agent,axtell2025agent}. Models differ in the
+information available to traders and in how their trades affect prices.
+Farmer and Joshi studied traders who followed price trends or compared
+prices with their estimates of asset value. A market maker absorbed their
+net orders and adjusted the price. The resulting price changes then
+influenced later trading decisions~\cite{farmer2002price}. In the Santa Fe
+artificial stock market, traders learned forecasting rules from market
+prices and dividends and used those forecasts to guide their
+trades~\cite{lebaron1999time}. In previous work, we developed an agent-based
+market that supported trading in multiple assets. Agents submitted orders
+to a continuous double auction, which matched compatible buy and sell
+orders as they arrived. Traders with different decision rules therefore
+interacted through a common trading mechanism~\cite{wheeler2023scalable}.
+Alongside interactions through prices and trades, herding models describe
+how traders respond to the behavior of
+others~\cite{kirman1993ants,cont2000herd,lux1999scaling}. Arranging traders
+in rows and columns provides a simple representation of the connections
+through which influence operates. Each position represents a trader, and
+neighboring positions identify
+the traders whose decisions it can observe. The information passed through
+these connections can be as simple as a trader's current decision to buy
+or sell~\cite{iori2002microsimulation}. A change in one trader's decision
+can affect its neighbors, whose responses can then influence other traders.
+Models inspired by the Ising model use these local interactions to represent
+imitation. In Bornholdt's simplified model, traders tended to follow their
+neighbors. A growing imbalance between buyers and sellers across the
+market increased their tendency to reverse their current
+decisions~\cite{bornholdt2001ising}. Iori used a related model in which
+traders could buy, sell, or remain inactive. Traders repeatedly exchanged
+their current decisions with their neighbors and used the resulting signals
+to revise their own choices~\cite{iori2002microsimulation}. These models
+used similar arrangements of traders but different rules for responding to
+neighboring decisions. The arrangement specifies who can influence whom, while the decision
+rule specifies how each trader responds.
 
-A market dominated by sellers and a market price crash are different
-outcomes. Their connection depends partly on the resources needed to trade. A trader needs shares to sell or cash to
-buy, and completing a trade requires someone willing and able to take the
-other side. Dealers can complete orders that other traders do not match, but
-their cash and share holdings limit how much they can buy and
-sell~\cite{garman1976market,stoll1978supply,ho1981optimal,madhavan2000market,adrian2017dealer}.
-Price-impact models describe how completed trades change the
-price~\cite{kyle1985continuous,hasbrouck1991measuring,farmer2005predictive,bouchaud2009how}.
-Agent-based markets have included limited trader resources, records of
-outstanding buy and sell orders, borrowing limits, and dealers with limited
-cash and
-shares~\cite{raberto2001agent,chiarella2002simulation,thurner2012leverage,braunmunzinger2018agent}.
-In the grid model, traders can keep deciding to sell even when they cannot
-complete a sale, allowing instability in decisions to develop without a
-price crash. Limits on completed trades also change the price that informs later decisions. Dealer capacity can therefore affect both selling decisions and prices. We coupled execution and price through a dealer whose finite cash and
-share reserves retained a constant product, following the reserve-based
-approach of constant-function markets~\cite{angeris2022constant}.
-Each batch used a common execution price consistent with its net trade,
-and the final reserve ratio set the next marginal quote. This construction
-tied price movements to actual transfers and prevented an isolated round
-trip that restored dealer inventory from extracting its cash. It also
-made reserve depth determine both available funding and price sensitivity,
-so a smaller dealer need not protect the market from a large decline.
-The relevant comparison was how a given pattern of decisions traded
-against different reserves, and how the resulting prices influenced
-later decisions.
+Cellular automata use local rules to update traders' decisions at discrete time
+steps~\cite{wolfram1984universality,packard1985two}. Wolfram arranged
+traders on a line. Each trader responded to
+its two neighbors, and the cumulative difference between buying and selling
+served as a price analogue~\cite{wolfram2002new}. Later models combined
+cellular automata with trader balance sheets~\cite{valsan2022on} or used
+stochastic rules for interactions between neighboring
+traders~\cite{wei2003cellular,bartolozzi2004stochastic,qiu2007cellular,fan2009effect,atman2012influence}.
+Our model represents a synthetic market with traders arranged in rows and
+columns. Two types of traders occupy the market interior. Both types
+use their four neighbors' intended actions to decide whether they want
+to buy, hold, or sell. Their rules differ in a single response to their
+neighbors' intended actions. We vary the relative numbers of the two types
+to study how the mixture affects the spread of selling intentions.
+Technical traders along the edge
+of the synthetic market base their decisions on prices. Their choices
+provide a path through which price changes can influence interior traders.
+The financial consequences of intended trades depend on the resources
+available for exchanging cash and shares. Earlier agent-based models have examined
+limits on traders' cash and asset holdings and on their ability to
+borrow~\cite{raberto2001agent,thurner2012leverage}. In our model, Buy and
+Sell indicate intended actions. A completed trade transfers shares from
+a seller to a buyer and cash from the buyer to the seller. Traders cannot
+borrow cash or sell shares they do not own. A trader without shares can
+still indicate a desire to sell but cannot carry out the sale. A trader
+without enough cash can indicate a desire to buy but cannot carry out the
+purchase. Neighboring traders respond to the intended actions even when
+no trade occurs. Selling intentions can therefore spread without a
+corresponding increase in completed sales. A dealer acts as the market
+maker. It can use its finite cash and share reserves to complete trades
+that cannot be matched between traders. Completed trades preserve the
+product of the dealer's cash and share reserves, following a
+constant-product market-making approach~\cite{angeris2022constant}.
+After each round of trading, the dealer's quoted price per share equals
+its remaining cash divided by the number of shares it holds. When the
+dealer buys shares from traders, it has less cash and more shares.
+Dividing the smaller cash balance by the larger number of shares gives
+a lower quoted price. The size of the dealer's reserves determines both
+which trades can be completed and how much the quoted price changes when
+the dealer buys or sells shares. Technical traders use the dealer's
+updated quote to make their next decisions. The technical traders'
+decisions then influence neighboring interior traders.
 
-In this study, we used a three-state cellular automaton market to examine
-how changes in investor decision rules produced market instability and
-how trading resources connected those decisions to price declines.
-We compared markets with a common history, then changed one response in
-the lookup table of selected interior traders while preserving the
-comparison market's rule. Keeping technical traders in Hold allowed the
-same intervention to be studied without feedback from price, while still
-calculating trades and financial outcomes. A one-time instruction to sell
-and a screen of other single-response changes tested which features of
-the intervention mattered. Comparisons across grid sizes and observation
-periods assessed whether the fraction needed for a Sell majority depended
-on the extent and duration of interaction. We also varied dealer reserves
-and changed trader cash and shares separately to identify their effects
-on completed orders, majority formation, and drawdown. The paired design
-therefore addressed two linked questions: whether a persistent change in
-local decisions could spread through neighboring traders, and how the
-execution mechanism determined the accompanying price decline.
+In this study, we constructed a synthetic market based on a three-state
+cellular automaton to examine whether mixing two trader types could lead to
+widespread selling intentions. We also examined how trader holdings and
+dealer reserves affected the accompanying price decline. In each paired
+rule-change comparison, both markets had the same number of traders and
+shared a period of trading with only the original trader type in the
+interior. We then assigned the second decision rule to a chosen fraction
+of interior traders in one market. The other market kept the original
+rule. Trading intentions, trader holdings, dealer reserves, and prices
+matched when the rule changed. The traders could then make different
+decisions and complete different trades. We varied the fraction of
+interior traders using the second rule to determine when at least half of
+the interior traders wanted to sell, which we called a Sell majority. In
+separate experiments, we varied the total number of traders and the
+simulation duration to examine how market size and time affected the
+spread of selling. We also ran markets with all technical traders held in
+Hold to test whether a Sell majority could develop without feedback from
+prices. Interior traders continued to respond to neighboring intentions
+and could complete trades with one another or the dealer. Trades with the
+dealer could still change its reserves and quoted price. In the rule-change
+experiments, keeping technical traders in Hold prevented price changes from
+influencing interior traders' intentions. However, prices still affected
+which trades could be completed.
+Buyers needed enough cash to purchase shares, and sellers needed shares to
+sell. Each sale also required a buyer or dealer able to pay the execution
+price. We varied dealer reserves and traders' cash and shares separately
+to examine how those resources affected completed trades and price
+declines. We also examined crowding by having groups of traders follow
+shared advice or copy another trader's completed trades. We varied the
+fraction of followers and the number of sources to examine effects on
+other traders' decisions, prices, and the distribution of gains and
+losses. For shared advice, we tested whether followers' influence on
+neighboring traders contributed to their financial gains. Together, the
+rule-change and following experiments showed how individual trading
+decisions could spread through a market, affect prices, and redistribute
+cash among traders.

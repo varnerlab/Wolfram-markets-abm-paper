@@ -1,44 +1,20 @@
-\begin{thebibliography}{59}
+\begin{thebibliography}{51}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Shiller(1988)]{shiller1988portfolio}
-Robert~J. Shiller.
-\newblock Portfolio insurance and other investor fashions as factors in the
-  1987 stock market crash.
-\newblock \emph{NBER Macroeconomics Annual}, 3:\penalty0 287--297, 1988.
-\newblock \doi{10.1086/654091}.
-
-\bibitem[Grossman(1988)]{grossman1988analysis}
-Sanford~J. Grossman.
-\newblock An analysis of the implications for stock and futures price
-  volatility of program trading and dynamic hedging strategies.
-\newblock \emph{The Journal of Business}, 61\penalty0 (3):\penalty0 275--298,
-  1988.
-\newblock \doi{10.1086/296433}.
-
-\bibitem[Khandani and Lo(2011)]{khandani2011what}
-Amir~E. Khandani and Andrew~W. Lo.
-\newblock What happened to the quants in {August} 2007? {Evidence} from factors
-  and transactions data.
-\newblock \emph{Journal of Financial Markets}, 14\penalty0 (1):\penalty0 1--46,
-  2011.
-\newblock \doi{10.1016/j.finmar.2010.07.005}.
-
-\bibitem[LeBaron(2006)]{lebaron2006agent}
-Blake LeBaron.
-\newblock Agent-based computational finance.
-\newblock In \emph{Handbook of Computational Economics}, volume~2, pages
-  1187--1233. Elsevier, 2006.
-
-\bibitem[Hommes(2006)]{hommes2006heterogeneous}
-Cars~H Hommes.
-\newblock Heterogeneous agent models in economics and finance.
-\newblock \emph{Handbook of Computational Economics}, 2:\penalty0 1109--1186,
-  2006.
+\bibitem[{Financial Crisis Inquiry Commission}(2011)]{fcic2011financial}
+{Financial Crisis Inquiry Commission}.
+\newblock \emph{The financial crisis inquiry report: Final report of the
+  national commission on the causes of the financial and economic crisis in the
+  {United States}}.
+\newblock U.S. Government Printing Office, Washington, DC, January 2011.
+\newblock ISBN 978-0-16-087727-8.
+\newblock URL
+  \url{https://fcic-static.law.stanford.edu/cdn_media/fcic-reports/fcic_final_report_full.pdf}.
+\newblock Official government edition.
 
 \bibitem[Samanidou et~al.(2007)Samanidou, Zschischang, Stauffer, and
   Lux]{samanidou2007agent}
@@ -56,18 +32,11 @@ Robert~L. Axtell and J.~Doyne Farmer.
   197--287, 2025.
 \newblock \doi{10.1257/jel.20221319}.
 
-\bibitem[Challet and Zhang(1997)]{challet1997minority}
-D.~Challet and Y.-C. Zhang.
-\newblock Emergence of cooperation and organization in an evolutionary game.
-\newblock \emph{Physica A: Statistical Mechanics and its Applications},
-  246:\penalty0 407--418, 1997.
-
-\bibitem[Challet et~al.(2000)Challet, Marsili, and Zhang]{challet2000modeling}
-Damien Challet, Matteo Marsili, and Yi-Cheng Zhang.
-\newblock Modeling market mechanism with minority game.
-\newblock \emph{Physica A: Statistical Mechanics and its Applications},
-  276\penalty0 (1-2):\penalty0 284--315, 2000.
-\newblock \doi{10.1016/S0378-4371(99)00446-X}.
+\bibitem[Farmer and Joshi(2002)]{farmer2002price}
+J.~Doyne Farmer and Shareen Joshi.
+\newblock The price dynamics of common trading strategies.
+\newblock \emph{Journal of Economic Behavior \& Organization}, 49\penalty0
+  (2):\penalty0 149--171, 2002.
 
 \bibitem[LeBaron et~al.(1999)LeBaron, Arthur, and Palmer]{lebaron1999time}
 Blake LeBaron, W.~Brian Arthur, and Richard Palmer.
@@ -76,42 +45,13 @@ Blake LeBaron, W.~Brian Arthur, and Richard Palmer.
   (9-10):\penalty0 1487--1516, 1999.
 \newblock \doi{10.1016/s0165-1889(98)00081-5}.
 
-\bibitem[Joshi et~al.(1999)Joshi, Parker, and Bedau]{joshi1999technical}
-Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
-\newblock Technical trading creates a prisoner's dilemma: results from an
-  agent-based model.
-\newblock Working Paper 98-12-115, Santa Fe Institute, 1999.
-\newblock Also in Proceedings of Computational Finance CF99, New York
-  University.
-
-\bibitem[Joshi et~al.(2002)Joshi, Parker, and Bedau]{joshi2002financial}
-Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
-\newblock Financial markets can be at sub-optimal equilibria.
-\newblock \emph{Computational Economics}, 19\penalty0 (1):\penalty0 5--23,
-  2002.
-\newblock \doi{10.1023/A:1014988805326}.
-
-\bibitem[Ehrentreich(2006)]{ehrentreich2006technical}
-Norman Ehrentreich.
-\newblock Technical trading in the {Santa Fe Institute Artificial Stock Market}
-  revisited.
-\newblock \emph{Journal of Economic Behavior \& Organization}, 61\penalty0
-  (4):\penalty0 599--616, 2006.
-\newblock \doi{10.1016/j.jebo.2004.07.022}.
-
-\bibitem[Brock and Hommes(1998)]{brock1998heterogeneous}
-William~A. Brock and Cars~H. Hommes.
-\newblock Heterogeneous beliefs and routes to chaos in a simple asset pricing
-  model.
-\newblock \emph{Journal of Economic Dynamics and Control}, 22\penalty0
-  (8-9):\penalty0 1235--1274, 1998.
-\newblock \doi{10.1016/s0165-1889(98)00011-6}.
-
-\bibitem[Lux and Marchesi(1999)]{lux1999scaling}
-Thomas Lux and Michele Marchesi.
-\newblock Scaling and criticality in a stochastic multi-agent model of a
-  financial market.
-\newblock \emph{Nature}, 397:\penalty0 498--500, 1999.
+\bibitem[Wheeler and Varner(2023)]{wheeler2023scalable}
+Aaron Wheeler and Jeffrey~D. Varner.
+\newblock Scalable agent-based modeling for complex financial market
+  simulations.
+\newblock arXiv preprint arXiv:2312.14903, 2023.
+\newblock URL \url{https://arxiv.org/abs/2312.14903}.
+\newblock Version 2, January 2024.
 
 \bibitem[Kirman(1993)]{kirman1993ants}
 A.~Kirman.
@@ -126,12 +66,11 @@ Rama Cont and Jean-Philippe Bouchaud.
 \newblock \emph{Macroeconomic Dynamics}, 4\penalty0 (2):\penalty0 170--196,
   2000.
 
-\bibitem[Bornholdt(2001)]{bornholdt2001ising}
-Stefan Bornholdt.
-\newblock Expectation bubbles in a spin model of markets: intermittency from
-  frustration across scales.
-\newblock \emph{International Journal of Modern Physics C}, 12\penalty0
-  (5):\penalty0 667--674, 2001.
+\bibitem[Lux and Marchesi(1999)]{lux1999scaling}
+Thomas Lux and Michele Marchesi.
+\newblock Scaling and criticality in a stochastic multi-agent model of a
+  financial market.
+\newblock \emph{Nature}, 397:\penalty0 498--500, 1999.
 
 \bibitem[Iori(2002)]{iori2002microsimulation}
 Giulia Iori.
@@ -141,32 +80,12 @@ Giulia Iori.
   (2):\penalty0 269--285, 2002.
 \newblock \doi{10.1016/s0167-2681(01)00164-0}.
 
-\bibitem[Bartolozzi and Thomas(2004)]{bartolozzi2004stochastic}
-M.~Bartolozzi and A.~W. Thomas.
-\newblock Stochastic cellular automata model for stock market dynamics.
-\newblock \emph{Physical Review E}, 69\penalty0 (4):\penalty0 046112, 2004.
-\newblock \doi{10.1103/PhysRevE.69.046112}.
-
-\bibitem[Qiu et~al.(2007)Qiu, Kandhai, and Sloot]{qiu2007cellular}
-G.~Qiu, D.~Kandhai, and P.~M.~A. Sloot.
-\newblock Understanding the complex dynamics of stock markets through cellular
-  automata.
-\newblock \emph{Physical Review E}, 75\penalty0 (4):\penalty0 046116, 2007.
-\newblock \doi{10.1103/PhysRevE.75.046116}.
-
-\bibitem[Sornette and Zhou(2006)]{sornette2006importance}
-Didier Sornette and Wei-Xing Zhou.
-\newblock Importance of positive feedbacks and overconfidence in a
-  self-fulfilling ising model of financial markets.
-\newblock \emph{Physica A: Statistical Mechanics and its Applications},
-  370\penalty0 (2):\penalty0 704--726, 2006.
-\newblock \doi{10.1016/j.physa.2006.02.022}.
-
-\bibitem[Cont(2001)]{cont2001empirical}
-Rama Cont.
-\newblock Empirical properties of asset returns: stylized facts and statistical
-  issues.
-\newblock \emph{Quantitative Finance}, 1\penalty0 (2):\penalty0 223--236, 2001.
+\bibitem[Bornholdt(2001)]{bornholdt2001ising}
+Stefan Bornholdt.
+\newblock Expectation bubbles in a spin model of markets: intermittency from
+  frustration across scales.
+\newblock \emph{International Journal of Modern Physics C}, 12\penalty0
+  (5):\penalty0 667--674, 2001.
 
 \bibitem[Wolfram(1984)]{wolfram1984universality}
 Stephen Wolfram.
@@ -198,6 +117,19 @@ Yi-ming Wei, Shang-jun Ying, Ying Fan, and Bing-Hong Wang.
   325\penalty0 (3-4):\penalty0 507--516, 2003.
 \newblock \doi{10.1016/S0378-4371(03)00144-4}.
 
+\bibitem[Bartolozzi and Thomas(2004)]{bartolozzi2004stochastic}
+M.~Bartolozzi and A.~W. Thomas.
+\newblock Stochastic cellular automata model for stock market dynamics.
+\newblock \emph{Physical Review E}, 69\penalty0 (4):\penalty0 046112, 2004.
+\newblock \doi{10.1103/PhysRevE.69.046112}.
+
+\bibitem[Qiu et~al.(2007)Qiu, Kandhai, and Sloot]{qiu2007cellular}
+G.~Qiu, D.~Kandhai, and P.~M.~A. Sloot.
+\newblock Understanding the complex dynamics of stock markets through cellular
+  automata.
+\newblock \emph{Physical Review E}, 75\penalty0 (4):\penalty0 046116, 2007.
+\newblock \doi{10.1103/PhysRevE.75.046116}.
+
 \bibitem[Fan et~al.(2009)Fan, Ying, Wang, and Wei]{fan2009effect}
 Ying Fan, Shang-Jun Ying, Bing-Hong Wang, and Yi-Ming Wei.
 \newblock The effect of investor psychology on the complexity of stock market:
@@ -214,79 +146,6 @@ A.~P.~F. Atman and Bruna~Amin Gon{\c c}alves.
   137--145, 2012.
 \newblock \doi{10.1007/s13538-011-0057-7}.
 
-\bibitem[Glasserman and Yao(1992)]{glasserman1992guidelines}
-Paul Glasserman and David~D. Yao.
-\newblock Some guidelines and guarantees for common random numbers.
-\newblock \emph{Management Science}, 38\penalty0 (6):\penalty0 884--908, 1992.
-\newblock \doi{10.1287/mnsc.38.6.884}.
-
-\bibitem[Law(2015)]{law2015simulation}
-Averill~M. Law.
-\newblock \emph{Simulation modeling and analysis}.
-\newblock McGraw-Hill Education, New York, 5 edition, 2015.
-\newblock ISBN 9780073401324.
-
-\bibitem[Garman(1976)]{garman1976market}
-Mark~B. Garman.
-\newblock Market microstructure.
-\newblock \emph{Journal of Financial Economics}, 3\penalty0 (3):\penalty0
-  257--275, 1976.
-\newblock \doi{10.1016/0304-405X(76)90006-4}.
-
-\bibitem[Stoll(1978)]{stoll1978supply}
-Hans~R. Stoll.
-\newblock The supply of dealer services in securities markets.
-\newblock \emph{The Journal of Finance}, 33\penalty0 (4):\penalty0 1133--1151,
-  1978.
-\newblock \doi{10.1111/j.1540-6261.1978.tb02053.x}.
-
-\bibitem[Ho and Stoll(1981)]{ho1981optimal}
-Thomas Ho and Hans~R. Stoll.
-\newblock Optimal dealer pricing under transactions and return uncertainty.
-\newblock \emph{Journal of Financial Economics}, 9\penalty0 (1):\penalty0
-  47--73, 1981.
-\newblock \doi{10.1016/0304-405X(81)90020-9}.
-
-\bibitem[Madhavan(2000)]{madhavan2000market}
-Ananth Madhavan.
-\newblock Market microstructure: a survey.
-\newblock \emph{Journal of Financial Markets}, 3\penalty0 (3):\penalty0
-  205--258, 2000.
-\newblock \doi{10.1016/S1386-4181(00)00007-0}.
-
-\bibitem[Adrian et~al.(2017)Adrian, Boyarchenko, and Shachar]{adrian2017dealer}
-Tobias Adrian, Nina Boyarchenko, and Or~Shachar.
-\newblock Dealer balance sheets and bond liquidity provision.
-\newblock \emph{Journal of Monetary Economics}, 89:\penalty0 92--109, 2017.
-\newblock \doi{10.1016/j.jmoneco.2017.03.011}.
-
-\bibitem[Kyle(1985)]{kyle1985continuous}
-Albert~S. Kyle.
-\newblock Continuous auctions and insider trading.
-\newblock \emph{Econometrica}, 53\penalty0 (6):\penalty0 1315--1335, 1985.
-
-\bibitem[Hasbrouck(1991)]{hasbrouck1991measuring}
-Joel Hasbrouck.
-\newblock Measuring the information content of stock trades.
-\newblock \emph{The Journal of Finance}, 46\penalty0 (1):\penalty0 179--207,
-  1991.
-\newblock \doi{10.1111/j.1540-6261.1991.tb03749.x}.
-
-\bibitem[Farmer et~al.(2005)Farmer, Patelli, and Zovko]{farmer2005predictive}
-J~Doyne Farmer, Paolo Patelli, and Ilija~I Zovko.
-\newblock The predictive power of zero intelligence in financial markets.
-\newblock \emph{Proceedings of the National Academy of Sciences}, 102\penalty0
-  (6):\penalty0 2254--2259, 2005.
-
-\bibitem[Bouchaud et~al.(2009)Bouchaud, Farmer, and Lillo]{bouchaud2009how}
-Jean-Philippe Bouchaud, J.~Doyne Farmer, and Fabrizio Lillo.
-\newblock How markets slowly digest changes in supply and demand.
-\newblock In Thorsten Hens and Klaus~Reiner Schenk-Hopp{\'e}, editors,
-  \emph{Handbook of Financial Markets: Dynamics and Evolution}, pages 57--160.
-  North-Holland, Amsterdam, 2009.
-\newblock ISBN 9780123742582.
-\newblock \doi{10.1016/B978-012374258-2.50006-3}.
-
 \bibitem[Raberto et~al.(2001)Raberto, Cincotti, Focardi, and
   Marchesi]{raberto2001agent}
 Marco Raberto, Silvano Cincotti, Sergio~M. Focardi, and Michele Marchesi.
@@ -295,13 +154,6 @@ Marco Raberto, Silvano Cincotti, Sergio~M. Focardi, and Michele Marchesi.
   299\penalty0 (1-2):\penalty0 319--327, 2001.
 \newblock \doi{10.1016/s0378-4371(01)00312-0}.
 
-\bibitem[Chiarella and Iori(2002)]{chiarella2002simulation}
-Carl Chiarella and Giulia Iori.
-\newblock A simulation analysis of the microstructure of double auction
-  markets.
-\newblock \emph{Quantitative Finance}, 2\penalty0 (5):\penalty0 346--353, 2002.
-\newblock \doi{10.1088/1469-7688/2/5/303}.
-
 \bibitem[Thurner et~al.(2012)Thurner, Farmer, and
   Geanakoplos]{thurner2012leverage}
 Stefan Thurner, J.~Doyne Farmer, and John Geanakoplos.
@@ -309,14 +161,6 @@ Stefan Thurner, J.~Doyne Farmer, and John Geanakoplos.
 \newblock \emph{Quantitative Finance}, 12\penalty0 (5):\penalty0 695--707,
   2012.
 \newblock \doi{10.1080/14697688.2012.674301}.
-
-\bibitem[Braun-Munzinger et~al.(2018)Braun-Munzinger, Liu, and
-  Turrell]{braunmunzinger2018agent}
-Karen Braun-Munzinger, Zijun Liu, and Arthur~E. Turrell.
-\newblock An agent-based model of corporate bond trading.
-\newblock \emph{Quantitative Finance}, 18\penalty0 (4):\penalty0 591--608,
-  2018.
-\newblock \doi{10.1080/14697688.2017.1380310}.
 
 \bibitem[Angeris et~al.(2022)Angeris, Agrawal, Evans, Chitra, and
   Boyd]{angeris2022constant}
@@ -371,6 +215,18 @@ Edwin~B. Wilson.
   (158):\penalty0 209--212, 1927.
 \newblock \doi{10.1080/01621459.1927.10502953}.
 
+\bibitem[Glasserman and Yao(1992)]{glasserman1992guidelines}
+Paul Glasserman and David~D. Yao.
+\newblock Some guidelines and guarantees for common random numbers.
+\newblock \emph{Management Science}, 38\penalty0 (6):\penalty0 884--908, 1992.
+\newblock \doi{10.1287/mnsc.38.6.884}.
+
+\bibitem[Law(2015)]{law2015simulation}
+Averill~M. Law.
+\newblock \emph{Simulation modeling and analysis}.
+\newblock McGraw-Hill Education, New York, 5 edition, 2015.
+\newblock ISBN 9780073401324.
+
 \bibitem[Hinrichsen(2000)]{hinrichsen2000nonequilibrium}
 Haye Hinrichsen.
 \newblock Non-equilibrium critical phenomena and phase transitions into
@@ -412,6 +268,99 @@ Alexander~E. Holroyd.
 \newblock \emph{Probability Theory and Related Fields}, 125\penalty0
   (2):\penalty0 195--224, 2003.
 \newblock \doi{10.1007/s00440-002-0239-x}.
+
+\bibitem[Garman(1976)]{garman1976market}
+Mark~B. Garman.
+\newblock Market microstructure.
+\newblock \emph{Journal of Financial Economics}, 3\penalty0 (3):\penalty0
+  257--275, 1976.
+\newblock \doi{10.1016/0304-405X(76)90006-4}.
+
+\bibitem[Stoll(1978)]{stoll1978supply}
+Hans~R. Stoll.
+\newblock The supply of dealer services in securities markets.
+\newblock \emph{The Journal of Finance}, 33\penalty0 (4):\penalty0 1133--1151,
+  1978.
+\newblock \doi{10.1111/j.1540-6261.1978.tb02053.x}.
+
+\bibitem[Ho and Stoll(1981)]{ho1981optimal}
+Thomas Ho and Hans~R. Stoll.
+\newblock Optimal dealer pricing under transactions and return uncertainty.
+\newblock \emph{Journal of Financial Economics}, 9\penalty0 (1):\penalty0
+  47--73, 1981.
+\newblock \doi{10.1016/0304-405X(81)90020-9}.
+
+\bibitem[Braun-Munzinger et~al.(2018)Braun-Munzinger, Liu, and
+  Turrell]{braunmunzinger2018agent}
+Karen Braun-Munzinger, Zijun Liu, and Arthur~E. Turrell.
+\newblock An agent-based model of corporate bond trading.
+\newblock \emph{Quantitative Finance}, 18\penalty0 (4):\penalty0 591--608,
+  2018.
+\newblock \doi{10.1080/14697688.2017.1380310}.
+
+\bibitem[Kyle(1985)]{kyle1985continuous}
+Albert~S. Kyle.
+\newblock Continuous auctions and insider trading.
+\newblock \emph{Econometrica}, 53\penalty0 (6):\penalty0 1315--1335, 1985.
+
+\bibitem[Farmer et~al.(2005)Farmer, Patelli, and Zovko]{farmer2005predictive}
+J~Doyne Farmer, Paolo Patelli, and Ilija~I Zovko.
+\newblock The predictive power of zero intelligence in financial markets.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 102\penalty0
+  (6):\penalty0 2254--2259, 2005.
+
+\bibitem[Bouchaud et~al.(2009)Bouchaud, Farmer, and Lillo]{bouchaud2009how}
+Jean-Philippe Bouchaud, J.~Doyne Farmer, and Fabrizio Lillo.
+\newblock How markets slowly digest changes in supply and demand.
+\newblock In Thorsten Hens and Klaus~Reiner Schenk-Hopp{\'e}, editors,
+  \emph{Handbook of Financial Markets: Dynamics and Evolution}, pages 57--160.
+  North-Holland, Amsterdam, 2009.
+\newblock ISBN 9780123742582.
+\newblock \doi{10.1016/B978-012374258-2.50006-3}.
+
+\bibitem[Challet and Zhang(1997)]{challet1997minority}
+D.~Challet and Y.-C. Zhang.
+\newblock Emergence of cooperation and organization in an evolutionary game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  246:\penalty0 407--418, 1997.
+
+\bibitem[Challet et~al.(2000)Challet, Marsili, and Zhang]{challet2000modeling}
+Damien Challet, Matteo Marsili, and Yi-Cheng Zhang.
+\newblock Modeling market mechanism with minority game.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  276\penalty0 (1-2):\penalty0 284--315, 2000.
+\newblock \doi{10.1016/S0378-4371(99)00446-X}.
+
+\bibitem[Joshi et~al.(1999)Joshi, Parker, and Bedau]{joshi1999technical}
+Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
+\newblock Technical trading creates a prisoner's dilemma: results from an
+  agent-based model.
+\newblock Working Paper 98-12-115, Santa Fe Institute, 1999.
+\newblock Also in Proceedings of Computational Finance CF99, New York
+  University.
+
+\bibitem[Joshi et~al.(2002)Joshi, Parker, and Bedau]{joshi2002financial}
+Shareen Joshi, Jeffrey Parker, and Mark~A. Bedau.
+\newblock Financial markets can be at sub-optimal equilibria.
+\newblock \emph{Computational Economics}, 19\penalty0 (1):\penalty0 5--23,
+  2002.
+\newblock \doi{10.1023/A:1014988805326}.
+
+\bibitem[Brock and Hommes(1998)]{brock1998heterogeneous}
+William~A. Brock and Cars~H. Hommes.
+\newblock Heterogeneous beliefs and routes to chaos in a simple asset pricing
+  model.
+\newblock \emph{Journal of Economic Dynamics and Control}, 22\penalty0
+  (8-9):\penalty0 1235--1274, 1998.
+\newblock \doi{10.1016/s0165-1889(98)00011-6}.
+
+\bibitem[Sornette and Zhou(2006)]{sornette2006importance}
+Didier Sornette and Wei-Xing Zhou.
+\newblock Importance of positive feedbacks and overconfidence in a
+  self-fulfilling ising model of financial markets.
+\newblock \emph{Physica A: Statistical Mechanics and its Applications},
+  370\penalty0 (2):\penalty0 704--726, 2006.
+\newblock \doi{10.1016/j.physa.2006.02.022}.
 
 \bibitem[Blackman and Vigna(2021)]{blackman2021scrambled}
 David Blackman and Sebastiano Vigna.

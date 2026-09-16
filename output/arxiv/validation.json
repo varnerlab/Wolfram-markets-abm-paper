@@ -1,8 +1,8 @@
 {
   "archive": "output/arxiv/Wolfram-markets-arxiv-source.tar.gz",
   "source_files": 25,
-  "source_sha256": "641df5b389bc410f759463049e23172959ce41c522d49fe16dd04710e6a4c5f6",
-  "manuscript_sha256": "dc97863eca45ac21013190049e224c0e7602ac0702cc3b8e4c7490de9bfb51c3",
+  "source_sha256": "a31e46d0e97159b45d27db1c19cc7712b7410e18701158a915e42822c76fa97e",
+  "manuscript_sha256": "50486c3ad264d52ca398dbf1be742736b4e1c849befddb99e9fe6a5af0584183",
   "clean_compile": true,
   "pdf_text_identical": true
 }

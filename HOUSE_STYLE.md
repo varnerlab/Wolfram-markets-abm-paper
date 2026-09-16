@@ -10,12 +10,20 @@ visually reviewed; the source package passed an isolated compile. Earlier
 standing-quote financial conclusions are archived and must not be restored.
 The language conventions below apply to the corrected model.
 
-This guide records the writing, structure, and verification conventions for
+Read [PUBLICATION_STYLE.md](PUBLICATION_STYLE.md) first for the author's
+voice and the interactive review process. The current review is tracked in
+[REVIEW_PROGRESS.md](REVIEW_PROGRESS.md). The publication guide was drafted
+on 16 September 2026 around the author's request for simple sentences and
+long, developed paragraphs; refine it through the section reviews.
+
+This guide records the project-specific structure and verification conventions for
 *Local rule activation and dealer capacity in a cellular automaton market*
 (`paper-arxiv/Paper_v1.tex`). Apply it to every prose edit, every response to
 review, and every generated section. Where this guide and a generic template
-disagree, this guide wins. Where this guide and the author's `review-section`
-skill disagree, the skill wins and this guide should be updated.
+disagree, this guide wins. Current author instructions take precedence over
+both guides. `PUBLICATION_STYLE.md` governs voice and interactive review;
+this guide governs this paper's terminology, scientific scope, and build.
+Use the available `paper-section-review` skill with both guides.
 
 `Paper_v1.tex` is the arXiv preprint; the `neurips_2026` class in `[preprint]`
 mode is deliberate. A journal version will be built later from the same
@@ -24,8 +32,9 @@ mode is deliberate. A journal version will be built later from the same
 
 ## Core Principle
 
-Plain, direct, dense English. Technical claims stay exact, but the reader
-should not decode the prose before understanding the science. The author is a
+Simple, direct sentences in long, well-developed paragraphs. Technical claims
+stay exact, but the reader should not decode the prose before understanding
+the science. The author is a
 chemical engineer, not a statistical physicist: analogies from fracture,
 boiling, and nucleation land, bare stat-mech vocabulary does not. Define every
 borrowed term in market language on first use or avoid it. Prefer
@@ -48,7 +57,13 @@ below a band around the moving average and selling above it. Define the rule
 once in Methods, keep "along the edge of the grid" at that definition, and do
 not call them "price-responsive traders," "edge traders," or "expert traders."
 Explain that keeping them in Hold prevents price changes from influencing
-later decisions. Use "grid," "starting market," "completed trades," and
+later decisions. Use "synthetic market" for the simulated environment in
+the Introduction (author decision, 16 September 2026), and explain its
+arrangement through rows, columns, and neighboring traders. Describe the
+size comparison as markets containing different numbers of traders.
+Retain precise square-grid notation where needed in Methods; review later
+sections in their turn rather than replacing every use mechanically.
+Use "starting market," "completed trades," and
 "fraction of traders given the new rule" in narrative passages. Reserve
 "lattice," "seed," "eligibility," and "activation fraction" for definitions,
 mathematical notation, and compact labels where needed. The two conditions are
@@ -90,8 +105,13 @@ supersedes the earlier blanket ban on "crash" in prose. Use purpose-first
 openings in plain market language, then introduce rule numbers and other
 technical details where they explain the experiment. Preserve developed,
 connected paragraphs. Describe the agents as traders when explaining the
-model, and use investors for the broader question. A Sell state represents
-a current decision, not a permanent sell-only strategy. The changed rule is
+model, and use investors for the broader question. Buy and Sell represent
+current intentions. A completed trade is an actual exchange of cash and
+shares. Traders cannot borrow cash or sell shares they do not own. A trader
+without shares may want to sell but cannot execute the sale. A trader
+without enough cash may want to buy but cannot execute the purchase.
+Neighbors respond to intentions even when no exchange occurs. A Sell state
+does not represent a permanent sell-only strategy. The changed rule is
 assigned only to the selected traders; decisions to sell can spread while
 other traders retain their original rules. Do not imply learning, optimizing
 returns, or endogenous adoption of new rules.
@@ -108,7 +128,7 @@ selling accompanies a small price decline or a simulated crash.
 | no-switch control, matched control | dormant control | |
 | activation fraction, activation-fraction snapshots | dose, dose atlas, activated fraction | `f` in math |
 | technical traders held / technical traders active (legends: held / active) | held boundary, endogenous boundary, edge traders, exogenous model, endogenous model | one model, two technical-trader conditions; `hold`/`endogenous` survive in code and CSV columns |
-| dealer, dealer capacity `h` | market maker (in prose) | code and CSV columns say `market_maker` |
+| dealer, dealer capacity `h`; market maker when introducing its role | | The author requested the market maker explicitly in the Introduction. Identify it as the same dealer used in the existing definitions and labels; code and CSV columns say `market_maker`. |
 | agent suppression / dealer rejection | | the two stages at which a desired order fails |
 | Sell majority, transition, onset, crossing | escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation; crash refers to the price decline, not this crossing |
 | growth and merger of Sell-rich domains, finite-time crossover | classical nucleation, critical point, asymptotic threshold | the paper explicitly disclaims these |
@@ -125,13 +145,32 @@ Tables, Figures, Appendix. All floats are collected after the references
 a new page. There is no Related Work section; the Introduction carries every
 prior-work citation.
 
-**Introduction.** At most four paragraphs, wide to narrow, densely cited
-(cite clusters of 6 to 12 keys are welcome in the first three). P1: empirical
-record and named episodes, the modeling literature, the gap. P2: the model
-family and why a lookup table makes a persistent behavioral change precise.
-P3: execution and reserve pricing, the second question. P4 begins "In this
-study," and states the study question and approach. Keep results out of
-this closing Introduction paragraph; numerical findings belong in Results.
+**Introduction.** At most four long, developed paragraphs, wide to narrow.
+This is an explicit author requirement (16 September 2026). Develop one
+integrated argument across the section. Combine related literature and
+model explanations, remove repeated motivations, and write transitions that
+explain their connection. Reviewing a passage separately does not authorize
+making it a separate manuscript paragraph. The author-approved
+opening (16 September 2026) starts with markets as the collective outcome
+of human interactions and quotes the Financial Crisis Inquiry Commission's
+2011 report on the 2008 crisis. It names buyers and sellers, perceived asset
+value, and buyers' funds. Scope the discussion to traded financial assets
+such as stocks, without assuming liquidity remains available. The modeling
+literature follows this opening; then develop the local rule-change question
+and the connection between execution, reserves, and price. The closing
+paragraph begins "In this study," and states the study question and approach
+in the past tense throughout. Explain that paired simulations started from
+identical conditions but could develop differently afterward. Holding the
+technical traders in Hold removed price inputs to interior decisions while
+allowing financially feasible interior trades and dealer quote updates.
+Close with a plain qualitative statement of what the study addressed and
+how its comparisons supported that contribution (author decision,
+16 September 2026). This supersedes the earlier exclusion of all findings
+from the closing paragraph. Numerical findings belong in Results. Include
+the accepted crowding and following overview, distinguishing shared advice
+from copying completed trades. Their matching Methods and Results coverage
+is pending in the interactive review. The corrected copying results are
+exploratory; the separate fresh-market confirmation concerns shared advice.
 No subsections, no headings.
 
 **Methods.** Subsections allowed, `\subsubsection` never. Every symbol is
@@ -139,10 +178,11 @@ defined in prose before its display equation; no post-equation "where"
 clauses. Every prose-to-equation transition ends in a colon with a varied
 connector ("is given by:", "according to:", "the executed counts were:").
 Setup, notation, and protocol belong here, not in a standalone section.
-Procedural paragraphs may run 70 to 130 words, but a subsection holds three
-or four dense paragraphs organized by protocol family, never one stub per
-campaign. Software versions, seeds, thread counts, and the repository are
-reproducibility details and stay. Hardware, CPU, memory, and wall-clock
+Organize developed procedural paragraphs by protocol family, rather than
+one stub per campaign. Paragraph length follows the explanation needed,
+without a word or sentence quota. Software versions, seeds, thread counts,
+and the repository are reproducibility details and stay. Hardware, CPU,
+memory, and wall-clock
 numbers are benchmarking and are out of scope; never propose adding them.
 
 **Results.** Six developed paragraphs, no subsections, no `\paragraph{}`
@@ -190,25 +230,21 @@ and `market-panel-horizons-table.tex`.
 
 ## Paragraphs and Sentences
 
-The calibration exemplar is `~/Desktop/papers/Kompala-Model-LP-Paper`.
-Measure, do not eyeball:
+The earlier calibration exemplar is `~/Desktop/papers/Kompala-Model-LP-Paper`.
+Use its developed arguments as context, not a source of sentence-length
+quotas. The author's current preferences and passages accepted during this
+review are the primary calibration.
 
-- Results and Discussion paragraphs: 150 to 480 words, typically 180 to 310.
-  Introduction paragraphs: 150 to 370. Nothing under 6 sentences in Results
-  or Discussion; roadmap stubs merge into the paragraph that follows. A
-  structural edit must merge paragraphs in the same pass, never later.
-- Sentence length: median about 25 words, p90 about 48, commas per sentence
-  about 1. Flag comma-chained sentences over 60 to 70 words as split
-  candidates even when grammatical. Split only true run-ons.
-- **The "robotic" signature** (author, 2026-09-06): a section whose sentence
-  median has dropped below about 20 words reads as a string of short
-  declaratives even when every sentence is correct. The fix is not fancier
-  words. It is (a) one plain question or purpose sentence to open each
-  paragraph, (b) subordinating choppy pairs with "whereas", "because", "so",
-  "which", (c) one plain consequence sentence to close each paragraph, and
-  (d) a one-sentence bridge whenever the next paragraph's reason is not
-  obvious. Check the medians before and after.
-- Flowing, dense prose; punctuation earns its place. A semicolon or colon
+- Keep long, developed paragraphs whose sentences each advance one argument.
+  Merge a roadmap stub into the passage it introduces. Restore missing
+  explanation where needed; do not pad paragraphs to reach a length target.
+- Prefer simple sentences. Split grammatical but overloaded sentences as
+  well as true run-ons. Do not join clear sentences to increase a median
+  length or add clauses solely to avoid short sentences.
+- Diagnose choppiness through the relationship between sentences. Make
+  subjects clear, order the reasoning, and name real dependencies. Add a
+  conjunction only when it expresses that relationship accurately.
+- Punctuation earns its place. A semicolon or colon
   stays only when it separates list items with internal commas or introduces
   a genuine list or elaboration. As a default connector between two clauses
   that could stand alone, replace it with a period.
@@ -224,38 +260,28 @@ Measure, do not eyeball:
 - Place qualifications beside the claims they limit. Do not end every
   paragraph with a formulaic scope disclaimer.
 
-## Results Paragraph Template
+## Results Paragraph Development
 
-Every Results paragraph follows: question or purpose, what was compared or
-calculated, the finding with its inline reference, what it does and does not
-show. Concretely:
+Each paragraph explains the comparison, finding, supporting evidence, and
+scientific meaning. Open with the purpose, comparison, or finding that best
+orients the reader. These functions need not be combined in one sentence or
+follow an identical formula in every paragraph.
 
-1. An optional opening sentence that states the question in plain terms
-   ("A Sell majority could spread through neighbor responses alone or
-   through the price signal that the technical traders fed back into the
-   lattice.").
-2. The lead: an action clause AND a number-free generic observation, ending
-   with a citation of the WHOLE figure or table: "We changed the decision rule for selected interior traders while
-   keeping the technical traders in Hold and found that a Sell majority still formed
-   (Fig.~\ref{fig:reservoir})." Both halves are required; a lead that only
-   states the action fails, and so does one that only states the finding.
-3. Follow-up sentences carry the specific values, per-condition breakdowns,
-   and the panel references (`Fig.~\ref{fig:reservoir}A,B`).
-4. A closing sentence that states the consequence in plain language,
-   bounded to what was tested.
+Develop the finding through the relevant conditions, measured values, and
+figure or table references. Cite the whole figure for a broad finding and
+the specific panel for a panel-specific claim, including in an opening
+sentence when appropriate. Keep detailed numerical inventories out of the
+opening when they obscure the point. State limitations where they affect
+interpretation, without attaching a formulaic disclaimer to every ending.
+Write "in-sample" and "out-of-sample" in full in narrative prose.
 
-Design parameters (four fractions, eight capacities, five sizes, multipliers
-0.1, 1, or 10) may appear in the lead. Result numbers (percentages, per-row
-values, outcome ranges) may not. Write "in-sample" and "out-of-sample" in
-full in a lead. Panel-only citations belong in body sentences, never in the
-lead. Transition leads ("Having located the instability in the lattice, we
-asked ...") follow the same template.
+## Contextual Review Searches
 
-## Zero-Tolerance Gates
-
-Run these before declaring any section clean. Line-wrapped LaTeX hides hits
-from a naive grep, so de-wrap first where shown. Every hit is a violation
-unless it is on the allow-list.
+Use these searches to locate possible problems, then read each match in
+context. Review only active manuscript inputs. Ignore comments, identifiers,
+mathematical notation, and legitimate technical uses. A match is not itself
+a violation, and a clean search does not establish clear or correct prose.
+Line-wrapped LaTeX can hide matches, so de-wrap first where shown.
 
 ```bash
 cd paper-arxiv
@@ -417,24 +443,18 @@ layout (it costs a page).
 
 ## Review Workflow
 
-1. Run `/review-section` on the changed sections (it carries the full
-   checklist and output format) and fix everything it flags.
-2. After a fix pass, run an independent read-only Codex check without being
-   asked. From the repo root:
-
-   ```bash
-   codex exec -s read-only --ephemeral -c 'notify=[]' -C "$PWD" - > out.md 2>&1 <<'EOF'
-   <focused prompt: numbers vs CSVs, unsupported claims, internal consistency, house style, flow;
-    reply as file:line — problem — fix, "none" per category>
-   EOF
-   L=$(grep -nE '^codex$' out.md | tail -1 | cut -d: -f1); tail -n +$L out.md
-   ```
-
-   Verify each Codex claim against the source before applying it; it has
-   caught code-versus-prose mismatches (rounded seeding, checkpoint scope,
-   the rejection window) that self-review missed, and it has also over-read
-   the lead-sentence rule. Apply what holds, reject with a reason what does
-   not, then run a short RESOLVED / NOT RESOLVED re-check.
+1. Use `paper-section-review` with `PUBLICATION_STYLE.md` and this guide.
+   Review one agreed unit with its evidence and associated artifacts. Present
+   substantive findings and proposed prose for the author's discussion.
+   Track coverage, decisions, and open checks in `REVIEW_PROGRESS.md`.
+2. Apply edits within the author's authorized scope. Verify findings against
+   their sources before changing scientific claims. Recheck the saved prose,
+   evidence, build, and rendered pages. Retain this project's independent
+   read-only technical check after an applied manuscript fix pass. Check
+   numerical claims, interpretation, and implementation against their
+   sources. Verify each finding, apply supported corrections, and recheck
+   them on the final saved state. This technical check does not substitute
+   for the author's interactive review of voice.
 3. When a change responds to a reviewer, update `peer-review-response.md`
    with the same interpretation and terminology as the paper, and name the
    manuscript location.

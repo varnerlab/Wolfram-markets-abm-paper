@@ -3,37 +3,37 @@
 
 \subsection{Three-state cellular automaton}
 
-We represented investors on an $L\times L$ square lattice. Traders
-inside the lattice decided whether to buy, hold,
-or sell by observing their immediate neighbors' decisions. On the other hand, selected traders
-along the edge of the lattice were technical traders, who decided to buy, sell or hold
-from the observed price alone:
-each bought when the price fell below a band around its recent average and
-sold when the price rose above that band. Completed trades used a common
-execution price, but only the technical traders used the observed quote to
-decide whether to buy, hold, or sell. Buy ($s=0$), Hold ($s=1$), and Sell
-($s=2$) represented the resulting decisions, and the local rule specified
-which decision a trader made for a given neighbor configuration. Only the $(L-2)^2$ interior
-cells followed the cellular-automaton rule. All interior traders updated together from their four nearest
-neighbors, denoted by $\partial i$. The input decisions $s_j^{\rm in}(t)$
-were the previous interior decisions and the newly updated perimeter
-decisions. Adding these inputs gave the sum $c_i(t)$. A lookup table ${\cal R}$ assigned
-one next decision $a_j={\cal R}(j)$ to each possible sum.
-The sum ranks Buy below Hold and Sell but does not distinguish all
-combinations of neighboring decisions. Two Holds and two
-Buys receive the same response as one Sell and three Buys.
-Changing one table entry therefore altered the response to a specified
-neighbor sum while preserving the other eight responses. Neighborhoods
-with the same sum remained equivalent under the altered rule.
-The local input and the Wolfram index $R$ encoding the nine
-outputs were defined by the expressions~\cite{wolfram1984universality,packard1985two}:
-\begin{gather}
-  c_i(t)=\sum_{j\in\partial i}s_j^{\rm in}(t)\in\{0,1,\ldots,8\},
-  \label{eq:neighborhood-sum}\\
-  R=\sum_{j=0}^{8}a_j3^j.
-  \label{eq:rule-index}
-\end{gather}
+We represented the synthetic market as $L$ rows and $L$ columns, with
+$(L-2)^2$ traders in the interior. We recorded each trader's intended
+action as Buy ($s=0$), Hold ($s=1$), or Sell ($s=2$). Technical traders
+occupied selected positions along the edge and formed their intentions
+from the dealer's quoted price and recent price history. The remaining
+edge positions stayed in Hold. Each interior trader formed its local
+decision from the intentions of its four neighbors above, below, to the
+left, and to the right. The decision rules were totalistic: each trader's
+next intention depended only on the sum of these four neighboring
+states~\cite{packard1985two}. For interior traders next to the edge, this
+sum could therefore include the intentions of technical traders. At each
+time step $t$, the technical traders updated their intended actions
+using the latest quote and price history. All interior traders then
+updated their intended actions together using the previous interior
+states and the newly updated edge states. We denoted the four neighbors
+of trader $i$ by $\partial i$ and the state supplied by neighbor $j$ at
+step $t$ by $s_j^{\rm in}(t)$. The totalistic rule used their sum $c_i(t)$,
+defined by:
+\begin{equation}
+  c_i(t)=\sum_{j\in\partial i}s_j^{\rm in}(t)\in\{0,1,\ldots,8\}.
+  \label{eq:neighborhood-sum}
+\end{equation}
 
+We specified each decision rule by nine outputs $a_k$, one for each
+neighbor sum $k\in\{0,1,\ldots,8\}$. Each output recorded the intended
+action assigned to that sum. The Wolfram rule number $R$ encoded these
+outputs as base-three digits~\cite{wolfram1984universality,packard1985two}:
+\begin{equation}
+  R=\sum_{k=0}^{8}a_k3^k.
+  \label{eq:rule-index}
+\end{equation}
 Rule~19280, $(222110002)_3$, supplied the baseline decision rule.
 The activated Rule~19286, $(222110022)_3$, differed only at $c=1$
 (Eqs.~\ref{eq:neighborhood-sum} and~\ref{eq:rule-index}).
