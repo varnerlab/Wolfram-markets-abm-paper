@@ -11,6 +11,9 @@ validation of the corrected simulation study.
   approved with the author's opening, and applied (23 Sep). Abstract, Conclusion,
   and new title ("When Selling Spreads: ... in a Simulated Market") applied the
   same day; the subtitle keeps the scope restricted to the model (item 16).
+  Introduction and Methods rejoined to the author's rhythm (median 16 -> 24-26
+  words) and the uncertainty-scope passage written (23 Sep). Open: the
+  Introduction describes crowding/following experiments not yet in the paper.
 - Voice and review guide: [PUBLICATION_STYLE.md](PUBLICATION_STYLE.md).
 - Project requirements and evidence: [HOUSE_STYLE.md](HOUSE_STYLE.md).
 - Active manuscript: [paper-arxiv/Paper_v1.tex](paper-arxiv/Paper_v1.tex).

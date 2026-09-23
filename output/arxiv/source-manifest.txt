@@ -23,3 +23,7 @@ sections/revision-controls.tex
 sections/revision-fits-table.tex
 sections/revision-tables.tex
 sections/tables.tex
+sections/transaction-fees-methods.tex
+sections/transaction-fees-results.tex
+sections/transaction-fees-table.tex
+sections/transaction-fees-validation.tex

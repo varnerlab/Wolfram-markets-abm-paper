@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 SEP 2026 16:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 SEP 2026 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1121,12 +1121,12 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 288A38C9F90FC7860D44B37C03273ADB;3553.
+(rerunfilecheck)             Checksum: 14C0FA66CCC83E7E4021F9E08CEF1ABB;3553.
  ) 
 Here is how much of TeX's memory you used:
  27255 strings out of 473190
  510125 string characters out of 5715801
- 930083 words of memory out of 5000000
+ 929093 words of memory out of 5000000
  49556 multiletter control sequences out of 15000+600000
  601114 words of font info for 238 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1151,7 +1151,7 @@ exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/20
 exmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/
 fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb>
-Output written on Paper_v1.pdf (32 pages, 1312489 bytes).
+Output written on Paper_v1.pdf (32 pages, 1312826 bytes).
 PDF statistics:
  697 PDF objects out of 1000 (max. 8388607)
  599 compressed objects within 6 object streams
