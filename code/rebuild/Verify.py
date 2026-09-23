@@ -239,8 +239,8 @@ def main():
         cash_tex=rf'${mantissa}\times10^{{{int(exponent)}}}$'
         (STUDY/'paper-arxiv/sections/rebuild-validation.tex').write_text(
             '\nThe completed rebuild was checked against its fixed parameter manifest and\\n'.replace('\\n','\n')+
-            'its execution ledger. All fixed conditions were present, and the new held\\n'.replace('\\n','\n')+
-            'size and horizon campaigns agreed for 1,800 overlapping starting-market\\n'.replace('\\n','\n')+
+            'its execution ledger. All fixed conditions were present, and the new size\\n'.replace('\\n','\n')+
+            'and horizon campaigns with technical traders held agreed for 1,800 overlapping starting-market\\n'.replace('\\n','\n')+
             'and fraction combinations. Across the main dealer, size, and resource\\n'.replace('\\n','\n')+
             f'campaign summaries, the largest absolute cash discrepancy was {cash_tex},\\n'.replace('\\n','\n')+
             'and share discrepancies were zero. These numerical checks accompanied\\n'.replace('\\n','\n')+

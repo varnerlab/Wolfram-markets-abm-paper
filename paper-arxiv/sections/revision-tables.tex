@@ -1,12 +1,12 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{A one-time instruction to sell versus a persistent rule change at the same targeted traders. Both conditions used $h=100$, 3,000 post-intervention steps, and matched no-switch controls. Entries are majority probabilities with 95\% Wilson intervals.}
+\caption{A one-time instruction to sell versus a persistent rule switch at the same selected interior traders. Both conditions used dealer depth $h=100$, 3,000 post-intervention steps, and no-switch controls. Entries are majority probabilities with 95\% Wilson intervals.}
 \label{tab:revision-pulse}
 \small
 \begin{tabular}{lrrll}
 \toprule
-Technical traders & $f$ & Seeds & Sell pulse & Persistent rule \\
+Technical traders & $f$ & Starting markets & Sell pulse & Persistent rule \\
 \midrule
 Active & 0.15 & 50 & 0.00 [0.00, 0.07] & 0.00 [0.00, 0.07] \\
 Active & 0.20 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
@@ -23,7 +23,7 @@ Held & 0.25 & 50 & 0.00 [0.00, 0.07] & 1.00 [0.93, 1.00] \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{All single-response changes to Rule~19280 with $h=100$. Each entry gives majority probability with technical traders held / active over 20 starting markets and 3,000 post-switch steps. Outputs are Buy $=0$, Hold $=1$, and Sell $=2$. This descriptive screen used no multiplicity adjustment.}
+\caption{All single-response changes to Rule~19280 with dealer depth $h=100$. Each entry gives majority probability with technical traders held / active over 20 starting markets and 3,000 post-switch steps. Outputs are Buy $=0$, Hold $=1$, and Sell $=2$. This descriptive screen used no multiplicity adjustment.}
 \label{tab:revision-rules}
 \footnotesize
 \begin{tabular}{rrrrrr}
@@ -57,7 +57,7 @@ Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$ \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Adjusting versus fixed Hold-band widths at $f=0.175$ over 50 starting markets. Brackets in the rows give 95\% Wilson confidence intervals (CI). Sell is the mean fraction of technical traders in Sell over post-switch steps and starting markets. The moving center continued to update. The $h=0.1$ minus $h=100$ probability difference was -0.06 with adaptive widths and -0.26 with frozen widths. Their paired difference was 0.20, with a 95\% interval [-0.08, 0.50] from 2,000 whole-market bootstrap samples.}
+\caption{Adjusting versus fixed Hold-band widths at fraction $f=0.175$ over 50 starting markets. Brackets in the rows give 95\% Wilson confidence intervals (CI). Sell is the mean fraction of technical traders in Sell over post-switch steps and starting markets. The moving center continued to update. The probability at dealer depth $h=0.1$ minus that at $h=100$ was -0.06 with adaptive widths and -0.26 with frozen widths. Their paired difference was 0.20, with a 95\% interval [-0.08, 0.50] from 2,000 whole-market bootstrap samples.}
 \label{tab:revision-band}
 \small
 \begin{tabular}{rllll}
@@ -81,7 +81,7 @@ $h$ & Adaptive $p$ [95\% CI] & Frozen $p$ [95\% CI] & Adaptive Sell & Frozen Sel
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Additional reserve-depth comparisons at $f=0.20$ with active technical traders and 50 starting markets over 3,000 post-switch steps. The initial log-price slope per normalized net purchase is approximately $2/h$; this is implied by the reserve curve, not a separate price-impact coefficient. Depth changes funding and price sensitivity together. Drawdown is a percentage, and rejection uses post-switch eligible orders. Probability brackets are 95\% Wilson intervals.}
+\caption{Additional dealer-depth comparisons at fraction $f=0.20$ with active technical traders and 50 starting markets over 3,000 post-switch steps. The initial log-price slope per normalized net purchase is approximately $2/h$; this is implied by the reserve curve, not a separate price-impact coefficient. Depth changes funding and price sensitivity together. Drawdown is a percentage, and the dealer-rejection fraction uses post-switch eligible orders. Probability brackets are 95\% Wilson intervals.}
 \label{tab:revision-impact}
 \small
 \begin{tabular}{rrlrr}
@@ -100,7 +100,7 @@ $h$ & Initial slope $2/h$ & Majority probability & Median drawdown (\%) & Reject
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Observation time and the required Sell fraction with technical traders held and $h=100$. Entries are interpolated $f_{50}$ with 95\% whole-market bootstrap intervals over 50 starting markets. The fraction grid is independent of adaptive refinement. Undefined denotes an unbracketed crossing; intervals use available bracketed samples.}
+\caption{Observation time and the required Sell fraction with technical traders held and dealer depth $h=100$. Entries are interpolated $f_{50}$ with 95\% whole-market bootstrap intervals over 50 starting markets. The fraction grid is independent of adaptive refinement. Undefined denotes an unbracketed crossing; intervals use available bracketed samples.}
 \label{tab:revision-horizons}
 \footnotesize
 \begin{tabular}{rrlll}

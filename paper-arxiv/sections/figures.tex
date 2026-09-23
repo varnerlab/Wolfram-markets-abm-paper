@@ -7,18 +7,19 @@
 \centering
 \includegraphics[width=0.95\linewidth]{figs/Fig1-RuleQuench.pdf}
 \caption{The changed response and paired market decisions.
-\textbf{(A)}~Baseline Rule~19280. \textbf{(B)}~Activated Rule~19286.
+\textbf{(A)}~Baseline Rule~19280. \textbf{(B)}~Rule~19286 after the rule switch.
 Each cross contains the four neighbors used to determine the next decision,
 shown below its arrow. The hollow center is the trader being updated;
 its current decision does not enter the lookup table. Blue, gray, and
 orange denote Buy~(0), Hold~(1), and Sell~(2). One arrangement represents
 each neighbor sum; every arrangement with that sum produces the same
-response. The outlined column is the only rule change: three Buys and
-one Hold produce Buy under the baseline and Sell under activation.
-\textbf{(C)}~Paired $64\times64$ grids at activation and after 100,
+response. The outlined column is the only response the rule switch
+changes: three Buys and one Hold produce Buy under the baseline and
+Sell after the switch.
+\textbf{(C)}~Paired $64\times64$ grids at the rule switch and after 100,
 400, and 3,000 steps. The upper row retains the baseline rule; the lower
 assigns the new rule to 20\% of interior traders. Both paths share a
-1,000-step baseline, $h=100$, and active technical traders. Starting
+1,000-step baseline, dealer depth $h=100$, and active technical traders. Starting
 market 14 was selected from 50 by proximity to the
 median paired difference in peak Sell fraction. Ensemble outcomes and
 conditional onset times appear in Supplementary Table~\ref{tab:paired-switch}.}
@@ -33,18 +34,18 @@ conditional onset times appear in Supplementary Table~\ref{tab:paired-switch}.}
 \captionsetup{type=figure,hypcap=false}
 \centering
 \includegraphics[width=0.97\linewidth]{figs/Fig2-ReservoirQuench.pdf}
-\caption{Rule changes across dealer reserve depths over 3,000 post-switch steps.
+\caption{Rule switches across dealer depths over 3,000 post-switch steps.
 \textbf{(A)}~Probability of an interior Sell majority with technical
 traders held or active. Bands are 95\% Wilson intervals over 50 starting
 markets. \textbf{(B)}~Active-minus-held majority probability at each
-depth and target fraction. \textbf{(C)}~Median maximum drawdown at
-$f=0.20$, with interquartile bands. \textbf{(D)}~Median fraction of
-post-switch eligible orders rejected at $f=0.20$, on a logarithmic
-axis with interquartile bands. Depth $h$ is initial dealer shares per trader and also determines
-price sensitivity through the reserve curve. The $h=10$ dashed overlay
-in A is a distinct finite-depth comparison; the deep arm is $h=100$.
-At zero depth only opposing trader orders match and price stays fixed.
-Panels C and D describe switched markets. Matched no-switch drawdowns
+depth and fraction. \textbf{(C)}~Median maximum drawdown at
+fraction $f=0.20$, with interquartile bands. \textbf{(D)}~Median fraction of
+post-switch eligible orders rejected at fraction $f=0.20$, on a logarithmic
+axis with interquartile bands. Dealer depth $h$ is initial dealer shares per trader and also determines
+price sensitivity through the reserve curve. The dashed overlay in A at
+dealer depth $h=10$ is a distinct finite-depth comparison; the deep arm is dealer depth $h=100$.
+At zero dealer depth only opposing trader orders match and price stays fixed.
+Panels C and D describe switched markets. No-switch control drawdowns
 and paired differences appear in Supplementary Table~\ref{tab:paired-switch}.}
 \label{fig:reservoir}
 \end{minipage}
@@ -63,7 +64,7 @@ traders held, with 95\% Wilson bands. \textbf{(B)}~Susceptibility with
 technical traders held: the variance across markets of the final
 500-step mean Sell fraction, multiplied by the number of interior traders.
 \textbf{(C)}~Interpolated fraction $f_{50}(L)$ at which half the markets
-reached a majority, against inverse grid size, for held traders at $h=100$ and active traders at
+reached a majority, against inverse grid size, with technical traders held at dealer depth $h=100$ and active at
 $h=1$ and $h=100$. \textbf{(D)}~Sampled maximum susceptibility versus
 grid size. Error bars in C and D are 95\% whole-market bootstrap
 intervals. Solid lines connect tested values; dashed curves in A are
@@ -80,16 +81,16 @@ logistic fits. No law for indefinitely large grids was fitted.}
 \centering
 \includegraphics[width=0.90\linewidth]{figs/Fig4-DoseMarketPanels.pdf}
 \caption{Longer histories of five numerically selected markets
-with active technical traders and $h=100$. Blue, gray, and orange denote
-Buy, Hold, and Sell. \textbf{(A)}~Grid decisions at activation and after
+with active technical traders and dealer depth $h=100$. Blue, gray, and orange denote
+Buy, Hold, and Sell. \textbf{(A)}~Grid decisions at the rule switch and after
 1,500, 3,000, 5,000, and 10,000 steps. Selection used the newly computed
 3,000-step summaries before inspection of images. At that endpoint,
 the first two markets had not reached a majority and the other three
 had. Nonmajority examples were nearest their group's median final Sell
 fraction; majority examples were nearest their group's median onset,
-with seed breaking ties. Starting markets were 2, 15, 41, 5, and 38, from left
+with the starting-market number breaking ties. Starting markets were 2, 15, 41, 5, and 38, from left
 to right. The longer outcomes did not affect selection.
-\textbf{(B)}~Marginal quote divided by its value at activation.
+\textbf{(B)}~Quoted price divided by its value at the rule switch.
 \textbf{(C)}~Interior Sell fraction, with one-half marked by a
 horizontal line. The dark vertical dashed line marks the original
 3,000-step endpoint; other guides mark the remaining snapshots.
@@ -107,13 +108,13 @@ Table~\ref{tab:market-panel-horizons}.}
 \centering
 \includegraphics[width=0.92\linewidth]{figs/Fig5-DealerMarketPanels.pdf}
 \caption{The same starting market at different dealer depths
-with $f=0.20$. \textbf{(A)}~Grid decisions at activation and after
+with fraction $f=0.20$. \textbf{(A)}~Grid decisions at the rule switch and after
 500, 1,500, and 3,000 steps. The first three columns have active technical
-traders at $h=0.1$, $1$, and $100$; the last holds the technical traders
+traders at dealer depth $h=0.1$, $1$, and $100$; the last holds the technical traders
 at $h=100$. Starting market 2 was selected among
-markets reaching a majority at all three active depths by minimizing
-the summed distance from their depth-specific median onsets, with seed
-breaking ties. \textbf{(B)}~Marginal quote relative to activation.
+markets reaching a majority at all three dealer depths with active technical traders by minimizing
+the summed distance from their depth-specific median onsets, with the
+starting-market number breaking ties. \textbf{(B)}~Quoted price relative to the rule switch.
 \textbf{(C)}~Interior Sell fraction. The held condition prevents price
 feedback into decisions while retaining full trading and price
 calculations. The selected paths illustrate the same initialization
@@ -131,7 +132,7 @@ Fig.~\ref{fig:reservoir}.}
 \centering
 \includegraphics[width=0.99\linewidth]{figs/Fig6-BalanceSheetQuench.pdf}
 \caption{Changing trader cash and shares at the rule switch,
-with active technical traders, $f=0.18$, and 50 starting markets over 3,000 post-switch steps.
+with active technical traders, fraction $f=0.18$, and 50 starting markets over 3,000 post-switch steps.
 In A--C, the nine resource combinations are grouped by cash multiplier,
 with share multiplier on the axis and a series for each dealer depth.
 \textbf{(A)}~Majority probability. The dashed line and band give the

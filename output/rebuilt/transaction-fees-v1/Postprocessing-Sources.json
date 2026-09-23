@@ -1,0 +1,8 @@
+{
+  "files": {
+    "code/fees/WritePaper.py": "d2804eb4aec15aa2f7991fbc65a1039520843ff5d405fb75e0aad29e8cbbbca4",
+    "code/fees/README.md": "871b8dc83b101a74863d715e24edf84a2dfc7a98577f229123874e87a5ab9bad",
+    "code/fees/Analyze-reporting.py": "8a3433df55ac202308b08fb622c9f8743fc93c7d0b14b128e3780aa18a41d2c2"
+  },
+  "analysis_reporting_note": "Analyze-reporting.py changes only the validation flag name and report wording to specify Sell-fraction histories and final grids. Frozen numerical analysis and simulation sources remain unchanged."
+}

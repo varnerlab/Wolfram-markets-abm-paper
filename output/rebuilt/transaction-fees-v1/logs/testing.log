@@ -1,0 +1,10 @@
+Test Summary:                                  | Pass  Total  Time
+fees on completed orders and separate reserves |   36     36  0.3s
+Test Summary:                                                 | Pass  Total  Time
+isolated round trip pays dealer but restores trading reserves |    5      5  0.0s
+Test Summary:                                          | Pass  Total  Time
+fee auction agrees with exhaustive feasible quantities | 1800   1800  0.2s
+Test Summary:                                     | Pass  Total  Time
+zero fee equivalence, pairing, and held decisions |  368    368  1.9s
+Test Summary:                                   | Pass  Total  Time
+zero fee agrees with the frozen executed engine |   54     54  0.8s

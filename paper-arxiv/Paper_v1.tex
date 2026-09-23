@@ -53,10 +53,10 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{Local rule activation and dealer capacity in a cellular automaton market\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
+\title{When Selling Spreads: Local Decisions, Limited Resources, and Market Crashes in a Simulated Market\thanks{Repository: \url{https://github.com/varnerlab/Wolfram-markets-abm-paper.git}.}}
 
 \hypersetup{
-  pdftitle={Local rule activation and dealer capacity in a cellular automaton market},
+  pdftitle={When Selling Spreads: Local Decisions, Limited Resources, and Market Crashes in a Simulated Market},
   pdfauthor={Jeffrey D. Varner}
 }
 
@@ -77,34 +77,37 @@
 \maketitle
 
 \begin{abstract}
-Changes in investor decisions can spread through a market, but the resulting
-price decline depends on how trades execute. We developed a market model
-in which traders inside a grid decided whether to buy, hold, or sell from
-their neighbors' decisions, while technical traders at selected perimeter
-sites responded to price. Paired markets shared the same history before
-selected traders in one market received a persistent change in their
-local decision rule. The comparison market retained its original rule.
-A majority decided to sell when enough traders received the new response,
-even though the remaining traders kept their original rules. Holding the
-technical traders prevented price changes from entering later decisions,
-yet majorities still formed, establishing that neighbor responses could
-produce widespread selling. Comparisons across market sizes and observation
-periods located a finite-time crossover whose position continued to depend
-on the time observed. To connect decisions to prices, we cleared unit
-orders against a dealer whose finite cash and share reserves retained a
-constant product. The batch execution price and resulting marginal quote
-were both determined by those reserves, preventing an isolated round trip
-that restored dealer inventory from extracting its cash. Shallow positive
-reserves accompanied severe declines while rejecting few orders backed by
-trader resources. Zero reserves instead permitted only opposing trader
-orders at a fixed price. Shallow markets also had large drawdowns without
-the rule switch, making matched financial comparisons necessary for
-attribution. Changing trader cash and shares affected interior decisions
-only when technical traders could respond to the resulting prices.
-The model separated the spread of selling decisions from the severity of
-a simulated crash. Limited trading resources did not generally protect
-against severe declines, because their financial consequences depended on
-the mechanism linking execution to price.
+Changes in investor decisions can spread through a market, but the
+resulting price decline depends on how trades execute. We developed a
+market model in which traders inside a grid decided whether to buy,
+hold, or sell from their neighbors' decisions, while technical traders
+at selected positions along the edge of the grid responded to price.
+Paired markets shared the same history until selected traders in one
+market received a lasting change in their local decision rule, while the
+other market, a no-switch control, kept the original rule. A Sell
+majority formed once enough traders received the new response, even
+though every other trader kept its original rule. When the technical
+traders were held so that no decision responded to the price, majorities
+still formed, so responses to neighbors alone could produce widespread
+selling. Comparisons across market sizes and observation periods located
+a crossover whose position continued to move with the time observed. To
+connect decisions to prices, we cleared orders against a dealer whose
+finite cash and share reserves kept a constant product. Those reserves
+set both the execution price and the next quoted price, so a round trip
+that returned the dealer's shares could not extract its cash. Shallow
+positive reserves accompanied severe declines while rejecting few orders
+that traders had the resources to complete, whereas zero dealer depth
+allowed only trades between traders at a fixed price. Markets with
+shallow reserves also had large drawdowns without the rule switch, so
+the effect of the switch could be measured only against the paired
+controls. Changing trader cash and shares altered later decisions only
+when technical traders could respond to the resulting prices.
+Transaction fees did not reduce price
+declines in every tested condition. The model thus separated the spread
+of selling decisions from the severity of a
+simulated crash. Limited trading resources did not generally protect
+against severe declines, because their financial consequences depended
+on how execution set the price.
 \end{abstract}
 
 \input{sections/introduction}
@@ -112,6 +115,8 @@ the mechanism linking execution to price.
 \input{sections/methods}
 
 \input{sections/results}
+
+\input{sections/transaction-fees-results}
 
 \input{sections/discussion}
 
@@ -127,6 +132,7 @@ the mechanism linking execution to price.
 % End matter order: references, tables, figures, supplementary information.
 \clearpage
 \input{sections/tables}
+\input{sections/transaction-fees-table}
 
 \clearpage
 \input{sections/figures}

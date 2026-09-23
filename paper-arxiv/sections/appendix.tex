@@ -8,36 +8,38 @@
 
 The simulation separated a desired decision from its execution. Orders
 used the decisions stored before the interior update, while technical
-traders used the new marginal quote before the next interior decisions
+traders used the new quoted price before the next interior decisions
 were calculated. A resource shortage could therefore stop an order
 without changing the state seen by neighboring traders. The uniform
 execution price depended on the net quantity supported by the entire
 batch (Eqs.~\ref{eq:execution-price} and~\ref{eq:dealer-buy-excess}), and
-differed from the marginal quote left after settlement
+differed from the quoted price left after settlement
 (Eq.~\ref{eq:price-update}). Executed counts specified the net transfer
 and its normalized imbalance (Eqs.~\ref{eq:dealer-sell-excess}
 and~\ref{eq:imbalance}), which changed the dealer reserves
-(Eq.~\ref{eq:dealer-ledger}). The new quote then updated the reference
+(Eq.~\ref{eq:dealer-ledger}). The new quoted price then updated the reference
 band (Eq.~\ref{eq:adaptive-band}).
 Algorithms~\ref{alg:model-step} and~\ref{alg:dealer-clearing} specify this
 ordering for the main persistent-rule experiments with adaptive bands
-and no cost-basis restriction. The pulse, alternative-rule, and frozen-band
+and no cost-basis restriction, including the transaction-fee extension.
+The pulse, alternative-rule, and frozen-band
 controls modify the corresponding updates as described in
 Appendix~\ref{app:revision-controls}.
 
 \begin{algorithm}[!ht]
 \caption{One market step, $t-1\rightarrow t$, in simulation order.
 Stored decisions generated orders. Clearing determined a common execution
-price, and the settled dealer reserves set the new marginal quote.}
+price, and the settled dealer reserves set the new quoted price.}
 \label{alg:model-step}
 \begin{algorithmic}[1]
 \REQUIRE grid $X_{t-1}$; technical-trader decisions; trader books; dealer
-$(W_{t-1},Q_{t-1})$; quote and band state $(P_{t-1},\mu_{t-1},\sigma_{t-1})$;
+$(W_{t-1},Q_{t-1})$; fee account $G_{t-1}$ and rate $\tau$;
+quoted price and band state $(P_{t-1},\mu_{t-1},\sigma_{t-1})$;
 rule field $R_i$; parameters; seed
 \ENSURE grid $X_t$; technical-trader decisions; settled books and dealer;
-quote and band state $(P_t,\mu_t,\sigma_t)$; order counts
+quoted price and band state $(P_t,\mu_t,\sigma_t)$; order counts
 \IF{$t$ is the scheduled rule-switch step}
- \STATE $R_i\leftarrow19286$ at the preselected target sites
+ \STATE $R_i\leftarrow19286$ for the preselected interior traders
  \COMMENT{preserve current decisions and financial state}
 \ENDIF
 \IF{$t$ is a scheduled resource intervention}
@@ -46,7 +48,8 @@ quote and band state $(P_t,\mu_t,\sigma_t)$; order counts
  \ENDFOR
 \ENDIF
 \STATE call Algorithm~\ref{alg:dealer-clearing} using the stored decisions
-\STATE receive settled books, dealer, order counts, execution price $F_t$, and quote $P_t$
+\STATE receive settled books, dealer and fee account, order counts, base
+price $F_t$, and quoted price $P_t$
 \STATE $\mu_t\leftarrow\mu_{t-1}+\alpha(P_t-\mu_{t-1})$
 \STATE $\sigma_t\leftarrow\sigma_{t-1}+\alpha(|P_t-\mu_t|-\sigma_{t-1})$
 \IF{technical traders are active}
@@ -57,7 +60,8 @@ quote and band state $(P_t,\mu_t,\sigma_t)$; order counts
 \ELSE
  \STATE $e_i(t)\leftarrow1$ for every technical trader $i$
 \ENDIF
-\STATE write $e_i(t)$ to the selected perimeter sites; leave other perimeter sites in Hold
+\STATE write $e_i(t)$ to the technical traders at selected edge
+positions; leave other edge positions in Hold
 \FORALL{interior traders $i$, simultaneously}
  \STATE $c_i\leftarrow\sum_{j\in\partial i}s_j$ using old interior and new technical-trader decisions
  \STATE $s_i(t)\leftarrow\mathcal{R}_{R_i}(c_i)$
@@ -66,21 +70,26 @@ quote and band state $(P_t,\mu_t,\sigma_t)$; order counts
 \end{algorithm}
 
 \begin{algorithm}[!ht]
-\caption{Uniform-price reserve clearing without a cost-basis restriction.
+\caption{Reserve clearing at a common base price without a cost-basis restriction.
 The binary search found the greatest supported integer net purchase in
-the direction of initial excess demand.}
+the direction of initial excess demand. The baseline uses $\tau=0$.}
 \label{alg:dealer-clearing}
 \begin{algorithmic}[1]
 \REQUIRE desired unit buys and sells from stored decisions; trader books
-$(w_i,q_i,\bar c_i)$; dealer $(W,Q)$; previous quote; seed and step
-\ENSURE settled books and dealer; order counts; execution price and next quote
-\IF{$h=0$}
- \STATE use the previous quote; match opposing affordable buys and supplied sells
- \STATE apply seeded priorities if needed; settle matched orders; keep the quote fixed
- \RETURN settled books and order counts
+$(w_i,q_i,\bar c_i)$; dealer $(W,Q)$; fee account $G$; fee rate $\tau$;
+previous quoted price; seed and step
+\ENSURE settled books and dealer; order counts; execution price and next
+quoted price
+\IF{dealer depth $h=0$}
+ \STATE use the previous quoted price $F$; match buys with
+ $w_i\geq(1+\tau)F$ and sells with $q_i\geq1$
+ \STATE apply priorities; use the buyer and seller cash, share, and cost-basis updates shown below
+ \STATE update $G$ as below; keep trading reserves at zero and the
+ quoted price fixed
+ \RETURN settled books, fee account, and order counts
 \ENDIF
 \STATE define $F(x)=W/(Q-x)$ for integer $x$ satisfying $Q-x\geq1$
-\STATE define $B(x)$ as desired buyers with $w_i\geq F(x)$ and $S(x)$ as desired sellers with $q_i\geq1$
+\STATE define $B(x)$ as desired buyers with $w_i\geq(1+\tau)F(x)$ and $S(x)$ as desired sellers with $q_i\geq1$
 \STATE $d\leftarrow\operatorname{sign}[B(0)-S(0)]$; $\ell\leftarrow0$
 \STATE $u\leftarrow\min(B(0)-S(0),Q-1)$ if $d>0$, otherwise $S(0)-B(0)$
 \WHILE{$\ell<u$}
@@ -98,14 +107,15 @@ $(w_i,q_i,\bar c_i)$; dealer $(W,Q)$; previous quote; seed and step
 \STATE rejection $\leftarrow$ eligible counts minus executed counts
 \STATE rank any rationed side by $z(\mathrm{seed},t,i,\mathrm{side})$, breaking ties by identity
 \FORALL{selected buyers $i$}
- \STATE $\bar c_i\leftarrow(\bar c_iq_i+F_t)/(q_i+1)$;
- $q_i\leftarrow q_i+1$; $w_i\leftarrow w_i-F_t$
+ \STATE $\bar c_i\leftarrow[\bar c_iq_i+(1+\tau)F_t]/(q_i+1)$;
+ $q_i\leftarrow q_i+1$; $w_i\leftarrow w_i-(1+\tau)F_t$
 \ENDFOR
 \FORALL{selected sellers $i$}
- \STATE $q_i\leftarrow q_i-1$; $w_i\leftarrow w_i+F_t$
+ \STATE $q_i\leftarrow q_i-1$; $w_i\leftarrow w_i+(1-\tau)F_t$
 \ENDFOR
 \STATE $Q'\leftarrow Q-x$; $W'\leftarrow WQ/Q'$; $P_t\leftarrow W'/Q'$
-\RETURN settled books, dealer, counts, $F_t$, and $P_t$
+\STATE $G'\leftarrow G+\tau F_t(n^B+n^S)$
+\RETURN settled books, dealer, fee account, counts, $F_t$, and $P_t$
 \end{algorithmic}
 \end{algorithm}
 
@@ -119,10 +129,11 @@ and order side. Sorting by score, then identity, made rationing reproducible
 while allowing priority to change over time. Paired markets used the same
 score for the same trader and step even after their eligible sets diverged.
 Scoring consumed no draws from the generator used for initialization.
-For paired rule changes, comparisons checked the pre-switch grid and Sell
+For paired rule switches, comparisons checked the pre-switch grid and Sell
 history, technical-trader coordinates and multipliers, and price history
-through the first post-switch quote. A pure rule switch preserved that
-first quote because the stored decisions still generated the same orders.
+through the first post-switch quoted price. A pure rule switch preserved
+that first quoted price because the stored decisions still generated the
+same orders.
 A one-time Sell pulse and a resource intervention could change the first
 batch and therefore were required to agree only before the intervention.
 For held technical traders, resource comparisons also required identical
@@ -131,35 +142,45 @@ Sell histories and final grids across all cash and share multipliers.
 \subsection{Conservation and limiting cases}
 
 Let total trader cash and shares be the sums over all traders. Outside
-scheduled resource interventions, their combination with dealer reserves
+scheduled resource interventions, their combination with dealer trading
+reserves and the fee account
 satisfied the conservation identities:
 \begin{align*}
- \sum_i w_i(t)+W_t&=\sum_i w_i(0)+W_0,\\
+ \sum_i w_i(t)+W_t+G_t&=\sum_i w_i(0)+W_0+G_0,\\
  \sum_i q_i(t)+Q_t&=\sum_i q_i(0)+Q_0.
 \end{align*}
 The production wrapper checked these identities separately before and
 after an intentional resource change. Share conservation was exact.
 The allowed absolute cash discrepancy was the larger of $10^{-5}$ and
 $10^{-11}$ times total cash at the beginning of the checked interval.
-For positive depth, checks required a finite positive quote, nonnegative
+For positive dealer depth, checks required a finite positive quoted
+price, nonnegative
 trader resources, preservation of the reserve product to relative
-$10^{-9}$, and agreement between the quote and reserve ratio.
+$10^{-9}$, and agreement between the quoted price and reserve ratio.
 The implementation evaluated new dealer cash as $WQ/Q'$ to limit
 accumulated rounding error; the equivalent transfer was $F_tx_t$.
 These checks ran after every newly completed simulation, before its
-execution record was written.
+execution record was written. The original experiments used $G_t=0$.
+The fee extension included cumulative dealer revenue in cash conservation
+and checked that revenue against fees on completed orders. Fees were
+excluded from the reserve-product and quoted-price checks.
 
-Zero depth permitted only matched trader orders and kept price fixed.
-Technical traders then remained in Hold under either feedback condition,
+Zero dealer depth permitted only matched trader orders and kept price fixed.
+Technical traders then remained in Hold under either technical-trader condition,
 providing an exact comparison between active and held interior decisions.
-At positive depth, tests checked settlement at the selected price,
+At positive dealer depth, tests checked settlement at the selected price,
 affordability after clearing, discrete rationing, and isolated round
-trips that restored dealer inventory and cash. They also covered delayed
-activation, preservation of a common prehistory, and the held-decision
+trips that restored dealer inventory and trading cash. With a positive
+fee, the isolated round trip also transferred cash from the trader to the
+dealer's fee account. The fee tests checked zero-fee agreement with the
+frozen original engine, affordability including fees, conservation,
+balanced orders, and the fixed-price zero-reserve case. They also
+covered a delayed rule switch, preservation of a common prehistory, and
+the held-decision
 invariance across financial interventions. An independent implementation
 of the held decision update served as a test oracle. Every production
 condition, including held decisions, was nevertheless rerun with the full
-financial simulator. Finite depths were distinct model conditions: no
+financial simulator. Finite dealer depths were distinct model conditions: no
 finite-depth path was assumed to equal an unlimited dealer.
 
 \subsection{Simulation design and reproducibility}
@@ -183,25 +204,31 @@ cannot be attributed to one parameter alone.
 The four main campaigns comprised 30,550 simulations over 50 starting
 markets per condition and 3,000 post-switch steps
 (Supplementary Table~\ref{tab:campaigns}). The selected paired-switch
-campaign used $L=64$, $h=100$, and active technical traders at fractions
+campaign used grid size $L=64$, dealer depth $h=100$, and active
+technical traders at fractions
 0.10, 0.15, 0.20, and 0.25. Dealer comparisons used fractions 0.10, 0.15,
 0.175, 0.185, 0.190, 0.195, 0.200, 0.205, 0.210, 0.225, and 0.250 at
-$h=0,0.1,0.5,1,2,5,10,100$ with technical traders active and held.
-A newly simulated no-switch path was shared across fractions within
-each depth, feedback condition, and starting market, avoiding duplicates
-within the same campaign. The size campaign used $L=32,48,64,96,128$ at
+dealer depths $h=0,0.1,0.5,1,2,5,10,100$ with technical traders active
+and held.
+A newly simulated no-switch path was shared across fractions within each
+dealer depth, technical-trader condition, and starting market, avoiding
+duplicates
+within the same campaign. The size campaign used grid sizes
+$L=32,48,64,96,128$ at
 fractions 0.140, 0.150, 0.160, 0.170, 0.175, 0.180, 0.185, 0.190,
 0.200, 0.210, 0.225, and 0.250 before refinement. Its conditions were
-held technical traders at $h=100$ and active technical traders at
-$h=1$ and $h=100$. The cash and share campaign crossed independent
-multipliers 0.1, 1, and 10 with fractions 0.170, 0.175, 0.180, and
-0.185, depths 0.1, 1, and 100, and both feedback conditions. Dealer
+technical traders held at dealer depth $h=100$ and technical traders
+active at $h=1$ and $h=100$. The cash and share campaign combined
+independent multipliers 0.1, 1, and 10 with fractions 0.170, 0.175,
+0.180, and
+0.185, dealer depths 0.1, 1, and 100, and both technical-trader
+conditions. Dealer
 resources increased with the trader count; no size series with fixed
 absolute dealer resources was included.
 
 The supplementary controls retained these starting-market conventions
-while varying the intervention, reserve depth, band adaptation, or
-observation window. Their fixed design preceded this clean rebuild;
+while varying the intervention, dealer depth, band adaptation, or
+observation period. Their fixed design preceded this clean rebuild;
 adaptive refinement and example selection followed the numerical rules
 specified above. We used Julia 1.12.7 with the repository environment
 manifest, twelve simulation threads, and one garbage-collection thread.
@@ -220,7 +247,7 @@ of model development, outside the rebuild's permitted data inputs.
 
 The example trajectories used newly computed 3,000-step summaries to
 select typical markets before inspecting their images. We reran the five
-selected conditions and all 50 starting markets at $f=0.150$ for 10,000
+selected conditions and all 50 starting markets at fraction $f=0.150$ for 10,000
 post-switch steps, each with a matched no-switch path
 (Fig.~\ref{fig:dose-panels}; Supplementary Table~\ref{tab:market-panel-horizons}).
 Selection was not repeated using the longer histories. Comparisons at the
@@ -228,10 +255,12 @@ original endpoint checked reproduction of the new short-run summaries;
 additional figure reruns checked full histories and final grids for the
 selected cases. The longer runs extended observations of the same
 starting markets and did not supply independent replications. Majority
-onset began with the first updated state after activation, and all
-reported execution counts and rejection fractions used post-switch
+onset began with the first updated state after the rule switch, and all
+reported execution counts and dealer-rejection fractions used
+post-switch
 steps. Keeping these measurement windows common avoided mixing baseline
 trading into one campaign's financial summaries but not another's.
 
 \input{sections/rebuild-validation}
 \input{sections/revision-controls}
+\input{sections/transaction-fees-validation}

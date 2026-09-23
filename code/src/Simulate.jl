@@ -537,6 +537,8 @@ Arguments
                   permits profitable round trips. `:reserve` uses a finite
                   constant-product dealer, actual-price eligibility, and the
                   final reserve ratio as price; lambda does not apply.
+- reserve_executor : settlement function for `:reserve`. The default preserves
+                  the original model; extensions can collect fees separately.
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
 conventions (state-like: steps+1; transition-like: steps).
@@ -553,10 +555,13 @@ function simulate(
     fixed_band_step::Union{Nothing, Int64} = nothing,
     observer::Union{Nothing,AbstractMarketObserver} = nothing,
     clearing::Symbol = :legacy,
+    reserve_executor::Union{Nothing,Function} = nothing,
     verbose::Bool = true,
 )::MyModelBSimulationResult
 
     clearing in (:legacy,:reserve) || throw(ArgumentError("unknown clearing mechanism"))
+    clearing == :legacy && !isnothing(reserve_executor) &&
+        throw(ArgumentError("a custom reserve executor requires reserve clearing"))
 
     boundary_mode in (:endogenous, :hold) ||
         throw(ArgumentError("boundary_mode must be :endogenous or :hold"))
@@ -695,7 +700,8 @@ function simulate(
 
         # --- desired orders are filtered through the books and settled
         #     at the standing quote P_{t-1} ---
-        execute = clearing==:reserve ? execute_reserve_orders! : execute_orders!
+        execute = clearing==:reserve ?
+            (isnothing(reserve_executor) ? execute_reserve_orders! : reserve_executor) : execute_orders!
         counts = execute(books, grid, edge_coordinates, edge_now, prices[t];
                                  cost_basis_rule = config.cost_basis_rule,
                                  market_maker = market_maker,

@@ -1,13 +1,13 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Longer observation with $h=100$ and active technical traders. Times are steps after the rule change, following 1,000 baseline steps. Drawdowns and price changes are percentages; price changes use the quote at activation as reference. Final Sell averages the last 500 steps of the longer window. None means no Sell majority by 10,000 steps. Selection used newly computed short-run summaries before inspection of images. The extensions follow the same starting markets, and are not independent replications.}
+\caption{Longer observation with dealer depth $h=100$ and active technical traders. Times are steps after the rule switch, following 1,000 baseline steps. Drawdowns and price changes are percentages; price changes use the quoted price at the rule switch as reference. Final Sell averages the last 500 steps of the longer observation period. None means no Sell majority by 10,000 steps. Selection used newly computed short-run summaries before inspection of images. The extensions follow the same starting markets, and are not independent replications.}
 \label{tab:market-panel-horizons}
 \footnotesize\setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{lrrrrrr}
 \toprule
 \multicolumn{7}{l}{\textbf{A. Five examples selected from new 3,000-step results}} \\
-$f$ & Seed & First majority & \shortstack{Drawdown\\3,000 steps} & \shortstack{Drawdown\\10,000 steps} & \shortstack{Price change\\10,000 steps} & Final Sell \\
+$f$ & Starting market & First majority & \shortstack{Drawdown\\3,000 steps} & \shortstack{Drawdown\\10,000 steps} & \shortstack{Price change\\10,000 steps} & Final Sell \\
 0.150 & 2 & None & 5.22 & 5.22 & -3.29 & 0.268 \\
 0.175 & 15 & 4,073 & 10.17 & 26.34 & -26.32 & 0.897 \\
 0.175 & 41 & 2,330 & 22.14 & 25.51 & -25.49 & 0.594 \\

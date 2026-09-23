@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "simulations": 8400,
+  "groups": 1200,
+  "manifest_matches": true,
+  "frozen_sources_match": true,
+  "pairing_verified": true,
+  "held_sell_fraction_histories_and_final_grids_identical": true,
+  "max_cash_conservation_error": 8.419156074523926e-07,
+  "all_zero_fee_revenues_zero": true,
+  "summary_sha256": "cfe160cd54831b0b4075dc0ad118160925a528f86c7a81514a4f4ddd2f26bfef"
+}

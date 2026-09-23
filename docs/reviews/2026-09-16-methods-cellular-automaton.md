@@ -1,10 +1,10 @@
 # Methods: three-state cellular automaton
 
-Status: opening accepted, applied, and verified; review paused at the author's
-request. The Introduction remains a “good draft.” Resume with the next
-paragraph on the rule-number encoding, Rules 19280 and 19286, assignment,
-and initialization. Its encoding equation and definitions were relocated
-as agreed, but the rest of that paragraph still needs interactive review.
+Status: the complete first Methods subsection is accepted, applied, and
+verified through the revised selection and initialization passage on
+17 September. Continue with `2026-09-17-methods-orders.md`. The Introduction
+remains a “good draft.” Earlier proposal statuses below record their
+historical stage; the applied-update entries identify the saved state.
 
 ## Scope and findings
 
@@ -154,3 +154,195 @@ Refreshed the output PDF copy. Root, output, and archive validation SHA-256:
 
 Resume at the rule-number and two-rule paragraph when the author returns.
 Do not advance the review during the requested break.
+
+## Rule construction review, 17 September 2026
+
+The author resumed the review and requested the rule-construction material.
+Current scope is `paper-arxiv/sections/methods.tex:29–41`, ending before
+selection of the traders whose rules will change. Assignment and
+initialization remain the following review unit; this division does not
+require a new manuscript paragraph.
+
+The existing equation, base-three strings, and single changed response
+are correct. The main editorial gap is the connection between the nine
+neighbor sums, their output codes, and the digit order in the rule number.
+The current text defines an output as an intended action but can identify
+it more precisely as the trader's next intended action. Explain the rule
+construction before introducing the two selected rules and their behavioral
+difference. Retain the existing three-Buy/one-Hold example, which describes
+the changed response. This is distinct from the rejected same-sum example
+in the opening paragraph.
+
+Evidence checked in the frozen executed snapshot:
+
+- `code/src/Factory.jl:14–43`: nine configurations for three states and four
+  neighbors; base-three decoding associates digit `k` with sum `k`.
+- `code/src/Simulate.jl:101–135`: each interior trader's assigned rule maps
+  the four-neighbor sum to its next state, using a separate output grid.
+- Targeted Python arithmetic reproduced both nine-digit strings and
+  output vectors. The only difference is at sum 1: Buy (0) becomes Sell (2).
+  Enumeration of all 81 four-neighbor configurations confirmed that sum 1
+  means three Buy states and one Hold state, in any position. The nine
+  independently specifiable ternary outputs give `3^9 = 19683` rules.
+- Wolfram's *A New Kind of Science*, page 60, explicitly describes numbering
+  totalistic rules using base-three output digits, with the smallest input
+  at the right. Checked at
+  https://www.wolframscience.com/nks/p60--more-cellular-automata/ . Its
+  illustrated neighborhood has three cells, so its count of 2187 rules
+  is not the count for the four-neighbor model here. The proposed count
+  was calculated for the implemented model.
+
+### Proposed passage, not applied
+
+Each totalistic decision rule assigned an intended action to each of the
+nine possible neighbor sums. For a sum $k\in\{0,1,\ldots,8\}$, we denoted
+the trader's next intended action by $a_k\in\{0,1,2\}$, using the codes
+for Buy, Hold, and Sell. Specifying these nine outputs defined the complete
+rule, giving $3^9=19{,}683$ possible rules for the four-neighbor model.
+We identified each rule by its Wolfram rule number $R$, with the outputs
+written as base-three digits from $a_8$ on the left to $a_0$ on the right.
+The rule number was therefore defined by:
+
+```tex
+\begin{equation}
+  R=\sum_{k=0}^{8}a_k3^k.
+  \label{eq:rule-index}
+\end{equation}
+```
+
+We used Rule 19280, $(222110002)_3$, as the baseline and Rule 19286,
+$(222110022)_3$, for the selected traders after the rule change. The two
+rules differed only in their response to neighbor sum $k=1$, corresponding
+to three neighbors intending to Buy and one intending to Hold. For this
+configuration, Rule 19280 assigned Buy and Rule 19286 assigned Sell as the
+trader's next intended action. All other neighbor sums produced the same
+intended action under both rules.
+
+Retain the existing Wolfram and Packard–Wolfram citations beside the encoding
+definition if applied. The live source and PDF remain unchanged, so the
+earlier build and visual verification record still describes the saved
+manuscript. This turn checked source and arithmetic; no simulation or new
+rendered review was performed.
+
+## Rule construction applied and verified, 17 September
+
+The author accepted the construction proposal and requested “Update. Next.”
+Applied that wording in `paper-arxiv/sections/methods.tex:29–48`, retaining
+the existing citations and `eq:rule-index`. The opening and source from
+“Before each run, we selected” onward are unchanged. No new manuscript
+paragraph break was introduced between rule construction and selection.
+
+Independent read-only reviewer `rule_construction_check` found no material
+issue in the saved passage. The reviewer checked the rule count, encoding,
+digit strings, changed response, and intention semantics against the frozen
+implementation and independent arithmetic. That check did not cover the
+next selection/initialization proposal or rendered layout.
+
+`make -C paper-arxiv` passed. Final LaTeX and BibTeX logs have no warnings,
+undefined references, or overfull boxes. The PDF remains 29 pages; extracted
+text changed only on pages 3 and 4. Rendered and inspected pages 2–5 at
+85 dpi. Rule construction now begins near the bottom of page 3 and continues
+on page 4, with its equation lead-in and equation together. No clipping,
+overlap, or isolated paragraph line was observed. The 25-file arXiv archive
+passed an isolated build with identical extracted PDF text and no warnings
+in the final compilation pass. Initial-pass unresolved references resolved
+during the normal latexmk reruns. Refreshed the output PDF copy.
+
+Current root PDF, output PDF, and archive-validation manuscript SHA-256:
+`7d63e77ef901b878c26b872f58daa35c96efddec6e34de3cea07ac2dc93206e7`.
+
+## Selection and initialization: next proposal, not applied
+
+Scope: the rest of the current subsection, beginning “Before each run”
+(`paper-arxiv/sections/methods.tex:48–62`). Explain the selection and rounded
+counts in plain language and preserve nonoverlapping initial placements.
+Keep seed and priority details in the supplementary reproducibility text.
+Distinguish the
+rule-change operation from a separately scheduled resource intervention.
+The current blanket statement about retaining holdings at the intervention
+could otherwise be read to cover the cash/share experiments too.
+
+Evidence checked in `output/rebuilt/manuscript-reserve-v1/`:
+
+- `code/src/Simulate.jl:78–85`: interior candidates are selected with
+  `randperm` and the count is `round(Int, f * length(candidates))`.
+- `code/src/Factory.jl:240–243,330–366`: the main default initialization
+  uses equal Buy/Sell fractions of 0.05, rounded separately to integer
+  counts and assigned to distinct positions using one random permutation.
+  The remaining positions start in Hold.
+- `code/model-b/Compute-ModelB-RuleQuench.jl:55–69,101–115`: the main paired
+  campaign uses these defaults, interior-only selection, and delayed rule
+  activation. Supplementary alternative initial-condition controls are
+  outside this description of the main setup.
+- `code/src/Simulate.jl:579–608`: the setup generator is seeded; locations,
+  bands, initial states, and target selection follow a reproducible order.
+  Selected rules are stored and reset to the baseline before the run.
+- `code/src/Simulate.jl:232–256` and `code/src/ReserveClearing.jl:78–87`:
+  rationing priorities depend on seed, step, trader identity, and side.
+  A fixed seed does not imply one unchanging priority order over time.
+- `code/src/Simulate.jl:678–692`: the rule branch changes only the rule
+  field; the separately scheduled resource intervention executes afterward.
+  Thus the rule change itself preserves intention and holdings, although
+  a simultaneous resource intervention can change the latter.
+
+Proposed continuous passage:
+
+Before each run, we specified an approximate fraction $f$ of interior
+traders to receive Rule 19286 later in the simulation. We selected
+$\operatorname{round}(f(L-2)^2)$ traders uniformly without replacement.
+We initialized the interior with
+$\operatorname{round}(0.05(L-2)^2)$ traders intending to Buy and the same
+number intending to Sell. Their positions were chosen uniformly without
+replacement, and all remaining interior traders began in Hold.
+All interior traders initially used Rule 19280, allowing the market to
+develop before the scheduled rule change. At the switch, the selected
+traders received Rule 19286 and first used it to determine their next
+intended action. All other interior traders continued using Rule 19280.
+Assigning the new rule did not execute a trade or reset any trader's cash
+or shares.
+
+This proposal preserves the current setup and rule-switch procedure. It
+does not change the separate experimental protocols or apply edits to the
+remaining Methods text. Timing and paired-control detail remain in the
+paired-experiments subsection for its later review.
+
+Author feedback, 17 September: use “an approximate fraction,” delete the
+separate rounding explanation, and omit the seed and order-priority detail
+from this passage as implementation detail. These details are already in
+the supplementary rationing and reproducibility material (`appendix.tex`,
+the priority-score description and the seeded-Xoshiro description). Also
+clarify the final statement about intentions and holdings by explaining
+that the new rule is first used for the next intended action, and that
+assigning the rule performs no trade or reset of financial holdings.
+The revised proposal above replaces the previous proposal; no manuscript
+or PDF update was made in this discussion turn.
+
+## Selection and initialization applied and verified, 17 September
+
+The author accepted the revised proposal and requested “Update. Next.”
+Applied the exact revised wording, with normal LaTeX rule-number spacing,
+to `paper-arxiv/sections/methods.tex:48–59`. The previously accepted rule
+construction and all source from the next subsection onward are unchanged.
+Preserved the existing paragraph structure. Seeded setup and order
+priorities remain documented in the unchanged supplementary material.
+
+Independent read-only reviewer `rule_construction_check` verified the
+rounded selection and initial counts, without-replacement sampling, Hold
+and baseline initialization, delayed rule use, and absence of a trade or
+financial reset in the assignment operation. No material issue was found.
+No model code or data changed and no simulations were run.
+
+Normal build and isolated 25-file source-archive compilation passed with
+identical extracted PDF text. Final LaTeX/BibTeX logs were clean: no
+warnings, undefined references, or overfull boxes. The PDF remains 29
+pages; only page 4's extracted text changed. Rendered and visually inspected
+pages 3–5 at 85 dpi. The revised passage fits on page 4; the following
+heading and equations remain legible and unbroken. No clipping, overlap,
+or isolated paragraph line was observed. Refreshed the output PDF copy.
+
+Current root PDF, output PDF, and archive-validation manuscript SHA-256:
+`724537f67b51d5487b65c7c473f73d0a307c98d88e7fab0d736d693b93ed0e98`.
+
+The subsection is now complete for this interactive review. Next is the
+opening paragraph of “Orders, trader resources, and completed trades”; its
+proposal and checks are recorded in `2026-09-17-methods-orders.md`.

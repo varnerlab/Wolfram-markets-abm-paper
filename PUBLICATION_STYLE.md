@@ -1,5 +1,12 @@
 # Scientific Publication Style and Interactive Review
 
+> **Superseded on voice, 23 September 2026.** [VOICE_GUIDE.md](VOICE_GUIDE.md)
+> now governs sentences, paragraphs, and review workflow. In particular, the
+> rules below that split sentences ("one main assertion", "periods between
+> independent assertions", the blanket semicolon ban) were assistant
+> defaults, not author requests, and they produced the choppiness he
+> objected to. Review is now by whole section, not by passage.
+
 Working guide, 16 September 2026. Use this guide with `paper-section-review`
 for Jeffrey Varner's scientific manuscripts and their supporting material.
 The author's stated preferences are simple, direct language, few decorative

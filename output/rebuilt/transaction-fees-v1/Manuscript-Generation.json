@@ -1,0 +1,9 @@
+{
+  "writer_sha256": "d6204b51039efd12765f2fc86a2436ce81337d9ac386eee8a947b02fa5da06bd",
+  "run_summary_sha256": "cfe160cd54831b0b4075dc0ad118160925a528f86c7a81514a4f4ddd2f26bfef",
+  "inputs": {
+    "Condition-Summary.csv": "26396f669f150506f683b9239a6f2d9d7a2c57984e22db0eb6b021fc3ebd31f0",
+    "Paired-Effects.csv": "fbb30d1593b8b84846e2d6d8b8679c1a1f279004ebe83afdcbb4a5bf89aff069",
+    "Validation.json": "423d406f512ed48c35a613c05072676b651accf51683106cac81c8d882679901"
+  }
+}

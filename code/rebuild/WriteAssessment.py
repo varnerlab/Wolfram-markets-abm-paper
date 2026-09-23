@@ -73,7 +73,7 @@ Reproduction instructions are in `code/rebuild/README.md`. Use `ColdClone.py` to
         ('Baseline characterization','Recompute pre-switch Sell windows and return summaries; avoid stationarity or calibration claims.','Supplementary methods'),
         ('Majority threshold','Recompute first passage for Sell fractions .4, .5, and .6 on the horizon grid.','Table S9'),
         ('Behavioral interpretation','Explain the ordered Buy/Hold/Sell score and the information omitted by a totalistic rule.','Methods'),
-        ('Title scope','Retain the title restricted to local rule activation and dealer capacity in a cellular automaton market.','Title'),
+        ('Title scope','Restrict the title to a simulated market: "When Selling Spreads: Local Decisions, Limited Resources, and Market Crashes in a Simulated Market."','Title'),
         ('Table S2 source','Generate the table from fresh rule summaries and all-depth paired drawdown comparisons.','WriteManuscriptTables.py'),
         ('h=10 display','Keep h=10 explicitly as a distinct finite comparison; the deep arm is h=100.','Figure 2'),
         ('Interior-point counts','Report actual counts and distinguish sampled peak locations from fitted estimates.','Tables S3 and S10'),

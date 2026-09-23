@@ -1,5 +1,10 @@
 # House Style: Wolfram Markets Manuscript
 
+> **Voice, 23 September 2026:** [VOICE_GUIDE.md](VOICE_GUIDE.md) takes
+> precedence over "Paragraphs and Sentences" and "Results Paragraph
+> Development" below. This guide still governs terminology, claims,
+> numbers, generators, and the build.
+
 **Model status, 14 September 2026:** the corrected manuscript uses finite
 constant-product reserve clearing. The complete clean rerun is recorded in
 [the rebuild workflow](code/rebuild/README.md) and
@@ -10,6 +15,16 @@ visually reviewed; the source package passed an isolated compile. Earlier
 standing-quote financial conclusions are archived and must not be restored.
 The language conventions below apply to the corrected model.
 
+**Transaction-fee extension, 18 September 2026:** the author approved
+proportional cash fees on completed buys and sales, with dealer revenue
+held separately from trading reserves. The original study remains the
+zero-fee baseline. The additional versioned study is
+`output/rebuilt/transaction-fees-v1/`, with workflow in
+`code/fees/README.md`. Fees affect affordability and settlement; the
+quote and constant product use trading reserves only. Total cash includes
+the dealer's fee account. Do not describe prescribed fees as a dealer
+profit objective or infer that traders optimize decisions against fees.
+
 Read [PUBLICATION_STYLE.md](PUBLICATION_STYLE.md) first for the author's
 voice and the interactive review process. The current review is tracked in
 [REVIEW_PROGRESS.md](REVIEW_PROGRESS.md). The publication guide was drafted
@@ -17,7 +32,7 @@ on 16 September 2026 around the author's request for simple sentences and
 long, developed paragraphs; refine it through the section reviews.
 
 This guide records the project-specific structure and verification conventions for
-*Local rule activation and dealer capacity in a cellular automaton market*
+*When Selling Spreads: Local Decisions, Limited Resources, and Market Crashes in a Simulated Market*
 (`paper-arxiv/Paper_v1.tex`). Apply it to every prose edit, every response to
 review, and every generated section. Where this guide and a generic template
 disagree, this guide wins. Current author instructions take precedence over
@@ -52,8 +67,10 @@ use the archived claim that a small dealer mechanically contains a crash.
 The author explicitly requested a manuscript-wide removal of internal jargon.
 Name the action and comparison rather than writing "repeated the experiment."
 The selected edge traders are "technical traders" (author decision,
-2026-09-07): they follow a contrarian Bollinger-band rule on the price, buying
-below a band around the moving average and selling above it. Define the rule
+2026-09-07, reaffirmed 2026-09-18): they follow a contrarian strategy of the
+Bollinger-band type, generating Buy intentions below a band around the
+moving average and Sell intentions above it. Their width uses a smoothed
+absolute departure rather than standard deviation. Define the rule
 once in Methods, keep "along the edge of the grid" at that definition, and do
 not call them "price-responsive traders," "edge traders," or "expert traders."
 Explain that keeping them in Hold prevents price changes from influencing
@@ -124,14 +141,18 @@ selling accompanies a small price decline or a simulated crash.
 
 | Use in prose | Never use in prose | Notes |
 |---|---|---|
-| rule switch, rule activation, persistent activation | quench, contrarian activation | "Quench" survives only in filenames, LaTeX labels, and Julia |
-| no-switch control, matched control | dormant control | |
-| activation fraction, activation-fraction snapshots | dose, dose atlas, activated fraction | `f` in math |
+| rule switch; switched market (treated arm) | rule change, activation, treated, changed-rule, quench, contrarian activation | Author decision 23 Sep 2026. "Quench" survives only in filenames, LaTeX labels, and Julia |
+| no-switch control | matched control, comparison market, no-switch comparison, dormant control | |
+| fraction $f$ (of interior traders given the new rule) | target fraction, rule fraction, activation fraction, dose | Name the symbol at first use in each sentence: "fraction $f=0.20$" |
 | technical traders held / technical traders active (legends: held / active) | held boundary, endogenous boundary, edge traders, exogenous model, endogenous model | one model, two technical-trader conditions; `hold`/`endogenous` survive in code and CSV columns |
-| dealer, dealer capacity `h`; market maker when introducing its role | | The author requested the market maker explicitly in the Introduction. Identify it as the same dealer used in the existing definitions and labels; code and CSV columns say `market_maker`. |
-| agent suppression / dealer rejection | | the two stages at which a desired order fails |
-| Sell majority, transition, onset, crossing | escape, conversion | "transitioned" = interior Sell fraction reached 0.5 at least once after activation; crash refers to the price decline, not this crossing |
+| dealer; dealer depth $h$ (the dealer's initial shares per trader); market maker when introducing its role | dealer capacity, reserve depth, reserve level | Author decision 23 Sep 2026. "Dealer reserves" means the dealer's actual cash and shares, not $h$. Name the symbol at first use in each sentence: "dealer depth $h=100$". Code and CSV columns say `market_maker`. |
+| trader suppression / dealer rejection; dealer-rejection fraction | agent suppression | the two stages at which a desired order fails |
+| Sell majority; "reached a majority"; onset | transitioned, crossed one-half, escape, conversion | reached = interior Sell fraction reached 0.5 at least once after the rule switch; "crossing" is kept only for interpolated probability curves; crash refers to the price decline |
 | growth and merger of Sell-rich domains, finite-time crossover | classical nucleation, critical point, asymptotic threshold | the paper explicitly disclaims these |
+| traders (model agents); investors only for real markets | investors or agents for the model's traders; sites | Author decision 23 Sep 2026. Edge positions, not perimeter sites |
+| quoted price (the dealer's posted price $P_t$) | marginal quote, quote | Author decision 23 Sep 2026. Execution price is a different quantity |
+| starting market | seed (except a random-number seed), initial market | |
+| grid size $L$; step; observation period | lattice, time step, observation window | |
 | Model (singular) | Model A, Model B | directory names `code/model-a`, `code/model-b` are historical |
 
 The one sanctioned use of "contrarian" is the Methods sentence that scopes
@@ -424,6 +445,9 @@ layout (it costs a page).
   `WriteManuscriptTables.py`, and `Verify.py`, then regenerate from the
   isolated corrected outputs. The old revision writer includes archived
   financial interpretations and must not generate the corrected manuscript.
+  The four `transaction-fees-*.tex` inputs are generated separately by
+  `code/fees/WritePaper.py` from the validated fee study. Preserve those
+  inputs and their inclusion points when regenerating the original results.
 - Build with `make` inside `paper-arxiv/` (latexmk). After any prose or
   float change: check `Paper_v1.log` for warnings, undefined references, and
   overfull boxes (expect none); confirm the page count with `pdfinfo`;
@@ -437,7 +461,8 @@ layout (it costs a page).
 - `git diff --check` before finishing. Commit only when the author asks.
 - Current manuscript inputs are in
   `output/rebuilt/manuscript-reserve-v1/code/data/`; root `code/data/` retains
-  historical summaries. Restart checkpoints are ignored. When the author
+  historical summaries. Fee results come from
+  `output/rebuilt/transaction-fees-v1/`. Restart checkpoints are ignored. When the author
   requests a commit, include the canonical summaries, manifests, executed
   source, and verification records needed to reproduce the manuscript.
 

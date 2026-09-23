@@ -56,8 +56,9 @@ used similar arrangements of traders but different rules for responding to
 neighboring decisions. The arrangement specifies who can influence whom, while the decision
 rule specifies how each trader responds.
 
-Cellular automata use local rules to update traders' decisions at discrete time
-steps~\cite{wolfram1984universality,packard1985two}. Wolfram arranged
+Cellular automata use local rules to update traders' decisions in
+discrete steps~\cite{wolfram1984universality,packard1985two}. Wolfram
+arranged
 traders on a line. Each trader responded to
 its two neighbors, and the cumulative difference between buying and selling
 served as a price analogue~\cite{wolfram2002new}. Later models combined
@@ -90,25 +91,26 @@ that cannot be matched between traders. Completed trades preserve the
 product of the dealer's cash and share reserves, following a
 constant-product market-making approach~\cite{angeris2022constant}.
 After each round of trading, the dealer's quoted price per share equals
-its remaining cash divided by the number of shares it holds. When the
+its remaining trading cash divided by the number of shares it holds. When the
 dealer buys shares from traders, it has less cash and more shares.
 Dividing the smaller cash balance by the larger number of shares gives
 a lower quoted price. The size of the dealer's reserves determines both
 which trades can be completed and how much the quoted price changes when
 the dealer buys or sells shares. Technical traders use the dealer's
-updated quote to make their next decisions. The technical traders'
+updated quoted price to make their next decisions. The technical
+traders'
 decisions then influence neighboring interior traders.
 
 In this study, we constructed a synthetic market based on a three-state
 cellular automaton to examine whether mixing two trader types could lead to
 widespread selling intentions. We also examined how trader holdings and
 dealer reserves affected the accompanying price decline. In each paired
-rule-change comparison, both markets had the same number of traders and
+rule-switch comparison, both markets had the same number of traders and
 shared a period of trading with only the original trader type in the
 interior. We then assigned the second decision rule to a chosen fraction
 of interior traders in one market. The other market kept the original
 rule. Trading intentions, trader holdings, dealer reserves, and prices
-matched when the rule changed. The traders could then make different
+matched at the rule switch. The traders could then make different
 decisions and complete different trades. We varied the fraction of
 interior traders using the second rule to determine when at least half of
 the interior traders wanted to sell, which we called a Sell majority. In
@@ -118,7 +120,7 @@ spread of selling. We also ran markets with all technical traders held in
 Hold to test whether a Sell majority could develop without feedback from
 prices. Interior traders continued to respond to neighboring intentions
 and could complete trades with one another or the dealer. Trades with the
-dealer could still change its reserves and quoted price. In the rule-change
+dealer could still change its reserves and quoted price. In the rule-switch
 experiments, keeping technical traders in Hold prevented price changes from
 influencing interior traders' intentions. However, prices still affected
 which trades could be completed.
@@ -132,6 +134,6 @@ fraction of followers and the number of sources to examine effects on
 other traders' decisions, prices, and the distribution of gains and
 losses. For shared advice, we tested whether followers' influence on
 neighboring traders contributed to their financial gains. Together, the
-rule-change and following experiments showed how individual trading
+rule-switch and following experiments showed how individual trading
 decisions could spread through a market, affect prices, and redistribute
 cash among traders.

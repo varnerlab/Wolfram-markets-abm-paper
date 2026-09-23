@@ -6,15 +6,15 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Design of the four main campaigns. Active technical traders responded to the marginal quote; held technical traders stayed in Hold. All dealers had finite reserves. The size campaign used active technical traders at $h=1$ and $100$, and held technical traders at $h=100$. Counts include newly simulated no-switch paths, with one such path shared across fractions within a starting market and condition where the design permits.}
+\caption{Design of the four main campaigns. Active technical traders responded to the quoted price; held technical traders stayed in Hold. All dealers had finite reserves. The size campaign used active technical traders at dealer depth $h=1$ and $100$, and held technical traders at $h=100$. Counts include newly simulated no-switch controls, with one such control shared across fractions within a starting market and condition where the design permits.}
 \label{tab:campaigns}
 \small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{llllrr}
 \toprule
-Campaign & Grid sizes & Dealer $h$ & Technical traders & Seeds & Simulations \\
+Campaign & Grid sizes & Dealer $h$ & Technical traders & Starting markets & Simulations \\
 \midrule
-Rule change & 64 & $100$ & active & 50 & 400 \\
-Dealer capacity & 64 & $0$--$100$ & active/held & 50 & 9,600 \\
+Rule switch & 64 & $100$ & active & 50 & 400 \\
+Dealer depth & 64 & $0$--$100$ & active/held & 50 & 9,600 \\
 Grid size & 32--128 & $1,100$ & active/held & 50 & 9,750 \\
 Cash and shares & 64 & $0.1,1,100$ & active/held & 50 & 10,800 \\
 \bottomrule
@@ -24,20 +24,20 @@ Cash and shares & 64 & $0.1,1,100$ & active/held & 50 & 10,800 \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Paired rule changes on a $64\times64$ grid over 3,000 post-switch steps. In A, majority probability $p$ counts paths reaching an interior Sell fraction of at least one-half; median onset is conditional on reaching that value. Undefined means no crossing. In B, DD is median maximum drawdown in percent. $\Delta$DD is the median paired difference, in percentage points, with a pointwise 95\% whole-market bootstrap confidence interval (CI). These contrasts separate the rule switch from baseline financial variation.}
+\caption{Paired rule switches on a $64\times64$ grid over 3,000 post-switch steps. In A, majority probability $p$ counts paths reaching an interior Sell fraction of at least one-half; median onset is conditional on reaching that value. Undefined means no run reached a majority. In B, DD is median maximum drawdown in percent. $\Delta$DD is the median paired difference, in percentage points, with a pointwise 95\% whole-market bootstrap confidence interval (CI). These contrasts separate the rule switch from baseline financial variation.}
 \label{tab:paired-switch}
 \small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{rrrrl}
 \toprule
 \multicolumn{5}{l}{\textbf{A. Rule switch at $h=100$, active technical traders}} \\
-Fraction $f$ & Seeds & No-switch $p$ & Switched $p$ & Median onset \\
+Fraction $f$ & Starting markets & No-switch $p$ & Switched $p$ & Median onset \\
 0.10 & 50 & 0.00 & 0.00 & Undefined \\
 0.15 & 50 & 0.00 & 0.00 & Undefined \\
 0.20 & 50 & 0.00 & 1.00 & 1070.0 \\
 0.25 & 50 & 0.00 & 1.00 & 311.5 \\
 \midrule
 \multicolumn{5}{l}{\textbf{B. Dealer depth at $f=0.20$, active technical traders}} \\
-$h$ & Seeds & No-switch DD & Switched DD & Paired $\Delta$DD [95\% CI] \\
+$h$ & Starting markets & No-switch DD & Switched DD & Paired $\Delta$DD [95\% CI] \\
 0 & 50 & 0.00 & 0.00 & 0.00 [0.00, 0.00] \\
 0.1 & 50 & 77.04 & 99.99 & 22.96 [22.56, 23.74] \\
 0.5 & 50 & 42.83 & 99.82 & 57.03 [56.25, 57.86] \\
