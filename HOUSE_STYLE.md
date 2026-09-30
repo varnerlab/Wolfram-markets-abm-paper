@@ -502,9 +502,12 @@ Before considering revised prose complete, ask:
   yes, simplify it.
 
 
-Figure 1 shows both complete rule diagrams (A: Rule 19280; B: Rule 19286)
-and paired market snapshots (C). Each four-neighbor diagram represents one
-sum, with the center excluded from the input. The highlighted sum of one
-is the only changed response, Buy to Sell. Figure 1 no longer contains
+Figure 1 uses TikZ for the changed-response example (A) and the complete
+rule comparison (B), followed by paired market snapshots (C). Panel A
+shows three Buy neighbors and one Hold neighbor, with the center excluded
+from the input. Panel B aligns both rules across all nine neighbor sums;
+the highlighted sum of one is the only changed response, Buy to Sell.
+The source is `paper-arxiv/figures/Fig1-RuleComparison.tex`, rebuilt by
+`code/rebuild/RenderRuleFigure.py` and the manuscript Makefile. Figure 1 contains no
 price or Sell-fraction curves. Cite Table S2 for the comparison over all
 starting markets and onset values; Fig. 1C shows the selected example only.

@@ -1,0 +1,20 @@
+results.P5.S1 | PURPOSE | 1 | "a dealer with little cash might be expected to limit a decline" | straw man; cash vs shares
+results.P5.S2 | REFERENT | 1 | "Using the dealer-depth comparison, which varied the dealer depth h" | same as P2?
+results.P5.S4 | REREAD | 2 | "the median maximum drawdown of switched markets was nonetheless 99.99%" | "nonetheless" no clear contrast
+results.P5.S4 | PURPOSE | 1 | only active drawdowns; three of eight depths
+results.P5.S5 | REREAD | 1 | "placed dealer depths h=40 and 400 on the same trend" | trend never stated
+results.P5.S8 | REREAD | 1 | control h=1 omitted
+results.P5.S9 | INCONSISTENT | 2 | "22.96 percentage points at dealer depth h=0.1, 66.55 at h=1, and 24.39" | peak at h=1 unexplained; conflicts with closer
+results.P5.S10 | REREAD | 1 | units per million vs fraction
+results.P5.S10 | ORDER | 1 | answers S1 late; "these declines" referent
+results.P5.S12 | REFERENT | 1 | starting market 2 also Fig 4 example; held column
+results.P6.S1 | REREAD | 1 | multipliers and fraction not stated
+results.P6.S3 | PURPOSE | 2 | "every cash and share combination at fraction f=0.18" | why 0.18; grid
+results.P6.S4 | REREAD | 2 | "ranged from 0.54 to 0.80 ... on both sides of the held value" | 0.54 inside held interval; no active reference
+results.P6.S7 | REREAD | 2 | "Drawdowns rose with shares because more shares supplied more potential sales" | one share per order; mechanism is running out
+results.P6.S8 | PURPOSE | 2 | "By contrast, raising the cash multiplier from 1 to 10 at dealer depth h=1" | two changes; ceiling; cash at h=100 missing
+results.P6.S9 | INCONSISTENT | 2 | "median dealer-rejection fractions stayed below 0.5%" | looser than P5's per-million values; why here
+results.P6.S10 | INCONSISTENT | 2 | "depended on traders' cash and shares and on the dealer's reserves" | cash effect not shown
+results.P6.S11 | REREAD | 2 | "A Sell majority did not by itself determine how far the quoted price would fall" | P6 pools majority and non-majority runs
+
+TOTALS: severity-3 = 0; severity-2 = 9; severity-1 = 9

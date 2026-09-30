@@ -1,0 +1,2 @@
+sev-2: P1.S13 REREAD five Sell rules need table decoding; P1.S14 REREAD sum-3 Buy->Hold unexplained; P1.S15 OVERLOAD counts/"closer to Buy"; P2.S6 INCONSISTENT Fig 2A caption h=10 "distinct" overlay vs sweep; P2.S9 INCONSISTENT no uncertainty on active-held; P2.S12 REREAD h=0 mechanism.
+TOTALS: severity-3 = 0; severity-2 = 6; severity-1 = 18

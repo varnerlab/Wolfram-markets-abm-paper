@@ -6,12 +6,12 @@
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Design of the four main campaigns. Active technical traders responded to the quoted price; held technical traders stayed in Hold. All dealers had finite reserves. The size campaign used active technical traders at dealer depth $h=1$ and $100$, and held technical traders at $h=100$. Counts include newly simulated no-switch controls, with one such control shared across fractions within a starting market and condition where the design permits.}
+\caption{Design of the four main comparisons. Active technical traders responded to the quoted price; held technical traders stayed in Hold. The grid-size comparison used active technical traders at dealer depth $h=1$ and $100$, and held technical traders at $h=100$. Counts include the no-switch controls. Where a comparison tested several fractions, one control per starting market and condition served all of them. The cash-and-shares comparison had no no-switch controls.}
 \label{tab:campaigns}
 \small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{llllrr}
 \toprule
-Campaign & Grid sizes & Dealer $h$ & Technical traders & Starting markets & Simulations \\
+Comparison & Grid sizes & Dealer $h$ & Technical traders & Starting markets & Simulations \\
 \midrule
 Rule switch & 64 & $100$ & active & 50 & 400 \\
 Dealer depth & 64 & $0$--$100$ & active/held & 50 & 9,600 \\
@@ -24,7 +24,7 @@ Cash and shares & 64 & $0.1,1,100$ & active/held & 50 & 10,800 \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Paired rule switches on a $64\times64$ grid over 3,000 post-switch steps. In A, majority probability $p$ counts paths reaching an interior Sell fraction of at least one-half; median onset is conditional on reaching that value. Undefined means no run reached a majority. In B, DD is median maximum drawdown in percent. $\Delta$DD is the median paired difference, in percentage points, with a pointwise 95\% whole-market bootstrap confidence interval (CI). These contrasts separate the rule switch from baseline financial variation.}
+\caption{Paired rule switches on a $64\times64$ grid over 3,000 post-switch steps. In A, majority probability $p$ is the fraction of markets reaching an interior Sell fraction of at least one-half; median onset is conditional on reaching that value. Undefined means no run reached a majority. In B, DD is median maximum drawdown in percent. $\Delta$DD is the median paired difference, in percentage points, with a pointwise 95\% whole-market bootstrap confidence interval (CI). These contrasts separate the rule switch from baseline financial variation.}
 \label{tab:paired-switch}
 \small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{rrrrl}
@@ -55,7 +55,7 @@ $h$ & Starting markets & No-switch DD & Switched DD & Paired $\Delta$DD [95\% CI
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Probability of a Sell majority after changes in trader cash and shares over 50 starting markets and 3,000 post-switch steps. Each fraction includes 27 combinations of cash, shares, and dealer depth. Held decisions gave the same probability across those combinations; active decisions gave the stated range.}
+\caption{Probability of a Sell majority after changes in trader cash and shares over 50 starting markets and 3,000 post-switch steps. Each fraction includes 27 combinations of cash, shares, and dealer depth. With technical traders held, the probability was the same across those combinations; with technical traders active, it spanned the stated range.}
 \label{tab:balance-fractions}
 \small
 \begin{tabular}{rrl}
@@ -66,6 +66,46 @@ Fraction $f$ & Technical traders held & Technical traders active (range) \\
 0.175 & 0.34 & 0.30--0.58 \\
 0.180 & 0.64 & 0.54--0.80 \\
 0.185 & 0.70 & 0.72--0.94 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+\begin{center}
+\begin{minipage}{\linewidth}\centering
+\captionsetup{type=table,hypcap=false}
+\caption{Majority outcomes with technical traders active and held, paired by starting market, over 50 starting markets and 3,000 post-switch steps. Fractions 0.17 and 0.18 come from the unchanged-resource runs of the trader-resource comparison, which reproduced the dealer-depth runs exactly where the two overlapped. Only active and Only held count markets that reached a majority under one condition alone; held technical traders stayed in Hold from initialization, so paired markets need not share their state at the switch. The difference is active minus held majority probability, with a 95\% interval (CI) from 2,000 bootstrap samples of whole starting markets. Average rows weight the listed fractions equally and count market--fraction pairs.}
+\label{tab:feedback-pairs}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{rlrrrrl}
+\toprule
+$h$ & Fraction $f$ & Active $p$ & Held $p$ & Only active & Only held & Difference [95\% CI] \\
+\midrule
+0.1 & 0.170 & 0.32 & 0.22 & 12 & 7 & 0.10 [-0.08, 0.26] \\
+0.1 & 0.175 & 0.44 & 0.34 & 13 & 8 & 0.10 [-0.08, 0.28] \\
+0.1 & 0.180 & 0.60 & 0.64 & 10 & 12 & -0.04 [-0.22, 0.16] \\
+0.1 & 0.185 & 0.80 & 0.70 & 8 & 3 & 0.10 [-0.02, 0.24] \\
+0.1 & 0.190 & 0.98 & 0.90 & 5 & 1 & 0.08 [0.00, 0.18] \\
+0.1 & 0.195 & 1.00 & 0.98 & 1 & 0 & 0.02 [0.00, 0.06] \\
+0.1 & 0.175--0.195 & \multicolumn{2}{l}{Average} & 27 & 12 & 0.07 [0.02, 0.14] \\
+0.1 & 0.170--0.195 & \multicolumn{2}{l}{Average} & 49 & 31 & 0.06 [0.00, 0.12] \\
+\midrule
+1 & 0.170 & 0.20 & 0.22 & 7 & 8 & -0.02 [-0.18, 0.12] \\
+1 & 0.175 & 0.36 & 0.34 & 10 & 9 & 0.02 [-0.16, 0.20] \\
+1 & 0.180 & 0.58 & 0.64 & 8 & 11 & -0.06 [-0.22, 0.12] \\
+1 & 0.185 & 0.80 & 0.70 & 11 & 6 & 0.10 [-0.06, 0.26] \\
+1 & 0.190 & 0.96 & 0.90 & 4 & 1 & 0.06 [-0.02, 0.16] \\
+1 & 0.195 & 0.98 & 0.98 & 1 & 1 & 0.00 [-0.06, 0.06] \\
+1 & 0.175--0.195 & \multicolumn{2}{l}{Average} & 26 & 17 & 0.04 [-0.01, 0.10] \\
+1 & 0.170--0.195 & \multicolumn{2}{l}{Average} & 41 & 36 & 0.02 [-0.04, 0.07] \\
+\midrule
+100 & 0.170 & 0.12 & 0.22 & 3 & 8 & -0.10 [-0.22, 0.02] \\
+100 & 0.175 & 0.50 & 0.34 & 13 & 5 & 0.16 [0.00, 0.32] \\
+100 & 0.180 & 0.60 & 0.64 & 12 & 14 & -0.04 [-0.22, 0.16] \\
+100 & 0.185 & 0.84 & 0.70 & 13 & 6 & 0.14 [-0.02, 0.30] \\
+100 & 0.190 & 0.94 & 0.90 & 4 & 2 & 0.04 [-0.06, 0.14] \\
+100 & 0.195 & 1.00 & 0.98 & 1 & 0 & 0.02 [0.00, 0.06] \\
+100 & 0.175--0.195 & \multicolumn{2}{l}{Average} & 31 & 13 & 0.09 [0.02, 0.15] \\
+100 & 0.170--0.195 & \multicolumn{2}{l}{Average} & 46 & 35 & 0.04 [-0.02, 0.10] \\
 \bottomrule
 \end{tabular}
 \end{minipage}

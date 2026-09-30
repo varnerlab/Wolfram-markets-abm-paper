@@ -1,0 +1,9 @@
+P1   268w  11 sentences  median   25w  lengths [25, 30, 21, 41, 9, 18, 22, 32, 5, 38, 27]
+P2   210w  10 sentences  median   22w  lengths [16, 35, 21, 24, 19, 13, 23, 12, 24, 23]
+P3   215w  11 sentences  median   20w  lengths [29, 8, 12, 28, 21, 13, 24, 17, 20, 24, 19]
+P4   386w  16 sentences  median   27w  lengths [14, 20, 9, 13, 33, 9, 32, 37, 19, 29, 28, 26, 33, 24, 28, 32]
+P5   252w   9 sentences  median   24w  lengths [22, 31, 27, 22, 44, 46, 15, 21, 24]
+
+ALL  sentences 57, median 23w (target 21-25), p90 33w (target 35-46), max 46w, commas/sentence median 2 (target 1)
+
+FLAGS none

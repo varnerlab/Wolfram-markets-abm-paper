@@ -1,0 +1,1 @@
+results.tex                      median 24->23  >30w 12->12  >40w 3->3  sentences 54->58

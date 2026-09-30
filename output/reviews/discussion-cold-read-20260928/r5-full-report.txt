@@ -1,0 +1,15 @@
+discussion.P5.S4–S6 | PURPOSE | severity-2 | "Strategic choices in that market could lower collective earnings." | The paragraph establishes a comparison of interaction mechanisms and rule changes, then spends three sentences on the earnings and volatility consequences of particular strategic choices. I paused to determine whether these findings supplied a benchmark for the present model's financial outcomes or merely illustrated what endogenous strategy choice permits. The subsequent return to rule assignment favors the latter reading, but the detailed outcomes obscure that comparison. These examples are OPTIONAL DETAIL; the claim that established models include learning and strategic choice is understandable without their earnings results. | Best guess: the examples illustrate behaviors deliberately excluded by assigning rules externally, rather than outcomes that this model reproduces or tests.
+
+discussion.P1: Assigning a persistent change to one local response can spread Sell intentions beyond the changed traders. This differs from a one-time Sell instruction, depends on the selected rule, and is measured against a matched control; neither learning nor rule adoption is modeled.
+
+discussion.P2: Neighbor interactions can produce majorities without price feedback. Spatial growth and sharper probability curves suggest collective ordering, but finite observations do not establish an asymptotic threshold or classical nucleation mechanism.
+
+discussion.P3: The reserve-based execution and quotation rules determine how available dealer resources translate into price declines. Small positive reserves can accompany severe declines and few rejected eligible orders; zero reserves are a separate fixed-price case, and matched controls distinguish existing drawdown from the effect of the rule switch.
+
+discussion.P4: Financial conditions affect intentions through price-responsive technical traders. That channel disappears when technical traders are held. The contribution of adaptive band widths remains unresolved, dealer-depth comparisons combine funding and price sensitivity, and majority probability and drawdown measure distinct outcomes.
+
+discussion.P5: Established models allow various forms of learning, strategic selection, imitation, and price formation. This model instead assigns a reproducible local rule change, controls price feedback, and measures intentions separately from financial outcomes, thereby answering a narrower set of questions.
+
+discussion.P6: The conclusions depend on assigned synchronous rules, a regular grid, visible intentions independent of resources, one technical strategy and placement, and a particular execution mechanism. The experiments neither calibrate real crashes nor establish stationary or indefinite behavior; other rules, networks, timing, and execution mechanisms remain to be tested.
+
+TOTALS: severity-3 = 0; severity-2 = 1; severity-1 = 0.

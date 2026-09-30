@@ -57,7 +57,7 @@ Sum $c$ & Output change & Rule & $f=0.15$ & $f=0.20$ & $f=0.25$ \\
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Adjusting versus fixed Hold-band widths at fraction $f=0.175$ over 50 starting markets. Brackets in the rows give 95\% Wilson confidence intervals (CI). Sell is the mean fraction of technical traders in Sell over post-switch steps and starting markets. The moving center continued to update. The probability at dealer depth $h=0.1$ minus that at $h=100$ was -0.06 with adaptive widths and -0.26 with frozen widths. Their paired difference was 0.20, with a 95\% interval [-0.08, 0.50] from 2,000 whole-market bootstrap samples.}
+\caption{Adaptive versus frozen band widths for active technical traders at fraction $f=0.175$ over 50 starting markets. Frozen widths kept $\sigma_t$ at its value immediately before the rule switch, while the reference price $\mu_t$ continued to update. Entries $p$ are Sell-majority probabilities with 95\% Wilson confidence intervals (CI) in brackets. Sell is the mean fraction of technical traders in Sell over post-switch steps and starting markets. The probability at dealer depth $h=0.1$ minus that at $h=100$ was -0.06 with adaptive widths and -0.26 with frozen widths. Their paired difference was 0.20, with a 95\% interval [-0.08, 0.50] from 2,000 whole-market bootstrap samples.}
 \label{tab:revision-band}
 \small
 \begin{tabular}{rllll}
@@ -81,7 +81,7 @@ $h$ & Adaptive $p$ [95\% CI] & Frozen $p$ [95\% CI] & Adaptive Sell & Frozen Sel
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Additional dealer-depth comparisons at fraction $f=0.20$ with active technical traders and 50 starting markets over 3,000 post-switch steps. The initial log-price slope per normalized net purchase is approximately $2/h$; this is implied by the reserve curve, not a separate price-impact coefficient. Depth changes funding and price sensitivity together. Drawdown is a percentage, and the dealer-rejection fraction uses post-switch eligible orders. Probability brackets are 95\% Wilson intervals.}
+\caption{Additional dealer-depth comparisons at fraction $f=0.20$ with active technical traders and 50 starting markets over 3,000 post-switch steps. Because the dealer's cash and share reserves keep a constant product, the initial slope of the log quoted price against net purchases per trader is approximately $2/h$; the model has no separate price-impact coefficient. Depth changes funding and price sensitivity together. Drawdown is a percentage, and the dealer-rejection fraction uses post-switch eligible orders. Probability brackets are 95\% Wilson intervals.}
 \label{tab:revision-impact}
 \small
 \begin{tabular}{rrlrr}
@@ -100,7 +100,7 @@ $h$ & Initial slope $2/h$ & Majority probability & Median drawdown (\%) & Reject
 \begin{center}
 \begin{minipage}{\linewidth}\centering
 \captionsetup{type=table,hypcap=false}
-\caption{Observation time and the required Sell fraction with technical traders held and dealer depth $h=100$. Entries are interpolated $f_{50}$ with 95\% whole-market bootstrap intervals over 50 starting markets. The fraction grid is independent of adaptive refinement. Undefined denotes an unbracketed crossing; intervals use available bracketed samples.}
+\caption{Observation period and the fraction $f_{50}$ at which half the markets reached a Sell majority, with technical traders held and dealer depth $h=100$. Entries are interpolated $f_{50}$ with 95\% whole-market bootstrap intervals over 50 starting markets. Criterion columns give the interior Sell fraction a run had to reach to count as a majority. These runs used one fixed set of tested fractions rather than the adaptively refined set, so interpolated midpoints can differ slightly from those in Supplementary Table~\ref{tab:finite-size-scaling} for the same runs, for example 0.167 rather than 0.166 at $L=128$ and 0.219 rather than 0.216 at $L=32$.}
 \label{tab:revision-horizons}
 \footnotesize
 \begin{tabular}{rrlll}

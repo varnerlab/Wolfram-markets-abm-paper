@@ -1,0 +1,17 @@
+No reportable confusion, misleading claim, reading slowdown, or misplaced content in discussion.P1–P6 after reading the supplied context. The paragraph purposes and transitions were recoverable without requesting additional Methods detail. The claims about propagation, financial outcomes, rule assignment, and finite observation periods remained distinct.
+
+Plain meaning of each paragraph
+
+P1: A persistent, assigned change to one local response can spread Sell intentions beyond the traders whose rules changed. The response chosen matters, and a one-time Sell instruction is not equivalent. Paired controls identify the switch's effects for the sampled starting markets; this is not a model of learning or rule adoption.
+
+P2: Local interactions can produce Sell majorities without price-responsive decisions. Seller groups grow and merge, but the observed patterns and finite-size comparisons do not establish a permanent threshold or classical nucleation. The supported result concerns propagation over the tested sizes and durations.
+
+P3: The reserve-based execution mechanism explains why a poorly funded dealer can accommodate sales through sharply lower prices instead of rejecting many eligible orders. The zero-reserve fixed-price case is different. Paired controls are needed because shallow markets can already have large drawdowns without intervention.
+
+P4: Financial variables affect intentions through the technical traders' price responses. Removing that channel makes intentions invariant to resource changes. The band-width experiment does not resolve the contribution of adaptation, dealer depth combines funding with price sensitivity, and majority formation and drawdown measure different outcomes.
+
+P5: Relative to models with learning, strategy switching, or different interaction and pricing rules, this model isolates a reproducible intervention in an enumerable rule space. It gives up strategic adaptation to test the fraction of assigned changes needed for widespread Sell intentions and whether price feedback is necessary, while measuring trades and prices separately.
+
+P6: The findings depend on assigned synchronous local rules, observable intentions even without trading resources, a particular placement and strategy for technical traders, and a particular dealer mechanism. Conservation and round-trip consistency do not establish realism. The experiments neither predict actual crashes nor establish stationary or indefinite behavior; alternative rules and market mechanisms would test the scope of the findings.
+
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 0.

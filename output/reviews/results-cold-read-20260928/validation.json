@@ -1,0 +1,24 @@
+{
+  "source_sha256": "6070da6fcffe79ce5b5dfc2c23d0cef500920dfc4a11ec51e09c3140c394103d",
+  "paragraphs_before": 5,
+  "paragraphs_after": 5,
+  "guard_blocks_before": 6,
+  "guard_blocks_after": 6,
+  "words_before": 1361,
+  "words_after": 1331,
+  "original_snapshot_preserved": true,
+  "math_changes": "Repeated f=0.175 and h=0.1 added to identify existing example settings; all original mathematical expressions and numerical results retained.",
+  "reference_changes": "None, including multiplicities.",
+  "numeric_results": "All original values retained; onset-to-fraction mapping verified against saved horizon data.",
+  "manual_structure": "Five paragraph identities, boundaries, ordering, and purposes retained. Band-width comparison moved only within original dealer-depth paragraph; opening now states both original comparisons. Trader-resource opening clarified without changing its purpose. Included finite-size paragraph unchanged.",
+  "pdf": "31 pages; target on pages 8-10, visually checked; neighboring page 11 checked. No warnings, undefined references, overfull or underfull boxes.",
+  "markup_pdf": "32 pages; target edits on pages 8-10 visually checked.",
+  "scope_changes": [
+    "Duration no longer presented as isolated cause in pulse comparison.",
+    "Trader-resource results described as outcomes in switched markets, not effects attributed to switching.",
+    "Late-majority frequency question explicitly limited to f=0.150.",
+    "Dealer-depth conclusion explicitly limited to tested depths.",
+    "Trader-resource opening no longer implies the dealer is counterparty to every trade."
+  ],
+  "no_page_limit": true
+}

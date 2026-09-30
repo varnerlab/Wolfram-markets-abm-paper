@@ -1,0 +1,21 @@
+Problems
+
+discussion.P2.S6 | UNDEFINED | severity-1 | "connects the model to accounts of how local changes spread through a population" | The claimed literature connection is too general to tell which shared idea is being asserted beyond local influence itself. This slows interpretation of the contribution, rather than requiring additional methodological detail. | bestguess: Varying the fraction receiving the intervention connects this model to studies of how a minority initiates a population-wide change; the sentence does not specify that connection.
+
+discussion.P5.S12 | PURPOSE | severity-1 | "The questions answered were correspondingly narrower" | The closing scope statement lists only majority formation and price feedback, although the paragraph also compares execution mechanisms and the Discussion has made the determinants of price declines a central question. I briefly read this as narrowing the paper's contribution to intentions alone. The issue is the scope of this sentence, not a request for another paragraph or more evidence. | bestguess: These are the narrower questions about behavioral change, while the paper separately answers a question about execution and financial consequences.
+
+Plain meaning
+
+discussion.P1: Persistently changing one local response in a minority of traders can generate a Sell majority. This differs from instructing those traders to sell once, depends on the particular response changed, and is an assigned intervention rather than learning or transmission of rules. Paired controls isolate its consequences.
+
+discussion.P2: Neighbor interactions alone can spread Sell intentions. Spatial groups grow and merge, but the observed finite-size and finite-time behavior does not establish an asymptotic threshold or a classical nucleation process.
+
+discussion.P3: The dealer's price-setting rule translates its holdings into execution prices and subsequent quotes. Small positive reserves permit large declines with little rejection; zero reserves constitute a different, fixed-price case. Paired controls separate declines associated with the intervention from declines already produced by the baseline market.
+
+discussion.P4: Financial resources affect intentions only through price-responsive technical traders. Removing that response makes intentions invariant to financial changes. The band-width experiment does not resolve adaptation's contribution, and dealer-depth comparisons combine funding and price sensitivity. Majority formation and drawdown are different outcomes.
+
+discussion.P5: The model trades learning and strategic adaptation for an enumerable local rule system and a reproducible intervention. Relative to established agent-based markets, it isolates local behavioral changes, permits removal of price feedback, and separates intentions from financially feasible trading and price outcomes.
+
+discussion.P6: The findings depend on assigned synchronous local rules, observable intentions even when traders cannot trade, one placement and strategy for technical traders, and a specific uncalibrated trading mechanism. Accounting consistency does not establish realism. Finite runs do not establish stationarity or indefinite behavior, and alternative rules, networks, updates, and execution mechanisms remain to be tested.
+
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 2

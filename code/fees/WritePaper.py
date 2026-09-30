@@ -77,10 +77,10 @@ comparisons appear in Supplementary Table~\ref{tab:transaction-fees}.
     results = r"""
 Finally, we asked whether trading costs changed the spread of selling or
 its financial consequences, repeating the paired rule switch with fees
-charged on completed orders. Because fees did not enter the interior
-decision rule, the Sell fraction at every step and the final grid were
-identical across all four fee rates and three dealer depths when
-technical traders were held, for each starting market and fraction.
+charged on completed orders. With technical traders held, the Sell
+fraction at every step and the final grid were identical across all four
+fee rates and three dealer depths for each starting market and fraction,
+because fees did not enter any decision rule.
 With technical traders active and fraction $f=0.20$, the Sell-majority
 probability across fee rates was """ + ", ".join(probabilities[:-1]) + ", and " + probabilities[-1] + r"""
 (Supplementary Table~\ref{tab:transaction-fees}). Nearer the crossover,
@@ -97,10 +97,10 @@ median paired change of """ + pct(shallow_delta.max_drawdown_difference) + r""" 
 [""" + pct(shallow_delta.max_drawdown_difference_lo) + ", " + pct(shallow_delta.max_drawdown_difference_hi) + r"""]. Over a complete run, the fees accumulated: at 25 basis
 points, dealer depth $h=100$, and fraction $f=0.20$, the median
 cumulative fee income of the dealer was """ + pct(charged.fee_fraction_initial_trader_cash_median) + r"""\% of the traders' initial
-cash (Supplementary Table~\ref{tab:transaction-fees}). Thus, fees did not
-reduce price declines in every tested condition, and because the
-decision rules were unchanged, any effect of fees on interior decisions
-required active technical traders responding to the price.
+cash (Supplementary Table~\ref{tab:transaction-fees}). Thus, fees reduced
+the price decline in some conditions and deepened it in others, and
+because fees did not enter any decision rule, they could change interior
+decisions only through active technical traders responding to the price.
 """
     table = r"""
 \clearpage

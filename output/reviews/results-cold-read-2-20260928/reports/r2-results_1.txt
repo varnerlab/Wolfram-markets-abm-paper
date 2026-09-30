@@ -1,0 +1,22 @@
+results.P1.S1 | INCONSISTENT | 1 | "dominated by sellers" vs threshold 0.5; baseline mixture unknown
+results.P1.S4 | OVERLOAD | 1 | ~50 words; "starting markets reached"
+results.P1.S7 | REFERENT | 1 | "the control kept its mixture of decisions"
+results.P1.S8 | REREAD | 1 | "set the same selected traders to Sell once at the switch" | intention vs executed sale
+results.P1.S9 | REREAD | 1 | "whether or not the technical traders responded to price" | paraphrase of held/active
+results.P1.S10 | ORDER | 1 | "Which response changed also mattered."
+results.P1.S11 | REREAD | 1 | "all eighteen rules..." | 9x2 inference; 20 vs 50 markets
+results.P1.S12 | OVERLOAD | 2 | "six of the eight changes that replaced a response with one closer to Sell" | nested counts; ordering
+results.P1.S12 | REFERENT | 2 | "whereas the other two" | unnamed; 19286 among the six not confirmed
+results.P2.S1 | ORDER | 1 | P1 already reported held results
+results.P2.S2 | PURPOSE | 2 | "and eight dealer depths from h=0 to 100" | why vary depth in a price-feedback test
+results.P2.S3 | INCONSISTENT | 1 | price fixed at h=0
+results.P2.S4 | REREAD | 2 | "Because no held decision depended on cash, shares, or price" | "held decision" reads as Hold decision; by construction
+results.P2.S7 | REREAD | 1 | crossover used before appositive defines it
+results.P2.S9 | INCONSISTENT | 2 | "so both its size and its sign depended on the dealer depth and fraction" | -0.04 is 2 in 50, noise
+results.P2.S9 | REREAD | 1 | range includes h=0 zeros by construction
+results.P2.S10 | PURPOSE | 2 | "the probability at fraction f=0.175 was 0.06 lower at dealer depth h=0.1" | abrupt switch; not used in conclusion
+results.P2.S11 | REREAD | 2 | "band widths adjusted to recent price departures, which were larger at shallow depth" | mechanism left to reader
+results.P2.S12 | OVERLOAD | 2 | "the paired difference of 0.20 between the two gaps, with a 95% bootstrap interval" | four items
+results.P2.S12 | INCONSISTENT | 2 | "With fixed widths the gap grew to 0.26" | opposite of implied hypothesis
+
+TOTALS: severity-3 = 0; severity-2 = 9; severity-1 = 11

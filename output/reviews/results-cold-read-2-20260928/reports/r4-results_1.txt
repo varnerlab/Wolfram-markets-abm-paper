@@ -1,0 +1,25 @@
+results.P1.S1 | INCONSISTENT | 1 | "dominated by sellers" vs reached-once measure
+results.P1.S3 | INCONSISTENT | 1 | "baseline" two meanings
+results.P1.S4 | ORDER | 1 | key variable last
+results.P1.S6 | REREAD | 1 | 311.5 half step
+results.P1.S8 | INCONSISTENT | 2 | "To test whether the change had to last, we instead set the intentions" | pulse is not a temporary version of the rule change
+results.P1.S9 | PURPOSE | 1 | denominator; f=0.15 adds nothing
+results.P1.S11 | PURPOSE | 1 | why 20 markets; depth
+results.P1.S12 | REREAD | 2 | "five that replaced Buy or Hold with Sell at one neighbor sum from 1 to 5" | reads as range in one rule
+results.P1.S12 | INCONSISTENT | 2 | "one that replaced Buy with Hold at neighbor sum 3" | no mechanism; cuts against framing
+results.P1.S13 | REREAD | 1 | "closer to Buy" ordinal coding
+results.P1.S13 | REFERENT | 1 | Fig 1B shows only two rules
+results.P1 | OVERLOAD | 1 | three experiments in one paragraph
+results.P2.S1 | ORDER | 2 | "although the one-time instruction and the rule screen gave the same outcomes" | weakens own motivation
+results.P2.S2 | REFERENT | 2 | "To determine whether this held across fractions and dealer depths" | "this" ambiguous; "held" verb
+results.P2.S2-S3 | PURPOSE | 1 | fractions/depths not listed
+results.P2.S5 | OVERLOAD | 1 | three-item list + despite
+results.P2.S8 | REREAD | 2 | "Near the crossover, the narrow range..." | appositive reads as subject; "mostly raised" ambiguous
+results.P2.S9-S10 | INCONSISTENT | 2 | "positive in 22, with a largest value of 0.18, and negative in two" | no uncertainty on differences
+results.P2.S11 | PURPOSE | 2 | "including every combination at h=0" | why active = held at h=0
+results.P2.S11 | REREAD | 1 | "every fraction outside the crossover" | circular
+results.P2.S12 | PURPOSE | 2 | "The active probability also varied with dealer depth near the crossover." | no direction/size
+results.P2.S13 | PURPOSE | 3 | "left the contribution of band-width adjustment to that variation unresolved" | hypothesis, result, reason all missing
+results.P2.S13 | INCONSISTENT | 2 | "A control that kept the technical traders' band widths fixed" | "control" clashes with no-switch control
+
+TOTALS: severity-3 = 1; severity-2 = 10; severity-1 = 12

@@ -1,0 +1,28 @@
+results.P3.S1 | PURPOSE | 1 | why size should matter
+results.P3.S2 | OVERLOAD | 1 | "adding tested fractions near the rise in majority probability at each size"
+results.P3.S2 | PURPOSE | 1 | held primary; h=1 vs h=0.1 unexplained
+results.P3.S4 | ORDER | 1 | steepness claim interrupted by midpoint result
+results.P3.S5 | REFERENT | 1 | "the active conditions stayed within 0.01 of these values at every size" | only two held values given
+results.P3.S6 | REFERENT | 2 | "The width f75-f25 ... narrowed from 0.023 [0.018, 0.027] to 0.008" | condition and endpoints not stated
+results.P3.S6 | INCONSISTENT | 2 | "(Fig. A,C; ...)" | 3C plots f50, not width; S5 has no figure citation
+results.P3.S7 | INCONSISTENT | 2 | "which measures how much the final mean Sell fraction varied between starting markets, rose" | gloss wrong across sizes; raw variance fell
+results.P3.S7 | PURPOSE | 2 | "rose from 21.2 at grid size L=32 to 241.2 at L=128" | no implication; condition unstated; no CI
+results.P3.S8 | ORDER | 1 | logistic check away from midpoint claim
+results.P3.S9 | REFERENT | 1 | "Observation time also mattered."
+results.P3.S10 | PURPOSE | 2 | "moved the midpoint from 0.178 to 0.167" | time shift not compared with size shift; size vs time confound
+results.P3.S10 | INCONSISTENT | 1 | 9,000 vs 10,000
+results.P3.S11 | INCONSISTENT | 2 | "whether a majority required a Sell fraction of 0.4, 0.5, or 0.6" | majority at 0.4 contradicts definition
+results.P3.S11 | REFERENT | 1 | "at each size tested this way" | held/active? how far?
+results.P3.S12 | OVERLOAD | 2 | "located a crossover within a finite observation period rather than a fixed fraction" | 45-word chain; attachment ambiguous
+results.P4.S1 | ORDER | 1 | examples before selection; held->active switch unexplained
+results.P4.S2 | PURPOSE | 1 | selection detail opens sentence
+results.P4.S3 | REREAD | 1 | "after 10,000 steps" vs "after 4,073 steps"
+results.P4.S4 | INCONSISTENT | 1 | 1,028 vs median 1,070
+results.P4.S6 | ORDER | 2 | "maximum drawdown rose from 10.17% at 3,000 steps to 26.34%" | first drawdown numbers, no scale
+results.P4.S7 | PURPOSE | 2 | "we extended all 50 starting markets at fraction f=0.15" | why f=0.15; condition not restated
+results.P4.S7 | REREAD | 1 | "extended all 50 starting markets" | runs extended, not starting markets
+results.P4.S9 | OVERLOAD | 2 | "whereas the largest drawdown rose from 12.29% to 25.30%, in a market" | four facts; same market?; control horizon
+results.P4.S9 | PURPOSE | 1 | median drawdown 5.04 vs control 1.15 not remarked
+results.P4.S10 | REFERENT | 2 | "a majority that formed later could still bring a larger price decline" | larger than what
+
+TOTALS: severity-3 = 0; severity-2 = 11; severity-1 = 15

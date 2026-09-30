@@ -81,33 +81,30 @@ Changes in investor decisions can spread through a market, but the
 resulting price decline depends on how trades execute. We developed a
 market model in which traders inside a grid decided whether to buy,
 hold, or sell from their neighbors' decisions, while technical traders
-at selected positions along the edge of the grid responded to price.
-Paired markets shared the same history until selected traders in one
-market received a lasting change in their local decision rule, while the
-other market, a no-switch control, kept the original rule. A Sell
-majority formed once enough traders received the new response, even
-though every other trader kept its original rule. When the technical
-traders were held so that no decision responded to the price, majorities
-still formed, so responses to neighbors alone could produce widespread
-selling. Comparisons across market sizes and observation periods located
-a crossover whose position continued to move with the time observed. To
-connect decisions to prices, we cleared orders against a dealer whose
-finite cash and share reserves kept a constant product. Those reserves
-set both the execution price and the next quoted price, so a round trip
-that returned the dealer's shares could not extract its cash. Shallow
-positive reserves accompanied severe declines while rejecting few orders
-that traders had the resources to complete, whereas zero dealer depth
-allowed only trades between traders at a fixed price. Markets with
-shallow reserves also had large drawdowns without the rule switch, so
-the effect of the switch could be measured only against the paired
-controls. Changing trader cash and shares altered later decisions only
-when technical traders could respond to the resulting prices.
-Transaction fees did not reduce price
-declines in every tested condition. The model thus separated the spread
-of selling decisions from the severity of a
-simulated crash. Limited trading resources did not generally protect
-against severe declines, because their financial consequences depended
-on how execution set the price.
+along the edge of the grid responded to price. Paired markets shared the
+same history until selected traders in one market received a lasting
+change in their decision rule, while a no-switch control kept the
+original rule. A Sell majority formed once a large enough fraction of
+traders received the new rule, although every other trader kept the
+original one. When the technical traders were kept in Hold so that no
+decision responded to the price, majorities still formed, so responses
+to neighbors alone could produce widespread selling. The probability of
+a majority rose over a narrow range of that fraction, a crossover that
+moved to smaller fractions in larger markets and over longer observation
+periods rather than marking a fixed threshold. To connect decisions to
+prices, we cleared orders against a dealer whose finite cash and share
+reserves kept a constant product and set the quoted price. Shallow
+positive reserves allowed severe declines while rejecting few orders,
+and such markets also fell sharply without the rule switch, so the
+switch's effect was measured against the paired controls. Changing
+trader cash and shares altered later decisions only when technical
+traders could respond to the resulting prices, and transaction fees
+reduced price declines in some conditions but deepened them in others.
+When some traders instead followed random advice from one shared source,
+their influence on neighboring traders spread selling and, with deep
+dealer reserves, let them gain cash at the other traders' expense. The
+model thus separated the spread of selling decisions from the severity
+of a simulated crash.
 \end{abstract}
 
 \input{sections/introduction}
@@ -115,6 +112,8 @@ on how execution set the price.
 \input{sections/methods}
 
 \input{sections/results}
+
+\input{sections/following-results}
 
 \input{sections/transaction-fees-results}
 
@@ -133,6 +132,7 @@ on how execution set the price.
 \clearpage
 \input{sections/tables}
 \input{sections/transaction-fees-table}
+\input{sections/following-table}
 
 \clearpage
 \input{sections/figures}

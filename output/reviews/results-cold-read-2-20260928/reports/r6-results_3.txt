@@ -1,0 +1,2 @@
+sev-2: P5.S1 ORDER answer to dealer question arrives late; P5.S7 REREAD dangling drawdown clause; P5.S9 OVERLOAD five numbers + where clause; P5.S11 REREAD why any rejections; P6.S5 INCONSISTENT active below held; P6.S6 REREAD "five highest values" referent; P6.S6 PURPOSE no mechanism for share-0.1 majorities; P6.S8 INCONSISTENT abstract vs shares protecting; P6.S10 PURPOSE cash at h=1 ceiling; P6.S12 INCONSISTENT cash claim.
+TOTALS: severity-3 = 0; severity-2 = 10; severity-1 = 13

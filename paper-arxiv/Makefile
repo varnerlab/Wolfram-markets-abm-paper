@@ -15,11 +15,14 @@ JOB ?= Paper_v1
 
 all: pdf
 
-pdf:
+pdf: figs/Fig1-RuleQuench.pdf
 	latexmk -pdf -interaction=nonstopmode -halt-on-error $(JOB).tex
 
+figs/Fig1-RuleQuench.pdf: figures/Fig1-RuleComparison.tex ../code/rebuild/RenderRuleFigure.py ../code/figs/Fig1-PairedMarkets.pdf
+	python3 ../code/rebuild/RenderRuleFigure.py
+
 watch:
-	latexmk -pdf -pvc -interaction=nonstopmode $(JOB).tex
+	python3 ../code/rebuild/RenderRuleFigure.py --watch --job $(JOB)
 
 clean:
 	latexmk -c $(JOB).tex

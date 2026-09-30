@@ -68,3 +68,47 @@ after verification and compilation. `Archive.py` packages reviewed source
 and results, verifies every archived file against its hash, and writes
 `Completion.json`; restart checkpoints are omitted. These steps do not
 submit or publish the manuscript.
+
+### Figure 1 TikZ presentation
+
+The active manuscript uses `paper-arxiv/figures/Fig1-RuleComparison.tex`
+for an enlarged example of the changed response and aligned complete rule
+tables. Rebuild with `python3 code/rebuild/RenderRuleFigure.py`, or use the
+normal manuscript `make`. The renderer updates both copies of
+`Fig1-RuleQuench.pdf` and decodes the rule numbers without simulations.
+
+`code/figs/Fig1-PairedMarkets.pdf` preserves the vector market panel from
+the corrected study's original Figure 1. To refresh it from a newly generated
+full figure with the same 1100-by-1080-point layout, pass
+`--source path/to/original-figure.pdf`. The crop removes only the original
+rule diagrams and surrounding whitespace. The original frozen study stays
+unchanged. The source Julia driver applies this presentation after saving its
+full figure; the frozen historical archive is not rewritten.
+
+Regenerate the active captions with
+`python3 code/rebuild/WriteCaptions.py --output paper-arxiv/sections/figures.tex`.
+This uses the corrected study's selection metadata.
+
+### Figure 2, 3, and 6 axis terms
+
+`python3 code/rebuild/RelabelFigures.py` re-renders Figures 2, 3, and 6 from
+the corrected study's verified presentation scripts
+(`presentation-v2/Figs-*.jl`) with the manuscript's terms: majority
+probability, fraction given the new rule, dealer depth, and grid size. It
+also removes the active `h=10` curve from Figure 2A, a leftover from the
+superseded model in which `h=10` matched the unlimited dealer; Figure 2B
+still shows all eight depths. No simulation or metric changes. Rendering
+happens in a temporary directory, and only the repository copies in
+`paper-arxiv/figs` and `code/figs` are replaced, so the study's verified
+figure hashes stay valid for the study's own copies.
+
+### Paired active-versus-held table
+
+`WriteManuscriptTables.py` also writes Supplementary Table
+`tab:feedback-pairs` and `code/data/Rebuild-Feedback-Pairs.csv`. It pairs
+active and held runs by starting market at dealer depths 0.1, 1, and 100,
+adds fractions 0.17 and 0.18 from the unchanged-resource cell of the
+trader-resource campaign (asserting that the two campaigns agree on all 600
+overlapping runs), and resamples whole starting markets 2,000 times with a
+fixed seed. The script writes the study's staged `tables.tex`; copy it to
+`paper-arxiv/sections/` after checking that no other staged table changed.

@@ -1,0 +1,10 @@
+sev-2 only (21 sev-1 omitted here; see notes in rounds.md):
+results.P3.S6 | INCONSISTENT | 2 | "differed from the held value by at most 0.007 at any size" | no direction or scale
+results.P3.S8 | OVERLOAD | 2 | "narrowed from 0.023 [0.018, 0.027] at L=32 to 0.008 [0.004, 0.010]" | definition + values + brackets + two refs; 3A does not plot width
+results.P3.S9 | PURPOSE | 2 | "rose from 21.2 at grid size L=32 to 241.2 at L=128" | rise not interpreted; raw variance fell
+results.P3.S11 | REREAD | 2 | "final outcomes near the midpoint were shared across each market" | reads as same across markets
+results.P4.S12 | OVERLOAD | 2 | "which was 5.04% at 3,000 steps, when no switched market had a majority" | three numbers, two horizons; control max vs switched median
+results.P4.S13 | REREAD | 2 | "when it belonged to one of the two markets that reached a majority" | garbled; same market?
+sev-1 of note: P4.S5 "Its" referent; P4.S11 "without a majority" includes majority markets; P4.S14 "lowered prices" vs drawdown evidence; P3.S13 9,000 vs 10,000; P3.S15 threshold 0.4 not a majority; P4.S3 column order.
+
+TOTALS: severity-3 = 0; severity-2 = 6; severity-1 = 21

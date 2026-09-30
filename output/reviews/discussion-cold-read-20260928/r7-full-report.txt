@@ -1,0 +1,14 @@
+No actual first-reader confusion, slowdown, misleading claim, or misplaced detail identified in discussion.P1–P6 after reading the supplied context. Additional technical detail would be OPTIONAL DETAIL rather than necessary to understand a current claim.
+
+discussion.P1: A persistent, assigned change in one local response can spread selling intentions beyond the traders receiving the change. This differs from a one-time Sell instruction, depends on the response changed, and does not imply learning or transmission of the rule. Paired controls isolate the switch's effect, while financial resources also determine the price decline.
+
+discussion.P2: Neighbor interactions can produce a Sell majority without price-responsive decisions. Growing seller groups suggest a spatial spreading process, but finite observation periods and changing crossover locations do not establish an infinite-system threshold or classical nucleation.
+
+discussion.P3: The constant-product execution mechanism makes reserves determine both funding and prices. Shallow positive reserves can accommodate severe declines with little rejection; zero reserves instead impose a distinct fixed-price case. Paired controls distinguish the switch's contribution from declines that would occur anyway.
+
+discussion.P4: Financial changes affect interior decisions only through price-responsive technical traders. Freezing their band widths leaves price feedback in place, and the uncertain comparison does not identify adaptation as the explanation for depth-dependent majority probabilities. Depth also changes funding and price sensitivity together. Majority probability and drawdown describe different outcomes.
+
+discussion.P5: Compared with models that learn or select strategies, this model uses a deliberately assigned, reproducible change within a finite rule space. Local interaction, removable price feedback, and resource-constrained execution support narrower questions about the spread of selling intentions and its relation to price changes.
+
+discussion.P6: The conclusions depend on assigned synchronous rules, observable intentions even without trading resources, the chosen edge strategy, and a specific uncalibrated execution mechanism. Conservation and the dealer round-trip property do not establish realism. Finite control runs do not establish indefinite behavior or stationarity, and changing these assumptions remains necessary to assess generality.
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 0.

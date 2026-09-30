@@ -1,0 +1,31 @@
+results.P3.S2 | PURPOSE | 1 | "With technical traders held, we compared markets whose grids had" | why held is the main size comparison
+results.P3.S2 | REREAD | 2 | "keeping the same starting markets" | starting markets cannot be same across grid sizes | within each size, same 50 at every added fraction
+results.P3.S2 | OVERLOAD | 1 | "compared markets whose grids had L=32 to L=128 rows and columns and refined" | range + refinement + reuse
+results.P3.S3 | REFERENT | 2 | "Larger grids gave a sharper response." | "response" used for rule entry in P1 | majority probability rose more steeply with f
+results.P3.S4 | OVERLOAD | 2 | "The fraction at which half the markets reached a majority within 3,000 steps" | ~60 words, f50 def + two trends + bracket notation
+results.P3.S4 | REREAD | 2 | "the width between majority probabilities of 0.25 and 0.75 narrowed" | reads as width in probability; it's in f
+results.P3.S4 | INCONSISTENT | 1 | "fell from 0.216 at grid size L=32 to 0.166" | width has CI, f50 does not
+results.P3.S4 | PURPOSE | 2 | "fell from 0.216 ... to 0.166 at L=128" | no explanation why larger markets need smaller f; size vs time confound
+results.P3.S5 | REREAD | 2 | "rose from a sampled maximum of 21.2" | "sampled" suggests bootstrap; maximum over what
+results.P3.S5 | PURPOSE | 2 | "The susceptibility ... rose ... to 241.2" | no interpretation
+results.P3.S6 | INCONSISTENT | 2 | "across all size and technical-trader conditions" | first hint active conditions exist in size comparison
+results.P3.S6 | REREAD | 1 | "differed by at most 0.0035" | measured against what
+results.P3.S7 | REFERENT | 1 | "Observation time still mattered." | "still" contrasts with what
+results.P3.S8 | UNDEFINED | 2 | "alternative Sell thresholds and size-dependent horizons gave further comparisons" | not introduced, no result stated
+results.P3.S8 | INCONSISTENT | 2 | "extending the held markets from 3,000 to 9,000 steps" | 9,000 new; elsewhere 10,000
+results.P3.S8 | INCONSISTENT | 1 | "moved the midpoint from 0.178" | interpolation of P2 values gives ~0.179
+results.P3.S9 | REREAD | 2 | "a crossover within a finite observation period rather than a fixed threshold" | "threshold" reused; "crossover" undefined
+results.P3.S9 | PURPOSE | 2 | "Thus, the size comparison described a crossover" | conclusion says nothing about size
+results.P4.S1 | ORDER | 2 | "A 3,000-step observation period could end before a slow majority formed" | repeats P3.S7-S9 point with different condition/horizon, no bridge
+results.P4.S1 | ORDER | 1 | "we extended five markets" | which five, why
+results.P4.S2 | PURPOSE | 1 | "Selection used the 3,000-step outcomes, before image inspection." | how selected; "image" unexplained
+results.P4.S3 | REFERENT | 1 | "Two had not reached a majority by that endpoint" | back-resolving
+results.P4.S4 | INCONSISTENT | 1 | "f=0.150" | elsewhere 0.15
+results.P4.S5 | REREAD | 2 | "The three earlier majorities ... at fractions f=0.175, 0.185, and 0.20" | 0.175 in both groups; "earlier" ambiguous
+results.P4.S6 | REREAD | 1 | "formed as groups of sellers grew and merged" | panel C cannot show merging
+results.P4.S7 | PURPOSE | 2 | "maximum drawdown rose from 10.17% at 3,000 steps to 26.34%" | no control; 10.17% pre-majority unexplained
+results.P4.S8 | UNDEFINED | 1 | "To measure late-majority frequency at fraction f=0.150" | coined term, horizon/condition not given
+results.P4.S10 | INCONSISTENT | 2 | "the median drawdown changed from 5.04% to 5.87%" | control drawdowns not reported; 25.30% owner unknown
+results.P4.S11 | PURPOSE | 2 | "Thus, remaining mixed for 3,000 steps did not establish a long-run state" | repeats P3.S9, omits drawdown findings
+
+TOTALS: severity-3 = 0; severity-2 = 17; severity-1 = 12

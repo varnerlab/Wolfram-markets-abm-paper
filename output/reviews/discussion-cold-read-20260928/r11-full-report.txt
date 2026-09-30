@@ -1,0 +1,17 @@
+Read the supplied file front to back, using the preceding text only as context. Audit limited to discussion.P1–P6. No severity-3 or severity-2 problems: the distinction between intentions, completed trades, and financial outcomes remains understandable throughout.
+
+D1 | REFERENT | severity-1 | "connects the model to accounts of how local changes spread through a population" | The comparison is too general to identify the conceptual connection being claimed. After the specific observation about growing and merging groups, I paused to determine whether this means imitation, contagion thresholds, or another account. The claim requiring clarification is this asserted connection, not the simulation procedure; naming the intended class of account would suffice within the existing sentence. | bestguess: The authors mean threshold or contagion accounts in which changing a minority's behavior can alter population-wide outcomes. This is a guess, not evidence that a particular account applies.
+
+Plain meaning of discussion.P1: Assigning a persistent local response to a minority can produce a majority intending to sell. This differs from briefly telling traders to sell and depends on which response is changed. Paired controls isolate the assigned intervention; the model does not explain learning or adoption of strategies.
+
+Plain meaning of discussion.P2: Neighbor interactions can produce a Sell majority without price feedback. Seller groups grow and merge, but the evidence concerns finite grids and observation periods and does not establish a permanent threshold or a classical nucleation mechanism.
+
+Plain meaning of discussion.P3: Limited dealer reserves affect prices through the specified execution mechanism. Small positive reserves can allow severe declines with little rejection, whereas zero reserves impose a separate fixed-price case. Paired controls distinguish declines already present without intervention from the additional effect of the rule switch.
+
+Plain meaning of discussion.P4: Financial conditions influence later intentions through technical traders' responses to price. Removing those responses breaks that pathway. The effect on majority probability is not a simple function of depth, the role of adapting bands remains uncertain, and the depth experiments change both funding and sensitivity. Majority formation and drawdown are distinct outcomes.
+
+Plain meaning of discussion.P5: Relative to established agent-based markets, this model replaces learning and strategic switching with an assigned, repeatable change to an enumerable local rule. That restriction permits focused tests of selling propagation, price feedback, and execution-dependent financial consequences, while leaving broader questions of learning and market efficiency unanswered.
+
+Plain meaning of discussion.P6: The findings depend on assigned synchronous rules, observable intentions even when traders cannot execute them, one placement and strategy for technical traders, and a particular uncalibrated trading mechanism. Accounting consistency does not establish realism. Finite observation does not establish stationary or indefinite behavior, and alternative rules, networks, updates, and execution mechanisms remain to be tested.
+
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 1.

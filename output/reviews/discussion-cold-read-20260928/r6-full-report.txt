@@ -1,0 +1,15 @@
+discussion.P3.S4 | REREAD | severity-2 | "so later net sales executed at lower prices" | Lower than which price, and under what comparison? The earlier clearing equation makes execution price depend on both the current reserves and the size of the next batch. This wording briefly reads as a guarantee that successive net-selling batches execute at successively lower prices, even when their sizes differ. The current claim about later execution prices needs a comparison qualifier; no additional Methods detail is needed. | Best guess: after the dealer acquires shares, an otherwise comparable subsequent net sale clears at a lower price because the reserve curve has moved to a lower quoted price.
+
+discussion.P1: A persistent change in one response can spread selling intentions beyond the traders receiving it; the outcome depends on the response and fraction changed, and paired controls isolate the assigned intervention rather than learning or rule adoption.
+
+discussion.P2: Local responses can generate majorities without price feedback. The spatial patterns suggest growth and merging of seller groups, but finite observations establish neither an asymptotic threshold nor classical nucleation.
+
+discussion.P3: The reserve mechanism translates net trades and available resources into price changes, allowing severe declines with few rejected eligible orders. Zero depth is a separate fixed-price case, and paired controls distinguish existing instability from the switch's contribution.
+
+discussion.P4: Financial resources influence intentions through technical traders' price responses. Majority formation and drawdown behave differently, the band-adaptation contribution remains unresolved, and depth changes confound funding with price sensitivity.
+
+discussion.P5: The contribution is a controlled, repeatable intervention in fixed local rules, situated among models that instead learn or change strategies. Its narrower questions concern majority formation and the necessity of price feedback.
+
+discussion.P6: Assigned synchronous rules, observable unexecutable intentions, specific technical traders and clearing, absent economic mechanisms, lack of calibration, and finite observation limit the conclusions; alternative assumptions remain to be tested.
+
+TOTALS: severity-3 = 0; severity-2 = 1; severity-1 = 0.

@@ -1,0 +1,23 @@
+results.P1.S1 | REFERENT | 1 | "turn a mixed market into one dominated by sellers" | "Mixed" could mean a mix of Buy/Hold/Sell intentions or the mix of two rule types | A market with a mixture of Buy, Hold, and Sell intentions.
+results.P1.S4 | ORDER | 1 | "none of the 50 ... f=0.10 or 0.15, whereas all of them did at f=0.20" | jump from 0/50 to 50/50 with no signal intermediate fractions exist | The transition lies between 0.15 and 0.20.
+results.P1.S5 | REFERENT | 1 | "No control reached a majority over the same period." | "the same period" never stated in paragraph | 50 no-switch controls over 3,000 post-switch steps.
+results.P1.S6 | REREAD | 2 | "The median onset fell from 1,070.0 steps at fraction f=0.20" | reads as absolute step 1,070; ".0" noise | Median onset about 1,070 steps after the switch.
+results.P1.S7 | REFERENT | 1 | "In the displayed pair" | fraction/starting market of displayed pair not given | Fig 1C pair, f=0.20, starting market 14.
+results.P1.S7 | INCONSISTENT | 1 | "groups of sellers expanded after the rule switch" | "sellers" blurs Sell intentions vs completed sales | Clusters of traders intending to Sell grew.
+results.P1.S8 | PURPOSE | 2 | "A one-time instruction did not have the same effect" | no reason given for the test | Check majority comes from persistent rule, not seeding Sell intentions.
+results.P1.S8 | UNDEFINED | 2 | "setting the selected traders to Sell once" | protocol not given (step, rule afterward, depth, n) | At step 1,001 selected traders set to Sell, everyone kept 19280.
+results.P1.S8 | ORDER | 2 | "produced no majority in either technical-trader condition" | held condition used before P2 motivates it | Robustness checks run in both conditions.
+results.P1.S8 | REREAD | 1 | "at fraction f=0.15, 0.20, or 0.25" | f=0.15 adds no contrast | Meaningful contrast at 0.20 and 0.25.
+results.P1.S10 | UNDEFINED | 2 | "Of the eighteen alternative rules tested" | 18 = 9 x 2 must be inferred; is 19286 among them? | All single-entry variants of 19280, probably including 19286.
+results.P1.S10 | OVERLOAD | 2 | "6 produced a majority in every tested starting market under both technical-trader conditions" | count, conditions, n, depth all in one clause | 50 markets at h=100, both conditions.
+results.P1.S10 | PURPOSE | 2 | "6 produced a majority ... while 12 produced none" | no hint which responses the 6 changed; may be trivial | The six are changes toward Sell at particular neighbor sums.
+results.P1.S11 | REREAD | 2 | "some tested lasting rule switches produced majorities where one-time Sell instructions did not" | pulse run only for 19286's selection; merges two tests | 19286 and five others produced majorities; pulse did not.
+results.P2.S2 | ORDER | 2 | "we repeated the rule switch with every technical trader held in Hold" | silent move to dealer-depth campaign (11 fractions, 8 depths) | The held test is the dealer-depth comparison of Fig 2.
+results.P2.S2 | INCONSISTENT | 1 | "trades still completed and the price still moved" | h=0 has fixed price | Price moved at positive dealer depths.
+results.P2.S3 | ORDER | 2 | "the Sell-majority probability was 0.34 at fraction f=0.175" | no dealer depth given | Same value at every depth.
+results.P2.S4 | ORDER | 1 | "identical across dealer depths despite different price paths" | reads as surprising finding, S5 says by construction; "final interior grid" loose | Verification that held condition blocks financial influence.
+results.P2.S6 | UNDEFINED | 2 | "changed majority probability near the crossover" | "the crossover" not defined outside the Abstract | Rise region, f = 0.175 to 0.185.
+results.P2.S7 | REREAD | 1 | "25 of 50 markets ... compared with 17 when held" | switches from probabilities to counts | 17/50 = 0.34, 35/50 = 0.70.
+results.P2.S9 | INCONSISTENT | 2 | "Both the size and the sign of the difference ... depended" | both examples show active > held; sign claim unsupported | At some depths/fractions active < held (Fig 2B).
+
+TOTALS: severity-3 = 0; severity-2 = 12; severity-1 = 9

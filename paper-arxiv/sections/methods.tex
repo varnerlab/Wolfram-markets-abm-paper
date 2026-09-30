@@ -14,10 +14,11 @@ to the left, and to the right. The decision rules were totalistic: each
 trader's next intention depended only on the sum of these four
 neighboring states~\cite{packard1985two}, so for interior traders next
 to the edge this sum could include the intentions of technical traders.
-At each step $t$, the technical traders updated their intended actions
-using the latest quoted price and price history, and all interior
-traders then updated theirs together using the previous interior states
-and the newly updated edge states. We denoted the four neighbors of
+After trades settled at each step $t$, the technical traders updated
+their intentions using the new quoted price and price history. All
+interior traders then updated together using the previous interior
+states and the newly updated edge states, producing intentions for
+the next step's orders. We denoted the four neighbors of
 trader $i$ by $\partial i$ and the state supplied by neighbor $j$ at
 step $t$ by $s_j^{\rm in}(t)$, and the totalistic rule used their sum
 $c_i(t)$, defined by:
@@ -80,75 +81,65 @@ lacked the resources to carry them out, so cash and share holdings
 limited completed trades but did not determine which intentions entered
 neighboring decisions.
 
-The dealer acted as market maker by using its own cash and shares to
-complete trades that could not be matched between traders, and its
-finite reserves could leave some orders unfilled. We denoted the total
-number of interior and technical traders by $N_{\rm tr}$ and the dealer
-depth, the initial dealer shares per trader, by $h$. At the initial
-price $P_0=100$, the dealer started with $H=\operatorname{round}(hN_{\rm
-tr})$ shares and cash $P_0H$. For positive reserves, we required trading
-to preserve the product of the dealer's trading cash and shares,
-following a constant-product market-making
-rule~\cite{angeris2022constant}. The dealer could not borrow cash or
-shares and retained at least one share. At the start of step $t$, its
-cash and share reserves were $W_{t-1}$ and $Q_{t-1}$, with product $K$.
-We denoted a proposed net purchase from the dealer by $x$, positive when
-traders bought shares from the dealer and negative when they sold shares
-to it, so at base execution price $F_t(x)$ the dealer's trading reserves
-would contain $Q_{t-1}-x$ shares and cash $W_{t-1}+F_t(x)x$. Preserving
-the reserve product required:
+The dealer acted as market maker for orders unmatched between traders.
+Clearing fixed the net trade direction, selected its largest feasible
+size and price, then allocated orders at that price. For $N_{\rm tr}$
+interior and technical traders, dealer depth $h$, the dealer's initial shares per trader, set initial shares
+$H=\operatorname{round}(hN_{\rm tr})$ and cash $P_0H$, with initial
+price $P_0=100$. The dealer could not borrow and, for positive reserves,
+retained at least one share while preserving the product $K$ of trading
+cash and shares~\cite{angeris2022constant}. At step $t$, the starting
+reserves were cash $W_{t-1}$ and shares $Q_{t-1}$.
+A proposed net purchase $x$ from the dealer was positive for trader
+buys and negative for trader sales. Its base execution price $F_t(x)$
+had to preserve the reserve product after the dealer exchanged $x$
+shares for cash $F_t(x)x$, according to:
 \begin{gather*}
   K=W_{t-1}Q_{t-1},\\
   [W_{t-1}+F_t(x)x][Q_{t-1}-x]=K.
 \end{gather*}
-For a nonzero net trade, solving this balance for the execution price
-gave:
+For a nonzero proposed net trade, the corresponding price was:
 \begin{equation}
   F_t(x)=\frac{W_{t-1}}{Q_{t-1}-x},\qquad Q_{t-1}-x\geq1.
   \label{eq:execution-price}
 \end{equation}
-When $x=0$, we used $F_t(0)=W_{t-1}/Q_{t-1}$, so opposing trader orders
-could still trade without changing the dealer's reserves. We denoted the
-transaction fee per completed order, as a fraction of its base execution
-price, by $\tau$, and used $\tau=0$ except in the fee comparisons
-described below. For each proposed net trade $x$, we counted Buy orders
-backed by enough cash to pay $(1+\tau)F_t(x)$ as $B_t(x)$ and Sell
-orders backed by at least one share as $S_t(x)$. These were the eligible
-orders at the proposed price. We first compared eligible buys and sells
-at $F_t(0)$, and their difference determined the direction $d_t$, with
-$+1$ denoting net purchases from the dealer, $-1$ net sales to the
-dealer, and zero no net trade:
+For no net trade, we used $F_t(0)=W_{t-1}/Q_{t-1}$ to match opposing
+orders without changing dealer reserves. The fee fraction of each
+completed order's base price was $\tau$, with $\tau=0$ except in fee
+comparisons. At each proposed price $F_t(x)$, the eligible counts were $B_t(x)$ Buy
+orders backed by cash $(1+\tau)F_t(x)$ and $S_t(x)$ Sell orders backed
+by at least one share. First, we fixed the trade direction using eligible orders at
+$F_t(0)$, the price for no net trade. The direction
+$d_t$ was positive for net purchases from the dealer, negative for net
+sales, and zero for no net trade, as given by:
 \begin{equation*}
   d_t=\operatorname{sign}\{B_t(0)-S_t(0)\}.
 \end{equation*}
-For $d_t\ne0$, we considered nonnegative integer trade sizes $k$ in the
-selected direction, subject to two requirements. The dealer had to
-retain at least one share after trading, and at the proposed execution
-price, eligible orders in the selected direction had to exceed orders on
-the opposite side by at least $k$. We chose the largest size satisfying
-both requirements, giving the net purchase $x_t$:
+Next, with a nonzero direction fixed, we chose the largest nonnegative
+integer size $k$ that left the dealer at least one share and was
+supported by the excess eligible orders at its own proposed price.
+The selected net purchase $x_t$ was therefore:
 \begin{equation}
  x_t=d_t\max\left\{k\in\mathbb{Z}_{\geq0}:
  Q_{t-1}-d_tk\geq1,\quad
  d_t[B_t(d_tk)-S_t(d_tk)]\geq k\right\}.
  \label{eq:dealer-buy-excess}
 \end{equation}
-We set $x_t=0$ when $d_t=0$. At the selected price $F_t(x_t)$, we
-denoted the eligible counts by $B_t$ and $S_t$, and the numbers of
-completed trader buys $n_t^B$ and sells $n_t^S$ were then given by:
+We set $x_t=0$ when $d_t=0$. Finally, we allocated orders at the
+selected price $F_t(x_t)$, fixing the eligible counts at
+$B_t=B_t(x_t)$ and $S_t=S_t(x_t)$. The completed trader buys $n_t^B$
+and sells $n_t^S$ were given by:
 \begin{equation}
  n_t^B=\min\{B_t,S_t+x_t\},\qquad n_t^S=n_t^B-x_t.
  \label{eq:dealer-sell-excess}
 \end{equation}
-All eligible orders on the smaller side completed, and when orders on
-the larger side could not all complete, reproducible priorities
-determined which were filled. We called eligible orders left unfilled
-\emph{dealer rejection}. Because a larger net trade could violate the
-dealer's minimum share reserve or change the execution price so that the
-eligible orders no longer supported the proposed quantity, dealer
-rejection did not imply that the dealer had exhausted its cash. The
-normalized net purchase $\phi_t$ described the completed orders at each
-step but did not separately set price, and it was defined by:
+All eligible orders on the smaller side completed. Orders on a rationed
+side were ranked by a reproducible score using simulation seed, step,
+trader identity, and side, with identity breaking ties. Eligible orders left unfilled were
+\emph{dealer rejection}. Rejection could reflect the minimum share
+reserve or a price at which eligible orders no longer supported a
+larger net trade, without exhausting dealer cash. The selected net purchase per trader $\phi_t$ summarized completed
+orders without separately setting price:
 \begin{equation}
  \phi_t=\frac{x_t}{N_{\rm tr}}.
  \label{eq:imbalance}
@@ -182,13 +173,7 @@ reserves used to set prices:
 No fee was charged on an unfilled order. Cash was conserved across
 traders, dealer trading reserves, and the fee account, except at
 scheduled changes in trader resources, and shares were conserved across
-traders and the dealer, except at scheduled share interventions. In
-exact arithmetic, the constant reserve product $W_tQ_t=K$ meant that an
-isolated sequence of trades returning the dealer to its initial share
-reserve also restored its initial trading cash. Such a round trip could
-not extract net cash from the dealer and, at positive $\tau$, paid fees
-to the dealer, although this result did not rule out gains from trading
-with other traders. Dealer reserves determined both the funding
+traders and the dealer, except at scheduled share interventions. Dealer reserves determined both the funding
 available for trades and the response of the quoted price to net
 trading. The comparison with large reserves used dealer depth $h=100$,
 whereas at dealer depth $h=0$ the dealer held no trading cash or shares.
@@ -200,9 +185,9 @@ fixed-price control (Algorithm~\ref{alg:dealer-clearing}).
 \subsection{Technical traders and price feedback}
 
 Technical traders brought changes in the dealer's quoted price into
-neighboring decisions. We placed these traders at one quarter of the
-positions along the edge of the grid, while the remaining edge positions
-stayed in Hold. The technical traders followed a contrarian strategy of
+neighboring decisions. We selected one quarter of the edge positions uniformly without
+replacement for these traders, while the remaining edge positions stayed
+in Hold. The technical traders followed a contrarian strategy of
 the Bollinger-band type, in which each technical trader compared the
 quoted price with a band around a recent price average. A price below
 the lower limit generated a Buy intention, a price above the upper limit
@@ -251,8 +236,8 @@ without feedback from prices. Figure legends abbreviate these conditions
 as held and active.
 \subsection{Paired rule-switch experiments}
 
-We isolated the effect of the rule switch by comparing each switched
-market with a no-switch control that retained the original rule. Each
+We measured rule-switch effects by pairing switched markets with
+no-switch controls that retained the original rule. Each
 pair began from the same starting market and used Rule~19280 for every
 interior trader for 1,000 steps. At the start of step 1,001, we assigned
 Rule~19286 to a preselected fraction $f$ of interior traders, who
@@ -287,7 +272,9 @@ combinations, including unchanged holdings when both factors were 1.
 Share counts were rounded to whole numbers, and the intervention did not
 rescale the dealer's reserves. With other settings fixed, all nine
 simulations shared the same history before the intervention and assigned
-the new rule to the same traders. When technical traders were held,
+the new rule to the same traders. These resource comparisons used
+switched markets without separate no-switch controls. When technical
+traders were held,
 changing resources could alter completed trades and prices but could not
 alter interior intentions, because neither cash nor shareholdings
 entered the decision rule. The supplementary material gives the full
@@ -296,21 +283,85 @@ parameter combinations and verification checks
 
 \input{sections/transaction-fees-methods}
 
+\subsection{Following shared advice and copying completed trades}
+
+To examine crowding, we also ran markets in which some traders followed
+shared advice or copied another trader's completed trades instead of
+responding to their neighbors. These markets used the same $64\times64$
+grid, trading, dealer, and technical-trader rules as the rule-switch
+experiments, without a rule switch or fees: every interior trader used
+Rule~19280 throughout. After the 1,000-step baseline, we chose 10\% or
+40\% of the interior traders at random as followers and let them follow
+for the next 3,000 steps. Sixteen other interior traders, also chosen at
+random, were set aside as traders who could be copied and were counted
+neither as followers nor as non-followers. Advice was a random sequence
+of Buy, Hold, and Sell recommendations drawn with probabilities 0.25,
+0.50, and 0.25 and unrelated to price or to any trader's holdings. Each
+recommendation was kept with probability 0.8 at each step and otherwise
+drawn again. A follower's intention at each step was the current
+recommendation, which replaced the output of its own rule, and
+neighboring traders read that intention as they read any other.
+Followers' orders still required cash or shares and cleared against the
+dealer like every other order. We compared advice from one source shared
+by every follower, advice from sixteen sources shared by groups of
+followers that differed in size by at most one, and separate advice for each follower. When copying, each
+follower repeated the completed trade that its copied trader made in the
+previous step, choosing Buy after a completed purchase, Sell after a
+completed sale, and Hold otherwise. All followers copied one trader from
+the set-aside group, or groups of followers that differed in size by at
+most one copied all sixteen.
+
+Each following run was paired with a no-following control that shared
+its starting market, baseline history, dealer depth, and technical-trader
+condition, and every outcome compared the same traders in the two
+markets. To test whether followers' influence on neighboring traders
+contributed to their financial outcomes, we repeated the advice runs
+with that influence removed: each non-follower read a neighboring
+follower's intention from the no-following control, while the followers'
+advice and orders were unchanged. With technical traders held, this
+left every non-follower decision identical to the no-following control.
+In a third comparison, the advice stopped after 1,000 steps, and the
+followers returned to Rule~19280 without any change to their cash,
+shares, or the price. After the 3,000 steps of following, every trader
+with shares sold them to the dealer one share per trader and step, with
+no purchases, until no further sale completed. We divided each
+follower's final cash by its cash plus shares at the quoted price when
+following began, and the follower cash change was the mean of this ratio
+minus the same mean for the same traders in the no-following control. We
+also measured the change in the fraction of time that non-followers
+spent in Sell, over all 3,000 steps and over the final 500, and the
+change in the maximum drawdown of the quoted price. The main comparison
+used 50 starting markets not used in any other experiment, with two
+random assignments of followers and advice per market, dealer depth
+$h=1$ and 100, technical traders active or held, and one shared source or
+separate advice for each follower, giving 5,200 simulations. Before these
+markets were simulated, we fixed two endpoints for 40\% followers of one
+shared source at dealer depth $h=100$ with technical traders held: the
+follower cash change with advice, and its difference from the run in
+which the followers' influence on neighbors was removed. Each endpoint
+had to have a positive lower limit on a Bonferroni-adjusted 97.5\%
+interval from 10,000 bootstrap resamples of whole starting markets,
+computed after averaging the two assignments within each market, and
+all other intervals were pointwise 95\% intervals. Sixteen sources and
+copying were compared only in an exploratory set of 880 simulations over
+10 other starting markets, with 2,000 bootstrap resamples and pointwise
+intervals.
+
 \subsection{Market outcomes, statistical analysis, and selection of examples}
 
-We measured the spread of Sell intentions using $m(t)$, the fraction of
-interior traders in Sell at step $t$, and recorded a Sell majority if
-$m(t)\geq0.5$ at least once during the observation period after the rule
-switch. Onset time was the first step after the rule switch at which
-this threshold was reached. For each condition, we estimated majority
-probability as the fraction of runs that reached the threshold and
-summarized onset times only for those runs. In the comparisons of dealer
-depth, market size, and trader resources, we also averaged $m(t)$ over
-the final 500 steps to describe intentions near the end of each run. For
-the market-size comparison, we denoted each run's mean Sell fraction
-over the final 500 steps by $\bar m$ and measured variation between
-starting markets using the susceptibility $\chi_L$, defined as the
-variance of $\bar m$ multiplied by the number of interior traders,
+We measured intentions and financial outcomes separately because a Sell
+majority did not necessarily produce a large price decline. The Sell
+fraction $m(t)$ was the fraction of interior traders in Sell after the
+intention update at step $t$, and a run reached a Sell majority if $m(t)\geq0.5$ at least once
+during the observation period after the rule switch. Onset time was the
+first step after the switch at which this threshold was reached. We
+estimated majority probability as the fraction of runs reaching the
+threshold and summarized onset times only for those runs. For dealer
+depth, market size, and trader-resource comparisons, we also averaged
+$m(t)$ over the final 500 steps. For the market-size comparison, we
+denoted this mean by $\bar m$ and measured its variation between
+starting markets using the susceptibility $\chi_L$, the variance of
+$\bar m$ multiplied by the number of interior traders,
 $(L-2)^2$~\cite{binder1981finite,landau2021guide}. With angle brackets
 denoting averages over the 50 starting markets at a fixed grid size and
 parameter combination, we calculated:
@@ -321,104 +372,102 @@ parameter combination, we calculated:
 \end{equation}
 At a fixed grid size, a larger $\chi_L$ indicated greater variation in
 the final mean Sell fraction between starting markets
-(Eq.~\ref{eq:susceptibility}). For each market size $L$ and condition,
-we estimated the fraction of traders assigned the new rule at which a
-Sell majority formed in 25\%, 50\%, or 75\% of simulations within the
-observation period, and we denoted these fractions by $f_{25}(L)$,
-$f_{50}(L)$, and $f_{75}(L)$. We estimated these values with straight
-lines between the measured probabilities at adjacent tested fractions
-(linear interpolation), using the first upward crossing of each
-probability level and retaining any decreases in the sampled
-probabilities. The midpoint $f_{50}(L)$ corresponded to a majority
-forming in half of the starting markets within the observation period.
-The width $f_{75}(L)-f_{25}(L)$ measured the increase in the fraction
-$f$ between majority probabilities of 0.25 and 0.75, so a smaller width
-indicated a sharper response. We used 95\% Wilson confidence intervals
-to describe uncertainty in estimated Sell-majority
-probabilities~\cite{wilson1927probable}. Where shown, interquartile
-bands, which described variation between runs, extended from the 25th to
-the 75th percentile of outcomes across starting markets under the same
-conditions.
+(Eq.~\ref{eq:susceptibility}). For each market size $L$ and condition, we estimated the fractions of
+traders assigned the new rule at which majority probability reached
+25\%, 50\%, and 75\%, denoted by $f_{25}(L)$, $f_{50}(L)$, and
+$f_{75}(L)$. We used straight lines between probabilities at adjacent
+tested fractions (linear interpolation), taking the first upward crossing
+of each probability level and retaining any decreases in the sampled
+probabilities. The midpoint $f_{50}(L)$ located the response, while a
+smaller width $f_{75}(L)-f_{25}(L)$ indicated a sharper rise in majority
+probability.  We measured price declines using maximum
+drawdown, the largest proportional fall from the highest quoted price
+reached so far within the observation period, including the quoted price
+immediately before the rule switch. We used price crash to describe a
+large simulated decline, without a threshold for classifying runs as
+crashes. We counted orders lacking cash or shares as trader suppression
+and eligible orders left unfilled as dealer rejection. The reported
+dealer-rejection fraction was rejected orders divided by eligible orders,
+using each run's totals after the rule switch, with zero assigned when no
+orders were eligible. Suppressed and completed order counts covered the
+same period. We summarized maximum drawdown and dealer-rejection fractions
+using medians across starting markets under the same conditions. In the
+fee comparisons, majority effects were differences in probabilities,
+whereas drawdown effects were medians of the differences within matched
+pairs. We used 95\% Wilson
+confidence intervals for majority probabilities~\cite{wilson1927probable}.
+Where shown, interquartile bands spanned the 25th to 75th percentiles of
+outcomes across starting markets under the same conditions.
+To compare technical traders active and held, we paired runs by starting
+market and counted the markets that reached a majority under only one
+of the two conditions. At dealer depths $h=0.1$, 1, and 100, we added
+fractions 0.17 and 0.18 from the unchanged-resource runs of the
+trader-resource comparison, which reproduced the dealer-depth runs
+exactly where the two comparisons overlapped, and counted each run once.
+We averaged the paired differences in majority outcome over fixed sets
+of fractions and obtained 95\% intervals from 2,000 bootstrap samples
+of whole starting markets (Supplementary Table~\ref{tab:feedback-pairs}).
 
-A high Sell fraction did not necessarily produce a large price decline,
-because the price response depended on completed trades and the dealer's
-trading reserves. We measured price declines using maximum drawdown, the
-largest proportional fall from the highest quoted price reached so far
-within the observation period, including the quoted price immediately
-before the rule switch. We used price crash to describe a large
-simulated decline, without defining a threshold for classifying runs as
-crashes. A Buy order was eligible if the trader had enough cash to pay
-the selected execution price and any fee, and a Sell order was eligible
-if the trader held at least one share. We counted ineligible orders as
-trader suppression and eligible orders left unfilled as dealer
-rejection. Where reported, we calculated the dealer-rejection fraction
-as rejected orders divided by eligible orders, using each run's totals
-over the observation period after the rule switch, and we assigned zero
-when no orders were eligible. Suppressed and completed order counts
-covered the same period. We summarized maximum drawdown and
-dealer-rejection fractions using medians across starting markets under
-the same conditions.
-
-For the market-size comparison, we tested additional fractions of
-traders assigned the new rule to locate the rise in Sell-majority
-probability more precisely, aiming for at least five tested fractions
-with estimated majority probabilities strictly between 5\% and 95\% for
-each size and condition. Until this criterion was met, we added a
-fraction halfway between adjacent tested values when the lower fraction
-had a probability below 95\% and the higher fraction had a probability
-above 5\%, allowing up to ten rounds and using the same 50 starting
-markets at each added fraction. The number of fractions meeting the
-criterion appears in Supplementary Table~\ref{tab:finite-size-scaling}.
-For each market size and condition, we drew 2,000 bootstrap samples of
-50 starting markets with replacement, using the same selection of
-starting markets at every tested fraction within a sample. In each
-sample, we recalculated $f_{25}$, $f_{50}$, $f_{75}$, the width
-$f_{75}-f_{25}$, and the maximum susceptibility over the tested
-fractions, and the 2.5th and 97.5th percentiles of these estimates
-defined the 95\% confidence intervals. We also fitted a smooth,
-increasing logistic probability curve for each market size and condition
-and compared its midpoint and width with the estimates from linear
-interpolation. We modeled the Sell-majority probability as:
+For the market-size comparison, we added tested fractions to resolve the rise in majority probability,
+aiming for at least five fractions with estimated majority probabilities
+strictly between 5\%
+and 95\% for each size and condition, allowing up to ten rounds. Each
+round added the midpoint of every adjacent pair whose lower fraction had
+a probability below 95\% and whose higher fraction had a probability
+above 5\%, using the same 50 starting markets at each added fraction
+(Supplementary Table~\ref{tab:finite-size-scaling}). For each
+market size and condition, we drew 2,000 bootstrap samples of 50 starting
+markets with replacement, keeping the same selection at every tested
+fraction within a sample. We recalculated $f_{25}$, $f_{50}$, $f_{75}$,
+the width $f_{75}-f_{25}$, and the maximum susceptibility over tested
+fractions in each sample, using the 2.5th and 97.5th percentiles for 95\%
+confidence intervals. All requested crossings were bracketed in every
+bootstrap sample (Supplementary Table~\ref{tab:finite-size-scaling}). To check the sensitivity of these interpolated estimates to the use of
+straight lines, we fitted a smooth, increasing logistic probability curve
+and compared its midpoint and width at the same probability levels with
+the primary estimates. The fitted parameters $a_L$ and $b_L$ controlled
+the curve's position and steepness, while 0.18 and 0.01 centered and
+scaled the fraction $f$ for fitting. The fitted Sell-majority probability
+$p_L(f)$ was given by:
 \begin{equation*}
 p_L(f)=\left\{1+\exp\left[-a_L-b_L(f-0.18)/0.01\right]\right\}^{-1},
 \qquad b_L>0.
 \end{equation*}
-The fitted parameters $a_L$ and $b_L$ controlled the curve's position
-and steepness, while the constants 0.18 and 0.01 centered and scaled the
-fraction $f$ for fitting. We estimated the parameters by maximizing the
-binomial likelihood of the observed majority counts and refitted the
-curve in each of the same 2,000 bootstrap samples, taking the standard
-errors of its midpoint and width from the standard deviations of their
-bootstrap estimates (Supplementary Table~\ref{tab:revision-fits}). These
-confidence intervals and standard errors described the uncertainty from
-sampling starting markets, with the tested fractions and the observation
-period held fixed, so they did not include uncertainty from selecting
-the additional fractions. For the interpolated midpoints and widths,
-they also left out the error of approximating the probability curve by
-straight lines between tested fractions. These estimates did not
-describe how the curve would change over a longer observation period,
-which is a different measured outcome rather than an estimation error.
+We estimated the parameters by maximizing the binomial likelihood of the
+observed majority counts and refitted the curve in each of the same
+2,000 bootstrap samples. Standard errors of its midpoint and width were
+the standard deviations of their bootstrap estimates (Supplementary
+Table~\ref{tab:revision-fits}). These intervals and standard errors
+measured uncertainty from sampling starting markets, conditional on the
+tested fractions and observation period. They excluded uncertainty from
+selecting additional fractions and, for interpolated estimates, error
+from approximating the probability curve by straight lines. A longer
+observation period would define a different outcome, whose change these
+uncertainty estimates did not describe.
 
-We selected examples of traders' decisions across the grid using the
-measured time to a majority or final Sell fraction to choose each run,
-and selection preceded inspection of the images, with the lower-numbered
-starting market breaking equal distances from a group median. The newly
-computed 3,000-step results supplied a run without a majority at
+We selected examples of traders' decisions across the grid from the
+3,000-step results, before inspecting images, using proximity to group
+medians and the lower-numbered starting market to break ties. Selection used
+$64\times64$ grids, active technical traders, zero fees,
+and the baseline resource settings without cash or share interventions.
+At dealer depth $h=100$, we selected a run without a majority at
 fraction $f=0.15$, both outcomes at $f=0.175$, and runs with a majority
-at $f=0.185$ and 0.20, all at dealer depth $h=100$
-(Fig.~\ref{fig:dose-panels}). Among runs that reached a majority, we
-selected the run nearest the group's median onset time, whereas among
-runs without a majority we selected the run nearest the group's median
-final Sell fraction. The dealer panels required a single starting market
-that reached a majority at dealer depths $h=0.1$, 1, and 100 for
-fraction $f=0.20$, chosen among eligible starting markets to minimize
-the summed distance from the three depth-specific median onsets. We
-extended the five examples across fractions assigned the new rule to
-10,000 steps after the rule switch, with snapshots at 0, 1,500, 3,000,
-5,000, and 10,000 steps (Fig.~\ref{fig:dose-panels}). The dealer
-comparisons retained their original 3,000-step duration and snapshots at
-0, 500, 1,500, and 3,000 steps. Selection therefore represented typical
-outcomes within each group over the original observation period, and a
-market without a majority at that endpoint could reach one later.
-Individual runs illustrated how groups of sellers developed, while
-probabilities across runs measured how often a majority occurred.
+at $f=0.185$ and 0.20 (Fig.~\ref{fig:dose-panels}). Within each fraction
+and outcome group, we chose the run nearest the median onset time for
+runs reaching a majority, or nearest the median Sell fraction averaged
+over the final 500 steps for runs without a majority. The dealer panels
+used a single starting market that reached a majority at dealer depths
+$h=0.1$, 1, and 100 for fraction $f=0.20$, chosen to minimize the summed
+distance from the median onset among majority-reaching runs at each
+depth. The same starting
+market also supplied a comparison with technical traders held at dealer
+depth $h=100$. We extended the
+five examples across fractions to 10,000 steps after the rule switch,
+with snapshots at 0, 1,500, 3,000, 5,000, and 10,000 steps
+(Fig.~\ref{fig:dose-panels}). The dealer comparisons retained their
+3,000-step duration and snapshots at 0, 500, 1,500, and 3,000 steps.
+Selection therefore represented typical outcomes within each group over
+the original observation period, and a market without a majority at that
+endpoint could reach one later. Individual runs illustrated how groups
+of sellers developed, while probabilities across runs measured how
+often a majority occurred.

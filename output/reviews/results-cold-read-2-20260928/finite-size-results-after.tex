@@ -1,0 +1,46 @@
+We next asked how the spread of selling depended on the number of
+interacting traders. With technical traders held, we compared markets
+whose grids had $L=32$, 48, 64, 96, and 128 rows and columns, adding
+tested fractions near the rise in majority probability at each size and
+using the same 50 starting markets at every added fraction
+(Fig.~\ref{fig:finite-size}). We repeated the comparison with technical
+traders active at dealer depths $h=1$ and 100. In larger grids, majority
+probability rose more steeply with the fraction $f$ and at smaller
+fractions. With technical traders held, the fraction at which half the
+markets reached a majority within 3,000 steps, $f_{50}$, fell from 0.216
+at grid size $L=32$ to 0.166 at $L=128$. At every size, both active
+midpoints were within 0.007 of the held value, usually at or below it,
+and at $L=128$ they were within 0.001
+(Fig.~\ref{fig:finite-size}C). These midpoints changed little when a
+logistic curve replaced interpolation: across all size and
+technical-trader conditions, the two estimates differed by at most
+0.0035, less than a tenth of the shift across grid sizes
+(Supplementary Tables~\ref{tab:finite-size-scaling} and~\ref{tab:revision-fits}).
+The width $f_{75}-f_{25}$, the range of fractions over which the held
+majority probability rose from 0.25 to 0.75, narrowed about threefold
+over the same sizes (Fig.~\ref{fig:finite-size}A). With 95\% intervals
+from resampling whole starting markets in brackets, it was
+0.023 [0.018, 0.027] at $L=32$ and 0.008 [0.004, 0.010] at $L=128$
+(Supplementary Table~\ref{tab:finite-size-scaling}).
+The susceptibility multiplies the variance of the final mean Sell
+fraction between starting markets by the number of interior traders, so it could not exceed 0.25 if each trader ended in Sell independently,
+because the variance of an average over $N$ independent traders is at
+most $1/(4N)$.
+With technical traders held, its largest value over the tested fractions
+was 21.2 at grid size $L=32$ and 241.2 at $L=128$
+(Fig.~\ref{fig:finite-size}B,D). These values, far above that bound,
+showed that the traders within each market ended in Sell together rather
+than independently. Observation
+time also moved the midpoint. At grid size $L=64$, extending the held
+markets threefold, from 3,000 to 9,000 steps, lowered it from 0.178 to
+0.167. This shift of 0.011 was similar to the change of 0.012 from $L=64$ to
+$L=128$ at 3,000 steps, so over these ranges the midpoint depended on observation time
+about as much as on grid size. Longer observation lowered the midpoint at each size tested this
+way, $L=32$, 64, and 128, including when the Sell fraction required to
+count a run was set to 0.4 or 0.6 instead of 0.5
+(Supplementary Table~\ref{tab:revision-horizons}). Thus, larger grids
+sharpened the rise in majority probability and moved it to smaller
+fractions. The position of the rise also moved with observation time,
+so the size
+comparison located a crossover for a finite observation period rather than a fraction that would hold for indefinitely long runs, and
+these runs did not determine whether such a fraction exists.

@@ -1,0 +1,165 @@
+% discussion.tex -- Discussion
+\section{Discussion}
+
+In this study, we explored how a lasting change in the way a minority
+of traders formed their intentions could spread selling through a market,
+and what then determined how far the price fell. A Sell majority formed
+once enough traders received the new response, even though every other trader kept its
+original rule (Fig.~\ref{fig:rule-quench}), whereas the size of the
+resulting price decline also depended on trader resources and the
+dealer's reserve curve. The changed
+response acted whenever its neighbor configuration recurred, so the
+selected traders did not need to remain in Sell for the change to keep
+influencing the market. The tested rule switch produced majorities that a one-time
+instruction to sell did not (Supplementary
+Table~\ref{tab:revision-pulse}). Testing alternative single-response changes showed that majority
+formation depended on which response changed, limiting the conclusions
+to the tested rules
+(Supplementary Table~\ref{tab:revision-rules}). Because each switched
+market shared its history with a no-switch control, the difference
+between the two measured the effect of the switch at that starting
+market, and repeating the pair across starting markets measured how
+often a majority formed within the observation
+period~\cite{glasserman1992guidelines,law2015simulation}. These
+conclusions concern assigned rule changes and the spread of selling intentions:
+traders did not learn the new rule, adopt it for its profitability, or
+pass the rule itself to other traders.
+
+The spread of selling did not require any decision to respond to the
+price. With the technical traders kept in Hold, trades still completed and the
+price still moved, but no decision responded to it, and Sell majorities
+still formed (Fig.~\ref{fig:reservoir}). In the displayed markets with active technical traders, a
+majority formed as groups of sellers grew and merged across the grid
+(Fig.~\ref{fig:dose-panels}). These patterns resemble the growth of
+ordered regions in other interacting systems away from
+equilibrium~\cite{hinrichsen2000nonequilibrium,bray1994theory}, and the
+dependence on the fraction of traders given the new rule connects the
+model to accounts of how local changes spread through a
+population~\cite{granovetter1978threshold,watts2002simple,aizenman1988metastability,holroyd2003sharp}.
+Larger grids sharpened the rise in majority probability, but the
+switched fraction at which half the markets reached a majority changed
+with observation time
+(Fig.~\ref{fig:finite-size}; Supplementary
+Table~\ref{tab:revision-horizons}), so a market that remained mixed at
+one endpoint could still reach a majority later. Neither the displayed
+markets nor the sampled majority-probability curves established a
+threshold for indefinitely large or long-lived
+markets~\cite{binder1981finite,landau2021guide}. The resemblance to
+droplets forming and joining also did not establish classical
+nucleation, because we measured no energy barrier, surface tension,
+formation rate, or critical group size separating growth from decay.
+Thus, the supported mechanism was the spread of selling through
+neighboring decisions on finite grids over finite observation periods.
+
+How far the price fell depended on how the dealer's resources entered
+the price. Dealer models commonly connect trading to intermediary cash
+and
+inventory~\cite{garman1976market,stoll1978supply,ho1981optimal,braunmunzinger2018agent},
+but holdings alone do not specify how those resources translate into
+prices. Here, the constant-product reserve curve set both the uniform
+price at which a batch of orders executed and the quoted price left
+after settlement~\cite{angeris2022constant}. When the dealer bought
+shares, its share reserve rose and its cash reserve fell, so continued net
+selling lowered execution prices. Shallow positive reserves therefore
+allowed large proportional declines while rejecting few eligible orders
+(Fig.~\ref{fig:reservoir}C,D). Zero dealer depth was a separate case, in
+which the dealer took no net position, only opposing trader orders
+matched, and the price stayed fixed, so it could not be read as evidence that every small dealer protects the market from a crash. The no-switch
+controls mattered as well, because markets with shallow reserves had
+large drawdowns even without the rule switch, and only the paired
+increases separated that baseline decline from the effect of the switch
+(Supplementary Table~\ref{tab:paired-switch}). Thus, the size of a crash
+depended on the execution and price mechanism as well as on the
+resources available, and scarce resources did not by themselves limit
+the decline.
+
+Financial conditions could still change later decisions, but only
+through the technical traders, who responded to the quoted price.
+Changing dealer depth or trader holdings altered completed orders and
+prices, which changed the technical traders' decisions and therefore
+the neighboring intentions seen by adjacent interior traders
+(Figs.~\ref{fig:reservoir} and~\ref{fig:balance-sheet}). With the
+technical traders held, the same financial changes left every interior
+decision unchanged, which made the held condition an exact control for
+this effect. With technical traders active, the majority probability
+neither rose nor fell consistently with dealer depth, even though
+drawdown at switched fraction $f=0.20$ fell as positive depth increased.
+Technical traders' Buy and Sell thresholds lay around a moving average
+price, at distances that normally adapted over time. Fixing those
+distances at each market's pre-switch values preserved price feedback,
+but the paired comparison with adapting distances was too uncertain to
+establish whether adaptation explained majority-probability differences
+across dealer depths
+(Supplementary Table~\ref{tab:revision-band}). Varying dealer depth changed
+funding and initial price sensitivity together, so the depth comparisons
+could not separate the two effects (Supplementary
+Table~\ref{tab:revision-impact}). Drawdown also depended on our choice of a reserve mechanism; other
+models link order flow to prices through dealer inference or order-book
+dynamics~\cite{kyle1985continuous,farmer2005predictive,bouchaud2009how}.
+Majority probability measured the share of markets reaching a Sell
+majority, whereas drawdown measured the largest price decline. Neither
+outcome alone determined the other.
+
+The comparison with established agent-based markets concerns how traders
+interact and how their rules change: we assigned a persistent rule
+switch instead of modeling learning or strategic choice. In the minority
+game, traders choose among strategies scored against shared past outcomes
+and interact through the market outcome~\cite{challet1997minority,challet2000modeling}.
+In the Santa Fe artificial stock market, traders learn forecasting rules
+from a shared price and dividend~\cite{lebaron1999time}. Related studies of the Santa Fe market examined incentives to adopt technical
+rules~\cite{joshi1999technical} and choose how often to revise
+forecasts~\cite{joshi2002financial}.
+Models with chartists and fundamentalists let traders move between the
+two groups at rates set by recent profits or by others'
+opinions~\cite{lux1999scaling,brock1998heterogeneous,kirman1993ants}.
+Lattice and cellular-automaton markets encoded local interactions
+through stochastic imitation or spin-like responses, sometimes alongside
+market-wide
+signals~\cite{bornholdt2001ising,iori2002microsimulation,bartolozzi2004stochastic,qiu2007cellular,sornette2006importance,fan2009effect,atman2012influence}.
+Wolfram's one-dimensional market and a later model built on Rule~110
+used deterministic rules and set the price from the numbers of buyers
+and sellers~\cite{wolfram2002new,valsan2022on}. Here rules did not evolve
+through learning: the intervention changed one response for a chosen
+fraction of traders, and the paired control retained the baseline rule.
+Only technical traders along the edge responded to price, allowing the
+rule switch to be tested with price feedback active or removed. Orders
+needed cash or shares and were completed by other traders or by a dealer
+with limited holdings, so a Sell majority and a price crash were measured
+separately. These choices gave up the learning and strategic behavior of
+established models in exchange for a rule space that can be enumerated
+and an intervention that can be repeated exactly. The questions answered
+were correspondingly narrower: not whether technical trading emerges or
+whether the market becomes efficient, but how many traders had to change
+a rule before a Sell majority formed, whether its formation required
+feedback from price, and how resources and execution determined the
+resulting price decline.
+
+Several modeling choices limit how far these conclusions extend. Traders
+followed assigned rules rather than choosing strategies to maximize
+returns, and they updated together on a regular grid under one baseline
+lookup table in which different neighbor configurations with the same
+sum produced the same response. A trader that had sold all its shares
+could still influence its neighbors and count toward a Sell majority,
+because we assumed that intentions remained observable and influential even when a trader could not act on them. We did not test how the results would
+change if a trader's resources also limited the intentions its neighbors
+could see. The technical traders followed one band rule and occupied
+selected positions along the edge of the grid, so other placements and
+price-based strategies remain untested. Unit orders cleared at a common
+base price against a constant-product dealer, a specific reserve
+mechanism rather than a calibrated representation of an equity
+exchange. The dealer collected prescribed fees in the fee comparisons
+but did not set its charges or its participation to maximize profit, and
+we did not model incentives to provide or withdraw liquidity. The model
+had no order book, dividends, borrowing, or strategic risk management by
+the dealer, and its steps and price response were not fitted to market
+data, so its simulated crashes did not predict the timing or magnitude of actual market crashes. Settlement conserved cash and shares, and an isolated round trip
+restoring dealer shares also restored dealer trading cash. Neither
+property established economic realism or ruled out profits from other
+traders. The long no-switch controls
+extended observation of existing starting markets without establishing
+their behavior indefinitely (Appendix~\ref{app:revision-controls}), and
+neither the baseline period nor an average over final states showed that
+the distribution of market states had stopped changing. Other decision
+rules, asynchronous updates, alternative interaction networks, and
+different execution mechanisms would test how the connection between
+local decisions and price declines depends on these assumptions.

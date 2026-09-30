@@ -1,0 +1,34 @@
+results.P5.S3 | INCONSISTENT | 2 | "Near the crossover, dealer depth also affected majority probability." | held outcomes identical across depths; must be active only; "also" no referent
+results.P5.S5 | INCONSISTENT | 2 | "0.44 at dealer depth h=0.1 and 0.50 at h=100, a difference of -0.06" | 22 vs 25 of 50 within noise; S3 says "affected"
+results.P5.S4 | PURPOSE | 2 | "We tested whether the technical traders' adaptive band widths contributed to that dependence." | no reason band widths would mediate depth effect; "adaptive" not Methods term
+results.P5.S5 | REREAD | 2 | "a difference of -0.06 that became -0.26 when the band widths were frozen" | sign convention, condition, frozen probabilities not given; frozen vs fixed
+results.P5.S6 | ORDER | 1 | "We matched starting markets across depths and band conditions." | Methods-style sentence interrupts
+results.P5.S7 | REREAD | 2 | "Subtracting the frozen-width contrast from the adaptive-width contrast gave a paired difference of 0.20" | difference of differences; "contrast" new
+results.P5.S3-S7 | PURPOSE | 2 | "leaving the contribution of band-width adaptation unresolved" | inconclusive detour before main finding
+results.P5.S9 | UNDEFINED | 2 | "In an additional comparison, median drawdowns were 48.62% at dealer depth h=40" | fraction/condition/horizon not stated; h=400 outside Methods range; h=10 overlay unexplained
+results.P5.S10 | REREAD | 1 | "because the reserves set both the dealer's available funds and the price required" | restates rather than explains
+results.P5.S11 | ORDER | 2 | "Much of the decline at dealer depth h=0.1 occurred without the rule switch" | control drawdown arrives after switched result is read as switch effect
+results.P5.S11 | INCONSISTENT | 2 | "no-switch controls there already had a median drawdown of 77.04%" | how does a mixed market with no majority lose 77%
+results.P5.S11-S12 | INCONSISTENT | 2 | "median paired increase ... 22.96 percentage points" | near-100% drawdowns compressed; pp framing
+results.P5.S16 | INCONSISTENT | 2 | "the dealer's reserves set the severity of the decline rather than whether a majority formed" | paired effects nearly equal at h=0.1 and h=100
+results.P5.S16 | INCONSISTENT | 2 | "rather than whether a majority formed" | S3-S5 said depth affected majority probability; true by default at f=0.20
+results.P5.S16 | PURPOSE | 2 | "shallow positive reserves did not prevent severe drawdowns" | refuted hypothesis never stated
+results.P5.S13 | PURPOSE | 2 | "Small positive reserves accompanied these declines while rejecting few orders backed by trader resources" | why rejection matters; odd subject; h=100 not small
+results.P5.S13 | REREAD | 1 | "0.000226 ... 0.000034 ... 0.0000006" | counting zeros
+results.P5.S14 | PURPOSE | 1 | "Zero reserves were a separate limit" | no outcome for h=0; "limit" ambiguous
+results.P5.S15 | PURPOSE | 1 | "In the displayed starting market 2, a majority formed at dealer depths" | restates S8; held column unmentioned
+results.P5 | OVERLOAD | 2 | "We next asked how dealer reserves affected majority probability and the resulting price decline." | 16 sentences, many topics
+results.P6.S2 | UNDEFINED | 2 | "the Sell-majority probability was 0.64 at every dealer depth" | which dealer depths not stated
+results.P6.S2 | PURPOSE | 1 | "every cash and share combination at fraction f=0.18" | why f=0.18
+results.P6.S3 | PURPOSE | 1 | "Holdings entered the order and clearing calculations but not the interior decision rule" | repeats P2.S5/Methods; after result
+results.P6.S4 | REREAD | 2 | "the probability ranged from 0.54 to 0.80 across resource combinations and dealer depths" | bare range, no pattern, no interval
+results.P6.S5 | REREAD | 1 | "while the reserve curve set the price at which net selling could clear" | "reserve curve" not Methods term; same for all multipliers
+results.P6.S5 | INCONSISTENT | 2 | "share multipliers of 0.1, 1, and 10 gave median drawdowns of 3.17%, 20.18%, and 77.55%" | no controls; P5 insisted on paired controls
+results.P6.S6 | INCONSISTENT | 2 | "By contrast, raising the cash multiplier from 1 to 10 at dealer depth h=1" | not like-for-like (h=1 vs h=100); saturated
+results.P6.S6 | OVERLOAD | 1 | "changed the median drawdown only from 96.46% to 97.10% and the majority probability" | two outcomes + settings + caveat
+results.P6.S7 | REREAD | 2 | "Few dealer rejections did not imply a small drawdown across these resource combinations" | negated phrasing; panel D has no rejection data
+results.P6.S8 | INCONSISTENT | 2 | "depended on traders' cash and shares and on the dealer's reserves" | cash dependence asserted, not shown
+results.P6.S8 | REFERENT | 1 | "Together, these comparisons showed" | P5+P6 or P6 only
+results.P6.S9 | REREAD | 1 | "A majority decision to sell did not by itself determine how many shares" | "majority decision" reads like vote; no volume numbers
+
+TOTALS: severity-3 = 0; severity-2 = 21; severity-1 = 11

@@ -1,0 +1,15 @@
+discussion.P5.S5 | REFERENT | 2 | "Adding technical rules benefited an individual trader, but adoption by all traders lowered wealth" | The sentence follows the Santa Fe description without identifying whether this result belongs to that model or to a different study. The next sentence introduces yet another analysis, so I cannot confidently assign the technical-rule result to a model. Identifying that connection is needed to understand the literature comparison; additional study methods would be OPTIONAL DETAIL. | My best guess is that this is a separate technical-versus-fundamental trading comparison, but the paragraph initially makes me attribute it to the Santa Fe market.
+
+discussion.P1: A persistent change in a minority's response can spread Sell intentions beyond that minority. Its effect differs from a one-time Sell instruction, is measured against paired controls, and does not represent learning or transmission of the rule itself.
+
+discussion.P2: Neighbor interactions can produce Sell majorities without price feedback. Seller groups grow and merge, but finite grids and observation periods do not establish an unlimited-system threshold or a classical nucleation mechanism.
+
+discussion.P3: The dealer's execution and pricing rule makes shallow positive reserves compatible with severe declines and few rejected eligible orders. Zero reserves are a distinct fixed-price case, and paired controls are necessary to distinguish the rule switch's contribution from baseline drawdown.
+
+discussion.P4: Financial resources affect intentions through price-responsive technical traders. The frozen-band comparison does not resolve the contribution of band adaptation, and changing dealer depth does not distinguish funding from price sensitivity. Majority frequency and drawdown remain separate outcomes.
+
+discussion.P5: Established models use several forms of learning and interaction; this study instead assigns a persistent, reproducible local-rule change and separately tests price feedback and financial outcomes. The broad comparison is clear, although the source-model connection for the technical-rule adoption result is unclear as reported above.
+
+discussion.P6: Assigned synchronous rules, visible intentions without executable orders, one technical strategy and placement, and a specific uncalibrated dealer mechanism limit generalization. Settlement identities do not establish realism, finite observations do not establish stationarity, and changing these assumptions would test the conclusions' scope.
+
+TOTALS: severity-3 = 0; severity-2 = 1; severity-1 = 0.

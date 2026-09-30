@@ -1,0 +1,8 @@
+No actual first-reader confusion, misleading claim, or misplaced content identified in the five audited paragraphs given the supplied preceding context. No additional detail is required to understand their current claims.
+
+results.P1: Some lasting changes to local decision rules produced Sell majorities, with outcomes depending on the changed response and the fraction switched; the tested one-time Sell instructions did not.
+results.P2: Neighbor responses alone could produce Sell majorities; price feedback changed their frequency near the crossover, with effects depending on dealer depth and switched fraction.
+results.P4: Some markets reached a majority only after the original observation period, so absence of a majority at 3,000 steps did not establish a permanent mixed state; examples and the full extended sample serve distinct purposes.
+results.P5: Dealer depth affected majority probability near the crossover, although the contribution of adapting technical-trader bands remained unresolved; at the tested fraction of 0.20, majorities occurred across depths while financial severity differed greatly, shallow controls already declined substantially, and few dealer rejections did not prevent severe drawdowns.
+results.P6: Trader resources affected financial outcomes and affected intentions only through active technical traders' price responses; a Sell majority alone did not determine trading volume or price decline.
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 0.

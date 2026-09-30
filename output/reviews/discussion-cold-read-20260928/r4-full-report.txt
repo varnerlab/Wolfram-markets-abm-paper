@@ -1,0 +1,15 @@
+discussion.P5.S6 | PURPOSE | 1 | "A game-theoretic analysis of traders choosing forecast-revision rates" | This introduces another study's earnings comparison without connecting that result to the paragraph's contrast between strategic adaptation and assigned rule changes. I briefly paused to determine whether the equilibrium result supplies a reason for the present intervention or is another example of behavior the model omits. | Best guess: it is an additional example of strategic choice that the present model deliberately omits. No additional study detail is needed; such detail would be OPTIONAL DETAIL.
+
+discussion.P1: A permanent change in one response among selected traders can spread Sell intentions even though the rule itself does not spread. Its effects depend on the chosen response, and matched no-switch controls isolate the intervention's effects within the tested observation period.
+
+discussion.P2: Local responses can produce Sell majorities without price feedback. Growing seller groups and sharper responses on larger grids suggest collective spreading, but the finite runs do not establish an infinite-system threshold or classical nucleation.
+
+discussion.P3: The constant-product dealer connects reserve depletion to lower execution and quoted prices, so shallow positive reserves can support severe declines without rejecting many eligible orders. Zero reserves are a separate fixed-price case, and matched controls distinguish switch effects from declines that occur anyway.
+
+discussion.P4: Financial changes reach interior decisions through price-responsive technical traders. The evidence does not resolve the contribution of band adaptation, and dealer-depth changes combine funding with price sensitivity. Majority formation and drawdown describe different outcomes.
+
+discussion.P5: Other market models include learning, strategy selection, and different interaction mechanisms. This model gives up those behaviors to study a precisely assigned, repeatable local-rule change while separately measuring intention spreading and price declines.
+
+discussion.P6: The conclusions depend on assigned synchronous rules, observable intentions despite resource shortages, a particular placement and strategy of technical traders, and a specific uncalibrated clearing mechanism. Conservation does not establish realism, and finite observation does not establish stationary or indefinite behavior.
+
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 1.

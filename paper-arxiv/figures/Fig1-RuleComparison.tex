@@ -1,0 +1,102 @@
+% Rebuild with: python3 code/rebuild/RenderRuleFigure.py
+% The paired market panel is preserved from the corrected simulation figure.
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\usepackage{graphicx}
+\renewcommand{\familydefault}{\sfdefault}
+\usetikzlibrary{arrows.meta,calc}
+\definecolor{buyblue}{HTML}{0072B2}
+\definecolor{holdgray}{HTML}{AAAAAA}
+\definecolor{sellorange}{HTML}{D55E00}
+\definecolor{ink}{HTML}{252525}
+\definecolor{highlight}{HTML}{FFF3DB}
+\providecommand{\MarketPanelFile}{paired-markets.pdf}
+\newcount\ruledigit
+\newcount\rulequotient
+\newcount\ruledivisor
+
+\begin{document}
+\begin{tikzpicture}[
+  x=1cm,y=1cm,
+  every node/.style={font=\sffamily\fontsize{9}{11}\selectfont,text=ink,inner sep=0pt},
+  heading/.style={font=\sffamily\bfseries\fontsize{11}{13}\selectfont,anchor=west},
+  small/.style={font=\sffamily\fontsize{8}{10}\selectfont},
+  cell/.style={minimum size=5.5mm,draw=white,line width=.6pt},
+  output/.style={minimum size=6.2mm,draw=white,line width=.6pt},
+  flow/.style={-{Stealth[length=2mm,width=1.5mm]},draw=ink,line width=.7pt},
+]
+\path (-.08,-.1) rectangle (16,4.75);
+\node[heading] at (0,4.45) {A};
+\node[heading] at (.45,4.45) {The changed response};
+\node[heading] at (6.35,4.45) {B};
+\node[heading] at (6.80,4.45) {Complete rule comparison};
+\draw[ink!20,line width=.5pt] (5.95,1.05) -- (5.95,4.05);
+
+% Only the four cardinal neighbors contribute to the sum. Their orientation
+% is representative: any permutation with this sum yields the same response.
+\node[cell,fill=holdgray] at (1.05,3.22) {1};
+\node[cell,fill=buyblue,text=white] at (.50,2.67) {0};
+\node[cell,fill=buyblue,text=white] at (1.60,2.67) {0};
+\node[cell,fill=buyblue,text=white] at (1.05,2.12) {0};
+\node[cell,draw=ink!60,fill=white,line width=.5pt] at (1.05,2.67) {$i$};
+\node[small,anchor=north west,align=left] at (0,1.68) {Three Buy + one Hold\\Neighbor sum $=1$};
+
+% Identical inputs feed both rule evaluations; the arrows indicate evaluation,
+% not execution of an order or a reset of the trader's current state.
+\draw[flow] (1.94,2.67) -- (2.20,2.67) |- (3.05,3.30);
+\draw[flow] (2.20,2.67) |- (3.05,2.02);
+\node[anchor=west,small] at (3.07,3.86) {Rule 19280 (baseline)};
+\node[output,fill=buyblue,text=white] at (3.38,3.30) {0};
+\node[anchor=west,font=\sffamily\bfseries\fontsize{11}{13}\selectfont] at (3.88,3.30) {Buy};
+\node[anchor=west,small] at (3.07,2.58) {Rule 19286 (switched)};
+\node[output,fill=sellorange,text=white] at (3.38,2.02) {2};
+\node[anchor=west,font=\sffamily\bfseries\fontsize{11}{13}\selectfont] at (3.88,2.02) {Sell};
+
+% Digits of R in ascending neighbor-sum order: floor(R/3^c) mod 3.
+% Highlight precisely the one changed column, with shared column alignment.
+\filldraw[fill=highlight,draw=ink!55,line width=.6pt,rounded corners=2pt]
+  (9.24,1.07) rectangle (10.12,3.83);
+\node[anchor=west,small] at (6.35,3.45) {Neighbor sum};
+\node[anchor=west] at (6.35,2.70) {Rule 19280};
+\node[anchor=west] at (6.35,1.55) {Rule 19286};
+\foreach \c in {0,...,8} {
+  \pgfmathsetmacro{\cx}{8.90+.78*\c}
+  \node at (\cx,3.45) {\c};
+  \foreach \ruleindex/\yy in {19280/2.70,19286/1.55} {
+    % TeX integer division avoids PGF's dimension limit for rule IDs >16383.
+    \pgfmathtruncatemacro{\power}{pow(3,\c)}
+    \ruledivisor=\power\relax
+    \ruledigit=\ruleindex\relax
+    \divide\ruledigit by \ruledivisor
+    \rulequotient=\ruledigit
+    \divide\rulequotient by 3
+    \multiply\rulequotient by 3
+    \advance\ruledigit by -\rulequotient
+    \edef\state{\the\ruledigit}
+    \ifcase\state
+      \def\statecolor{buyblue}\def\digitcolor{white}
+    \or
+      \def\statecolor{holdgray}\def\digitcolor{ink}
+    \or
+      \def\statecolor{sellorange}\def\digitcolor{white}
+    \fi
+    \node[output,fill=\statecolor,text=\digitcolor] at (\cx,\yy) {\state};
+  }
+}
+\draw[flow] (9.68,2.27) -- (9.68,1.97);
+\node[small,anchor=west] at (10.4,2.125) {All other responses are unchanged};
+
+% One legend serves the rule diagram and the preserved market snapshots.
+\draw[ink!20,line width=.5pt] (0,.85) -- (16,.85);
+\foreach \xx/\cc/\label in {0.12/buyblue/Buy (0),2.02/holdgray/Hold (1),4.10/sellorange/Sell (2)} {
+  \fill[\cc] (\xx,.28) rectangle ++(.20,.20);
+  \node[small,anchor=west] at (\xx+.31,.38) {\label};
+}
+\node[small,anchor=west,text=ink!75] at (7.05,.38)
+  {Hollow center: trader updated; current state is not an input};
+
+\node[anchor=north west] at (0,-.10)
+  {\includegraphics[width=16cm]{\MarketPanelFile}};
+\end{tikzpicture}
+\end{document}

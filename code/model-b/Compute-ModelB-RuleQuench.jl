@@ -343,6 +343,12 @@ savefig(fig, figure_path)
 if FULL
     cp(figure_path, joinpath(_PATH_TO_FIGS, "Fig1-RuleQuench.pdf"); force = true)
     cp(figure_path, joinpath(_PATH_TO_PAPER_FIGS, "Fig1-RuleQuench.pdf"); force = true)
+    # Apply the TikZ presentation after saving the original simulation figure.
+    # This changes only the rule illustration; it preserves the market panel.
+    renderer = joinpath(@__DIR__, "..", "rebuild", "RenderRuleFigure.py")
+    if isfile(renderer)
+        run(`python3 $renderer --source $figure_path`)
+    end
 end
 
 if !PLOT_ONLY

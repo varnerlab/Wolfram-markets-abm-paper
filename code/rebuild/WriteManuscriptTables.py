@@ -43,6 +43,9 @@ def table(caption,label,header,rows,layout,small=r'\small',keep=True):
     return '\n'.join(lines)
 
 
+UNDEFINED=' Undefined denotes a crossing outside the tested fractions; intervals use the bootstrap samples in which it was inside.'
+
+
 def read(name):
     return pd.read_csv(D/name)
 
@@ -58,12 +61,13 @@ def main_tables():
 \setcounter{table}{0}
 \renewcommand{\thetable}{S\arabic{table}}
 
-'''+table('Design of the four main campaigns. Active technical traders responded to the quoted price; '
-          'held technical traders stayed in Hold. All dealers had finite reserves. The size campaign '
+'''+table('Design of the four main comparisons. Active technical traders responded to the quoted price; '
+          'held technical traders stayed in Hold. The grid-size comparison '
           'used active technical traders at dealer depth $h=1$ and $100$, and held technical traders at $h=100$. '
-          'Counts include newly simulated no-switch controls, with one such control shared across fractions '
-          'within a starting market and condition where the design permits.',
-          'tab:campaigns',r'Campaign & Grid sizes & Dealer $h$ & Technical traders & Starting markets & Simulations',
+          'Counts include the no-switch controls. Where a comparison tested several fractions, one control '
+          'per starting market and condition served all of them. The cash-and-shares comparison had no '
+          'no-switch controls.',
+          'tab:campaigns',r'Comparison & Grid sizes & Dealer $h$ & Technical traders & Starting markets & Simulations',
           rows,'llllrr',r'\small\setlength{\tabcolsep}{4pt}')
     df=read('ModelB-TableS2-PairedSwitch.csv');rows=[]
     for r in df.itertuples():
@@ -86,7 +90,7 @@ def main_tables():
         rows.append(f'{cap(r.h)} & {int(r.n)} & {100*r.control_median:.2f} & {100*r.treated_median:.2f} & '
                     f'{100*r.delta_median:.2f} [{100*r.delta_lo:.2f}, {100*r.delta_hi:.2f}]')
     text+=table('Paired rule switches on a $64\\times64$ grid over 3,000 post-switch steps. '
-                'In A, majority probability $p$ counts paths reaching an interior Sell fraction of at least '
+                'In A, majority probability $p$ is the fraction of markets reaching an interior Sell fraction of at least '
                 'one-half; median onset is conditional on reaching that value. Undefined means no run reached a majority. '
                 'In B, DD is median maximum drawdown in percent. $\\Delta$DD is the median paired '
                 'difference, in percentage points, with a pointwise 95\\% whole-market bootstrap confidence '
@@ -100,10 +104,65 @@ def main_tables():
     text+=table('Probability of a Sell majority after changes in trader cash and shares over 50 starting markets '
                 'and 3,000 post-switch steps. '
                 'Each fraction includes 27 combinations of cash, shares, and dealer depth. '
-                'Held decisions gave the same probability across those combinations; active decisions gave the stated range.',
+                'With technical traders held, the probability was the same across those combinations; with '
+                'technical traders active, it spanned the stated range.',
                 'tab:balance-fractions',r'Fraction $f$ & Technical traders held & Technical traders active (range)',rows,'rrl')
+    text+=feedback_pairs()
     text+='\n'+r'\input{sections/revision-tables}'+'\n\n'+r'\input{sections/market-panel-horizons-table}'+'\n'
     (S/'tables.tex').write_text(text)
+
+
+def feedback_pairs():
+    """Active versus held majority outcomes, paired by starting market, near the crossover."""
+    def near(series,values):return np.isclose(series.to_numpy()[:,None],np.array(values)[None,:]).any(1)
+    depths=(.1,1.,100.);sweep_f=(.175,.185,.19,.195);extra_f=(.17,.18)
+    keys=['seed','target_f','market_maker_capacity','boundary_mode']
+    sweep=read('ModelB-ReservoirQuench-Full-Summary.csv')
+    resources=read('ModelB-BalanceSheetQuench-Full-Summary.csv')
+    resources=resources[(resources.cash_factor==1)&(resources.share_factor==1)]
+    # The unchanged-resource runs reproduce the dealer-depth runs wherever both exist.
+    both=sweep.merge(resources,on=keys)
+    assert len(both)==600 and (both.transitioned_x==both.transitioned_y).all()
+    assert np.allclose(both.treated_final_sell_mean,both.final_sell_mean)
+    assert np.allclose(both.treated_maximum_drawdown,both.maximum_drawdown)
+    runs=pd.concat([sweep[near(sweep.target_f,sweep_f)&near(sweep.market_maker_capacity,depths)][keys+['transitioned']],
+                    resources[near(resources.target_f,extra_f)][keys+['transitioned']]])
+    wide=runs.assign(y=runs.transitioned.astype(float)).pivot_table(
+        index=['market_maker_capacity','seed'],columns=['target_f','boundary_mode'],values='y')
+    rng=np.random.default_rng(20260929);indices=rng.integers(0,50,(2000,50));records=[]
+    for h in depths:
+        sub=wide.loc[h];assert sub.shape==(50,12) and not sub.isna().any().any()
+        fractions=sorted(sub.columns.get_level_values(0).unique())
+        diff=pd.DataFrame({f:sub[(f,'endogenous')]-sub[(f,'hold')] for f in fractions})
+        for f in fractions:
+            x=diff[f].to_numpy();lo,hi=np.quantile(x[indices].mean(1),[.025,.975])
+            records.append(dict(h=h,fractions=f'{f:.3f}',active=sub[(f,'endogenous')].mean(),held=sub[(f,'hold')].mean(),
+                                only_active=int((x>0).sum()),only_held=int((x<0).sum()),difference=x.mean(),lo=lo,hi=hi))
+        for label,chosen in [('0.175--0.195',sweep_f),('0.170--0.195',sweep_f+extra_f)]:
+            x=diff[[f for f in fractions if np.isclose(f,chosen).any()]].to_numpy();assert x.shape==(50,len(chosen))
+            lo,hi=np.quantile(x[indices].mean(axis=(1,2)),[.025,.975])
+            records.append(dict(h=h,fractions=label,active=np.nan,held=np.nan,only_active=int((x>0).sum()),
+                                only_held=int((x<0).sum()),difference=x.mean(),lo=lo,hi=hi))
+    records=pd.DataFrame(records);records.to_csv(D/'Rebuild-Feedback-Pairs.csv',index=False)
+    rows=[];previous=None
+    for r in records.itertuples():
+        if previous is not None and r.h!=previous:rows.append(r'\midrule')
+        previous=r.h
+        pooled=not np.isfinite(r.active)
+        probabilities='\\multicolumn{2}{l}{Average}' if pooled else f'{r.active:.2f} & {r.held:.2f}'
+        def two(x):return f'{x:.2f}'.replace('-0.00','0.00')
+        rows.append(f'{cap(r.h)} & {r.fractions} & {probabilities} & {r.only_active} & {r.only_held} & '
+                    f'{two(r.difference)} [{two(r.lo)}, {two(r.hi)}]')
+    return table('Majority outcomes with technical traders active and held, paired by starting market, over 50 '
+                 'starting markets and 3,000 post-switch steps. Fractions 0.17 and 0.18 come from the '
+                 'unchanged-resource runs of the trader-resource comparison, which reproduced the dealer-depth '
+                 'runs exactly where the two overlapped. Only active and Only held count markets that reached a '
+                 'majority under one condition alone; held technical traders stayed in Hold from initialization, '
+                 'so paired markets need not share their state at the switch. The difference is active minus '
+                 'held majority probability, with a 95\\% interval (CI) from 2,000 bootstrap samples of whole '
+                 'starting markets. Average rows weight the listed fractions equally and count market--fraction pairs.',
+                 'tab:feedback-pairs',r'$h$ & Fraction $f$ & Active $p$ & Held $p$ & Only active & Only held & Difference [95\% CI]',
+                 rows,'rlrrrrl',r'\footnotesize\setlength{\tabcolsep}{4pt}')
 
 
 def finite_tables(*,with_results=True):
@@ -118,17 +177,20 @@ def finite_tables(*,with_results=True):
                     f'{val(r.logistic_width)} ({val(r.logistic_width_se,4)}) & {val(r.susceptibility_peak_f)}')
     (S/'finite-size-table.tex').write_text(table(
         'Grid-size comparisons over 50 starting markets and 3,000 post-switch steps. Brackets give 95\\% '
-        'confidence intervals (CI) from 2,000 whole-market bootstrap samples. $n_{\\rm int}$ counts fractions '
-        'with $0.05<\\hat p<0.95$. Crossings use first upward linear interpolation. Susceptibility maxima '
-        'are selected over the sampled grid, including reselection in each bootstrap sample. '
-        'Undefined denotes an unbracketed crossing; intervals use available bracketed samples.',
+        'confidence intervals (CI) from 2,000 whole-market bootstrap samples. $n_{\\rm int}$ counts tested fractions '
+        'with majority probability strictly between 0.05 and 0.95. The fractions $f_{25}$, $f_{50}$, and $f_{75}$ '
+        'are the first upward crossings of majority probability 0.25, 0.5, and 0.75, found by linear '
+        'interpolation between tested fractions, and the width is $f_{75}-f_{25}$. The susceptibility maximum '
+        'is taken over the tested fractions and is selected again in each bootstrap sample.'
+        +(UNDEFINED if any('Undefined' in r for r in rows) else ''),
         'tab:finite-size-scaling',r'Technical traders & $h$ & $L$ & $n_{\rm int}$ & $f_{50}$ [95\% CI] & Width [95\% CI] & Peak $\chi_L$ [95\% CI]',
         rows,'llrrlll',r'\footnotesize\setlength{\tabcolsep}{3pt}'))
     (S/'revision-fits-table.tex').write_text(table(
-        'Logistic fits and sampled susceptibility maxima over 50 starting markets and 3,000 post-switch steps. '
+        'Logistic fits and susceptibility maxima over 50 starting markets and 3,000 post-switch steps. '
         'Parentheses give whole-market bootstrap standard errors (SE). '
-        'The fitted curve imposes increasing probability; empirical crossings do not. '
-        'The final column gives a sampled fraction, whose precision is limited by the local fraction grid.',
+        'The fitted curve imposes increasing probability; interpolated crossings do not. '
+        'The final column gives the tested fraction with the largest susceptibility, so its precision is '
+        'limited by the spacing of nearby tested fractions.',
         'tab:revision-fits',r'Technical traders & $h$ & $L$ & Logistic $f_{50}$ (SE) & Logistic width (SE) & $f$ at peak',
         fits,'llrlll'))
     if not with_results:return
@@ -201,9 +263,11 @@ def controls_tables():
     lo,hi=np.quantile(difference[rng.integers(0,len(difference),(2000,len(difference)))].mean(1),[.025,.975])
     bandstats=dict(adaptive_difference=a.mean(),frozen_difference=b.mean(),difference=difference.mean(),lo=lo,hi=hi)
     (D/'Rebuild-Band-Contrast.json').write_text(json.dumps(bandstats,indent=2)+'\n')
-    tables.append(table('Adjusting versus fixed Hold-band widths at fraction $f=0.175$ over 50 starting markets. '
-        'Brackets in the rows give 95\\% Wilson confidence intervals (CI). Sell is the mean fraction of technical '
-        'traders in Sell over post-switch steps and starting markets. The moving center continued to update. '
+    tables.append(table('Adaptive versus frozen band widths for active technical traders at fraction $f=0.175$ over '
+        '50 starting markets. Frozen widths kept $\\sigma_t$ at its value immediately before the rule switch, '
+        'while the reference price $\\mu_t$ continued to update. Entries $p$ are Sell-majority probabilities with '
+        '95\\% Wilson confidence intervals (CI) in brackets. Sell is the mean fraction of technical '
+        'traders in Sell over post-switch steps and starting markets. '
         f'The probability at dealer depth $h=0.1$ minus that at $h=100$ was {a.mean():.2f} with adaptive widths '
         f'and {b.mean():.2f} with frozen widths. Their paired difference was {difference.mean():.2f}, '
         f'with a 95\\% interval [{lo:.2f}, {hi:.2f}] from 2,000 whole-market bootstrap samples.',
@@ -212,8 +276,9 @@ def controls_tables():
     for _,r in imp.sort_values('h').iterrows():
         rows.append(f'{cap(r.h)} & {r.impact:.3f} & {ci(r,"p",2)} & {100*r.median_drawdown:.2f} & {scientific(r.median_rejection)}')
     tables.append(table('Additional dealer-depth comparisons at fraction $f=0.20$ with active technical traders and '
-        '50 starting markets over 3,000 post-switch steps. The initial log-price slope per normalized net purchase is approximately $2/h$; '
-        'this is implied by the reserve curve, not a separate price-impact coefficient. '
+        '50 starting markets over 3,000 post-switch steps. Because the dealer\'s cash and share reserves keep a '
+        'constant product, the initial slope of the log quoted price against net purchases per trader is '
+        'approximately $2/h$; the model has no separate price-impact coefficient. '
         'Depth changes funding and price sensitivity together. Drawdown is a percentage, and the dealer-rejection '
         'fraction uses post-switch eligible orders. Probability brackets are 95\\% Wilson intervals.',
         'tab:revision-impact',r'$h$ & Initial slope $2/h$ & Majority probability & Median drawdown (\%) & Rejection',rows,'rrlrr'))
@@ -221,10 +286,15 @@ def controls_tables():
     for (L,post),sub in horizon.groupby(['L','post']):
         x=sub.set_index('threshold')
         rows.append(f'{int(L)} & {int(post):,}'.replace(',','{,}')+' & '+' & '.join(ci(x.loc[q],'f50') for q in (.4,.5,.6)))
-    tables.append(table('Observation time and the required Sell fraction with technical traders held and dealer depth $h=100$. '
+    tables.append(table('Observation period and the fraction $f_{50}$ at which half the markets reached a Sell majority, '
+        'with technical traders held and dealer depth $h=100$. '
         'Entries are interpolated $f_{50}$ with 95\\% whole-market bootstrap intervals over 50 starting markets. '
-        'The fraction grid is independent of adaptive refinement. Undefined denotes an unbracketed crossing; '
-        'intervals use available bracketed samples.',
+        'Criterion columns give the interior Sell fraction a run had to reach to count as a majority. '
+        'These runs used one fixed set of tested fractions rather than the adaptively refined set, so interpolated '
+        'midpoints can differ slightly '
+        'from those in Supplementary Table~\\ref{tab:finite-size-scaling} for the same runs, for example 0.167 '
+        'rather than 0.166 at $L=128$ and 0.219 rather than 0.216 at $L=32$.'
+        +(UNDEFINED if any('Undefined' in r for r in rows) else ''),
         'tab:revision-horizons',r'$L$ & Post-switch steps & Criterion 0.4 & Criterion 0.5 & Criterion 0.6',rows,'rrlll',r'\footnotesize'))
     (S/'revision-tables.tex').write_text('\n\n'.join(tables)+'\n\n'+r'\input{sections/revision-fits-table}'+'\n')
     long=df[df.campaign=='long_control'];longsent=[]
@@ -242,8 +312,8 @@ def controls_tables():
 
 The supplementary controls used the same initialization and baseline as
 the main comparisons, with grid size $L=64$, dealer depth $h=100$, and 3,000 post-intervention
-steps unless otherwise specified. Every switched run had a newly
-simulated no-switch control. Held conditions calculated full
+steps unless otherwise specified. Every switched run was compared
+with a no-switch control. Held conditions calculated full
 financial histories as well as decisions. A Sell pulse wrote Sell
 at the selected interior traders immediately before the first post-baseline orders,
 while retaining the baseline rule for later updates. Traders already in
@@ -260,7 +330,7 @@ than a separate confirmatory hypothesis test
 
 The band control froze the recent-departure scale at its value immediately
 before the rule switch, while each technical trader retained its multiplier
-and the reference price continued to update. Adaptive and frozen paths
+and the reference price continued to update. Adaptive and frozen runs
 shared their complete pre-switch histories. The frozen widths could
 therefore differ across dealer depths and starting markets. At fraction $f=0.175$,
 the estimated majority-probability difference between dealer depths $h=0.1$ and
@@ -274,7 +344,7 @@ part of the price feedback rather than removing technical trading.
 
 Additional comparisons used dealer depths $h=40,100,400$ at fraction $f=0.20$ with
 active technical traders (Supplementary Table~\ref{{tab:revision-impact}}).
-For the reserve curve, differentiating log price with respect to
+For the constant-product dealer, differentiating log price with respect to
 normalized net trader purchases at initialization gives $2N_{{\rm tr}}/H$,
 approximately $2/h$. The chosen depths therefore spanned initial slopes
 0.05, 0.02, and 0.005. No independent exponential impact coefficient
@@ -322,7 +392,7 @@ fractions in 2,000 bootstrap replicates. The empirical estimate used the
 first upward crossing and allowed local decreases in probability, while
 the logistic fit imposed a smooth increasing response
 (Supplementary Table~\ref{{tab:revision-fits}}). Each replicate reselected
-the susceptibility maximum over the sampled grid. Consequently,
+the susceptibility maximum over the tested fractions. Consequently,
 intervals included variation in which sampled fraction supplied that
 maximum, but not interpolation bias, uncertainty from selecting the
 refinement grid, or changes from observing for longer. The recorded
@@ -352,11 +422,12 @@ def market_panel_table():
                         f'{100*sub.maximum_drawdown.median():.2f} & {100*sub.maximum_drawdown.max():.2f} & '
                         f'{100*sub.price_change.median():.2f}')
     (S/'market-panel-horizons-table.tex').write_text(table(
-        'Longer observation with dealer depth $h=100$ and active technical traders. Times are steps after the rule '
+        'The five example markets of Fig.~\\ref{fig:dose-panels} and all 50 starting markets at fraction $f=0.15$ with their no-switch controls, '
+        'extended from 3,000 to 10,000 steps with dealer depth $h=100$ and active technical traders. Times are steps after the rule '
         'switch, following 1,000 baseline steps. Drawdowns and price changes are percentages; price '
         'changes use the quoted price at the rule switch as reference. Final Sell averages the last 500 steps '
-        'of the longer observation period. None means no Sell majority by 10,000 steps. Selection used newly '
-        'computed short-run summaries before inspection of images. The extensions follow the same '
+        'of the longer observation period. None means no Sell majority by 10,000 steps. The examples were selected from the '
+        '3,000-step summaries before any images were inspected. The extensions follow the same '
         'starting markets, and are not independent replications.',
         'tab:market-panel-horizons','',rows,'lrrrrrr',r'\footnotesize\setlength{\tabcolsep}{2.5pt}'))
 

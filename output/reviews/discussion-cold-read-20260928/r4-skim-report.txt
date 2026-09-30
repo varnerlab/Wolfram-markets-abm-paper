@@ -1,0 +1,17 @@
+R4-SKIM-1 | REFERENT | severity-2 | "an equilibrium with lower earnings than slower revision" | The comparison leaves unclear whose earnings were lower and what alternative behavior "slower revision" denotes. That matters to the apparent parallel with the preceding distinction between an individual's benefit and a market-wide loss. An in-place clarification of the comparison would make this finding interpretable. | Best guess: traders collectively earned less at the equilibrium revision rates than they would have if all revised forecasts more slowly; the text does not establish that reading.
+
+R4-SKIM-2 | OVERLOAD | severity-2 | "The model differed from established agent-based markets" | P5 requires the reader to retain strategy scoring, a histories-to-traders parameter, technical-rule adoption, forecast-revision rates, switching trader groups, stochastic lattice rules, and deterministic rules before giving the comparison that organizes them. The two earnings findings especially slow the argument because their connection to an assigned, persistent rule change remains implicit. Repair within P5 by condensing these examples around the stated comparison of how rules change and where interaction occurs. | Best guess: the catalogue establishes that the present intervention isolates a behavioral change that richer learning and strategy-selection models generate endogenously, while retaining local interaction and separating intentions from trades.
+
+ discussion.P1: Assigning a persistent change to some traders' decision rules can create widespread selling without spreading the rules themselves. The outcome depends on the particular response changed, and paired controls isolate the intervention's effect within the tested starting markets and observation periods.
+
+ discussion.P2: Neighbor interactions alone can spread selling. Spatial patterns and sharper majority probabilities in larger grids suggest collective organization, but finite observations do not establish an asymptotic threshold or a classical nucleation mechanism.
+
+ discussion.P3: The dealer's pricing mechanism determines how limited reserves affect a decline. Small positive reserves permit steep declines, zero reserves impose a separate fixed-price case, and paired controls distinguish the switch's contribution from declines already present without it.
+
+ discussion.P4: Resources influence future intentions through price-responsive technical traders. The experiments separate majority formation from drawdown, but do not resolve the contribution of threshold-width adaptation or independently identify funding and price-sensitivity effects.
+
+ discussion.P5: Relative to models with learning, strategy selection, or other interaction mechanisms, this model sacrifices behavioral richness to isolate an exactly repeatable rule intervention and distinguish widespread selling intentions from a crash. The particular forecast-revision earnings comparison is unclear as noted above.
+
+ discussion.P6: Assigned rules, synchronous grid interactions, influential but infeasible intentions, restricted technical trading, and a specific uncalibrated settlement mechanism limit the conclusions. Settlement identities and longer simulations do not establish realism, stationarity, or predictions of actual crashes.
+
+TOTALS: severity-3 = 0; severity-2 = 2; severity-1 = 0.

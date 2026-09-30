@@ -1,0 +1,20 @@
+Cold read: Discussion P1–P6, using only the supplied abstract and introduction as preceding context. Methods and Results were deliberately skipped.
+
+Plain meanings
+P1: A lasting, assigned change to selected traders’ local response rules can produce widespread selling. The specific response matters, a one-time sell instruction was insufficient in the tested comparison, and paired controls isolate the intervention’s effect. This is influence through decisions, not learning or transmission of rules.
+P2: Neighbor interactions alone can produce a Sell majority. Spatial patterns suggest growing regions of sellers, but the finite simulations do not establish an asymptotic threshold or classical nucleation.
+P3: The reserve and execution mechanism determines how limited dealer resources translate into price declines. Small positive reserves can permit severe declines, while zero reserves create a qualitatively different, fixed-price case. Paired controls distinguish switch effects from declines already present without the intervention.
+P4: Financial conditions affect later intentions through technical traders’ price responses. Their effects on majority probability differ from their effects on drawdown. The threshold-width comparison is inconclusive, and changing dealer depth confounds funding with initial price sensitivity.
+P5: The model trades learning and strategic adaptation for a precisely specified, repeatable local-rule intervention. Its contribution concerns the spread of intentions and the role of price feedback, with completed trades and crashes treated as separate outcomes.
+P6: The conclusions depend on assigned rules, synchronous local interactions, observable unexecutable intentions, a particular technical strategy and dealer mechanism, and uncalibrated time and price dynamics. Conservation and control runs do not establish realism or stationarity; alternative assumptions remain to be tested.
+
+Flags
+R8-SKIM-1 | UNDEFINED | 1 | “drawdown at fraction $f=0.20$” | The symbol f appears without identifying what fraction it denotes in the Discussion. The introduction supplies a likely interpretation, but I briefly have to recover it from that context. | Best guess: 20% of interior traders received the switched rule.
+
+Optional detail, not flags
+OPTIONAL DETAIL: The precise neighbor configuration and its numerical encoding are unnecessary to understand the claims about a persistent local response change and the restriction to tested rules.
+OPTIONAL DETAIL: The exact formula governing adaptation of technical-trader threshold widths would add mechanism detail, but the current claim is interpretable without it: fixing threshold distances was compared with allowing them to adapt, and the comparison did not establish an explanation for depth-related majority differences.
+OPTIONAL DETAIL: Numerical majority probabilities, reserve sizes, and drawdown estimates would quantify the findings but are not needed to understand the Discussion’s stated interpretation. Their absence is consistent with deliberately skipping Results.
+
+No severity-2 or severity-3 obstacles. The paragraph purposes and order are understandable; no paragraph split or merge is needed.
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 1.

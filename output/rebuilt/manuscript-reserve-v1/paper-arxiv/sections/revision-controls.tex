@@ -3,8 +3,8 @@
 
 The supplementary controls used the same initialization and baseline as
 the main comparisons, with grid size $L=64$, dealer depth $h=100$, and 3,000 post-intervention
-steps unless otherwise specified. Every switched run had a newly
-simulated no-switch control. Held conditions calculated full
+steps unless otherwise specified. Every switched run was compared
+with a no-switch control. Held conditions calculated full
 financial histories as well as decisions. A Sell pulse wrote Sell
 at the selected interior traders immediately before the first post-baseline orders,
 while retaining the baseline rule for later updates. Traders already in
@@ -21,7 +21,7 @@ than a separate confirmatory hypothesis test
 
 The band control froze the recent-departure scale at its value immediately
 before the rule switch, while each technical trader retained its multiplier
-and the reference price continued to update. Adaptive and frozen paths
+and the reference price continued to update. Adaptive and frozen runs
 shared their complete pre-switch histories. The frozen widths could
 therefore differ across dealer depths and starting markets. At fraction $f=0.175$,
 the estimated majority-probability difference between dealer depths $h=0.1$ and
@@ -35,7 +35,7 @@ part of the price feedback rather than removing technical trading.
 
 Additional comparisons used dealer depths $h=40,100,400$ at fraction $f=0.20$ with
 active technical traders (Supplementary Table~\ref{tab:revision-impact}).
-For the reserve curve, differentiating log price with respect to
+For the constant-product dealer, differentiating log price with respect to
 normalized net trader purchases at initialization gives $2N_{\rm tr}/H$,
 approximately $2/h$. The chosen depths therefore spanned initial slopes
 0.05, 0.02, and 0.005. No independent exponential impact coefficient
@@ -83,7 +83,7 @@ fractions in 2,000 bootstrap replicates. The empirical estimate used the
 first upward crossing and allowed local decreases in probability, while
 the logistic fit imposed a smooth increasing response
 (Supplementary Table~\ref{tab:revision-fits}). Each replicate reselected
-the susceptibility maximum over the sampled grid. Consequently,
+the susceptibility maximum over the tested fractions. Consequently,
 intervals included variation in which sampled fraction supplied that
 maximum, but not interpolation bias, uncertainty from selecting the
 refinement grid, or changes from observing for longer. The recorded

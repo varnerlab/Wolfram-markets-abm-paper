@@ -1,0 +1,9 @@
+sev-2:
+results.P1.S1 | INCONSISTENT | 2 | "dominated by sellers" vs reached-once measure
+results.P1.S13 | REREAD | 2 | "changed the response at one of the neighbor sums 1 to 5, where Rule 19280 assigns Buy or Hold, to Sell" | inserted clause garbles
+results.P1.S14 | INCONSISTENT | 2 | "The sixth replaced Buy with Hold at neighbor sum 3." | unexplained mechanism
+results.P2.S1 | INCONSISTENT | 2 | "gave the same outcomes whether or not technical traders responded to price" | pulse null says nothing about feedback need
+results.P2.S3 | INCONSISTENT | 2 | "h=0, 0.1, 0.5, 1, 2, 5, 10, and 100" | Fig 2 caption treats h=10 as distinct dashed overlay
+sev-1 (12): control count; pulse conditions; f=0.15 no contrast; screen pivot; 20 markets; screen fractions; "closer to Buy"; fractions not listed; held identity by construction; "narrow" unquantified; location of max/negatives; h=0 consequence.
+
+TOTALS: severity-3 = 0; severity-2 = 5; severity-1 = 12

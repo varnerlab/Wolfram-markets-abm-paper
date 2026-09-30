@@ -1,0 +1,19 @@
+Read in order using only the supplied abstract and introduction as prior context. Skipping Methods and Results is not itself a problem.
+
+P4.1 | UNDEFINED | severity-2 | "preserved price feedback and baseline width differences across dealer depths and starting markets" | The preceding sentence introduces thresholds around a moving average, but this sentence starts interpreting a fixed-width comparison before explaining what varied in the original rule. “Adapting widths” in the next sentence then requires me to reconstruct that comparison. This slows the specific claim about whether width adaptation explained differences in majority probability: I can understand the inconclusive finding, but cannot immediately identify the two conditions being compared. The needed orientation is what “width” means and that the comparison held its starting value fixed rather than letting it adapt; no formula or Methods detail is needed. | I infer that width means the distance of the Buy/Sell thresholds from the moving average, that those distances normally adapt, and that the comparison froze each market's own starting distances while the moving average continued to move. That would preserve price feedback while retaining differences in initial widths between markets. This is my interpretation, not evidence supplied explicitly by the paragraph.
+
+Plain meaning by paragraph:
+
+discussion.P1: A lasting alteration to selected traders' local responses can spread selling intentions even though other traders retain their rules. The effect differs from a temporary sell instruction and depends on the particular rule alteration. Paired controls isolate the intervention, which represents an imposed behavioral change rather than learning or transmission of a strategy.
+
+discussion.P2: Local responses to neighboring intentions can produce Sell majorities without feedback from prices. Spatial patterns suggest growing groups of sellers, but finite markets and observation periods do not establish an asymptotic threshold or a classical nucleation mechanism.
+
+discussion.P3: The reserve mechanism determines how available resources translate selling into price declines. Small positive dealer reserves can accommodate eligible orders while prices fall sharply; zero reserves instead impose a qualitatively different fixed-price matching condition. Paired controls are essential because shallow-reserve markets can decline sharply without the intervention.
+
+discussion.P4: Resources influence later intentions through technical traders' price responses. Greater dealer depth does not change majority probability consistently, although it reduces drawdown in the stated comparison. Tests did not resolve the role of threshold adaptation, and changing depth confounds funding with price sensitivity. Majority formation and financial decline are distinct outcomes.
+
+discussion.P5: The contribution relative to established agent-based markets is an imposed, reproducible local-rule intervention whose spread can be studied with and without price feedback while distinguishing intentions from completed trades. This simplified approach answers narrower questions than models of learning, strategic adoption, or efficiency.
+
+discussion.P6: Assigned rules, synchronized grid interactions, observable intentions even without resources, one technical strategy, and a specific uncalibrated settlement mechanism limit generalization. Conservation and a restricted round-trip property do not establish realism. Long controls do not establish stationary or indefinite behavior, and alternative behavioral, network, and execution assumptions remain to be tested.
+
+TOTALS: severity-3 = 0; severity-2 = 1; severity-1 = 0.

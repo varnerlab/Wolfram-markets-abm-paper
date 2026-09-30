@@ -2,140 +2,210 @@
 \section{Results}
 
 We first asked whether a lasting change in how some traders respond to
-their neighbors could turn a mixed market into one dominated by sellers.
+their neighbors could push a market of mixed Buy, Hold, and Sell
+decisions to a Sell majority.
 Rule~19286 differs from the baseline Rule~19280 in a single response:
 a trader with three neighbors in Buy and one in Hold chooses Sell rather
 than Buy (Fig.~\ref{fig:rule-quench}A,B). We paired each switched market
 with a no-switch control that kept Rule~19280 and shared its baseline
-history and first post-switch quoted price (Supplementary
+history (Supplementary
 Table~\ref{tab:campaigns}). With active technical traders and dealer
 depth $h=100$, none of the 50 starting markets reached a Sell majority
-when the fraction of interior traders given the new rule was $f=0.10$ or
-0.15, whereas all of them did at $f=0.20$ and 0.25, and no control
-reached a majority over the same period. The median onset fell from
-1,070.0 steps at fraction $f=0.20$ to 311.5 steps at $f=0.25$
-(Supplementary Table~\ref{tab:paired-switch}). In the displayed pair,
-groups of sellers expanded after the rule switch while the control kept
-its mixture of decisions (Fig.~\ref{fig:rule-quench}C). A one-time
-instruction did not have the same effect: setting the selected traders
-to Sell once at fraction $f=0.15$, 0.20, or 0.25 produced no majority in either technical-trader condition
+within 3,000 steps after the switch when the fraction of interior
+traders given the new rule was $f=0.10$ or 0.15. All of them did at
+$f=0.20$ and 0.25, whereas no control reached a majority over the same
+period. The median onset fell from 1,070 steps after the switch at
+fraction $f=0.20$ to 311.5 steps at $f=0.25$
+(Supplementary Table~\ref{tab:paired-switch}). In the displayed pair at
+fraction $f=0.20$, groups of sellers expanded after the rule switch
+while the control kept its mixture of decisions
+(Fig.~\ref{fig:rule-quench}C). To test whether a one-time instruction to
+sell could do the same, we instead set the intentions of the same
+selected traders to Sell once at the switch and let them keep
+Rule~19280 for every later update. This one-time
+instruction produced no majority at fraction $f=0.15$, 0.20, or 0.25,
+with technical traders active or held
 (Supplementary Table~\ref{tab:revision-pulse}). Which response changed
-also mattered. Of the eighteen alternative rules tested at fraction
-$f=0.20$, each differing from Rule~19280 in a single response,
-6 produced a majority in every tested starting market under both technical-trader conditions, while 12 produced none (Supplementary Table~\ref{tab:revision-rules}). Thus,
-within the tested interventions, whether a Sell majority formed
-depended on which response changed, how many traders received it, and
-whether the change lasted rather than acting once.
+also mattered. We screened all eighteen rules that differ from
+Rule~19280 in a single response, including Rule~19286, over 20 starting
+markets with technical traders active and held. At fraction $f=0.20$,
+six rules produced a majority in every market under both conditions.
+Five of them placed Sell at one of the neighbor sums 1 to 5, the only sums
+at which Rule~19280 does not already assign Sell, and Rule~19286 was one
+of these five. The sixth replaced Buy with Hold at neighbor sum 3. The other twelve produced no majority in any market: eight replaced
+Sell with Buy or Hold, two replaced Hold with Buy at neighbor sums 4
+and 5, and two replaced Buy with Hold at neighbor sums 1 and 2
+(Fig.~\ref{fig:rule-quench}B;
+Supplementary Table~\ref{tab:revision-rules}). Thus, the lasting
+switch to Rule~19286 produced majorities where a one-time
+instruction to sell, given to the same traders, did not, and outcomes depended on which
+response changed and how many traders received it.
 
-Because technical traders respond to the quoted price, a Sell majority
-might have required price feedback. To determine whether it did, we
-repeated the rule switch with every technical trader held in Hold, so
-that trades still completed and the price still moved but no decision
-responded to it (Fig.~\ref{fig:reservoir}). A majority still formed.
-With technical traders held, the Sell-majority probability was
+The rule screen produced majorities with technical traders held as
+well as active, which suggested that a Sell majority did not require
+price feedback. To test this across
+fractions and dealer depths, we repeated the rule switch at 11 fractions
+between 0.10 and 0.25 with the technical traders either active or held
+in Hold (Fig.~\ref{fig:reservoir}). We also varied the dealer depth over
+$h=0$, 0.1, 0.5, 1, 2, 5, 10, and 100, because depth sets how far the
+quoted price moves for a given net trade. In the held condition,
+trades still completed and, at positive depths, the price still moved,
+but no decision responded to it. Because no decision in the held
+condition depended on cash, shares, or price, the onset, final mean Sell
+fraction, and final interior grid for each starting market and fraction
+were identical across dealer depths despite different price paths. The
+held Sell-majority probability was therefore the same at every depth:
 0.34 at fraction $f=0.175$, 0.70 at $f=0.185$, and
-1.00 at $f=0.20$ (Fig.~\ref{fig:reservoir}A). Every held market carried
-its full cash, share, and price calculations, yet its onset, final mean
-Sell fraction, and final interior grid were identical across dealer
-depths for the same starting market and fraction, even though its price
-path differed. The held update takes no input from financial variables,
-so responses to neighbors were sufficient to produce a Sell majority.
-Allowing technical traders to respond to price changed how often a
-majority formed near the crossover from mostly mixed to mostly
-Sell-majority outcomes. At dealer depth $h=100$, the active condition
-gave 25 of 50 majorities at fraction $f=0.175$ and 42 at $f=0.185$,
-compared with 17 and 35 when held (Fig.~\ref{fig:reservoir}A,B).
-Both the size and the sign of the active-minus-held difference depended
-on the dealer depth and fraction. Thus, price feedback could change how
-often the rule switch produced a majority, but it was not needed for
-selling decisions to spread.
+1.00 at $f=0.20$ (Fig.~\ref{fig:reservoir}A). Responses to neighbors
+were thus sufficient to produce a Sell majority.
+Majority probability rose from zero to one over a narrow range of
+fractions, which we refer to as the crossover. Within it, the
+probability was higher with technical traders active than held in 22 of
+the 24 combinations of dealer depth and fraction in which the two
+differed, by at most 0.18, and lower in the other two, by at most 0.04
+(Fig.~\ref{fig:reservoir}A,B). The difference was zero at every tested
+fraction outside the crossover and at every fraction with $h=0$, where
+the price never moved, the technical traders' band kept zero width, and
+they stayed in Hold. Individual starting markets differed in both
+directions. At dealer depth $h=100$ and fraction $f=0.175$, 13 markets
+reached a majority only with technical traders active and 5 only when
+held, and at $f=0.18$, a fraction not tested in this comparison, the
+counts were 12 and 14 (Supplementary Table~\ref{tab:feedback-pairs}).
+With 95\% intervals from resampling whole starting markets in brackets,
+the active minus held difference at dealer depth $h=100$, averaged over
+fractions
+0.175, 0.185, 0.19, and 0.195, was 0.09 [0.02, 0.15], and adding
+fractions 0.17 and 0.18 changed it to 0.04 [$-0.02$, 0.10]
+(Supplementary Table~\ref{tab:feedback-pairs}). Thus, price feedback changed the
+outcomes of individual markets, its net effect on how often a majority
+formed was small and depended on the fractions compared, and it was not
+needed for selling decisions to spread.
 
 \input{sections/finite-size-results}
 
-A 3,000-step observation period could end before a slow majority formed,
-so we extended five markets with active technical traders and dealer
-depth $h=100$ to 10,000 steps (Fig.~\ref{fig:dose-panels}). We chose them from the
-3,000-step results before inspecting any images. Two had not reached a
-majority by that endpoint and three had. Of the two, the market at
-fraction $f=0.175$ reached a majority after 4{,}073 steps, whereas the
-market at $f=0.150$ had not reached one by 10,000 steps; the three
-earlier majorities formed after 2{,}330, 1{,}836, and
-1{,}028 steps (Supplementary Table~\ref{tab:market-panel-horizons}). Each
-displayed majority formed through the growth and merger of groups of
-sellers (Fig.~\ref{fig:dose-panels}A,C). For the market that reached a majority late,
-maximum drawdown rose from 10.17\% at 3,000 steps to 26.34\% at
-10,000 steps (Supplementary Table~\ref{tab:market-panel-horizons}). To see whether late
-majorities were rare, we extended all 50 starting markets at fraction
-$f=0.150$ together with their no-switch controls. Two switched markets
-reached a majority by 10,000 steps, compared with none at 3,000 steps,
-and no control reached one. Over the same extension, the median
-drawdown changed from 5.04\% to 5.87\%, whereas the largest
-drawdown rose from 12.29\% to 25.30\%
-(Supplementary Table~\ref{tab:market-panel-horizons}). Thus, a market that stayed mixed
-for 3,000 steps did not necessarily stay mixed, and outcomes defined at
-the original endpoint describe that period rather than the long-run
-state of the market.
+Because the midpoint moved with observation time, we extended five
+example markets with active technical traders and dealer depth $h=100$
+to 10,000 steps after the switch, to see whether markets without a
+majority at 3,000 steps reached one later and how the others developed
+(Fig.~\ref{fig:dose-panels}). Before any grid
+images were inspected, we had selected them from the 3,000-step outcomes
+as typical of their fraction and outcome. They comprised one market
+without a majority at fraction $f=0.15$, one with and one without a
+majority at $f=0.175$, and one with a majority at each of $f=0.185$ and
+0.20. The market without a majority at fraction $f=0.15$ still had none
+after 10,000 steps, whereas the market without one at $f=0.175$ reached
+a majority 4{,}073 steps after the switch. That market's maximum
+drawdown rose
+from 10.17\% at 3,000 steps to 26.34\% at 10,000 steps
+(Fig.~\ref{fig:dose-panels}B; Supplementary
+Table~\ref{tab:market-panel-horizons}). The other three majorities had formed
+2{,}330, 1{,}836, and 1{,}028 steps after the switch at fractions
+$f=0.175$, 0.185, and 0.20, respectively (Supplementary
+Table~\ref{tab:market-panel-horizons}). Each displayed majority formed
+as groups of sellers grew and merged (Fig.~\ref{fig:dose-panels}A,C).
+At fraction $f=0.15$, no switched market had reached a majority by
+3,000 steps, so any majority there would form late. To measure how
+often this happened, we extended to 10,000 steps the runs from all 50
+starting markets at that fraction, with the same active technical
+traders and dealer depth, together with their no-switch controls. Two
+switched markets reached a majority by 10,000 steps, compared with none
+at 3,000 steps, and no control reached one. The longer runs also showed
+how the switch affected prices before any majority formed. Every
+control stayed below a maximum drawdown of 1.15\% over 10,000 steps.
+Among the 50 switched markets at this fraction, the median drawdown was
+already 5.04\% at 3,000 steps, before any of them had a majority, and
+5.87\% at 10,000 steps. Their largest drawdown was 12.29\% at 3,000
+steps. At 10,000 steps it was 25.30\%, in a different market, one that first reached a majority between 3,000
+and 10,000 steps
+(Supplementary Table~\ref{tab:market-panel-horizons}). Thus, remaining
+without a majority for 3,000 steps did not establish a long-run state,
+the rule switch deepened price declines even before any majority formed,
+and a majority that formed later could raise a market's drawdown well
+above its value at 3,000 steps.
 
-A Sell majority did not by itself determine how far the price fell,
-because the decline also depended on the dealer's reserves. We
-therefore varied the dealer depth $h$, the dealer's initial shares per
-trader, while keeping the same rule switch (Fig.~\ref{fig:reservoir}). At fraction
+We next asked how dealer reserves affected the price decline that
+accompanied a majority, because a dealer with small reserves might be
+expected to limit a decline by buying fewer of the shares that traders
+offered. Using the same dealer-depth comparison, we examined the quoted
+price after the rule switch (Fig.~\ref{fig:reservoir}). At fraction
 $f=0.20$, every starting market reached a majority at every tested
-depth, yet with active technical traders the median maximum drawdown
-was 99.99\% at dealer depth $h=0.1$, 99.52\% at $h=1$, and 25.15\% at $h=100$
-(Fig.~\ref{fig:reservoir}C). In an additional comparison, median drawdowns were
-48.62\% at dealer depth $h=40$ and 7.08\% at $h=400$
-(Supplementary Table~\ref{tab:revision-impact}). Smaller reserves made the quoted price
-more sensitive to net selling, because the reserves set both the
-dealer's available funds and the price required to execute a net trade.
-Much of the decline at dealer depth $h=0.1$ occurred without the rule
-switch: no-switch controls there already had a median drawdown of
-77.04\%, compared with 0.75\% at $h=100$. The median paired
-increase after the switch was 22.96 percentage points at dealer depth
-$h=0.1$ and 24.39 at $h=100$ (Supplementary Table~\ref{tab:paired-switch}).
-Small positive reserves produced these declines while rejecting few
-orders, with median dealer-rejection fractions of 0.000226 at dealer
-depth $h=0.1$, 0.000034 at $h=1$, and 0.0000006 at $h=100$
-(Fig.~\ref{fig:reservoir}D). Zero reserves were a separate limit, in which only
-opposing trader orders matched, the dealer's net trading was zero, and
-the price stayed fixed. Near the crossover, we also tested whether the
-adaptive band widths of the technical traders shaped the difference
-between dealer depths. At fraction $f=0.175$, the Sell-majority
-probability was 0.44 at dealer depth $h=0.1$ and 0.50 at $h=100$, a
-difference of -0.06 that became -0.26 when the band widths were frozen
-after the rule switch. The paired difference between these two
-contrasts was 0.20 with a 95\% bootstrap interval of
-[-0.08, 0.50], so whether band-width adaptation contributed to the
-difference remained unresolved (Supplementary Table~\ref{tab:revision-band}). In the
-displayed starting market 2, a majority formed at all three dealer
-depths with active technical traders while the price followed distinct
-paths (Fig.~\ref{fig:dealer-panels}). Thus, at fraction $f=0.20$ the dealer's
-reserves set the severity of the decline rather than whether a majority
-formed, and shallow positive reserves did not prevent severe drawdowns.
+depth, with technical traders active or held. The declines
+nonetheless differed in size: with active technical traders, the median maximum drawdown of switched
+markets was 99.99\% at dealer depth $h=0.1$, 99.52\% at $h=1$, and
+25.15\% at $h=100$ (Fig.~\ref{fig:reservoir}C). Additional runs
+at dealer depths $h=40$ and 400, not among the eight depths above, at the
+same fraction and with active technical traders, followed the same
+decrease with depth, with median drawdowns of 48.62\% and 7.08\%
+(Supplementary Table~\ref{tab:revision-impact}). Smaller
+reserves made the quoted price more sensitive to net selling, because
+the same net sale added a larger proportion to a small share reserve.
+Shallow positive reserves did not limit these declines by refusing
+trades. A constant-product dealer never ran out of cash for buying, and
+its few rejections came from its minimum share reserve or from eligible
+orders that no longer supported a larger net trade: median dealer-rejection
+fractions were 226, 34, and 0.6 per million eligible orders at dealer
+depths $h=0.1$, 1, and 100 (Fig.~\ref{fig:reservoir}D).
+The same price sensitivity also produced large declines without the
+rule switch.
+At shallow depth, ordinary order imbalances moved the quoted price up and
+down by large amounts, so the largest fall from an earlier peak was large
+even without a lasting trend.
+No-switch controls at dealer depth $h=0.1$ had a median drawdown of
+77.04\%, compared with 0.75\% at $h=100$. The median over starting markets of each switched market's increase in
+drawdown over its no-switch control rose from 22.96 percentage points at
+dealer depth $h=0.1$ to a largest value of 80.31 percentage points at
+$h=5$ and fell to 24.39 percentage points at $h=100$ (Supplementary
+Table~\ref{tab:paired-switch}). At $h=5$, the median drawdown was
+14.03\% in controls and 94.43\% in switched markets.
+The increase was smaller at both ends because at $h=0.1$ the controls'
+decline left little room for more, whereas at $h=100$ the quoted price
+responded weakly to net selling. Zero dealer depth was a separate case, in which only opposing trader orders
+matched, the dealer did not trade, and the price stayed fixed, so the
+drawdown was zero although every market reached a majority. In the
+displayed starting market 2 at fraction $f=0.20$, a majority formed at
+dealer depths $h=0.1$, 1, and 100 with active technical traders, while
+the quoted price fell nearly to zero at the two shallower depths and by
+about a quarter at $h=100$ (Fig.~\ref{fig:dealer-panels}). Thus, at
+fraction $f=0.20$, the dealer's reserves set how far the quoted price
+fell both with and without the rule switch, and shallow positive
+reserves did not prevent severe drawdowns.
 
-The dealer's reserves are only one side of each trade, so we also
-changed the traders' own cash and shares, independently, at the rule
-switch (Fig.~\ref{fig:balance-sheet}). With technical traders held, every cash and
-share combination at fraction $f=0.18$ produced the same decision
-history within a starting market, and the Sell-majority probability was
-0.64 at every dealer depth. Holdings entered the order and clearing
-calculations but not the interior decision rule, so they could change
-decisions only through the price response of active technical traders.
-With technical traders active, the probability ranged from
-0.54 to 0.80 across resource combinations and dealer depths
-(Fig.~\ref{fig:balance-sheet}A; Supplementary Table~\ref{tab:balance-fractions}). With unchanged
-cash and dealer depth $h=100$, share multipliers of 0.1, 1, and 10 gave
+Trades also depended on the traders' own resources, so we independently
+multiplied their cash and shares by 0.1, 1, or 10 at the rule switch,
+at dealer depths $h=0.1$, 1, and 100 (Fig.~\ref{fig:balance-sheet}). We
+report fraction $f=0.18$, near the held midpoint of 0.178 for the
+$64\times64$ grid used here, and give three neighboring fractions in Supplementary
+Table~\ref{tab:balance-fractions}. Holdings entered the order and
+clearing calculations but not the interior decision rule, so they could
+change decisions only through the price response of active technical
+traders. With technical traders held, every cash and share combination
+produced the same decision history within a starting market, and the
+Sell-majority probability was 0.64 at every dealer depth, with a 95\%
+Wilson interval of [0.50, 0.76]. With technical traders active, the
+probability was 0.58 to 0.60 with unchanged resources, compared with
+0.64 held, and ranged from 0.54 to 0.80 across all resource
+combinations and dealer depths (Fig.~\ref{fig:balance-sheet}A). With
+unchanged resources, some starting markets reached a majority only with
+technical traders active and others only when held, and the two nearly
+balanced (Supplementary Table~\ref{tab:feedback-pairs}). This comparison had no separate
+no-switch controls, so its drawdowns describe switched markets rather
+than effects of the switch. Among the 27 active combinations, the five
+highest majority probabilities all had the share multiplier 0.1, and
+within each combination of cash and dealer depth that multiplier also
+gave the smallest drawdown, so a higher majority probability did not
+bring a larger drawdown (Fig.~\ref{fig:balance-sheet}D). With unchanged cash
+and dealer depth $h=100$, share multipliers of 0.1, 1, and 10 gave
 median drawdowns of 3.17\%, 20.18\%, and 77.55\%
-(Fig.~\ref{fig:balance-sheet}B), because more shares supplied more potential sales
-while the reserve curve set the price at which net selling could clear.
-By contrast, raising the cash multiplier from 1 to 10 at dealer depth
-$h=1$ with unchanged shares changed the median drawdown only from
-96.46\% to 97.10\% and the majority probability from
-0.58 to 0.56, in markets where the decline was already close to
-complete (Fig.~\ref{fig:balance-sheet}A,B). The relationship between the
-dealer-rejection fraction and drawdown differed across the resource
-combinations (Fig.~\ref{fig:balance-sheet}C,D). Together, these comparisons showed
-that the financial consequences of a rule switch depended on both sides
-of the traders' books and on the dealer's reserves. A majority decision
-to sell did not by itself determine how many shares could change hands
-or how far the quoted price would fall.
+(Fig.~\ref{fig:balance-sheet}B). With unchanged shares, raising the
+cash multiplier from 1 to 10 raised the median drawdown from 20.18\% to
+28.48\% at dealer depth $h=100$, but only from 96.46\% to 97.10\% at
+$h=1$, where the decline was already close to complete
+(Fig.~\ref{fig:balance-sheet}B). Dealer
+rejection did not cushion these declines: median dealer-rejection
+fractions stayed below 5,000 per million eligible orders in every
+combination, including those with the largest drawdowns
+(Fig.~\ref{fig:balance-sheet}B,C). Together, the dealer-depth and
+resource comparisons showed that financial outcomes in switched markets
+depended on traders' cash and shares and on the dealer's reserves, so a
+Sell majority did not by itself determine how far the quoted price
+would fall.

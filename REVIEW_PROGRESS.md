@@ -869,3 +869,16 @@ contains the next proposal, not yet applied: explain sampling uncertainty
 with the tested fractions and observation period fixed, distinguish the
 choice of additional fractions and straight-line approximation error,
 and avoid calling changes over longer observation periods errors.
+
+**Full cold read and fixes, 29 September:** twelve fresh readers over the
+whole manuscript (reports in `output/reviews/full-cold-read-20260929/`).
+Added the following experiments (Methods subsection, two Results
+paragraphs, Discussion paragraph, Table S following from
+`code/repaired/WriteFollowingTable.py`, abstract and Conclusion sentences)
+from the reserve-engine confirmation and pilot only; removed the
+round-trip, nucleation, band-test, and long-control caveats; deleted
+Discussion P4 (two ideas moved to P2 and P6); fixed the fee closing
+sentence and the abstract crossover; unified terms in prose, captions, and
+generators. Codex check: no numeric errors; five wording fixes adopted,
+two declined; re-check all resolved. Markup:
+`output/review/2026-09-29-cold-read-fixes/markup.pdf`.

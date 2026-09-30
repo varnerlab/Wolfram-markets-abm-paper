@@ -1,0 +1,23 @@
+Cold-read report: discussion.P1–P6
+
+Plain meanings
+
+P1: A lasting change to one response in a minority of traders can spread Sell intentions to a majority. The particular response matters, and paired controls isolate the assigned intervention. This is a study of the spread of intentions, not learning or adoption of a rule.
+
+P2: Neighbor interactions alone can produce a Sell majority. Growing seller groups resemble patterns in other interacting systems, but these finite simulations do not establish an infinite-system threshold or a classical nucleation mechanism.
+
+P3: The reserve-based execution mechanism determines how scarce dealer resources affect prices. Small positive reserves can accompany severe declines with little rejection; the zero-reserve fixed-price case is distinct. Paired controls separate declines associated with the switch from declines already present without it.
+
+P4: Resources affect intentions through the price responses of technical traders. The evidence does not resolve the contribution of adapting band widths, and changing depth combines funding and price-sensitivity effects. Majority formation and drawdown are different outcomes.
+
+P5: The contribution is a controlled, repeatable intervention within an enumerable rule space, alongside separate measurements of intentions and financial outcomes. It answers narrower questions than models of learning, strategic choice, or endogenous adoption of trading strategies.
+
+P6: The conclusions depend on assigned rules, the grid and update scheme, observable intentions despite resource shortages, the technical-trader setup, and the chosen trading mechanism. Accounting consistency is not empirical realism, and finite observations do not establish stationarity or indefinite behavior.
+
+Flags
+
+discussion.P4.S6–S8 | ORDER | 1 | "Technical traders used Buy and Sell thresholds around a moving average price." | After the clear channel from resources to decisions and the nonmonotonic depth result, the paragraph starts explaining a threshold-freezing comparison before stating what uncertainty this comparison addresses. I briefly have to hold the preserved feedback and baseline-width distinctions until S8 supplies the purpose. This is a small local slowdown, not a missing mechanism. | My best guess is that these sentences evaluate whether adaptation of the thresholds explains the depth dependence just mentioned. The explanation would be easier to follow if that existing purpose preceded the existing description; no additional Methods detail is needed.
+
+No severity-2 or severity-3 confusion found. The prior Methods and Results supply the meanings of neighbor sums, reserve depth, quoted versus execution prices, held technical traders, and band widths. Further explanations of those mechanisms here would be OPTIONAL DETAIL. More detail on nucleation or the comparison models would also be OPTIONAL DETAIL: no current claim requires it to be interpreted accurately.
+
+TOTALS: severity-3 = 0; severity-2 = 0; severity-1 = 1.

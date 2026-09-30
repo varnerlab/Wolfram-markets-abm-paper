@@ -1,0 +1,15 @@
+discussion.P4.S7–S8 | UNDEFINED | severity-2 | "Holding the distances of those thresholds from the average fixed preserved price feedback and baseline width differences" | The paragraph introduces threshold distances but does not say what their being fixed means across time versus across markets. Consequently, preserving differences in widths while fixing widths requires a reread, and the following limitation about adaptation lacks a clear comparison. Repair in place by specifying that distances remained at each market's starting values, if that is the intended meaning, and naming widths as threshold distances; this would make the current fixed-versus-adapting comparison intelligible without adding a Methods description. | Best guess: each market began with its own threshold distances, which stayed constant during that run while its moving average continued to change; the alternative let those distances change over time.
+
+discussion.P1: A lasting, assigned change to one local response can spread selling intentions beyond the switched traders. The particular response matters, and paired controls identify the switch's effect without implying learning or transmission of the rule itself.
+
+discussion.P2: Neighbor interactions alone can produce Sell majorities. Spatial growth and sharper probability curves support finite-market spreading, but do not establish an infinite-system threshold or classical nucleation.
+
+discussion.P3: The dealer's pricing mechanism determines how scarce reserves translate into price declines. Small positive reserves can permit severe declines, while zero depth is a distinct fixed-price case; paired controls distinguish the switch's contribution from baseline drawdowns.
+
+discussion.P4: Financial resources can affect intentions through technical traders' responses to prices. Majority formation and drawdown respond differently, and the experiments do not isolate either threshold adaptation or funding from price sensitivity. The precise fixed-width comparison is unclear for the reason above.
+
+discussion.P5: Relative to models with learning or strategic switching, this model sacrifices adaptive behavior to isolate a reproducible local rule intervention, test the need for price feedback, and distinguish selling intentions from price crashes.
+
+discussion.P6: The results depend on assigned synchronous rules, observable intentions regardless of resources, a particular technical-trader arrangement, and a simplified dealer mechanism. Conservation, round-trip consistency, and longer controls do not establish realism, actual-crash prediction, or a stationary long-run market.
+
+TOTALS: severity-3 = 0; severity-2 = 1; severity-1 = 0.

@@ -1,0 +1,21 @@
+results.P5.S1 | PURPOSE | 1 | premise sounds backwards; "completing fewer sales"
+results.P5.S2 | REFERENT | 1 | reads like new experiment; same campaign as P2
+results.P5.S3 | REREAD | 1 | "every starting market reached a majority at every tested depth" | both conditions? h=0?
+results.P5.S3 | PURPOSE | 1 | held drawdowns not reported
+results.P5.S4 | ORDER | 2 | "Additional depths at the same fraction ... 48.62% at dealer depth h=40" | depths out of order; 400 outside range
+results.P5.S6 | REREAD | 2 | "no-switch controls at dealer depth h=0.1 already had a median drawdown of 77.04%" | no mechanism; h=1 missing
+results.P5.S7 | INCONSISTENT | 2 | "22.96 percentage points at dealer depth h=0.1 and 24.39 at h=100" | ceiling; conflicts with closer
+results.P5.S8 | ORDER | 1 | answers S1 hypothesis late; units change
+results.P5.S9 | PURPOSE | 1 | "limit" double meaning; zero drawdown by construction
+results.P5.S10 | PURPOSE | 2 | "while the price followed distinct paths" | no finding
+results.P5.S11 | REREAD | 2 | "once a majority formed ... in switched markets and in their controls" | controls never formed majorities
+results.P6.S3 | ORDER | 1 | f=0.18 appears late, unexplained
+results.P6.S4 | PURPOSE | 2 | "the probability ranged from 0.54 to 0.80 across resource combinations" | no intervals
+results.P6.S5 | INCONSISTENT | 2 | "switched markets with share multipliers of 0.1, 1, and 10 had median drawdowns" | no controls
+results.P6.S5 | REREAD | 2 | "while the dealer's reserves set the price at which net selling could clear" | dealer not rescaled omitted
+results.P6.S6 | INCONSISTENT | 2 | "By contrast, raising the cash multiplier from 1 to 10 at dealer depth h=1" | two changes at once; saturated
+results.P6.S7 | PURPOSE | 1 | "low" unquantified; trader suppression never reported
+results.P6.S8 | INCONSISTENT | 2 | "depended on traders' cash and shares and on the dealer's reserves" | cash effect not shown
+results.P6.S9 | INCONSISTENT | 2 | "how many shares could change hands" | no volume data
+
+TOTALS: severity-3 = 0; severity-2 = 11; severity-1 = 8
