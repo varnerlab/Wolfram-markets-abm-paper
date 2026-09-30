@@ -1,0 +1,76 @@
+% One-slide M.Eng. pitch. All diagram elements are editable TikZ objects.
+% Design reference: earnings_trade_project/pitch-slide/earnings-pitch.tex.
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage{fontspec}
+\IfFontExistsTF{Helvetica Neue Light}{
+  \setsansfont{Helvetica Neue Light}[BoldFont={Helvetica Neue Medium},ItalicFont={Helvetica Neue Light Italic}]
+}{
+  \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic]
+}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{tikz}
+\usetheme{default}
+\definecolor{ink}{HTML}{333333}
+\definecolor{body}{HTML}{5E5E5E}
+\definecolor{coral}{HTML}{FF644E}
+\definecolor{coraltext}{HTML}{C84331}
+\definecolor{blue}{HTML}{3977A3}
+\definecolor{guide}{HTML}{D3D5D7}
+\setbeamercolor{normal text}{fg=body,bg=white}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\setlength{\parskip}{0pt}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\textblockorigin{0mm}{0mm}
+\hypersetup{pdftitle={Can empty sellers drive a selloff?}}
+\newcommand{\place}[4]{\begin{textblock*}{#3mm}(#1mm,#2mm)\raggedright #4\par\end{textblock*}}
+\begin{document}
+\begin{frame}[plain]
+\place{9}{6}{142}{{\fontsize{20.5}{24}\selectfont\bfseries\color{ink}Can empty sellers drive a selloff?}}
+\place{9}{19}{142}{{\fontsize{11}{14}\selectfont\color{ink}A trader can keep signaling Sell after its shares run out.}}
+\place{13}{29}{62}{{\centering\fontsize{10}{12}\selectfont\bfseries\color{coraltext}Current model\par}}
+\place{84}{29}{62}{{\centering\fontsize{10}{12}\selectfont\bfseries\color{blue}Proposed test\par}}
+
+\begin{tikzpicture}[remember picture,overlay]
+\begin{scope}[shift={(current page.north west)},x=1mm,y=-1mm]
+  % Both views show the same sender, who intends to sell and owns no shares.
+  % Small open circles are neighboring traders, with no outcomes assigned.
+  \foreach \cx/\col/\word in {44/coral/Sell,115/blue/Hold}{
+    \foreach \dx/\dy in {0/-11,-14/0,14/0,0/11}{
+      \draw[\col!65,line width=0.7pt] (\cx,47) -- (\cx+\dx,47+\dy);
+      \draw[guide,fill=white,line width=0.7pt] (\cx+\dx,47+\dy) circle[radius=1.8mm];
+    }
+    \fill[\col] (\cx,47) circle[radius=6.3mm];
+    \node[text=white,font=\fontsize{10}{12}\selectfont\bfseries,inner sep=0] at (\cx,47) {\word};
+  }
+  \draw[guide,line width=0.4pt] (79.5,35) -- (79.5,60);
+\end{scope}
+\end{tikzpicture}
+
+\place{15}{61.5}{58}{{\centering\fontsize{9}{11}\selectfont Neighbors read Sell\par}}
+\place{86}{61.5}{58}{{\centering\fontsize{9}{11}\selectfont Neighbors read Hold\par}}
+\place{9}{69}{142}{{\fontsize{10}{13}\selectfont\color{ink}Change only what neighbors see when a seller has no shares.\\Compare selling cascades, completed trades, and price drawdowns.}}
+\place{9}{81.5}{142}{{\fontsize{9.5}{12}\selectfont\color{ink}\textbf{\textcolor{coraltext}{Deliverables}}\quad Reproducible Julia code + a paper in arXiv format}}
+\place{9}{87}{142}{{\fontsize{5.5}{7}\selectfont Conceptual signal diagram, not simulation results.\hfill Cornell Engineering\quad M.Eng. project}}
+\note{The current model lets a trader with no shares continue to send a Sell
+signal to its four neighbors. We ask whether that assumption sustains selling
+cascades. Students will keep the trader's intention and the corrected reserve
+clearing mechanism, but replace its visible Sell signal with Hold whenever it
+has zero shares after settlement. The diagrams show the same empty seller
+under the two observation rules. Neighboring circles do not show outcomes.
+Compare original and inventory-dependent visibility, each with and without
+the persistent rule switch, from the same market history. Measure raw
+intentions, completed trades, and drawdown separately. Holding technical
+traders removes their price-response channel, but inventory-dependent
+visibility introduces a new channel from holdings to later intentions.
+The hypothesis is reduced spread, but the nonmonotone rule table also allows
+amplification. Deliverables are tested Julia code, reproducible experiments,
+and a paper in arXiv format. Proposed scope: 3--4 students, 14 weeks.
+Sources: paper-arxiv/sections/discussion.tex, explicit visibility limitation;
+paper-arxiv/sections/methods.tex, state codes, timing, and paired controls;
+code/src/Simulate.jl and code/src/ReserveClearing.jl, current implementation.
+Repository inspected September 28, 2026, commit 81cfd17.}
+\end{frame}
+\end{document}

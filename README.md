@@ -1,5 +1,9 @@
 # Wolfram cellular-automaton market
 
+An [M.Eng. project proposal](meng-project/README.md) explores whether selling
+cascades depend on traders with no shares continuing to signal Sell. It includes
+a LaTeX project description and a one-slide pitch in PDF and PowerPoint formats.
+
 The manuscript uses a finite constant-product dealer with uniform batch
 execution. Every retained experiment, including held-decision financial
 histories, was recomputed from empty output directories after the

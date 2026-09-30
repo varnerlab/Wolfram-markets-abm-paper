@@ -1,0 +1,140 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.76in,headheight=14pt,headsep=18pt,footskip=25pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{texgyrepagella}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,enumitem,microtype}
+\usepackage{xcolor,titlesec,fancyhdr}
+\definecolor{ink}{HTML}{333333}
+\definecolor{accent}{HTML}{B94132}
+\definecolor{muted}{HTML}{666666}
+\usepackage[colorlinks=true,allcolors=accent]{hyperref}
+\hypersetup{pdftitle={When Traders Run Out of Shares: M.Eng. Project Proposal}}
+\titleformat{\section}{\sffamily\large\bfseries\color{ink}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{11pt}{5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[itemize]{leftmargin=15pt,itemsep=3pt,topsep=3pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\sffamily\footnotesize\color{muted}CORNELL UNIVERSITY \quad MASTER OF ENGINEERING}
+\fancyhead[R]{\sffamily\footnotesize\color{muted}PROJECT PROPOSAL}
+\fancyfoot[L]{\sffamily\footnotesize\color{muted}When traders run out of shares}
+\fancyfoot[R]{\sffamily\footnotesize\color{muted}\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\newcommand{\lead}[1]{\textbf{\textcolor{ink}{#1}}}
+\newcommand{\codepath}[1]{{\footnotesize\nolinkurl{#1}}}
+\begin{document}
+{\sffamily\fontsize{27}{31}\selectfont\bfseries\color{ink}When Traders Run Out of Shares\par}
+\vspace{3pt}
+{\sffamily\large\color{accent}Do unbacked sell signals sustain selling cascades?\par}
+\vspace{8pt}
+{\sffamily\small Proposed scope: 3--4 students, one 14-week semester.\par}
+
+\section{Project objective}
+A trader who has sold every share can still urge others to sell. In this repository's simulated market, that trader continues to influence its neighbors exactly as a seller with shares would. This project asks whether widespread selling and the resulting price declines depend on that assumption. The team will extend the Julia simulator so that a Sell intention becomes a Hold signal to neighbors whenever its sender has no shares, then compare the two observation rules in otherwise matched markets.
+
+The engineering contribution is a tested separation between what a trader intends, what its neighbors observe, and what it actually trades. The scientific contribution is to establish how much the reported selling cascades depend on allowing traders to influence others after they exhaust their inventory. The project succeeds by resolving that sensitivity over a defined set of experiments, including if the new observation rule leaves the main findings unchanged.
+
+\section{Starting point and unresolved issue}
+The current manuscript, \emph{When Selling Spreads}, represents traders on a square grid [1]. Interior traders choose Buy, Hold, or Sell from the sum of their four neighbors' states. A persistent change in one response of the decision rule, assigned to a minority of traders, can produce a Sell majority. Technical traders on the edge respond to price, while a finite dealer executes trades using a constant-product reserve curve. Cash and shares constrain completed orders. They do not constrain the intentions that neighbors observe.
+
+The manuscript explicitly identifies resource-dependent visibility as untested in its Discussion [1]. This matters because a Sell majority counts intentions even when many sellers cannot supply another share. A persistent social signal may therefore outlast the trading capacity that initially supported it. The existing advice and following experiments study other ways signals pass between traders [4]; they do not answer this specific question about inventory-dependent visibility of local Sell intentions.
+
+The corrected reserve mechanism is essential to this project. The repository retains an older execution model for historical reproduction, but that model permitted profitable isolated round trips. Start from the corrected study and explicitly select \texttt{clearing=:reserve} [2,3]. Preserve its settlement rules while changing the information supplied to neighboring traders.
+
+\section{Research questions}
+\begin{itemize}
+\item \lead{Spread:} Does replacing an empty seller's visible Sell signal with Hold change the fraction of traders who eventually intend to sell or the probability of a Sell majority?
+\item \lead{Price consequence:} Does the change in intentions coincide with changes in completed sales and maximum price drawdown?
+\item \lead{Feedback:} Can inventory-dependent visibility make financial resources affect later decisions even when technical traders remain in Hold?
+\end{itemize}
+The hypothesis is that unbacked Sell signals sustain selling. The rule table is not monotone in the neighbor sum, so replacing Sell with Hold could also amplify a cascade.
+
+\newpage
+\section{A precise change to what neighbors observe}
+Keep the existing state codes: Buy $=0$, Hold $=1$, and Sell $=2$. Let $s_j^{\rm in}(t)$ denote the state that neighbor $j$ would normally supply to the interior update at step $t$. As in the manuscript, it uses the previous interior intentions and the newly updated technical-trader intentions. Let $q_j(t)$ be that trader's shares after the current step's trades settle. Define the visible signal under observation mode $v$ as
+\begin{equation}
+ b_j^{(v)}(t)=
+ \begin{cases}
+  1, & v=\mathrm{inventory},\ s_j^{\rm in}(t)=2,\ q_j(t)=0,\\
+  s_j^{\rm in}(t), & \text{otherwise}.
+ \end{cases}
+ \label{eq:signal}
+\end{equation}
+In the original mode, $v=\mathrm{original}$, every intention remains visible. In the proposed inventory mode, a trader with no shares communicates Hold in place of Sell. For interior trader $i$, the next intention is
+\begin{equation}
+ s_i(t+1)=R_i\!\left(\sum_{j\in\partial i}b_j^{(v)}(t)\right),
+ \label{eq:update}
+\end{equation}
+where $\partial i$ contains its four neighbors and $R_i$ is its assigned lookup table. Retain baseline Rule~19280 and switched Rule~19286, which differ only at neighbor sum 1. Hold contributes 1 to the sum. It is not the same as removing a neighbor or substituting the code for Buy.
+
+\lead{Timing and scope.} Execute orders from the existing intentions, settle cash and shares, update technical-trader intentions, construct a separate visible-signal array, and then update all interior intentions together. Apply Eq.~\eqref{eq:signal} to every potential sender, including active technical traders. Held technical traders and unused edge sites continue to communicate Hold. An agent that sells its last share loses its visible Sell signal for this subsequent decision update. An agent that acquires a share can again communicate Sell when it has that intention. No future clearing price enters the visibility decision.
+
+This change affects neighbor inputs only. It does not overwrite the sender's stored intention, cancel an already completed trade, or force a different order directly. Keep Buy signals unchanged in the core study. Sale feasibility is exact with integer holdings and unit orders; buy affordability depends on the endogenous batch price. Extending visibility to buyers would therefore introduce another modeling choice and belongs in a later study. Use zero fees and allow sales below purchase cost, matching the main manuscript's baseline.
+
+\section{Measurements that keep decisions and trades separate}
+Record the raw Sell fraction $m(t)$ among interior traders after each decision update, using stored intentions rather than the masked signal array. A majority occurs if $m(t)\geq0.5$ at least once during the observation period. Also measure the mean Sell fraction over the final 500 steps, the visible interior Sell fraction just before each decision update, and the fraction of raw input Sell intentions whose senders have zero shares. Label these measurement times explicitly.
+
+For each run, report completed sales per interior trader, the fraction of desired sales suppressed for lack of shares, and the dealer's rejection fraction. Keep technical-trader orders separately available. Calculate maximum drawdown from the quoted price series,
+\begin{equation}
+ D=\max_{0\leq t\leq T}\left(1-\frac{P_t}{\max_{0\leq u\leq t}P_u}\right),
+\end{equation}
+with $t=0$ the quote immediately before the intervention. A reduction in visible Sell signals alone is a mechanical consequence of the mask. Evidence about cascade propagation must use subsequent raw intentions, and evidence about price consequences must use trades and drawdown.
+
+\newpage
+\section{Controlled experiments and analysis}
+\lead{Common history, four branches.} Run the original observation rule for a 1,000-step baseline. At step 1,001, branch into original or inventory-dependent visibility, each with or without the persistent rule switch. Every branch retains the same pre-intervention intentions, cash, shares, dealer reserves, technical-trader state, and random-stream state. Activate the visibility change in its no-switch control as well. This separates the effect of changing visibility from its effect on the response to the rule switch. It tests a change introduced into an established market; a smaller follow-up with inventory-dependent visibility from initialization can assess sensitivity to this choice.
+
+Use the manuscript's initial holdings of 1,000 cash units and ten shares per trader. Start with a $64\times64$ grid and observe 3,000 post-baseline steps. The proposed main design uses 50 fresh starting-market seeds, two visibility modes, technical traders held or active, dealer depths $h\in\{1,100\}$, and switched fractions $f\in\{0.10,0.175,0.20,0.25\}$. Here $h$ is initial dealer shares per trader, with matching initial cash at $P_0=100$. Include one no-switch control per visibility, depth, boundary condition, and seed, shared across fractions. This gives $50\times2\times2\times2\times(4+1)=2{,}000$ full trajectories. Use the same selected trader set across matched branches at each fraction.
+
+\lead{Primary comparison.} Before confirmation, freeze $f=0.20$, $h=100$, held technical traders, and the late mean raw Sell fraction as the primary setting and outcome. For outcome $Y$, seed $r$, and visibility mode $v$, form the rule-switch effect
+\begin{align}
+ \delta_{r,v}(Y)&=Y_{r,v,\mathrm{switch}}-Y_{r,v,\mathrm{no\ switch}},\\
+ \Delta(Y)&=\frac{1}{n}\sum_{r=1}^{n}
+       [\delta_{r,\mathrm{inventory}}(Y)-\delta_{r,\mathrm{original}}(Y)].
+\end{align}
+A negative $\Delta$ means that inventory-dependent visibility reduces the measured effect of the switch. Report all four branch means alongside this contrast. Use the same paired contrast for majority indicators and drawdown as secondary outcomes. Estimate 95\% intervals by resampling whole starting-market seeds, keeping their matched branches and shared controls together. Time steps and individual traders are not independent experimental replicates.
+
+\lead{Mechanism and robustness.} In the original held condition, changing financial resources cannot change interior intentions. Inventory-dependent visibility adds a possible route from holdings to observed signals to later decisions, so that independence is no longer an expected invariant. Compare both dealer depths and inspect the sequence of inventory exhaustion, masked signals, and subsequent intentions. Use an exploratory inventory-rescaling comparison with recorded external share transfers if additional evidence is needed. Such interventions change the market's starting resources and must not be described as conserved trading steps. Extend selected parameter cells to 6,000 steps and a second grid size if runtime permits, preserving all paired controls and reporting censored majority-onset times.
+
+\section{Verification and a feasible computing budget}
+Reproduce selected corrected baselines and time ten pilot seeds excluded from confirmation. Estimate compute and storage needs before scaling. If necessary, retain the primary setting with 50 seeds and reduce secondary cells. Freeze the final manifest before confirmation. Save summaries for all runs and detailed histories for a prespecified subset. The full manuscript rerun is not a prerequisite.
+
+Test exact recovery with visibility disabled, unchanged signals when every seller has shares, and the last-share and share-reacquisition cases. Verify update timing, seed pairing, nonnegative holdings, conservation of total cash and shares, and the dealer reserve product within numerical tolerance. Preserve the existing reserve-clearing and round-trip checks. A finance-free decision kernel is not valid for the inventory-dependent mode, even with technical traders held.
+
+\newpage
+\section{Team plan and expected deliverables}
+Suggested responsibilities cover simulation and accounting, experiment design, statistical analysis, and visualization and writing. Use Julia for the model and the repository's Python tools for analysis. Students should reproduce one another's results. Keep new outputs separate from the corrected study's frozen source and results.
+
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}p{0.12\linewidth}X@{}}
+\toprule
+\sffamily\bfseries Weeks & \sffamily\bfseries Reviewable outcome \\
+\midrule
+1--2 & Reproduce selected reserve-model baselines. Audit update timing, benchmark pilot runs, and freeze the core experiment and measurement definitions. \\
+3--5 & Implement the separate visible-signal layer and meaningful regression tests. Demonstrate exact baseline recovery and the last-share transition. \\
+6--8 & Run the pilot, finalize the compute budget, and freeze a confirmation manifest with fresh seeds. Produce paired analyses and diagnostic figures. \\
+9--11 & Execute the confirmation study. Complete the primary contrast, secondary comparisons, and feasible horizon or size checks. \\
+12--14 & Deliver a reproducible code release, a written research report in arXiv format, and a demonstration explaining the mechanism and its limits. \\
+\bottomrule
+\end{tabularx}
+
+\lead{Required outputs.} Deliver (i) a tested Julia observation layer with original and inventory-dependent modes; (ii) a versioned experiment manifest, environment, seed list, and run summaries; (iii) figures comparing raw intentions, visible signals, executions, and drawdown across matched branches; and (iv) a paper draft that states how the visibility assumption changes the conclusions. A runnable small example must rebuild the core comparison without launching the full campaign. Submission to arXiv is a later advisor decision.
+
+\lead{Success criteria.} The implementation must recover the original simulator when the mask is off, pass settlement checks, and reproduce its own results from saved configurations. The study must report the primary paired effect with uncertainty and account for missing or failed runs. A confidence interval containing zero does not establish equivalence. If the estimate is imprecise, report the range of effects still compatible with the experiment. An attenuated cascade, an amplified cascade, or a well-resolved small effect can each support a successful M.Eng. project.
+
+\lead{Scope limits.} The study changes one sell-side observation assumption in finite simulated markets. Strategy learning, alternative networks, order books, and market calibration remain outside its scope. Influence without share ownership can be a reasonable representation of communicated opinions. The experiment establishes the consequences of that choice rather than declaring one observation rule universally correct.
+
+\section{Repository sources and implementation entry points}
+{\footnotesize\setlength{\parskip}{4pt}
+[1] \emph{When Selling Spreads} (current manuscript), \codepath{paper-arxiv/Paper_v1.tex}. Its Discussion identifies the visibility limitation; its Methods define state codes, update order, pairing, and outcomes.
+
+[2] \codepath{code/rebuild/README.md} and the protocol in \codepath{output/rebuilt/manuscript-reserve-v1/}. Corrected-study reproduction and execution settings. Start from its frozen source snapshot.
+
+[3] \codepath{code/src/Simulate.jl} and \codepath{code/src/ReserveClearing.jl}. Local decision updates, order eligibility, holdings, and settlement.
+
+[4] \codepath{code/repaired/README.md} and \codepath{code/src/Following.jl}. Related advice and local-influence experiments and reusable instrumentation.
+
+\textcolor{muted}{Sources reviewed September 28, 2026, commit \texttt{81cfd17}. All paths are relative to the repository root. No new simulations are reported.}
+}
+\end{document}
