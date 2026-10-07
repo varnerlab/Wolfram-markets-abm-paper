@@ -1,433 +1,584 @@
 # Simulated Peer Review
 
-**Manuscript:** A local rule switch destabilizes a cellular automaton market model with finite dealer capacity
+**Manuscript:** When Selling Spreads: Local Decisions, Limited Resources, and Market Crashes in a Simulated Market
 **Author:** Jeffrey D. Varner (Cornell University)
-**Reviewed against:** `paper-arxiv/Paper_v1.tex` at commit `0870d82` (26 pp., 6 figures, 4 supplementary tables, 164 bib entries)
-**Assumed venue tier:** mid-to-high-tier computational/complexity outlet (*Journal of Economic Dynamics and Control*, *Quantitative Finance*, *Physica A*, *JASSS*, *Physical Review E*)
+**Reviewed against:** `paper-arxiv/Paper_v1.tex` and `paper-arxiv/sections/*.tex` at HEAD `1e6a543` (37 pp., 6 figures, Supplementary Tables S1–S14, Algorithms S1–S2)
+**Assumed venue tier:** mid-to-high-tier computational economics / complex-systems journal (e.g., *Journal of Economic Dynamics and Control*, *Journal of Economic Interaction and Coordination*, *Physical Review E*)
+**Date:** 2026-10-02
 
-> **Note on reviewer selection.** The reviewer personas supplied with the `/peer-review` skill are
-> written for a metabolic-engineering manuscript (FBA/FVA/sampling, CFPS, Hopfield networks) and
-> name *Metabolic Engineering* / *PLoS Comput Biol* as the target venues. Those personas cannot
-> produce accurate critique of a cellular-automaton market model, and the skill's own domain-accuracy
-> rule forbids inventing claims outside the reviewer's competence. The three-tier severity structure,
-> the review format, and the 95%-confidence rule are preserved exactly; the expertise has been
-> mapped to this paper's field.
-
----
-
-## Reviewer 1 (Moderate) — Agent-based computational economics / complex systems
-
-### Summary
-
-The paper asks whether switching one entry of a local update rule, mid-run, can destabilize a market
-model that was stable immediately beforehand, and separates that spatial question from the financial
-constraints that translate it into a price move. The paired design, in which a switched path and a
-matched no-switch path evolve from a bit-identical realized state, is the paper's main methodological
-contribution and it is executed carefully. I am broadly positive: the central experiment is sound and
-unusually well controlled, but the generality of the result rests on a single rule pair, and several
-reported quantities are quoted more precisely than the sampling design supports.
-
-### Strengths
-
-1. **The paired mid-run intervention is genuinely well controlled.** Both paths share the lattice,
-   trader books, dealer ledger, quote, adaptive bands, and target sites through step 1,000, and the
-   appendix reports that pre-switch equality was asserted bit-for-bit for every pair, including the
-   Sell-fraction history, edge coordinates, band widths, and the price history through the first
-   post-switch quote. Most ABM papers that claim a counterfactual do far less than this.
-
-2. **The held-boundary control yields an exact null, not a statistical one.** The finding that the
-   held-boundary lattice path is bit-identical across all dealer capacities and across all nine
-   cash-share interventions within a cell is a much stronger statement than "no significant
-   difference," and it cleanly licenses the claim that financial variables reach the lattice only
-   through price feedback.
-
-3. **Prespecified selection of displayed runs.** Choosing the time-sliced panels from ensemble
-   summaries *before* inspecting any lattice image, with a stated tie-break rule (nearest the subgroup
-   median onset for crossing runs, nearest median final Sell fraction otherwise), removes the usual
-   worry that the pretty lattice pictures were cherry-picked. This deserves to be highlighted rather
-   than buried in the Methods.
-
-4. **The separation of agent suppression from dealer rejection is a real contribution.** Distinguishing
-   an order that never enters the market (trader lacks cash or shares) from an eligible order the
-   dealer cannot absorb is the paper's most transferable idea, and the appendix is right that collapsing
-   them would let a financial constraint silently rewrite a behavioral state.
-
-5. **Honest disclaimers.** The paper explicitly declines to claim classical nucleation (no free-energy
-   barrier, activation rate, surface tension, or critical droplet) and explicitly declines to claim an
-   equilibrium critical point from five sizes at a fixed horizon. This restraint is welcome and I would
-   not want it weakened in revision.
-
-### Weaknesses
-
-1. **One rule pair supports the entire generality claim.** The results rest on Rule 19280 to Rule 19286,
-   differing at the single sum c=1. The Discussion acknowledges this and even proposes the fix, but the
-   paper as written cannot distinguish "single-entry rule switches destabilize this model" from "this
-   particular entry does." Since c=1 is reached only by the unique neighborhood of three Buy cells and
-   one Hold cell, the switched entry is also the least ambiguous entry in the whole table, which may make
-   it unrepresentative. *Fix:* screen the single-entry neighbors of the baseline systematically (see
-   Requested Analyses 1); this is a small amount of compute and would convert the central claim from an
-   instance to a class.
-
-2. **Four-decimal midpoints and widths are quoted from a coarse grid.** The interpolated midpoints
-   (0.2181, 0.1926, 0.1777, 0.1681, 0.1665) and widths (0.0275 down to 0.0082) carry four decimals with
-   no uncertainty attached, but each underlying probability is a binomial estimate on 50 seeds whose
-   standard error near p=0.5 is about 0.07. *Fix:* bootstrap over seeds and report the midpoint and
-   width with intervals, or reduce the reported precision to what 50 seeds supports.
-
-3. **The transition threshold is never varied.** A run counts as transitioned when the interior Sell
-   fraction reaches 0.5 at least once. Since crossing runs end with final-window means of 0.81 to 0.87,
-   I expect the results are robust, but the paper should demonstrate rather than assume this. *Fix:* a
-   one-paragraph sensitivity check at thresholds 0.4 and 0.6, reported in the appendix.
-
-4. **The economic reading of the rule table is left to the reader.** The paper states that the numerical
-   state labels enter the dynamics through both the neighborhood sum and the rule table, but never
-   argues why a trader's next action should depend on the arithmetic sum of neighbor labels. A reader
-   from economics will want one or two sentences connecting the totalistic form to an interpretable
-   behavioral story, even if the answer is that it is a deliberately minimal abstraction.
-
-5. **Reproducibility gap in the deposited artifact.** `code/data/*.csv` is excluded by `.gitignore`,
-   and while roughly forty derived files were force-added, `ModelB-RuleQuench-Full-Summary.csv` was
-   not. That is the source for Table S2, so the median onsets and the paired-switch probabilities
-   cannot be regenerated from a fresh clone. *Fix:* add the file, or state in the appendix which
-   campaign script regenerates it.
-
-### Questions for Authors
-
-1. Is the activation window a property of the c=1 entry specifically, or of single-entry perturbations
-   to this baseline generally? Have you looked at any other entry, even informally?
-2. Rule 19280 sends c=0 to Sell, so an all-Buy lattice is unstable while all-Sell is absorbing. How
-   close is the baseline steady state (interior Sell fraction near 0.25) to the basin boundary, and does
-   the switch move the system across a boundary that was already nearby?
-3. The no-switch controls never transition in 3,000 steps. Do they ever transition at much longer
-   horizons, or is the baseline genuinely metastable on all reachable timescales?
-4. Why 1,000 baseline steps? Is the pre-switch state stationary by then, and how was that checked?
-
-### Requested Experiments / Analyses
-
-1. **Single-entry rule screen.** Hold the baseline fixed and, for each of the eight other neighborhood
-   sums, switch that entry to each of the two alternative outputs, running the same paired protocol at
-   a few fractions on L=64. This is on the order of a few hundred additional runs and directly answers
-   the generality question the Discussion raises.
-2. **Threshold and horizon sensitivity.** Report transition probability at majority thresholds of 0.4,
-   0.5, and 0.6, and report how the L=64 transition curve moves between horizons of 3,000 and, say,
-   9,000 post-activation steps.
-3. **Bootstrap intervals on the interpolated quantities.** Resample seeds with replacement, recompute
-   the midpoint and width per resample, and report percentile intervals in Table S3.
-
-### Minor Comments
-
-1. The Results state that capacity h=10 reproduced the unlimited path, and Fig. 2's caption says the
-   series is omitted for that reason. Consider plotting it as a dashed overlay so the reader sees the
-   coincidence rather than being told about it.
-2. "Dealer capacity had a larger effect on drawdown and rejected orders than on the spatial transition"
-   is the paper's summary of a result that includes a factor of 2.4 in transition probability at
-   f=0.175. Consider softening or quantifying the comparison.
-3. Table S3 reports the fraction at the susceptibility peak, but that fraction is a sampled grid point,
-   so its resolution is the grid spacing. Worth a footnote.
-4. The Conclusion is a single short paragraph; for this venue a slightly fuller close, naming the two
-   questions and their answers, would serve the reader better.
-
-### Recommendation
-
-**Minor Revision.** The core experiment is sound and the controls are strong. The rule screen and the
-uncertainty quantification are the two things I would want before publication, and both are inexpensive.
+> **Note on reviewer selection.** The `/peer-review` skill's personas are written for a
+> metabolic-engineering manuscript (FBA/FVA, CFPS, MCMC). They cannot give accurate critique of a
+> cellular-automaton market model, and the skill's domain-accuracy rule forbids critique outside the
+> reviewer's competence. The three severity tiers, the review format, and the 95%-confidence rule are
+> kept; the expertise is mapped to this paper's field.
+>
+> **Note on verification.** Every numerical statement below was checked against the manuscript
+> source, the archived run summaries in `output/rebuilt/manuscript-reserve-v1/code/data/`, or a short
+> independent calculation. The appendix lists what was checked and how.
 
 ---
 
-## Reviewer 2 (Hard) — Nonequilibrium statistical mechanics, lattice models, finite-size analysis
+## Reviewer 1 — Moderate
+
+*Senior researcher in agent-based computational finance; generally supportive of new simulation
+methods; evaluates soundness, clarity, and fit.*
 
 ### Summary
 
-The paper reports a finite-time crossover in a three-state totalistic cellular automaton subjected to a
-mid-run single-entry rule switch, and claims the crossover sharpens with system size while explicitly
-declining to claim an equilibrium critical point. The paired protocol and the exact held-boundary
-invariance are done properly. My concerns are quantitative: the headline finite-size numbers are
-reported at a precision the sampling grid cannot resolve, the fixed observation horizon is confounded
-with system size, and several structural parameters that determine the reported price magnitudes are
-never varied.
+The manuscript builds a three-state cellular-automaton market in which interior traders respond to
+their four neighbors, edge "technical traders" respond to a quoted price, and orders clear against a
+constant-product dealer with finite reserves. Paired experiments switch a single lookup-table entry
+(Rule 19280 → 19286) for a fraction *f* of traders and show that a Sell majority forms above a
+size- and time-dependent crossover even when no decision responds to price. The paper then shows
+that dealer depth and trader holdings, not the majority itself, set the price decline. The work is
+carefully controlled and unusually transparent about its limits. My concerns are mostly about
+reporting quantities the model already records and explaining mechanisms the reader currently has
+to infer.
 
 ### Strengths
 
-1. The exact invariance of the held-boundary lattice to dealer capacity, and to all nine balance-sheet
-   interventions, is a genuine exact null and is the strongest single piece of evidence in the paper.
-2. The rationing scheme is well designed for a paired study: a SplitMix64 score keyed by seed, step,
-   trader, and side gives reproducible priority without consuming draws from the generator that built
-   the lattice, and including the step prevents a trader from holding permanent priority.
-3. Reporting the ensemble susceptibility with an explicit definition, and refusing to fit a critical
-   exponent to five sizes, is the correct call and I would resist any reviewer pressure to reverse it.
-4. Conservation of cash and shares is checked separately before and after the intervention jump, with
-   the residual reported.
+1. **Paired design with shared history.** Each switched market shares its full pre-switch history
+   with a no-switch control, and post-switch dynamics are deterministic apart from hash-based
+   rationing (Appendix A.2). Each paired difference is therefore an exact effect for that starting
+   market (Table S2), which is cleaner than comparing independent ensembles.
+2. **A clean manipulation of price feedback.** The held/active contrast for technical traders,
+   together with the exact invariance checks (Appendix A.3–A.4, and an independent test oracle for
+   held updates), cleanly separates spread through neighbor responses from spread through price.
+3. **Intentions are separated from executions.** The model distinguishes desired orders, trader
+   suppression, and dealer rejection (Eqs. 3–5, Algorithm S2), and the authors draw the right
+   conclusion from it: a Sell majority and a price decline are separate outcomes.
+4. **Honest scoping of the crossover.** The authors decline to claim a threshold. They show that
+   $f_{50}$ moves with observation period and with the majority criterion (Table S10), and they
+   extend five example markets and all 50 markets at $f=0.15$ to 10,000 steps (Table S12).
+5. **Reproducibility and pre-specification.** A hash-verified rebuild, conservation checks after
+   every simulation, and two pre-specified, Bonferroni-adjusted endpoints for the following
+   experiments (Methods, "Following shared advice") are well above the norm for agent-based models
+   (ABMs).
 
 ### Weaknesses
 
-1. **The reported transition widths are at or below the local grid resolution, and the grid resolution
-   differs systematically between the two ends of the size series.** This is my central objection. At
-   L=32 the held-boundary curve has six sampled fractions strictly between 0 and 1, at local spacing
-   0.010 to 0.025, and the quoted width is 0.0275. At L=128 there are only **three** interior points
-   (f=0.160 at p=0.10, f=0.170 at p=0.72, f=0.175 at p=0.98) at local spacing 0.005 to 0.010, and the
-   quoted width is 0.0082. Both widths are comparable to or smaller than the spacing that produced
-   them, and f25 and f50 at L=128 are both obtained by linear interpolation inside the *single*
-   interval [0.160, 0.170]. The reported narrowing by a factor of 3.4 is therefore confounded with the
-   grid being two to three times finer, in absolute terms, where the L=128 transition happens to fall.
-   I believe the qualitative sharpening is real, because the susceptibility peak grows independently,
-   but the quoted magnitudes are not supported. *Fix:* adaptively refine each size's grid until a fixed
-   number of points (at least five) lie strictly between p=0.05 and p=0.95, then recompute widths and
-   attach bootstrap intervals.
-
-2. **Linear interpolation of a sigmoid across a 0.10-to-0.72 probability jump is a strong shape
-   assumption.** The Methods state the interpolation is linear. Across an interval where the
-   probability rises by 0.62, the true curve is markedly convex, so the quartile crossings are
-   systematically misplaced by an amount that is not estimated. *Fix:* fit a monotone parametric form
-   (probit or logistic in f) per size, report the fitted midpoint and width with standard errors, and
-   show the fit against the sampled points.
-
-3. **The observation horizon is fixed at 3,000 post-activation steps for every lattice size.** Domain
-   growth to a majority is a coarsening process whose time to span the system grows with L, yet the
-   window in which a run may cross is held constant. The measured midpoint therefore mixes a genuine
-   size dependence of the threshold with a size-dependent probability of *finishing in time*. The
-   Discussion lists size-scaled horizons as future work, but the finite-size midpoints are presented as
-   a result in the present tense. *Fix:* rerun at least L=32 and L=128 with horizons scaled as L^z for
-   two values of z, and show that the midpoint ordering is preserved.
-
-4. **The price-impact coefficient is fixed at a single value and drives every reported price
-   magnitude.** The Methods give lambda = 0.02 with no sensitivity analysis, and none of the four
-   campaigns varies it. Every drawdown number in the paper, including the 0.40% to 25.3% span that the
-   abstract and Discussion lean on, scales with this choice. *Fix:* a one-dimensional sweep in lambda
-   at f=0.20 across three dealer capacities, reported in the appendix, showing whether the *ordering*
-   in h is invariant even though the magnitudes are not.
-
-5. **The susceptibility is plotted on logarithmic axes while a scaling fit is declined.** Fig. 3D shows
-   peak susceptibility against lattice size on log axes, which invites the reader to extract a slope
-   (the sampled values imply roughly L^1.7), while the caption states that no asymptotic scaling law
-   was fitted. This is somewhat having it both ways. *Fix:* either attach the apparent slope with an
-   honest uncertainty and an explicit statement that it is a finite-size effective exponent, or plot on
-   linear axes.
-
-6. **No uncertainty is propagated into any interpolated quantity.** Wilson intervals are computed for
-   the raw probabilities, which is correct, but f50, the width, and the susceptibility peak are all
-   reported as point values. Given 50 seeds this is the dominant unreported uncertainty in the paper.
+1. **Trader suppression is defined but never reported, although it is the dominant execution
+   channel.** Methods defines trader suppression as orders blocked by missing cash or shares and
+   says suppressed counts were recorded. Results, Discussion, and the figures report only dealer
+   rejection, at 0.6–226 per million eligible orders (Fig. 2D, Fig. 6C). The archived summaries show
+   a median sell-suppression fraction of about 0.40 in majority-reaching runs at $f=0.18$
+   (unchanged resources, all three depths, both conditions), against about 0.12–0.16 in runs without
+   a majority. Buy suppression is 0.39–0.46 in every condition. So a large share of the "Sell
+   majority" consists of traders who cannot sell, and about 40% of buy orders fail for lack of cash
+   even in controls. *Fix:* report suppression next to rejection (one panel or one table column),
+   and add a sentence in Results on what fraction of Sell intentions could be executed after onset.
+2. **The price plateau in Fig. 4B is unexplained.** All four majority markets in Fig. 4B level off
+   at almost the same relative price, 0.735–0.745 of the switch price (Table S12A price changes of −25.49% to −26.48%). This holds whatever the
+   fraction (0.175–0.20) and onset time (1,028–4,073 steps), and Table S12A gives 10,000-step
+   drawdowns of 25.51–26.50% for all four. Readers will want to know why a majority always ends at
+   the same price. Reviewer 2 gives the explanation, a conservation bound. *Fix:* state the
+   mechanism in Results where Fig. 4B is first discussed.
+3. **The mechanism behind follower gains is asserted, not shown.** The masked comparison
+   establishes that influence on neighbors accounts for most of the gain (23.82 pp, Table S14A).
+   It does not show how influence becomes cash: who buys from whom, and at what prices. Two
+   entries in Table S14A also need explanation. Followers lose 12.52 pp at $h=1$ with technical
+   traders held even when masked, and their loss at $h=1$ with technical traders active is larger
+   with influence (−18.08) than without it (−12.71). *Fix:* decompose follower and non-follower
+   outcomes into mean purchase price, mean sale price, completed-trade counts, and holdings at the
+   end of the following period.
+4. **The choice of Rule 19286 is not justified, and the screen shows it is the weakest effective
+   change.** In Table S7, four single-entry changes (19307, 19334, 19361, 19523) reach a majority in
+   every market already at $f=0.15$, and 19298 does so in 95%. Only 19286 needs $f\ge0.20$. The
+   headline crossover near $f\approx0.18$ is therefore specific to the least potent of the six
+   changes that work. *Fix:* say why 19286 was chosen (for example, that its crossover falls inside
+   the tested range), and state in the Discussion that the crossover location is rule-specific.
+5. **The abstract's fee claim rests on "selected" comparisons.** Table S13B lists three "selected
+   paired comparisons" and gives no rule for selecting them. The caption says the full set is
+   archived but not shown. *Fix:* include all paired differences (6 fractions × 3 depths × 2
+   conditions × 3 rates) as a supplementary table or a compact heat map, so the reader can see how
+   often fees deepen rather than reduce declines.
 
 ### Questions for Authors
 
-1. What is the standard error on the peak susceptibility? A variance estimated from 50 seeds carries a
-   relative error near 20%, which is comparable to some of the differences between adjacent sizes.
-2. Is the susceptibility computed on the final 500-step window mean for every size, and if so, has the
-   final window equilibrated at L=128 within a 3,000-step horizon?
-3. Does the transition curve at fixed L converge as the horizon grows, and if so at what horizon?
-4. Why 50 seeds? Was this chosen from a power calculation, or by compute budget?
-5. The finite-size campaign uses per-trader dealer capacity, so absolute capacity scales as L^2. Was a
-   fixed-absolute-capacity series also run, and does it change the size trend?
+1. Why was Rule 19280 chosen as the baseline? Is it typical among rules with a stable mixed state
+   near 25% Sell, or was it selected for some other property?
+2. When a majority first forms, what fraction of the traders in Sell hold zero shares? How long
+   after onset do most Sell intentions become unexecutable?
+3. With unchanged shares at $h=100$, raising cash tenfold raised the median drawdown from 20.18% to
+   28.48% (Results, resource paragraph). Is this because extra buying pushes the running peak
+   higher before the decline, rather than deepening the trough?
+4. What real-world situation do you have in mind for random, information-free advice shared by 40%
+   of traders, and does the 0.8 persistence probability correspond to anything observable?
 
-### Requested Experiments / Analyses
+### Requested Experiments/Analyses
 
-1. **Adaptive grid refinement near the transition, per size,** to at least five interior points per
-   curve, followed by recomputation of all midpoints and widths with bootstrap intervals. This is the
-   single most important addition.
-2. **Horizon-scaling check** at L=32 and L=128 with horizons proportional to L and to L^2, to separate
-   threshold drift from a finishing-in-time artifact.
-3. **Sweep in the price-impact coefficient** at f=0.20 over at least three values spanning a decade,
-   for h in {0.1, 1, infinity}, reporting whether the ordering of drawdowns in h is preserved.
-4. **Parametric fit of the transition curves** with reported standard errors, replacing or supplementing
-   the linear interpolation.
+1. A time series of sell- and buy-suppression fractions around majority onset, averaged over runs
+   aligned at onset, for $h=0.1$, 1, and 100. This uses existing data.
+2. The trade-level decomposition of follower and non-follower cash outcomes described in
+   Weakness 3, for the pre-specified condition (40%, one source, $h=100$, held) and for $h=1$.
 
 ### Minor Comments
 
-1. The susceptibility definition uses the prefactor (L-2)^2, the interior site count, which is correct
-   and should be stated as such in words next to the equation.
-2. Table S3 mixes conditions with different dealer capacities in one block; a horizontal rule between
-   condition groups is already present, but a column giving the number of interior points behind each
-   width would make the resolution issue visible to the reader.
-3. "Peak ensemble susceptibility increased from 21.2 to 232.7 while moving from f=0.225 to f=0.170"
-   compresses two distinct findings into one clause; consider splitting.
-4. State explicitly whether the 3,000-step horizon was fixed before the campaigns were run.
+1. Figure labels use different words from the text. Fig. 4 titles and legends say "seed 2" and
+   "Steps after rule change", and Fig. 1C says "Rule assigned". The text and captions say
+   "starting market" and "rule switch". Use one set of terms throughout.
+2. Drawdown units are inconsistent. Fig. 2C plots maximum drawdown as a fraction (0–1), while
+   Fig. 6B, the text, and every table use percent. The Fig. 2C y-label also omits "Median", which
+   the caption specifies.
+3. Fig. 2C (and 2D) connect $h=0$ to $h=0.1$ with a line on a categorical axis. The text treats
+   $h=0$ as a separate fixed-price case, so plot it as an unconnected point.
+4. In Table S5, the "0.175–0.195" average rows exclude 0.180, although 0.180 lies inside the
+   stated range. At $h=100$, for example, "Only active" = 31 = 13 + 13 + 4 + 1, which omits the
+   12 at 0.180. Relabel these rows "0.175, 0.185–0.195" or list the fractions.
+5. In the legends of Figs. 2A, 3A, and 6A, every series has the same black marker, so series can be
+   told apart only by line color. Color the legend markers to match.
 
 ### Recommendation
 
-**Major Revision.** The physics is plausible and the controls are sound, but the quantitative
-finite-size claims as written are not resolvable by the design that produced them. Items 1 and 2 in
-Requested Analyses must be addressed before I could support publication.
+**Minor Revision.**
 
 ---
 
-## Reviewer 3 (Very Hard) — Market microstructure and agent-based finance; author of competing models
+## Reviewer 2 — Hard
+
+*Expert in market microstructure, automated market makers, and the statistics of stochastic
+simulation; scrutinizes formulation, estimands, and controls.*
 
 ### Summary
 
-The paper claims a causal, within-model demonstration that activating one local behavior destabilizes a
-market path, and that dealer capacity governs the price consequence rather than the spatial instability.
-The engineering is careful. My difficulty is with what the design actually establishes: in a
-deterministic model whose two arms differ only in the intervention, divergence is guaranteed by
-construction, so the counterfactual apparatus proves less than the framing implies. Several results that
-complicate the headline narrative are reported but not confronted, and one modeling choice at the core
-of the model is left undefended.
+The dealer mechanism is correctly formulated: Eq. 8 follows from Eqs. 3 and 7, and the clearing rule
+is fully specified. The paired design is sound. However, several of the paper's financial findings
+are direct consequences of the constant-product invariant combined with share conservation, and the
+paper does not derive them. Presenting them as simulation outcomes overstates what the simulations
+add and hides a simple, quantitative explanation that would strengthen the paper. On the decision
+side, the main estimand (majority probability within a fixed horizon) depends on the horizon about
+as much as on grid size, and the paper's own data suggest a better one.
 
 ### Strengths
 
-1. The bit-identical pre-switch verification is real and is more than most comparable papers provide.
-2. Distinguishing agent-suppressed from dealer-rejected orders is a contribution I would use, and the
-   claim that an unlimited counterparty is a consequential rather than neutral assumption is well made.
-3. The paper resists the two overclaims most available to it, classical nucleation and an equilibrium
-   critical point, and says plainly what its evidence does not establish.
+1. **A fully specified clearing rule.** Uniform-price batch clearing selects the largest supported
+   net trade in the direction of initial excess demand (Eq. 4, Algorithm S2). The quoted-price
+   update $P_t=P_{t-1}[Q_{t-1}/(Q_{t-1}-x_t)]^2$ (Eq. 8) is algebraically correct given
+   $W_tQ_t=K$. Execution price and quoted price are kept distinct, which many ABMs blur.
+2. **Invariants enforced in code.** Cash, share, and reserve-product checks run after every
+   simulation, with stated tolerances (Appendix A.3), and the largest observed cash discrepancy is
+   reported (Appendix A.4).
+3. **Appropriate uncertainty quantification.** The bootstrap resamples whole starting markets and
+   keeps the pairing across fractions. Wilson intervals are used for proportions, and a logistic fit
+   checks the sensitivity of the interpolated midpoints. Methods also states plainly what the
+   intervals exclude (refinement-grid selection, interpolation error, horizon).
+4. **Confirmatory discipline in the following experiments.** Two endpoints were fixed before
+   simulation, with Bonferroni-adjusted intervals, and exploratory comparisons are labelled as such
+   and run on separate starting markets.
 
 ### Weaknesses
 
-1. **The counterfactual framing is over-dressed for a deterministic model.** The paper invokes
-   potential-outcome methods, common random numbers, and damage spreading to justify a paired design in
-   which the two arms differ *only* in the rule at the target sites, and everything downstream is
-   deterministic. Under those conditions any divergence is attributable to the intervention by
-   construction; no inference is required. What the design genuinely delivers is the *dose-response
-   relation* between the switched fraction and the outcome, and the magnitude of the effect, which is
-   valuable and does not need the causal-inference scaffolding. *Fix:* recast the contribution around
-   the threshold in f and the separation of stages, and reduce the potential-outcomes framing to a
-   sentence.
+1. **Drawdown magnitudes are largely fixed by a closed-form price floor that the paper never
+   states.** From Eqs. 7–8, $P_t=K/Q_t^2$ with $K=P_0H^2$. Shares are conserved (Appendix A.3), so
+   $Q_t\le H+\sum_i q_i(0)$, and with ten initial shares per trader:
 
-2. **The critical missing control is a behaviorally neutral perturbation of the same size.** The paper
-   controls against *no* perturbation (no-switch) and against *no price feedback* (held boundary), but
-   never against *a different perturbation of equal magnitude*. Without that, the reader cannot tell
-   whether the cascade is specific to what Rule 19286 does at c=1 or whether pushing any fraction f of
-   sites toward Sell, by any means, produces the same window. *Fix:* run at least two null
-   interventions at matched f: a one-time forcing of f sites into the Sell state with no rule change,
-   and a switch of f sites to a single-entry variant at a different neighborhood sum. If the activation
-   window survives both, the claim is much stronger; if the one-time forcing reproduces it, the paper's
-   central story changes materially.
+   $$P_t \;\ge\; P_0\left(\frac{h}{h+10}\right)^2 .$$
 
-3. **The non-monotone dealer effect is reported and then set aside.** At f=0.175 under the endogenous
-   boundary, transition probability runs 0.34 at h=0, rises to a peak of 0.66 at h=0.1, and then falls
-   monotonically through 0.56, 0.48, 0.30, 0.30, 0.28 to 0.28 at h=infinity. A *small* dealer therefore
-   roughly doubles the transition probability relative to both no dealer and an unlimited one. That is
-   the most surprising result in the paper and it is disposed of in one clause ("The response was not
-   monotone in dealer capacity"). It also sits awkwardly with the summary claim that dealer capacity had
-   a larger effect on drawdown than on the transition, since a factor of 2.4 in transition probability
-   is not a small effect. My suspicion, which the authors are better placed to test, is that the
-   adaptive band is responsible: an unlimited dealer produces large sustained price moves that inflate
-   the moving absolute deviation, widening the band and returning boundary traders to Hold, whereas a
-   small dealer produces moves that stay large *relative* to a small deviation. *Fix:* rerun the
-   capacity sweep with the band half-width frozen at a constant, and report whether the peak survives.
+   This bound is $0.826P_0$ at $h=100$, $0.25P_0$ at $h=10$, $0.0083P_0$ at $h=1$, and
+   $9.8\times10^{-5}P_0$ at $h=0.1$. A switched market that reaches a majority eventually sells most
+   trader shares into the dealer and approaches this floor. In the archived dealer-depth summaries
+   at $f=0.20$ with active technical traders, the dealer's median final inventory at $h=100$ is
+   107.7 shares per trader out of a possible 110. That implies a final price of about $0.86P_0$,
+   close to the $0.826P_0$ floor. The same bound explains:
+   - the near-identical plateau of the four majority markets in Fig. 4B (Reviewer 1, W2);
+   - the ordering of the $h=40$/100/400 drawdowns in Table S9 (48.62%, 25.15%, 7.08%), which follows
+     the corresponding floors of $0.64P_0$, $0.83P_0$, and $0.95P_0$. The drawdowns exceed
+     $1-P_{\rm floor}/P_0$ because they are measured from a running peak above $P_0$;
+   - the share-multiplier ordering in Fig. 6B (3.17% < 20.18% < 77.55% at $h=100$), because scaling
+     trader shares moves the floor;
+   - "a constant-product dealer never ran out of cash for buying" ($P>0$ for every finite $Q$).
 
-4. **The totalistic form conflates economically distinct neighborhoods.** With Buy=0, Hold=1, Sell=2 and
-   a four-neighbor sum, a site surrounded by two Holds and two Buys sees the same c=2 as a site
-   surrounded by one Sell and three Buys, and must respond identically. These are very different local
-   market conditions. I note that the switched entry itself is exempt, since c=1 is reached only by
-   three Buys and one Hold, and the authors correctly say so; but the baseline dynamics within which the
-   switch acts are built on the conflated entries. The paper needs either a defense of the totalistic
-   restriction or a demonstration that a non-totalistic rule with the same c=1 behavior gives the same
-   result.
+   This does not invalidate the results, but it changes their interpretation. In a majority market,
+   maximum drawdown mainly measures *how completely traders liquidate into the dealer* relative to
+   the pre-switch peak, and the dealer's reserves set the decline through an identity, not through
+   the dynamics. *Fix:* derive the bound in Methods. Plot observed drawdown against the bound
+   $1-P_{\rm floor}/P_{\rm peak}$ for the depth and resource campaigns. Report the fraction of
+   trader shares transferred to the dealer by onset and by the end of observation.
 
-5. **No comparison to any existing model, and the scope disclaimer is doing heavy lifting.** The paper
-   cites Lux-Marchesi, Bornholdt's Ising market, Kirman, and prior cellular-automaton market models, and
-   then declines comparison on the grounds that its question is narrower than reproducing stylized
-   facts. That is a legitimate scoping move, but it means no reader can situate the magnitude of the
-   effect against anything. At minimum, the paper should state what the baseline rule's stationary
-   interior Sell fraction is, what the unconditional return distribution looks like before activation,
-   and whether the pre-switch dynamics resemble any published model's calm regime.
+2. **The "transfer, not new wealth" result in the following experiments is an identity, and the
+   reported gain depends on an unexamined liquidation protocol.** With $\tau=0$ and full
+   liquidation, the dealer's final inventory $H+\sum_iq_i(0)$ is the same in every path, so its
+   final cash $K/(H+\sum_iq_i(0))$ is path-independent. Cash conservation then fixes total trader
+   cash. Any follower gain is therefore exactly other traders' loss in *every* run, by construction.
+   Results and Discussion present this as an observed outcome ("after every trader sold its
+   shares, the dealer's cash and the traders' total cash matched the no-following control"). The
+   distribution also depends on the liquidation rule. Every holder sells one share per step, with no
+   buyers, into a falling price, so a trader holding more shares at the end of following receives a
+   lower average price. At $h=1$, where the dealer holds about one share per trader against the
+   traders' ten, this penalty is severe. *Fix:* state the identity as a property of the mechanism.
+   Then report the follower outcome under at least one alternative valuation (mark-to-market at the
+   last quoted price before liquidation, or liquidation in random trader order) to show that the
+   sign and size of the 26.71 pp gain and the shallow-depth loss do not depend on the protocol.
 
-6. **"None of the matched no-switch controls reached a Sell majority" is a bounded statement presented
-   as an unbounded one.** It holds over 3,000 post-activation steps. Since all-Sell is absorbing and
-   c=0 maps to Sell, the reader needs to know whether the baseline is genuinely stable or merely slow.
-   *Fix:* run a small number of no-switch controls to 10^5 steps and report the outcome.
+3. **Dealer depth is confounded with trader holdings; the natural control parameter is their
+   ratio.** The floor above depends on $h$ only through $h/(h+\bar q)$, where $\bar q$ is shares
+   per trader. The share-multiplier ×10 run at $h=100$ (median drawdown 77.55%, $f=0.18$) therefore
+   sits near the unchanged-holdings run at $h=10$ (85.68%, $f=0.20$), which has a similar ratio. The
+   Discussion correctly notes that depth changes funding and price sensitivity together, but the
+   paper offers no way to separate them. *Fix:* (a) plot drawdown and paired drawdown increase
+   against $h/\bar q$ across the depth and resource campaigns and test for a collapse onto one
+   curve. (b) To separate sensitivity from funding, add a variant with virtual reserves,
+   $(W+W_v)(Q+Q_v)=K$, the form used by concentrated-liquidity AMMs. Its price sensitivity can be
+   changed while the real reserves available for trading stay fixed.
+
+4. **The main estimand depends on an arbitrary horizon, and the data point to a horizon-free one.**
+   Results states that $f_{50}$ "depended on observation time about as much as on grid size". Table
+   S10 suggests why: across all eight size–horizon combinations, $f_{50}$ never increases with
+   the space–time volume $(L-2)^2T$ (criterion 0.5, technical traders held):
+
+   | $L$ | $T$ | $(L-2)^2T$ | $f_{50}$ |
+   |---:|---:|---:|---:|
+   | 32 | 750 | 6.8×10⁵ | 0.249 |
+   | 32 | 1,500 | 1.4×10⁶ | 0.230 |
+   | 32 | 3,000 | 2.7×10⁶ | 0.219 |
+   | 64 | 3,000 | 1.2×10⁷ | 0.178 |
+   | 64 | 9,000 | 3.5×10⁷ | 0.167 |
+   | 128 | 3,000 | 4.8×10⁷ | 0.167 |
+   | 128 | 6,000 | 9.5×10⁷ | 0.157 |
+   | 128 | 12,000 | 1.9×10⁸ | 0.152 |
+
+   This ordering is what one expects if majorities start from rare local events whose rate scales
+   with area, so that grid size and horizon enter only through their product. *Fix:* analyze the
+   recorded onset times as time-to-event data. Report Kaplan–Meier survival curves by $f$ and $L$,
+   estimate the onset rate per unit time, and test whether it scales with $(L-2)^2$. If it does, a
+   per-site rate as a function of $f$ replaces a horizon-dependent probability, and it directly
+   addresses the open question in the Results of whether a limiting fraction exists.
+
+5. **The resource comparison has no no-switch controls, yet controls at shallow depth already
+   crash.** Table S2B shows median control drawdowns of 77.04% at $h=0.1$ and 32.92% at $h=1$. Most
+   of the Fig. 6B drawdowns at $h\le1$ therefore reflect baseline volatility rather than the switch,
+   and the paper's caveat ("its drawdowns describe switched markets rather than effects of the
+   switch") leaves the reader without an effect estimate. *Fix:* add the controls. That is 9
+   resource combinations × 3 depths × 2 conditions × 50 markets = 2,700 runs, a quarter of the
+   resource campaign's 10,800. Then report paired increases as in Table S2B.
+
+6. **The price-feedback effect is summarized with a fraction-dependent estimand.** The active-minus-
+   held difference at $h=100$ is 0.09 [0.02, 0.15] averaged over 0.175, 0.185, 0.19, and 0.195, and
+   0.04 [−0.02, 0.10] once 0.17 and 0.18 are added (Table S5). A conclusion that flips significance
+   when two fractions are added needs a fraction-independent estimand. The paper already has one:
+   the paired shift in $f_{50}$ between active and held. Tables S3 and S11 give 0.175–0.177 active
+   against 0.178 held at $L=64$. *Fix:* report the bootstrapped paired $f_{50}$ difference (same
+   starting markets in both arms) as the primary price-feedback estimand.
+
+7. **The fee results imply very high turnover that the paper does not report.** At 25 bp, $h=100$,
+   $f=0.20$, cumulative fee income is 36.19% of initial trader cash (Table S13A). That is about 362
+   cash units per trader, or roughly 1,500 completed one-share orders per trader at a per-order fee
+   near 0.25. In other words, traders trade on roughly a third of all steps and turn over their
+   10-share holding more than a hundred times. In this regime a "25 bp" fee is a large cumulative
+   cost. *Fix:* report turnover per trader per 1,000 steps for each condition, so readers can relate
+   the fee rates to effective trading costs.
 
 ### Questions for Authors
 
-1. What happens if you force f sites into the Sell state once, without changing any rule? If the
-   lattice converts, what remains of the claim that the *rule* is the operative change?
-2. What is the mechanism of the non-monotone peak at h=0.1, and does it survive a fixed band width?
-3. Is Rule 19286's only attractor the all-Sell absorbing state, and if so, does f control whether the
-   system reaches it or merely how fast?
-4. Why should the response depend on the arithmetic sum of neighbor labels rather than on the counts of
-   each state? Would a rule defined on the (n_Buy, n_Hold, n_Sell) composition change the conclusions?
-5. The abstract claims the work shows an unlimited counterparty is a consequential modeling assumption.
-   Consequential for what class of models, and what would a reader of a standard price-impact model
-   change on the strength of this evidence?
+1. What fraction of initial trader shares had been transferred to the dealer at onset and at 3,000
+   steps, as a function of $f$ and $h$?
+2. Fees accrue to a separate account here, whereas in Uniswap-v2-style pools they stay in the
+   reserves and raise $K$. Would accruing fees to reserves change the sign of the $h=1$,
+   $f=0.175$ fee effect?
+3. In the following experiments, how many shares do followers and non-followers hold, on average,
+   when liquidation begins?
+4. $N_{\rm tr}$ in $H=\operatorname{round}(hN_{\rm tr})$ includes technical traders, who never trade
+   when held. Is the dealer depth per *trading* trader therefore slightly different between the
+   held and active conditions, and does it matter at $h=0.1$?
 
-### Requested Experiments / Analyses
+### Requested Experiments/Analyses
 
-1. **Matched null interventions** at the same f: one-time forced Sell seeding without a rule change,
-   and a single-entry switch at a different neighborhood sum. This is the experiment I most want to see
-   and it is inexpensive.
-2. **Fixed-band control** for the dealer-capacity sweep, to test whether the non-monotone peak is an
-   artifact of the adaptive normalization.
-3. **Long-horizon no-switch controls** at L=64 to establish whether the baseline is stable or merely
-   metastable on the studied timescale.
-4. **A composition-based rule variant** reproducing the same c=1 behavior but defined on state counts,
-   run at three fractions, to test the totalistic restriction.
+1. **Price-floor analysis.** Derive the bound, plot drawdown against $1-P_{\rm floor}/P_{\rm peak}$,
+   and report fractions of shares transferred to the dealer. This needs no new simulations.
+2. **Time-to-event analysis of onset.** Survival curves, onset rate per unit time, and a test of
+   scaling with $(L-2)^2$, using the size and horizon campaigns already run.
+3. **Liquidation-protocol robustness** for the pre-specified following endpoints: mark-to-market
+   and random-order liquidation.
+4. **No-switch controls for the resource campaign** (2,700 runs), plus the $h/\bar q$ collapse plot.
 
 ### Minor Comments
 
-1. The abstract says "switched paths converted the lattice above a narrow band of activated fractions."
-   Given the non-monotone dealer result, "narrow band" is doing more work than the data supports under
-   the endogenous boundary; consider qualifying.
-2. The title asserts that a local rule switch destabilizes "a cellular automaton market model." Given a
-   single rule pair, "a" is carrying an implicit generality the paper does not yet establish.
-3. Fig. 5 shows four conditions for one seed. One seed is an illustration, not evidence; the caption
-   should say so explicitly.
-4. The claim that h=10 reproduced the unlimited path is stated for "the stated endowments and horizon";
-   good, but the appendix should say what would break it.
+1. $\phi_t$ (Eq. 6) is defined and cited in Appendix A.1 but used in no result. Remove it or use it.
+2. Table S13B is labelled "Selected paired comparisons" but gives no selection rule.
+3. Methods defines a "price crash" as "a large simulated decline, without a threshold", while the
+   title promises "Market Crashes". At $h=100$, the condition the paper treats as deep reserves, the
+   switch-induced decline is about 25% and cannot exceed about 17% below $P_0$ (Weakness 1). Make
+   the terminology match the magnitudes.
+4. Table S9 states the initial slope $2/h$. Note in the caption that it is the slope with respect
+   to net purchases *per trader*, with $N_{\rm tr}$ including technical traders.
 
 ### Recommendation
 
-**Major Revision.** The paper is careful and honest about several things it cannot claim, which I
-respect. But without a matched null intervention (Requested Analysis 1) I do not think the central
-claim is established as being about the *rule* rather than about any perturbation of that size, and
-the non-monotone dealer result needs an explanation rather than a mention.
+**Major Revision.**
+
+---
+
+## Reviewer 3 — Very Hard
+
+*Statistical physicist working on lattice opinion dynamics and cellular-automaton markets; has
+published competing lattice models; reads for artifacts, overclaims, and missing comparisons.*
+
+### Summary
+
+The paper claims that a persistent single-entry rule change, given to a fraction of traders, drives
+a lattice market to a Sell majority without price feedback, and that execution, not the majority,
+sets the crash. I have four substantive objections. (1) The synchronous, center-excluded update
+splits the lattice into two non-interacting halves, and this visibly shapes the reported patterns.
+(2) Price feedback enters only through about 1–2% of interior sites by construction, so its "small
+net effect" is a consequence of the geometry. (3) Several abstract-level findings are true by
+construction. (4) The core result is a committed-minority tipping result whose literature the paper
+does not engage, and whose established prediction (critical fraction falling to zero with size) the
+paper does not test.
+
+### Strengths
+
+1. **An exhaustive single-entry rule screen.** Table S7 tests all eighteen single-response changes
+   to Rule 19280. Lattice-market papers rarely examine their rule choice this systematically.
+2. **The persistent-versus-pulse control (Table S6)** separates a lasting change in response from a
+   one-time perturbation of the state, which is the right contrast.
+3. **Restraint in interpretation.** No critical exponents or infinite-size limits are fitted, the
+   majority criterion is varied (0.4/0.5/0.6), and the crossover is explicitly called
+   horizon-dependent.
+
+### Weaknesses
+
+1. **The update rule splits the lattice into two independent halves.** Each trader's next state
+   depends only on its four neighbors' current states, not on its own (Fig. 1A caption: "current
+   state is not an input"), and all interior traders update together (Methods; `_ca_step` in
+   `code/src/Simulate.jl:120–131`). On a square lattice every neighbor of a site has the opposite
+   checkerboard color. The set {black sites at even steps, white sites at odd steps} therefore
+   evolves using only its own members, and so does its complement. With technical traders held, each
+   market is *exactly* two non-interacting copies of $(L-2)^2/2$ traders that never influence each
+   other. With technical traders active, the copies interact only through about 63 edge traders and
+   the price. Consequences:
+   - **It is visible in the paper's own figures.** In Fig. 4A, starting markets 41 and 15
+     ($f=0.175$) show large regions at 3,000–10,000 steps where Sell and Hold alternate cell by cell.
+     In these regions one half of the lattice is in Sell and the other is not. Market 41 ends at a
+     Sell fraction of 0.594 (Table S12A).
+   - **The two halves can end in very different states.** I re-implemented the held interior update from the
+     Methods description (20 markets per fraction, $L=64$; different random draws from the authors'
+     code). It reproduces the held majority probabilities roughly: 7/20, 15/20, and 20/20 at
+     $f=0.175$, 0.185, and 0.20, against 0.34, 0.70, and 1.00 reported. Near the crossover, the two
+     halves frequently end in different states. At $f=0.175$, 6 of 20 markets had final Sell
+     fractions differing by more than 0.3 between halves (e.g., 0.65 against 0.27).
+   - **Finite-size analysis.** Each run contains two independent sub-systems of half the stated
+     size. This changes the meaning of $\chi_L$, the effective system size in Fig. 3, and the
+     sampling unit behind the bootstrap.
+   - **"Sell-rich domains"** in the Discussion, compared with domain growth, include these
+     half-lattice checkerboard regions, which come from the update scheme, not from trader behavior.
+
+   *Fix:* state the split in Methods, and report each half's Sell fraction for the main campaigns.
+   Rerun the core held/active comparison (Fig. 2A) and the size comparison (Fig. 3A) under an update
+   that does not split: random-sequential updating, or a rule whose input includes the trader's own
+   state. Then show whether the crossover and its size dependence survive.
+
+2. **The test of price feedback is weak by design.** Technical traders occupy a quarter of the
+   edge, which is 63 of 252 edge positions at $L=64$. Each touches at most one interior trader, so
+   price information reaches at most 63 of 3,844 interior traders (1.6%), and 127 of 15,876 (0.8%)
+   at $L=128$. Price feedback is therefore a boundary perturbation whose weight falls as $1/L$. The
+   finding that active and held midpoints agree "within 0.001" at $L=128$ (Results; Table S3) is
+   what this geometry predicts, not evidence about how markets respond to prices. The *sufficiency*
+   claim (majorities form with no price feedback) is valid. The claims that feedback's "net effect
+   ... was small" (Results) and that financial conditions affect decisions only through technical
+   traders (abstract, Discussion) are statements about this placement. *Fix:* place price-responsive
+   traders in the interior at several densities (e.g., 1%, 5%, 20%), or add a price term to
+   interior rules, and report the active-minus-held shift in $f_{50}$. Otherwise, qualify every
+   "small effect" statement with "when only edge traders respond to price".
+
+3. **Several abstract-level findings hold by construction.** Each of the following follows from
+   the model's definitions, not from simulation:
+   - "Changing trader cash and shares altered later decisions only when technical traders could
+     respond to the resulting prices" (abstract). Holdings never enter a decision rule, as the
+     Results itself says.
+   - Held decisions are identical across depths and fee rates.
+   - Zero depth gives zero drawdown.
+   - A constant-product dealer cannot run out of cash.
+   - The following gain is a transfer (Reviewer 2, W2), and fewer shares mean a smaller decline
+     (Reviewer 2, W1).
+
+   The text usually gives the reason ("because"), but the abstract presents several of them as
+   results: the sentence beginning "Changing trader cash and shares...", "rejecting few
+   orders", and "at the other traders' expense". *Fix:* present them in Methods as model properties and
+   verification checks, and use the abstract for the non-trivial findings.
+
+4. **The paper misses the closest literature, and its central prediction goes untested.** A
+   persistent minority above a critical fraction flipping a population's majority is the
+   committed-minority (zealot) result in opinion dynamics. Examples are Xie et al., "Social
+   consensus through the influence of committed minorities", *Phys. Rev. E* 84, 011130 (2011), and
+   the experimental tipping-point study of Centola et al., *Science* 360, 1116–1119 (2018). The
+   pulse-versus-persistent contrast (Table S6) is the standard initial-condition-versus-zealot
+   contrast in that literature. The paper cites bootstrap-percolation results (Aizenman–Lebowitz;
+   Holroyd) only to say the rise "resembles" threshold models. Those results show that, on finite
+   grids, the critical density falls to zero as grid size grows, decaying like $1/\log L$. The
+   paper's own $f_{50}$ falls with both $L$ and $T$ (Reviewer 2's table), yet it concludes only
+   that the runs "did not determine whether such a fraction exists". *Fix:* position the work
+   against the committed-minority literature and say what is new relative to it. Test whether the
+   data are consistent with $f_{50}\to0$, for example $f_{50}$ against $1/\log L$ and against
+   $\log[(L-2)^2T]$. Note that the dynamics here are not monotone (Sell can revert to Hold), so the
+   bootstrap-percolation prediction need not hold. Showing whether it does would be a real result.
+
+5. **The susceptibility benchmark is a weak null.** The Results compares peak $\chi_L$ with 0.25,
+   the maximum for independent traders, to conclude that Sell activity is "strongly correlated".
+   But at a crossover where outcomes are close to all-or-none, the between-market variance of
+   $\bar m$ stays of order $10^{-2}$, so $\chi_L$ grows roughly in proportion to $(L-2)^2$ for that reason
+   alone. The
+   paper's own peaks give $\mathrm{Var}(\bar m)=21.2/900=0.024$ at $L=32$ and
+   $241.2/15{,}876=0.015$ at $L=128$. The comparison restates what the probability curves already
+   show, and with two independent halves per run (W1) the variance is a mixture of two sub-systems.
+   *Fix:* show the distribution of $\bar m$ across markets at each size near $f_{50}$, which shows
+   whether outcomes are bimodal, or drop the susceptibility.
+
+6. **The claim that fees "deepened" declines rests on one selected contrast, where fees also change
+   whether a majority forms.** The only positive drawdown effect shown (+9.04 pp at $h=1$,
+   $f=0.175$, active) sits at a fraction where majority probability is 0.36 without the fee and 0.40
+   with it (Table S13A). Individual markets can therefore change majority status between arms, and
+   the paired drawdown difference mixes a change in severity with a change in occurrence. Of the
+   108 positive-fee-versus-zero conditions per outcome, the paper shows three, without a selection rule or a
+   multiplicity statement. *Fix:* (a) report the same contrast with technical traders held, where
+   decisions are identical across fees, which isolates the financial channel. (b) Split the
+   active-condition contrast by whether both arms, one arm, or neither reached a majority.
+   (c) Show the full table (see Reviewer 1, W5).
+
+### Questions for Authors
+
+1. In how many majority-reaching runs did only one half of the lattice exceed a Sell fraction of 0.5
+   at onset?
+2. With technical traders held, an all-Sell interior is a fixed point of both rules (neighbor sums
+   6–8 map to Sell, including next to the Hold edge). Is it reachable from the mixed state, and
+   if so, does the probability of a majority by time $T$ approach one as $T$ grows for every $f>0$?
+   What does the 100,000-step control extension (0/10 in each condition) imply about the rate at
+   $f=0$?
+3. Four single-entry changes tip every market already at $f=0.15$ (Table S7). Do they have a
+   crossover at all within $0<f<0.15$, and does it also move with $L$ and $T$?
+4. Do the conclusions survive random-sequential (asynchronous) updating?
+
+### Requested Experiments/Analyses
+
+1. **Update-scheme robustness.** Rerun Fig. 2A (held and active, $h=100$) and the size comparison
+   (Fig. 3A, held) under random-sequential updating or a rule whose input includes the trader's own
+   state, and report each half's Sell fraction for the existing campaigns.
+2. **Interior price-responsive traders** at densities of 1%, 5%, and 20%, reporting the
+   active-minus-held shift in $f_{50}$ and in the paired drawdown increase.
+3. **An extended rule screen.** The six effective single-entry changes at $f\in\{0.02, 0.05, 0.08,
+   0.10, 0.12, 0.15\}$ and two grid sizes, to locate each rule's crossover and its size dependence.
+4. **A test of the vanishing-threshold prediction.** $f_{50}$ against $1/\log L$ and against
+   $\log[(L-2)^2T]$ using the size and horizon campaigns, with an extra $L=256$ point if feasible
+   for held technical traders (decisions only).
+
+### Minor Comments
+
+1. Fig. 3C plots $f_{50}$ against $1/L$, whereas the interior has $(L-2)^2$ traders and $\chi_L$ is
+   normalized by $(L-2)^2$. Use $1/(L-2)$, or say why $L$ is the relevant length.
+2. Discussion, domain-growth paragraph: the analogy to domain growth (Bray 1994) is asserted, not
+   measured. Either measure a growth law or interface speed, or drop it. Note too that the domains
+   in Figs. 1C and 4A have straight, lattice-aligned edges, unlike the rounded domains of standard
+   coarsening.
+3. "Susceptibility" suggests a response function. Here it is a scaled between-market variance of a
+   time-limited observable; call it that, or justify the term.
+4. Rule-switch paragraph of the Results: the "sixth" effective rule (19307, Buy→Hold at sum 3)
+   adds no Sell response. Draw out what follows from it: removing a Buy response is enough to tip
+   the market, which says more about the baseline rule than the five Sell substitutions do.
+
+### Recommendation
+
+**Major Revision.**
 
 ---
 
 ## Summary of Actionable Items
 
-Consolidated across all three reviews, deduplicated, ordered by priority. Reviewer attribution in
-brackets.
+Deduplicated across the three reviews and ordered by how strongly each affects the paper's main
+claims. Reviewer tags: R1, R2, R3.
 
-### Tier 1 — Required before publication
+### Priority 1 — affects the validity or interpretation of headline claims
 
-1. **Matched null interventions at equal f.** One-time forced Sell seeding with no rule change, plus a
-   single-entry switch at a different neighborhood sum. Establishes that the effect is about the rule
-   rather than about any perturbation of that magnitude. [R3-2, R3-Exp1; overlaps R1-1]
-2. **Single-entry rule screen** over the eight other neighborhood sums and both alternative outputs,
-   paired protocol at a few fractions on L=64. Converts the central claim from an instance to a class,
-   and is the experiment the Discussion already proposes. [R1-1, R1-Exp1]
-3. **Adaptive grid refinement per lattice size** until at least five sampled fractions lie strictly
-   between p=0.05 and p=0.95, then recompute every midpoint and width. As it stands, L=128 has three
-   interior points and its width is derived largely from a single grid interval, while L=32 has six at
-   two-to-three-times coarser absolute spacing, so the reported narrowing is partly a resolution
-   artifact. [R2-1, R2-Exp1]
-4. **Bootstrap intervals on all interpolated quantities** (midpoint, width, susceptibility peak), and
-   reduce reported precision to match. [R1-2, R2-6, R1-Exp3]
-5. **Explain or diagnose the non-monotone dealer effect** (transition probability peaking at h=0.1 with
-   0.66 against 0.28 at h=infinity, at f=0.175), including a fixed-band control to test whether the
-   adaptive normalization produces it. [R3-3, R3-Exp2]
+1. **Address the two-halves split from synchronous, center-excluded updating** (R3 W1). State it in
+   Methods, report each half's Sell fraction, and rerun the core held/active and size comparisons
+   under an update that does not split the lattice. If the crossover survives, the paper is
+   stronger. If not, the main result needs reframing.
+2. **Derive the constant-product price floor $P\ge P_0[h/(h+\bar q)]^2$** and recast the drawdown
+   results around it (R2 W1, R1 W2). Plot drawdown against the bound, report shares transferred to
+   the dealer, and explain the Fig. 4B plateau and the Fig. 6B share-multiplier ordering with it.
+   No new simulations are needed.
+3. **Recast the following "transfer" result as an identity and test liquidation-protocol
+   robustness** (R2 W2, R1 W3). Use mark-to-market and random-order liquidation for the
+   pre-specified endpoints, and add a trade-level decomposition of where follower gains come from.
+4. **Qualify or test the price-feedback conclusions given edge-only placement** (R3 W2, R2 W6).
+   Either add interior price-responsive traders at several densities, or limit every
+   "small effect" statement to edge placement. Use the paired $f_{50}$ shift as the primary
+   estimand rather than an average over hand-picked fractions.
+5. **Move by-construction properties out of the abstract's findings** (R3 W3): held invariance,
+   zero depth giving zero drawdown, a dealer that cannot run out of cash, zero-sum following, and
+   fewer shares giving a smaller decline.
 
-### Tier 2 — Strongly recommended
+### Priority 2 — strengthens the evidence, mostly from existing data
 
-6. **Horizon-scaling check** at L=32 and L=128 with horizons growing with L, separating threshold drift
-   from a finishing-in-time artifact under the fixed 3,000-step window. [R2-3, R2-Exp2]
-7. **Price-impact coefficient sweep** at f=0.20 across three dealer capacities, showing whether the
-   ordering in h survives even though magnitudes do not. [R2-4, R2-Exp3]
-8. **Long-horizon no-switch controls** to establish whether the baseline is stable or merely metastable,
-   given that all-Sell is absorbing. [R3-6, R3-Exp3]
-9. **Parametric (probit or logistic) fits of the transition curves** with standard errors, replacing or
-   supplementing linear interpolation across a probability jump of 0.62. [R2-2, R2-Exp4]
-10. **Defend or test the totalistic restriction**, which forces identical responses to economically
-    distinct neighborhoods at every entry except the switched one. [R3-4, R3-Exp4]
+6. **Time-to-event analysis of onset** (R2 W4, R3 W4). Survival curves and the onset rate per unit
+   time, a test of whether the rate scales with $(L-2)^2$ (Table S10 already shows $f_{50}$ falling
+   without ever increasing as $(L-2)^2T$ grows), and $f_{50}$ against $1/\log L$.
+7. **Engage the committed-minority literature** (Xie et al. 2011, *PRE* 84:011130; Centola et al.
+   2018, *Science* 360:1116) and the bootstrap-percolation prediction already cited (R3 W4).
+   *Verify both references through Crossref before adding them, per the bib rule.*
+8. **Report trader suppression** next to dealer rejection (R1 W1). It is about 0.40 of Sell
+   orders in majority runs, against dealer rejection below $5\times10^{-3}$.
+9. **No-switch controls for the resource campaign** (about 2,700 runs) and an $h/\bar q$
+   collapse plot (R2 W3, W5). Optionally, a virtual-reserve variant to separate price sensitivity
+   from funding.
+10. **Fee analysis** (R1 W5, R2 W7, R3 W6). Show the full contrast table, add the held-condition
+    contrast at $h=1$, $f=0.175$, split by whether arms agree on majority status, report turnover
+    per trader, and give a selection rule for Table S13B.
+11. **Rule choice and an extended screen** (R1 W4, R3 Q3). Justify 19286, note that it is the
+    weakest of the six effective changes, and screen the six at $f<0.15$.
+12. **Replace the 0.25 susceptibility null** with the distribution of $\bar m$ across markets near
+    $f_{50}$ (R3 W5).
 
-### Tier 3 — Framing and presentation
+### Priority 3 — presentation and minor fixes
 
-11. **Recast the causal framing.** In a deterministic two-arm design the divergence is attributable by
-    construction; lead with the dose-response threshold and the stage separation instead. [R3-1]
-12. **Quantify or soften the "dealer capacity affects price more than transition" summary**, which
-    coexists with a factor of 2.4 in transition probability at f=0.175. [R1-Minor2, R3-3]
-13. **Report pre-switch baseline characterization** (stationary interior Sell fraction, pre-activation
-    return distribution) so the calm regime can be situated against published models. [R3-5]
-14. **Threshold sensitivity** at 0.4 and 0.6 alongside the 0.5 majority criterion. [R1-3, R1-Exp2]
-15. **Add one or two sentences of behavioral interpretation** for the totalistic rule form. [R1-4]
-16. **Reconsider the title's implicit generality** given a single rule pair. [R3-Minor2]
+13. Use one set of terms in figures and text: "seed" vs "starting market", "rule change" vs
+    "rule switch" (Fig. 4; Fig. 1C "Rule assigned") (R1 m1).
+14. Use percent for drawdown in Fig. 2C, add "Median" to its y-label, and plot $h=0$ as an
+    unconnected point in Figs. 2C–D (R1 m2–m3).
+15. Relabel the Table S5 average rows "0.175–0.195", since they exclude 0.180 (R1 m4).
+16. Color the legend markers in Figs. 2A, 3A, and 6A (R1 m5).
+17. Remove or use $\phi_t$ (Eq. 6) (R2 m1). Match "crash" in the title to the reported magnitudes
+    (R2 m3). Clarify that $N_{\rm tr}$ includes technical traders (R2 Q4, m4).
+18. Fig. 3C abscissa: use $1/(L-2)$ or justify $1/L$. Rename or justify "susceptibility". Measure
+    or drop the domain-growth analogy. Draw out what Rule 19307 (no added Sell response) implies (R3 m1–m4).
 
-### Tier 4 — Housekeeping
+---
 
-17. Force-add `ModelB-RuleQuench-Full-Summary.csv` so Table S2 is regenerable from a clean clone.
-    [R1-5]
-18. Plot h=10 as a dashed overlay in Fig. 2 rather than omitting it with an explanatory caption.
-    [R1-Minor1]
-19. Add a column to Table S3 giving the number of interior points behind each width. [R2-Minor2]
-20. State explicitly in Methods that the 3,000-step horizon and the 50-seed count were fixed in advance.
-    [R2-Minor4, R2-Q4]
-21. Note in Fig. 5's caption that a single seed is an illustration rather than evidence. [R3-Minor3]
+## Appendix — Verification notes for the author
+
+These notes are not part of the simulated reviews. They record how the reviews' factual claims were
+checked, so they can be traced before acting on them.
+
+1. **Two-halves split.** `code/src/Simulate.jl:120–131` computes
+   `configuration = grid[r,c-1] + grid[r,c+1] + grid[r-1,c] + grid[r+1,c]` into a copy (`next`), so
+   the update is synchronous and excludes the trader's own state. The split follows from this and
+   needs no simulation. The supporting re-implementation was a numpy script modelling only the held
+   interior: edge fixed at Hold, initial 5% Buy and 5% Sell, 1,000 baseline steps, then 3,000 steps
+   with Rule 19286 at a random fraction *f*. It ran 20 markets per fraction at $L=64$, and its
+   random draws differ from the authors' code. Results: majorities 7/20, 15/20, and 20/20 at
+   $f=0.175$, 0.185, and 0.20. Final 500-step Sell fractions differed by more than 0.3 between the
+   two halves in 6/20, 3/20, and 1/20 markets. The script is in this session's scratchpad
+   (`parity.py`), which is temporary; rerun it with the project's own engine if you pursue this.
+2. **Price floor.** Algebra: $K=W_0Q_0=P_0H^2$, $P_t=W_t/Q_t=K/Q_t^2$, and
+   $Q_t\le H+\sum_iq_i(0)$. Data: `ModelB-ReservoirQuench-Full-Summary.csv`, switched runs at
+   $f=0.20$, median `treated_maker_inventory_per_trader` with active technical traders = 3.58
+   ($h=0.1$), 7.13 ($h=1$), 12.44 ($h=5$), 17.69 ($h=10$), and 107.73 ($h=100$). The upper limits
+   are $h+10$.
+3. **Suppression.** `ModelB-BalanceSheetQuench-Full-Summary.csv`, $f=0.18$, unchanged resources,
+   median `sell_suppression_fraction`: 0.40–0.43 in majority runs and 0.12–0.16 in non-majority
+   runs, across $h\in\{0.1,1,100\}$ and both conditions. Median `buy_suppression_fraction` is
+   0.39–0.46 throughout.
+4. **Zero-sum identity.** It follows from the invariant $K$, share conservation, full liquidation
+   to the dealer (which can always buy), $\tau=0$, and no resource interventions in the following
+   runs.
+5. **Claims in the manuscript that were checked and hold.**
+   - Eq. 8.
+   - The Table S5 average rows: the $h=100$, 0.175–0.195 mean is 0.09, and its counts exclude
+     0.180.
+   - Logistic versus interpolated midpoints, "at most 0.0035": the largest difference is 0.00345, at
+     $L=48$ held (`ModelB-Revision-FiniteSize-Scaling.csv`).
+   - The width narrowing "about threefold": 0.023 to 0.008.
+   - Active midpoints "within 0.007" of held.
+   - The 11 dealer-depth fractions exclude 0.17 and 0.18 (Appendix A.4), consistent with the
+     "22 of 24" sentence.
+6. **Earlier review.** The previous simulated review (tracked in git at HEAD as `peer-review.md`,
+   written against commit `0870d82`) is superseded by this file and can be recovered with
+   `git show HEAD:peer-review.md`.

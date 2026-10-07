@@ -80,7 +80,7 @@ logistic fits. No law for indefinitely large grids was fitted.}
 \begin{minipage}{\linewidth}
 \captionsetup{type=figure,hypcap=false}
 \centering
-\includegraphics[width=0.90\linewidth]{figs/Fig4-DoseMarketPanels.pdf}
+\includegraphics[width=0.85\linewidth]{figs/Fig4-DoseMarketPanels.pdf}
 \caption{Five example markets extended to 10,000 steps
 with active technical traders and dealer depth $h=100$. Blue, gray, and orange denote
 Buy, Hold, and Sell. \textbf{(A)}~Grid decisions at the rule switch and after
@@ -90,7 +90,12 @@ the first two markets had not reached a majority and the other three
 had. Nonmajority examples were nearest their group's median final Sell
 fraction; majority examples were nearest their group's median onset,
 with the starting-market number breaking ties. Starting markets were 2, 15, 41, 5, and 38, from left
-to right. The longer outcomes did not affect selection.
+to right. The longer outcomes did not affect selection. Because each
+trader's update ignores its own intention, the two checkerboard halves of
+the grid can hold different intentions, which appears as regions where Sell
+and Hold alternate from cell to cell; no such extended regions appear in
+the example markets with revision probability $r=0.9$ (Supplementary
+Fig.~\ref{fig:variants-panels}).
 \textbf{(B)}~Quoted price divided by its value at the rule switch.
 \textbf{(C)}~Interior Sell fraction, with one-half marked by a
 horizontal line. The dark vertical dashed line marks the original

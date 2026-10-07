@@ -29,6 +29,7 @@ function _build_ca_components(
     sim_model::AbstractSimulationModel;
     rng::AbstractRNG = Random.default_rng(),
     minority_population::Symbol = :all_sites,
+    excluded::Vector{Tuple{Int64,Int64}} = Tuple{Int64,Int64}[],
 )
     nrows   = sim_model.number_of_rows
     ncols   = sim_model.number_of_cols
@@ -44,6 +45,8 @@ function _build_ca_components(
 
     minority_population in (:all_sites, :interior) ||
         throw(ArgumentError("minority_population must be :all_sites or :interior"))
+    isempty(excluded) || minority_population == :interior ||
+        throw(ArgumentError("excluded cells require minority_population = :interior"))
     f ≈ 0.0 && return (nothing, nothing, rule_major)
 
     rule_minor = build(MyTwoDimensionalTotalisticWolframRuleModel, (
@@ -81,12 +84,105 @@ function _build_ca_components(
             for r in 2:nrows-1 for c in 2:ncols-1
         ]
         n_minor = round(Int, f * length(candidates))
-        for j in candidates[randperm(rng, length(candidates))[1:n_minor]]
+        order = candidates[randperm(rng, length(candidates))]
+        # Excluded cells (interior technical traders) pass their place in the
+        # permutation to the next cell; with none excluded this is the
+        # original draw and selection.
+        if !isempty(excluded)
+            skip = Set(world.coordinates[rc] for rc in excluded)
+            filter!(j -> j ∉ skip, order)
+            length(order) >= n_minor ||
+                throw(ArgumentError("too few interior cells outside the excluded set"))
+        end
+        for j in order[1:n_minor]
             agents[j].rule = rule_minor
         end
     end
 
     return (world, agents, rule_major)
+end
+
+"""
+    _interior_technical_cells(config, fraction) → Vector{Tuple{Int64,Int64}}
+
+Choose round(fraction · N_interior) interior cells for price-responsive
+technical traders by ranking every interior cell on a counter-based score of
+(seed, cell). The choice consumes no generator draws and does not depend on
+the switched fraction, so a switched run and its shared no-switch control
+place these traders identically.
+"""
+function _interior_technical_cells(config::MyModelBConfiguration, fraction::Float64)
+    0.0 <= fraction < 1.0 ||
+        throw(ArgumentError("interior_technical_fraction must lie in [0, 1)"))
+    nrows = config.number_of_rows
+    ncols = config.number_of_cols
+    n = round(Int, fraction * (nrows - 2) * (ncols - 2))
+    n == 0 && return Tuple{Int64,Int64}[]
+    linear = LinearIndices((nrows, ncols))
+    cells = [(r, c) for c in 2:ncols-1 for r in 2:nrows-1]
+    sort!(cells; by = rc -> (_placement_score(config.seed, Int64(linear[rc...])),
+                             linear[rc...]))
+    return sort(cells[1:n])
+end
+
+"""
+    _market_setup(config; initial_grid, minority_population,
+                  interior_technical_fraction) → NamedTuple
+
+Consume the seeded setup draws in their fixed order: (1) edge cells, (2) edge
+band multipliers, (3) initial grid, (4) minority rules, and, only for a
+positive interior technical fraction, (5) the interior technical traders' band
+multipliers. Interior technical cells are placed by a counter-based ranking,
+start in Hold, and are skipped by the minority assignment, which passes a
+target landing on one to the next cell of the same permutation.
+"""
+function _market_setup(
+    config::MyModelBConfiguration;
+    initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
+    minority_population::Symbol = :all_sites,
+    interior_technical_fraction::Float64 = 0.0,
+)
+    rng = Xoshiro(config.seed)
+    edge_coordinates = build_edge_coordinates(config.number_of_rows, config.number_of_cols,
+                                              config.edge_fraction, rng)
+    edge_k           = build_edge_bands(config.k, config.edge_band_spread,
+                                        length(edge_coordinates), rng)
+    grid             = build_initial_grid(config, rng; custom_grid = initial_grid)
+    interior_technical = _interior_technical_cells(config, interior_technical_fraction)
+    world, agents, rule_major = _build_ca_components(
+        config; rng = rng, minority_population = minority_population,
+        excluded = interior_technical,
+    )
+    interior_technical_k = isempty(interior_technical) ? Float64[] :
+        build_edge_bands(config.k, config.edge_band_spread, length(interior_technical), rng)
+    _set_edge_states!(grid, interior_technical, fill(1, length(interior_technical)))
+    return (; edge_coordinates, edge_k, grid, world, agents, rule_major,
+              interior_technical, interior_technical_k)
+end
+
+"""
+    market_layout(config; initial_grid, minority_population,
+                  interior_technical_fraction) → NamedTuple
+
+Replay the setup draws of `simulate(config; ...)` without simulating. Returns
+the edge coordinates and multipliers, the grid at t = 0, the cells preselected
+for the minor rule, and the interior technical coordinates and multipliers.
+"""
+function market_layout(
+    config::MyModelBConfiguration;
+    initial_grid::Union{Nothing, Array{Int64,2}} = nothing,
+    minority_population::Symbol = :all_sites,
+    interior_technical_fraction::Float64 = 0.0,
+)
+    setup = _market_setup(config; initial_grid, minority_population,
+                          interior_technical_fraction)
+    minor_sites = isnothing(setup.agents) ? Tuple{Int64,Int64}[] :
+        [setup.world.states[i] for (i, agent) in enumerate(setup.agents)
+         if agent.rule.index == config.rule_minor_index]
+    return (edge_coordinates = setup.edge_coordinates, edge_k = setup.edge_k,
+            initial_grid = setup.grid, minor_sites = minor_sites,
+            interior_technical = setup.interior_technical,
+            interior_technical_k = setup.interior_technical_k)
 end
 
 """
@@ -246,6 +342,60 @@ end
     x ⊻= UInt64(agent_id) * 0xca5a826395121157
     x ⊻= side == 1 ? 0x6a09e667f3bcc909 : 0xbb67ae8584caa73b
     return _splitmix64(x)
+end
+
+# Interior technical placement and lazy revision use the same counter-based
+# construction with their own salts, so paired arms share them and no
+# generator draw is consumed.
+@inline function _placement_score(seed::Int64, agent_id::Int64)::UInt64
+    x = reinterpret(UInt64, seed)
+    x ⊻= UInt64(agent_id) * 0xca5a826395121157
+    x ⊻= 0xa54ff53a5f1d36f1
+    return _splitmix64(x)
+end
+
+@inline function _revision_uniform(seed::Int64, step::Int64, agent_id::Int64)::Float64
+    x = reinterpret(UInt64, seed)
+    x ⊻= UInt64(step) * 0xd2b74407b1ce6e93
+    x ⊻= UInt64(agent_id) * 0xca5a826395121157
+    x ⊻= 0x3c6ef372fe94f82b
+    return (_splitmix64(x) >> 11) * 0x1.0p-53
+end
+
+"""
+    _keep_unrevised!(next, previous, seed, step, probability) → next
+
+Lazy revision: each interior trader adopts its rule output with `probability`
+and otherwise keeps its previous intention. Dependence on the trader's own
+state couples the two checkerboard halves that a synchronous update of a
+center-excluded neighbor sum keeps separate.
+"""
+function _keep_unrevised!(
+    next::Array{Int64,2}, previous::Array{Int64,2},
+    seed::Int64, step::Int64, probability::Float64,
+)::Array{Int64,2}
+    nrows, ncols = size(next)
+    linear = LinearIndices(next)
+    for c in 2:ncols-1, r in 2:nrows-1
+        _revision_uniform(seed, step, Int64(linear[r, c])) < probability ||
+            (next[r, c] = previous[r, c])
+    end
+    return next
+end
+
+"""Buy, Hold, and Sell fractions over interior cells not marked `excluded`."""
+function _counted_interior_fractions(
+    grid::Array{Int64,2}, excluded::BitMatrix,
+)::Tuple{Float64,Float64,Float64}
+    nrows, ncols = size(grid)
+    n = zeros(Int64, 3)
+    N = 0
+    for r in 2:nrows-1, c in 2:ncols-1
+        excluded[r, c] && continue
+        n[grid[r, c] + 1] += 1
+        N += 1
+    end
+    return N > 0 ? (n[1] / N, n[2] / N, n[3] / N) : (0.0, 0.0, 0.0)
 end
 
 """Order eligible candidates by the shared per-step rationing tape."""
@@ -497,7 +647,10 @@ Step t (t = 1..steps) transforms X_{t-1} → X_t in this exact order:
 N_traders = N_interior + N_active_edge, fixed for the run. All randomness
 comes from Xoshiro(config.seed), consumed in fixed order: (1) edge-cell
 sampling, (2) edge band half-widths, (3) initial-grid perturbation,
-(4) minority rule assignment. Same config ⇒ identical output.
+(4) minority rule assignment, and only for interior_technical_fraction > 0,
+(5) interior technical band half-widths. Interior technical placement and
+lazy revision are counter-based in (seed, cell) and (seed, step, cell) and
+consume none of it. Same config ⇒ identical output.
 
 Arguments
 - config        : MyModelBConfiguration (single source of truth)
@@ -539,6 +692,15 @@ Arguments
                   final reserve ratio as price; lambda does not apply.
 - reserve_executor : settlement function for `:reserve`. The default preserves
                   the original model; extensions can collect fees separately.
+- revision_probability : probability that an interior trader adopts its rule
+                  output at a step; otherwise it keeps its intention. The
+                  default 1.0 is the synchronous update of the original model.
+- interior_technical_fraction : fraction of interior cells, outside the
+                  minor-rule targets, given to band-rule technical traders in
+                  addition to the edge ring. They follow `boundary_mode` like
+                  the edge traders and are excluded from the interior Buy,
+                  Hold, and Sell fractions. `market_layout` returns their
+                  coordinates. The default 0.0 is the original model.
 
 Returns MyModelBSimulationResult; see its docstring for the series-length
 conventions (state-like: steps+1; transition-like: steps).
@@ -556,9 +718,15 @@ function simulate(
     observer::Union{Nothing,AbstractMarketObserver} = nothing,
     clearing::Symbol = :legacy,
     reserve_executor::Union{Nothing,Function} = nothing,
+    revision_probability::Float64 = 1.0,
+    interior_technical_fraction::Float64 = 0.0,
     verbose::Bool = true,
 )::MyModelBSimulationResult
 
+    0.0 <= revision_probability <= 1.0 ||
+        throw(ArgumentError("revision_probability must lie in [0, 1]"))
+    isnothing(observer) || (revision_probability == 1.0 && interior_technical_fraction == 0.0) ||
+        throw(ArgumentError("observers do not support lazy revision or interior technical traders"))
     clearing in (:legacy,:reserve) || throw(ArgumentError("unknown clearing mechanism"))
     clearing == :legacy && !isnothing(reserve_executor) &&
         throw(ArgumentError("a custom reserve executor requires reserve clearing"))
@@ -580,17 +748,19 @@ function simulate(
     λ     = config.λ
     P0    = config.P0
 
-    # Seeded RNG — draw order below is part of the reproducibility contract
-    rng = Xoshiro(config.seed)
-
-    # (1) edge sampling, (2) band half-widths, (3) initial grid, (4) minority rules
-    edge_coordinates = build_edge_coordinates(nrows, ncols, config.edge_fraction, rng)
-    edge_k           = build_edge_bands(k, config.edge_band_spread,
-                                        length(edge_coordinates), rng)
-    grid             = build_initial_grid(config, rng; custom_grid = initial_grid)
-    world, agents, rule_major = _build_ca_components(
-        config; rng = rng, minority_population = minority_population,
+    # Seeded setup draws; their order is part of the reproducibility contract
+    (; edge_coordinates, edge_k, grid, world, agents, rule_major,
+       interior_technical, interior_technical_k) = _market_setup(
+        config; initial_grid, minority_population, interior_technical_fraction,
     )
+    n_technical    = length(interior_technical)
+    technical_now  = fill(1, n_technical)
+    technical_cell = falses(nrows, ncols)
+    for (r, c) in interior_technical
+        technical_cell[r, c] = true
+    end
+    interior_fractions(g) = n_technical == 0 ? compute_interior_fractions(g) :
+                            _counted_interior_fractions(g, technical_cell)
 
     # A delayed activation preserves one preselected quenched landscape in
     # both arms.  The treated run restores those minor rules at the quench;
@@ -654,7 +824,7 @@ function simulate(
     ema_volatility[1] = 0.0
     band_lower[1]     = P0
     band_upper[1]     = P0
-    buy_fraction[1], hold_fraction[1], sell_fraction[1] = compute_interior_fractions(grid)
+    buy_fraction[1], hold_fraction[1], sell_fraction[1] = interior_fractions(grid)
     total_cash[1], total_shares[1] = compute_book_totals(books, edge_coordinates)
     market_maker_cash[1] = market_maker.cash
     market_maker_inventory[1] = market_maker.inventory
@@ -745,6 +915,10 @@ function simulate(
                 edge_switches += (e != edge_now[i])
                 edge_now[i]    = e
             end
+            for j in 1:n_technical
+                technical_now[j] = compute_band_state(P, μ, decision_deviation,
+                                                      interior_technical_k[j])
+            end
         else
             fill!(edge_now, 1)
         end
@@ -752,12 +926,18 @@ function simulate(
         edge_hold_count[t] = count(==(1), edge_now)
         edge_sell_count[t] = count(==(2), edge_now)
         _set_edge_states!(grid, edge_coordinates, edge_now)
+        _set_edge_states!(grid, interior_technical, technical_now)
 
-        # --- CA updates the interior grid ---
+        # --- CA updates the interior grid; lazy revision keeps unrevised
+        #     intentions, and interior technical traders keep their band state ---
+        previous = grid
         grid = isnothing(observer) ? _ca_step(grid, world, agents, rule_major) :
                market_ca_step(observer, t, grid, world, agents, rule_major)
+        revision_probability < 1.0 &&
+            _keep_unrevised!(grid, previous, config.seed, Int64(t), revision_probability)
+        _set_edge_states!(grid, interior_technical, technical_now)
         buy_fraction[t + 1], hold_fraction[t + 1], sell_fraction[t + 1] =
-            compute_interior_fractions(grid)
+            interior_fractions(grid)
 
         t in snaps && (frames[t] = copy(grid))
         verbose && next!(prog)

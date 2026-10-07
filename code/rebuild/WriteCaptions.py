@@ -59,7 +59,7 @@ $h=1$ and $h=100$. \textbf{(D)}~Sampled maximum susceptibility versus
 grid size. Error bars in C and D are 95\% whole-market bootstrap
 intervals. Solid lines connect tested values; dashed curves in A are
 logistic fits. No law for indefinitely large grids was fitted.''','fig:finite-size'),
-    ('Fig4-DoseMarketPanels','0.90',rf'''Five example markets extended to 10,000 steps
+    ('Fig4-DoseMarketPanels','0.85',rf'''Five example markets extended to 10,000 steps
 with active technical traders and dealer depth $h=100$. Blue, gray, and orange denote
 Buy, Hold, and Sell. \textbf{{(A)}}~Grid decisions at the rule switch and after
 1,500, 3,000, 5,000, and 10,000 steps. The examples were selected from the
@@ -68,7 +68,12 @@ the first two markets had not reached a majority and the other three
 had. Nonmajority examples were nearest their group's median final Sell
 fraction; majority examples were nearest their group's median onset,
 with the starting-market number breaking ties. Starting markets were {seeds}, from left
-to right. The longer outcomes did not affect selection.
+to right. The longer outcomes did not affect selection. Because each
+trader's update ignores its own intention, the two checkerboard halves of
+the grid can hold different intentions, which appears as regions where Sell
+and Hold alternate from cell to cell; no such extended regions appear in
+the example markets with revision probability $r=0.9$ (Supplementary
+Fig.~\ref{{fig:variants-panels}}).
 \textbf{{(B)}}~Quoted price divided by its value at the rule switch.
 \textbf{{(C)}}~Interior Sell fraction, with one-half marked by a
 horizontal line. The dark vertical dashed line marks the original

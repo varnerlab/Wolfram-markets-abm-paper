@@ -1,0 +1,13 @@
+{
+  "manifest_complete": true,
+  "common_history_within_groups": true,
+  "max_cash_conservation_error": 3.0994415283203125e-06,
+  "archived_runs_compared": 2150,
+  "archived_runs_reproduced": 2150,
+  "conditions": 33,
+  "unresolved_conditions": [
+    "L128-a1-r0.05-hold-h100"
+  ],
+  "conditions_without_f50": [],
+  "bootstrap_resamples": 2000
+}

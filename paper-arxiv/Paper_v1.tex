@@ -91,15 +91,15 @@ decision responded to the price, majorities still formed, so responses
 to neighbors alone could produce widespread selling. The probability of
 a majority rose over a narrow range of that fraction, a crossover that
 moved to smaller fractions in larger markets and over longer observation
-periods rather than marking a fixed threshold. To connect decisions to
+periods, and to larger fractions when traders revised their decisions
+less often, rather than marking a fixed threshold. To connect decisions to
 prices, we cleared orders against a dealer whose finite cash and share
 reserves kept a constant product and set the quoted price. Shallow
 positive reserves allowed severe declines while rejecting few orders,
 and such markets also fell sharply without the rule switch, so the
-switch's effect was measured against the paired controls. Changing
-trader cash and shares altered later decisions only when technical
-traders could respond to the resulting prices, and transaction fees
-reduced price declines in some conditions but deepened them in others.
+switch's effect was measured against the paired controls. Giving traders
+fewer shares to sell reduced price declines, and transaction fees reduced
+declines in some conditions but deepened them in others.
 When some traders instead followed random advice from one shared source,
 their influence on neighboring traders spread selling and, with deep
 dealer reserves, let them gain cash at the other traders' expense. The
@@ -144,20 +144,16 @@ The author declares no competing interests.
 The simulation code, analysis scripts, figure and table generators, and
 the campaign outputs used in this manuscript are available under the MIT
 license at \url{https://github.com/varnerlab/Wolfram-markets-abm-paper}.
-The numbers reported here come from the archived rebuild in the
-repository's \texttt{output/rebuilt} directory, whose manifest records
+The numbers reported here come from the archived studies in the
+repository's \texttt{output/rebuilt} directory, whose manifests record
 source hashes, parameters, and package versions.
 
 \clearpage
 \bibliographystyle{unsrtnat}
 \bibliography{References_v1}
 
-% End matter order: references, tables, figures, supplementary information.
-\clearpage
-\input{sections/tables}
-\input{sections/transaction-fees-table}
-\input{sections/following-table}
-
+% End matter order: references, figures, then the supplement: A supplementary
+% methods and validation, B supplementary tables and figure.
 \clearpage
 \input{sections/figures}
 
@@ -165,5 +161,14 @@ source hashes, parameters, and package versions.
 \appendix
 
 \input{sections/appendix}
+
+\clearpage
+\section{Supplementary tables and figure}
+\label{app:tables}
+\input{sections/tables}
+\input{sections/transaction-fees-table}
+\input{sections/following-table}
+\input{sections/variants-table}
+\input{sections/variants-figure}
 
 \end{document}

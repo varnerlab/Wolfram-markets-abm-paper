@@ -76,12 +76,43 @@ the active minus held difference at dealer depth $h=100$, averaged over
 fractions
 0.175, 0.185, 0.19, and 0.195, was 0.09 [0.02, 0.15], and adding
 fractions 0.17 and 0.18 changed it to 0.04 [$-0.02$, 0.10]
-(Supplementary Table~\ref{tab:feedback-pairs}). Thus, price feedback changed the
-outcomes of individual markets, its net effect on how often a majority
-formed was small and depended on the fractions compared, and it was not
-needed for selling decisions to spread.
+(Supplementary Table~\ref{tab:feedback-pairs}). Thus, a Sell majority
+formed without any decision responding to the price, and technical
+traders along the edge changed which starting markets reached a majority
+without a consistent change in how often one formed.
 
 \input{sections/finite-size-results}
+
+In the main model, every interior trader revised its intention at every
+step from its neighbors' previous intentions and ignored its own, so the
+market evolved as two checkerboard halves that never influenced each
+other when technical traders were held. To determine whether the
+crossover depended on this timing, we let each interior trader adopt its
+rule's output with revision probability $r$ at each step and otherwise
+keep its intention, and found that a crossover remained at every tested
+value but moved to larger fractions as traders revised less often
+(Supplementary Table~\ref{tab:variants-timing}). With
+technical traders held, the fraction at which half the markets reached a
+majority within 3,000 steps was 0.178 at revision probability $r=1$,
+0.298 at $r=0.9$, and 0.416 at $r=0.5$. Revising less often joined the
+two halves: at the tested fractions nearest each crossover, the median
+difference between the Sell fractions of the two halves late in the
+observation period was at most 0.014 at every revision probability
+$r<1$, compared with 0.254 at $r=1$. No no-switch control reached a majority at any
+revision probability, and active technical traders along the edge moved
+the midpoint by at most 0.004 at either dealer depth. The rise also kept
+its dependence on market size, because at revision probability $r=0.9$
+the midpoint fell from 0.334 at grid size $L=32$ to 0.285 at $L=128$
+while the width narrowed about fourfold over the same sizes. In the
+displayed markets at revision probability $r=0.9$, majorities again
+developed as groups of sellers expanded, without the extended regions of
+cell-by-cell alternation between Sell and Hold seen at $r=1$
+(Supplementary Fig.~\ref{fig:variants-panels}).
+Thus, how
+often traders revised their intentions set where the crossover lay,
+whereas the crossover itself, its sharpening in larger markets, and the
+absence of majorities without the rule switch did not depend on updating
+every trader at once.
 
 Because the midpoint moved with observation time, we extended five
 example markets with active technical traders and dealer depth $h=100$

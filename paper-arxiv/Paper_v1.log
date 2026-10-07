@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  29 SEP 2026 17:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 OCT 2026 16:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1001,76 +1001,55 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025
 
 [6]
 
-[7])
+[7]
 
-[8] (./sections/results.tex
+[8]) (./sections/results.tex
 
 [9] (./sections/finite-size-results.tex)
 
-[10])
+[10]
 
-[11] (./sections/following-results.tex)
-(./sections/transaction-fees-results.tex)
+[11])
 
-[12] (./sections/discussion.tex
+[12] (./sections/following-results.tex)
+(./sections/transaction-fees-results.tex) (./sections/discussion.tex
 
-[13])
+[13]
 
-[14] (./sections/conclusion.tex)
+[14])
 
-[15] (./Paper_v1.bbl
+[15] (./sections/conclusion.tex)
 
-[16
+[16] (./Paper_v1.bbl
+
+[17
 
 ]
 
-[17])
+[18])
 
-[18] (./sections/tables.tex (./sections/finite-size-table.tex
-
-[19
-
-])
-
-[20] (./sections/revision-tables.tex
-
-[21]
-
-[22] (./sections/revision-fits-table.tex))
-(./sections/market-panel-horizons-table.tex
-
-[23])) (./sections/transaction-fees-table.tex
-
-[24]) (./sections/following-table.tex
-
-[25
-
-])
-
-[26
-
-] (./sections/figures.tex
-<figs/Fig1-RuleQuench.pdf, id=438, 461.77019pt x 379.60922pt>
+[19] (./sections/figures.tex
+<figs/Fig1-RuleQuench.pdf, id=426, 461.77019pt x 379.60922pt>
 File: figs/Fig1-RuleQuench.pdf Graphic file (type pdf)
 <use figs/Fig1-RuleQuench.pdf>
 Package pdftex.def Info: figs/Fig1-RuleQuench.pdf  used on input line 8.
 (pdftex.def)             Requested size: 377.60951pt x 310.43008pt.
 
 
-[27
+[20
 
  <./figs/Fig1-RuleQuench.pdf>]
-<figs/Fig2-ReservoirQuench.pdf, id=483, 943.525pt x 732.7375pt>
+<figs/Fig2-ReservoirQuench.pdf, id=471, 943.525pt x 732.7375pt>
 File: figs/Fig2-ReservoirQuench.pdf Graphic file (type pdf)
 <use figs/Fig2-ReservoirQuench.pdf>
 Package pdftex.def Info: figs/Fig2-ReservoirQuench.pdf  used on input line 37.
 (pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
 
 
-[28
+[21
 
  <./figs/Fig2-ReservoirQuench.pdf>]
-<figs/Fig3-FiniteSizeQuench.pdf, id=495, 943.525pt x 732.7375pt>
+<figs/Fig3-FiniteSizeQuench.pdf, id=483, 943.525pt x 732.7375pt>
 File: figs/Fig3-FiniteSizeQuench.pdf Graphic file (type pdf)
 <use figs/Fig3-FiniteSizeQuench.pdf>
 Package pdftex.def Info: figs/Fig3-FiniteSizeQuench.pdf  used on input line 61.
@@ -1078,72 +1057,113 @@ Package pdftex.def Info: figs/Fig3-FiniteSizeQuench.pdf  used on input line 61.
 (pdftex.def)             Requested size: 385.56091pt x 299.42924pt.
 
 
-[29
+[22
 
  <./figs/Fig3-FiniteSizeQuench.pdf>]
-<figs/Fig4-DoseMarketPanels.pdf, id=503, 1003.75pt x 1455.4375pt>
+<figs/Fig4-DoseMarketPanels.pdf, id=491, 1003.75pt x 1455.4375pt>
 File: figs/Fig4-DoseMarketPanels.pdf Graphic file (type pdf)
 <use figs/Fig4-DoseMarketPanels.pdf>
 Package pdftex.def Info: figs/Fig4-DoseMarketPanels.pdf  used on input line 83.
 
-(pdftex.def)             Requested size: 357.73405pt x 518.71599pt.
+(pdftex.def)             Requested size: 337.86465pt x 489.912pt.
 
 
-[30
+[23
 
  <./figs/Fig4-DoseMarketPanels.pdf>]
-<figs/Fig5-DealerMarketPanels.pdf, id=517, 1003.75pt x 1455.4375pt>
+<figs/Fig5-DealerMarketPanels.pdf, id=507, 1003.75pt x 1455.4375pt>
 File: figs/Fig5-DealerMarketPanels.pdf Graphic file (type pdf)
 <use figs/Fig5-DealerMarketPanels.pdf>
 Package pdftex.def Info: figs/Fig5-DealerMarketPanels.pdf  used on input line 1
-10.
+15.
 (pdftex.def)             Requested size: 365.68546pt x 530.24202pt.
 
 
-[31
+[24
 
  <./figs/Fig5-DealerMarketPanels.pdf>]
-<figs/Fig6-BalanceSheetQuench.pdf, id=533, 1104.125pt x 803.0pt>
+<figs/Fig6-BalanceSheetQuench.pdf, id=521, 1104.125pt x 803.0pt>
 File: figs/Fig6-BalanceSheetQuench.pdf Graphic file (type pdf)
 <use figs/Fig6-BalanceSheetQuench.pdf>
 Package pdftex.def Info: figs/Fig6-BalanceSheetQuench.pdf  used on input line 1
-34.
+39.
 (pdftex.def)             Requested size: 393.51231pt x 286.18813pt.
 )
 
-[32
+[25
 
  <./figs/Fig6-BalanceSheetQuench.pdf>] (./sections/appendix.tex
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 32.
 
 
-[33
+[26
 
 ]
 
+[27]
+
+[28] (./sections/rebuild-validation.tex) (./sections/revision-controls.tex
+
+[29]) (./sections/transaction-fees-validation.tex)
+(./sections/variants-validation.tex))
+
+[30]
+
+[31] (./sections/tables.tex (./sections/finite-size-table.tex
+
+[32
+
+])
+
+[33] (./sections/revision-tables.tex
+
 [34]
 
-[35] (./sections/rebuild-validation.tex) (./sections/revision-controls.tex
+[35] (./sections/revision-fits-table.tex))
+(./sections/market-panel-horizons-table.tex
 
-[36]) (./sections/transaction-fees-validation.tex))
+[36])) (./sections/transaction-fees-table.tex
 
-[37] (./Paper_v1.aux)
+[37]) (./sections/following-table.tex
+
+[38
+
+]) (./sections/variants-table.tex
+
+[39
+
+]) (./sections/variants-figure.tex
+
+[40
+
+]
+<figs/FigS1-RevisionMarketPanels.pdf, id=686, 1003.75pt x 1254.6875pt>
+File: figs/FigS1-RevisionMarketPanels.pdf Graphic file (type pdf)
+<use figs/FigS1-RevisionMarketPanels.pdf>
+Package pdftex.def Info: figs/FigS1-RevisionMarketPanels.pdf  used on input lin
+e 9.
+(pdftex.def)             Requested size: 345.80998pt x 432.27417pt.
+)
+
+[41
+
+ <./figs/FigS1-RevisionMarketPanels.pdf>] (./Paper_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Paper_v1.out' has not changed.
-(rerunfilecheck)             Checksum: FD5EEA93FB8853104A7B3F3FFAFC9CE1;3888.
+(rerunfilecheck)             Checksum: 2EF04A33E422B4598F1B5196DD23EB85;4704.
  ) 
 Here is how much of TeX's memory you used:
- 27309 strings out of 473190
- 511104 string characters out of 5715801
- 936228 words of memory out of 5000000
- 49576 multiletter control sequences out of 15000+600000
- 607314 words of font info for 251 fonts, out of 8000000 for 9000
+ 27374 strings out of 473190
+ 512704 string characters out of 5715801
+ 941853 words of memory out of 5000000
+ 49609 multiletter control sequences out of 15000+600000
+ 607793 words of font info for 257 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,87p,1721b,687s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,13n,87p,1722b,685s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
@@ -1167,10 +1187,10 @@ fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/t
 ype1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on Paper_v1.pdf (37 pages, 1354169 bytes).
+Output written on Paper_v1.pdf (41 pages, 1595319 bytes).
 PDF statistics:
- 777 PDF objects out of 1000 (max. 8388607)
- 661 compressed objects within 7 object streams
- 202 named destinations out of 1000 (max. 500000)
- 45755 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 840 PDF objects out of 1000 (max. 8388607)
+ 712 compressed objects within 8 object streams
+ 216 named destinations out of 1000 (max. 500000)
+ 45784 words of extra memory for PDF output out of 51595 (max. 10000000)
 

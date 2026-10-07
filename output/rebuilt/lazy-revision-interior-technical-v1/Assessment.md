@@ -1,0 +1,87 @@
+# lazy-revision-interior-technical-v1
+
+37950 simulations in 1650 groups. Archived runs reproduced: 2150 of 2150. Maximum cash conservation error: 3.1e-06.
+
+Conditions with fewer than five fractions strictly between 0.05 and 0.95: L128-a1-r0.05-hold-h100.
+
+## Midpoints
+
+```
+                         condition    f50  f50_low  f50_high  width  interior_fractions
+       L64-a1-r0.025-endogenous-h1 0.2439   0.2400    0.2475 0.0179                   5
+     L64-a1-r0.025-endogenous-h100 0.2541   0.2515    0.2580 0.0150                   8
+           L64-a1-r0.025-hold-h100 0.1907   0.1884    0.1925 0.0111                   6
+        L64-a1-r0.05-endogenous-h1 0.3200   0.3092    0.3281 0.0308                  11
+      L64-a1-r0.05-endogenous-h100 0.3494   0.3450    0.3550 0.0216                  11
+            L64-a1-r0.05-hold-h100 0.2000   0.1947    0.2035 0.0146                   7
+         L64-a1-r0.1-endogenous-h1 0.3850   0.3650    0.3971 0.0635                  18
+       L64-a1-r0.1-endogenous-h100 0.3683   0.3338    0.4038 0.1507                  21
+             L64-a1-r0.1-hold-h100 0.2400   0.2379    0.2427 0.0150                   8
+  L64-a1-redge-count-endogenous-h1 0.2188   0.2175    0.2211 0.0109                   7
+L64-a1-redge-count-endogenous-h100 0.2243   0.2223    0.2267 0.0113                   7
+      L64-a1-redge-count-hold-h100 0.1870   0.1838    0.1913 0.0140                   6
+         L64-a0.5-r0-endogenous-h1 0.4129   0.4050    0.4168 0.0239                  12
+       L64-a0.5-r0-endogenous-h100 0.4120   0.4086    0.4150 0.0190                  13
+             L64-a0.5-r0-hold-h100 0.4156   0.4037    0.4186 0.0290                  12
+        L64-a0.75-r0-endogenous-h1 0.3579   0.3541    0.3613 0.0213                  10
+      L64-a0.75-r0-endogenous-h100 0.3596   0.3496    0.3618 0.0234                  12
+            L64-a0.75-r0-hold-h100 0.3583   0.3569    0.3608 0.0217                  11
+         L64-a0.9-r0-endogenous-h1 0.2961   0.2900    0.3000 0.0232                  11
+       L64-a0.9-r0-endogenous-h100 0.2977   0.2945    0.3006 0.0196                  10
+             L64-a0.9-r0-hold-h100 0.2979   0.2953    0.3013 0.0174                  10
+        L64-a0.95-r0-endogenous-h1 0.2558   0.2495    0.2581 0.0183                   9
+      L64-a0.95-r0-endogenous-h100 0.2554   0.2530    0.2575 0.0140                  10
+            L64-a0.95-r0-hold-h100 0.2532   0.2500    0.2565 0.0164                   8
+           L64-a1-r0-endogenous-h1 0.1782   0.1750    0.1810 0.0123                   5
+         L64-a1-r0-endogenous-h100 0.1750   0.1736    0.1803 0.0114                   6
+               L64-a1-r0-hold-h100 0.1777   0.1758    0.1800 0.0150                   6
+             L32-a0.9-r0-hold-h100 0.3337   0.3311    0.3464 0.0372                  13
+      L32-a1-r0.05-endogenous-h100 0.3670   0.3628    0.3800 0.0398                  15
+            L32-a1-r0.05-hold-h100 0.2233   0.2186    0.2283 0.0326                  15
+            L128-a0.9-r0-hold-h100 0.2846   0.2831    0.2864 0.0084                   5
+     L128-a1-r0.05-endogenous-h100 0.3371   0.3342    0.3400 0.0133                   6
+           L128-a1-r0.05-hold-h100 0.1907   0.1892    0.1920 0.0065                   3
+```
+
+## Planned contrasts (f50 of A minus f50 of B)
+
+```
+                                         contrast  difference     low    high  valid_fraction
+              lazy alpha=1: active h=1 minus held      0.0005 -0.0025  0.0032          1.0000
+            lazy alpha=1: active h=100 minus held     -0.0027 -0.0049  0.0028          1.0000
+           lazy alpha=0.95: active h=1 minus held      0.0027 -0.0042  0.0061          1.0000
+         lazy alpha=0.95: active h=100 minus held      0.0022 -0.0017  0.0058          1.0000
+              lazy held: alpha=0.95 minus alpha=1      0.0755  0.0720  0.0789          1.0000
+            lazy alpha=0.9: active h=1 minus held     -0.0018 -0.0077  0.0020          1.0000
+          lazy alpha=0.9: active h=100 minus held     -0.0002 -0.0040  0.0029          1.0000
+               lazy held: alpha=0.9 minus alpha=1      0.1202  0.1173  0.1234          1.0000
+           lazy alpha=0.75: active h=1 minus held     -0.0005 -0.0050  0.0033          1.0000
+         lazy alpha=0.75: active h=100 minus held      0.0013 -0.0092  0.0041          1.0000
+              lazy held: alpha=0.75 minus alpha=1      0.1807  0.1783  0.1833          1.0000
+            lazy alpha=0.5: active h=1 minus held     -0.0027 -0.0083  0.0089          1.0000
+          lazy alpha=0.5: active h=100 minus held     -0.0036 -0.0073  0.0089          1.0000
+               lazy held: alpha=0.5 minus alpha=1      0.2379  0.2260  0.2414          1.0000
+            interior rho=0: active h=1 minus held      0.0005 -0.0025  0.0032          1.0000
+          interior rho=0: active h=100 minus held     -0.0027 -0.0049  0.0028          1.0000
+   interior rho=edge-count: active h=1 minus held      0.0318  0.0274  0.0361          1.0000
+ interior rho=edge-count: active h=100 minus held      0.0373  0.0323  0.0420          1.0000
+        interior held: rho=edge-count minus rho=0      0.0093  0.0055  0.0138          1.0000
+interior active h=100: rho=edge-count minus rho=0      0.0493  0.0433  0.0520          1.0000
+        interior rho=0.025: active h=1 minus held      0.0532  0.0497  0.0570          1.0000
+      interior rho=0.025: active h=100 minus held      0.0634  0.0608  0.0673          1.0000
+             interior held: rho=0.025 minus rho=0      0.0130  0.0097  0.0156          1.0000
+     interior active h=100: rho=0.025 minus rho=0      0.0791  0.0732  0.0833          1.0000
+         interior rho=0.05: active h=1 minus held      0.1200  0.1096  0.1289          1.0000
+       interior rho=0.05: active h=100 minus held      0.1494  0.1448  0.1564          1.0000
+              interior held: rho=0.05 minus rho=0      0.0223  0.0164  0.0261          1.0000
+      interior active h=100: rho=0.05 minus rho=0      0.1744  0.1675  0.1805          1.0000
+          interior rho=0.1: active h=1 minus held      0.1450  0.1250  0.1569          1.0000
+        interior rho=0.1: active h=100 minus held      0.1283  0.0892  0.1637          1.0000
+               interior held: rho=0.1 minus rho=0      0.0623  0.0590  0.0662          1.0000
+       interior active h=100: rho=0.1 minus rho=0      0.1933  0.1558  0.2283          1.0000
+      size L=32: rho=0.05 active h=100 minus held      0.1437  0.1371  0.1577          1.0000
+             size held alpha=0.9: L=32 minus L=64      0.0358  0.0311  0.0484          1.0000
+      size L=64: rho=0.05 active h=100 minus held      0.1494  0.1448  0.1564          1.0000
+     size L=128: rho=0.05 active h=100 minus held      0.1464  0.1437  0.1492          1.0000
+            size held alpha=0.9: L=128 minus L=64     -0.0133 -0.0170 -0.0106          1.0000
+```

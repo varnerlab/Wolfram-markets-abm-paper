@@ -98,9 +98,7 @@ median paired change of """ + pct(shallow_delta.max_drawdown_difference) + r""" 
 points, dealer depth $h=100$, and fraction $f=0.20$, the median
 cumulative fee income of the dealer was """ + pct(charged.fee_fraction_initial_trader_cash_median) + r"""\% of the traders' initial
 cash (Supplementary Table~\ref{tab:transaction-fees}). Thus, fees reduced
-the price decline in some conditions and deepened it in others, and
-because fees did not enter any decision rule, they could change interior
-decisions only through active technical traders responding to the price.
+the price decline in some conditions and deepened it in others.
 """
     table = r"""
 \clearpage

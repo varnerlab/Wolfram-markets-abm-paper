@@ -10,24 +10,27 @@ occupied selected positions along the edge and formed their intentions
 from the dealer's quoted price and recent price history, while the
 remaining edge positions stayed in Hold. Each interior trader formed its
 local decision from the intentions of its four neighbors above, below,
-to the left, and to the right. The decision rules were totalistic: each
-trader's next intention depended only on the sum of these four
-neighboring states~\cite{packard1985two}, so for interior traders next
-to the edge this sum could include the intentions of technical traders.
+to the left, and to the right. Each trader's next intention depended
+only on the sum of these four neighboring states and not on its own
+current state, so for interior traders next to the edge this sum could
+include the intentions of technical traders. In the terms of Packard and
+Wolfram, whose totalistic rules also add the cell's own state to the
+sum, these are outer totalistic rules that ignore the cell's own
+state~\cite{packard1985two}.
 After trades settled at each step $t$, the technical traders updated
 their intentions using the new quoted price and price history. All
 interior traders then updated together using the previous interior
 states and the newly updated edge states, producing intentions for
 the next step's orders. We denoted the four neighbors of
 trader $i$ by $\partial i$ and the state supplied by neighbor $j$ at
-step $t$ by $s_j^{\rm in}(t)$, and the totalistic rule used their sum
+step $t$ by $s_j^{\rm in}(t)$, and the decision rule used their sum
 $c_i(t)$, defined by:
 \begin{equation}
   c_i(t)=\sum_{j\in\partial i}s_j^{\rm in}(t)\in\{0,1,\ldots,8\}.
   \label{eq:neighborhood-sum}
 \end{equation}
 
-Each totalistic decision rule assigned an intended action to each of the
+Each decision rule assigned an intended action to each of the
 nine possible neighbor sums. For a sum $k\in\{0,1,\ldots,8\}$, we
 denoted the trader's next intended action by $a_k\in\{0,1,2\}$, using
 the codes for Buy, Hold, and Sell. Specifying these nine outputs defined
@@ -282,6 +285,51 @@ parameter combinations and verification checks
 (Appendix~\ref{app:supplement}).
 
 \input{sections/transaction-fees-methods}
+
+\subsection{Revision timing and interior technical traders}
+
+Because each trader's next intention ignored its own current state and
+all interior traders updated together, the market evolved as two
+separate halves. Every neighbor of a trader occupies the opposite color
+of a checkerboard, so intentions on the white positions at one step
+depended only on intentions on the black positions at the previous step,
+and the reverse. The intentions on white positions at even steps and on
+black positions at odd steps therefore formed one half of the market,
+the remaining intentions formed the other half, and neither half entered
+the other's decisions. With technical traders held, the two halves never
+influenced each other, whereas with technical traders active they could
+influence each other only through the technical traders, whose decisions
+depended on a price set by trades from both halves. Updating every
+individual at once in a spatial simulation can produce patterns that
+change under other update schemes~\cite{huberman1993evolutionary}, so we
+repeated the main
+comparisons with a revision probability $r$. At each step, each interior
+trader adopted its rule's output with probability $r$ and otherwise kept
+its current intention, which made its next intention depend on its own
+state and joined the two halves, and revision probability $r=1$ recovered
+the main model.
+
+Along the edge, technical traders adjoined 1.6\% of interior traders at
+grid size $L=64$, so we also placed technical traders on a fraction
+$\rho$ of interior positions, in addition to those along the edge
+(Supplementary Table~\ref{tab:variants-placement}). Interior technical
+traders followed the same band rule with their own multipliers, traded
+like other traders, stayed in Hold when technical traders were held,
+were never given the new rule, and were excluded from the Sell fraction.
+These comparisons used grid size $L=64$ and 50 starting markets, with
+technical traders held at dealer depth $h=100$ or active at $h=1$ and
+100. We tested revision probabilities $r\in\{1,0.95,0.9,0.75,0.5\}$
+without interior technical traders, and interior fractions $\rho$ of
+0.025, 0.05, and 0.10, together with 63 interior positions matching the
+number along the edge, with revision probability $r=1$. At grid sizes
+$L=32$ and 128, we repeated revision probability $r=0.9$ with technical
+traders held and interior fraction $\rho=0.05$ with technical traders
+held or active at dealer depth $h=100$. Each condition tested 22
+fractions $f$ placed around the crossover found in a 20-market pilot. We
+estimated the midpoint fraction $f_{50}$ by linear interpolation as in the market-size
+comparison, with 95\% intervals from 2,000 bootstrap samples of whole
+starting markets drawn once for all conditions, so that differences
+between conditions were paired (Appendix~\ref{app:variants}).
 
 \subsection{Following shared advice and copying completed trades}
 

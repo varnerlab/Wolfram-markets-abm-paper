@@ -30,11 +30,9 @@ pass the rule itself to other traders.
 The spread of selling did not require any decision to respond to the
 price. With the technical traders kept in Hold, trades still completed and the
 price still moved, but no decision responded to it, and Sell majorities
-still formed (Fig.~\ref{fig:reservoir}). In that condition, changing
-dealer depth or traders' cash and shares left every interior decision
-unchanged within a starting market, so these financial conditions could
-alter later decisions only through technical traders that responded to
-the quoted price (Figs.~\ref{fig:reservoir} and~\ref{fig:balance-sheet}).
+still formed (Fig.~\ref{fig:reservoir}). Responding to neighbors'
+intentions was therefore enough to spread selling, without any trader
+selling because the price had fallen.
 In the displayed markets with active technical traders, a
 majority formed as groups of sellers grew and merged across the grid
 (Fig.~\ref{fig:dose-panels}). This growth and merger of Sell-rich
@@ -47,13 +45,18 @@ Larger grids sharpened that rise, but the fraction at which half the
 markets reached a majority fell as the observation period lengthened,
 because some markets without a majority at 3,000 steps reached one later
 (Fig.~\ref{fig:finite-size}; Supplementary
-Table~\ref{tab:revision-horizons}). The comparisons therefore located a
-crossover for finite grids and observation periods rather than a
-threshold for indefinitely large or long-lived
-markets~\cite{binder1981finite,landau2021guide}. Thus, selling spread
-through neighboring decisions, and the fraction of traders needed for a
-majority depended on both the grid size and how long the market was
-observed.
+Table~\ref{tab:revision-horizons}). With technical traders held,
+updating every trader at once also let the two checkerboard halves of
+the grid evolve separately, and
+letting traders revise less often joined them and raised the midpoint
+from 0.178 to 0.416, although a crossover remained at every revision
+probability tested (Supplementary Table~\ref{tab:variants-timing}). The
+comparisons therefore located a crossover for finite grids, observation
+periods, and revision timing rather than a threshold for indefinitely
+large or long-lived markets~\cite{binder1981finite,landau2021guide}.
+Thus, selling spread through neighboring decisions, and the fraction of
+traders needed for a majority depended on the grid size, how long the
+market was observed, and how often traders revised their intentions.
 
 How far the quoted price fell, measured by its maximum drawdown,
 depended on how the dealer's reserves set prices. Dealer models commonly
@@ -121,8 +124,9 @@ Wolfram's one-dimensional market and a later model built on Rule~110
 used deterministic rules and set the price from the numbers of buyers
 and sellers~\cite{wolfram2002new,valsan2022on}. Here the intervention
 changed one response for a chosen fraction of traders, and the paired
-control retained the baseline rule. Only technical traders along the
-edge responded to price, allowing the rule switch to be tested with
+control retained the baseline rule. In the main model, only technical
+traders along the edge responded to price, allowing the rule switch to
+be tested with
 price feedback active or removed. Orders needed cash or shares and were
 completed by other traders or by a dealer with limited reserves, so
 intentions could spread without a matching increase in completed sales,
@@ -141,15 +145,24 @@ influence on other traders.
 
 Several modeling choices limit how far these conclusions extend. Traders
 followed assigned rules rather than choosing strategies to maximize
-returns, and they updated together on a regular grid under one baseline
-lookup table in which different neighbor configurations with the same
-sum produced the same response. A trader that had sold all its shares
+returns, and they used one baseline lookup table on a regular grid, in
+which different neighbor configurations with the same sum produced the
+same response. A trader that had sold all its shares
 could still influence its neighbors and count toward a Sell majority,
 because we assumed that intentions remained observable and influential even when a trader could not act on them. We did not test how the results would
 change if a trader's resources also limited the intentions its neighbors
-could see. The technical traders followed one band rule and occupied
-selected positions along the edge of the grid, so other placements and
-price-based strategies, such as trend-following rules, remain untested.
+could see. The only traders whose decisions depended on the price were
+technical traders following one band rule, who bought when
+the price fell below its recent range and sold when it rose above it.
+Making them active rather than held moved the fraction needed for a
+majority by less than 0.01 when they stood only along the edge, but by
+0.149 at dealer depth $h=100$ when they also occupied 5\% of interior
+positions, and this difference stayed between 0.14 and 0.15 at grid
+sizes from $L=32$ to 128 (Supplementary
+Tables~\ref{tab:finite-size-scaling} and~\ref{tab:variants-placement}). We did not test traders who sell
+because the price has fallen, such as trend-following or stop-loss
+rules, so the model cannot show whether falling prices would accelerate
+the spread of selling.
 Unit orders cleared at a common execution price against a
 constant-product dealer, a specific reserve mechanism rather than a
 calibrated representation of an equity exchange, whereas other models
@@ -168,7 +181,7 @@ market crashes. The advice given to followers was random, and copying
 and the number of advice sources were compared only in an exploratory
 set of starting markets, so we did not test advice that carried
 information about the asset or copying of traders chosen for their past
-performance. Other decision rules, asynchronous updates, alternative
+performance. Other decision rules, updates in random order, alternative
 interaction networks, and different execution mechanisms would test how
 the connection between local decisions and price declines depends on
 these assumptions.

@@ -56,8 +56,8 @@ def main_tables():
           r'Dealer depth & 64 & $0$--$100$ & active/held & 50 & 9,600',
           r'Grid size & 32--128 & $1,100$ & active/held & 50 & 9,750',
           r'Cash and shares & 64 & $0.1,1,100$ & active/held & 50 & 10,800']
-    text=r'''% Generated from the corrected rebuild only.
-\section*{Tables}
+    text=r'''% Generated from the corrected rebuild only. The heading is the supplement
+% section in Paper_v1.tex.
 \setcounter{table}{0}
 \renewcommand{\thetable}{S\arabic{table}}
 

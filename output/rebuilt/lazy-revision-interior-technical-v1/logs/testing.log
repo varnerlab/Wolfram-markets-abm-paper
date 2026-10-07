@@ -1,0 +1,25 @@
+Test Summary:                                        | Pass  Total  Time
+explicit defaults reproduce archived manuscript runs |    6      6  2.2s
+Test Summary:                                           | Pass  Total  Time
+revision draws are uniform and independent of rationing |    4      4  0.1s
+Test Summary:                                     | Pass  Total  Time
+lazy revision couples the two checkerboard halves |    2      2  0.3s
+Test Summary:                                       | Pass  Total  Time
+lazy revision keeps the held and paired invariances |    6      6  0.1s
+Test Summary:                                | Pass  Total  Time
+zero revision probability freezes intentions |    1      1  0.2s
+Test Summary:             | Pass  Total  Time
+interior technical layout |  866    866  0.2s
+Test Summary:                                                      | Pass  Total  Time
+interior technical layout does not depend on the switched fraction |    4      4  0.0s
+Test Summary:                                                           | Pass  Total  Time
+paired switch and control share history with interior technical traders |    3      3  0.0s
+Test Summary:                                                    | Pass  Total  Time
+held interior technical traders stay in Hold and are not counted |  600    600  0.1s
+Test Summary:                                          |  Pass  Total  Time
+active interior technical traders follow the band rule | 18003  18003  0.1s
+Test Summary:                                               | Pass  Total  Time
+zero dealer depth leaves interior technical traders in Hold |    1      1  0.0s
+Test Summary:       | Pass  Total  Time
+argument validation |    4      4  0.2s
+Lazy revision and interior technical traders OK
