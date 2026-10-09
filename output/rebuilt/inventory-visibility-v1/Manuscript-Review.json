@@ -1,0 +1,33 @@
+{
+  "reviewed_utc": "2026-10-07T17:04:49.949708+00:00",
+  "manuscript_sha256": "648b67f0ba5da76f9ea2008f6f3f2b8f91125ff417de8425e698b551964418f2",
+  "pages": 45,
+  "build_clean": true,
+  "visual_review": "Previous full 45-page visual review retained for unchanged material. After shortening the main Results paragraph and moving detail to Appendix A.8, inspected rendered pages 12\u201317 and 31\u201334, including larger views of changed pages 13 and 33. No layout issue found.",
+  "independently_checked": [
+    "unchanged frozen simulator",
+    "masking timing and edge intentions",
+    "all 4400 run summaries",
+    "all 160 paired contrasts and bootstrap intervals",
+    "all 16 retained histories",
+    "manuscript numerical agreement"
+  ],
+  "findings_resolved": [
+    "original-observation qualifier on checkerboard independence",
+    "holdings feedback with technical traders held",
+    "sender-count diagnostic convention",
+    "Hold changes influence rather than removes it"
+  ],
+  "abstract": {
+    "path": "paper-arxiv/abstract.txt",
+    "words": 240,
+    "characters": 1624,
+    "plain_text": true,
+    "synchronized": true,
+    "limit": 1920,
+    "limit_source": "https://info.arxiv.org/help/prep.html#abstract-required"
+  },
+  "source_archive_refreshed": false,
+  "previous_manuscript_sha256": "9894c11c19b214788b95c2aab0259415eb4932bd68c19e4e461054e77fbbdb91",
+  "focused_followup_review": "Independent read-only review verified main-body drawdown means, conditions, citations, preserved detailed findings in Appendix A.8, and generator agreement; no substantive issue found."
+}

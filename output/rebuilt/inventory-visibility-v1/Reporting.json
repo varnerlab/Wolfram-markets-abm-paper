@@ -1,0 +1,15 @@
+{
+  "frozen_computation_unchanged": true,
+  "reporting_files": {
+    "code/visibility/WritePaper.py": "062ebc9c5e0169be345f7bc7343834464dad91e6e79587ea88b12edcc50553ba",
+    "code/visibility/Figure.py": "4b213be33ab090653f814b59ce1aa06fbee3585c5daab587e884a0ed5c4619fd",
+    "FigS2-InventoryVisibility.pdf": "e28ccddc9f634d43767da2fc8aa74437d2378c1beeb30740d35cb083339e4787",
+    "FigS2-InventoryVisibility.png": "8bd38dff7c71066b104ffb2367c6d7d4e656337b09fab1530b40c9b66db9b2cf"
+  },
+  "manuscript_inputs": {
+    "paper-arxiv/sections/visibility-figure.tex": "ef1ac8d00c6f70a6903241d1500ab1d9dbd63fcaa5ceac62f6fc5f0673419061",
+    "paper-arxiv/sections/visibility-methods.tex": "ca53c449c9b7f15d5878d3e853a21e7aff356eed55da19433e235ea9be8b4eed",
+    "paper-arxiv/sections/visibility-results.tex": "f11bf4cba150490dc74eff43f34c1992900e2d0b77886a631e093f3115472922",
+    "paper-arxiv/sections/visibility-table.tex": "f18b7add2d518a7933f0d4550019fcd8ae528fede4ba03dc2e0103177295fe16"
+  }
+}

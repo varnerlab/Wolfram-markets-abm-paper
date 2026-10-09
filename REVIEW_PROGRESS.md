@@ -886,3 +886,39 @@ two declined; re-check all resolved. Markup:
 **Revision timing, interior technical traders, and price-feedback claims, 2 October:** author decisions after the simulated peer review: keep the synchronous model as the main model and report revision probability $r$ as robustness; keep "a Sell majority formed when no decision responded to price", drop the general "price feedback had a small effect" claim (now scoped to edge placement), and remove the by-construction "cash, shares, and fees altered decisions only through technical traders" from the abstract, Results closings, Discussion, and Conclusion (it stays in Methods). Added the Methods subsection, one Results paragraph, Discussion sentences, Tables S15 and S16 and Appendix A.7 (`code/variants/WritePaper.py`, study `output/rebuilt/lazy-revision-interior-technical-v1/`), the Huberman and Glance (1993) citation (Crossref-verified), and the Fig. 4 caption sentence on checkerboard halves; corrected the Packard and Wolfram rule-class sentence (outer totalistic, ignoring the cell's own state). Codex check: no numeric errors; nine wording fixes adopted, none declined; re-check all resolved. Markup: `output/review/2026-10-02-update-timing-placement/markup.pdf`. The arXiv archive is NOT rebuilt (author-gated).
 **Supplementary Fig. S1, 2 October:** at the author's request, added the revision-probability counterpart of Fig. 4 (r = 0.9, active technical traders, h = 100, 3,000 steps). Fractions matched to Fig. 4 by majority probability and markets chosen from campaign summaries by the Fig. 4 rule (`code/variants/Figs-Variants-MarketPanels.jl`, selection in the study's `FigS1-Selection.csv`, each rerun checked against its archived onset and final-grid hash); caption from `code/variants/WritePaper.py`; one Results sentence and one Fig. 4 caption clause cite it. Fig. 4 is now drawn at 0.85 linewidth to keep it on one page. Codex: three items adopted (tie-rounding documented, claims limited to displayed markets, symbol naming); re-check all resolved.
 **Supplementary tables moved into the supplement, 2 October:** at the author's request ("All the suppl tables should be in the supplement"), the end matter is now references, main Figures 1 to 6, Appendix A (supplementary methods and validation), and Appendix B "Supplementary tables and figure" (Tables S1 to S16, then Fig. S1). The `\section*{Tables}` heading was removed from the `tables.tex` template in `code/rebuild/WriteManuscriptTables.py`; the generator was verified on a scratch copy of the rebuild study to reproduce the root table files exactly before and after the edit, and the frozen staged copy was not touched. Build clean, 41 pages.
+
+
+**Public intentions and hypothetical inventory information, 7 October:** author-approved
+four-branch observation experiment completed in `output/rebuilt/inventory-visibility-v1/`:
+2,800 initial trajectories plus 1,600 from the predefined extension, over 50 fresh
+starting markets. The baseline simulator was copied unchanged. At the primary
+setting (f=0.20, h=100, technical traders held), the paired change in the switch
+effect on late raw Sell fraction was -52.28 percentage points, 95% interval
+[-54.46, -49.86]. Majority formation was 50/50 with original observations and
+0/50 with inventory-conditioned signals; it reappeared at larger fractions.
+Added the public-intention interpretation throughout the manuscript, generated
+Results paragraph, Appendix A.8, Table S17, and Fig. S2. The counterfactual
+specifies a behavioral response to inventory information and does not assert
+that such information is available in actual markets. Independent read-only
+review reproduced all 160 contrasts and intervals, checked all 4,400 run
+summaries and 16 retained histories, and confirmed the final corrections.
+Restricted checkerboard independence to original observations, explained the
+holdings feedback with technical traders held, and clarified sender counts.
+The 45-page build is clean. All pages were visually inspected, with detailed
+inspection and final re-rendering of the new and corrected material. The
+shareable PDF was refreshed. Added synchronized `paper-arxiv/abstract.txt`
+(240 words, 1,624 characters) and an automatic arXiv limit check to the build;
+the future source packager includes this file. The author-gated arXiv release
+archive remains unchanged. No commit or push was made. Final PDF SHA-256:
+`9894c11c19b214788b95c2aab0259415eb4932bd68c19e4e461054e77fbbdb91`.
+
+**Inventory result condensed, 7 October:** at the author's request, reduced the
+main Results paragraph to one sentence: reading an empty seller's intention as
+Hold reduced mean maximum drawdown from 24.36% to 3.23%, scoped to held
+technical traders, dealer depth h=100, and switched fraction f=0.20, citing
+Fig. S2C and Table S17. Moved the detailed findings to Appendix A.8 through
+the reporting generator. Independent saved-state review found no substantive
+issue; the 45-page build is clean, and rendered pages 12–17 and 31–34 were
+inspected. Refreshed the shareable PDF and synchronized abstract.txt. Frozen
+computation and the release archive remain unchanged. Current PDF SHA-256:
+`648b67f0ba5da76f9ea2008f6f3f2b8f91125ff417de8425e698b551964418f2`.

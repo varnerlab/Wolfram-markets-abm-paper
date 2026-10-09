@@ -1,5 +1,25 @@
 # House Style: Wolfram Markets Manuscript
 
+**Inventory information, 7 October 2026:** the author approved a supplemental
+comparison of original public intentions with a hypothetical observation rule
+that substitutes Hold for Sell from a sender with no shares. This changes
+neighbor inputs, not stored intentions or execution. The completed study is
+`output/rebuilt/inventory-visibility-v1/` (4,400 trajectories, 50 fresh starting
+markets). Its copied baseline simulator and frozen computation must remain
+unchanged. `code/visibility/WritePaper.py` generates the four `visibility-*.tex`
+inputs, including the new Results paragraph, Appendix A.8, Table S17 and the
+Fig. S2 caption; `code/visibility/Figure.py` generates the figure. The primary
+contrast is the mean paired change in the rule-switch effect on the final
+500-step raw Sell fraction at f=0.20, h=100, technical traders held. Describe
+the observation regime as hypothetical, with a specified behavioral response
+to disclosure. Do not imply actual access to others' inventories, strategic
+misreporting, or a calibrated model of social media. The original held
+decision invariance and checkerboard independence do not extend to the
+inventory-conditioned mode, where settlement and holdings can affect later
+neighbor inputs. Every manuscript update must synchronize `abstract.txt` via
+`paper-arxiv/write_abstract.py`; the normal build enforces arXiv's 1,920-character
+limit. The supplement now contains Tables S1--S17 and Figs. S1--S2.
+
 > **Voice, 23 September 2026:** [VOICE_GUIDE.md](VOICE_GUIDE.md) takes
 > precedence over "Paragraphs and Sentences" and "Results Paragraph
 > Development" below. This guide still governs terminology, claims,

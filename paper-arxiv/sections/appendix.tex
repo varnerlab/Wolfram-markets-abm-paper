@@ -6,7 +6,7 @@
 
 \subsection{One complete simulation step}
 
-The simulation separated a desired decision from its execution. Orders
+The main simulation separated a desired decision from its execution. Orders
 used the decisions stored before the interior update, while technical
 traders used the new quoted price before the next interior decisions
 were calculated. A resource shortage could therefore stop an order
@@ -24,7 +24,10 @@ ordering for the main persistent-rule experiments with adaptive bands
 and no cost-basis restriction, including the transaction-fee extension.
 The pulse, alternative-rule, and frozen-band
 controls modify the corresponding updates as described in
-Appendix~\ref{app:revision-controls}.
+Appendix~\ref{app:revision-controls}. The counterfactual observation rule
+in Appendix~\ref{app:visibility} additionally replaced a zero-share
+sender's Sell signal with Hold before the interior update, while
+preserving its stored intention and the settlement order.
 
 \begin{algorithm}[!ht]
 \caption{One market step, $t-1\rightarrow t$, in simulation order.
@@ -265,3 +268,4 @@ trading into one campaign's financial summaries but not another's.
 \input{sections/revision-controls}
 \input{sections/transaction-fees-validation}
 \input{sections/variants-validation}
+\input{sections/visibility-methods}

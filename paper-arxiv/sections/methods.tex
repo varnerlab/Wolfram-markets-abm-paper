@@ -78,11 +78,15 @@ purchase price $\bar c_i$, so the model did not impose the reluctance to
 realize losses described in behavioral
 studies~\cite{shefrin1985disposition,odean1998investors}. We classified
 desired orders that could not be completed because the trader lacked
-cash or shares as \emph{trader suppression}. We allowed traders' Buy and
-Sell intentions to influence their neighbors even when the traders
-lacked the resources to carry them out, so cash and share holdings
-limited completed trades but did not determine which intentions entered
-neighboring decisions.
+cash or shares as \emph{trader suppression}. In the main model, we
+interpreted Buy and Sell as publicly communicated intentions. Neighbors
+read these signals without observing the sender's holdings or checking
+whether a trade completed, so an intention could influence them even
+when its sender lacked the resources to act on it. Cash and share
+holdings therefore limited completed trades but did not determine which
+intentions entered neighboring decisions. The model did not give traders
+a separate choice of what to announce, so this interpretation did not
+represent strategic misreporting.
 
 The dealer acted as market maker for orders unmatched between traders.
 Clearing fixed the net trade direction, selected its largest feasible
@@ -286,11 +290,21 @@ parameter combinations and verification checks
 
 \input{sections/transaction-fees-methods}
 
+We also compared the main model's unverified signals with a hypothetical
+information regime in which a trader read Hold instead of a neighbor's
+Sell intention when that neighbor had no shares. Both observation modes
+had switched markets and no-switch controls sharing the original
+baseline history. The comparison measured how the observation rule
+changed the switch's effect on subsequent raw intentions, completed
+sales, and drawdown. Its protocol, observation timing, and paired
+analysis are specified in Appendix~\ref{app:visibility}.
+
 \subsection{Revision timing and interior technical traders}
 
-Because each trader's next intention ignored its own current state and
-all interior traders updated together, the market evolved as two
-separate halves. Every neighbor of a trader occupies the opposite color
+Under the original observation rule, each trader's next intention
+ignored its own current state and all interior traders updated together,
+so the market evolved as two separate halves. Every neighbor of a trader
+occupies the opposite color
 of a checkerboard, so intentions on the white positions at one step
 depended only on intentions on the black positions at the previous step,
 and the reverse. The intentions on white positions at even steps and on

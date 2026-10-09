@@ -1,5 +1,19 @@
 # Wolfram cellular-automaton market
 
+The 7 October update adds a hypothetical inventory-information comparison:
+neighbors read Hold instead of Sell from a sender with no shares. Its
+[4,400-run study](output/rebuilt/inventory-visibility-v1/Protocol.md)
+keeps the original simulator unchanged and compares four matched branches.
+At the primary setting (20% switched, dealer depth 100, technical traders
+held), the change reduced the switch's effect on the late raw Sell fraction
+by 52.28 percentage points, with a 95% interval of 49.86--54.46 points.
+Majorities reappeared at higher switched fractions. The main model is now
+explicitly interpreted as influence through public intentions whose holdings
+and execution observers do not verify. Reproduction instructions are in
+[code/visibility](code/visibility/README.md), and the updated manuscript
+contains Table S17, Fig. S2, and Appendix A.8. The synchronized submission-form
+abstract is [paper-arxiv/abstract.txt](paper-arxiv/abstract.txt).
+
 An [M.Eng. project proposal](meng-project/README.md) explores whether selling
 cascades depend on traders with no shares continuing to signal Sell. It includes
 a LaTeX project description and a one-slide pitch in PDF and PowerPoint formats.
@@ -15,7 +29,7 @@ standing-quote model was found to permit profitable isolated round trips.
 - [Complete reproduction workflow](code/rebuild/README.md)
 - [Updated peer-review response](peer-review-response.md)
 
-The study retains six figures and eleven tables. Its fixed manifest contains
+The original reserve-clearing study retains six figures and eleven tables. Its fixed manifest contains
 45,910 full financial simulations, with refinement, trajectory extensions,
 figure histories, and validation recorded separately in
 [Verification.json](output/rebuilt/manuscript-reserve-v1/Verification.json).

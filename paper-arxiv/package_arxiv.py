@@ -40,6 +40,7 @@ def add(path):
 
 add(ROOT/'Paper_v1.tex')
 add(ROOT/'Paper_v1.bbl')
+add(ROOT/'abstract.txt')
 archive=OUT/'Wolfram-markets-arxiv-source.tar.gz'
 with tarfile.open(archive,'w:gz') as tar:
     for path in sorted(files):

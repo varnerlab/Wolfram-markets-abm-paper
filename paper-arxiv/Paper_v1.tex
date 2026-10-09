@@ -77,34 +77,29 @@
 \maketitle
 
 \begin{abstract}
-Changes in investor decisions can spread through a market, but the
-resulting price decline depends on how trades execute. We developed a
-market model in which traders inside a grid decided whether to buy,
-hold, or sell from their neighbors' decisions, while technical traders
-along the edge of the grid responded to price. Paired markets shared the
-same history until selected traders in one market received a lasting
-change in their decision rule, while a no-switch control kept the
-original rule. A Sell majority formed once a large enough fraction of
-traders received the new rule, although every other trader kept the
-original one. When the technical traders were kept in Hold so that no
-decision responded to the price, majorities still formed, so responses
-to neighbors alone could produce widespread selling. The probability of
-a majority rose over a narrow range of that fraction, a crossover that
-moved to smaller fractions in larger markets and over longer observation
-periods, and to larger fractions when traders revised their decisions
-less often, rather than marking a fixed threshold. To connect decisions to
-prices, we cleared orders against a dealer whose finite cash and share
-reserves kept a constant product and set the quoted price. Shallow
-positive reserves allowed severe declines while rejecting few orders,
-and such markets also fell sharply without the rule switch, so the
-switch's effect was measured against the paired controls. Giving traders
-fewer shares to sell reduced price declines, and transaction fees reduced
-declines in some conditions but deepened them in others.
-When some traders instead followed random advice from one shared source,
-their influence on neighboring traders spread selling and, with deep
-dealer reserves, let them gain cash at the other traders' expense. The
-model thus separated the spread of selling decisions from the severity
-of a simulated crash.
+Publicly expressed trading intentions can influence others even when no
+transaction occurs. We developed a market model in which traders on a
+grid responded to neighbors' intentions without observing their holdings,
+while technical traders responded to price. Paired markets shared a
+history before selected traders in one market received a lasting change
+in their decision rule. Under the original observation rule, a Sell
+majority formed once enough traders received the new rule, even when
+technical traders were kept in Hold and no decision responded to price.
+Majority probability rose over a narrow range of switched fractions that
+moved with market size, observation time, and revision frequency. Orders
+cleared against a finite constant-product dealer. Shallow positive
+reserves allowed severe declines even without a rule switch, so its
+effect was measured against paired controls. Giving traders fewer shares
+reduced declines, while transaction fees reduced them in some conditions
+and deepened them in others. In a hypothetical information regime,
+traders read Hold when a neighbor intended to sell but had no shares.
+This change reduced the switch's effect on late selling intentions and
+drawdown in the primary comparison, while majorities reappeared at higher
+switched fractions. In separate experiments, traders following one shared
+source of random advice spread selling and, with deep dealer reserves,
+gained cash at other traders' expense. The model connected the spread of
+public intentions to their financial consequences and showed how those
+consequences depended on the observation and execution rules.
 \end{abstract}
 
 \input{sections/introduction}
@@ -112,6 +107,8 @@ of a simulated crash.
 \input{sections/methods}
 
 \input{sections/results}
+
+\input{sections/visibility-results}
 
 \input{sections/following-results}
 
@@ -163,12 +160,14 @@ source hashes, parameters, and package versions.
 \input{sections/appendix}
 
 \clearpage
-\section{Supplementary tables and figure}
+\section{Supplementary tables and figures}
 \label{app:tables}
 \input{sections/tables}
 \input{sections/transaction-fees-table}
 \input{sections/following-table}
 \input{sections/variants-table}
+\input{sections/visibility-table}
 \input{sections/variants-figure}
+\input{sections/visibility-figure}
 
 \end{document}

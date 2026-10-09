@@ -1,0 +1,36 @@
+{
+  "completed_utc": "2026-10-07T15:40:53.764317+00:00",
+  "mode": "main",
+  "runs": 4400,
+  "seeds": 50,
+  "groups": 200,
+  "frozen_files_unchanged": true,
+  "complete": true,
+  "paired_histories_identical": true,
+  "original_held_depth_invariance": true,
+  "max_cash_error": 6.780028343200684e-07,
+  "max_product_error": 1.6431300764452317e-14,
+  "primary": {
+    "boundary": "hold",
+    "h": 100.0,
+    "f": 0.2,
+    "outcome": "final_sell_mean",
+    "n": 50,
+    "original_control": 0.24817994797086368,
+    "original_switch": 0.7778048283038501,
+    "inventory_control": 0.2479414568158168,
+    "inventory_switch": 0.25479415192507804,
+    "original_effect": 0.5296248803329866,
+    "inventory_effect": 0.006852695109261193,
+    "difference": -0.5227721852237254,
+    "lower": -0.5445975390218524,
+    "upper": -0.49864696175858486,
+    "primary": true
+  },
+  "artifacts": {
+    "Run-Summary.csv": "eaf20e7c0acf55f7ebf031b1aa6f2ad9fdf0b6e4488786a6949844039d2f02ae",
+    "Branch-Summary.csv": "9c1ff276ca95f7bf77cadef897132a652904d53634856b09c883de65c66adf08",
+    "Contrasts.csv": "542b4541abe422211dfecb69737e32b9bd28dc943b8ac81bc52de40f303fdb71",
+    "Paired-Effects.csv": "84df407cf67763e559bc41b5acc5e72784224230423920005992eb2cf36822cb"
+  }
+}

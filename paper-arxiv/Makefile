@@ -16,6 +16,7 @@ JOB ?= Paper_v1
 all: pdf
 
 pdf: figs/Fig1-RuleQuench.pdf
+	python3 write_abstract.py
 	latexmk -pdf -interaction=nonstopmode -halt-on-error $(JOB).tex
 
 figs/Fig1-RuleQuench.pdf: figures/Fig1-RuleComparison.tex ../code/rebuild/RenderRuleFigure.py ../code/figs/Fig1-PairedMarkets.pdf

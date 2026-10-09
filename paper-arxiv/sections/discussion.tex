@@ -58,6 +58,26 @@ Thus, selling spread through neighboring decisions, and the fraction of
 traders needed for a majority depended on the grid size, how long the
 market was observed, and how often traders revised their intentions.
 
+How neighbors interpreted selling intentions after their senders ran out
+of shares changed the response to the rule switch. In the main
+model, neighboring states represented public intentions whose financial
+backing and execution were unverified. A trader could therefore continue
+to influence others after selling its last share. When we instead let
+neighbors read Hold from an empty seller, the minority switch's effect
+on late selling intentions and drawdown was reduced in the primary
+comparison, while majorities reappeared at higher switched fractions
+(Supplementary Table~\ref{tab:visibility} and
+Fig.~\ref{fig:visibility}). This counterfactual established sensitivity
+to one way of using inventory information. It did not establish that
+real observers could see holdings, that they would respond to disclosure
+in this way, or that messages without financial backing lacked
+influence. Public commentary and shared advice motivate distinguishing
+observable statements from verified transactions, but the model did not
+represent a media institution or a strategic choice about what to
+announce. Its findings therefore concerned the spread of communicated
+intentions under specified observation rules, whose financial effects
+were measured through completed trades and prices.
+
 How far the quoted price fell, measured by its maximum drawdown,
 depended on how the dealer's reserves set prices. Dealer models commonly
 connect trading to intermediary cash and
@@ -147,11 +167,10 @@ Several modeling choices limit how far these conclusions extend. Traders
 followed assigned rules rather than choosing strategies to maximize
 returns, and they used one baseline lookup table on a regular grid, in
 which different neighbor configurations with the same sum produced the
-same response. A trader that had sold all its shares
-could still influence its neighbors and count toward a Sell majority,
-because we assumed that intentions remained observable and influential even when a trader could not act on them. We did not test how the results would
-change if a trader's resources also limited the intentions its neighbors
-could see. The only traders whose decisions depended on the price were
+same response. The inventory comparison tested one response to observing
+whether a sender held shares, while other degrees of disclosure,
+responses to that information, and limits on Buy signals were untested.
+The only traders whose decisions depended directly on the price were
 technical traders following one band rule, who bought when
 the price fell below its recent range and sold when it rose above it.
 Making them active rather than held moved the fraction needed for a

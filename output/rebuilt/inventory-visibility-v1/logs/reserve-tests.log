@@ -1,0 +1,10 @@
+Test Summary:                            | Pass  Total  Time
+closed paths, holds, and order splitting | 4456   4456  0.9s
+Test Summary:                                  | Pass  Total  Time
+execution-price affordability and mixed orders |    7      7  0.1s
+Test Summary:                                               | Pass  Total  Time
+integer auction matches exhaustive feasible-quantity search | 1500   1500  0.3s
+Test Summary:                                         | Pass  Total  Time
+scarcity, empty reserves, and no old drawdown ceiling |   27     27  0.2s
+Test Summary:                                                      | Pass  Total  Time
+full simulation, common prehistory, and held decision independence |   38     38  1.4s

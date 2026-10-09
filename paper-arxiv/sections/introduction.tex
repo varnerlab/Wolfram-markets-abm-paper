@@ -79,8 +79,12 @@ the resources available for exchanging cash and shares, and earlier
 agent-based models have examined limits on traders' cash and asset
 holdings and on their ability to
 borrow~\cite{raberto2001agent,thurner2012leverage}. In our model, Buy and
-Sell indicate intended actions, whereas a completed trade transfers
+Sell indicate publicly communicated intentions, whereas a completed trade transfers
 shares from a seller to a buyer and cash from the buyer to the seller.
+Neighboring traders observe these intentions without observing holdings
+or verifying transactions. This assumption represents influence through
+statements about intended trading, whose execution an observer cannot
+check.
 Traders cannot borrow cash or sell shares they do not own. A trader
 without shares can still indicate a desire to sell but cannot carry out
 the sale, and a trader without enough cash can indicate a desire to buy
@@ -132,7 +136,11 @@ along the edge, we also ran markets in which traders revised their
 decisions less often and markets with technical traders inside the grid.
 We varied dealer reserves and traders'
 cash and shares separately to examine how those resources affected
-completed trades and price declines. We also examined crowding by having
+completed trades and price declines. In a hypothetical information
+regime, we also let traders read Hold in place of a neighbor's Sell
+intention when that neighbor had no shares, to test how the spread of
+selling depended on accepting signals without checking their backing.
+We also examined crowding by having
 groups of traders follow shared advice or copy another trader's
 completed trades. We varied the fraction of followers and the number of
 sources to examine effects on other traders' decisions, prices, and the

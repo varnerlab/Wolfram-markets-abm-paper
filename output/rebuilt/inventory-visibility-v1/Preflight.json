@@ -1,0 +1,11 @@
+{
+  "reserve_tests_passed": true,
+  "reserve_test_log_sha256": "69b9454f3de73d95d9caebcf3221e7e65621685c593cbe24749a97a45f869860",
+  "pilot_study": "output/review/inventory-visibility-pilot-v1",
+  "pilot_seeds": [
+    720001,
+    720002
+  ],
+  "pilot_excluded_from_main": true,
+  "main_source_frozen_before_main_execution": true
+}

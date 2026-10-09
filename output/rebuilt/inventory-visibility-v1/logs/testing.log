@@ -1,0 +1,10 @@
+Test Summary:                            | Pass  Total  Time
+Visibility leaves the raw signals intact |    5      5  0.3s
+Test Summary:                                        | Pass  Total  Time
+Last share settles before the subsequent observation |    9      9  0.3s
+Test Summary:                                                   | Pass  Total  Time
+Masked inputs use the lookup table and preserve edge intentions |    4      4  0.4s
+Test Summary:                                     | Pass  Total  Time
+Original recovery and exact four-branch histories |   60     60  1.9s
+Test Summary:                               | Pass  Total  Time
+Recovery of an archived full manuscript run |    2      2  1.0s
