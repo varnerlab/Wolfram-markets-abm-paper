@@ -18,16 +18,15 @@ def main(output=None):
     m=json.loads((STUDY/'code/data/Rebuild-Figure-Metadata.json').read_text())
     seeds=', '.join(str(x) for x in m['figure4_seeds'][:-1])+', and '+str(m['figure4_seeds'][-1])
     captions=[('Fig1-RuleQuench','0.95',rf'''The changed response and paired market decisions.
-\textbf{{(A)}}~The same four neighboring intentions produce different
-responses at the trader marked $i$: three Buys and one Hold give
-neighbor sum 1, producing Buy under Rule~19280 and Sell under Rule~19286.
-The hollow center's current intention is not an input. Every arrangement
-with the same neighbor sum produces the same response.
-\textbf{{(B)}}~Complete lookup tables, with the baseline and switched
-rules aligned by neighbor sum. The highlighted column is the only
-response changed by the switch. Blue, gray, and orange denote Buy~(0),
-Hold~(1), and Sell~(2); arrows indicate rule evaluation or a changed
-response, not completed trades.
+\textbf{{(A)}}~The trader marked $i$ reads only its four neighbors: three
+Buys and one Hold give neighbor sum $c_{{i}}=1$. Its own current intention is
+not an input, and every arrangement with the same neighbor sum produces the
+same response.
+\textbf{{(B)}}~Complete lookup tables, with the baseline and switched rules
+aligned by neighbor sum. The highlighted column, $c=1$, is the only response
+changed by the switch: Buy~(0) under Rule~19280 and Sell~(2) under
+Rule~19286. Blue, gray, and orange denote Buy~(0), Hold~(1), and Sell~(2);
+arrows indicate the neighbor-sum lookup, not completed trades.
 \textbf{{(C)}}~Paired $64\times64$ grids at the rule switch and after 100,
 400, and 3,000 steps. The upper row retains the baseline rule; the lower
 assigns the new rule to 20\% of interior traders. Both markets share a
